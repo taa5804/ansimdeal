@@ -1,0 +1,2093 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12394d">
+
+<title>안심거래 진행현황 | 우리아파트 안심거래</title>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#f3f7fa;
+  color:#172b3d;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif;
+}
+
+button,input,select{font:inherit}
+button{cursor:pointer}
+
+.wrap{
+  width:100%;
+  max-width:920px;
+  margin:0 auto;
+  padding:16px 14px 70px;
+}
+
+/* HEADER */
+
+.header{
+  background:linear-gradient(135deg,#12394d,#176b86);
+  color:#fff;
+  border-radius:20px;
+  padding:22px 20px;
+  margin-bottom:15px;
+  box-shadow:0 10px 30px rgba(25,56,76,.16);
+}
+
+.brand{
+  font-size:14px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.header-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+}
+
+.header h1{
+  margin:0;
+  font-size:25px;
+}
+
+.header p{
+  margin:8px 0 0;
+  font-size:13px;
+  line-height:1.65;
+  opacity:.93;
+}
+
+.code-box{
+  min-width:125px;
+  padding:11px 13px;
+  border-radius:14px;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.25);
+  text-align:center;
+}
+
+.code-box small{
+  display:block;
+  font-size:11px;
+  margin-bottom:4px;
+}
+
+.code-number{
+  font-size:26px;
+  font-weight:900;
+  letter-spacing:4px;
+}
+
+.progress{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:18px;
+}
+
+.progress span{
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:850;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.18);
+}
+
+.progress span.active{
+  background:#fff;
+  color:#12394d;
+}
+
+/* CARD */
+
+.card{
+  background:#fff;
+  border:1px solid #dde6ec;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:14px;
+  box-shadow:0 6px 20px rgba(31,62,82,.055);
+}
+
+.card-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:15px;
+}
+
+.card-title{
+  font-size:18px;
+  font-weight:900;
+}
+
+.state{
+  display:inline-block;
+  padding:6px 9px;
+  border-radius:999px;
+  background:#edf2f5;
+  color:#6c7b87;
+  font-size:12px;
+  font-weight:900;
+}
+
+.state.wait{
+  background:#fff5dc;
+  color:#946300;
+}
+
+.state.ok{
+  background:#eaf8ef;
+  color:#237443;
+}
+
+.req{
+  color:#df3434;
+  margin-left:3px;
+}
+
+.required-note{
+  color:#d33939;
+  font-size:12px;
+  font-weight:850;
+  margin-bottom:12px;
+}
+
+.notice{
+  margin-bottom:14px;
+  padding:12px 13px;
+  border-radius:12px;
+  background:#edf6ff;
+  border:1px solid #cee3f7;
+  color:#215b86;
+  font-size:13px;
+  line-height:1.65;
+}
+
+/* FORM */
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  font-size:13px;
+  font-weight:850;
+  color:#334d5f;
+}
+
+input[type="text"],
+input[type="tel"],
+select{
+  width:100%;
+  height:44px;
+  border:1px solid #cbd7df;
+  border-radius:10px;
+  padding:0 11px;
+  background:#fff;
+  color:#172b3d;
+  outline:none;
+}
+
+/* CHECK */
+
+.check-box{
+  border:1px solid #dce5eb;
+  border-radius:13px;
+  padding:14px;
+  margin-bottom:10px;
+  background:#fafcfd;
+}
+
+.check-label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:900;
+}
+
+.check-label input{
+  width:21px;
+  height:21px;
+}
+
+/* AUTO DOC */
+
+.auto-doc-list{
+  display:grid;
+  gap:10px;
+}
+
+.auto-doc{
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:9px;
+  align-items:center;
+  padding:13px;
+  border:1px solid #dce5eb;
+  border-radius:13px;
+}
+
+.auto-doc-title{
+  font-size:13px;
+  font-weight:900;
+}
+
+.auto-doc-name{
+  margin-top:4px;
+  font-size:12px;
+  color:#71818e;
+}
+
+.auto-badge{
+  padding:6px 9px;
+  border-radius:999px;
+  background:#eaf8ef;
+  color:#237443;
+  font-size:11px;
+  font-weight:900;
+}
+
+.view-btn{
+  min-height:34px;
+  border:1px solid #cddae3;
+  border-radius:8px;
+  background:#fff;
+  color:#24485f;
+  font-size:12px;
+  font-weight:900;
+  padding:0 10px;
+}
+
+/* DOCUMENT */
+
+.section-label{
+  margin:5px 0 10px;
+  font-size:14px;
+  font-weight:900;
+  color:#12394d;
+}
+
+.optional-label{
+  margin-top:18px;
+}
+
+.doc-list{
+  display:grid;
+  gap:10px;
+}
+
+.doc-row{
+  border:1px solid #dce5eb;
+  border-radius:13px;
+  padding:13px;
+}
+
+.doc-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:9px;
+}
+
+.doc-title{
+  font-size:13px;
+  font-weight:900;
+}
+
+.doc-status{
+  font-size:11px;
+  font-weight:900;
+  color:#986500;
+}
+
+.doc-status.ok{
+  color:#237443;
+}
+
+.doc-warning{
+  margin:0 0 9px;
+  padding:8px 10px;
+  border-radius:8px;
+  background:#fff3f3;
+  color:#b23636;
+  font-size:12px;
+  font-weight:900;
+}
+
+.file-area{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.file-name{
+  flex:1;
+  min-width:0;
+  min-height:40px;
+  display:flex;
+  align-items:center;
+  padding:8px 10px;
+  border-radius:9px;
+  background:#f5f8fa;
+  color:#6b7d8b;
+  font-size:12px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.file-label{
+  position:relative;
+  flex:none;
+  min-height:40px;
+  padding:0 13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:9px;
+  background:#e9f3ff;
+  color:#155f9f;
+  font-size:12px;
+  font-weight:900;
+  overflow:hidden;
+}
+
+.file-label input{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  opacity:0;
+  cursor:pointer;
+}
+
+.optional-note{
+  margin:8px 0 10px;
+  font-size:12px;
+  line-height:1.6;
+  color:#687c8b;
+}
+
+/* PLATFORM FEE */
+
+.fee-box{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  padding:20px 12px;
+  border:1px solid #dce5eb;
+  border-radius:14px;
+  background:#fafcfd;
+}
+
+.fee-status{
+  min-width:130px;
+  height:46px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background:#fff3df;
+  color:#956500;
+  font-size:15px;
+  font-weight:900;
+}
+
+.fee-status.ok{
+  background:#eaf8ef;
+  color:#237443;
+}
+
+
+/* CONTRACT */
+
+.contract-box{
+  padding:16px;
+  border:2px solid #d7e8f8;
+  border-radius:15px;
+  background:#f5faff;
+}
+
+.contract-btn{
+  width:100%;
+  min-height:52px;
+  border:0;
+  border-radius:12px;
+  background:#1165d7;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+}
+
+.contract-btn:disabled{
+  background:#b8c4cc;
+  cursor:not-allowed;
+}
+
+/* SIGN */
+
+.sign-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.sign-card{
+  border:1px solid #dce5eb;
+  border-radius:14px;
+  padding:13px;
+}
+
+.sign-role{
+  font-size:14px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.sign-card input{
+  width:100%;
+  height:42px;
+  border:1px solid #cbd7df;
+  border-radius:9px;
+  padding:0 9px;
+}
+
+.sign-btn{
+  width:100%;
+  min-height:39px;
+  margin-top:7px;
+  border:0;
+  border-radius:9px;
+  background:#12394d;
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+}
+
+.sign-btn:disabled{
+  background:#b8c4cc;
+  cursor:not-allowed;
+}
+
+.sign-state{
+  display:inline-block;
+  margin-top:9px;
+  padding:5px 8px;
+  border-radius:999px;
+  background:#fff3dd;
+  color:#926000;
+  font-size:11px;
+  font-weight:900;
+}
+
+.sign-state.ok{
+  background:#e9f8ef;
+  color:#237443;
+}
+
+/* BOTTOM */
+
+.bottom{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.bottom button{
+  min-height:49px;
+  border-radius:12px;
+  border:1px solid #ccd8df;
+  background:#fff;
+  color:#234358;
+  font-weight:900;
+}
+
+.bottom .print{
+  background:#12394d;
+  border-color:#12394d;
+  color:#fff;
+}
+
+.msg{
+  display:none;
+  margin-top:11px;
+  padding:11px 12px;
+  border-radius:11px;
+  font-size:13px;
+  font-weight:850;
+}
+
+.msg.ok{
+  display:block;
+  background:#edf9f1;
+  color:#237443;
+}
+
+.msg.error{
+  display:block;
+  background:#fff0f0;
+  color:#b03535;
+}
+
+@media(max-width:650px){
+
+  .wrap{
+    padding:10px 9px 55px;
+  }
+
+  .header-top{
+    flex-direction:column;
+  }
+
+  .code-box{
+    width:100%;
+  }
+
+  .grid,
+  .sign-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .auto-doc{
+    grid-template-columns:1fr;
+  }
+
+  .file-area{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .bottom{
+    grid-template-columns:1fr;
+  }
+}
+
+@media print{
+
+  body{background:#fff}
+
+  .wrap{
+    max-width:none;
+    padding:0;
+  }
+
+  button,
+  .file-label,
+  .bottom{
+    display:none !important;
+  }
+
+  .card{
+    break-inside:avoid;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="header">
+
+  <div class="brand">
+    🏠 우리아파트 안심거래
+  </div>
+
+  <div class="header-top">
+
+    <div>
+      <h1>안심거래 진행현황</h1>
+      <p>
+        거래 진행상황과 전자계약 진행상태를 확인할 수 있습니다.
+      </p>
+    </div>
+
+    <div class="code-box">
+      <small>안심거래 코드</small>
+      <div id="roomCode" class="code-number">----</div>
+    </div>
+
+  </div>
+
+  <div class="progress">
+    <span class="active">거래 진행중</span>
+    <span id="progressDocs">서류등록</span>
+    <span id="progressContract">전자계약</span>
+    <span id="progressSign">전자서명</span>
+    <span id="progressComplete">거래완료</span>
+  </div>
+
+</header>
+
+
+<!-- ① 거래 기본정보 -->
+
+<section class="card">
+
+  <div class="card-head">
+    <div class="card-title">① 거래 기본정보</div>
+    <span id="basicState" class="state wait">작성중</span>
+  </div>
+
+  <div class="required-note">
+    * 표시는 필수 입력사항입니다.
+  </div>
+
+  <div class="grid">
+
+    <div class="field">
+      <label>거래유형<span class="req">*</span></label>
+
+      <select id="tradeType">
+        <option value="">선택</option>
+        <option value="sale">매매</option>
+        <option value="jeonse">전세</option>
+        <option value="monthly">월세</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>아파트명<span class="req">*</span></label>
+      <input id="apartmentName" type="text" placeholder="아파트명">
+    </div>
+
+    <div class="field full">
+      <label>거래 부동산 주소<span class="req">*</span></label>
+      <input id="address" type="text" placeholder="주소 입력">
+    </div>
+
+    <div class="field">
+      <label>동<span class="req">*</span></label>
+      <input id="dong" type="text" placeholder="101동">
+    </div>
+
+    <div class="field">
+      <label>호<span class="req">*</span></label>
+      <input id="ho" type="text" placeholder="1201호">
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ② 거래 당사자 확인 -->
+
+<section class="card">
+
+  <div class="card-head">
+    <div class="card-title">② 거래 당사자 확인</div>
+    <span id="partyState" class="state wait">확인대기</span>
+  </div>
+
+  <div class="notice">
+    공인중개사가 거래 당사자의 신분을 직접 확인한 후 체크합니다.
+  </div>
+
+  <div class="check-box">
+    <label class="check-label">
+      <input id="buyerIdentity" type="checkbox">
+      매수자 · 임차인 본인확인 완료
+      <span class="req">*</span>
+    </label>
+  </div>
+
+  <div class="check-box">
+    <label class="check-label">
+      <input id="sellerIdentity" type="checkbox">
+      매도자 · 임대인 본인확인 완료
+      <span class="req">*</span>
+    </label>
+  </div>
+
+</section>
+
+
+<!-- ③ 공인중개사 등록자료 -->
+
+<section class="card">
+
+  <div class="card-head">
+    <div class="card-title">③ 공인중개사 등록자료</div>
+    <span id="brokerDocState" class="state wait">확인중</span>
+  </div>
+
+  <div class="notice">
+    1단계에서 등록한 중개사무소 등록증과 보증보험 · 공제증서를 자동으로 불러옵니다.
+  </div>
+
+  <div class="auto-doc-list">
+
+    <div class="auto-doc">
+
+      <div>
+        <div class="auto-doc-title">중개사무소 등록증</div>
+        <div id="registrationFileName" class="auto-doc-name">
+          불러오는 중
+        </div>
+      </div>
+
+      <span class="auto-badge">자동입력 완료</span>
+
+      <button
+        type="button"
+        class="view-btn"
+        onclick="viewBrokerDocument('registration')">
+        보기
+      </button>
+
+    </div>
+
+    <div class="auto-doc">
+
+      <div>
+        <div class="auto-doc-title">보증보험 · 공제증서</div>
+        <div id="guaranteeFileName" class="auto-doc-name">
+          불러오는 중
+        </div>
+      </div>
+
+      <span class="auto-badge">자동입력 완료</span>
+
+      <button
+        type="button"
+        class="view-btn"
+        onclick="viewBrokerDocument('guarantee')">
+        보기
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ④ 거래서류 등록 -->
+
+<section class="card">
+
+  <div class="card-head">
+    <div class="card-title">④ 거래서류 등록</div>
+    <span id="documentState" class="state wait">등록대기</span>
+  </div>
+
+  <div class="section-label">필수서류</div>
+
+  <div class="doc-list">
+
+    <div class="doc-row">
+
+      <div class="doc-head">
+        <div class="doc-title">
+          등기사항증명서(등기부등본)
+          <span class="req">*</span>
+        </div>
+
+        <span id="docStatus0" class="doc-status">
+          미등록
+        </span>
+      </div>
+
+      <div class="doc-warning">
+        ※ 계약 진행 당일 발급본만 유효합니다.
+      </div>
+
+      <div class="file-area">
+
+        <div id="docName0" class="file-name">
+          선택된 파일 없음
+        </div>
+
+        <label class="file-label">
+          파일 선택
+
+          <input
+            type="file"
+            class="doc-input"
+            data-index="0"
+            accept=".jpg,.jpeg,.png,.pdf">
+        </label>
+
+        <button
+          type="button"
+          id="viewDoc0"
+          class="view-btn"
+          onclick="viewDocument(0)"
+          disabled>
+          보기
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="doc-row">
+
+      <div class="doc-head">
+        <div class="doc-title">
+          중개대상물 확인 · 설명서
+          <span class="req">*</span>
+        </div>
+
+        <span id="docStatus1" class="doc-status">
+          미등록
+        </span>
+      </div>
+
+      <div class="file-area">
+
+        <div id="docName1" class="file-name">
+          선택된 파일 없음
+        </div>
+
+        <label class="file-label">
+          파일 선택
+
+          <input
+            type="file"
+            class="doc-input"
+            data-index="1"
+            accept=".jpg,.jpeg,.png,.pdf">
+        </label>
+
+        <button
+          type="button"
+          id="viewDoc1"
+          class="view-btn"
+          onclick="viewDocument(1)"
+          disabled>
+          보기
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="doc-row">
+
+      <div class="doc-head">
+        <div class="doc-title">
+          보증보험 · 공제증서
+          <span class="req">*</span>
+        </div>
+
+        <span id="docStatus7" class="doc-status">
+          미등록
+        </span>
+      </div>
+
+      <div class="file-area">
+
+        <div id="docName7" class="file-name">
+          선택된 파일 없음
+        </div>
+
+        <label class="file-label">
+          파일 선택
+
+          <input
+            type="file"
+            class="doc-input"
+            data-index="7"
+            accept=".jpg,.jpeg,.png,.pdf">
+        </label>
+
+        <button
+          type="button"
+          id="viewDoc7"
+          class="view-btn"
+          onclick="viewDocument(7)"
+          disabled>
+          보기
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="section-label optional-label">
+    선택서류
+  </div>
+
+  <div class="doc-list">
+
+    <div class="doc-row">
+
+      <div class="doc-head">
+        <div class="doc-title">토지대장</div>
+        <span id="docStatus2" class="doc-status">선택</span>
+      </div>
+
+      <div class="file-area">
+
+        <div id="docName2" class="file-name">
+          선택된 파일 없음
+        </div>
+
+        <label class="file-label">
+          파일 선택
+          <input
+            type="file"
+            class="doc-input"
+            data-index="2"
+            accept=".jpg,.jpeg,.png,.pdf">
+        </label>
+
+        <button
+          type="button"
+          id="viewDoc2"
+          class="view-btn"
+          onclick="viewDocument(2)"
+          disabled>
+          보기
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="doc-row">
+
+      <div class="doc-head">
+        <div class="doc-title">건축물대장</div>
+        <span id="docStatus3" class="doc-status">선택</span>
+      </div>
+
+      <div class="file-area">
+
+        <div id="docName3" class="file-name">
+          선택된 파일 없음
+        </div>
+
+        <label class="file-label">
+          파일 선택
+          <input
+            type="file"
+            class="doc-input"
+            data-index="3"
+            accept=".jpg,.jpeg,.png,.pdf">
+        </label>
+
+        <button
+          type="button"
+          id="viewDoc3"
+          class="view-btn"
+          onclick="viewDocument(3)"
+          disabled>
+          보기
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="section-label optional-label">
+    기타 거래 관련 서류
+  </div>
+
+  <div class="optional-note">
+    토지이용계획확인서, 지적도 등 필요한 거래 관련 자료를 최대 3개까지 등록할 수 있습니다.
+  </div>
+
+  <div class="doc-list">
+
+    <div class="doc-row">
+      <div class="doc-head">
+        <div class="doc-title">기타서류 1</div>
+        <span id="docStatus4" class="doc-status">선택</span>
+      </div>
+
+      <div class="file-area">
+        <div id="docName4" class="file-name">선택된 파일 없음</div>
+
+        <label class="file-label">
+          파일 선택
+          <input type="file" class="doc-input" data-index="4"
+            accept=".jpg,.jpeg,.png,.pdf">
+        </label>
+
+        <button type="button" id="viewDoc4"
+          class="view-btn" onclick="viewDocument(4)" disabled>
+          보기
+        </button>
+      </div>
+    </div>
+
+    <div class="doc-row">
+      <div class="doc-head">
+        <div class="doc-title">기타서류 2</div>
+        <span id="docStatus5" class="doc-status">선택</span>
+      </div>
+
+      <div class="file-area">
+        <div id="docName5" class="file-name">선택된 파일 없음</div>
+
+        <label class="file-label">
+          파일 선택
+          <input type="file" class="doc-input" data-index="5"
+            accept=".jpg,.jpeg,.png,.pdf">
+        </label>
+
+        <button type="button" id="viewDoc5"
+          class="view-btn" onclick="viewDocument(5)" disabled>
+          보기
+        </button>
+      </div>
+    </div>
+
+    <div class="doc-row">
+      <div class="doc-head">
+        <div class="doc-title">기타서류 3</div>
+        <span id="docStatus6" class="doc-status">선택</span>
+      </div>
+
+      <div class="file-area">
+        <div id="docName6" class="file-name">선택된 파일 없음</div>
+
+        <label class="file-label">
+          파일 선택
+          <input type="file" class="doc-input" data-index="6"
+            accept=".jpg,.jpeg,.png,.pdf">
+        </label>
+
+        <button type="button" id="viewDoc6"
+          class="view-btn" onclick="viewDocument(6)" disabled>
+          보기
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ⑤ 플랫폼 서비스 이용료 -->
+
+<section class="card">
+
+  <div class="card-head">
+    <div class="card-title">⑤ 플랫폼 서비스 이용료</div>
+  </div>
+
+  <div class="fee-box">
+
+    <div id="feeStatus" class="fee-status">
+      입금 대기
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ⑥ 전자계약 -->
+
+<section class="card">
+
+  <div class="card-head">
+    <div class="card-title">⑥ 전자계약서</div>
+    <span id="contractState" class="state wait">작성대기</span>
+  </div>
+
+  <div class="contract-box">
+
+    <button
+      id="contractButton"
+      type="button"
+      class="contract-btn"
+      disabled>
+      전자계약서 작성
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ⑦ 전자서명 -->
+
+<section class="card">
+
+  <div class="card-head">
+    <div class="card-title">⑦ 전자서명 현황</div>
+    <span id="allSignState" class="state wait">비활성</span>
+  </div>
+
+  <div class="sign-grid">
+
+    <div class="sign-card">
+
+      <div class="sign-role">
+        매수자 · 임차인
+      </div>
+
+      <input
+        id="buyerSignPhone"
+        type="tel"
+        inputmode="numeric"
+        maxlength="11"
+        placeholder="휴대전화번호">
+
+      <button
+        id="buyerSignButton"
+        type="button"
+        class="sign-btn"
+        onclick="sendSignSms('buyer')"
+        disabled>
+        문자 발송
+      </button>
+
+      <span id="buyerSignState" class="sign-state">
+        서명대기
+      </span>
+
+    </div>
+
+
+    <div class="sign-card">
+
+      <div class="sign-role">
+        매도자 · 임대인
+      </div>
+
+      <input
+        id="sellerSignPhone"
+        type="tel"
+        inputmode="numeric"
+        maxlength="11"
+        placeholder="휴대전화번호">
+
+      <button
+        id="sellerSignButton"
+        type="button"
+        class="sign-btn"
+        onclick="sendSignSms('seller')"
+        disabled>
+        문자 발송
+      </button>
+
+      <span id="sellerSignState" class="sign-state">
+        서명대기
+      </span>
+
+    </div>
+
+
+    <div class="sign-card">
+
+      <div class="sign-role">
+        공인중개사
+      </div>
+
+      <input
+        id="brokerSignPhone"
+        type="tel"
+        inputmode="numeric"
+        maxlength="11"
+        placeholder="휴대전화번호">
+
+      <button
+        id="brokerSignButton"
+        type="button"
+        class="sign-btn"
+        onclick="sendSignSms('broker')"
+        disabled>
+        문자 발송
+      </button>
+
+      <span id="brokerSignState" class="sign-state">
+        서명대기
+      </span>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<div class="bottom">
+
+  <button type="button" onclick="saveProgress(true)">
+    진행내용 저장
+  </button>
+
+  <button type="button" class="print" onclick="window.print()">
+    진행현황 출력
+  </button>
+
+</div>
+
+<div id="message" class="msg"></div>
+
+</div>
+
+
+<script>
+(function(){
+
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+const params = new URLSearchParams(location.search);
+
+let roomCode = params.get("code") || "";
+
+let step1Data = null;
+
+try{
+  step1Data =
+    JSON.parse(
+      localStorage.getItem("woori_guest_broker_step1")
+    );
+}catch(e){
+  step1Data = null;
+}
+
+if(!roomCode && step1Data && step1Data.roomCode){
+  roomCode = step1Data.roomCode;
+}
+
+$("roomCode").textContent = roomCode || "----";
+
+
+/* FILES */
+
+const documents = [
+  null,null,null,null,null,null,null,null
+];
+
+
+/* BROKER */
+
+function loadBrokerData(){
+
+  if(!step1Data){
+
+    $("registrationFileName").textContent = "등록자료 없음";
+    $("guaranteeFileName").textContent = "등록자료 없음";
+
+    $("brokerDocState").textContent = "자료없음";
+    return;
+  }
+
+  $("registrationFileName").textContent =
+    step1Data.registrationFileName ||
+    step1Data.registrationFile ||
+    "중개사무소 등록증";
+
+  $("guaranteeFileName").textContent =
+    step1Data.guaranteeFileName ||
+    step1Data.guaranteeFile ||
+    "보증보험 · 공제증서";
+
+  $("brokerDocState").textContent = "자동입력 완료";
+  $("brokerDocState").className = "state ok";
+
+  if(step1Data.mobile){
+    $("brokerSignPhone").value = step1Data.mobile;
+  }
+}
+
+
+window.viewBrokerDocument = function(type){
+
+  if(!step1Data){
+    showError("등록자료가 없습니다.");
+    return;
+  }
+
+  let url = "";
+
+  if(type === "registration"){
+    url =
+      step1Data.registrationFileUrl ||
+      step1Data.registrationUrl ||
+      "";
+  }
+
+  if(type === "guarantee"){
+    url =
+      step1Data.guaranteeFileUrl ||
+      step1Data.guaranteeUrl ||
+      "";
+  }
+
+  if(url){
+    window.open(url,"_blank");
+  }
+};
+
+
+/* BASIC */
+
+const basicIds = [
+  "tradeType",
+  "apartmentName",
+  "address",
+  "dong",
+  "ho"
+];
+
+basicIds.forEach(function(id){
+
+  $(id).addEventListener("input",function(){
+    updateStatus();
+    saveProgress(false);
+  });
+
+  $(id).addEventListener("change",function(){
+    updateStatus();
+    saveProgress(false);
+  });
+
+});
+
+function basicComplete(){
+
+  return basicIds.every(function(id){
+    return String($(id).value || "").trim() !== "";
+  });
+
+}
+
+
+/* PARTY */
+
+$("buyerIdentity").addEventListener("change",function(){
+  updateStatus();
+  saveProgress(false);
+});
+
+$("sellerIdentity").addEventListener("change",function(){
+  updateStatus();
+  saveProgress(false);
+});
+
+function partyComplete(){
+
+  return (
+    $("buyerIdentity").checked &&
+    $("sellerIdentity").checked
+  );
+
+}
+
+
+/* DOCUMENT */
+
+document
+.querySelectorAll(".doc-input")
+.forEach(function(input){
+
+  input.addEventListener("change",function(){
+
+    const index = Number(this.dataset.index);
+
+    if(!this.files || !this.files.length){
+      return;
+    }
+
+    const file = this.files[0];
+
+    const allowed = [
+      "image/jpeg",
+      "image/png",
+      "application/pdf"
+    ];
+
+    if(!allowed.includes(file.type)){
+
+      showError(
+        "JPG, JPEG, PNG, PDF 파일만 등록할 수 있습니다."
+      );
+
+      this.value = "";
+      return;
+    }
+
+    documents[index] = {
+      name:file.name,
+      type:file.type,
+      url:URL.createObjectURL(file)
+    };
+
+    $("docName" + index).textContent = file.name;
+
+    $("docStatus" + index).textContent = "등록완료";
+    $("docStatus" + index).className = "doc-status ok";
+
+    $("viewDoc" + index).disabled = false;
+
+    updateStatus();
+    saveProgress(false);
+
+  });
+
+});
+
+
+window.viewDocument = function(index){
+
+  const item = documents[index];
+
+  if(!item || !item.url){
+    showError("등록된 파일을 확인할 수 없습니다.");
+    return;
+  }
+
+  window.open(item.url,"_blank");
+
+};
+
+
+function requiredDocumentsComplete(){
+
+  return !!documents[0] && !!documents[1] && !!documents[7];
+
+}
+
+
+/* PLATFORM FEE */
+
+function feePaid(){
+
+  return (
+    localStorage.getItem(
+      "woori_fee_paid_" + roomCode
+    ) === "true"
+  );
+
+}
+
+
+function updateFeeStatus(){
+
+  if(feePaid()){
+
+    $("feeStatus").textContent = "입금 완료";
+    $("feeStatus").className = "fee-status ok";
+
+  }else{
+
+    $("feeStatus").textContent = "입금 대기";
+    $("feeStatus").className = "fee-status";
+
+  }
+
+}
+
+
+/* CONTRACT */
+
+function contractReady(){
+
+  return (
+    basicComplete() &&
+    partyComplete() &&
+    requiredDocumentsComplete()
+  );
+
+}
+
+
+function contractCompleted(){
+
+  let data = null;
+
+  try{
+
+    data =
+      JSON.parse(
+        localStorage.getItem(
+          "woori_contract_" + roomCode
+        )
+      );
+
+  }catch(e){
+    data = null;
+  }
+
+  return !!(
+    data &&
+    data.contractCompleted
+  );
+
+}
+
+
+$("contractButton").addEventListener("click",function(){
+
+  if(!contractReady()){
+    return;
+  }
+
+  saveProgress(false);
+
+  location.href =
+    "/electronic-contract.html?code=" +
+    encodeURIComponent(roomCode);
+
+});
+
+
+/* SIGNATURE */
+
+function signatureAvailable(){
+
+  return (
+    contractCompleted() &&
+    feePaid()
+  );
+
+}
+
+
+function updateSignatureButtons(){
+
+  const enabled = signatureAvailable();
+
+  $("buyerSignButton").disabled = !enabled;
+  $("sellerSignButton").disabled = !enabled;
+  $("brokerSignButton").disabled = !enabled;
+
+  if(enabled){
+
+    $("allSignState").textContent = "서명가능";
+    $("allSignState").className = "state ok";
+
+    $("progressSign").classList.add("active");
+
+  }else{
+
+    $("allSignState").textContent = "비활성";
+    $("allSignState").className = "state wait";
+
+  }
+
+}
+
+
+[
+  "buyerSignPhone",
+  "sellerSignPhone",
+  "brokerSignPhone"
+]
+.forEach(function(id){
+
+  $(id).addEventListener("input",function(){
+
+    this.value =
+      this.value
+      .replace(/\D/g,"")
+      .slice(0,11);
+
+    saveProgress(false);
+
+  });
+
+});
+
+
+function validPhone(phone){
+
+  return /^01[016789]\d{7,8}$/.test(phone);
+
+}
+
+
+window.sendSignSms = async function(type){
+
+  if(!signatureAvailable()){
+    return;
+  }
+
+  let phone = "";
+
+  if(type === "buyer"){
+    phone = $("buyerSignPhone").value.trim();
+  }
+
+  if(type === "seller"){
+    phone = $("sellerSignPhone").value.trim();
+  }
+
+  if(type === "broker"){
+    phone = $("brokerSignPhone").value.trim();
+  }
+
+  if(!validPhone(phone)){
+    showError(
+      "휴대전화번호를 정확히 입력해 주세요."
+    );
+    return;
+  }
+
+  const tradeType = $("tradeType").value;
+
+  if(!tradeType){
+    showError("거래유형을 확인해 주세요.");
+    return;
+  }
+
+  const button = $(type + "SignButton");
+  const originalText = button.textContent;
+
+  button.disabled = true;
+  button.textContent = "발송 중...";
+
+  try{
+
+    const response = await fetch(
+      "/api/send-contract-sign-request",
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          code:roomCode,
+          trade_id:roomCode,
+          type:tradeType,
+          role:type,
+          phone:phone
+        })
+      }
+    );
+
+    let result = {};
+
+    try{
+      result = await response.json();
+    }catch(e){
+      result = {};
+    }
+
+    if(!response.ok || result.ok === false){
+      throw new Error(
+        result.message ||
+        "전자서명 요청 문자 발송에 실패했습니다."
+      );
+    }
+
+    showOk(
+      "전자서명 요청 문자를 발송했습니다."
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    showError(
+      error.message ||
+      "전자서명 요청 문자 발송 중 오류가 발생했습니다."
+    );
+
+  }finally{
+
+    button.disabled = !signatureAvailable();
+    button.textContent = originalText;
+
+  }
+
+};
+
+
+/* SIGN STATUS */
+
+function loadSignStatus(){
+
+  let data = null;
+
+  try{
+
+    data =
+      JSON.parse(
+        localStorage.getItem(
+          "woori_contract_" + roomCode
+        )
+      );
+
+  }catch(e){
+    data = null;
+  }
+
+  const buyerSigned =
+    !!(data && data.buyerSigned);
+
+  const sellerSigned =
+    !!(data && data.sellerSigned);
+
+  const brokerSigned =
+    !!(data && data.brokerSigned);
+
+  setSign("buyerSignState",buyerSigned);
+  setSign("sellerSignState",sellerSigned);
+  setSign("brokerSignState",brokerSigned);
+
+  if(
+    buyerSigned &&
+    sellerSigned &&
+    brokerSigned
+  ){
+
+    $("allSignState").textContent = "서명완료";
+    $("allSignState").className = "state ok";
+
+    $("progressComplete").classList.add("active");
+
+  }
+
+}
+
+
+function setSign(id,complete){
+
+  if(complete){
+
+    $(id).textContent = "서명완료";
+    $(id).className = "sign-state ok";
+
+  }else{
+
+    $(id).textContent = "서명대기";
+    $(id).className = "sign-state";
+
+  }
+
+}
+
+
+/* UPDATE */
+
+function updateStatus(){
+
+  if(basicComplete()){
+
+    $("basicState").textContent = "작성완료";
+    $("basicState").className = "state ok";
+
+  }else{
+
+    $("basicState").textContent = "작성중";
+    $("basicState").className = "state wait";
+
+  }
+
+
+  if(partyComplete()){
+
+    $("partyState").textContent = "확인완료";
+    $("partyState").className = "state ok";
+
+  }else{
+
+    $("partyState").textContent = "확인대기";
+    $("partyState").className = "state wait";
+
+  }
+
+
+  if(requiredDocumentsComplete()){
+
+    $("documentState").textContent = "필수서류 완료";
+    $("documentState").className = "state ok";
+
+    $("progressDocs").classList.add("active");
+
+  }else{
+
+    $("documentState").textContent = "등록대기";
+    $("documentState").className = "state wait";
+
+  }
+
+
+  if(contractCompleted()){
+
+    $("contractState").textContent = "작성완료";
+    $("contractState").className = "state ok";
+
+    $("contractButton").disabled = false;
+    $("contractButton").textContent = "전자계약서 보기";
+
+    $("progressContract").classList.add("active");
+
+  }else if(contractReady()){
+
+    $("contractState").textContent = "작성가능";
+    $("contractState").className = "state ok";
+
+    $("contractButton").disabled = false;
+    $("contractButton").textContent = "전자계약서 작성";
+
+  }else{
+
+    $("contractState").textContent = "작성대기";
+    $("contractState").className = "state wait";
+
+    $("contractButton").disabled = true;
+
+  }
+
+  updateFeeStatus();
+  updateSignatureButtons();
+  loadSignStatus();
+
+}
+
+
+/* SAVE */
+
+window.saveProgress = function(showMessage){
+
+  if(!roomCode){
+    return;
+  }
+
+  const data = {
+
+    roomCode:roomCode,
+
+    tradeType:$("tradeType").value,
+
+    apartmentName:
+      $("apartmentName").value.trim(),
+
+    address:
+      $("address").value.trim(),
+
+    dong:
+      $("dong").value.trim(),
+
+    ho:
+      $("ho").value.trim(),
+
+    buyerIdentity:
+      $("buyerIdentity").checked,
+
+    sellerIdentity:
+      $("sellerIdentity").checked,
+
+    buyerSignPhone:
+      $("buyerSignPhone").value.trim(),
+
+    sellerSignPhone:
+      $("sellerSignPhone").value.trim(),
+
+    brokerSignPhone:
+      $("brokerSignPhone").value.trim(),
+
+    documents:
+      documents.map(function(item){
+
+        if(!item){
+          return null;
+        }
+
+        return {
+          name:item.name,
+          type:item.type
+        };
+
+      }),
+
+    savedAt:new Date().toISOString()
+
+  };
+
+  localStorage.setItem(
+    "woori_trade_room_" + roomCode,
+    JSON.stringify(data)
+  );
+
+  if(showMessage){
+    showOk("진행내용이 저장되었습니다.");
+  }
+
+};
+
+
+/* LOAD */
+
+function loadProgress(){
+
+  let data = null;
+
+  try{
+
+    data =
+      JSON.parse(
+        localStorage.getItem(
+          "woori_trade_room_" + roomCode
+        )
+      );
+
+  }catch(e){
+    data = null;
+  }
+
+  if(!data){
+    return;
+  }
+
+  $("tradeType").value =
+    data.tradeType || "";
+
+  $("apartmentName").value =
+    data.apartmentName || "";
+
+  $("address").value =
+    data.address || "";
+
+  $("dong").value =
+    data.dong || "";
+
+  $("ho").value =
+    data.ho || "";
+
+  $("buyerIdentity").checked =
+    !!data.buyerIdentity;
+
+  $("sellerIdentity").checked =
+    !!data.sellerIdentity;
+
+  $("buyerSignPhone").value =
+    data.buyerSignPhone || "";
+
+  $("sellerSignPhone").value =
+    data.sellerSignPhone || "";
+
+  $("brokerSignPhone").value =
+    data.brokerSignPhone ||
+    (
+      step1Data
+      ? step1Data.mobile || ""
+      : ""
+    );
+
+  if(Array.isArray(data.documents)){
+
+    data.documents.forEach(function(item,index){
+
+      if(!item){
+        return;
+      }
+
+      documents[index] = {
+        name:item.name,
+        type:item.type,
+        url:""
+      };
+
+      $("docName" + index).textContent =
+        item.name;
+
+      $("docStatus" + index).textContent =
+        "등록완료";
+
+      $("docStatus" + index).className =
+        "doc-status ok";
+
+    });
+
+  }
+
+}
+
+
+/* MESSAGE */
+
+function showOk(text){
+
+  $("message").className = "msg ok";
+  $("message").textContent = text;
+
+}
+
+
+function showError(text){
+
+  $("message").className = "msg error";
+  $("message").textContent = text;
+
+}
+
+
+/* REFRESH */
+
+window.addEventListener("focus",function(){
+  updateStatus();
+});
+
+window.addEventListener("storage",function(event){
+
+  if(
+    event.key === "woori_contract_" + roomCode ||
+    event.key === "woori_fee_paid_" + roomCode
+  ){
+    updateStatus();
+  }
+
+});
+
+
+/* START */
+
+loadBrokerData();
+loadProgress();
+updateStatus();
+
+})();
+</script>
+
+</body>
+</html>
