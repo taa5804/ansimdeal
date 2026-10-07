@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1165d7">
+
+<title>공인중개사 업무 | 우리아파트 안심거래</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#f4f6f8;
+  color:#172b3d;
+  font-family:-apple-system,BlinkMacSystemFont,
+  "Segoe UI","Noto Sans KR",Arial,sans-serif;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.wrap{
+  width:100%;
+  max-width:720px;
+  margin:0 auto;
+  padding:clamp(12px,2.5vw,18px)
+           clamp(10px,2vw,14px)
+           50px;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:clamp(12px,2.5vw,18px);
+}
+
+.brand{
+  font-size:clamp(16px,3.8vw,21px);
+  font-weight:900;
+  color:#173a59;
+  white-space:nowrap;
+}
+
+.brand strong{
+  color:#1165d7;
+}
+
+.home{
+  padding:clamp(7px,1.8vw,9px)
+          clamp(9px,2.2vw,12px);
+  border:1px solid #d4dfe7;
+  border-radius:10px;
+  background:#fff;
+  font-size:clamp(11px,2.7vw,14px);
+  font-weight:800;
+  color:#476377;
+  white-space:nowrap;
+}
+
+.main-card{
+  background:#fff;
+  border:1px solid #dce5ec;
+  border-radius:18px;
+  padding:clamp(15px,3vw,22px)
+           clamp(12px,2.5vw,18px);
+  box-shadow:0 6px 18px rgba(26,61,88,.06);
+}
+
+.badge{
+  display:inline-block;
+  padding:clamp(4px,1.3vw,6px)
+           clamp(8px,2vw,10px);
+  margin-bottom:10px;
+  border-radius:999px;
+  background:#eaf4ff;
+  color:#1165d7;
+  font-size:clamp(10px,2.5vw,13px);
+  font-weight:900;
+}
+
+h1{
+  margin:0 0 7px;
+  font-size:clamp(22px,5vw,28px);
+  color:#143b61;
+}
+
+.desc{
+  margin:0 0 clamp(16px,3vw,22px);
+  color:#697e8e;
+  font-size:clamp(12px,3vw,15px);
+  line-height:1.6;
+  word-break:keep-all;
+}
+
+.menu{
+  display:grid;
+  gap:clamp(8px,2vw,12px);
+}
+
+.menu-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:clamp(8px,2vw,12px);
+  min-height:clamp(68px,13vw,82px);
+  padding:clamp(11px,2.5vw,15px)
+           clamp(12px,2.8vw,17px);
+  border-radius:14px;
+  background:#fff;
+  border:1px solid #dde6ec;
+  transition:.15s ease;
+}
+
+.menu-card:hover{
+  transform:translateY(-1px);
+  box-shadow:0 5px 15px rgba(26,61,88,.08);
+}
+
+.left{
+  display:flex;
+  align-items:center;
+  gap:clamp(9px,2.2vw,13px);
+  min-width:0;
+}
+
+.icon{
+  width:clamp(38px,9vw,46px);
+  height:clamp(38px,9vw,46px);
+  flex:0 0 clamp(38px,9vw,46px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:13px;
+  font-size:clamp(18px,4.5vw,22px);
+}
+
+.text{
+  min-width:0;
+}
+
+.text strong{
+  display:block;
+  margin-bottom:4px;
+  font-size:clamp(15px,3.7vw,18px);
+  color:#173e60;
+}
+
+.text span{
+  display:block;
+  font-size:clamp(11px,2.7vw,13px);
+  color:#728694;
+  line-height:1.4;
+  word-break:keep-all;
+}
+
+.arrow{
+  font-size:clamp(20px,5vw,25px);
+  font-weight:900;
+  flex:0 0 auto;
+}
+
+.blue{
+  border-left:5px solid #1165d7;
+}
+
+.blue .icon{
+  background:#e8f2ff;
+}
+
+.blue .arrow{
+  color:#1165d7;
+}
+
+.navy{
+  border-left:5px solid #476779;
+}
+
+.navy .icon{
+  background:#edf2f5;
+}
+
+.navy .arrow{
+  color:#476779;
+}
+
+.footer{
+  margin-top:20px;
+  text-align:center;
+  font-size:clamp(10px,2.5vw,12px);
+  color:#83939e;
+}
+
+@media(max-width:430px){
+
+  .text strong{
+    font-size:16px;
+  }
+
+  .text span{
+    font-size:11px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="header">
+
+  <a class="brand" href="/">
+    🏠 우리아파트 <strong>안심거래</strong>
+  </a>
+
+  <a class="home" href="/">
+    메인으로
+  </a>
+
+</header>
+
+
+<main class="main-card">
+
+  <span class="badge">
+    공인중개사 전용
+  </span>
+
+  <h1>
+    공인중개사 업무
+  </h1>
+
+  <p class="desc">
+    거래가 완료된 내역과 회원정보를 확인합니다.
+  </p>
+
+
+  <div class="menu">
+
+
+    <!-- 거래완료 내역 -->
+
+    <a
+      class="menu-card blue"
+      href="/broker-completed.html">
+
+      <div class="left">
+
+        <div class="icon">
+          ✓
+        </div>
+
+        <div class="text">
+
+          <strong>
+            거래완료 내역
+          </strong>
+
+          <span>
+            완료된 거래와 계약서를 확인합니다.
+          </span>
+
+        </div>
+
+      </div>
+
+      <span class="arrow">
+        ›
+      </span>
+
+    </a>
+
+
+    <!-- 회원정보 변경 -->
+
+    <a
+      class="menu-card navy"
+      href="/broker-profile.html">
+
+      <div class="left">
+
+        <div class="icon">
+          👤
+        </div>
+
+        <div class="text">
+
+          <strong>
+            회원정보 변경
+          </strong>
+
+          <span>
+            대표자·사무소·연락처 등의 정보를 수정합니다.
+          </span>
+
+        </div>
+
+      </div>
+
+      <span class="arrow">
+        ›
+      </span>
+
+    </a>
+
+
+  </div>
+
+</main>
+
+
+<div class="footer">
+  © 우리아파트 안심거래
+</div>
+
+</div>
+
+</body>
+</html>
