@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원 중개사 가입 센터 | 우리아파트 안심딜</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center p-4">
+  <div class="bg-slate-900 max-w-lg w-full rounded-3xl p-6 sm:p-8 space-y-6 border border-amber-500/30 text-center shadow-2xl">
+    <div class="w-14 h-14 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center text-3xl mx-auto border border-amber-500/40">👑</div>
+    <div>
+      <h1 class="text-2xl font-black text-white">우리아파트 안심딜 회원 중개사</h1>
+      <p class="text-xs text-amber-400 mt-1 font-bold">구(區) 단위 선착순 얼리버드 특별 프로모션</p>
+    </div>
+    <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-left space-y-2 text-xs">
+      <div class="flex justify-between items-center text-sm font-black border-b border-slate-800 pb-2">
+        <span class="text-slate-300">멤버십 월 회비:</span>
+        <span class="text-amber-400 text-base">월 30,000원 <span class="text-xs text-slate-500 line-through">50,000원</span></span>
+      </div>
+      <p class="text-slate-400 leading-relaxed pt-1">
+        • <b>얼리버드 선착순 혜택:</b> 지금 가입 시 활성화 후에도 <b>평생 월 3만 원</b> 락인 혜택<br>
+        • <b>특급 권한:</b> 관할 구(區)의 꼬마빌딩·상가·신축대지 VIP 매수의뢰 독점 수신<br>
+        • <b>수수료 권한:</b> 단독 1건만 거래해도 수수료 1,500만~3,000만 원 달성!
+      </p>
+    </div>
+    <form onsubmit="event.preventDefault(); alert('🎉 회원 가입 신청이 접수되었습니다!');" class="space-y-4 text-left">
+      <div><label class="block text-xs font-bold text-slate-300 mb-1">상호명 (부동산 명칭)</label><input type="text" required placeholder="예: 양산 안심 공인중개사" class="w-full py-2.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200"></div>
+      <div><label class="block text-xs font-bold text-slate-300 mb-1">대표자 연락처</label><input type="tel" required placeholder="010-0000-0000" class="w-full py-2.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200"></div>
+      <div><label class="block text-xs font-bold text-slate-300 mb-1">선점 희망 관할 구/시/군</label><input type="text" required placeholder="예: 경남 양산시, 부산 해운대구" class="w-full py-2.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200"></div>
+      <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-black text-sm rounded-xl transition shadow-xl">선착순 월 3만 원 얼리버드 가입 신청하기</button>
+    </form>
+  </div>
+</body>
+</html>
