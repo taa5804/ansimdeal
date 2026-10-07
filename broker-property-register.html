@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1165d7">
+
+<title>매물 등록 | 우리아파트 안심거래</title>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#f4f6f8;
+  color:#172b3d;
+  font-family:-apple-system,BlinkMacSystemFont,
+  "Segoe UI","Noto Sans KR",Arial,sans-serif;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.wrap{
+  width:100%;
+  max-width:720px;
+  margin:0 auto;
+  padding:14px 12px 50px;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.brand{
+  color:#173a59;
+  font-size:19px;
+  font-weight:900;
+}
+
+.brand strong{
+  color:#1165d7;
+}
+
+.back{
+  padding:8px 11px;
+  border:1px solid #d4dfe7;
+  border-radius:10px;
+  background:#fff;
+  color:#476377;
+  font-size:13px;
+  font-weight:800;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #dce5ec;
+  border-radius:18px;
+  padding:22px 16px;
+  box-shadow:0 6px 18px rgba(26,61,88,.06);
+}
+
+.badge{
+  display:inline-block;
+  margin-bottom:9px;
+  padding:5px 10px;
+  border-radius:999px;
+  background:#eaf4ff;
+  color:#1165d7;
+  font-size:12px;
+  font-weight:900;
+}
+
+h1{
+  margin:0 0 7px;
+  color:#143b61;
+  font-size:27px;
+}
+
+.desc{
+  margin:0 0 20px;
+  color:#697e8e;
+  font-size:14px;
+  line-height:1.65;
+}
+
+.notice{
+  margin-bottom:20px;
+  padding:13px;
+  border-radius:11px;
+  background:#f4f9fd;
+  color:#36566e;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.section-title{
+  margin:24px 0 14px;
+  padding-bottom:9px;
+  border-bottom:1px solid #e3eaf0;
+  color:#173e60;
+  font-size:18px;
+  font-weight:900;
+}
+
+.field{
+  margin-bottom:17px;
+}
+
+label{
+  display:block;
+  margin-bottom:7px;
+  color:#173e60;
+  font-size:14px;
+  font-weight:900;
+}
+
+.required{
+  color:#d92d20;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  border:1px solid #c9d5df;
+  border-radius:10px;
+  background:#fff;
+  color:#173e60;
+  font-size:15px;
+  outline:none;
+}
+
+input,
+select{
+  height:48px;
+  padding:0 13px;
+}
+
+textarea{
+  min-height:110px;
+  padding:12px 13px;
+  resize:vertical;
+  line-height:1.6;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:#1165d7;
+  box-shadow:0 0 0 3px rgba(17,101,215,.10);
+}
+
+input[readonly]{
+  background:#f4f7f9;
+  color:#687c8c;
+}
+
+.help{
+  margin-top:6px;
+  color:#718391;
+  font-size:11px;
+  line-height:1.55;
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:22px;
+}
+
+button{
+  height:48px;
+  border-radius:11px;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.cancel{
+  border:1px solid #ccd9e2;
+  background:#fff;
+  color:#476377;
+}
+
+.save{
+  border:1px solid #1165d7;
+  background:#1165d7;
+  color:#fff;
+}
+
+.msg{
+  display:none;
+  margin-top:13px;
+  padding:12px;
+  border-radius:10px;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.msg.ok{
+  display:block;
+  background:#edf8f1;
+  color:#26733e;
+}
+
+.msg.error{
+  display:block;
+  background:#fff1f0;
+  color:#c62828;
+}
+
+.footer{
+  margin-top:20px;
+  text-align:center;
+  color:#83939e;
+  font-size:11px;
+}
+
+@media(max-width:430px){
+
+  .wrap{
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .card{
+    padding:19px 13px;
+  }
+
+  h1{
+    font-size:24px;
+  }
+
+  .row{
+    grid-template-columns:1fr;
+  }
+
+  .buttons{
+    grid-template-columns:1fr;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="header">
+
+  <a class="brand" href="/">
+    🏠 우리아파트 <strong>안심거래</strong>
+  </a>
+
+  <a
+    class="back"
+    href="/broker-dashboard.html">
+    공인중개사 업무
+  </a>
+
+</header>
+
+
+<main class="card">
+
+  <span class="badge">
+    공인중개사 전용
+  </span>
+
+  <h1>
+    매물 등록
+  </h1>
+
+  <p class="desc">
+    매수요청번호를 기준으로 해당 요청에 맞는 매물을 등록합니다.
+  </p>
+
+
+  <div class="notice">
+
+    매수요청번호가 등록된 요청에만 매물을 연결할 수 있습니다.<br>
+    거래 전에는 등본·계약서 등의 서류를 등록하지 않습니다.<br>
+    매수자가 최종 선택하기 전에는 다른 중개사의 연락처가 공개되지 않습니다.
+
+  </div>
+
+
+  <!-- 매수요청 -->
+
+  <h2 class="section-title">
+    매수요청 정보
+  </h2>
+
+
+  <div class="field">
+
+    <label>
+      매수요청번호 <span class="required">*</span>
+    </label>
+
+    <input
+      id="requestNumber"
+      type="text"
+      maxlength="30"
+      placeholder="매수요청번호를 입력하세요">
+
+    <div class="help">
+      매수자가 등록한 매수요청번호를 입력하세요.
+    </div>
+
+  </div>
+
+
+  <!-- 매물정보 -->
+
+  <h2 class="section-title">
+    매물정보
+  </h2>
+
+
+  <div class="field">
+
+    <label>
+      아파트명 <span class="required">*</span>
+    </label>
+
+    <input
+      id="apartment"
+      type="text"
+      placeholder="아파트명을 입력하세요">
+
+  </div>
+
+
+  <div class="field">
+
+    <label>
+      거래금액 <span class="required">*</span>
+    </label>
+
+    <input
+      id="amount"
+      type="text"
+      inputmode="numeric"
+      placeholder="예: 5억 2,000만원">
+
+  </div>
+
+
+  <div class="row">
+
+    <div class="field">
+
+      <label>
+        층수 <span class="required">*</span>
+      </label>
+
+      <input
+        id="floor"
+        type="text"
+        placeholder="예: 10층">
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        면적 <span class="required">*</span>
+      </label>
+
+      <input
+        id="area"
+        type="text"
+        placeholder="예: 84㎡">
+
+    </div>
+
+  </div>
+
+
+  <div class="field">
+
+    <label>
+      매물 간단 설명
+    </label>
+
+    <textarea
+      id="description"
+      placeholder="매수자가 요청한 조건에 맞는 매물의 간단한 정보를 입력하세요."></textarea>
+
+  </div>
+
+
+  <!-- 중개사 정보 -->
+
+  <h2 class="section-title">
+    중개사 정보
+  </h2>
+
+
+  <div class="field">
+
+    <label>
+      중개사무소명 <span class="required">*</span>
+    </label>
+
+    <input
+      id="officeName"
+      type="text"
+      placeholder="중개사무소명">
+
+  </div>
+
+
+  <div class="field">
+
+    <label>
+      사무소 전화번호 <span class="required">*</span>
+    </label>
+
+    <input
+      id="officePhone"
+      type="tel"
+      inputmode="tel"
+      maxlength="13"
+      placeholder="사무소 전화번호">
+
+    <div class="help">
+      이 전화번호는 매수자가 해당 매물을 최종 선택한 경우에만 공개됩니다.
+    </div>
+
+  </div>
+
+
+  <div class="buttons">
+
+    <button
+      class="cancel"
+      type="button"
+      onclick="location.href='/broker-dashboard.html'">
+      취소
+    </button>
+
+    <button
+      id="saveBtn"
+      class="save"
+      type="button">
+      매물 등록
+    </button>
+
+  </div>
+
+
+  <div
+    id="msg"
+    class="msg">
+  </div>
+
+</main>
+
+
+<footer class="footer">
+  © 우리아파트 안심거래
+</footer>
+
+</div>
+
+
+<script>
+
+"use strict";
+
+
+const requestNumber =
+  document.getElementById("requestNumber");
+
+const apartment =
+  document.getElementById("apartment");
+
+const amount =
+  document.getElementById("amount");
+
+const floor =
+  document.getElementById("floor");
+
+const area =
+  document.getElementById("area");
+
+const description =
+  document.getElementById("description");
+
+const officeName =
+  document.getElementById("officeName");
+
+const officePhone =
+  document.getElementById("officePhone");
+
+const saveBtn =
+  document.getElementById("saveBtn");
+
+const msg =
+  document.getElementById("msg");
+
+
+/* URL로 매수요청번호가 넘어오는 경우 */
+
+(function(){
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const request =
+    params.get("request");
+
+  if(request){
+
+    requestNumber.value =
+      request;
+
+  }
+
+})();
+
+
+/* 사무실 전화번호 */
+
+officePhone.addEventListener(
+  "input",
+  function(){
+
+    let v =
+      this.value
+      .replace(/\D/g,"")
+      .slice(0,11);
+
+    if(v.length<=3){
+
+      this.value=v;
+
+    }else if(v.length<=7){
+
+      this.value =
+        v.slice(0,3)+"-"+
+        v.slice(3);
+
+    }else{
+
+      this.value =
+        v.slice(0,3)+"-"+
+        v.slice(3,7)+"-"+
+        v.slice(7);
+
+    }
+
+  }
+);
+
+
+/* 등록 */
+
+saveBtn.addEventListener(
+  "click",
+  async function(){
+
+    const required = [
+
+      requestNumber,
+      apartment,
+      amount,
+      floor,
+      area,
+      officeName,
+      officePhone
+
+    ];
+
+
+    for(
+      const input of required
+    ){
+
+      if(!input.value.trim()){
+
+        showMsg(
+          "필수 항목을 모두 입력해 주세요.",
+          false
+        );
+
+        input.focus();
+
+        return;
+
+      }
+
+    }
+
+
+    saveBtn.disabled=true;
+
+
+    try{
+
+      const response =
+        await fetch(
+          "/api/property-proposal",
+          {
+            method:"POST",
+
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify({
+
+                requestNumber:
+                  requestNumber.value.trim(),
+
+                apartment:
+                  apartment.value.trim(),
+
+                amount:
+                  amount.value.trim(),
+
+                floor:
+                  floor.value.trim(),
+
+                area:
+                  area.value.trim(),
+
+                description:
+                  description.value.trim(),
+
+                officeName:
+                  officeName.value.trim(),
+
+                officePhone:
+                  officePhone.value.trim()
+
+              })
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if(
+        !response.ok ||
+        !data.ok
+      ){
+
+        showMsg(
+          data.message ||
+          "매물 등록 중 오류가 발생했습니다.",
+          false
+        );
+
+        saveBtn.disabled=false;
+
+        return;
+
+      }
+
+
+      const property = {
+
+        propertyId:
+          data.proposal?.id
+            ? String(data.proposal.id)
+            : "P"+Date.now(),
+
+        requestNumber:
+          requestNumber.value.trim(),
+
+        apartment:
+          apartment.value.trim(),
+
+        amount:
+          amount.value.trim(),
+
+        floor:
+          floor.value.trim(),
+
+        area:
+          area.value.trim(),
+
+        description:
+          description.value.trim(),
+
+        officeName:
+          officeName.value.trim(),
+
+        officePhone:
+          officePhone.value.trim(),
+
+        status:
+          "PROPOSED",
+
+        createdAt:
+          data.proposal?.created_at ||
+          new Date().toISOString()
+
+      };
+
+
+      const saved =
+        JSON.parse(
+          localStorage.getItem(
+            "wooriapt_broker_properties"
+          ) || "[]"
+        );
+
+
+      saved.push(property);
+
+
+      localStorage.setItem(
+        "wooriapt_broker_properties",
+        JSON.stringify(saved)
+      );
+
+
+      showMsg(
+        "매물이 등록되었습니다. 해당 매수요청번호에 연결되었습니다.",
+        true
+      );
+
+
+    }catch(error){
+
+      console.error(
+        "property register error:",
+        error
+      );
+
+
+      showMsg(
+        "매물 등록 중 오류가 발생했습니다.",
+        false
+      );
+
+    }
+
+
+    setTimeout(
+      function(){
+
+        saveBtn.disabled=false;
+
+      },
+      1500
+    );
+
+  }
+);
+
+
+/* 메시지 */
+
+function showMsg(
+  text,
+  ok
+){
+
+  msg.textContent =
+    text;
+
+  msg.className =
+    "msg "+
+    (ok ? "ok" : "error");
+
+}
+
+</script>
+
+</body>
+</html>
