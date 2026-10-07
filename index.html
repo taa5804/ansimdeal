@@ -1,5 +1,57 @@
 <!DOCTYPE html>
 <html lang="ko"><head>
+<script>
+(function() {
+  function applyRealFix() {
+    // 1. 메인 카드: 전세 -> 대지 매매, 월세 -> 삭제
+    var allCards = document.querySelectorAll("a, div, .card");
+    allCards.forEach(function(c) {
+      if (c.innerText && c.innerText.includes("전세 구하기")) {
+        c.innerHTML = c.innerHTML.replace(/전세\s*구하기/g, "신축 대지(垈地) 매매")
+                                 .replace(/전세조건\s*등록/g, "대지조건 등록")
+                                 .replace(/🔑/g, "🏗️");
+      }
+      if (c.innerText && c.innerText.includes("월세 구하기")) {
+        c.style.setProperty("display", "none", "important");
+      }
+    });
+
+    // 2. 계산기 탭 버튼: [매매], [전세], [월세]
+    var buttons = document.querySelectorAll("button, a, div, li, span");
+    buttons.forEach(function(b) {
+      if (b.children.length === 0) {
+        var txt = b.innerText.trim();
+        if (txt === "매매") {
+          b.innerText = "🏢 빌딩 · 상가 매매";
+        } else if (txt === "전세") {
+          b.innerText = "🏗️ 신축 대지 매매";
+        } else if (txt === "월세") {
+          var parentBtn = b.closest("button") || b.closest("li") || b.closest("a") || b;
+          parentBtn.style.setProperty("display", "none", "important");
+        }
+      }
+    });
+
+    // 3. 카드 그리드 3열 -> 2열 균형 조정
+    var grids = document.querySelectorAll("[class*='grid-cols-3'], [class*='md:grid-cols-3']");
+    grids.forEach(function(g) {
+      if (g.innerText.includes("빌딩") || g.innerText.includes("대지")) {
+        g.className = g.className.replace("md:grid-cols-3", "md:grid-cols-2").replace("grid-cols-3", "md:grid-cols-2");
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", applyRealFix);
+  } else {
+    applyRealFix();
+  }
+  window.addEventListener("load", applyRealFix);
+  setTimeout(applyRealFix, 100);
+  setTimeout(applyRealFix, 500);
+  setTimeout(applyRealFix, 1500);
+})();
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1165d7">
