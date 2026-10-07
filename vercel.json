@@ -1,13 +1,166 @@
 {
-  "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/admin",
-      "destination": "/admin.html"
+      "source": "/mart-sales",
+      "destination": "/mart-sales.html"
     },
     {
-      "source": "/broker",
-      "destination": "/broker-join.html"
+      "source": "/mart-price",
+      "destination": "/price.html"
+    },
+    {
+      "source": "/today",
+      "destination": "/price.html"
+    },
+    {
+      "source": "/price",
+      "destination": "/price.html"
+    },
+    {
+      "source": "/aura",
+      "destination": "/aura.html"
+    },
+    {
+      "source": "/pension",
+      "destination": "/aura.html"
+    },
+    {
+      "source": "/aurapension",
+      "destination": "/aura.html"
+    },
+    {
+      "source": "/aura-search",
+      "destination": "/aura.html"
+    },
+    {
+      "source": "/check",
+      "destination": "/check.html"
+    },
+    {
+      "source": "/factcheck",
+      "destination": "/check.html"
+    },
+    {
+      "source": "/mart",
+      "destination": "/mart.html"
+    },
+    {
+      "source": "/mart-calculator",
+      "destination": "/mart.html"
+    },
+    {
+      "source": "/apt",
+      "destination": "/apt.html"
+    },
+    {
+      "source": "/match",
+      "destination": "/apt.html"
+    },
+    {
+      "source": "/apt-search/:region/:city/:place/:apartment/:type",
+      "destination": "/api/apt-page?region=:region&city=:city&place=:place&apartment=:apartment&type=:type"
+    },
+    {
+      "source": "/apt-search/:region/:city/:place/:type",
+      "destination": "/api/apt-page?region=:region&city=:city&place=:place&type=:type"
+    },
+    {
+      "source": "/api/apt-list",
+      "destination": "/api/apt-page?mode=list"
+    },
+    {
+      "source": "/sitemaps/apartments-:page.xml",
+      "destination": "/api/apt-page?mode=sitemap&page=:page"
+    },
+    {
+      "source": "/apt-sitemap.xml",
+      "destination": "/api/apt-page?mode=sitemap-index"
+    },
+    {
+      "source": "/broker-search/:region/:city/:place/:broker",
+      "destination": "/api/apt-page?mode=broker-page&region=:region&city=:city&place=:place&broker=:broker"
+    },
+    {
+      "source": "/broker-search/:region/:city/:place",
+      "destination": "/api/apt-page?mode=broker-page&region=:region&city=:city&place=:place"
+    },
+    {
+      "source": "/broker-sitemap.xml",
+      "destination": "/api/apt-page?mode=broker-sitemap"
+    },
+    {
+      "source": "/mart-search/:region/:city/:place/:mart",
+      "destination": "/api/mart-page?mode=mart-page&region=:region&city=:city&place=:place&mart=:mart"
+    },
+    {
+      "source": "/sitemaps/marts-:page.xml",
+      "destination": "/api/mart-page?mode=mart-sitemap&page=:page"
+    },
+    {
+      "source": "/mart-sitemap.xml",
+      "destination": "/api/mart-page?mode=mart-sitemap-index"
+    },
+    {
+      "source": "/map",
+      "destination": "/map.html"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
     }
-  ]
+  ],
+  "headers": [
+    {
+      "source": "/robots.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, s-maxage=31536000, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, s-maxage=31536000, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/broker-landing.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, s-maxage=31536000, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/mart-landing.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, s-maxage=31536000, stale-while-revalidate=86400"
+        }
+      ]
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/sitemap",
+      "schedule": "0 0 * * *"
+    }
+  ],
+  "cleanUrls": true
 }
