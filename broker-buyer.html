@@ -1,0 +1,1095 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1165d7">
+<meta name="description" content="아파트 매수고객과 임차고객의 희망조건을 확인하고 보유 매물을 직접 제안할 수 있습니다.">
+<meta name="keywords" content="공인중개사 매수고객, 부동산 매수고객, 아파트 매수고객, 매수고객 찾기, 공인중개사 매수자 찾기, 부동산 매수자 찾기">
+<meta name="robots" content="index,follow">
+<title>공인중개사 매수고객 찾기 | 우리아파트 안심거래</title>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%}
+
+body{
+  background:#f4f6f8;
+  color:#1f3346;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif
+}
+
+a{text-decoration:none;color:inherit}
+
+.wrap{
+  width:100%;
+  max-width:860px;
+  margin:0 auto;
+  padding:0 12px 50px
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  min-height:70px;
+  gap:10px
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#1d3c58;
+  font-size:21px;
+  font-weight:900
+}
+
+.logo-mark{font-size:23px}
+
+.logo strong{
+  color:#1165d7;
+  margin-left:3px
+}
+
+.home-btn{
+  flex:none;
+  padding:9px 12px;
+  border:1px solid #c9d8e4;
+  border-radius:9px;
+  background:#fff;
+  color:#365873;
+  font-size:15px;
+  font-weight:900
+}
+
+.hero{
+  padding:28px 22px;
+  border-radius:18px;
+  background:#eaf4ff;
+  border:1px solid #cfe3f7;
+  margin-bottom:16px
+}
+
+.hero small{
+  color:#1165d7;
+  font-size:15px;
+  font-weight:900
+}
+
+.hero h1{
+  margin:8px 0 10px;
+  color:#143b61;
+  font-size:32px;
+  line-height:1.4
+}
+
+.hero h1 em{
+  color:#1165d7;
+  font-style:normal
+}
+
+.hero p{
+  margin:0;
+  color:#263b4d;
+  font-size:17px;
+  line-height:1.8
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-bottom:18px
+}
+
+.summary-card{
+  min-width:0;
+  padding:15px 10px;
+  border:1px solid #dde6ed;
+  border-radius:13px;
+  background:#fff;
+  text-align:center
+}
+
+.summary-card strong{
+  display:block;
+  color:#174d76;
+  font-size:18px;
+  line-height:1.5
+}
+
+.summary-card span{
+  display:block;
+  margin-top:5px;
+  color:#465c6d;
+  font-size:14px;
+  line-height:1.5
+}
+
+.intro{
+  margin-bottom:18px;
+  padding:16px;
+  border:1px solid #dde6ed;
+  border-radius:14px;
+  background:#fff;
+  color:#263b4d;
+  font-size:17px;
+  line-height:1.8
+}
+
+.intro strong{
+  color:#174e75
+}
+
+.guide-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px
+}
+
+.guide{
+  display:grid;
+  grid-template-columns:46px minmax(0,1fr);
+  gap:12px;
+  padding:17px;
+  border:1px solid #dde6ed;
+  border-radius:14px;
+  background:#fff
+}
+
+.guide-no{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#1165d7;
+  color:#fff;
+  font-size:17px;
+  font-weight:900
+}
+
+.guide-body h2{
+  margin:2px 0 9px;
+  color:#173e60;
+  font-size:22px;
+  line-height:1.5
+}
+
+.guide-body p{
+  margin:0 0 8px;
+  color:#263b4d;
+  font-size:16.5px;
+  line-height:1.85
+}
+
+.guide-body p:last-child{
+  margin-bottom:0
+}
+
+.guide-body strong{
+  color:#164f78
+}
+
+.flow{
+  margin-top:10px;
+  padding:11px 12px;
+  border-radius:10px;
+  background:#f4f8fb;
+  color:#365d79;
+  font-size:16px;
+  line-height:1.8;
+  font-weight:900
+}
+
+.point{
+  margin-top:10px;
+  padding:12px;
+  border:1px solid #cfe0ed;
+  border-radius:10px;
+  background:#f3f9fd;
+  color:#315d7d;
+  font-size:16px;
+  line-height:1.8
+}
+
+.money-flow{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:12px
+}
+
+.money-card{
+  min-width:0;
+  padding:13px;
+  border:1px solid #dbe5ec;
+  border-radius:11px;
+  background:#fafcfd
+}
+
+.money-card .label{
+  color:#465c6d;
+  font-size:14px
+}
+
+.money-card .value{
+  margin-top:5px;
+  color:#174d76;
+  font-size:17px;
+  line-height:1.6;
+  font-weight:900
+}
+
+.benefits{
+  margin-top:18px;
+  padding:20px;
+  border-radius:16px;
+  background:#143f65;
+  color:#fff
+}
+
+.benefits h2{
+  margin:0 0 14px;
+  font-size:22px
+}
+
+.benefit{
+  display:flex;
+  gap:9px;
+  margin:9px 0;
+  font-size:16.5px;
+  line-height:1.75
+}
+
+.check{
+  flex:none;
+  font-weight:900
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:16px
+}
+
+.btn{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:52px;
+  border-radius:11px;
+  font-size:17px;
+  font-weight:900
+}
+
+.signup{
+  background:#1165d7;
+  color:#fff
+}
+
+.login{
+  border:1px solid #bdd0df;
+  background:#fff;
+  color:#315873
+}
+
+.footer{
+  padding:26px 6px 10px;
+  color:#8a99a5;
+  font-size:13px;
+  text-align:center;
+  line-height:1.8
+}
+
+@media(max-width:600px){
+
+  .hero{
+    padding:23px 17px
+  }
+
+  .hero h1{
+    font-size:28px
+  }
+
+  .summary{
+    grid-template-columns:1fr
+  }
+
+  .guide{
+    grid-template-columns:38px minmax(0,1fr);
+    padding:14px 12px
+  }
+
+  .guide-no{
+    width:34px;
+    height:34px
+  }
+
+  .guide-body h2{
+    font-size:20px
+  }
+
+  .money-flow{
+    grid-template-columns:1fr
+  }
+
+  .actions{
+    grid-template-columns:1fr
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="header">
+
+  <a class="logo" href="/">
+    <span class="logo-mark">🏠</span>
+    <span>우리아파트<strong>안심거래</strong></span>
+  </a>
+
+  <a class="home-btn" href="/">메인으로</a>
+
+</header>
+
+
+<section class="hero">
+
+  <small>공인중개사 매수고객 찾기</small>
+
+  <h1>
+    실제 매수고객을 먼저 확인하고,<br><em>조건에 맞는 매물을 제안하세요.</em>
+  </h1>
+
+  <p>
+    지역의 매수·임차 희망조건을 먼저 확인한 뒤 맞는 매물이 있을 때 간편하게 제안하는 방식입니다.
+  </p>
+
+</section>
+
+
+<div class="summary">
+
+  <div class="summary-card">
+    <strong>회원 1차 우선알림</strong>
+    <span>해당 영업지역의 매수·임차 요청 우선 제공</span>
+  </div>
+
+  <div class="summary-card">
+    <strong>사진 없는 간편 제안</strong>
+    <span>필요한 텍스트 정보만 입력</span>
+  </div>
+
+  <div class="summary-card">
+    <strong>선택된 요청자만 상담</strong>
+    <span>매수·임차 희망자가 매물을 선택한 경우 연락처 공개</span>
+  </div>
+
+</div>
+
+
+<div class="intro">
+
+우리아파트 안심거래는 공인중개사가 수많은 매물을 미리 등록하고 관리하는 방식이 아닙니다.
+
+<strong>
+매수·임차 희망자가 원하는 조건을 먼저 등록하고,
+공인중개사가 조건에 맞는 매물을 제안하는 방식
+</strong>
+으로 운영합니다.
+
+</div>
+
+
+<div class="guide-list">
+
+
+<!-- 1 -->
+<section class="guide">
+
+<div class="guide-no">1</div>
+
+<div class="guide-body">
+
+<h2>공인중개사 회원가입</h2>
+
+<p>
+휴대전화번호, 대표자명, 중개사무소명, 중개사무소 등록번호,
+이메일 및 약관동의를 입력합니다.
+</p>
+
+<p>
+<strong>필수 첨부서류는 사업자등록증과 공인중개사 자격증 2개입니다.</strong>
+</p>
+
+<div class="point">
+<strong>필수 첨부서류</strong><br>
+① 사업자등록증<br>
+② 공인중개사 자격증
+</div>
+
+<p>
+두 서류가 모두 첨부되어야 회원가입을 진행할 수 있습니다.
+</p>
+
+<p>
+사업자등록증에 기재된 중개사무소 도로명주소를 확인하여
+<strong>행정동·읍·면·동으로 자동 변환하고 해당 지역을 기본 영업지역으로 등록</strong>합니다.
+</p>
+
+<p>
+공인중개사가 임의로 다른 동을 선택하지 않습니다.
+</p>
+
+<div class="point">
+회원으로 등록하면 해당 영업지역에서 발생하는
+<strong>매수·임차 요청을 1차로 우선 받을 수 있습니다.</strong>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- 2 -->
+<section class="guide">
+
+<div class="guide-no">2</div>
+
+<div class="guide-body">
+
+<h2>매수·임차 희망자가 원하는 거래조건을 등록합니다</h2>
+
+<p>
+매수·임차 희망자가 매매·전세·월세 중 거래유형을 선택하고
+원하는 조건을 직접 등록합니다.
+</p>
+
+<p>
+희망지역, 희망아파트, 가격대, 면적·평형, 희망층,
+입주시기 및 기타 희망조건 등을 입력합니다.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- 3 -->
+<section class="guide">
+
+<div class="guide-no">3</div>
+
+<div class="guide-body">
+
+<h2>회원 공인중개사에게 1차 알림을 보냅니다</h2>
+
+<p>
+매수·임차 요청이 접수되면 해당 읍·면·동을 기본 영업지역으로 등록한
+<strong>회원 공인중개사에게 1차 알림을 우선 발송</strong>합니다.
+</p>
+
+<p>
+공인중개사는 알림을 눌러 매수·임차 희망자의 희망조건을 확인합니다.
+</p>
+
+<div class="point">
+이 단계에서는 매수·임차 희망자의 휴대전화번호 등
+<strong>직접 연락할 수 있는 개인정보를 공개하지 않습니다.</strong>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- 4 -->
+<section class="guide">
+
+<div class="guide-no">4</div>
+
+<div class="guide-body">
+
+<h2>적합한 매물 3개가 확보되면 알림을 종료합니다</h2>
+
+<p>
+회원 공인중개사의 1차 제안에서
+<strong>적합한 매물 3개가 확보되면 알림을 종료</strong>합니다.
+</p>
+
+<div class="flow">
+1차 회원 알림 → 적합매물 3개 확보 → 알림 종료
+</div>
+
+<p>
+이 경우 비회원 공인중개사에게는 2차 알림을 보내지 않습니다.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- 5 -->
+<section class="guide">
+
+<div class="guide-no">5</div>
+
+<div class="guide-body">
+
+<h2>적합한 매물이 2개 이하이면 2차 알림을 보냅니다</h2>
+
+<p>
+1차 알림에서 적합한 매물이 충분히 확보되지 않은 경우에만
+해당 지역 비회원 공인중개사에게 2차 알림을 보냅니다.
+</p>
+
+<div class="flow">
+0개 → 2차 알림<br>
+1개 → 2차 알림<br>
+2개 → 2차 알림<br>
+3개 이상 → 2차 알림 없음
+</div>
+
+<p>
+비회원 공인중개사에게는 자동음성전화 등을 통해
+매수·임차 요청이 접수되었다는 사실을 안내합니다.
+</p>
+
+<div class="point">
+매수·임차 요청이 접수되었습니다.
+</div>
+
+<p>
+필요한 수의 적합한 매물제안이 확보되면 추가 알림을 종료합니다.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- 6 -->
+<section class="guide">
+
+<div class="guide-no">6</div>
+
+<div class="guide-body">
+
+<h2>사진 없이 간편하게 매물을 제안합니다</h2>
+
+<p>
+매수·임차 희망조건에 맞는 매물이 있으면 필요한 정보만 입력하여 제안합니다.
+</p>
+
+<div class="point">
+<strong>매물 제안 화면에는 사진 입력란이 없습니다.</strong>
+</div>
+
+<p>
+아파트명, 면적·평형, 층, 거래금액, 입주 가능일,
+매물 특징·특기사항 등 필요한 텍스트 정보만 입력합니다.
+</p>
+
+<div class="flow">
+매수·임차 요청 확인 → 적합매물 확인 → 매물정보 입력 → 제안
+</div>
+
+</div>
+
+</section>
+
+
+<!-- 7 -->
+<section class="guide">
+
+<div class="guide-no">7</div>
+
+<div class="guide-body">
+
+<h2>매수·임차 희망자는 관심 있는 매물을 최대 3개까지 선택합니다</h2>
+
+<p>
+매수·임차 희망자는 받은 매물제안을 비교하고
+실제로 확인하고 싶은 매물을
+<strong>동시에 최대 3개까지 선택</strong>할 수 있습니다.
+</p>
+
+<p>
+특정 매물을 선택하면
+<strong>해당 매물을 제안한 공인중개사에게만
+매수·임차 희망자의 연락정보가 공개</strong>됩니다.
+</p>
+
+<p>
+선택되지 않은 공인중개사에게는
+매수·임차 희망자의 휴대전화번호가 공개되지 않습니다.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- 8 -->
+<section class="guide">
+
+<div class="guide-no">8</div>
+
+<div class="guide-body">
+
+<h2>다른 공인중개사의 정보는 공개되지 않습니다</h2>
+
+<p>
+각 공인중개사는 자신이 제안한 매물이
+매수·임차 희망자에게 선택됐는지만 확인할 수 있습니다.
+</p>
+
+<p>
+다른 공인중개사의 매물도 선택했는지,
+어떤 매물인지, 어느 공인중개사인지,
+상담이 어디까지 진행됐는지는 공개되지 않습니다.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- 9 -->
+<section class="guide">
+
+<div class="guide-no">9</div>
+
+<div class="guide-body">
+
+<h2>매수·임차 희망자와 방문일정을 정하고 매물을 확인합니다</h2>
+
+<p>
+매수·임차 희망자가 매물을 선택하면
+해당 공인중개사에게 연락정보가 공개됩니다.
+</p>
+
+<p>
+공인중개사는 매수·임차 희망자와 방문일정을 정하고
+실제 매물을 안내합니다.
+</p>
+
+<p>
+매물을 확인한 후 마음에 들지 않으면
+선택을 해제하고 다른 제안매물을 선택할 수 있습니다.
+</p>
+
+<p>
+동시에 선택할 수 있는 매물은 최대 3개입니다.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- 10 -->
+<section class="guide">
+
+<div class="guide-no">10</div>
+
+<div class="guide-body">
+
+<h2>계약할 매물 1개를 최종 선택합니다</h2>
+
+<p>
+매수·임차 희망자가 실제 매물을 확인한 후
+계약할 매물 1개를 최종 선택합니다.
+</p>
+
+<p>
+최종 선택된 거래는 거래당사자와 담당 공인중개사만 확인할 수 있는
+<strong>비공개 계약진행 단계</strong>로 전환됩니다.
+</p>
+
+<p>
+다른 공인중개사에게는 선택된 매물,
+담당 공인중개사, 계약조건 및 계약 진행상황이 공개되지 않습니다.
+</p>
+
+<p>
+계약이 성립되지 않으면
+매수·임차 희망자는 다시 다른 제안매물을 선택할 수 있습니다.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- 11 -->
+<section class="guide">
+
+<div class="guide-no">11</div>
+
+<div class="guide-body">
+
+<h2>최종 계약조건을 확인합니다</h2>
+
+<p>
+담당 공인중개사는 거래당사자와 최종 계약조건을 확인합니다.
+</p>
+
+<p>
+매매의 경우 매매금액, 계약금, 중도금, 잔금,
+잔금일, 입주일 및 특약사항 등을 확인합니다.
+</p>
+
+<p>
+전세·월세는 보증금, 월세, 계약기간,
+입주일 및 특약사항 등 해당 거래에 필요한 조건을 확인합니다.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- 12 -->
+<section class="guide">
+
+<div class="guide-no">12</div>
+
+<div class="guide-body">
+
+<h2>공인중개사 중개보수</h2>
+
+<p>
+우리아파트 안심거래를 통해 성사된 거래에서 담당 공인중개사는
+<strong>매수인·임차인에게 중개보수를 청구하지 않습니다.</strong>
+</p>
+
+<p>
+담당 공인중개사는
+<strong>매도인·임대인에게 법정 중개보수 상한 범위 내에서
+중개보수를 청구하고 직접 수령</strong>합니다.
+</p>
+
+<div class="money-flow">
+
+<div class="money-card">
+<div class="label">매수인·임차인 → 공인중개사</div>
+<div class="value">중개보수 0원</div>
+</div>
+
+<div class="money-card">
+<div class="label">매도인·임대인 → 공인중개사</div>
+<div class="value">중개보수 지급</div>
+</div>
+
+</div>
+
+<p>
+플랫폼은 공인중개사가 매도인·임대인에게 받는
+중개보수를 가져가거나 배분받지 않습니다.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- 13 -->
+<section class="guide">
+
+<div class="guide-no">13</div>
+
+<div class="guide-body">
+
+<h2>플랫폼 이용료</h2>
+
+<p>
+매수인·임차인은 우리아파트 안심거래의
+<strong>플랫폼 이용료를 플랫폼에 직접 지급</strong>합니다.
+</p>
+
+<p>
+공인중개사가 플랫폼 이용료를 대신 받거나
+공인중개사의 중개보수에서 플랫폼 이용료를 공제하지 않습니다.
+</p>
+
+<div class="money-flow">
+
+<div class="money-card">
+<div class="label">매수인·임차인</div>
+<div class="value">
+우리아파트 안심거래에<br>
+플랫폼 이용료 지급
+</div>
+</div>
+
+<div class="money-card">
+<div class="label">매도인·임대인</div>
+<div class="value">
+담당 공인중개사에게<br>
+중개보수 지급
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- 14 -->
+<section class="guide">
+
+<div class="guide-no">14</div>
+
+<div class="guide-body">
+
+<h2>전자계약을 진행합니다</h2>
+
+<p>
+최종 거래조건이 확정되면 전자계약을 진행합니다.
+</p>
+
+<p>
+공인중개사는 계약내용을 확인하고 필요한 정보와
+<strong>특약사항</strong>을 작성합니다.
+</p>
+
+<p>
+매매는
+<strong>매도인·매수인·공인중개사</strong>가
+전자계약에 참여합니다.
+</p>
+
+<p>
+전세·월세는
+<strong>임대인·임차인·공인중개사</strong>가
+전자계약에 참여합니다.
+</p>
+
+<div class="point">
+휴대전화 사용이 익숙하지 않은 거래당사자는
+공인중개사 사무실을 방문하여 도움을 받아
+전자계약을 진행할 수 있습니다.
+</div>
+
+<p>
+공인중개사는 화면 이동과 입력방법 등을 안내하고 도와줍니다.
+</p>
+
+<p>
+<strong>
+본인확인과 최종 의사표시 및 전자서명은 거래당사자가 직접 진행합니다.
+</strong>
+</p>
+
+<p>
+모든 서명이 완료되면 전자계약서가 확정되며
+<strong>PDF 저장 및 프린터 출력</strong>이 가능합니다.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- 15 -->
+<section class="guide">
+
+<div class="guide-no">15</div>
+
+<div class="guide-body">
+
+<h2>에스크로 이용을 안내합니다</h2>
+
+<p>
+전자계약 완료 후 에스크로 이용 여부를 선택할 수 있습니다.
+</p>
+
+<div class="flow">
+에스크로 이용　/　이용하지 않음
+</div>
+
+<p>
+이용하지 않는 경우 다음 거래절차로 이동합니다.
+</p>
+
+<p>
+에스크로 이용을 선택한 경우
+<strong>우리은행 부동산에스크로이체 이용방법을 안내</strong>합니다.
+</p>
+
+<p>
+실제 에스크로 신청 및 이용은
+<strong>우리은행에서 직접 진행</strong>합니다.
+</p>
+
+<p>
+<strong>
+플랫폼과 공인중개사는 에스크로 자금을 직접 보관하거나 지급하지 않습니다.
+</strong>
+</p>
+
+<div class="point">
+에스크로 선택 → 우리은행 부동산에스크로이체 안내 → 플랫폼 역할 종료
+</div>
+
+</div>
+
+</section>
+
+
+<!-- 16 -->
+<section class="guide">
+
+<div class="guide-no">16</div>
+
+<div class="guide-body">
+
+<h2>매매 거래의 셀프등기를 안내합니다</h2>
+
+<p>
+셀프등기는 매매 거래의 매수인에게만 제공하는 선택형 서비스입니다.
+</p>
+
+<p>
+매수인이 셀프등기를 선택하면 계약정보를 이용하여
+필요한 서류, 작성방법, 세금·비용,
+납부방법 및 등기절차를 안내합니다.
+</p>
+
+<p>
+필요한 양식은 PDF로 저장하거나 프린터로 출력할 수 있습니다.
+</p>
+
+<p>
+공인중개사가 셀프등기를 대신 처리하지 않습니다.
+</p>
+
+<div class="point">
+전세·월세에는 셀프등기가 없습니다.
+</div>
+
+</div>
+
+</section>
+
+
+<!-- 17 -->
+<section class="guide">
+
+<div class="guide-no">17</div>
+
+<div class="guide-body">
+
+<h2>거래완료</h2>
+
+<p>
+계약과 필요한 거래절차가 끝나면 해당 거래를
+<strong>거래완료</strong> 상태로 전환합니다.
+</p>
+
+<p>
+거래당사자는 해당 거래의 진행내용과 완료상태를 확인할 수 있으며,
+공인중개사는 플랫폼에서 자신이 제안한 요청과
+계약 진행 건을 확인할 수 있습니다.
+</p>
+
+</div>
+
+</section>
+
+
+</div>
+
+
+<section class="benefits">
+
+<h2>회원 공인중개사 이용 혜택</h2>
+
+<div class="benefit">
+<span class="check">✓</span>
+<span>
+해당 영업지역의 매수·임차 요청을 1차로 우선 받습니다.
+</span>
+</div>
+
+<div class="benefit">
+<span class="check">✓</span>
+<span>
+1차에서 적합한 매물 3개가 확보되면 비회원에게 2차 알림을 보내지 않습니다.
+</span>
+</div>
+
+<div class="benefit">
+<span class="check">✓</span>
+<span>
+매물사진을 등록하거나 많은 매물을 미리 관리할 필요가 없습니다.
+</span>
+</div>
+
+<div class="benefit">
+<span class="check">✓</span>
+<span>
+매수·임차 희망자가 내 매물을 선택한 경우에만 연락처가 공개됩니다.
+</span>
+</div>
+
+<div class="benefit">
+<span class="check">✓</span>
+<span>
+매수인·임차인에게 중개보수를 청구하지 않고
+매도인·임대인에게 중개보수를 청구합니다.
+</span>
+</div>
+
+<div class="benefit">
+<span class="check">✓</span>
+<span>
+플랫폼은 공인중개사가 매도인·임대인에게 받는
+중개보수를 배분받지 않습니다.
+</span>
+</div>
+
+<div class="benefit">
+<span class="check">✓</span>
+<span>
+플랫폼 이용료는 플랫폼에서 직접 처리합니다.
+</span>
+</div>
+
+</section>
+
+
+<div class="actions">
+
+<a class="btn signup" href="/broker-signup.html">
+공인중개사 회원가입
+</a>
+
+<a class="btn login" href="/broker-login.html">
+공인중개사 로그인
+</a>
+
+</div>
+
+
+<footer class="footer">
+© 우리아파트 안심거래. All rights reserved.
+</footer>
+
+
+</div>
+
+</body>
+</html>
