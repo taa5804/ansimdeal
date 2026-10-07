@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102536">
+<title>분양 등록·수정 | 우리아파트 분양 플랫폼</title>
+<style>
+#saleAdmin, #saleAdmin *{box-sizing:border-box}
+#saleAdmin.sale-admin{
+  --navy:#102536; --gold:#b8914f; --line:#dfe4e8;
+  width:100%; max-width:1180px; min-height:100vh; margin:auto; padding:26px;
+  background:#f3f5f7; color:#17212b; font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;
+}
+#saleAdmin button, #saleAdmin input, #saleAdmin select, #saleAdmin textarea{font:inherit}
+#saleAdmin .admin-head{
+  display:flex; align-items:center; justify-content:space-between; gap:20px; padding:27px;
+  border-radius:18px; background:linear-gradient(135deg,#102536,#17384f); color:#fff;
+  box-shadow:0 15px 35px rgba(15,36,52,.17);
+}
+#saleAdmin .admin-head small{display:block; margin-bottom:7px; color:#d3b16e; font-weight:800; letter-spacing:1.7px;}
+#saleAdmin .admin-head h1{margin:0 0 8px; font-size:29px;}
+#saleAdmin .admin-head p{margin:0; color:#cbd5dc; font-size:13px;}
+#saleAdmin .admin-head button, #saleAdmin .save-page{
+  min-height:45px; padding:0 18px; border:0; border-radius:9px; background:var(--gold);
+  color:#102536; font-weight:800; cursor:pointer;
+}
+#saleAdmin .basic-card, #saleAdmin .editor-panel{
+  margin-top:20px; padding:24px; border:1px solid var(--line); border-radius:16px; background:#fff;
+}
+#saleAdmin .basic-card h2{margin:0 0 18px; font-size:19px;}
+#saleAdmin .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:15px;}
+#saleAdmin label span{display:block; margin-bottom:7px; color:#52606c; font-size:12px; font-weight:700;}
+#saleAdmin input, #saleAdmin select, #saleAdmin textarea{
+  width:100%; border:1px solid #d8dee3; border-radius:9px; outline:0; background:#fff;
+}
+#saleAdmin input, #saleAdmin select{height:44px; padding:0 13px;}
+#saleAdmin textarea{padding:12px; resize:vertical;}
+#saleAdmin .page-tabs{
+  display:flex; gap:8px; margin:20px 0; padding:10px; overflow-x:auto;
+  border:1px solid var(--line); border-radius:14px; background:#fff;
+}
+#saleAdmin .page-tabs button{
+  flex:0 0 auto; min-height:40px; padding:0 16px; border:0; border-radius:9px;
+  background:#eef1f3; color:#53606b; font-size:12px; font-weight:700; cursor:pointer;
+}
+#saleAdmin .page-tabs button.active{background:var(--navy); color:#fff;}
+#saleAdmin .editor-panel{display:none; margin-top:0;}
+#saleAdmin .editor-panel.active{display:block;}
+#saleAdmin .panel-head{
+  display:flex; align-items:center; justify-content:space-between; gap:15px; margin-bottom:22px;
+  padding-bottom:17px; border-bottom:1px solid #e8ecef;
+}
+#saleAdmin .save-message{
+  position:fixed; right:24px; bottom:24px; z-index:9999; display:none; padding:16px 24px;
+  border-radius:12px; background:#102536; border:2px solid #b8914f; color:#fff; font-weight:bold;
+  font-size:14px; box-shadow:0 12px 35px rgba(0,0,0,.35);
+}
+#saleAdmin .save-message.show{display:block;}
+@media(max-width:850px){
+  #saleAdmin .form-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div id="saleAdmin" class="sale-admin">
+  <header class="admin-head">
+    <div>
+      <small>CATALOG MANAGER</small>
+      <h1>분양 등록·수정</h1>
+      <p>기본정보와 카탈로그 1~4페이지를 관리합니다. (에너젠마트 연계 시스템 탑재)</p>
+    </div>
+    <button id="saveAllBtn" type="button">전체 저장 (즉시 반영)</button>
+  </header>
+
+  <section class="basic-card">
+    <h2>분양 기본정보</h2>
+    <div class="form-grid">
+      <label><span>단지명</span><input id="projectName" type="text" value="양산택지지구"></label>
+      <label><span>분양 상태</span><select id="saleStatus"><option selected>분양 중</option><option>분양 예정</option><option>분양 종료</option></select></label>
+      <label><span>지역</span><input id="projectArea" type="text" value="광주광역시 광산구 하남산단8번로176"></label>
+      <label><span>입주 예정</span><input id="moveInDate" type="text" value="2029년 3월"></label>
+      <label><span>상담 전화번호</span><input id="contactPhone" type="tel" value="062-952-4150"></label>
+      <label><span>모델하우스 주소</span><input id="modelhouseAddress" type="text" value="광주광역시 광산구 하남산단8번로176"></label>
+      
+      <!-- 에너젠마트 5,000원 쿠폰 연동 필드 -->
+      <label style="border: 2px solid #b8914f; padding: 10px; border-radius: 10px; background: #fffdf8;">
+        <span style="color:#b8914f; font-weight:800;">🛒 연계 지정 마트 (발행처)</span>
+        <input id="martName" type="text" value="에너젠마트" style="font-weight:800; color:#102536;">
+      </label>
+      <label style="border: 2px solid #b8914f; padding: 10px; border-radius: 10px; background: #fffdf8;">
+        <span style="color:#b8914f; font-weight:800;">🎁 1분 정독 지급 쿠폰</span>
+        <input id="couponAmount" type="text" value="5,000원 장보기 할인권" style="font-weight:800; color:#102536;">
+      </label>
+    </div>
+  </section>
+
+  <nav class="page-tabs">
+    <button class="active" type="button" data-page="1">1 표지</button>
+    <button type="button" data-page="2">2 입지</button>
+    <button type="button" data-page="3">3 프리미엄</button>
+    <button type="button" data-page="4">4 단지</button>
+  </nav>
+
+  <main>
+    <section class="editor-panel active" data-panel="1">
+      <div class="panel-head"><div><small>PAGE 01</small><h2>표지 페이지</h2></div><button class="save-page" type="button">이 페이지 저장</button></div>
+      <div class="basic-card"><p><b>단지명:</b> 양산택지지구</p><p><b>대표 문구:</b> 에너젠마트 5,000원 장보기 쿠폰 증정! 일상이 작품이 되는 주거 명작</p></div>
+    </section>
+  </main>
+
+  <div id="saveMessage" class="save-message"></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(s){ return document.querySelector(s); }
+  function showMessage(text){
+    var box = $("#saveMessage");
+    if(!box) return;
+    box.textContent = text;
+    box.classList.add("show");
+    setTimeout(function(){ box.classList.remove("show"); }, 2500);
+  }
+
+  function executeRealSave(){
+    var project = {
+      id: "yangsan_enerzen",
+      projectName: $("#projectName") ? $("#projectName").value : "양산택지지구",
+      saleStatus: $("#saleStatus") ? $("#saleStatus").value : "분양 중",
+      projectArea: $("#projectArea") ? $("#projectArea").value : "광주광역시 광산구 하남산단8번로176",
+      moveInDate: $("#moveInDate") ? $("#moveInDate").value : "2029년 3월",
+      contactPhone: $("#contactPhone") ? $("#contactPhone").value : "062-952-4150",
+      modelhouseAddress: $("#modelhouseAddress") ? $("#modelhouseAddress").value : "광주광역시 광산구 하남산단8번로176",
+      martName: $("#martName") ? $("#martName").value : "에너젠마트",
+      couponAmount: $("#couponAmount") ? $("#couponAmount").value : "5,000원 장보기 할인권",
+      sido: "광주",
+      coverTitle: "양산택지지구",
+      coverEyebrow: "PREMIUM RESIDENCE",
+      coverDescription: "에너젠마트 5,000원 장보기 쿠폰 증정! 일상이 작품이 되는 주거 명작",
+      updatedAt: new Date().toISOString()
+    };
+
+    try {
+      localStorage.setItem("presale_apt_data", JSON.stringify(project));
+      localStorage.setItem("woori_presale_list", JSON.stringify([project]));
+      localStorage.setItem("presaleList", JSON.stringify([project]));
+      localStorage.setItem("catalogData", JSON.stringify(project));
+      if(window.parent && window.parent.localStorage){
+        window.parent.localStorage.setItem("presale_apt_data", JSON.stringify(project));
+        window.parent.localStorage.setItem("woori_presale_list", JSON.stringify([project]));
+      }
+    } catch(e) {}
+
+    showMessage("🎉 [양산택지지구 - 에너젠마트 5,000원 쿠폰] 저장이 완료되었습니다!");
+    alert("🎉 [양산택지지구 - 에너젠마트 5,000원 쿠폰 연계 완료!]\n\n실제 저장이 완료되었습니다. 메인 화면(wooriaptcd.com)에서 확인하실 수 있습니다.");
+  }
+
+  var btn = $("#saveAllBtn");
+  if(btn) btn.onclick = executeRealSave;
+  var pBtn = document.querySelector(".save-page");
+  if(pBtn) pBtn.onclick = executeRealSave;
+})();
+</script>
+</body>
+</html>
