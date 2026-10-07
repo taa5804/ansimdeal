@@ -1,5 +1,57 @@
 <!DOCTYPE html>
 <html lang="ko"><head>
+<script id="ansimdeal-auto-fix">
+(function() {
+  function runFix() {
+    // 1. 카드 3개 처리: 전세 -> 대지 매매, 월세 -> 완전 숨김
+    var links = document.querySelectorAll("a, div, [class*='card']");
+    links.forEach(function(el) {
+      if (el.innerText && el.innerText.includes("전세") && (el.innerText.includes("구하기") || el.innerText.includes("조건"))) {
+        el.innerHTML = el.innerHTML.replace(/전세\s*구하기/g, "신축 대지(垈地) 매매")
+                                   .replace(/전세조건\s*등록/g, "대지조건 등록")
+                                   .replace(/🔑/g, "🏗️");
+      }
+      if (el.innerText && el.innerText.includes("월세") && (el.innerText.includes("구하기") || el.innerText.includes("조건"))) {
+        el.style.setProperty("display", "none", "important");
+      }
+    });
+
+    // 2. 계산기 탭 버튼 처리
+    var btns = document.querySelectorAll("button, a, div[role='button'], li, span");
+    btns.forEach(function(b) {
+      if (b.children.length === 0) {
+        var t = b.innerText.trim();
+        if (t === "매매") {
+          b.innerText = "🏢 빌딩 · 상가 매매";
+        } else if (t === "전세") {
+          b.innerText = "🏗️ 신축 대지 매매";
+        } else if (t === "월세") {
+          var parent = b.closest("button") || b.closest("li") || b.closest("a") || b;
+          parent.style.setProperty("display", "none", "important");
+        }
+      }
+    });
+
+    // 3. 카드 그리드 2열 균형 조정
+    var grids = document.querySelectorAll("[class*='grid-cols-3'], [class*='md:grid-cols-3']");
+    grids.forEach(function(g) {
+      if (g.innerText.includes("빌딩") || g.innerText.includes("대지")) {
+        g.className = g.className.replace("md:grid-cols-3", "md:grid-cols-2").replace("grid-cols-3", "md:grid-cols-2");
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", runFix);
+  } else {
+    runFix();
+  }
+  window.addEventListener("load", runFix);
+  setTimeout(runFix, 100);
+  setTimeout(runFix, 500);
+  setTimeout(runFix, 1500);
+})();
+</script>
 <script>
 (function() {
   function applyRealFix() {
