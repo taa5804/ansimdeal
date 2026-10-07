@@ -1,0 +1,2290 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12394d">
+
+<title>부동산 전자계약서 | 우리아파트 안심거래</title>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#f3f7fa;
+  color:#172b3d;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif;
+}
+
+button,input,select,textarea{
+  font:inherit;
+}
+
+button{cursor:pointer}
+
+.wrap{
+  width:100%;
+  max-width:980px;
+  margin:0 auto;
+  padding:16px 14px 70px;
+}
+
+.header{
+  background:linear-gradient(135deg,#12394d,#176b86);
+  color:#fff;
+  border-radius:20px;
+  padding:22px 20px;
+  margin-bottom:15px;
+  box-shadow:0 10px 30px rgba(25,56,76,.16);
+}
+
+.brand{
+  font-size:14px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.header-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px;
+}
+
+.header h1{
+  margin:0;
+  font-size:25px;
+}
+
+.header p{
+  margin:8px 0 0;
+  font-size:13px;
+  line-height:1.6;
+  opacity:.94;
+}
+
+.code-box{
+  min-width:130px;
+  padding:11px 13px;
+  border-radius:14px;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.25);
+  text-align:center;
+}
+
+.code-box small{
+  display:block;
+  font-size:11px;
+  margin-bottom:4px;
+}
+
+.code-number{
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:3px;
+}
+
+/* 거래유형 */
+
+.trade-type-box{
+  margin-top:17px;
+  padding:13px;
+  border-radius:14px;
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.22);
+}
+
+.trade-type-title{
+  font-size:13px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.trade-type-options{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.trade-type-option{
+  position:relative;
+}
+
+.trade-type-option input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+.trade-type-option label{
+  min-height:43px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.30);
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.trade-type-option input:checked + label{
+  background:#fff;
+  color:#12394d;
+}
+
+/* CARD */
+
+.card{
+  background:#fff;
+  border:1px solid #dde6ec;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:14px;
+  box-shadow:0 6px 20px rgba(31,62,82,.055);
+}
+
+.card-title{
+  font-size:18px;
+  font-weight:900;
+  margin-bottom:15px;
+}
+
+.sub-title{
+  font-size:14px;
+  font-weight:900;
+  color:#12394d;
+  margin:17px 0 10px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  font-size:13px;
+  font-weight:850;
+  color:#334d5f;
+}
+
+.req{
+  color:#df3434;
+  margin-left:3px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  border:1px solid #cbd7df;
+  border-radius:10px;
+  background:#fff;
+  color:#172b3d;
+  outline:none;
+}
+
+input,
+select{
+  height:44px;
+  padding:0 11px;
+}
+
+textarea{
+  min-height:95px;
+  padding:11px;
+  resize:vertical;
+  line-height:1.6;
+}
+
+.money-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.term-box{
+  padding:14px;
+  border:1px solid #dce5eb;
+  border-radius:12px;
+  background:#fafcfd;
+  font-size:13px;
+  line-height:1.75;
+  margin-bottom:9px;
+}
+
+.term-title{
+  display:block;
+  font-weight:900;
+  color:#12394d;
+  margin-bottom:5px;
+}
+
+.check-row{
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  margin-top:10px;
+  padding:12px;
+  border-radius:11px;
+  background:#f7fafc;
+}
+
+.check-row input{
+  width:20px;
+  height:20px;
+  flex:none;
+  margin-top:1px;
+}
+
+.check-row label{
+  font-size:13px;
+  line-height:1.6;
+  font-weight:800;
+}
+
+.party-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.party-box{
+  border:1px solid #dce5eb;
+  border-radius:14px;
+  padding:13px;
+}
+
+.party-title{
+  font-size:14px;
+  font-weight:900;
+  color:#12394d;
+  margin-bottom:10px;
+}
+
+.party-box .field{
+  margin-bottom:9px;
+}
+
+.sign-area{
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px dashed #d4dee5;
+}
+
+.sign-pad{
+  height:82px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px dashed #aebdc8;
+  border-radius:10px;
+  background:#fbfcfd;
+  color:#7a8b97;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+.sign-pad.signed{
+  border-style:solid;
+  border-color:#acd8bc;
+  background:#edf9f1;
+  color:#237443;
+  font-size:16px;
+  font-weight:900;
+}
+
+.sign-btn{
+  width:100%;
+  min-height:40px;
+  border:0;
+  border-radius:9px;
+  background:#12394d;
+  color:#fff;
+  font-weight:900;
+}
+
+.sign-time{
+  min-height:18px;
+  margin-top:7px;
+  color:#71818d;
+  font-size:11px;
+  text-align:center;
+}
+
+.notice{
+  padding:12px 13px;
+  border-radius:12px;
+  background:#edf6ff;
+  border:1px solid #cee3f7;
+  color:#215b86;
+  font-size:13px;
+  line-height:1.65;
+  margin-bottom:14px;
+}
+
+.bottom{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:9px;
+  margin-top:15px;
+}
+
+.bottom button{
+  min-height:50px;
+  border-radius:12px;
+  border:1px solid #ccd8df;
+  background:#fff;
+  color:#234358;
+  font-weight:900;
+}
+
+.bottom .save{
+  background:#1165d7;
+  color:#fff;
+  border-color:#1165d7;
+}
+
+.bottom .complete{
+  background:#12394d;
+  color:#fff;
+  border-color:#12394d;
+}
+
+.msg{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  border-radius:11px;
+  font-size:13px;
+  font-weight:850;
+}
+
+.msg.ok{
+  display:block;
+  background:#edf9f1;
+  color:#237443;
+}
+
+.msg.error{
+  display:block;
+  background:#fff0f0;
+  color:#b03535;
+}
+
+.hidden{
+  display:none !important;
+}
+
+@media(max-width:700px){
+
+  .wrap{
+    padding:10px 9px 55px;
+  }
+
+  .header-top{
+    flex-direction:column;
+  }
+
+  .code-box{
+    width:100%;
+  }
+
+  .grid,
+  .money-grid,
+  .party-grid,
+  .bottom{
+    grid-template-columns:1fr;
+  }
+
+  .trade-type-options{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+}
+
+@media print{
+
+  body{background:#fff}
+
+  .wrap{
+    max-width:none;
+    padding:0;
+  }
+
+  .header{
+    box-shadow:none;
+  }
+
+  button,
+  .bottom,
+  .msg{
+    display:none !important;
+  }
+
+  .card{
+    box-shadow:none;
+    break-inside:avoid;
+  }
+
+  input,
+  select,
+  textarea{
+    border:0;
+    padding-left:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="header">
+
+  <div class="brand">
+    🏠 우리아파트 안심거래
+  </div>
+
+  <div class="header-top">
+
+    <div>
+      <div style="display:inline-flex; align-items:center; gap:6px; background:#eff6ff; border:1px solid #bfdbfe; color:#1d4ed8; font-size:12px; font-weight:800; padding:4px 10px; border-radius:12px; margin-bottom:8px;">
+        <span>🏛️</span> <span>국토교통부 표준 서식 규격 (공인중개사법 시행규칙 제461호)</span>
+      </div>
+      <h1>국토교통부 표준 부동산 전자계약서</h1>
+      <p>
+        현장 발품 없이 사무실 책상에서 1초 만에 완성하는 스마트 전자계약입니다.<br>
+        계약내용 검토 후 매도인·매수인·공인중개사 3자가 모바일 전자서명합니다.
+      </p>
+    </div>
+
+    <div class="code-box">
+      <small>국토부 표준 안심거래 코드</small>
+      <div id="roomCode" class="code-number">----</div>
+    </div>
+
+  </div>
+
+
+  <!-- 거래유형 -->
+
+  <div class="trade-type-box">
+
+    <div class="trade-type-title">
+      거래유형
+    </div>
+
+    <div class="trade-type-options">
+
+      <div class="trade-type-option">
+        <input
+          id="typeSale"
+          type="radio"
+          name="tradeType"
+          value="sale">
+
+        <label for="typeSale">
+          매매
+        </label>
+      </div>
+
+      <div class="trade-type-option">
+        <input
+          id="typeJeonse"
+          type="radio"
+          name="tradeType"
+          value="jeonse">
+
+        <label for="typeJeonse">
+          전세
+        </label>
+      </div>
+
+      <div class="trade-type-option">
+        <input
+          id="typeMonthly"
+          type="radio"
+          name="tradeType"
+          value="monthly">
+
+        <label for="typeMonthly">
+          월세
+        </label>
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- ① 부동산 -->
+
+<section class="card">
+
+  <div class="card-title">
+    ① 부동산의 표시
+  </div>
+
+  <div class="grid">
+
+    <div class="field full">
+      <label>
+        소재지
+        <span class="req">*</span>
+      </label>
+
+      <input id="address" type="text">
+    </div>
+
+    <div class="field">
+      <label>
+        아파트명
+        <span class="req">*</span>
+      </label>
+
+      <input id="apartmentName" type="text">
+    </div>
+
+    <div class="field">
+      <label>
+        동 · 호
+        <span class="req">*</span>
+      </label>
+
+      <input id="dongHo" type="text">
+    </div>
+
+    <div class="field">
+      <label>전용면적</label>
+      <input id="exclusiveArea" type="text" placeholder="㎡">
+    </div>
+
+    <div class="field">
+      <label>대지권</label>
+      <input id="landRight" type="text">
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ② 계약금액 -->
+
+<section class="card">
+
+  <div class="card-title">
+    ② 계약금액 및 지급
+  </div>
+
+
+  <!-- 매매 -->
+
+  <div id="saleMoney">
+
+    <div class="sub-title">
+      매매금액
+    </div>
+
+    <div class="money-grid">
+
+      <div class="field">
+        <label>
+          매매대금
+          <span class="req">*</span>
+        </label>
+
+        <input id="salePrice" type="text" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label>
+          계약금
+          <span class="req">*</span>
+        </label>
+
+        <input id="saleContractMoney" type="text" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label>중도금</label>
+
+        <input id="saleInterimMoney" type="text" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label>
+          잔금
+          <span class="req">*</span>
+        </label>
+
+        <input id="saleBalanceMoney" type="text" inputmode="numeric">
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- 전세 -->
+
+  <div id="jeonseMoney" class="hidden">
+
+    <div class="sub-title">
+      전세금액
+    </div>
+
+    <div class="money-grid">
+
+      <div class="field">
+        <label>
+          전세보증금
+          <span class="req">*</span>
+        </label>
+
+        <input id="jeonseDeposit" type="text" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label>
+          계약금
+          <span class="req">*</span>
+        </label>
+
+        <input id="jeonseContractMoney" type="text" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label>중도금</label>
+
+        <input id="jeonseInterimMoney" type="text" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label>
+          잔금
+          <span class="req">*</span>
+        </label>
+
+        <input id="jeonseBalanceMoney" type="text" inputmode="numeric">
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- 월세 -->
+
+  <div id="monthlyMoney" class="hidden">
+
+    <div class="sub-title">
+      월세금액
+    </div>
+
+    <div class="money-grid">
+
+      <div class="field">
+        <label>
+          보증금
+          <span class="req">*</span>
+        </label>
+
+        <input id="monthlyDeposit" type="text" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label>
+          월 차임
+          <span class="req">*</span>
+        </label>
+
+        <input id="monthlyRent" type="text" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label>월세 지급일</label>
+
+        <input
+          id="monthlyPayDay"
+          type="text"
+          placeholder="예: 매월 25일">
+      </div>
+
+      <div class="field">
+        <label>
+          계약금
+          <span class="req">*</span>
+        </label>
+
+        <input id="monthlyContractMoney" type="text" inputmode="numeric">
+      </div>
+
+      <div class="field">
+        <label>
+          잔금
+          <span class="req">*</span>
+        </label>
+
+        <input id="monthlyBalanceMoney" type="text" inputmode="numeric">
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- 지급일 -->
+
+  <div class="sub-title">
+    지급일
+  </div>
+
+  <div class="grid">
+
+    <div class="field">
+      <label>계약금 지급일</label>
+      <input id="contractMoneyDate" type="date">
+    </div>
+
+    <div id="interimDateField" class="field">
+      <label>중도금 지급일</label>
+      <input id="interimMoneyDate" type="date">
+    </div>
+
+    <div class="field">
+      <label>잔금 지급일</label>
+      <input id="balanceMoneyDate" type="date">
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ③ 계약기간 -->
+
+<section class="card">
+
+  <div class="card-title">
+    ③ 계약기간 및 인도
+  </div>
+
+  <!-- 매매 -->
+
+  <div id="salePeriod">
+
+    <div class="grid">
+
+      <div class="field">
+        <label>
+          소유권 이전일
+          <span class="req">*</span>
+        </label>
+
+        <input id="ownershipDate" type="date">
+      </div>
+
+      <div class="field">
+        <label>
+          부동산 인도일
+          <span class="req">*</span>
+        </label>
+
+        <input id="deliveryDate" type="date">
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- 전세 / 월세 -->
+
+  <div id="leasePeriod" class="hidden">
+
+    <div class="grid">
+
+      <div class="field">
+        <label>
+          임대차 시작일
+          <span class="req">*</span>
+        </label>
+
+        <input id="leaseStartDate" type="date">
+      </div>
+
+      <div class="field">
+        <label>
+          임대차 종료일
+          <span class="req">*</span>
+        </label>
+
+        <input id="leaseEndDate" type="date">
+      </div>
+
+      <div class="field full">
+        <label>입주 · 인도일</label>
+        <input id="leaseDeliveryDate" type="date">
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ④ 권리관계 -->
+
+<section class="card">
+
+  <div class="card-title">
+    ④ 제한물권 및 권리관계
+  </div>
+
+  <div class="field">
+
+    <label>
+      등기사항 및 권리관계
+    </label>
+
+    <textarea
+      id="rights"
+      placeholder="근저당권, 압류, 가압류, 전세권 등 확인 내용을 입력합니다."></textarea>
+
+  </div>
+
+  <div class="term-box">
+
+    <span class="term-title">
+      권리변동 제한
+    </span>
+
+    계약 체결 후 잔금 지급 또는 부동산 인도 시까지
+    상대방의 권리를 침해할 수 있는 새로운 근저당권,
+    전세권, 임차권, 압류·가압류 기타 권리제한 사항을
+    설정하거나 발생시키지 아니합니다.
+
+  </div>
+
+</section>
+
+
+<!-- ⑤ 세금 관리비 -->
+
+<section class="card">
+
+  <div class="card-title">
+    ⑤ 세금 · 공과금 · 관리비
+  </div>
+
+  <div id="saleTaxTerm" class="term-box">
+
+    <span class="term-title">
+      매매
+    </span>
+
+    부동산 인도일 또는 잔금 지급일을 기준으로
+    그 이전에 발생한 제세공과금과 관리비는 매도인이,
+    그 이후 발생분은 매수인이 부담하는 것을 원칙으로 합니다.
+
+  </div>
+
+  <div id="leaseTaxTerm" class="term-box hidden">
+
+    <span class="term-title">
+      임대차
+    </span>
+
+    임차인의 사용으로 발생하는 전기·수도·가스 등 사용료와
+    통상적인 관리비는 임차인이 부담하며,
+    소유자에게 부과되는 비용은 임대인이 부담하는 것을 원칙으로 합니다.
+
+  </div>
+
+  <div class="field">
+    <label>관리비 및 별도 부담사항</label>
+
+    <textarea
+      id="managementFee"
+      placeholder="관리비 금액 및 부담 항목을 입력합니다."></textarea>
+  </div>
+
+</section>
+
+
+<!-- ⑥ 계약해제 -->
+
+<section class="card">
+
+  <div class="card-title">
+    ⑥ 계약해제 및 손해배상
+  </div>
+
+  <div class="term-box">
+
+    <span class="term-title">
+      계약금에 의한 해제
+    </span>
+
+    당사자 사이에 별도의 약정이 없는 경우
+    계약 이행에 착수하기 전까지 계약금을 지급한 자는
+    계약금을 포기하고, 계약금을 받은 자는 그 배액을 반환하여
+    계약을 해제할 수 있습니다.
+
+  </div>
+
+  <div class="term-box">
+
+    <span class="term-title">
+      채무불이행
+    </span>
+
+    일방 당사자가 계약상의 의무를 이행하지 않는 경우
+    상대방은 상당한 기간을 정하여 이행을 최고한 후
+    계약을 해제할 수 있으며,
+    귀책 당사자에게 손해배상을 청구할 수 있습니다.
+
+  </div>
+
+</section>
+
+
+<!-- 임대차 -->
+
+<section id="leaseTermsCard" class="card hidden">
+
+  <div class="card-title">
+    ⑦ 임대차 관련 확인
+  </div>
+
+  <div class="term-box">
+
+    <span class="term-title">
+      주택의 사용
+    </span>
+
+    임차인은 임대인의 동의 없이 주택의 구조 또는 용도를
+    임의로 변경하거나 전대하지 않는 것을 원칙으로 합니다.
+
+  </div>
+
+  <div class="term-box">
+
+    <span class="term-title">
+      수선 및 유지관리
+    </span>
+
+    주택의 주요 설비 또는 구조적 하자로 인한 수선은
+    임대인이 부담하는 것을 원칙으로 하고,
+    임차인의 고의·과실로 발생한 손상은 임차인이 부담합니다.
+
+  </div>
+
+</section>
+
+
+<!-- 특약 -->
+
+<section class="card">
+
+  <div class="card-title">
+    특약사항
+  </div>
+
+  <div class="notice">
+    당사자 사이에 별도로 합의한 사항이 있는 경우 작성합니다.
+  </div>
+
+  <textarea
+    id="specialTerms"
+    style="min-height:180px"
+    placeholder="특약사항을 입력하세요."></textarea>
+
+</section>
+
+
+<!-- 확인 설명 -->
+
+<section class="card">
+
+  <div class="card-title">
+    중개대상물 확인 · 설명
+  </div>
+
+  <div class="check-row">
+
+    <input
+      id="descriptionConfirm"
+      type="checkbox">
+
+    <label for="descriptionConfirm">
+
+      중개대상물 확인 · 설명서를 확인하였으며,
+      공인중개사로부터 부동산의 상태,
+      권리관계 및 거래조건에 대한 설명을 들었습니다.
+
+    </label>
+
+  </div>
+
+</section>
+
+
+<!-- 당사자 -->
+
+<section class="card">
+
+  <div class="card-title">
+    계약 당사자 및 공인중개사
+  </div>
+
+  <div class="party-grid">
+
+    <!-- 매수/임차 -->
+
+    <div class="party-box">
+
+      <div
+        id="buyerPartyTitle"
+        class="party-title">
+        매수인
+      </div>
+
+      <div class="field">
+        <label>성명</label>
+        <input id="buyerName" type="text">
+      </div>
+
+      <div class="field">
+        <label>휴대전화번호</label>
+        <input id="buyerPhone" type="tel" maxlength="11">
+      </div>
+
+      <div class="field">
+        <label>주소</label>
+        <input id="buyerAddress" type="text">
+      </div>
+
+      <div class="sign-area">
+
+        <div
+          id="buyerSignPad"
+          class="sign-pad">
+          전자서명 대기
+        </div>
+
+        <button
+          id="buyerSignBtn"
+          type="button"
+          class="sign-btn">
+          전자서명
+        </button>
+
+        <div
+          id="buyerSignTime"
+          class="sign-time"></div>
+
+      </div>
+
+    </div>
+
+
+    <!-- 매도/임대 -->
+
+    <div class="party-box">
+
+      <div
+        id="sellerPartyTitle"
+        class="party-title">
+        매도인
+      </div>
+
+      <div class="field">
+        <label>성명</label>
+        <input id="sellerName" type="text">
+      </div>
+
+      <div class="field">
+        <label>휴대전화번호</label>
+        <input id="sellerPhone" type="tel" maxlength="11">
+      </div>
+
+      <div class="field">
+        <label>주소</label>
+        <input id="sellerAddress" type="text">
+      </div>
+
+      <div class="sign-area">
+
+        <div
+          id="sellerSignPad"
+          class="sign-pad">
+          전자서명 대기
+        </div>
+
+        <button
+          id="sellerSignBtn"
+          type="button"
+          class="sign-btn">
+          전자서명
+        </button>
+
+        <div
+          id="sellerSignTime"
+          class="sign-time"></div>
+
+      </div>
+
+    </div>
+
+
+    <!-- 중개사 -->
+
+    <div class="party-box">
+
+      <div class="party-title">
+        공인중개사
+      </div>
+
+      <div class="field">
+        <label>공인중개사 성명</label>
+        <input id="brokerName" type="text">
+      </div>
+
+      <div class="field">
+        <label>중개사무소명</label>
+        <input id="brokerOffice" type="text">
+      </div>
+
+      <div class="field">
+        <label>중개사무소 등록번호</label>
+        <input id="brokerRegistration" type="text">
+      </div>
+
+      <div class="field">
+        <label>사무소 주소</label>
+        <input id="brokerAddress" type="text">
+      </div>
+
+      <div class="field">
+        <label>휴대전화번호</label>
+        <input id="brokerPhone" type="tel" maxlength="11">
+      </div>
+
+      <div class="field">
+        <label>보증보험 · 공제증서</label>
+        <input id="brokerGuarantee" type="text" readonly>
+      </div>
+
+      <div class="sign-area">
+
+        <div
+          id="brokerSignPad"
+          class="sign-pad">
+          전자서명 대기
+        </div>
+
+        <button
+          id="brokerSignBtn"
+          type="button"
+          class="sign-btn">
+          전자서명
+        </button>
+
+        <div
+          id="brokerSignTime"
+          class="sign-time"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- 최종확인 -->
+
+<section class="card">
+
+  <div class="card-title">
+    최종 계약 확인
+  </div>
+
+  <div class="check-row">
+
+    <input id="finalConfirm" type="checkbox">
+
+    <label for="finalConfirm">
+
+      계약 당사자는 위 계약내용과 특약사항,
+      중개대상물 확인 · 설명 내용을 모두 확인하였으며
+      본인의 의사에 따라 전자계약을 체결합니다.
+
+    </label>
+
+  </div>
+
+</section>
+
+<!-- 🏛️ 국토교통부 표준 전자계약 체결 4대 특별 혜택 안내 -->
+<section class="card" style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:16px; padding:20px; margin-top:20px;">
+  <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px; font-size:17px; font-weight:900; color:#0f172a;">
+    <span style="font-size:20px;">🎁</span> <span>국토교통부 표준 전자계약 체결 4대 특별 혜택</span>
+  </div>
+  
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
+    <div style="background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+      <div style="font-weight:800; color:#1d4ed8; font-size:14.5px; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+        <span>🏦</span> <span>은행 대출 우대금리 감면</span>
+      </div>
+      <p style="font-size:12.5px; color:#475569; margin:0; line-height:1.5;">
+        시중은행(KB·우리·신한·하나) 및 디딤돌·버팀목 대출 시 <strong>연 0.1% ~ 0.2%p 금리 할인</strong>으로 수백만 원의 대출 이자가 절감됩니다.
+      </p>
+    </div>
+
+    <div style="background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+      <div style="font-weight:800; color:#059669; font-size:14.5px; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+        <span>⚡</span> <span>확정일자 & 실거래가 자동 발급</span>
+      </div>
+      <p style="font-size:12.5px; color:#475569; margin:0; line-height:1.5;">
+        주민센터나 구청에 직접 갈 필요 없이 계약 체결 즉시 <strong>대법원 확정일자 및 실거래가 신고가 1초 만에 무료 자동 완료</strong>됩니다.
+      </p>
+    </div>
+
+    <div style="background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+      <div style="font-weight:800; color:#7c3aed; font-size:14.5px; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+        <span>🛡️</span> <span>종이서류 5년 보관 의무 면제</span>
+      </div>
+      <p style="font-size:12.5px; color:#475569; margin:0; line-height:1.5;">
+        국가 공인전자문서센터에 안전하게 영구 암호화 보관되므로, <strong>공인중개사의 종이서류 5년 캐비닛 보관 의무가 법적으로 면제</strong>됩니다.
+      </p>
+    </div>
+
+    <div style="background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+      <div style="font-weight:800; color:#b45309; font-size:14.5px; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+        <span>☕</span> <span>책상에서 1초 모바일 서명</span>
+      </div>
+      <p style="font-size:12.5px; color:#475569; margin:0; line-height:1.5;">
+        현장 뺑뺑이 NO! 손님과 중개사 모두 돌아다닐 필요 없이 <strong>스마트폰 카톡 터치 한 번으로 안전하게 계약 완료</strong>됩니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="bottom">
+
+  <button
+    type="button"
+    onclick="window.print()">
+    🖨️ 인쇄 / PDF 저장
+  </button>
+
+  <button
+    type="button"
+    class="save"
+    onclick="saveContract(true)">
+    💾 계약내용 저장
+  </button>
+
+  <button
+    type="button"
+    class="complete"
+    onclick="completeContract()">
+    📲 국토부 전자서명 발송
+  </button>
+
+</div>
+
+<div id="message" class="msg"></div>
+
+</div>
+
+
+<script>
+(function(){
+
+"use strict";
+
+const $ =
+  id => document.getElementById(id);
+
+const params =
+  new URLSearchParams(location.search);
+
+const roomCode =
+  params.get("code") || "";
+
+$("roomCode").textContent =
+  roomCode || "----";
+
+
+let roomData = null;
+let step1Data = null;
+
+
+try{
+
+  roomData =
+    JSON.parse(
+      localStorage.getItem(
+        "woori_trade_room_" + roomCode
+      )
+    );
+
+}catch(e){
+  roomData = null;
+}
+
+
+try{
+
+  step1Data =
+    JSON.parse(
+      localStorage.getItem(
+        "woori_guest_broker_step1"
+      )
+    );
+
+}catch(e){
+  step1Data = null;
+}
+
+
+/* 거래유형 */
+
+let tradeType =
+  roomData && roomData.tradeType
+  ? roomData.tradeType
+  : params.get("type") || "sale";
+
+
+function selectTradeType(type){
+
+  tradeType = type;
+
+  $("typeSale").checked =
+    type === "sale";
+
+  $("typeJeonse").checked =
+    type === "jeonse";
+
+  $("typeMonthly").checked =
+    type === "monthly";
+
+
+  $("saleMoney")
+    .classList.toggle(
+      "hidden",
+      type !== "sale"
+    );
+
+  $("jeonseMoney")
+    .classList.toggle(
+      "hidden",
+      type !== "jeonse"
+    );
+
+  $("monthlyMoney")
+    .classList.toggle(
+      "hidden",
+      type !== "monthly"
+    );
+
+
+  $("salePeriod")
+    .classList.toggle(
+      "hidden",
+      type !== "sale"
+    );
+
+  $("leasePeriod")
+    .classList.toggle(
+      "hidden",
+      type === "sale"
+    );
+
+
+  $("saleTaxTerm")
+    .classList.toggle(
+      "hidden",
+      type !== "sale"
+    );
+
+  $("leaseTaxTerm")
+    .classList.toggle(
+      "hidden",
+      type === "sale"
+    );
+
+  $("leaseTermsCard")
+    .classList.toggle(
+      "hidden",
+      type === "sale"
+    );
+
+
+  $("interimDateField")
+    .classList.toggle(
+      "hidden",
+      type === "monthly"
+    );
+
+
+  if(type === "sale"){
+
+    $("buyerPartyTitle").textContent =
+      "매수인";
+
+    $("sellerPartyTitle").textContent =
+      "매도인";
+
+  }else{
+
+    $("buyerPartyTitle").textContent =
+      "임차인";
+
+    $("sellerPartyTitle").textContent =
+      "임대인";
+
+  }
+
+}
+
+
+document
+.querySelectorAll(
+  'input[name="tradeType"]'
+)
+.forEach(function(input){
+
+  input.addEventListener(
+    "change",
+    function(){
+
+      selectTradeType(this.value);
+      saveContract(false);
+
+    }
+  );
+
+});
+
+
+/* 진행현황 자동입력 */
+
+function loadRoomData(){
+
+  if(!roomData){
+    return;
+  }
+
+  $("address").value =
+    roomData.address || "";
+
+  $("apartmentName").value =
+    roomData.apartmentName || "";
+
+  $("dongHo").value =
+    [
+      roomData.dong || "",
+      roomData.ho || ""
+    ]
+    .filter(Boolean)
+    .join(" ");
+
+  $("buyerPhone").value =
+    roomData.buyerSignPhone || "";
+
+  $("sellerPhone").value =
+    roomData.sellerSignPhone || "";
+
+  $("brokerPhone").value =
+    roomData.brokerSignPhone || "";
+
+}
+
+
+/* 중개사 자동입력 */
+
+function loadBrokerData(){
+
+  if(!step1Data){
+    return;
+  }
+
+  $("brokerName").value =
+    step1Data.brokerName ||
+    step1Data.agentName ||
+    "";
+
+  $("brokerOffice").value =
+    step1Data.officeName || "";
+
+  $("brokerRegistration").value =
+    step1Data.officeRegistrationNo ||
+    step1Data.registrationNo ||
+    "";
+
+  $("brokerAddress").value =
+    step1Data.officeAddress ||
+    step1Data.address ||
+    "";
+
+  $("brokerPhone").value =
+    step1Data.mobile ||
+    $("brokerPhone").value;
+
+  $("brokerGuarantee").value =
+    step1Data.guaranteeFileName ||
+    step1Data.guaranteeFile ||
+    "자동 확인";
+
+}
+
+
+/* 금액 콤마 */
+
+[
+  "salePrice",
+  "saleContractMoney",
+  "saleInterimMoney",
+  "saleBalanceMoney",
+
+  "jeonseDeposit",
+  "jeonseContractMoney",
+  "jeonseInterimMoney",
+  "jeonseBalanceMoney",
+
+  "monthlyDeposit",
+  "monthlyRent",
+  "monthlyContractMoney",
+  "monthlyBalanceMoney"
+]
+.forEach(function(id){
+
+  $(id).addEventListener(
+    "input",
+    function(){
+
+      const value =
+        this.value.replace(/\D/g,"");
+
+      this.value =
+        value
+        ? Number(value)
+          .toLocaleString("ko-KR")
+        : "";
+
+    }
+  );
+
+});
+
+
+/* 휴대전화 */
+
+[
+  "buyerPhone",
+  "sellerPhone",
+  "brokerPhone"
+]
+.forEach(function(id){
+
+  $(id).addEventListener(
+    "input",
+    function(){
+
+      this.value =
+        this.value
+        .replace(/\D/g,"")
+        .slice(0,11);
+
+    }
+  );
+
+});
+
+
+/* 저장 데이터 */
+
+function getFormData(){
+
+  return {
+
+    roomCode:roomCode,
+    tradeType:tradeType,
+
+    address:$("address").value.trim(),
+    apartmentName:$("apartmentName").value.trim(),
+    dongHo:$("dongHo").value.trim(),
+
+    exclusiveArea:
+      $("exclusiveArea").value.trim(),
+
+    landRight:
+      $("landRight").value.trim(),
+
+
+    salePrice:
+      $("salePrice").value.trim(),
+
+    saleContractMoney:
+      $("saleContractMoney").value.trim(),
+
+    saleInterimMoney:
+      $("saleInterimMoney").value.trim(),
+
+    saleBalanceMoney:
+      $("saleBalanceMoney").value.trim(),
+
+
+    jeonseDeposit:
+      $("jeonseDeposit").value.trim(),
+
+    jeonseContractMoney:
+      $("jeonseContractMoney").value.trim(),
+
+    jeonseInterimMoney:
+      $("jeonseInterimMoney").value.trim(),
+
+    jeonseBalanceMoney:
+      $("jeonseBalanceMoney").value.trim(),
+
+
+    monthlyDeposit:
+      $("monthlyDeposit").value.trim(),
+
+    monthlyRent:
+      $("monthlyRent").value.trim(),
+
+    monthlyPayDay:
+      $("monthlyPayDay").value.trim(),
+
+    monthlyContractMoney:
+      $("monthlyContractMoney").value.trim(),
+
+    monthlyBalanceMoney:
+      $("monthlyBalanceMoney").value.trim(),
+
+
+    contractMoneyDate:
+      $("contractMoneyDate").value,
+
+    interimMoneyDate:
+      $("interimMoneyDate").value,
+
+    balanceMoneyDate:
+      $("balanceMoneyDate").value,
+
+
+    ownershipDate:
+      $("ownershipDate").value,
+
+    deliveryDate:
+      $("deliveryDate").value,
+
+
+    leaseStartDate:
+      $("leaseStartDate").value,
+
+    leaseEndDate:
+      $("leaseEndDate").value,
+
+    leaseDeliveryDate:
+      $("leaseDeliveryDate").value,
+
+
+    rights:
+      $("rights").value.trim(),
+
+    managementFee:
+      $("managementFee").value.trim(),
+
+    specialTerms:
+      $("specialTerms").value.trim(),
+
+    descriptionConfirm:
+      $("descriptionConfirm").checked,
+
+    finalConfirm:
+      $("finalConfirm").checked,
+
+
+    buyerName:
+      $("buyerName").value.trim(),
+
+    buyerPhone:
+      $("buyerPhone").value.trim(),
+
+    buyerAddress:
+      $("buyerAddress").value.trim(),
+
+
+    sellerName:
+      $("sellerName").value.trim(),
+
+    sellerPhone:
+      $("sellerPhone").value.trim(),
+
+    sellerAddress:
+      $("sellerAddress").value.trim(),
+
+
+    brokerName:
+      $("brokerName").value.trim(),
+
+    brokerOffice:
+      $("brokerOffice").value.trim(),
+
+    brokerRegistration:
+      $("brokerRegistration").value.trim(),
+
+    brokerAddress:
+      $("brokerAddress").value.trim(),
+
+    brokerPhone:
+      $("brokerPhone").value.trim(),
+
+    brokerGuarantee:
+      $("brokerGuarantee").value.trim(),
+
+
+    buyerSigned:
+      $("buyerSignPad")
+      .classList.contains("signed"),
+
+    sellerSigned:
+      $("sellerSignPad")
+      .classList.contains("signed"),
+
+    brokerSigned:
+      $("brokerSignPad")
+      .classList.contains("signed"),
+
+
+    buyerSignTime:
+      $("buyerSignTime").textContent,
+
+    sellerSignTime:
+      $("sellerSignTime").textContent,
+
+    brokerSignTime:
+      $("brokerSignTime").textContent,
+
+
+    contractCompleted:false,
+
+    savedAt:
+      new Date().toISOString()
+
+  };
+
+}
+
+
+window.saveContract =
+function(showMessage){
+
+  if(!roomCode){
+    showError(
+      "안심거래 코드가 없습니다."
+    );
+    return;
+  }
+
+  const previous =
+    loadSavedContract();
+
+  const data =
+    getFormData();
+
+  if(
+    previous &&
+    previous.contractCompleted
+  ){
+    data.contractCompleted = true;
+  }
+
+  localStorage.setItem(
+    "woori_contract_" + roomCode,
+    JSON.stringify(data)
+  );
+
+  if(showMessage){
+
+    showOk(
+      "전자계약서가 저장되었습니다."
+    );
+
+  }
+
+};
+
+
+function loadSavedContract(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        "woori_contract_" + roomCode
+      )
+    );
+
+  }catch(e){
+
+    return null;
+
+  }
+
+}
+
+
+function loadContract(){
+
+  const data =
+    loadSavedContract();
+
+  if(!data){
+    return;
+  }
+
+  if(data.tradeType){
+    selectTradeType(data.tradeType);
+  }
+
+
+  const ids = [
+
+    "address",
+    "apartmentName",
+    "dongHo",
+    "exclusiveArea",
+    "landRight",
+
+    "salePrice",
+    "saleContractMoney",
+    "saleInterimMoney",
+    "saleBalanceMoney",
+
+    "jeonseDeposit",
+    "jeonseContractMoney",
+    "jeonseInterimMoney",
+    "jeonseBalanceMoney",
+
+    "monthlyDeposit",
+    "monthlyRent",
+    "monthlyPayDay",
+    "monthlyContractMoney",
+    "monthlyBalanceMoney",
+
+    "contractMoneyDate",
+    "interimMoneyDate",
+    "balanceMoneyDate",
+
+    "ownershipDate",
+    "deliveryDate",
+
+    "leaseStartDate",
+    "leaseEndDate",
+    "leaseDeliveryDate",
+
+    "rights",
+    "managementFee",
+    "specialTerms",
+
+    "buyerName",
+    "buyerPhone",
+    "buyerAddress",
+
+    "sellerName",
+    "sellerPhone",
+    "sellerAddress",
+
+    "brokerName",
+    "brokerOffice",
+    "brokerRegistration",
+    "brokerAddress",
+    "brokerPhone",
+    "brokerGuarantee"
+
+  ];
+
+
+  ids.forEach(function(id){
+
+    if(
+      data[id] !== undefined &&
+      data[id] !== null
+    ){
+
+      $(id).value =
+        data[id];
+
+    }
+
+  });
+
+
+  $("descriptionConfirm").checked =
+    !!data.descriptionConfirm;
+
+  $("finalConfirm").checked =
+    !!data.finalConfirm;
+
+
+  if(data.buyerSigned){
+
+    setSigned(
+      "buyerSignPad",
+      "buyerSignTime",
+      data.buyerSignTime
+    );
+
+  }
+
+
+  if(data.sellerSigned){
+
+    setSigned(
+      "sellerSignPad",
+      "sellerSignTime",
+      data.sellerSignTime
+    );
+
+  }
+
+
+  if(data.brokerSigned){
+
+    setSigned(
+      "brokerSignPad",
+      "brokerSignTime",
+      data.brokerSignTime
+    );
+
+  }
+
+}
+
+
+/* 전자서명 */
+
+function sign(role){
+
+  let nameId = "";
+
+  if(role === "buyer"){
+    nameId = "buyerName";
+  }
+
+  if(role === "seller"){
+    nameId = "sellerName";
+  }
+
+  if(role === "broker"){
+    nameId = "brokerName";
+  }
+
+
+  const name =
+    $(nameId).value.trim();
+
+  if(!name){
+
+    showError(
+      "전자서명 전에 성명을 입력해 주세요."
+    );
+
+    $(nameId).focus();
+
+    return;
+  }
+
+
+  const now =
+    new Date()
+    .toLocaleString("ko-KR");
+
+
+  $(role + "SignPad").textContent =
+    name + " 서명완료";
+
+  $(role + "SignPad").className =
+    "sign-pad signed";
+
+  $(role + "SignTime").textContent =
+    now;
+
+
+  saveContract(false);
+
+  showOk(
+    name +
+    " 전자서명이 완료되었습니다."
+  );
+
+}
+
+
+$("buyerSignBtn").onclick =
+function(){
+  sign("buyer");
+};
+
+
+$("sellerSignBtn").onclick =
+function(){
+  sign("seller");
+};
+
+
+$("brokerSignBtn").onclick =
+function(){
+  sign("broker");
+};
+
+
+function setSigned(
+  padId,
+  timeId,
+  time
+){
+
+  $(padId).textContent =
+    "전자서명 완료";
+
+  $(padId).className =
+    "sign-pad signed";
+
+  $(timeId).textContent =
+    time || "";
+
+}
+
+
+/* 필수검사 */
+
+function requiredComplete(){
+
+  if(
+    !$("address").value.trim() ||
+    !$("apartmentName").value.trim() ||
+    !$("dongHo").value.trim()
+  ){
+
+    showError(
+      "부동산 기본정보를 입력해 주세요."
+    );
+
+    return false;
+  }
+
+
+  if(tradeType === "sale"){
+
+    if(
+      !$("salePrice").value.trim() ||
+      !$("saleContractMoney").value.trim() ||
+      !$("saleBalanceMoney").value.trim()
+    ){
+
+      showError(
+        "매매대금, 계약금, 잔금을 입력해 주세요."
+      );
+
+      return false;
+    }
+
+  }
+
+
+  if(tradeType === "jeonse"){
+
+    if(
+      !$("jeonseDeposit").value.trim() ||
+      !$("jeonseContractMoney").value.trim() ||
+      !$("jeonseBalanceMoney").value.trim()
+    ){
+
+      showError(
+        "전세보증금, 계약금, 잔금을 입력해 주세요."
+      );
+
+      return false;
+    }
+
+  }
+
+
+  if(tradeType === "monthly"){
+
+    if(
+      !$("monthlyDeposit").value.trim() ||
+      !$("monthlyRent").value.trim() ||
+      !$("monthlyContractMoney").value.trim() ||
+      !$("monthlyBalanceMoney").value.trim()
+    ){
+
+      showError(
+        "월세 보증금, 월 차임, 계약금, 잔금을 입력해 주세요."
+      );
+
+      return false;
+    }
+
+  }
+
+
+  if(!$("descriptionConfirm").checked){
+
+    showError(
+      "중개대상물 확인 · 설명 확인이 필요합니다."
+    );
+
+    return false;
+  }
+
+
+  if(
+    !$("buyerSignPad")
+    .classList.contains("signed") ||
+
+    !$("sellerSignPad")
+    .classList.contains("signed") ||
+
+    !$("brokerSignPad")
+    .classList.contains("signed")
+  ){
+
+    showError(
+      "3자 전자서명이 모두 완료되어야 합니다."
+    );
+
+    return false;
+  }
+
+
+  if(!$("finalConfirm").checked){
+
+    showError(
+      "최종 계약 확인에 체크해 주세요."
+    );
+
+    return false;
+  }
+
+
+  return true;
+
+}
+
+
+/* 완료 */
+
+window.completeContract =
+function(){
+
+  if(!requiredComplete()){
+    return;
+  }
+
+  const data =
+    getFormData();
+
+  data.contractCompleted = true;
+
+  data.completedAt =
+    new Date().toISOString();
+
+  localStorage.setItem(
+    "woori_contract_" + roomCode,
+    JSON.stringify(data)
+  );
+
+
+  showOk(
+    "전자계약이 완료되었습니다."
+  );
+
+
+  setTimeout(function(){
+
+    location.href =
+      "/trade-room.html?code=" +
+      encodeURIComponent(roomCode);
+
+  },500);
+
+};
+
+
+/* 메시지 */
+
+function showOk(text){
+
+  $("message").className =
+    "msg ok";
+
+  $("message").textContent =
+    text;
+
+}
+
+
+function showError(text){
+
+  $("message").className =
+    "msg error";
+
+  $("message").textContent =
+    text;
+
+}
+
+
+/* 시작 */
+
+selectTradeType(tradeType);
+
+loadRoomData();
+
+loadBrokerData();
+
+loadContract();
+
+})();
+</script>
+
+</body>
+</html>
