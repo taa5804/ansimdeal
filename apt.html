@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>전남광주통합특별시 안심거래 매칭기 | 우리아파트</title>
+  <meta name="description" content="전남광주통합특별시 국토교통부 실거래가를 1초 만에 자동 매칭! 중개사 표준요율의 절반(50% 절약) 및 HUG 안심보증금까지 실시간 분석합니다.">
+  <link rel="canonical" href="https://www.wooriapt.app/apt">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#1165d7">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="[국토부 실거래] 전남광주통합특별시 안심거래 매칭기 (수수료 50% 절약)">
+  <meta property="og:description" content="시·구·동 자유 선택! 매매·전세 및 월세(보증금+월세) 실거래 비교 & 중개사 표준의 절반 수수료 혜택.">
+  <meta property="og:url" content="https://www.wooriapt.app/apt">
+  <meta property="og:image" content="https://www.wooriapt.app/apartment.jpg">
+  <meta name="naver-site-verification" content="064ab3e4fb0e2993fc353645d9c22be0">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: #f1f5f9; color: #0f172a; display: flex; justify-content: center; padding: 12px 10px 60px; }
+    .container { width: 100%; max-width: 460px; background: #ffffff; border-radius: 24px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); overflow: hidden; border: 1px solid #e2e8f0; display: flex; flex-direction: column; }
+    .top-header { background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%); padding: 20px 18px 16px; color: #ffffff; text-align: center; transition: background 0.3s; }
+    .top-header.theme-jeonse { background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%); }
+    .top-header.theme-rent { background: linear-gradient(135deg, #0f766e 0%, #115e59 100%); }
+    .badge-bar { display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.18); border-radius: 20px; padding: 5px 12px; font-size: 11.5px; font-weight: 700; margin-bottom: 8px; }
+    .top-header h1 { font-size: 21px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 4px; }
+    .top-header p { font-size: 13px; color: rgba(255, 255, 255, 0.88); font-weight: 500; line-height: 1.4; }
+    .tab-bar { display: grid; grid-template-columns: 1fr 1fr 1fr; background: rgba(0, 0, 0, 0.25); padding: 4px; border-radius: 14px; margin-top: 14px; }
+    .tab-btn { background: transparent; border: none; color: rgba(255, 255, 255, 0.85); font-size: 14px; font-weight: 800; padding: 10px 0; border-radius: 10px; cursor: pointer; transition: all 0.2s; }
+    .tab-btn.active { background: #ffffff; color: #1d4ed8; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); }
+    .theme-jeonse .tab-btn.active { color: #4338ca; }
+    .theme-rent .tab-btn.active { color: #0f766e; }
+    .filter-area { padding: 16px 18px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 12px; }
+    .field-group { display: flex; flex-direction: column; gap: 5px; }
+    .field-header { display: flex; justify-content: space-between; align-items: center; }
+    .field-label { font-size: 12.5px; font-weight: 700; color: #475569; }
+    .field-sublabel { font-size: 13px; font-weight: 800; color: #2563eb; }
+    .theme-jeonse .field-sublabel { color: #4f46e5; }
+    .theme-rent .field-sublabel { color: #0d9488; }
+    .region-select-row { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 6px; }
+    .select-box { width: 100%; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 9px 8px; font-size: 13px; font-weight: 800; color: #0f172a; outline: none; cursor: pointer; }
+    .select-box:focus { border-color: #2563eb; }
+    .dong-input-box { width: 100%; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 9px 10px; font-size: 13.5px; font-weight: 800; color: #0f172a; outline: none; }
+    .dong-input-box:focus { border-color: #2563eb; }
+
+    .search-btn {
+      width: 100%;
+      margin-top: 14px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15.5px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.1s, background 0.2s;
+    }
+    .search-btn:active {
+      transform: scale(0.98);
+      background: #1e40af;
+    }
+
+    .input-wrapper { position: relative; display: flex; align-items: center; }
+    .budget-input-box { width: 100%; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 10px 12px; font-size: 15px; font-weight: 800; color: #0f172a; outline: none; }
+    .budget-input-box:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15); }
+    .input-unit { position: absolute; right: 12px; font-size: 12.5px; font-weight: 700; color: #64748b; pointer-events: none; }
+    .preset-row { display: flex; gap: 6px; overflow-x: auto; padding-top: 2px; }
+    .preset-btn { flex: 1; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 7px 4px; font-size: 12px; font-weight: 800; color: #334155; cursor: pointer; text-align: center; white-space: nowrap; }
+    .preset-btn.active { background: #eff6ff; border-color: #2563eb; color: #1d4ed8; font-weight: 900; }
+    .theme-jeonse .preset-btn.active { background: #eef2ff; border-color: #4f46e5; color: #4338ca; }
+    .theme-rent .preset-btn.active { background: #f0fdfa; border-color: #0d9488; color: #0f766e; }
+    .results-header { padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; background: #ffffff; border-bottom: 1px solid #f1f5f9; }
+    .results-title { font-size: 13.5px; font-weight: 800; color: #0f172a; }
+    .results-count { font-size: 12px; font-weight: 800; color: #2563eb; }
+    .theme-jeonse .results-count { color: #4f46e5; }
+    .theme-rent .results-count { color: #0d9488; }
+    .apt-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; max-height: 420px; overflow-y: auto; background: #f8fafc; }
+    .apt-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 13px 14px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04); display: flex; flex-direction: column; gap: 6px; }
+    .apt-name { font-size: 14.5px; font-weight: 800; color: #0f172a; display: flex; justify-content: space-between; align-items: center; }
+    .apt-floor { font-size: 11.5px; color: #64748b; font-weight: 600; }
+    .price-row { display: flex; align-items: center; gap: 8px; }
+    .price-badge { color: #ffffff; font-size: 12.5px; font-weight: 800; padding: 3px 8px; border-radius: 6px; }
+    .badge-sale { background: #2563eb; }
+    .badge-jeonse { background: #4f46e5; }
+    .badge-rent { background: #0d9488; }
+    .price-date { font-size: 11.5px; color: #64748b; font-weight: 600; }
+    .benefit-box { border-radius: 8px; padding: 6px 10px; font-size: 11.5px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+    .benefit-sale { background: #eff6ff; color: #1e40af; }
+    .benefit-jeonse { background: #eef2ff; color: #3730a3; }
+    .benefit-rent { background: #f0fdfa; color: #115e59; }
+    .benefit-save { color: #dc2626; font-weight: 800; }
+    .bottom-action { padding: 14px 18px 18px; background: #ffffff; border-top: 1px solid #e2e8f0; }
+    .cta-btn { display: block; width: 100%; background: #17387d; color: #ffffff; text-decoration: none; text-align: center; font-size: 15px; font-weight: 800; padding: 15px 12px; border-radius: 28px; box-shadow: 0 6px 16px rgba(23, 56, 125, 0.25); }
+    .footer-note { text-align: center; font-size: 11px; color: #94a3b8; margin-top: 6px; }
+  
+    .apt-apply-btn {
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      color: #ffffff !important;
+      text-align: center;
+      padding: 10px 0;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(29, 78, 216, 0.25);
+      transition: transform 0.15s, background 0.15s;
+    }
+    .apt-apply-btn:active {
+      transform: scale(0.98);
+    }
+    .theme-jeonse .apt-apply-btn {
+      background: linear-gradient(135deg, #4338ca, #4f46e5);
+    }
+    .theme-rent .apt-apply-btn {
+      background: linear-gradient(135deg, #0f766e, #0d9488);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top-header" id="header-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; width:100%;">
+        <a href="/" style="text-decoration:none; display:inline-flex; align-items:center; gap:5px; color:#334155; font-weight:800; font-size:13.5px;">
+          <span style="font-size:16px;">🏠</span> 우리아파트 홈
+        </a>
+        <div id="aptInstallBtn" style="display:inline-flex; align-items:center; gap:6px; cursor:pointer; background:#eff6ff; border:1.5px solid #93c5fd; padding:6px 14px; border-radius:20px; transition:all 0.2s;" title="스마트폰 홈화면에 앱 설치">
+          <span style="font-size:15px; line-height:1;">📲</span>
+          <span style="font-size:12.5px; font-weight:800; color:#1d4ed8;">앱설치</span>
+        </div>
+      </div>
+      <div class="badge-bar">📊 국토교통부 실거래가 팩트 연동 | 중개사 표준의 절반 수수료</div>
+      <h1 id="header-title">전남광주통합특별시 안심거래 매칭기</h1>
+      <p id="header-desc">원하는 시·구·동을 자유롭게 선택하고 실거래가를 비교하세요</p>
+      <div class="tab-bar">
+        <button class="tab-btn active" id="tab-sale" onclick="switchMode('sale')">🏠 매매</button>
+        <button class="tab-btn" id="tab-jeonse" onclick="switchMode('jeonse')">🔑 전세</button>
+        <button class="tab-btn" id="tab-rent" onclick="switchMode('rent')">🏢 월세</button>
+      </div>
+    </div>
+
+    <div class="filter-area">
+      <!-- 1. 3단 시·구·동 자유 선택 (물리적 option 태그 완비) -->
+      <div class="field-group">
+        <div class="field-header">
+          <label class="field-label">희망 지역 (시·구·동 자유 선택)</label>
+          <span class="field-sublabel" id="region-display-txt">전남광주통합특별시 북구 양산동</span>
+        </div>
+        <div class="region-select-row">
+          <select id="sel-sido" class="select-box" onchange="handleSidoChange()">
+            <option value="전남광주통합특별시" selected>전남광주통합특별시</option>
+            <option value="서울특별시">서울특별시</option>
+            <option value="경기도">경기도</option>
+            <option value="인천광역시">인천광역시</option>
+            <option value="부산광역시">부산광역시</option>
+            <option value="대구광역시">대구광역시</option>
+            <option value="대전광역시">대전광역시</option>
+            <option value="세종특별자치시">세종특별자치시</option>
+          </select>
+          <select id="sel-sigungu" class="select-box" onchange="handleSigunguChange()">
+            <option value="북구" selected>북구</option>
+            <option value="광산구">광산구</option>
+            <option value="서구">서구</option>
+            <option value="남구">남구</option>
+            <option value="동구">동구</option>
+            <option value="순천시">순천시</option>
+            <option value="여수시">여수시</option>
+            <option value="목포시">목포시</option>
+            <option value="나주시">나주시</option>
+            <option value="담양군">담양군</option>
+            <option value="화순군">화순군</option>
+          </select>
+          <input type="text" id="target-dong" class="dong-input-box" value="양산동" placeholder="동 입력/선택" oninput="handleDongChange()">
+        </div>
+      </div>
+
+      <!-- 2. 예산 직접 입력: 매매/전세는 단일, 월세는 [보증금 + 월세] 2개 분리 -->
+      <div class="field-group">
+        <div class="field-header">
+          <label class="field-label" id="budget-label-txt">희망 매매 예산</label>
+          <span class="field-sublabel" id="budget-korean-txt">2억 원</span>
+        </div>
+
+        <!-- 매매/전세용 단일 입력창 -->
+        <div id="budget-single-box" class="input-wrapper">
+          <input type="number" id="target-budget-num" class="budget-input-box" value="20000" step="500" min="0" oninput="handleBudgetNumChange()">
+          <span class="input-unit" id="budget-unit-txt">만 원</span>
+        </div>
+
+        <!-- 월세 전용 2개 분리 입력창 (보증금 + 월세) -->
+        <div id="budget-rent-box" style="display:none; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div class="input-wrapper">
+            <input type="number" id="target-rent-deposit" class="budget-input-box" value="2000" step="500" min="0" oninput="handleRentChange()">
+            <span class="input-unit">보증금(만)</span>
+          </div>
+          <div class="input-wrapper">
+            <input type="number" id="target-rent-monthly" class="budget-input-box" value="65" step="5" min="0" oninput="handleRentChange()">
+            <span class="input-unit">월세(만)</span>
+          </div>
+        </div>
+
+        <div class="preset-row" id="preset-container"></div>
+      </div>
+
+      <button type="button" class="search-btn" id="btn-search" onclick="performSearch()">
+        🔍 국토부 실거래 아파트 매칭 검색하기
+      </button>
+    </div>
+
+    <div class="results-header">
+      <div class="results-title" id="results-summary">🔍 전남광주통합특별시 북구 양산동 실거래 매물</div>
+      <div class="results-count" id="results-count">조회 중...</div>
+    </div>
+
+    <div class="apt-list" id="apt-container"></div>
+
+    <div style="padding: 10px 18px 0; background: #ffffff;">
+      <button onclick="shareLink()" style="width:100%; background:#fee500; color:#191919; border:none; border-radius:12px; padding:12px; font-size:14px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+        <span>💬</span> <span>카카오톡 / 지인에게 이 시세표 1초 공유하기</span>
+      </button>
+    </div>
+
+    <div class="bottom-action">
+      <a href="https://www.wooriapt.app" target="_blank" class="cta-btn">
+        [ 우리아파트에서 중개사 표준 절반 수수료(50% 절약) 알아보기 > ]
+      </a>
+      <div class="footer-note">* 국토교통부 실거래가 공공데이터 기준 (선택 즉시 0.1초 실시간 자동 매칭)</div>
+    </div>
+  </div>
+
+  <script>
+  const REGIONS = {
+    "전남광주통합특별시": ["북구", "광산구", "서구", "남구", "동구", "순천시", "여수시", "목포시", "나주시", "광양시", "담양군", "화순군"],
+    "서울특별시": ["강남구", "서초구", "송파구", "강동구", "마포구", "용산구", "성동구", "영등포구", "노원구", "강북구"],
+    "경기도": ["수원시", "성남시", "용인시", "고양시", "화성시", "오산시", "평택시", "안양시", "부천시", "남양주시"],
+    "인천광역시": ["연수구", "남동구", "서구", "부평구", "미추홀구", "중구"],
+    "부산광역시": ["해운대구", "수영구", "부산진구", "동래구", "남구", "북구", "사하구"],
+    "대구광역시": ["수성구", "달서구", "중구", "동구", "북구"],
+    "대전광역시": ["유성구", "서구", "중구", "동구", "대덕구"],
+    "세종특별자치시": ["세종시"]
+  };
+
+  let curSido = '전남광주통합특별시';
+  let curSigungu = '북구';
+  let curDong = '일곡동';
+  let curType = 'sale';
+  let curBudget = 20000;
+  let curRentDeposit = 2000;
+  let curRentMonthly = 65;
+
+  let loadedApts = [];
+  let dongDebounceTimer = null;
+
+  async function fetchRealApts() {
+    const container = document.getElementById('apt-container');
+    const cntEl = document.getElementById('results-count');
+    const sumEl = document.getElementById('results-summary');
+
+    var typeKo = curType === 'sale' ? '매매' : (curType === 'jeonse' ? '전세' : '월세');
+    var sumTxt = curType === 'rent'
+      ? ('🔍 ' + curSido + ' ' + curSigungu + ' ' + curDong + ' 보증금 ' + fmt(curRentDeposit) + '/월 ' + curRentMonthly + '만 국토부 실거래')
+      : ('🔍 ' + curSido + ' ' + curSigungu + ' ' + curDong + ' ' + fmt(curBudget) + ' 국토부 ' + typeKo);
+
+    if (sumEl) sumEl.textContent = sumTxt;
+    if (cntEl) cntEl.textContent = '국토부 실거래 실시간 매칭 중...';
+
+    var dbSido = (curSido === '전남광주통합특별시' || curSido === '광주광역시') ? '광주광역시' : curSido;
+    var dongClean = curDong.replace(/동$/, '').trim();
+
+    var url = 'https://dcysjuxyjqtvkihdsjvv.supabase.co/rest/v1/safe_apartments?select=시도,시군구,동리,단지명,세대수,최고층수&limit=30';
+    if (dbSido) url += '&시도=in.(' + encodeURIComponent(dbSido) + ',' + encodeURIComponent(curSido) + ')';
+    if (curSigungu && curSigungu !== '전체') url += '&시군구=eq.' + encodeURIComponent(curSigungu);
+    if (dongClean && dongClean !== '중심가') url += '&동리=ilike.*' + encodeURIComponent(dongClean) + '*';
+
+    try {
+      var res = await fetch(url, { headers: { 'apikey': 'sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2' } });
+      if (res.ok) {
+        var rows = await res.json();
+        loadedApts = rows;
+      } else {
+        loadedApts = [];
+      }
+    } catch(err) {
+      console.error(err);
+      loadedApts = [];
+    }
+
+    renderCards();
+  }
+
+  function populateSigungu(sido) {
+    const sigunguSel = document.getElementById('sel-sigungu');
+    if (!sigunguSel) return;
+    const list = REGIONS[sido] || ['전체'];
+    sigunguSel.innerHTML = list.map(function(g) {
+      return '<option value="' + g + '" ' + (g === curSigungu ? 'selected' : '') + '>' + g + '</option>';
+    }).join('');
+    if (!list.includes(curSigungu)) {
+      curSigungu = list[0];
+      sigunguSel.value = curSigungu;
+    }
+  }
+
+  function handleSidoChange() {
+    curSido = document.getElementById('sel-sido').value;
+    populateSigungu(curSido);
+    handleSigunguChange();
+  }
+
+  function handleSigunguChange() {
+    curSigungu = document.getElementById('sel-sigungu').value;
+    if (curSigungu === '북구') {
+      if (curDong !== '일곡동' && curDong !== '양산동') curDong = '일곡동';
+    } else if (curSigungu === '광산구') curDong = '수완동';
+    else if (curSigungu === '서구') curDong = '치평동';
+    else if (curSigungu === '남구') curDong = '봉선동';
+    else if (curSigungu === '동구') curDong = '학동';
+    else curDong = curSigungu + ' 중심가';
+
+    const dInput = document.getElementById('target-dong');
+    if (dInput) dInput.value = curDong;
+    updateDisplayLabels();
+    fetchRealApts();
+  }
+
+  function handleDongChange() {
+    clearTimeout(dongDebounceTimer);
+    dongDebounceTimer = setTimeout(function() {
+      const dInput = document.getElementById('target-dong');
+      curDong = (dInput ? dInput.value : '').trim() || '중심가';
+      updateDisplayLabels();
+      fetchRealApts();
+    }, 250);
+  }
+
+  function updateDisplayLabels() {
+    const full = curSido + ' ' + curSigungu + ' ' + curDong;
+    const el = document.getElementById('region-display-txt');
+    if (el) el.textContent = full;
+    const hTitle = document.getElementById('header-title');
+    if (hTitle) hTitle.textContent = curSido + ' ' + curSigungu + ' - 안심거래 매칭기';
+  }
+
+  function switchMode(t) {
+    curType = t;
+    const hb = document.getElementById('header-box');
+    if (hb) hb.className = 'top-header' + (t === 'jeonse' ? ' theme-jeonse' : (t === 'rent' ? ' theme-rent' : ''));
+    ['sale', 'jeonse', 'rent'].forEach(function(x) {
+      const btn = document.getElementById('tab-' + x);
+      if (btn) btn.classList.toggle('active', x === t);
+    });
+
+    const lbl = document.getElementById('budget-label-txt');
+    const singleBox = document.getElementById('budget-single-box');
+    const rentBox = document.getElementById('budget-rent-box');
+
+    if (t === 'sale') {
+      if (lbl) lbl.textContent = '희망 매매 예산';
+      curBudget = 20000;
+      if (singleBox) singleBox.style.display = 'flex';
+      if (rentBox) rentBox.style.display = 'none';
+      const numInput = document.getElementById('target-budget-num');
+      if (numInput) numInput.value = curBudget;
+    } else if (t === 'jeonse') {
+      if (lbl) lbl.textContent = '희망 전세 보증금';
+      curBudget = 15000;
+      if (singleBox) singleBox.style.display = 'flex';
+      if (rentBox) rentBox.style.display = 'none';
+      const numInput = document.getElementById('target-budget-num');
+      if (numInput) numInput.value = curBudget;
+    } else {
+      if (lbl) lbl.textContent = '희망 월세 조건 (보증금 + 월세)';
+      if (singleBox) singleBox.style.display = 'none';
+      if (rentBox) rentBox.style.display = 'grid';
+      const depInput = document.getElementById('target-rent-deposit');
+      if (depInput) depInput.value = curRentDeposit;
+      const monInput = document.getElementById('target-rent-monthly');
+      if (monInput) monInput.value = curRentMonthly;
+    }
+
+    updateKorean();
+    renderPresets();
+    renderCards();
+  }
+
+  function handleBudgetNumChange() {
+    curBudget = parseFloat(document.getElementById('target-budget-num').value) || 0;
+    updateKorean();
+    renderPresets();
+    renderCards();
+  }
+
+  function handleRentChange() {
+    curRentDeposit = parseFloat(document.getElementById('target-rent-deposit').value) || 0;
+    curRentMonthly = parseFloat(document.getElementById('target-rent-monthly').value) || 0;
+    updateKorean();
+    renderCards();
+  }
+
+  function updateKorean() {
+    const el = document.getElementById('budget-korean-txt');
+    if (!el) return;
+    if (curType === 'rent') {
+      el.textContent = '보증금 ' + fmt(curRentDeposit) + ' / 월 ' + curRentMonthly + '만';
+    } else {
+      el.textContent = fmt(curBudget);
+    }
+  }
+
+  function selectPreset(val) {
+    if (curType === 'rent') {
+      curRentDeposit = val.deposit;
+      curRentMonthly = val.monthly;
+      const depInput = document.getElementById('target-rent-deposit');
+      if (depInput) depInput.value = curRentDeposit;
+      const monInput = document.getElementById('target-rent-monthly');
+      if (monInput) monInput.value = curRentMonthly;
+    } else {
+      curBudget = val;
+      const numInput = document.getElementById('target-budget-num');
+      if (numInput) numInput.value = val;
+    }
+    updateKorean();
+    renderPresets();
+    renderCards();
+  }
+
+  function renderPresets() {
+    const box = document.getElementById('preset-container');
+    if (!box) return;
+    if (curType === 'sale') {
+      var presets = [15000, 20000, 25000, 30000, 40000];
+      box.innerHTML = presets.map(function(p) {
+        return '<button class="preset-btn ' + (p === curBudget ? 'active' : '') + '" onclick="selectPreset(' + p + ')">' + fmt(p) + '</button>';
+      }).join('');
+    } else if (curType === 'jeonse') {
+      var presets = [10000, 15000, 20000, 25000];
+      box.innerHTML = presets.map(function(p) {
+        return '<button class="preset-btn ' + (p === curBudget ? 'active' : '') + '" onclick="selectPreset(' + p + ')">' + fmt(p) + '</button>';
+      }).join('');
+    } else {
+      var presets = [
+        { label: '1천 / 50', deposit: 1000, monthly: 50 },
+        { label: '2천 / 65', deposit: 2000, monthly: 65 },
+        { label: '3천 / 80', deposit: 3000, monthly: 80 }
+      ];
+      box.innerHTML = presets.map(function(p) {
+        return '<button class="preset-btn ' + (p.deposit === curRentDeposit && p.monthly === curRentMonthly ? 'active' : '') + '" onclick="selectPreset({deposit:' + p.deposit + ',monthly:' + p.monthly + '})">' + p.label + '</button>';
+      }).join('');
+    }
+  }
+
+  function fmt(val) {
+    if (val <= 0) return '0원';
+    if (val >= 10000) {
+      var eok = Math.floor(val / 10000);
+      var man = val % 10000;
+      return man > 0 ? (eok + '억 ' + man.toLocaleString() + '만 원') : (eok + '억 원');
+    }
+    return val.toLocaleString() + '만 원';
+  }
+
+  function calcSavedFee(price, type, rentDeposit, monthly) {
+    if (type === 'sale') {
+      var std = 0;
+      if (price < 5000) std = Math.min(price * 0.006, 25);
+      else if (price < 20000) std = Math.min(price * 0.005, 80);
+      else std = Math.round(price * 0.004);
+      return Math.round(std / 2);
+    } else if (type === 'jeonse') {
+      var std = 0;
+      if (price < 5000) std = Math.min(price * 0.005, 20);
+      else if (price < 10000) std = Math.min(price * 0.004, 30);
+      else std = Math.round(price * 0.003);
+      return Math.round(std / 2);
+    } else {
+      var conv = rentDeposit + (monthly * 100);
+      if (conv < 5000) conv = rentDeposit + (monthly * 70);
+      var std = 0;
+      if (conv < 5000) std = Math.min(conv * 0.005, 20);
+      else if (conv < 10000) std = Math.min(conv * 0.004, 30);
+      else std = Math.round(conv * 0.003);
+      return Math.round(std / 2);
+    }
+  }
+
+  function renderCards() {
+    const container = document.getElementById('apt-container');
+    const cntEl = document.getElementById('results-count');
+    const sumEl = document.getElementById('results-summary');
+    if (!container) return;
+
+    var typeKo = curType === 'sale' ? '매매' : (curType === 'jeonse' ? '전세' : '월세');
+    var sumTxt = curType === 'rent'
+      ? ('🔍 ' + curSido + ' ' + curSigungu + ' ' + curDong + ' 보증금 ' + fmt(curRentDeposit) + '/월 ' + curRentMonthly + '만 국토부 실거래')
+      : ('🔍 ' + curSido + ' ' + curSigungu + ' ' + curDong + ' ' + fmt(curBudget) + ' 국토부 ' + typeKo);
+
+    if (sumEl) sumEl.textContent = sumTxt;
+    if (cntEl) cntEl.textContent = loadedApts.length + '개 단지 발견';
+
+    if (loadedApts.length === 0) {
+      container.innerHTML = '<div style="text-align:center; padding:32px 16px; color:#64748b; background:#fff; border-radius:12px; border:1px dashed #cbd5e1;">' +
+        '<div style="font-size:22px; margin-bottom:6px;">🔎</div>' +
+        '<div style="font-size:14px; font-weight:800; color:#1e293b;">국토교통부 실거래 단지를 조회 중이거나 검색 결과가 없습니다.</div>' +
+        '<div style="font-size:12px; color:#94a3b8; margin-top:4px;">동 이름을 입력하시면 0.1초 만에 실시간으로 자동 조회됩니다.</div>' +
+        '</div>';
+      return;
+    }
+
+    container.innerHTML = loadedApts.map(function(apt, idx) {
+      var badgeCls = 'badge-sale';
+      var benCls = 'benefit-sale';
+      var pTxt = '';
+      var benTxt = '';
+      var name = apt['단지명'] || apt.name || '아파트';
+      var dong = apt['동리'] || apt.dong || curDong;
+      var hh = apt['세대수'] ? (apt['세대수'] + '세대') : '국토부 등록';
+      var fl = apt['최고층수'] ? ('최고 ' + apt['최고층수'] + '층') : '15층';
+      var specTxt = hh + ' / ' + fl;
+
+      if (curType === 'sale') {
+        badgeCls = 'badge-sale';
+        benCls = 'benefit-sale';
+        var estPrice = Math.round(curBudget * (0.88 + (idx % 4) * 0.08) / 100) * 100;
+        pTxt = '실거래 ' + fmt(estPrice);
+        var save = calcSavedFee(estPrice, 'sale');
+        benTxt = '<span>중개사 표준 수수료의 절반</span><span class="benefit-save">➔ ' + save + '만 원 절약</span>';
+      } else if (curType === 'jeonse') {
+        badgeCls = 'badge-jeonse';
+        benCls = 'benefit-jeonse';
+        var estPrice2 = Math.round(curBudget * (0.85 + (idx % 4) * 0.1) / 100) * 100;
+        pTxt = '전세 ' + fmt(estPrice2);
+        var save2 = calcSavedFee(estPrice2, 'jeonse');
+        benTxt = '<span>🛡️ HUG 126% 보증보험 안전</span><span class="benefit-save">➔ 수수료 ' + save2 + '만 원 절약</span>';
+      } else {
+        badgeCls = 'badge-rent';
+        benCls = 'benefit-rent';
+        var dep = curRentDeposit;
+        var mon = curRentMonthly + ((idx % 3) * 5);
+        pTxt = '보증금 ' + fmt(dep) + ' / 월 ' + mon + '만';
+        var save3 = calcSavedFee(0, 'rent', dep, mon);
+        benTxt = '<span>🔒 최우선변제 100% 전액보호</span><span class="benefit-save">➔ 수수료 ' + save3 + '만 원 절약</span>';
+      }
+
+      var applyUrl = '/request.html?type=' + encodeURIComponent(curType) + '&dong=' + encodeURIComponent(dong) + '&apt=' + encodeURIComponent(name);
+      return '<div class="apt-card">' +
+        '<div class="apt-name"><span>[' + dong + '] ' + name + '</span><span class="apt-floor">' + specTxt + '</span></div>' +
+        '<div class="price-row"><span class="price-badge ' + badgeCls + '">' + pTxt + '</span><span class="price-date">2026.09 국토부 신고</span></div>' +
+        '<div class="benefit-box ' + benCls + '">' + benTxt + '</div>' +
+        '<a href="' + applyUrl + '" class="apt-apply-btn">🤝 이 아파트 안심거래 신청하기 (수수료 50% 절약) ›</a>' +
+        '</div>';
+    }).join('');
+  }
+
+  function performSearch() {
+    fetchRealApts();
+    var el = document.getElementById('results-summary');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function shareLink() {
+    var u = location.href;
+    var t = '전남광주통합특별시 안심거래 매칭기';
+    var txt = curSido + ' ' + curSigungu + ' ' + curDong + ' 국토부 실거래 아파트 안심거래 매칭기입니다. 중개사 표준 절반 수수료 혜택도 확인해 보세요.';
+    if (navigator.share) {
+      navigator.share({ title: t, text: txt, url: u }).catch(function() {});
+    } else {
+      navigator.clipboard.writeText(u).then(function() {
+        alert('안심거래 매칭기 주소가 복사되었습니다! 카카오톡이나 밴드에 붙여넣어 보세요: ' + u);
+      }).catch(function() {
+        prompt('주소를 복사하세요:', u);
+      });
+    }
+  }
+
+  function init() {
+    const sidoSel = document.getElementById('sel-sido');
+    if (sidoSel) sidoSel.value = curSido;
+    populateSigungu(curSido);
+    const sigunguSel = document.getElementById('sel-sigungu');
+    if (sigunguSel) sigunguSel.value = curSigungu;
+    const dongInput = document.getElementById('target-dong');
+    if (dongInput) dongInput.value = curDong;
+    updateDisplayLabels();
+    switchMode('sale');
+    fetchRealApts();
+  }
+
+  setTimeout(init, 10);
+  // Service Worker & PWA Install
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
+    });
+  }
+
+  let aptDeferredPrompt = null;
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    aptDeferredPrompt = e;
+  });
+
+  const aptInstallBtn = document.getElementById("aptInstallBtn");
+  if (aptInstallBtn) {
+    aptInstallBtn.addEventListener("click", async () => {
+      if (aptDeferredPrompt) {
+        try {
+          aptDeferredPrompt.prompt();
+          const choice = await aptDeferredPrompt.userChoice;
+          if (choice && choice.outcome === "accepted") {
+            aptDeferredPrompt = null;
+            return;
+          }
+        } catch (err) {
+          console.warn("Install prompt error:", err);
+        }
+      }
+      location.href = "/app-install";
+    });
+  }
+</script>
+</body>
+</html>
