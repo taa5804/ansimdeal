@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>우리아파트 안심딜 (Ansim Deal) | 꼬마빌딩·상가·신축대지 안심매매</title>
+  <title>우리아파트 안심딜 (Ansim Deal) | 꼬마빌딩·신축대지 100% 매매 & 4대 서류 검증</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,9 @@
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-amber-500 selection:text-black">
-  <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-800">
+
+  <!-- 상단 네비게이션 헤더 -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/85 border-b border-slate-800">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <a href="/" class="flex items-center gap-2">
@@ -23,118 +25,233 @@
             <span class="w-8 h-8 rounded-lg gold-gradient flex items-center justify-center text-slate-950 text-base font-black shadow-lg">안</span>
             <span>안심딜</span>
           </span>
-          <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-bold uppercase tracking-wider">Asset VIP</span>
+          <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-bold uppercase tracking-wider">100% 매매 전용</span>
         </a>
       </div>
+
       <nav class="hidden md:flex items-center gap-6 text-sm font-bold text-slate-300">
-        <a href="#about" class="hover:text-amber-400 transition">안심딜 소개</a>
-        <a href="#assets" class="hover:text-amber-400 transition">3대 전문 자산</a>
-        <a href="#request" class="hover:text-amber-400 transition">매수의뢰·역제안</a>
-        <a href="#docs" class="hover:text-amber-400 transition">필수 4대 서류 검증</a>
+        <a href="#assets" class="hover:text-amber-400 transition">3대 핵심 매매자산</a>
+        <a href="#docs" class="hover:text-amber-400 transition">토지·건물 필수 4대 서류</a>
+        <a href="#request" class="hover:text-amber-400 transition">VIP 매수·매도 의뢰</a>
+        <a href="#contract" class="hover:text-amber-400 transition">안심 전자계약</a>
       </nav>
+
       <div class="flex items-center gap-2.5">
         <a href="/broker" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-bold border border-amber-500/30 transition">🏢 회원 중개사 센터</a>
-        <a href="#request" class="px-4 py-2 rounded-xl gold-gradient hover:opacity-90 text-slate-950 text-xs font-black transition shadow-lg">VIP 매수의뢰</a>
+        <a href="#request" class="px-4 py-2 rounded-xl gold-gradient hover:opacity-90 text-slate-950 text-xs font-black transition shadow-lg">VIP 매매의뢰</a>
       </div>
     </div>
   </header>
-  <section class="relative pt-12 pb-20 px-4 sm:px-6 overflow-hidden">
-    <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-amber-500/40 text-amber-300 text-xs font-bold">
-        <span>🛡️ 대한민국 1% 자산가를 위한 프리미엄 매칭</span>
+
+  <!-- 히어로 섹션 -->
+  <section class="relative pt-12 pb-20 px-4 sm:px-6 overflow-hidden text-center">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-amber-500/15 via-transparent to-transparent pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto space-y-6 relative z-10">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-amber-500/40 text-amber-300 text-xs font-bold shadow-inner">
+        <span>🛡️ [전세·월세 배제] 꼬마빌딩 & 신축 대지 100% 매매 전문 플랫폼</span>
       </div>
+
       <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight">
         꼬마빌딩 & 신축 대지 매매,<br>
-        <span class="gold-text">4대 서류 검증으로 안전하게 안심딜</span>
+        <span class="gold-text">토지이용계획서 등 4대 서류로 안심딜</span>
       </h1>
+
       <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-        복잡한 인허가 규제와 허위매물 스트레스는 없습니다.<br>
-        공인중개사의 <b>공적 장부 4종 사전 검증</b>과 <b>100% 무인 안심 전자계약</b>으로 가장 안전한 딜(Deal)을 완성합니다.
+        잔챙이 임대차(전세·월세)는 취급하지 않습니다.<br>
+        공인중개사가 <b>공적 장부 4종을 사전 검증·등록</b>하고 <b>100% 무인 안심 전자계약</b>으로 가장 안전한 통매매(Deal)를 완성합니다.
       </p>
+
+      <!-- 4대 서류 즉시 확인 배지 -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto pt-4 text-xs font-bold text-slate-300">
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-center gap-2 shadow-lg">🏢 올근생 빌딩 통매매</div>
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-center gap-2 shadow-lg">🏗️ 신축용 순수 대지</div>
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-center gap-2 shadow-lg">📋 필수 4대 서류 검증</div>
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-center gap-2 shadow-lg">✍️ 원스톱 전자계약</div>
+        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-center gap-2 shadow-lg">
+          <span>📜</span> <span>토지이용계획확인서</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-center gap-2 shadow-lg">
+          <span>🏢</span> <span>건축물대장 (위반확인)</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-center gap-2 shadow-lg">
+          <span>🔒</span> <span>등기부등본 (소유자·대출)</span>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-center gap-2 shadow-lg">
+          <span>✍️</span> <span>100% 안심 전자계약</span>
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- 3대 핵심 전문 자산 (전부 100% 매매) -->
   <section id="assets" class="py-16 px-4 sm:px-6 bg-slate-900/50 border-y border-slate-800">
     <div class="max-w-5xl mx-auto space-y-10">
       <div class="text-center space-y-2">
-        <h2 class="text-2xl sm:text-3xl font-black text-white">우리아파트 안심딜 집중 3대 자산</h2>
-        <p class="text-xs sm:text-sm text-slate-400">규제가 없고 즉시 의사결정이 가능한 알짜 고수익 품목만 선별 중개합니다.</p>
+        <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">Target Assets</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white">우리아파트 안심딜 3대 핵심 매매 자산</h2>
+        <p class="text-xs sm:text-sm text-slate-400">규제가 없고 의사결정이 즉결되는 알짜 품목만 선별하여 매매합니다.</p>
       </div>
+
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4 shadow-xl">
+        <!-- 1. 올근생 꼬마빌딩 통매매 -->
+        <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 transition space-y-4 shadow-xl">
           <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl font-bold border border-amber-500/20">🏢</div>
-          <div><span class="text-[11px] font-bold text-amber-400 uppercase">Asset 01</span><h3 class="text-lg font-black text-white mt-1">올근생 꼬마빌딩 (통매매)</h3></div>
-          <p class="text-xs text-slate-400 leading-relaxed">전 층 상가·사무실 구성. 주택 수에 미포함되어 종부세·취득세 중과 배제. 월세 수익 및 법인 사옥용.</p>
-          <div class="pt-2 border-t border-slate-800 text-[11px] font-semibold text-slate-300 flex justify-between"><span>규모: 20억 ~ 50억+</span><span class="text-amber-400 font-bold">임대수익률 즉결</span></div>
+          <div>
+            <span class="text-[11px] font-bold text-amber-400 uppercase">매매 전문 01</span>
+            <h3 class="text-lg font-black text-white mt-1">올근생 꼬마빌딩 (통매매)</h3>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            전 층 상가·사무실 구성. 주택 수에 미포함되어 종합부동산세·취득세 중과 배제. 매매가 20억~50억+ 규모.
+          </p>
+          <div class="pt-2 border-t border-slate-800 text-[11px] font-semibold text-slate-300 flex justify-between">
+            <span>거래방식: <b>100% 통매매</b></span>
+            <span class="text-amber-400 font-bold">임대수익률 기준 즉결</span>
+          </div>
         </div>
-        <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4 shadow-xl">
+
+        <!-- 2. 상가주택 통매매 -->
+        <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 transition space-y-4 shadow-xl">
           <div class="w-12 h-12 rounded-2xl bg-teal-500/10 text-teal-400 flex items-center justify-center text-2xl font-bold border border-teal-500/20">🏠</div>
-          <div><span class="text-[11px] font-bold text-teal-400 uppercase">Asset 02</span><h3 class="text-lg font-black text-white mt-1">상가주택 통매매</h3></div>
-          <p class="text-xs text-slate-400 leading-relaxed">1~2층 상가 + 3~4층 주인세대. 은퇴 자산가의 실거주와 안정적인 월세 수입을 동시 충족하는 표준 규격 상품.</p>
-          <div class="pt-2 border-t border-slate-800 text-[11px] font-semibold text-slate-300 flex justify-between"><span>규모: 15억 ~ 35억</span><span class="text-teal-400 font-bold">택지지구 초인기</span></div>
+          <div>
+            <span class="text-[11px] font-bold text-teal-400 uppercase">매매 전문 02</span>
+            <h3 class="text-lg font-black text-white mt-1">상가주택 통매매</h3>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            1~2층 상가 + 3~4층 주인세대/원룸. 은퇴 자산가의 실거주와 안정적인 월세 수입을 동시 충족. 매매가 15억~35억.
+          </p>
+          <div class="pt-2 border-t border-slate-800 text-[11px] font-semibold text-slate-300 flex justify-between">
+            <span>거래방식: <b>100% 통매매</b></span>
+            <span class="text-teal-400 font-bold">택지지구 표준상품</span>
+          </div>
         </div>
-        <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 space-y-4 shadow-xl">
+
+        <!-- 3. 신축 건축부지 (대지) -->
+        <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 transition space-y-4 shadow-xl">
           <div class="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-2xl font-bold border border-blue-500/20">🏗️</div>
-          <div><span class="text-[11px] font-bold text-blue-400 uppercase">Asset 03</span><h3 class="text-lg font-black text-white mt-1">신축 건축부지 (대지)</h3></div>
-          <p class="text-xs text-slate-400 leading-relaxed">잡종지·임야 배제! 오직 지목이 "대(垈)"로 된 즉시 건축 가능 토지만 엄선. 건폐율·용적률 확인 후 당일 검토 완료.</p>
-          <div class="pt-2 border-t border-slate-800 text-[11px] font-semibold text-slate-300 flex justify-between"><span>규모: 10억 ~ 30억</span><span class="text-blue-400 font-bold">인허가 규제 제로</span></div>
+          <div>
+            <span class="text-[11px] font-bold text-blue-400 uppercase">매매 전문 03</span>
+            <h3 class="text-lg font-black text-white mt-1">신축 건축부지 (오직 대지)</h3>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            잡종지·임야 완전 배제! 지목이 "대(垈)"로 된 인허가 규제 없는 알짜 토지만 매매. 매매가 10억~30억.
+          </p>
+          <div class="pt-2 border-t border-slate-800 text-[11px] font-semibold text-slate-300 flex justify-between">
+            <span>거래방식: <b>100% 토지매매</b></span>
+            <span class="text-blue-400 font-bold">인허가 리스크 0%</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- 필수 4대 공적 서류 사전 검증 센터 -->
   <section id="docs" class="py-16 px-4 sm:px-6">
-    <div class="max-w-4xl mx-auto rounded-3xl bg-slate-900 border border-amber-500/30 p-6 sm:p-10 space-y-8 shadow-2xl">
+    <div class="max-w-4xl mx-auto rounded-3xl bg-slate-900 border border-amber-500/40 p-6 sm:p-10 space-y-8 shadow-2xl">
       <div class="text-center space-y-2">
-        <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-black">Safety First</span>
-        <h2 class="text-2xl sm:text-3xl font-black text-white">중개사가 인증하는 "필수 4대 서류 세트"</h2>
-        <p class="text-xs sm:text-sm text-slate-400">서류 4종이 플랫폼에 사전 등록되지 않은 매물은 전자계약 제안이 불가합니다.</p>
+        <span class="px-3.5 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-black">Official Verification</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white">중개사가 플랫폼에 사전 등록하는 [필수 4대 서류 세트]</h2>
+        <p class="text-xs sm:text-sm text-slate-400">4대 서류가 첨부되지 않은 매물은 거래 제안이 불가하여 허위매물이 100% 차단됩니다.</p>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
-          <div class="font-bold text-amber-400 flex items-center gap-2"><span>🏢</span> <span>건물 매매 필수 서류 4종</span></div>
-          <ul class="space-y-1.5 text-slate-300 list-disc list-inside">
-            <li><b>건축물대장:</b> 위반건축물(노란 딱지) 여부 및 층별 용도</li>
-            <li><b>건물 등기부등본:</b> 소유자 명의 및 근저당(대출) 확인</li>
-            <li><b>토지 등기부 & 대장:</b> 토지·건물 소유자 일치 여부 확인</li>
-            <li><b>임대차 현황표:</b> 층별 보증금 승계액 및 실질 수익률</li>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs">
+        <!-- 토지 4대 서류 -->
+        <div class="p-5 rounded-2xl bg-slate-950 border border-blue-500/30 space-y-3">
+          <div class="font-black text-blue-400 text-sm flex items-center gap-2 border-b border-slate-800 pb-2">
+            <span>🏗️</span> <span>토지(신축 대지) 거래 필수 4대 서류</span>
+          </div>
+          <ul class="space-y-2.5 text-slate-300">
+            <li class="flex items-start gap-2">
+              <span class="text-blue-400 font-bold">1.</span>
+              <div><b>토지이용계획확인서 :</b> 용도지역(상업지/주거지), 건폐율·용적률, 건축 가능 규모 및 규제 확인</div>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-blue-400 font-bold">2.</span>
+              <div><b>토지 등기부등본 :</b> 진짜 소유자(명의인) 및 은행 근저당권(대출금액) 확인</div>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-blue-400 font-bold">3.</span>
+              <div><b>토지대장 :</b> 지목이 "대(垈)"인지 사실 확인 및 실제 면적(㎡, 평수) 확인</div>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-blue-400 font-bold">4.</span>
+              <div><b>지적도 :</b> 땅 모양(형상) 및 도로 접도 여부(길 없는 맹지 원천 차단)</div>
+            </li>
           </ul>
         </div>
-        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
-          <div class="font-bold text-teal-400 flex items-center gap-2"><span>🏗️</span> <span>신축 대지 필수 서류 4종</span></div>
-          <ul class="space-y-1.5 text-slate-300 list-disc list-inside">
-            <li><b>토지이용계획확인서:</b> 용도지역, 건폐율·용적률, 행위제한</li>
-            <li><b>토지 등기부등본:</b> 소유권 및 채권최고액(근저당) 확인</li>
-            <li><b>토지대장:</b> 지목 "대(垈)" 일치 여부 및 정확한 실면적</li>
-            <li><b>지적도:</b> 토지 형상 및 도로 접도(맹지 유무) 확인</li>
+
+        <!-- 건물 4대 서류 -->
+        <div class="p-5 rounded-2xl bg-slate-950 border border-amber-500/30 space-y-3">
+          <div class="font-black text-amber-400 text-sm flex items-center gap-2 border-b border-slate-800 pb-2">
+            <span>🏢</span> <span>건물(꼬마빌딩·상가주택) 거래 필수 4대 서류</span>
+          </div>
+          <ul class="space-y-2.5 text-slate-300">
+            <li class="flex items-start gap-2">
+              <span class="text-amber-400 font-bold">1.</span>
+              <div><b>건축물대장 :</b> 위반건축물(노란 딱지) 여부 확인 (불법 증축 시 대출 거절 차단)</div>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-amber-400 font-bold">2.</span>
+              <div><b>건물 등기부등본 :</b> 건물 소유자 명의 및 근저당권(은행 빚) 확인</div>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-amber-400 font-bold">3.</span>
+              <div><b>토지 등기부 & 대장 :</b> 건물주와 바닥 땅 주인이 동일 인물인지 소유권 일치 확인</div>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-amber-400 font-bold">4.</span>
+              <div><b>임대차 현황표 :</b> 층별 보증금 승계액 및 월세 합계, 실질 연수익률 산출</div>
+            </li>
           </ul>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- VIP 매수의뢰 / 매도의뢰 등록 폼 (100% 매매 전용) -->
   <section id="request" class="py-16 px-4 sm:px-6 bg-slate-900/60 border-t border-slate-800">
     <div class="max-w-xl mx-auto space-y-6">
       <div class="text-center space-y-2">
-        <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">Private Matching</span>
-        <h2 class="text-2xl sm:text-3xl font-black text-white">VIP 자산 안심 매수의뢰</h2>
-        <p class="text-xs sm:text-sm text-slate-400">개인정보는 100% 안심 마스킹되며, 해당 구(區) 인증 회원 중개사에게만 안전 발송됩니다.</p>
+        <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">Safe Deal Request</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white">VIP 자산 안심 매매의뢰</h2>
+        <p class="text-xs sm:text-sm text-slate-400">오직 100% 매매만 접수하며, 해당 구(區) 인증 회원 중개사에게 즉시 배분됩니다.</p>
       </div>
-      <form id="dealForm" onsubmit="event.preventDefault(); alert('🎉 안심 매수의뢰가 접수되었습니다! 회원 중개사에게 즉시 알림이 발송됩니다.');" class="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl space-y-5">
+
+      <form id="dealForm" onsubmit="event.preventDefault(); alert('🎉 안심 매매의뢰가 안전하게 접수되었습니다!\n해당 지역 회원 중개사에게 4대 서류 검증 요청이 전달됩니다.');" class="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl space-y-5">
+
+        <!-- 거래 유형 (100% 매매 단일 고정) -->
+        <div class="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-xs">
+          <span class="font-bold text-slate-300">거래 방식:</span>
+          <span class="font-black text-amber-400 flex items-center gap-1.5">
+            <span>🏷️</span> <span>100% 매매 (통매매) 전용 [전세·월세 불가]</span>
+          </span>
+        </div>
+
+        <!-- 품목 선택 -->
         <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1.5">희망 자산 품목 선택 <span class="text-amber-400">*</span></label>
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">매매 자산 품목 선택 <span class="text-amber-400">*</span></label>
           <div class="grid grid-cols-3 gap-2">
-            <label class="cursor-pointer"><input type="radio" name="assetType" value="building" checked class="peer sr-only"><div class="py-3 px-2 rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-amber-400 peer-checked:bg-amber-500/10 text-center text-xs font-bold text-slate-300 peer-checked:text-amber-300">🏢 꼬마빌딩</div></label>
-            <label class="cursor-pointer"><input type="radio" name="assetType" value="sang-ga" class="peer sr-only"><div class="py-3 px-2 rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-amber-400 peer-checked:bg-amber-500/10 text-center text-xs font-bold text-slate-300 peer-checked:text-amber-300">🏠 상가주택</div></label>
-            <label class="cursor-pointer"><input type="radio" name="assetType" value="land" class="peer sr-only"><div class="py-3 px-2 rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-amber-400 peer-checked:bg-amber-500/10 text-center text-xs font-bold text-slate-300 peer-checked:text-amber-300">🏗️ 신축 대지</div></label>
+            <label class="cursor-pointer">
+              <input type="radio" name="assetType" value="building" checked class="peer sr-only">
+              <div class="py-3 px-2 rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-amber-400 peer-checked:bg-amber-500/10 text-center text-xs font-bold text-slate-300 peer-checked:text-amber-300 transition">
+                🏢 꼬마빌딩
+              </div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="assetType" value="sang-ga" class="peer sr-only">
+              <div class="py-3 px-2 rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-amber-400 peer-checked:bg-amber-500/10 text-center text-xs font-bold text-slate-300 peer-checked:text-amber-300 transition">
+                🏠 상가주택
+              </div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="assetType" value="land" class="peer sr-only">
+              <div class="py-3 px-2 rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-amber-400 peer-checked:bg-amber-500/10 text-center text-xs font-bold text-slate-300 peer-checked:text-amber-300 transition">
+                🏗️ 신축 대지
+              </div>
+            </label>
           </div>
         </div>
+
+        <!-- 지역 선택 -->
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-bold text-slate-300 mb-1.5">희망 지역 (시·도)</label>
+            <label class="block text-xs font-bold text-slate-300 mb-1.5">희망 지역 (시·도) <span class="text-amber-400">*</span></label>
             <select id="sido" class="w-full py-2.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-xs font-medium text-slate-200">
               <option value="경남">경상남도</option>
               <option value="부산">부산광역시</option>
@@ -144,12 +261,14 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-300 mb-1.5">희망 구/시/군</label>
+            <label class="block text-xs font-bold text-slate-300 mb-1.5">희망 구/시/군 <span class="text-amber-400">*</span></label>
             <input type="text" id="gugun" required placeholder="예: 양산시, 해운대구" class="w-full py-2.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200">
           </div>
         </div>
+
+        <!-- 매매 예산 / 희망가 -->
         <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1.5">매수 희망 예산</label>
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">매매 희망 예산 (또는 매도 희망가) <span class="text-amber-400">*</span></label>
           <select id="budget" class="w-full py-2.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200">
             <option value="10억~20억">10억 ~ 20억 원</option>
             <option value="20억~30억" selected>20억 ~ 30억 원</option>
@@ -157,23 +276,37 @@
             <option value="50억 이상">50억 원 이상 (VIP 대형 딜)</option>
           </select>
         </div>
+
+        <!-- 서류 준비 확인 체크 -->
+        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5 text-xs text-slate-400">
+          <div class="font-bold text-slate-300 flex items-center gap-1.5">
+            <span>📄</span> <span>공적 4대 서류 기반 안심 거래 동의</span>
+          </div>
+          <p class="text-[11px] leading-relaxed">
+            본 의뢰는 중개사의 [토지이용계획확인서·등기부·대장] 4대 서류 사전 검증을 거친 후 전자계약으로 안전하게 체결됩니다.
+          </p>
+        </div>
+
         <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1.5">안심 연락처 (휴대폰 번호)</label>
+          <label class="block text-xs font-bold text-slate-300 mb-1.5">안심 연락처 (휴대폰 번호) <span class="text-amber-400">*</span></label>
           <input type="tel" id="userPhone" required placeholder="010-0000-0000 (번호 암호화 보호)" class="w-full py-2.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200">
         </div>
+
         <button type="submit" class="w-full py-4 px-6 gold-gradient hover:opacity-90 text-slate-950 font-black text-sm rounded-2xl shadow-xl transition active:scale-95">
-          🔒 개인정보 안심 보호로 매수의뢰 등록하기
+          🔒 4대 서류 검증 기반 VIP 매매의뢰 등록하기
         </button>
       </form>
     </div>
   </section>
+
+  <!-- 하단 푸터 -->
   <footer class="py-10 px-4 sm:px-6 bg-slate-950 border-t border-slate-800 text-center text-xs text-slate-500 space-y-3">
     <div class="flex items-center justify-center gap-4 text-slate-400 font-bold">
       <a href="/broker" class="hover:text-amber-400 transition">회원 중개사 가입 (얼리버드 월 3만 원)</a>
       <span>|</span>
       <a href="/admin" class="hover:text-amber-400 transition">관리자 센터</a>
     </div>
-    <p>우리아파트 자산 안심매매 플랫폼 【안심딜 (Ansim Deal)】 | 100% 무인 비대면 전자계약 시스템</p>
+    <p>우리아파트 자산 안심매매 플랫폼 【안심딜 (Ansim Deal)】 | 100% 매매 전용 & 4대 서류 검증 전자계약</p>
     <p class="text-[10px] text-slate-600">Copyright © 2026 우리아파트 안심딜. All Rights Reserved.</p>
   </footer>
 </body>
