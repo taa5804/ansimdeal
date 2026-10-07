@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>[마트 사장님 전용] 마트 고객유치 · 마트 매출올리기 · 고객DB 확보 솔루션 | 우리아파트</title>
+  <meta name="description" content="분양사 3,000원 장보기 쿠폰 연동으로 인근 아파트 입주민을 우리 마트로 끌어오는 신규 고객유치, 매장 매출올리기, 단골 고객DB 자동 확보 솔루션.">
+  <meta name="keywords" content="마트 고객유치, 마트 매출올리기, 마트 DB확보, 마트 고객DB, 마트 단골확보, 마트 문자비용 절약, 분양사 3천원 쿠폰, 우리아파트 마트">
+  <link rel="canonical" href="https://www.wooriapt.app/mart-sales.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="[마트 매출 올리기] 분양사 3천원 쿠폰 연동 솔루션">
+  <meta property="og:description" content="신규 입주민을 매장으로 이끄는 3,000원 장보기 쿠폰! 마트 비용 부담 없이 인근 아파트 단골을 단숨에 확보하세요.">
+  <meta property="og:url" content="https://www.wooriapt.app/mart-sales.html">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    body {
+      background-color: #f1f5f9;
+      color: #1e293b;
+      display: flex;
+      justify-content: center;
+      padding: 16px 12px 60px;
+    }
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      border: 1px solid #e2e8f0;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .top-nav-btn {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 7px 13px;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+    .top-nav-home {
+      color: #0f172a;
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    .top-nav-mart {
+      color: #15803d;
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      width: fit-content;
+      margin: 0 auto;
+    }
+    .hero-box {
+      text-align: center;
+    }
+    .hero-box h1 {
+      font-size: 23px;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      line-height: 1.35;
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+    .hero-box p {
+      font-size: 13.5px;
+      color: #64748b;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .value-card {
+      background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+      color: #ffffff;
+      border-radius: 18px;
+      padding: 20px 16px;
+      box-shadow: 0 8px 24px rgba(30, 64, 175, 0.25);
+      text-align: center;
+    }
+    .value-card-sub {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #93c5fd;
+      margin-bottom: 6px;
+    }
+    .value-card-title {
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+    .value-card-desc {
+      font-size: 13px;
+      color: #e0e7ff;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 900;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .step-item {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 14px 14px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      background: #eff6ff;
+      border: 1.5px solid #93c5fd;
+      color: #1d4ed8;
+      font-weight: 900;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-content h3 {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 3px;
+      line-height: 1.35;
+    }
+    .step-content p {
+      font-size: 12.5px;
+      color: #64748b;
+      line-height: 1.45;
+      font-weight: 500;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .main-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #ffffff;
+      text-decoration: none;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 900;
+      padding: 16px 14px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+      transition: all 0.2s ease;
+    }
+    .main-cta:active {
+      transform: scale(0.98);
+      background: #1e40af;
+    }
+    .sub-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      color: #15803d;
+      text-decoration: none;
+      text-align: center;
+      font-size: 14.5px;
+      font-weight: 800;
+      padding: 14px 14px;
+      border-radius: 16px;
+      transition: all 0.2s ease;
+    }
+    .sub-cta:active {
+      background: #dcfce7;
+      transform: scale(0.98);
+    }
+    .bottom-home-bar {
+      text-align: center;
+      padding-top: 12px;
+      border-top: 1px dashed #cbd5e1;
+    }
+    .bottom-home-btn {
+      color: #475569;
+      font-size: 12.5px;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 15px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="top-nav">
+      <a href="https://www.wooriapt.app" class="top-nav-btn top-nav-home">
+        <span style="font-size:16px;">🏠</span>
+        <span>우리아파트 홈</span>
+      </a>
+      <a href="https://www.wooriapt.app/mart" class="top-nav-btn top-nav-mart">
+        <span style="font-size:14px;">📊</span>
+        <span>마트 절감 계산기</span>
+      </a>
+    </div>
+
+    <div class="hero-box">
+      <div class="hero-badge">
+        🔥 마트 사장님 3대 핵심: 고객유치 · 매출올리기 · 고객DB 확보
+      </div>
+      <h1>마트 고객유치 &amp; 매출올리기<br><span style="color:#2563eb;">&amp; 아파트 단골 고객DB 영구 확보</span></h1>
+      <p>
+        신규 아파트 입주민이 우리 마트로 직접 찾아오게 만드는<br>
+        우리아파트 플랫폼만의 특허 상생 비즈니스 모델입니다.
+      </p>
+    </div>
+
+    <div class="value-card">
+      <div class="value-card-sub">마트 사장님 부담 비용 0원</div>
+      <div class="value-card-title">
+        "분양사가 3,000원을 지원하고,<br>
+        손님은 우리 마트에서 5만 원을 씁니다!"
+      </div>
+      <div class="value-card-desc">
+        분양사 홍보비로 발행된 장보기 쿠폰을 쓰러 온 입주민이<br>
+        식자재와 장바구니를 가득 채워 마트의 진짜 알짜 매출을 만듭니다.
+      </div>
+    </div>
+
+    <div class="section-title">
+      <span>💡</span> <span>고객유치 · 매출올리기 · 고객DB 확보 3단계</span>
+    </div>
+
+    <div class="steps-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>[마트 고객유치] 분양사 3천원 쿠폰으로 아파트 주민 첫 방문 유치</h3>
+          <p>지역 주민이 우리아파트 플랫폼에서 인근 신규 분양 카탈로그를 확인하면, 제휴된 우리 동네 마트 3,000원 장보기 모바일 쿠폰이 즉시 증정됩니다.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>[마트 매출올리기] 장바구니 5만 원 추가 구매로 매장 매출 극대화</h3>
+          <p>주민들이 모바일 쿠폰을 쓰기 위해 우리 마트를 직접 방문하며, 3천원 쿠폰 사용과 함께 평균 3만~7만 원의 추가 장보기가 이루어져 매출이 즉각 상승합니다.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>[고객DB 영구 확보] 방문 고객을 '문자비 0원 평생 단골'로 전환</h3>
+          <p>첫 방문 고객을 자동차 QR 및 카카오 채널로 연동하여 평생 단골로 확보! 매달 수십만 원씩 들던 대행사 문자비 없이도 매주 특가 소식을 무료로 전달합니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <a href="https://wooriapt.ai.kr" target="_blank" class="main-cta">
+        <span>🚀 마트 공식 가맹점 신청 및 상세 알아보기 (wooriapt.ai.kr) ➔</span>
+      </a>
+      <a href="https://www.wooriapt.app/mart" class="sub-cta">
+        <span>📊 우리가게 마트 순이익 절감액 직접 계산해보기</span>
+      </a>
+    </div>
+
+    <div class="bottom-home-bar">
+      <a href="https://www.wooriapt.app" class="bottom-home-btn">
+        <span>🏠</span>
+        <span>우리아파트 안심거래 메인화면 (www.wooriapt.app)</span>
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>
