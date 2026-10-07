@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1165d7">
+<title>나의 제안 | 우리아파트 안심거래</title>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%}
+
+body{
+  background:#f4f6f8;
+  color:#172b3d;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif;
+}
+
+a{color:inherit;text-decoration:none}
+
+.wrap{
+  width:100%;
+  max-width:720px;
+  margin:0 auto;
+  padding:18px 14px 50px;
+}
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.brand{
+  font-size:20px;
+  font-weight:900;
+  color:#173a59;
+}
+
+.brand strong{color:#1165d7}
+
+.back{
+  padding:9px 12px;
+  background:#fff;
+  border:1px solid #d5e0e8;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:800;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #dbe5ec;
+  border-radius:17px;
+  padding:22px 18px;
+  box-shadow:0 5px 16px rgba(26,61,88,.06);
+}
+
+h1{
+  margin:0 0 7px;
+  font-size:27px;
+  color:#143b61;
+}
+
+.desc{
+  margin:0 0 20px;
+  color:#667d8e;
+  font-size:15px;
+  line-height:1.6;
+}
+
+.tabs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin-bottom:20px;
+}
+
+.tab{
+  min-height:43px;
+  border:1px solid #ccd9e3;
+  border-radius:10px;
+  background:#fff;
+  color:#47657b;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.tab.active{
+  background:#1165d7;
+  border-color:#1165d7;
+  color:#fff;
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-bottom:20px;
+}
+
+.summary-box{
+  padding:14px 8px;
+  border-radius:12px;
+  background:#f6f9fb;
+  border:1px solid #e0e8ee;
+  text-align:center;
+}
+
+.summary-box strong{
+  display:block;
+  margin-bottom:4px;
+  font-size:22px;
+  color:#1165d7;
+}
+
+.summary-box span{
+  font-size:13px;
+  color:#647a8a;
+  font-weight:700;
+}
+
+.list{
+  display:grid;
+  gap:11px;
+}
+
+.proposal{
+  padding:16px;
+  border:1px solid #dbe4eb;
+  border-radius:13px;
+  background:#fff;
+}
+
+.proposal-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.type{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:7px;
+  background:#eaf4ff;
+  color:#1165d7;
+  font-size:13px;
+  font-weight:900;
+}
+
+.status{
+  font-size:13px;
+  color:#526b7d;
+  font-weight:800;
+}
+
+.proposal h2{
+  margin:0 0 8px;
+  font-size:18px;
+  color:#193e5c;
+}
+
+.info{
+  margin:4px 0;
+  color:#5e7485;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  margin-top:13px;
+}
+
+.btn{
+  flex:1;
+  min-height:40px;
+  border:0;
+  border-radius:9px;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.btn-primary{
+  background:#1165d7;
+  color:#fff;
+}
+
+.btn-light{
+  background:#edf2f5;
+  color:#34546d;
+}
+
+.empty{
+  padding:35px 15px;
+  text-align:center;
+  color:#7b8d9a;
+  font-size:14px;
+}
+
+.footer{
+  margin-top:20px;
+  text-align:center;
+  color:#81909b;
+  font-size:12px;
+}
+
+@media(max-width:480px){
+  h1{font-size:24px}
+  .card{padding:19px 14px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <header class="header">
+
+    <a class="brand" href="/">
+      🏠 우리아파트 <strong>안심거래</strong>
+    </a>
+
+    <a class="back" href="/broker-dashboard.html">
+      통합관리
+    </a>
+
+  </header>
+
+
+  <main class="card">
+
+    <h1>나의 제안</h1>
+
+    <p class="desc">
+      내가 제안한 매물과 진행상태를 확인합니다.
+    </p>
+
+
+    <div class="tabs">
+
+      <button class="tab active" data-filter="all">
+        전체
+      </button>
+
+      <button class="tab" data-filter="progress">
+        계약 진행중
+      </button>
+
+      <button class="tab" data-filter="complete">
+        거래완료
+      </button>
+
+    </div>
+
+
+    <div class="summary">
+
+      <div class="summary-box">
+        <strong id="totalCount">0</strong>
+        <span>전체 제안</span>
+      </div>
+
+      <div class="summary-box">
+        <strong id="progressCount">0</strong>
+        <span>계약 진행중</span>
+      </div>
+
+      <div class="summary-box">
+        <strong id="completeCount">0</strong>
+        <span>거래완료</span>
+      </div>
+
+    </div>
+
+
+    <div id="proposalList" class="list">
+
+      <div class="empty">
+        등록된 제안이 없습니다.
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <div class="footer">
+    © 우리아파트 안심거래
+  </div>
+
+</div>
+
+
+<script>
+(function(){
+
+"use strict";
+
+/*
+  실제 Supabase 연동 전 기본 구조입니다.
+  DB 연결 후 proposals 배열 대신
+  로그인한 공인중개사의 제안 데이터를 불러옵니다.
+*/
+
+let proposals = [];
+
+
+const proposalList =
+  document.getElementById("proposalList");
+
+const totalCount =
+  document.getElementById("totalCount");
+
+const progressCount =
+  document.getElementById("progressCount");
+
+const completeCount =
+  document.getElementById("completeCount");
+
+const tabs =
+  document.querySelectorAll(".tab");
+
+
+function updateCounts(){
+
+  totalCount.textContent =
+    proposals.length;
+
+  progressCount.textContent =
+    proposals.filter(function(item){
+      return item.status === "progress";
+    }).length;
+
+  completeCount.textContent =
+    proposals.filter(function(item){
+      return item.status === "complete";
+    }).length;
+
+}
+
+
+function render(filter){
+
+  let data = proposals;
+
+  if(filter !== "all"){
+
+    data =
+      proposals.filter(function(item){
+        return item.status === filter;
+      });
+
+  }
+
+
+  if(data.length === 0){
+
+    proposalList.innerHTML =
+      '<div class="empty">등록된 제안이 없습니다.</div>';
+
+    return;
+
+  }
+
+
+  proposalList.innerHTML =
+    data.map(function(item){
+
+      const statusText =
+        item.status === "complete"
+        ? "거래완료"
+        : "계약 진행중";
+
+      return `
+        <div class="proposal">
+
+          <div class="proposal-top">
+
+            <span class="type">
+              ${item.type}
+            </span>
+
+            <span class="status">
+              ${statusText}
+            </span>
+
+          </div>
+
+          <h2>
+            ${item.apartment}
+          </h2>
+
+          <div class="info">
+            ${item.area || ""}
+          </div>
+
+          <div class="info">
+            ${item.price || ""}
+          </div>
+
+          <div class="actions">
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              onclick="viewProposal('${item.id}')">
+              상세보기
+            </button>
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+
+tabs.forEach(function(tab){
+
+  tab.addEventListener("click",function(){
+
+    tabs.forEach(function(t){
+      t.classList.remove("active");
+    });
+
+    this.classList.add("active");
+
+    render(
+      this.getAttribute("data-filter")
+    );
+
+  });
+
+});
+
+
+window.viewProposal =
+function(id){
+
+  /*
+    추후 제안 상세페이지 연결
+  */
+
+  alert(
+    "제안 상세정보를 불러옵니다."
+  );
+
+};
+
+
+updateCounts();
+render("all");
+
+})();
+</script>
+
+</body>
+</html>
