@@ -1,0 +1,2595 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1165d7">
+
+<title>전자서명 | 우리아파트 안심거래</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#f4f6f8;
+  color:#172b3d;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans KR",
+    Arial,
+    sans-serif;
+}
+
+button,input{
+  font:inherit;
+}
+
+.wrap{
+  width:100%;
+  max-width:720px;
+  margin:0 auto;
+  padding:16px 14px 60px;
+}
+
+.header{
+  background:#12394d;
+  color:#fff;
+  border-radius:16px;
+  padding:20px 18px;
+  margin-bottom:14px;
+}
+
+.brand{
+  font-size:13px;
+  opacity:.85;
+  margin-bottom:5px;
+}
+
+.header h1{
+  margin:0;
+  font-size:23px;
+}
+
+.header p{
+  margin:8px 0 0;
+  font-size:14px;
+  line-height:1.6;
+}
+
+.role-box{
+  background:#eaf3ff;
+  border:1px solid #c6dcfb;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:14px;
+}
+
+.role-title{
+  font-size:18px;
+  font-weight:900;
+  color:#1157b7;
+}
+
+.role-desc{
+  margin-top:5px;
+  font-size:13px;
+  color:#516b7b;
+}
+
+.steps{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:6px;
+  margin-bottom:14px;
+}
+
+.step{
+  text-align:center;
+  background:#e8eef2;
+  color:#607783;
+  padding:9px 4px;
+  border-radius:9px;
+  font-size:11px;
+  font-weight:800;
+}
+
+.step.active{
+  background:#1165d7;
+  color:#fff;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #dfe7ec;
+  border-radius:16px;
+  padding:17px;
+  margin-bottom:14px;
+}
+
+.card h2{
+  margin:0 0 14px;
+  font-size:18px;
+}
+
+.notice{
+  background:#eef6ff;
+  border:1px solid #c8ddfb;
+  color:#274e73;
+  border-radius:12px;
+  padding:13px;
+  font-size:13px;
+  line-height:1.7;
+  margin-bottom:13px;
+}
+
+.warning{
+  background:#fff4e5;
+  border-color:#ffd49c;
+  color:#805000;
+}
+
+.error-box{
+  background:#fff0f0;
+  border:1px solid #efb7b7;
+  color:#a33a3a;
+  border-radius:12px;
+  padding:13px;
+  font-size:13px;
+  line-height:1.7;
+  margin-bottom:13px;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.field{
+  margin-bottom:12px;
+}
+
+label{
+  display:block;
+  margin-bottom:6px;
+  font-size:13px;
+  font-weight:800;
+}
+
+input{
+  width:100%;
+  min-height:44px;
+  border:1px solid #cbd7df;
+  border-radius:10px;
+  padding:10px 11px;
+  outline:none;
+}
+
+input:focus{
+  border-color:#1165d7;
+}
+
+input[readonly]{
+  background:#f5f7f8;
+  color:#60727c;
+}
+
+.btn{
+  width:100%;
+  min-height:48px;
+  border:0;
+  border-radius:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.btn-primary{
+  background:#1165d7;
+  color:#fff;
+}
+
+.btn-dark{
+  background:#12394d;
+  color:#fff;
+}
+
+.btn-light{
+  background:#edf4ff;
+  color:#1165d7;
+}
+
+.btn-gray,
+.btn:disabled{
+  background:#c7d0d5;
+  color:#fff;
+  cursor:not-allowed;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.contract-paper{
+  border:2px solid #333;
+  padding:18px 14px;
+  background:#fff;
+}
+
+.contract-paper h3{
+  text-align:center;
+  margin:0 0 18px;
+  font-size:21px;
+}
+
+.contract-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+
+.contract-table th,
+.contract-table td{
+  border:1px solid #555;
+  padding:9px;
+  text-align:left;
+  vertical-align:top;
+}
+
+.contract-table th{
+  width:30%;
+  background:#f5f5f5;
+}
+
+.confirm-row{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  margin-top:13px;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.confirm-row input{
+  width:18px;
+  height:18px;
+  min-height:18px;
+  margin-top:2px;
+}
+
+.signature-wrap{
+  border:2px dashed #9caeb9;
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:10px;
+}
+
+canvas{
+  display:block;
+  width:100%;
+  height:220px;
+  touch-action:none;
+  background:#fff;
+}
+
+.sign-guide{
+  text-align:center;
+  padding:9px;
+  border-top:1px solid #e6ecef;
+  font-size:13px;
+  color:#637984;
+}
+
+.complete{
+  text-align:center;
+  padding:24px 8px;
+}
+
+.complete-icon{
+  font-size:52px;
+  margin-bottom:10px;
+}
+
+.complete h2{
+  font-size:22px;
+  margin:0 0 10px;
+}
+
+.complete p{
+  font-size:14px;
+  line-height:1.7;
+  color:#5c707c;
+}
+
+.result-box{
+  background:#edf9f2;
+  border:1px solid #bce8cd;
+  color:#146a38;
+  padding:12px;
+  border-radius:12px;
+  margin-top:14px;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.help{
+  margin-top:8px;
+  font-size:12px;
+  color:#72858f;
+  line-height:1.6;
+}
+
+.loading{
+  text-align:center;
+  padding:30px 10px;
+  color:#667a85;
+  font-size:14px;
+}
+
+@media(max-width:580px){
+
+  .grid2{
+    grid-template-columns:1fr;
+  }
+
+  .steps{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  canvas{
+    height:190px;
+  }
+
+  .header h1{
+    font-size:21px;
+  }
+
+  .contract-table{
+    font-size:12px;
+  }
+
+  .contract-table th,
+  .contract-table td{
+    padding:7px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <div class="header">
+
+    <div class="brand">
+      우리아파트 안심거래
+    </div>
+
+    <h1>
+      전자계약서 전자서명
+    </h1>
+
+    <p>
+      본인확인 후 계약내용을 확인하고
+      직접 서명해 주세요.
+    </p>
+
+  </div>
+
+
+  <div
+    id="loadingBox"
+    class="card">
+
+    <div class="loading">
+      전자계약 정보를 불러오는 중입니다.
+    </div>
+
+  </div>
+
+
+  <div
+    id="errorSection"
+    class="card hidden">
+
+    <h2>
+      전자계약서 확인
+    </h2>
+
+    <div
+      class="error-box"
+      id="errorMessage">
+    </div>
+
+  </div>
+
+
+  <main
+    id="mainContent"
+    class="hidden">
+
+
+    <div class="role-box">
+
+      <div
+        class="role-title"
+        id="roleTitle">
+        계약 당사자 확인
+      </div>
+
+      <div
+        class="role-desc"
+        id="roleDesc">
+      </div>
+
+    </div>
+
+
+    <div class="steps">
+
+      <div
+        class="step active"
+        id="step1">
+        ① 본인확인
+      </div>
+
+      <div
+        class="step"
+        id="step2">
+        ② 계약확인
+      </div>
+
+      <div
+        class="step"
+        id="step3">
+        ③ 서명
+      </div>
+
+      <div
+        class="step"
+        id="step4">
+        ④ 완료
+      </div>
+
+    </div>
+
+
+    <!-- 본인확인 -->
+
+    <section
+      id="identitySection"
+      class="card">
+
+      <h2>
+        1. 본인확인
+      </h2>
+
+      <div
+        class="notice"
+        id="identityNotice">
+      </div>
+
+
+      <div class="grid2">
+
+        <div class="field">
+
+          <label>
+            성명
+          </label>
+
+          <input
+            id="personName"
+            readonly>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            휴대전화번호
+          </label>
+
+          <input
+            id="personPhone"
+            inputmode="numeric"
+            placeholder="본인 휴대전화번호">
+
+        </div>
+
+      </div>
+
+
+      <button
+        id="verifyBtn"
+        class="btn btn-primary">
+
+        휴대전화 본인확인
+
+      </button>
+
+
+      <div class="help">
+        등록된 계약 당사자의 휴대전화번호와
+        일치해야 다음 단계로 진행됩니다.
+      </div>
+
+    </section>
+
+
+    <!-- 계약 확인 -->
+
+    <section
+      id="contractSection"
+      class="card hidden">
+
+      <h2>
+        2. 계약내용 확인
+      </h2>
+
+
+      <div class="notice">
+
+        계약금액, 계약일, 잔금일,
+        부동산 정보와 특약사항을
+        반드시 확인한 후 진행해 주세요.
+
+      </div>
+
+
+      <div class="contract-paper">
+
+        <h3 id="contractTitle">
+        </h3>
+
+
+        <table class="contract-table">
+
+          <tr>
+
+            <th>
+              거래번호
+            </th>
+
+            <td id="tradeInfo">
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <th>
+              거래유형
+            </th>
+
+            <td id="typeInfo">
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <th>
+              서명자 역할
+            </th>
+
+            <td id="roleInfo">
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <th>
+              부동산
+            </th>
+
+            <td id="propertyInfo">
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <th id="party1Title">
+            </th>
+
+            <td id="party1Info">
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <th id="party2Title">
+            </th>
+
+            <td id="party2Info">
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <th id="amountTitle">
+            </th>
+
+            <td id="amountInfo">
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <th>
+              계약금
+            </th>
+
+            <td id="depositInfo">
+            </td>
+
+          </tr>
+
+
+          <tr id="middleRow">
+
+            <th>
+              중도금
+            </th>
+
+            <td id="middleInfo">
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <th id="balanceTitle">
+              잔금
+            </th>
+
+            <td id="balanceInfo">
+            </td>
+
+          </tr>
+
+
+          <tr
+            id="monthlyRow"
+            class="hidden">
+
+            <th>
+              월 차임
+            </th>
+
+            <td id="monthlyInfo">
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <th>
+              계약일
+            </th>
+
+            <td id="contractDateInfo">
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <th id="balanceDateTitle">
+              잔금일
+            </th>
+
+            <td id="balanceDateInfo">
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <th>
+              특약사항
+            </th>
+
+            <td id="termsInfo">
+            </td>
+
+          </tr>
+
+        </table>
+
+      </div>
+
+
+      <div class="confirm-row">
+
+        <input
+          type="checkbox"
+          id="contractCheck">
+
+        <label for="contractCheck">
+
+          위 국토교통부 표준 계약서 전체 내용을 확인했으며
+          계약 내용에 동의합니다.
+
+        </label>
+
+      </div>
+
+      <!-- 🏛️ 국토부 전자계약 혜택 배너 -->
+      <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px; padding:14px 16px; margin: 15px 0; font-size:13px; line-height:1.6; color:#166534;">
+        <div style="font-weight:800; font-size:14px; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+          <span>🎁</span> <span>국토교통부 표준 전자계약 체결 혜택</span>
+        </div>
+        • <strong>대출 우대금리 감면</strong>: 시중은행 주담대·전세대출 시 <strong>연 0.1% ~ 0.2%p 금리 할인</strong> 적용<br>
+        • <strong>확정일자 자동 발급</strong>: 계약 완료 즉시 동사무소 방문 없이 <strong>대법원 확정일자 1초 자동 부여</strong><br>
+        • <strong>공인전자서명 보관</strong>: 종이 분실 걱정 없이 국가 공인전자문서센터 안전 보관
+      </div>
+
+
+      <br>
+
+
+      <button
+        id="goSignBtn"
+        class="btn btn-gray"
+        disabled>
+
+        확인 후 전자서명 진행
+
+      </button>
+
+    </section>
+
+
+    <!-- 서명 -->
+
+    <section
+      id="signSection"
+      class="card hidden">
+
+      <h2>
+        3. 전자서명
+      </h2>
+
+
+      <div class="notice">
+
+        아래 흰색 서명란에 손가락 또는 마우스로
+        평소 사용하는 서명을 직접 작성해 주세요.
+
+      </div>
+
+
+      <div class="signature-wrap">
+
+        <canvas
+          id="signatureCanvas">
+        </canvas>
+
+        <div class="sign-guide">
+          이곳에 직접 서명하세요.
+        </div>
+
+      </div>
+
+
+      <button
+        id="clearBtn"
+        class="btn btn-light">
+
+        서명 다시 쓰기
+
+      </button>
+
+
+      <div class="confirm-row">
+
+        <input
+          type="checkbox"
+          id="signConsent">
+
+        <label for="signConsent">
+
+          본인은 위 부동산 전자계약서의 계약내용,
+          특약사항 및 중개대상물 확인·설명 내용을 확인하였으며,
+          본인의 의사에 따라 전자서명합니다.
+          전자서명 완료 시 서명일시와 서명상태가 기록됩니다.
+
+        </label>
+
+      </div>
+
+
+      <br>
+
+
+      <button
+        id="submitSignBtn"
+        class="btn btn-gray"
+        disabled>
+
+        전자서명 완료
+
+      </button>
+
+
+      <div class="help">
+
+        전자서명이 완료되면
+        계약서를 공인중개사에게 다시 보낼 필요가 없습니다.
+
+      </div>
+
+    </section>
+
+
+    <!-- 완료 -->
+
+    <section
+      id="completeSection"
+      class="card hidden">
+
+      <div class="complete">
+
+        <div class="complete-icon">
+          ✅
+        </div>
+
+        <h2>
+          전자서명이 완료되었습니다.
+        </h2>
+
+        <p>
+
+          계약서를 공인중개사에게
+          다시 보내실 필요가 없습니다.
+
+          <br>
+
+          서명 결과는 해당 거래에
+          자동으로 반영됩니다.
+
+        </p>
+
+
+        <div
+          class="result-box"
+          id="resultBox">
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<script>
+
+(function(){
+
+"use strict";
+
+
+/* =======================================================
+   SUPABASE
+
+   아래 두 값에
+   방금 확인한 Project URL과 Publishable key를 넣으세요.
+
+   service_role / Secret key 사용 금지
+======================================================= */
+
+
+const SUPABASE_URL =
+  "여기에_PROJECT_URL";
+
+
+const SUPABASE_ANON_KEY =
+  "여기에_PUBLISHABLE_KEY";
+
+
+const db =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+
+const $ =
+  id =>
+  document.getElementById(id);
+
+
+
+/* =======================================================
+   URL 파라미터
+======================================================= */
+
+
+const params =
+  new URLSearchParams(
+    location.search
+  );
+
+
+const tradeId =
+  params.get("code") ||
+  params.get("trade") ||
+  "";
+
+
+let type =
+  params.get("type") || "";
+
+
+const role =
+  params.get("role") || "";
+
+
+const token =
+  params.get("token") || "";
+
+
+
+/* =======================================================
+   거래 유형
+======================================================= */
+
+
+const TYPE = {
+
+  sale:{
+
+    name:"매매",
+
+    title:
+      "부동산 매매계약서",
+
+    buyer:
+      "매수인",
+
+    seller:
+      "매도인",
+
+    amount:
+      "매매대금",
+
+    balance:
+      "잔금",
+
+    balanceDate:
+      "잔금일"
+
+  },
+
+
+  jeonse:{
+
+    name:"전세",
+
+    title:
+      "부동산 전세계약서",
+
+    buyer:
+      "임차인",
+
+    seller:
+      "임대인",
+
+    amount:
+      "전세보증금",
+
+    balance:
+      "잔금",
+
+    balanceDate:
+      "잔금일"
+
+  },
+
+
+  monthly:{
+
+    name:"월세",
+
+    title:
+      "부동산 월세계약서",
+
+    buyer:
+      "임차인",
+
+    seller:
+      "임대인",
+
+    amount:
+      "보증금",
+
+    balance:
+      "잔여 보증금",
+
+    balanceDate:
+      "입주·잔금일"
+
+  }
+
+};
+
+
+
+let tradeType =
+  TYPE[type] || null;
+
+
+let contractData =
+  null;
+
+
+let signatureData =
+  null;
+
+
+
+function getCurrentRoleName(){
+
+  if(role === "broker"){
+    return "공인중개사";
+  }
+
+  if(role === "seller"){
+    return tradeType
+      ? tradeType.seller
+      : "매도자·임대인";
+  }
+
+  return tradeType
+    ? tradeType.buyer
+    : "매수자·임차인";
+
+}
+
+
+
+/* =======================================================
+   기본 함수
+======================================================= */
+
+
+function money(value){
+
+  if(
+    value === null ||
+    value === undefined ||
+    value === ""
+  ){
+    return "-";
+  }
+
+
+  const n =
+    Number(value);
+
+
+  if(
+    Number.isNaN(n)
+  ){
+    return "-";
+  }
+
+
+  return n.toLocaleString(
+    "ko-KR"
+  ) + "원";
+
+}
+
+
+
+function phoneOnly(value){
+
+  return String(
+    value || ""
+  ).replace(
+    /\D/g,
+    ""
+  );
+
+}
+
+
+
+function maskPhone(value){
+
+  const phone =
+    phoneOnly(value);
+
+
+  if(phone.length < 10){
+    return phone;
+  }
+
+
+  return (
+    phone.slice(0,3) +
+    "-****-" +
+    phone.slice(-4)
+  );
+
+}
+
+
+
+function setStep(number){
+
+  for(
+    let i=1;
+    i<=4;
+    i++
+  ){
+
+    $("step"+i)
+      .classList
+      .remove("active");
+
+  }
+
+
+  $("step"+number)
+    .classList
+    .add("active");
+
+}
+
+
+
+function showError(message){
+
+  $("loadingBox")
+    .classList
+    .add("hidden");
+
+
+  $("mainContent")
+    .classList
+    .add("hidden");
+
+
+  $("errorSection")
+    .classList
+    .remove("hidden");
+
+
+  $("errorMessage")
+    .textContent =
+    message;
+
+}
+
+
+
+/* =======================================================
+   계약 정보 불러오기
+======================================================= */
+
+
+async function loadContract(){
+
+  if(
+    !tradeId ||
+    !type ||
+    !role ||
+    !token
+  ){
+
+    showError(
+      "유효하지 않은 전자서명 링크입니다."
+    );
+
+    return;
+  }
+
+
+  if(
+    role !== "buyer" &&
+    role !== "seller" &&
+    role !== "broker"
+  ){
+
+    showError(
+      "전자서명 대상자 정보가 올바르지 않습니다."
+    );
+
+    return;
+  }
+
+
+  try{
+
+
+    /* 서명요청 검증 */
+
+
+    const signatureResult =
+      await db
+
+      .from(
+        "electronic_signatures"
+      )
+
+      .select(
+        "*"
+      )
+
+      .eq(
+        "trade_id",
+        tradeId
+      )
+
+      .eq(
+        "signer_role",
+        role
+      )
+
+      .eq(
+        "sign_token",
+        token
+      )
+
+      .maybeSingle();
+
+
+
+    if(
+      signatureResult.error
+    ){
+
+      console.error(
+        signatureResult.error
+      );
+
+      showError(
+        "전자서명 요청 정보를 확인할 수 없습니다."
+      );
+
+      return;
+    }
+
+
+
+    if(
+      !signatureResult.data
+    ){
+
+      showError(
+        "유효하지 않거나 만료된 전자서명 링크입니다."
+      );
+
+      return;
+    }
+
+
+
+    signatureData =
+      signatureResult.data;
+
+
+
+    /* 이미 서명한 사람 */
+
+
+    if(
+      signatureData.signed
+    ){
+
+      await showAlreadySigned();
+
+      return;
+    }
+
+
+
+    /* 계약서 조회 */
+
+
+    const contractResult =
+      await db
+
+      .from(
+        "electronic_contracts"
+      )
+
+      .select(
+        "*"
+      )
+
+      .eq(
+        "trade_id",
+        tradeId
+      )
+
+      .maybeSingle();
+
+
+
+    if(
+      contractResult.error
+    ){
+
+      console.error(
+        contractResult.error
+      );
+
+      showError(
+        "전자계약서를 불러올 수 없습니다."
+      );
+
+      return;
+    }
+
+
+
+    if(
+      !contractResult.data
+    ){
+
+      showError(
+        "해당 거래의 전자계약서가 없습니다."
+      );
+
+      return;
+    }
+
+
+
+    contractData =
+      contractResult.data;
+
+
+
+    if(
+      type &&
+      contractData.trade_type !== type
+    ){
+
+      showError(
+        "계약서의 거래 유형이 일치하지 않습니다."
+      );
+
+      return;
+    }
+
+
+    type =
+      contractData.trade_type || type;
+
+
+    tradeType =
+      TYPE[type] || null;
+
+
+    if(
+      !tradeType
+    ){
+
+      showError(
+        "거래 유형이 올바르지 않습니다."
+      );
+
+      return;
+    }
+
+
+
+    renderContract();
+
+
+    $("loadingBox")
+      .classList
+      .add("hidden");
+
+
+    $("mainContent")
+      .classList
+      .remove("hidden");
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    showError(
+      "전자계약 정보를 불러오는 중 오류가 발생했습니다."
+    );
+
+  }
+
+}
+
+
+
+/* =======================================================
+   계약서 화면 출력
+======================================================= */
+
+
+function renderContract(){
+
+  const currentRole =
+    getCurrentRoleName();
+
+
+
+  $("roleTitle").textContent =
+    "현재 서명자: " +
+    currentRole;
+
+
+  $("roleDesc").textContent =
+    tradeType.name +
+    " 계약의 " +
+    currentRole +
+    " 전자서명 화면입니다.";
+
+
+
+  $("identityNotice").textContent =
+    currentRole +
+    " 본인 확인을 위해 등록된 휴대전화번호를 입력해 주세요.";
+
+
+
+  $("contractTitle").textContent =
+    tradeType.title;
+
+
+  $("tradeInfo").textContent =
+    tradeId;
+
+
+  $("typeInfo").textContent =
+    tradeType.name;
+
+
+  $("roleInfo").textContent =
+    currentRole;
+
+
+
+  $("propertyInfo").textContent =
+    [
+      contractData.apartment_name,
+      contractData.property_address,
+      contractData.unit_info
+    ]
+
+    .filter(Boolean)
+
+    .join(" / ")
+    ||
+    "-";
+
+
+
+  $("party1Title").textContent =
+    tradeType.buyer;
+
+
+  $("party1Info").textContent =
+    (
+      contractData.buyer_name
+      ||
+      "-"
+    )
+    +
+    " / "
+    +
+    maskPhone(
+      contractData.buyer_phone
+    );
+
+
+
+  $("party2Title").textContent =
+    tradeType.seller;
+
+
+  $("party2Info").textContent =
+    (
+      contractData.seller_name
+      ||
+      "-"
+    )
+    +
+    " / "
+    +
+    maskPhone(
+      contractData.seller_phone
+    );
+
+
+
+  $("amountTitle").textContent =
+    tradeType.amount;
+
+
+  $("amountInfo").textContent =
+    money(
+      contractData.total_amount
+    );
+
+
+  $("depositInfo").textContent =
+    money(
+      contractData.deposit_amount
+    );
+
+
+  $("balanceTitle").textContent =
+    tradeType.balance;
+
+
+  $("balanceInfo").textContent =
+    money(
+      contractData.balance_amount
+    );
+
+
+  $("contractDateInfo").textContent =
+    contractData.contract_date
+    ||
+    "-";
+
+
+  $("balanceDateTitle").textContent =
+    tradeType.balanceDate;
+
+
+  $("balanceDateInfo").textContent =
+    contractData.balance_date
+    ||
+    "-";
+
+
+  $("termsInfo").textContent =
+    contractData.special_terms
+    ||
+    "특약사항 없음";
+
+
+
+  if(
+    type === "monthly"
+  ){
+
+    $("middleRow")
+      .classList
+      .add("hidden");
+
+
+    $("monthlyRow")
+      .classList
+      .remove("hidden");
+
+
+    $("monthlyInfo").textContent =
+      money(
+        contractData.monthly_rent
+      );
+
+  }else{
+
+    $("middleRow")
+      .classList
+      .remove("hidden");
+
+
+    $("monthlyRow")
+      .classList
+      .add("hidden");
+
+
+    $("middleInfo").textContent =
+      money(
+        contractData.middle_amount
+      );
+
+  }
+
+
+
+  if(
+    role === "broker"
+  ){
+
+    $("personName").value =
+      contractData.broker_name
+      ||
+      signatureData.signer_name
+      ||
+      "";
+
+  }else if(
+    role === "seller"
+  ){
+
+    $("personName").value =
+      contractData.seller_name
+      ||
+      signatureData.signer_name
+      ||
+      "";
+
+  }else{
+
+    $("personName").value =
+      contractData.buyer_name
+      ||
+      signatureData.signer_name
+      ||
+      "";
+
+  }
+
+}
+
+
+
+/* =======================================================
+   이미 서명 완료
+======================================================= */
+
+
+async function showAlreadySigned(){
+
+  $("loadingBox")
+    .classList
+    .add("hidden");
+
+
+  $("mainContent")
+    .classList
+    .remove("hidden");
+
+
+  $("identitySection")
+    .classList
+    .add("hidden");
+
+
+  $("contractSection")
+    .classList
+    .add("hidden");
+
+
+  $("signSection")
+    .classList
+    .add("hidden");
+
+
+  $("completeSection")
+    .classList
+    .remove("hidden");
+
+
+  setStep(4);
+
+
+  const currentRole =
+    getCurrentRoleName();
+
+
+  $("resultBox").innerHTML =
+    "<strong>" +
+    currentRole +
+    " 전자서명 완료</strong><br>" +
+
+    "거래번호: " +
+    tradeId +
+    "<br>" +
+
+    "완료시각: " +
+    (
+      signatureData.signed_at
+      ? new Date(
+          signatureData.signed_at
+        ).toLocaleString(
+          "ko-KR"
+        )
+      : "-"
+    );
+
+}
+
+
+
+/* =======================================================
+   본인확인
+======================================================= */
+
+
+$("verifyBtn")
+.addEventListener(
+  "click",
+  async function(){
+
+
+    const phone =
+      phoneOnly(
+        $("personPhone").value
+      );
+
+
+    if(
+      phone.length < 10
+    ){
+
+      alert(
+        "휴대전화번호를 정확히 입력해 주세요."
+      );
+
+      $("personPhone").focus();
+
+      return;
+    }
+
+
+
+    const registeredPhone =
+      phoneOnly(
+        signatureData.signer_phone
+      );
+
+
+
+    if(
+      phone !== registeredPhone
+    ){
+
+      alert(
+        "등록된 계약 당사자의 휴대전화번호와 일치하지 않습니다."
+      );
+
+      $("personPhone").focus();
+
+      return;
+    }
+
+
+
+    this.disabled =
+      true;
+
+
+    this.textContent =
+      "확인 중...";
+
+
+
+    const now =
+      new Date()
+      .toISOString();
+
+
+
+    const updateResult =
+      await db
+
+      .from(
+        "electronic_signatures"
+      )
+
+      .update({
+
+        identity_verified:
+          true,
+
+        identity_verified_at:
+          now
+
+      })
+
+      .eq(
+        "trade_id",
+        tradeId
+      )
+
+      .eq(
+        "signer_role",
+        role
+      )
+
+      .eq(
+        "sign_token",
+        token
+      );
+
+
+
+    if(
+      updateResult.error
+    ){
+
+      console.error(
+        updateResult.error
+      );
+
+
+      this.disabled =
+        false;
+
+
+      this.textContent =
+        "휴대전화 본인확인";
+
+
+      alert(
+        "본인확인 정보 저장 중 오류가 발생했습니다."
+      );
+
+      return;
+    }
+
+
+
+    $("identitySection")
+      .classList
+      .add("hidden");
+
+
+    $("contractSection")
+      .classList
+      .remove("hidden");
+
+
+    setStep(2);
+
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }
+);
+
+
+
+/* =======================================================
+   계약 내용 확인
+======================================================= */
+
+
+$("contractCheck")
+.addEventListener(
+  "change",
+  function(){
+
+
+    $("goSignBtn").disabled =
+      !this.checked;
+
+
+    $("goSignBtn").className =
+      this.checked
+      ? "btn btn-dark"
+      : "btn btn-gray";
+
+  }
+);
+
+
+
+$("goSignBtn")
+.addEventListener(
+  "click",
+  async function(){
+
+
+    if(
+      this.disabled
+    ){
+      return;
+    }
+
+
+
+    const updateResult =
+      await db
+
+      .from(
+        "electronic_signatures"
+      )
+
+      .update({
+
+        contract_confirmed:
+          true
+
+      })
+
+      .eq(
+        "trade_id",
+        tradeId
+      )
+
+      .eq(
+        "signer_role",
+        role
+      )
+
+      .eq(
+        "sign_token",
+        token
+      );
+
+
+
+    if(
+      updateResult.error
+    ){
+
+      console.error(
+        updateResult.error
+      );
+
+
+      alert(
+        "계약내용 확인 정보 저장 중 오류가 발생했습니다."
+      );
+
+      return;
+    }
+
+
+
+    $("contractSection")
+      .classList
+      .add("hidden");
+
+
+    $("signSection")
+      .classList
+      .remove("hidden");
+
+
+    setStep(3);
+
+
+    setTimeout(
+      resizeCanvas,
+      50
+    );
+
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }
+);
+
+
+
+/* =======================================================
+   사인 캔버스
+======================================================= */
+
+
+const canvas =
+  $("signatureCanvas");
+
+
+const ctx =
+  canvas.getContext("2d");
+
+
+let drawing =
+  false;
+
+
+let signed =
+  false;
+
+
+
+function resizeCanvas(){
+
+
+  const rect =
+    canvas.getBoundingClientRect();
+
+
+  const ratio =
+    window.devicePixelRatio
+    ||
+    1;
+
+
+  canvas.width =
+    Math.max(
+      1,
+      Math.floor(
+        rect.width * ratio
+      )
+    );
+
+
+  canvas.height =
+    Math.max(
+      1,
+      Math.floor(
+        rect.height * ratio
+      )
+    );
+
+
+  ctx.setTransform(
+    ratio,
+    0,
+    0,
+    ratio,
+    0,
+    0
+  );
+
+
+  ctx.lineWidth =
+    2.2;
+
+
+  ctx.lineCap =
+    "round";
+
+
+  ctx.lineJoin =
+    "round";
+
+
+  signed =
+    false;
+
+
+  updateSignButton();
+
+}
+
+
+
+function getPoint(event){
+
+
+  const rect =
+    canvas.getBoundingClientRect();
+
+
+  const source =
+    event.touches
+    ? event.touches[0]
+    : event;
+
+
+  return {
+
+    x:
+      source.clientX
+      -
+      rect.left,
+
+    y:
+      source.clientY
+      -
+      rect.top
+
+  };
+
+}
+
+
+
+function startDraw(event){
+
+
+  event.preventDefault();
+
+
+  drawing =
+    true;
+
+
+  const p =
+    getPoint(event);
+
+
+  ctx.beginPath();
+
+
+  ctx.moveTo(
+    p.x,
+    p.y
+  );
+
+}
+
+
+
+function draw(event){
+
+
+  if(
+    !drawing
+  ){
+    return;
+  }
+
+
+  event.preventDefault();
+
+
+  const p =
+    getPoint(event);
+
+
+  ctx.lineTo(
+    p.x,
+    p.y
+  );
+
+
+  ctx.stroke();
+
+
+  signed =
+    true;
+
+
+  updateSignButton();
+
+}
+
+
+
+function stopDraw(){
+
+  drawing =
+    false;
+
+}
+
+
+
+canvas.addEventListener(
+  "mousedown",
+  startDraw
+);
+
+
+canvas.addEventListener(
+  "mousemove",
+  draw
+);
+
+
+window.addEventListener(
+  "mouseup",
+  stopDraw
+);
+
+
+canvas.addEventListener(
+  "touchstart",
+  startDraw,
+  {
+    passive:false
+  }
+);
+
+
+canvas.addEventListener(
+  "touchmove",
+  draw,
+  {
+    passive:false
+  }
+);
+
+
+canvas.addEventListener(
+  "touchend",
+  stopDraw
+);
+
+
+
+/* =======================================================
+   서명 다시쓰기
+======================================================= */
+
+
+$("clearBtn")
+.addEventListener(
+  "click",
+  function(){
+
+
+    ctx.clearRect(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+
+    signed =
+      false;
+
+
+    updateSignButton();
+
+  }
+);
+
+
+
+/* =======================================================
+   서명 동의
+======================================================= */
+
+
+$("signConsent")
+.addEventListener(
+  "change",
+  updateSignButton
+);
+
+
+
+function updateSignButton(){
+
+
+  const ready =
+    signed
+    &&
+    $("signConsent").checked;
+
+
+  $("submitSignBtn").disabled =
+    !ready;
+
+
+  $("submitSignBtn").className =
+    ready
+    ? "btn btn-primary"
+    : "btn btn-gray";
+
+}
+
+
+
+/* =======================================================
+   실제 전자서명 저장
+======================================================= */
+
+
+$("submitSignBtn")
+.addEventListener(
+  "click",
+  async function(){
+
+
+    if(
+      this.disabled
+    ){
+      return;
+    }
+
+
+
+    this.disabled =
+      true;
+
+
+    this.textContent =
+      "전자서명 저장 중...";
+
+
+
+    const signatureImage =
+      canvas.toDataURL(
+        "image/png"
+      );
+
+
+
+    const signedAt =
+      new Date()
+      .toISOString();
+
+
+
+    const updateResult =
+      await db
+
+      .from(
+        "electronic_signatures"
+      )
+
+      .update({
+
+        signature_image:
+          signatureImage,
+
+        contract_confirmed:
+          true,
+
+        signed:
+          true,
+
+        signed_at:
+          signedAt
+
+      })
+
+      .eq(
+        "trade_id",
+        tradeId
+      )
+
+      .eq(
+        "signer_role",
+        role
+      )
+
+      .eq(
+        "sign_token",
+        token
+      );
+
+
+
+    if(
+      updateResult.error
+    ){
+
+      console.error(
+        updateResult.error
+      );
+
+
+      this.disabled =
+        false;
+
+
+      this.textContent =
+        "전자서명 완료";
+
+
+      alert(
+        "전자서명 저장 중 오류가 발생했습니다.\n" +
+        updateResult.error.message
+      );
+
+
+      return;
+    }
+
+
+
+    $("signSection")
+      .classList
+      .add("hidden");
+
+
+    $("completeSection")
+      .classList
+      .remove("hidden");
+
+
+    setStep(4);
+
+
+
+    const currentRole =
+      getCurrentRoleName();
+
+
+
+    $("resultBox").innerHTML =
+      "<strong>" +
+      currentRole +
+      " 전자서명 완료</strong><br>" +
+
+      "거래번호: " +
+      tradeId +
+      "<br>" +
+
+      "완료시각: " +
+      new Date(
+        signedAt
+      ).toLocaleString(
+        "ko-KR"
+      );
+
+
+
+    await checkAllSigned();
+
+
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }
+);
+
+
+
+/* =======================================================
+   3자 서명 완료 확인
+======================================================= */
+
+
+async function checkAllSigned(){
+
+
+  const result =
+    await db
+
+    .from(
+      "electronic_signatures"
+    )
+
+    .select(
+      "signer_role,signed"
+    )
+
+    .eq(
+      "trade_id",
+      tradeId
+    );
+
+
+
+  if(
+    result.error
+  ){
+
+    console.error(
+      result.error
+    );
+
+    return;
+  }
+
+
+
+  const rows =
+    result.data
+    ||
+    [];
+
+
+  const buyerDone =
+    rows.some(
+      row =>
+        row.signer_role === "buyer"
+        &&
+        row.signed === true
+    );
+
+
+  const sellerDone =
+    rows.some(
+      row =>
+        row.signer_role === "seller"
+        &&
+        row.signed === true
+    );
+
+
+  const brokerDone =
+    rows.some(
+      row =>
+        row.signer_role === "broker"
+        &&
+        row.signed === true
+    );
+
+
+
+  if(
+    buyerDone
+    &&
+    sellerDone
+    &&
+    brokerDone
+  ){
+
+
+    const completeResult =
+      await db
+
+      .from(
+        "electronic_contracts"
+      )
+
+      .update({
+
+        contract_status:
+          "COMPLETED",
+
+        updated_at:
+          new Date()
+          .toISOString()
+
+      })
+
+      .eq(
+        "trade_id",
+        tradeId
+      );
+
+
+
+    if(
+      completeResult.error
+    ){
+
+      console.error(
+        completeResult.error
+      );
+
+    }
+
+  }
+
+}
+
+
+
+/* =======================================================
+   시작
+======================================================= */
+
+
+loadContract();
+
+
+})();
+</script>
+
+</body>
+</html>
