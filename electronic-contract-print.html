@@ -1,0 +1,1518 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>전자계약서 출력 | 우리아파트 안심거래</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#eef2f5;
+  color:#111;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans KR",
+    Arial,
+    sans-serif;
+}
+
+.toolbar{
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  gap:8px;
+  max-width:900px;
+  margin:0 auto;
+  padding:12px;
+  background:#eef2f5;
+}
+
+.btn{
+  flex:1;
+  min-height:48px;
+  border:0;
+  border-radius:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.btn-dark{
+  background:#12394d;
+  color:#fff;
+}
+
+.btn-blue{
+  background:#1165d7;
+  color:#fff;
+}
+
+.btn:disabled{
+  background:#bbc5ca;
+  color:#fff;
+  cursor:not-allowed;
+}
+
+.wrap{
+  width:100%;
+  max-width:900px;
+  margin:0 auto;
+  padding:0 12px 50px;
+}
+
+.loading,
+.error{
+  max-width:800px;
+  margin:30px auto;
+  background:#fff;
+  border-radius:14px;
+  padding:25px;
+  text-align:center;
+  line-height:1.7;
+}
+
+.error{
+  color:#a33a3a;
+}
+
+/* A4 한 페이지 */
+
+.a4{
+  width:210mm;
+  min-height:297mm;
+  margin:0 auto 18px;
+  padding:15mm;
+  background:#fff;
+  box-shadow:0 3px 15px rgba(0,0,0,.08);
+  page-break-after:always;
+}
+
+.a4:last-child{
+  page-break-after:auto;
+}
+
+.contract-title{
+  text-align:center;
+  font-size:25px;
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+.contract-number{
+  text-align:center;
+  font-size:12px;
+  color:#666;
+  margin-bottom:20px;
+}
+
+.section-title{
+  margin:18px 0 8px;
+  font-size:16px;
+  font-weight:900;
+  border-bottom:2px solid #333;
+  padding-bottom:5px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+
+th,
+td{
+  border:1px solid #555;
+  padding:8px;
+  text-align:left;
+  vertical-align:top;
+  line-height:1.6;
+}
+
+th{
+  width:28%;
+  background:#f4f4f4;
+}
+
+.general-terms{
+  white-space:pre-wrap;
+  font-size:12.5px;
+  line-height:1.8;
+}
+
+.signatures{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:12px;
+}
+
+.signature-box{
+  border:1px solid #777;
+  padding:12px;
+  min-height:150px;
+}
+
+.signature-box strong{
+  display:block;
+  margin-bottom:8px;
+}
+
+.signature-box img{
+  display:block;
+  max-width:100%;
+  max-height:80px;
+  margin:10px auto;
+}
+
+.sign-date{
+  font-size:11px;
+  color:#555;
+  margin-top:6px;
+}
+
+.attachment-title{
+  font-size:21px;
+  font-weight:900;
+  margin-bottom:12px;
+}
+
+.attachment-name{
+  font-size:13px;
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+.attachment-image{
+  display:block;
+  width:100%;
+  max-height:245mm;
+  object-fit:contain;
+  margin:0 auto;
+}
+
+.pdf-page{
+  display:block;
+  width:100%;
+  height:auto;
+  margin:0 auto;
+}
+
+.attach-notice{
+  padding:20px;
+  text-align:center;
+  border:1px solid #ddd;
+  color:#666;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* 실제 출력 */
+
+@media print{
+
+  body{
+    background:#fff;
+  }
+
+  .toolbar,
+  .loading,
+  .error{
+    display:none!important;
+  }
+
+  .wrap{
+    max-width:none;
+    margin:0;
+    padding:0;
+  }
+
+  .a4{
+    width:100%;
+    min-height:0;
+    margin:0;
+    padding:12mm 14mm;
+    box-shadow:none;
+    page-break-after:always;
+  }
+
+  .a4:last-child{
+    page-break-after:auto;
+  }
+
+  @page{
+    size:A4 portrait;
+    margin:0;
+  }
+}
+
+@media(max-width:850px){
+
+  .wrap{
+    overflow-x:auto;
+  }
+
+  .a4{
+    transform-origin:top left;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar">
+
+  <button
+    class="btn btn-dark"
+    onclick="history.back()">
+    이전 화면
+  </button>
+
+  <button
+    id="printBtn"
+    class="btn btn-blue"
+    disabled>
+    계약서 출력 / PDF 저장
+  </button>
+
+</div>
+
+
+<div
+  id="loading"
+  class="loading">
+  전자계약서와 첨부서류를 불러오는 중입니다.
+</div>
+
+<div
+  id="error"
+  class="error hidden">
+</div>
+
+
+<div
+  id="printArea"
+  class="wrap hidden">
+
+
+  <!-- 계약서 본문 -->
+
+  <section class="a4">
+
+    <div
+      id="contractTitle"
+      class="contract-title">
+    </div>
+
+    <div
+      id="contractNumber"
+      class="contract-number">
+    </div>
+
+
+    <div class="section-title">
+      1. 부동산 표시
+    </div>
+
+    <table>
+
+      <tr>
+        <th>아파트명</th>
+        <td id="aptName"></td>
+      </tr>
+
+      <tr>
+        <th>소재지</th>
+        <td id="address"></td>
+      </tr>
+
+      <tr>
+        <th>동 · 호수</th>
+        <td id="unit"></td>
+      </tr>
+
+    </table>
+
+
+    <div class="section-title">
+      2. 계약내용
+    </div>
+
+    <table>
+
+      <tr>
+        <th id="amountTitle">
+          거래금액
+        </th>
+        <td id="totalAmount"></td>
+      </tr>
+
+      <tr>
+        <th>계약금</th>
+        <td id="deposit"></td>
+      </tr>
+
+      <tr id="middleRow">
+        <th>중도금</th>
+        <td id="middle"></td>
+      </tr>
+
+      <tr>
+        <th id="balanceTitle">
+          잔금
+        </th>
+        <td id="balance"></td>
+      </tr>
+
+      <tr
+        id="monthlyRow"
+        class="hidden">
+        <th>월 차임</th>
+        <td id="monthly"></td>
+      </tr>
+
+      <tr>
+        <th>계약일</th>
+        <td id="contractDate"></td>
+      </tr>
+
+      <tr>
+        <th id="balanceDateTitle">
+          잔금일
+        </th>
+        <td id="balanceDate"></td>
+      </tr>
+
+    </table>
+
+
+    <div class="section-title">
+      3. 계약 당사자
+    </div>
+
+    <table>
+
+      <tr>
+        <th id="buyerTitle"></th>
+        <td id="buyerInfo"></td>
+      </tr>
+
+      <tr>
+        <th id="sellerTitle"></th>
+        <td id="sellerInfo"></td>
+      </tr>
+
+    </table>
+
+
+    <div class="section-title">
+      4. 특약사항
+    </div>
+
+    <div
+      id="specialTerms"
+      class="general-terms">
+    </div>
+
+  </section>
+
+
+  <!-- 일반조항 -->
+
+  <section class="a4">
+
+    <div class="contract-title">
+      계약 일반조항
+    </div>
+
+    <div
+      id="generalTerms"
+      class="general-terms">
+    </div>
+
+
+    <div class="section-title">
+      전자계약 확인
+    </div>
+
+    <div
+      id="confirmationText"
+      class="general-terms">
+    </div>
+
+  </section>
+
+
+  <!-- 전자서명 -->
+
+  <section class="a4">
+
+    <div class="contract-title">
+      전자서명 확인
+    </div>
+
+    <div class="section-title">
+      계약 당사자 전자서명
+    </div>
+
+    <div class="signatures">
+
+      <div class="signature-box">
+
+        <strong id="buyerSignTitle">
+        </strong>
+
+        <div id="buyerSignerName"></div>
+
+        <img
+          id="buyerSignature"
+          class="hidden"
+          alt="전자서명">
+
+        <div
+          id="buyerSignDate"
+          class="sign-date">
+        </div>
+
+      </div>
+
+
+      <div class="signature-box">
+
+        <strong id="sellerSignTitle">
+        </strong>
+
+        <div id="sellerSignerName"></div>
+
+        <img
+          id="sellerSignature"
+          class="hidden"
+          alt="전자서명">
+
+        <div
+          id="sellerSignDate"
+          class="sign-date">
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="section-title">
+      계약상태
+    </div>
+
+    <table>
+
+      <tr>
+        <th>거래번호</th>
+        <td id="signTradeId"></td>
+      </tr>
+
+      <tr>
+        <th>전자계약 상태</th>
+        <td id="contractStatus"></td>
+      </tr>
+
+    </table>
+
+  </section>
+
+
+  <!-- 첨부서류가 여기에 자동 추가 -->
+
+  <div id="attachments"></div>
+
+</div>
+
+
+<script>
+
+(function(){
+
+"use strict";
+
+
+/* ===========================================
+   현재 사용하는 Supabase 실제 값 입력
+=========================================== */
+
+const SUPABASE_URL =
+  "여기에_현재_PROJECT_URL";
+
+const SUPABASE_ANON_KEY =
+  "여기에_현재_PUBLISHABLE_KEY";
+
+
+const STORAGE_BUCKET =
+  "electronic-contract-docs";
+
+
+const db =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+
+const $ =
+  id =>
+  document.getElementById(id);
+
+
+const params =
+  new URLSearchParams(
+    location.search
+  );
+
+
+const tradeId =
+  params.get("trade") || "";
+
+
+let contract =
+  null;
+
+
+let template =
+  null;
+
+
+let signatures =
+  [];
+
+
+let documents =
+  [];
+
+
+const TYPE = {
+
+  sale:{
+    name:"매매",
+    title:"부동산 매매 전자계약서",
+    buyer:"매수인",
+    seller:"매도인",
+    amount:"매매대금",
+    balance:"잔금",
+    balanceDate:"잔금일"
+  },
+
+  jeonse:{
+    name:"전세",
+    title:"주택 전세 전자계약서",
+    buyer:"임차인",
+    seller:"임대인",
+    amount:"전세보증금",
+    balance:"잔금",
+    balanceDate:"입주·잔금일"
+  },
+
+  monthly:{
+    name:"월세",
+    title:"주택 월세 전자계약서",
+    buyer:"임차인",
+    seller:"임대인",
+    amount:"보증금",
+    balance:"잔여 보증금",
+    balanceDate:"입주·잔금일"
+  }
+
+};
+
+
+function money(value){
+
+  if(
+    value === null ||
+    value === undefined ||
+    value === ""
+  ){
+    return "-";
+  }
+
+  const n =
+    Number(value);
+
+  if(Number.isNaN(n)){
+    return "-";
+  }
+
+  return n.toLocaleString("ko-KR") +
+    "원";
+
+}
+
+
+function showError(message){
+
+  $("loading")
+    .classList.add("hidden");
+
+  $("printArea")
+    .classList.add("hidden");
+
+  $("error")
+    .classList.remove("hidden");
+
+  $("error").textContent =
+    message;
+
+}
+
+
+async function loadAll(){
+
+  if(!tradeId){
+
+    showError(
+      "거래번호가 없습니다."
+    );
+
+    return;
+  }
+
+
+  try{
+
+
+    /* 계약서 */
+
+    const contractResult =
+      await db
+
+      .from(
+        "electronic_contracts"
+      )
+
+      .select("*")
+
+      .eq(
+        "trade_id",
+        tradeId
+      )
+
+      .maybeSingle();
+
+
+    if(
+      contractResult.error ||
+      !contractResult.data
+    ){
+
+      throw new Error(
+        "전자계약서를 찾을 수 없습니다."
+      );
+
+    }
+
+
+    contract =
+      contractResult.data;
+
+
+    /* 계약 템플릿 */
+
+    const templateResult =
+      await db
+
+      .from(
+        "contract_templates"
+      )
+
+      .select(
+        "title,version,general_terms,confirmation_text"
+      )
+
+      .eq(
+        "contract_type",
+        contract.trade_type
+      )
+
+      .eq(
+        "is_active",
+        true
+      )
+
+      .maybeSingle();
+
+
+    if(!templateResult.error){
+
+      template =
+        templateResult.data;
+
+    }
+
+
+    /* 전자서명 */
+
+    const signResult =
+      await db
+
+      .from(
+        "electronic_signatures"
+      )
+
+      .select(
+        "signer_role,signer_name,signature_image,signed,signed_at"
+      )
+
+      .eq(
+        "trade_id",
+        tradeId
+      );
+
+
+    if(!signResult.error){
+
+      signatures =
+        signResult.data || [];
+
+    }
+
+
+    /* 첨부서류 */
+
+    const documentResult =
+      await db
+
+      .from(
+        "electronic_contract_documents"
+      )
+
+      .select(
+        "document_code,document_name,storage_path,original_filename,mime_type"
+      )
+
+      .eq(
+        "trade_id",
+        tradeId
+      )
+
+      .eq(
+        "trade_type",
+        contract.trade_type
+      )
+
+      .order(
+        "id",
+        {
+          ascending:true
+        }
+      );
+
+
+    if(!documentResult.error){
+
+      documents =
+        documentResult.data || [];
+
+    }
+
+
+    renderContract();
+
+    renderSignatures();
+
+    await renderAttachments();
+
+
+    $("loading")
+      .classList.add("hidden");
+
+
+    $("printArea")
+      .classList.remove("hidden");
+
+
+    const bothSigned =
+      signatures.some(
+        s =>
+          s.signer_role === "buyer" &&
+          s.signed
+      )
+      &&
+      signatures.some(
+        s =>
+          s.signer_role === "seller" &&
+          s.signed
+      );
+
+
+    $("printBtn").disabled =
+      !bothSigned;
+
+
+    if(!bothSigned){
+
+      $("printBtn").textContent =
+        "양쪽 서명 완료 후 출력 가능";
+
+    }
+
+
+  }catch(error){
+
+    console.error(error);
+
+    showError(
+      error.message ||
+      "계약서 출력정보를 불러오지 못했습니다."
+    );
+
+  }
+
+}
+
+
+function renderContract(){
+
+  const type =
+    TYPE[contract.trade_type] ||
+    TYPE.sale;
+
+
+  $("contractTitle").textContent =
+    template?.title ||
+    type.title;
+
+
+  $("contractNumber").textContent =
+    "거래번호 " +
+    tradeId;
+
+
+  $("aptName").textContent =
+    contract.apartment_name ||
+    "-";
+
+
+  $("address").textContent =
+    contract.property_address ||
+    "-";
+
+
+  $("unit").textContent =
+    contract.unit_info ||
+    "-";
+
+
+  $("amountTitle").textContent =
+    type.amount;
+
+
+  $("totalAmount").textContent =
+    money(
+      contract.total_amount
+    );
+
+
+  $("deposit").textContent =
+    money(
+      contract.deposit_amount
+    );
+
+
+  $("balanceTitle").textContent =
+    type.balance;
+
+
+  $("balance").textContent =
+    money(
+      contract.balance_amount
+    );
+
+
+  $("contractDate").textContent =
+    contract.contract_date ||
+    "-";
+
+
+  $("balanceDateTitle").textContent =
+    type.balanceDate;
+
+
+  $("balanceDate").textContent =
+    contract.balance_date ||
+    "-";
+
+
+  $("buyerTitle").textContent =
+    type.buyer;
+
+
+  $("buyerInfo").textContent =
+    (
+      contract.buyer_name ||
+      "-"
+    ) +
+    " / " +
+    (
+      contract.buyer_phone ||
+      "-"
+    );
+
+
+  $("sellerTitle").textContent =
+    type.seller;
+
+
+  $("sellerInfo").textContent =
+    (
+      contract.seller_name ||
+      "-"
+    ) +
+    " / " +
+    (
+      contract.seller_phone ||
+      "-"
+    );
+
+
+  $("specialTerms").textContent =
+    contract.special_terms ||
+    "특약사항 없음";
+
+
+  $("generalTerms").textContent =
+    template?.general_terms ||
+    "일반 계약조항 없음";
+
+
+  $("confirmationText").textContent =
+    template?.confirmation_text ||
+    "위 계약내용을 확인하고 동의합니다.";
+
+
+  if(
+    contract.trade_type === "monthly"
+  ){
+
+    $("middleRow")
+      .classList.add("hidden");
+
+
+    $("monthlyRow")
+      .classList.remove("hidden");
+
+
+    $("monthly").textContent =
+      money(
+        contract.monthly_rent
+      );
+
+  }else{
+
+    $("middleRow")
+      .classList.remove("hidden");
+
+
+    $("monthlyRow")
+      .classList.add("hidden");
+
+
+    $("middle").textContent =
+      money(
+        contract.middle_amount
+      );
+
+  }
+
+}
+
+
+function renderSignatures(){
+
+  const type =
+    TYPE[contract.trade_type] ||
+    TYPE.sale;
+
+
+  $("buyerSignTitle").textContent =
+    type.buyer + " 전자서명";
+
+
+  $("sellerSignTitle").textContent =
+    type.seller + " 전자서명";
+
+
+  $("signTradeId").textContent =
+    tradeId;
+
+
+  $("contractStatus").textContent =
+    contract.contract_status === "COMPLETED"
+    ? "전자계약 체결완료"
+    : "전자서명 진행중";
+
+
+  const buyer =
+    signatures.find(
+      row =>
+        row.signer_role === "buyer"
+    );
+
+
+  const seller =
+    signatures.find(
+      row =>
+        row.signer_role === "seller"
+    );
+
+
+  renderOneSignature(
+    buyer,
+    "buyerSignerName",
+    "buyerSignature",
+    "buyerSignDate"
+  );
+
+
+  renderOneSignature(
+    seller,
+    "sellerSignerName",
+    "sellerSignature",
+    "sellerSignDate"
+  );
+
+}
+
+
+function renderOneSignature(
+  row,
+  nameId,
+  imageId,
+  dateId
+){
+
+  if(
+    !row ||
+    !row.signed
+  ){
+
+    $(nameId).textContent =
+      "전자서명 미완료";
+
+    $(dateId).textContent =
+      "";
+
+    return;
+
+  }
+
+
+  $(nameId).textContent =
+    row.signer_name ||
+    "";
+
+
+  if(
+    row.signature_image
+  ){
+
+    $(imageId).src =
+      row.signature_image;
+
+
+    $(imageId)
+      .classList.remove(
+        "hidden"
+      );
+
+  }
+
+
+  $(dateId).textContent =
+    row.signed_at
+    ? "서명완료: " +
+      new Date(
+        row.signed_at
+      ).toLocaleString(
+        "ko-KR"
+      )
+    : "";
+
+}
+
+
+/* ===========================================
+   첨부 파일 출력
+=========================================== */
+
+async function renderAttachments(){
+
+  const container =
+    $("attachments");
+
+
+  container.innerHTML =
+    "";
+
+
+  for(
+    let i=0;
+    i<documents.length;
+    i++
+  ){
+
+    const doc =
+      documents[i];
+
+
+    const signed =
+      await db.storage
+
+      .from(
+        STORAGE_BUCKET
+      )
+
+      .createSignedUrl(
+        doc.storage_path,
+        600
+      );
+
+
+    if(
+      signed.error ||
+      !signed.data?.signedUrl
+    ){
+
+      continue;
+
+    }
+
+
+    const url =
+      signed.data.signedUrl;
+
+
+    const mime =
+      String(
+        doc.mime_type ||
+        ""
+      )
+      .toLowerCase();
+
+
+    const filename =
+      String(
+        doc.original_filename ||
+        ""
+      )
+      .toLowerCase();
+
+
+    const isPdf =
+      mime.includes(
+        "pdf"
+      )
+      ||
+      filename.endsWith(
+        ".pdf"
+      );
+
+
+    if(isPdf){
+
+      await appendPdf(
+        container,
+        doc,
+        url
+      );
+
+    }else{
+
+      appendImage(
+        container,
+        doc,
+        url
+      );
+
+    }
+
+  }
+
+}
+
+
+/* JPG / JPEG / PNG */
+
+function appendImage(
+  container,
+  doc,
+  url
+){
+
+  const page =
+    document.createElement(
+      "section"
+    );
+
+
+  page.className =
+    "a4";
+
+
+  page.innerHTML = `
+
+    <div class="attachment-title">
+      첨부서류
+    </div>
+
+    <div class="attachment-name">
+      ${escapeHtml(doc.document_name || doc.original_filename || "첨부서류")}
+    </div>
+
+    <img
+      class="attachment-image"
+      src="${url}"
+      alt="첨부서류">
+
+  `;
+
+
+  container.appendChild(
+    page
+  );
+
+}
+
+
+/* PDF는 각 페이지를 캔버스로 변환하여 출력 */
+
+async function appendPdf(
+  container,
+  doc,
+  url
+){
+
+  try{
+
+    const pdf =
+      await pdfjsLib
+      .getDocument(url)
+      .promise;
+
+
+    for(
+      let p=1;
+      p<=pdf.numPages;
+      p++
+    ){
+
+      const pdfPage =
+        await pdf.getPage(p);
+
+
+      const viewport =
+        pdfPage.getViewport({
+          scale:1.6
+        });
+
+
+      const canvas =
+        document.createElement(
+          "canvas"
+        );
+
+
+      canvas.width =
+        viewport.width;
+
+
+      canvas.height =
+        viewport.height;
+
+
+      canvas.className =
+        "pdf-page";
+
+
+      const context =
+        canvas.getContext(
+          "2d"
+        );
+
+
+      await pdfPage.render({
+
+        canvasContext:
+          context,
+
+        viewport:
+          viewport
+
+      }).promise;
+
+
+      const page =
+        document.createElement(
+          "section"
+        );
+
+
+      page.className =
+        "a4";
+
+
+      const title =
+        document.createElement(
+          "div"
+        );
+
+
+      title.className =
+        "attachment-name";
+
+
+      title.textContent =
+        (
+          doc.document_name ||
+          doc.original_filename ||
+          "첨부 PDF"
+        )
+        +
+        " (" +
+        p +
+        "/" +
+        pdf.numPages +
+        ")";
+
+
+      page.appendChild(
+        title
+      );
+
+
+      page.appendChild(
+        canvas
+      );
+
+
+      container.appendChild(
+        page
+      );
+
+    }
+
+
+  }catch(error){
+
+    console.error(
+      "PDF 출력 변환 오류:",
+      error
+    );
+
+
+    const page =
+      document.createElement(
+        "section"
+      );
+
+
+    page.className =
+      "a4";
+
+
+    page.innerHTML = `
+
+      <div class="attachment-title">
+        첨부서류
+      </div>
+
+      <div class="attach-notice">
+        ${escapeHtml(doc.document_name || "PDF 첨부서류")}
+        <br><br>
+        PDF 화면 변환에 실패했습니다.
+      </div>
+
+    `;
+
+
+    container.appendChild(
+      page
+    );
+
+  }
+
+}
+
+
+function escapeHtml(value){
+
+  return String(
+    value || ""
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+
+/* ===========================================
+   출력
+=========================================== */
+
+$("printBtn")
+.addEventListener(
+  "click",
+  function(){
+
+    if(
+      this.disabled
+    ){
+      return;
+    }
+
+
+    window.print();
+
+  }
+);
+
+
+/* 시작 */
+
+loadAll();
+
+})();
+</script>
+
+</body>
+</html>
