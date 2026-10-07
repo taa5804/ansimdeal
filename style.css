@@ -1,0 +1,537 @@
+
+*{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif;color:#101828;background:#fff}
+a{text-decoration:none;color:inherit}.wrap{max-width:940px;margin:auto}
+.header{height:122px;display:flex;align-items:center;justify-content:space-between;padding:0 38px;border-bottom:1px solid #e6edf5}
+.logo{display:flex;align-items:center;gap:12px;font-weight:900;font-size:27px;line-height:1.05}.logo-mark{font-size:48px}.logo strong{display:block;color:#1165d7}
+.top-actions{display:flex;align-items:center;gap:18px}.install-wrap{display:flex;flex-direction:column;align-items:center;gap:2px}.install-btn{border:0;background:transparent;cursor:pointer;padding:2px;display:grid;place-items:center}.phone{width:25px;height:33px;border:3px solid #1165d7;border-radius:5px;position:relative}.phone:before{content:"↓";position:absolute;left:50%;top:3px;transform:translateX(-50%);font-size:20px;font-weight:900;color:#1165d7}.phone:after{content:"";position:absolute;width:5px;height:2px;border-radius:2px;background:#1165d7;bottom:3px;left:50%;transform:translateX(-50%)}.install-label{font-size:12px;font-weight:850;color:#1165d7}
+.menu{width:43px;height:38px;border:0;background:transparent;display:flex;flex-direction:column;justify-content:center;gap:7px;padding:0;cursor:pointer}.menu span{height:4px;background:#101828;border-radius:3px;width:39px}
+.hero{position:relative;min-height:330px;padding:53px 45px 34px;overflow:hidden;background:linear-gradient(90deg,#fff 0%,#f8fcff 52%,#e8f5ff 100%)}.hero:after{content:"";position:absolute;right:0;top:0;width:49%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,.9),rgba(255,255,255,.03)),url('/assets/apartment.jpg') center/cover no-repeat}.hero-text{position:relative;z-index:2}.hero h1{font-size:39px;line-height:1.27;margin:0 0 22px;letter-spacing:-1.4px}.hero h1 em{font-style:normal;color:#145bc0}.hero p{font-size:21px;line-height:1.65;margin:0;font-weight:750}
+.trade{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:10px 36px 28px;margin-top:-2px;border-radius:0 0 20px 20px}.trade a{height:210px;border-radius:17px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;box-shadow:0 5px 12px #23364d15}.trade .sale{background:linear-gradient(135deg,#168ae1,#0870cf)}.trade .jeonse{background:linear-gradient(135deg,#1ab35d,#08a34d)}.trade .monthly{background:linear-gradient(135deg,#8650c8,#6737ad)}.trade .ico{font-size:46px}.trade b{font-size:35px;margin:8px 0}.trade span{font-size:22px}
+.process{padding:30px 30px 38px}.title{text-align:center;font-size:27px;margin:0 0 30px}.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.step{text-align:center;position:relative}.step:not(:last-child):after{content:"→";position:absolute;right:-10px;top:35px;color:#a9b0ba;font-size:27px}.circle{width:84px;height:84px;border-radius:50%;margin:auto;display:grid;place-items:center;font-size:36px}.step:nth-child(1) .circle{background:#e7f2ff}.step:nth-child(2) .circle{background:#e4f8ef}.step:nth-child(3) .circle{background:#e9f8e9}.step:nth-child(4) .circle{background:#fff2dd}.step:nth-child(5) .circle{background:#f0e9fb}.num{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;color:#fff;margin:-12px auto 11px;font-weight:900}.step:nth-child(1) .num{background:#1674d4}.step:nth-child(2) .num{background:#11a45a}.step:nth-child(3) .num{background:#22a247}.step:nth-child(4) .num{background:#f39a0a}.step:nth-child(5) .num{background:#7542ba}.step b{font-size:16px}.step p{font-size:13px;line-height:1.55;margin:9px 0 0}
+.promise{background:#fbfdff;border-radius:20px;padding:27px 22px 28px}.promise-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.card{min-height:292px;border:1px solid #dce5ef;border-radius:14px;background:#fff;padding:20px 14px;display:flex;flex-direction:column;text-align:center;box-shadow:0 4px 10px #405a7512}.card .ci{font-size:42px}.card h3{font-size:18px;margin:12px 0}.card p{font-size:13px;line-height:1.65;margin:0}.card .more{margin-top:auto;color:#0870d8;font-weight:850;font-size:14px}
+.broker{margin:25px 22px 0;background:linear-gradient(90deg,#e5f2ff,#edf7ff);border-radius:18px;padding:18px 26px;display:flex;align-items:center;justify-content:space-between}.broker-left{display:flex;align-items:center;gap:20px}.person{font-size:62px}.broker h2{margin:0 0 7px;font-size:25px}.broker p{margin:0;line-height:1.5}.join{background:#0960c9;color:#fff;padding:17px 25px;border-radius:12px;font-size:22px;font-weight:900}
+.footer{text-align:center;padding:20px 10px 28px;color:#777;font-size:13px}.footer div{margin-bottom:8px}
+@media(max-width:700px){.wrap{max-width:none}.header{height:84px;padding:0 18px}.logo{font-size:21px}.logo-mark{font-size:37px}.top-actions{gap:10px}.hero{padding:42px 24px 30px;min-height:315px}.hero:after{width:60%;opacity:.65}.hero h1{font-size:31px}.hero p{font-size:17px}.trade{padding:10px 12px 24px;gap:10px}.trade a{height:175px}.trade b{font-size:29px}.trade span{font-size:18px}.steps{grid-template-columns:repeat(5,1fr)}.circle{width:62px;height:62px;font-size:28px}.step b{font-size:12px}.step p{font-size:10px}.promise-grid{grid-template-columns:repeat(5,1fr);overflow-x:auto}.card{min-width:155px}.broker{margin:22px 10px 0;padding:15px}.person{font-size:45px}.broker h2{font-size:19px}.broker p{font-size:12px}.join{font-size:17px;padding:14px}}
+
+
+/* =========================================================
+   DETAIL PAGES ONLY
+   Main page design is intentionally NOT changed.
+   ========================================================= */
+body.detail-page{
+  background:#f3f8fe;
+}
+
+.detail-page .detail-wrap{
+  width:min(920px, calc(100% - 28px));
+  margin:34px auto 46px;
+}
+
+.detail-page .detail-card{
+  background:#ffffff;
+  border:1px solid #dfeaf6;
+  border-radius:20px;
+  padding:30px 34px;
+  box-shadow:0 12px 34px rgba(41,78,122,.10);
+}
+
+.detail-page .detail-card > h1{
+  text-align:center;
+  color:#173f78;
+  font-size:32px;
+  margin:0 0 18px;
+}
+
+.detail-page .detail-card > .intro{
+  text-align:center;
+  background:#edf6ff;
+  color:#415d80;
+  padding:16px 18px;
+  border-radius:13px;
+  line-height:1.75;
+  margin-bottom:26px;
+}
+
+.detail-page .detail-card h2{
+  color:#245d9f;
+  margin:28px 0 10px;
+  font-size:20px;
+}
+
+.detail-page .detail-card p{
+  color:#5d6f87;
+  line-height:1.8;
+}
+
+.detail-page .detail-card h2:nth-of-type(odd){
+  background:#eef6ff;
+  border-left:5px solid #7eb4ef;
+  border-radius:10px;
+  padding:11px 13px;
+}
+
+.detail-page .detail-card h2:nth-of-type(even){
+  background:#f0faf5;
+  border-left:5px solid #80d4a4;
+  border-radius:10px;
+  padding:11px 13px;
+}
+
+.detail-page .detail-card table{
+  width:100%;
+  border-collapse:collapse;
+  margin:12px 0 24px;
+  overflow:hidden;
+  border-radius:12px;
+  background:#fff;
+}
+
+.detail-page .detail-card th,
+.detail-page .detail-card td{
+  border:1px solid #dfe8f2;
+  padding:11px 12px;
+  text-align:center;
+}
+
+.detail-page .detail-card th{
+  background:#eaf4ff;
+  color:#245d9f;
+  font-weight:800;
+}
+
+.detail-page .detail-card table:nth-of-type(2) th{
+  background:#eaf8ef;
+  color:#2e7f52;
+}
+
+.detail-page .calculator-box{
+  margin-top:28px;
+  border:1px solid #eadff8;
+  background:#faf7ff;
+  border-radius:16px;
+  padding:22px;
+}
+
+.detail-page .calculator-box h2{
+  margin-top:0;
+  background:#f1e9ff !important;
+  border-left:5px solid #a578e7 !important;
+  color:#6f43b0 !important;
+}
+
+.detail-page .calc-tabs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  border:1px solid #d5dce6;
+  border-radius:10px;
+  overflow:hidden;
+  margin:15px 0;
+}
+
+.detail-page .calc-tab{
+  min-height:46px;
+  border:0;
+  border-right:1px solid #d5dce6;
+  background:#fff;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.detail-page .calc-tab:last-child{
+  border-right:0;
+}
+
+.detail-page .calc-tab.active{
+  background:#7b4bd6;
+  color:#fff;
+}
+
+.detail-page .calc-inputs{
+  display:grid;
+  gap:10px;
+}
+
+.detail-page .calc-inputs input{
+  width:100%;
+  min-height:50px;
+  border:1px solid #cfdbe8;
+  border-radius:10px;
+  padding:0 14px;
+  font-size:16px;
+}
+
+.detail-page .calc-btn{
+  width:100%;
+  min-height:52px;
+  margin-top:12px;
+  border:0;
+  border-radius:10px;
+  background:#7b4bd6;
+  color:#fff;
+  font-size:17px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.detail-page .calc-result{
+  margin-top:13px;
+  background:#fff;
+  border:1px solid #e4daf6;
+  border-radius:10px;
+  padding:15px;
+  line-height:1.8;
+}
+
+.detail-page .detail-note{
+  margin-top:18px;
+  background:#eef6ff;
+  border:1px solid #d6e7fa;
+  border-radius:11px;
+  padding:14px 16px;
+  color:#4b6380;
+  line-height:1.7;
+}
+
+.detail-page .back-link{
+  display:inline-block;
+  margin-bottom:14px;
+  color:#1763c5;
+  font-weight:800;
+}
+
+@media(max-width:700px){
+  .detail-page .detail-wrap{
+    width:calc(100% - 18px);
+    margin:18px auto 30px;
+  }
+  .detail-page .detail-card{
+    padding:20px 16px;
+    border-radius:16px;
+  }
+  .detail-page .detail-card > h1{
+    font-size:27px;
+  }
+  .detail-page .detail-card th,
+  .detail-page .detail-card td{
+    padding:9px 7px;
+    font-size:13px;
+  }
+}
+
+
+/* =========================================================
+   BROKER SIGNUP PAGE ONLY
+   Main page and other detail pages are NOT changed.
+   ========================================================= */
+body.signup-page{
+  margin:0;
+  background:
+    radial-gradient(circle at 14% 8%, rgba(43,125,224,.08), transparent 24%),
+    radial-gradient(circle at 88% 14%, rgba(87,178,129,.06), transparent 22%),
+    #f4f8fd;
+  color:#16243a;
+}
+
+.signup-page .signup-header{
+  width:100%;
+  height:72px;
+  background:#fff;
+  border-bottom:1px solid #e5edf6;
+  display:flex;
+  align-items:center;
+}
+
+.signup-page .signup-header-inner{
+  width:min(900px, calc(100% - 28px));
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.signup-page .signup-brand{
+  font-size:21px;
+  font-weight:900;
+  color:#17243a;
+}
+
+.signup-page .signup-brand strong{
+  color:#1165d7;
+}
+
+.signup-page .signup-back{
+  color:#1763c5;
+  font-weight:800;
+  font-size:14px;
+}
+
+.signup-page .signup-shell{
+  width:min(820px, calc(100% - 28px));
+  margin:30px auto 48px;
+}
+
+.signup-page .signup-hero{
+  width:100%;
+  margin:0 0 16px;
+  padding:27px 28px;
+  border-radius:19px;
+  color:#fff;
+  background:linear-gradient(135deg,#1768cf 0%,#4c91e5 100%);
+  box-shadow:0 12px 30px rgba(29,91,169,.18);
+}
+
+.signup-page .signup-hero h1{
+  margin:0 0 8px;
+  font-size:30px;
+  line-height:1.25;
+}
+
+.signup-page .signup-hero p{
+  margin:0;
+  color:#eef6ff;
+  line-height:1.65;
+  font-size:15px;
+}
+
+.signup-page .signup-card{
+  width:100%;
+  background:#fff;
+  border:1px solid #dfe9f4;
+  border-radius:20px;
+  padding:25px;
+  box-shadow:0 12px 34px rgba(41,78,122,.09);
+}
+
+.signup-page .signup-group{
+  margin:0 0 18px;
+  padding:19px;
+  border:1px solid #e0e9f3;
+  border-radius:15px;
+  background:#fff;
+}
+
+.signup-page .signup-group.blue{
+  background:#f5f9ff;
+  border-color:#dceafa;
+}
+
+.signup-page .signup-group.green{
+  background:#f4fbf7;
+  border-color:#d9eee2;
+}
+
+.signup-page .signup-group.purple{
+  background:#faf7ff;
+  border-color:#eadff8;
+}
+
+.signup-page .signup-group h2{
+  margin:0 0 15px;
+  padding-bottom:11px;
+  border-bottom:1px solid rgba(170,190,213,.35);
+  font-size:19px;
+  color:#245d9f;
+}
+
+.signup-page .signup-group.green h2{
+  color:#2d8151;
+}
+
+.signup-page .signup-group.purple h2{
+  color:#7449b7;
+}
+
+.signup-page .signup-field{
+  margin:13px 0;
+}
+
+.signup-page .signup-field label{
+  display:block;
+  margin-bottom:7px;
+  font-weight:850;
+  font-size:14px;
+}
+
+.signup-page .signup-field input{
+  width:100%;
+  min-height:52px;
+  padding:0 14px;
+  border:1px solid #cbd8e7;
+  border-radius:10px;
+  background:#fff;
+  font-size:16px;
+}
+
+.signup-page .signup-field input:focus{
+  outline:none;
+  border-color:#5a9be9;
+  box-shadow:0 0 0 3px rgba(90,155,233,.12);
+}
+
+.signup-page .signup-field input.auto{
+  background:#eef5fd;
+  border-color:#d4e4f5;
+}
+
+.signup-page .signup-hint{
+  margin:7px 0 0;
+  color:#718097;
+  font-size:13px;
+  line-height:1.55;
+}
+
+.signup-page .signup-upload{
+  padding:28px 18px;
+  border:2px dashed #88afe1;
+  border-radius:13px;
+  text-align:center;
+  background:linear-gradient(135deg,#edf6ff,#f9fcff);
+}
+
+.signup-page .signup-upload b{
+  display:block;
+  margin-bottom:6px;
+  color:#1f5fae;
+  font-size:18px;
+}
+
+.signup-page .signup-upload input[type=file]{
+  max-width:100%;
+  margin-top:10px;
+}
+
+.signup-page .signup-fee{
+  width:100%;
+  margin:0 0 18px;
+  padding:18px 20px;
+  border:1px solid #d8e6f7;
+  border-radius:14px;
+  background:linear-gradient(90deg,#edf6ff,#f7fbff);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.signup-page .signup-fee strong{
+  color:#245d9f;
+  font-size:17px;
+}
+
+.signup-page .signup-fee span{
+  color:#0d5bd7;
+  font-size:24px;
+  font-weight:900;
+}
+
+.signup-page .signup-check{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:51px;
+  margin:9px 0;
+  padding:12px 13px;
+  border:1px solid #e3e8f0;
+  border-radius:10px;
+  background:#fff;
+  font-size:14px;
+}
+
+.signup-page .signup-check input{
+  width:18px;
+  height:18px;
+  flex:0 0 auto;
+}
+
+.signup-page .signup-check .view{
+  margin-left:auto;
+  color:#1763c5;
+  font-weight:850;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.signup-page .signup-submit{
+  width:100%;
+  min-height:64px;
+  margin-top:7px;
+  border:0;
+  border-radius:13px;
+  background:linear-gradient(90deg,#0757c9,#2878e3);
+  color:#fff;
+  font-size:19px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 9px 22px rgba(13,91,215,.23);
+}
+
+.signup-page .signup-submit:hover{
+  filter:brightness(.98);
+}
+
+.signup-page .signup-modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:rgba(20,38,65,.55);
+}
+
+.signup-page .signup-modal.show{
+  display:flex;
+}
+
+.signup-page .signup-modal-box{
+  width:min(650px,100%);
+  max-height:80vh;
+  overflow:auto;
+  padding:24px;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 18px 50px rgba(20,38,65,.22);
+}
+
+.signup-page .signup-modal-close{
+  float:right;
+  border:0;
+  border-radius:8px;
+  padding:8px 11px;
+  background:#edf3fb;
+  cursor:pointer;
+}
+
+@media(max-width:600px){
+  .signup-page .signup-header{
+    height:64px;
+  }
+  .signup-page .signup-brand{
+    font-size:18px;
+  }
+  .signup-page .signup-shell{
+    width:calc(100% - 18px);
+    margin:18px auto 30px;
+  }
+  .signup-page .signup-hero{
+    padding:22px 18px;
+  }
+  .signup-page .signup-hero h1{
+    font-size:26px;
+  }
+  .signup-page .signup-card{
+    padding:15px;
+  }
+  .signup-page .signup-group{
+    padding:15px 13px;
+  }
+  .signup-page .signup-fee{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .signup-page .signup-submit{
+    min-height:60px;
+    font-size:18px;
+  }
+}
