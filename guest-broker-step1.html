@@ -1,0 +1,1114 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1165d7">
+<title>비회원 공인중개사 1단계 확인 | 우리아파트 안심거래</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#f4f7fb;
+  color:#172b3d;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif;
+}
+
+button,
+input{
+  font:inherit;
+}
+
+.wrap{
+  width:100%;
+  max-width:720px;
+  margin:0 auto;
+  padding:18px 14px 60px;
+}
+
+.header{
+  background:#12394d;
+  color:#fff;
+  border-radius:18px;
+  padding:22px 18px;
+  margin-bottom:16px;
+  box-shadow:0 8px 24px rgba(24,55,78,.13);
+}
+
+.brand{
+  font-size:14px;
+  font-weight:800;
+  opacity:.9;
+  margin-bottom:7px;
+}
+
+.header h1{
+  margin:0;
+  font-size:24px;
+  line-height:1.35;
+}
+
+.header p{
+  margin:9px 0 0;
+  font-size:14px;
+  line-height:1.6;
+  opacity:.9;
+}
+
+.step{
+  display:flex;
+  gap:7px;
+  margin-top:18px;
+}
+
+.step span{
+  flex:1;
+  height:7px;
+  border-radius:999px;
+  background:rgba(255,255,255,.25);
+}
+
+.step span.active{
+  background:#fff;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #dce5ed;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:14px;
+  box-shadow:0 6px 20px rgba(28,57,78,.06);
+}
+
+.card-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:15px;
+  font-size:18px;
+  font-weight:900;
+}
+
+.notice{
+  background:#edf6ff;
+  border:1px solid #cfe4fb;
+  color:#174f7d;
+  border-radius:13px;
+  padding:12px 13px;
+  font-size:13px;
+  line-height:1.6;
+  margin-bottom:15px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.field.full{
+  grid-column:1 / -1;
+}
+
+label{
+  font-size:13px;
+  font-weight:800;
+  color:#33495c;
+}
+
+.req{
+  color:#e24b4b;
+  margin-left:3px;
+}
+
+input[type="text"],
+input[type="tel"]{
+  width:100%;
+  height:46px;
+  padding:0 12px;
+  border:1px solid #cfd9e2;
+  border-radius:11px;
+  background:#fff;
+  color:#172b3d;
+  outline:none;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus{
+  border-color:#1165d7;
+  box-shadow:0 0 0 3px rgba(17,101,215,.09);
+}
+
+.room-code{
+  text-align:center;
+  font-size:23px !important;
+  font-weight:900;
+  letter-spacing:10px;
+  padding-left:22px !important;
+}
+
+.upload-box{
+  border:1px dashed #aebfcd;
+  border-radius:14px;
+  padding:13px;
+  background:#fafcfe;
+}
+
+.upload-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.file-name{
+  flex:1;
+  min-width:0;
+  font-size:13px;
+  color:#647789;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.file-btn{
+  position:relative;
+  overflow:hidden;
+  flex:none;
+  border:0;
+  border-radius:10px;
+  padding:10px 13px;
+  background:#e8f1fb;
+  color:#12569d;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.file-btn input{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  opacity:0;
+  cursor:pointer;
+}
+
+.file-info{
+  margin-top:8px;
+  font-size:12px;
+  color:#7a8996;
+  line-height:1.45;
+}
+
+.check-list{
+  display:grid;
+  gap:10px;
+}
+
+.check-item{
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  padding:12px;
+  border:1px solid #e0e7ed;
+  border-radius:12px;
+  background:#fcfdfe;
+  font-size:13px;
+  line-height:1.55;
+}
+
+.check-item input{
+  margin-top:3px;
+  width:18px;
+  height:18px;
+}
+
+.btn-wrap{
+  position:sticky;
+  bottom:0;
+  padding-top:10px;
+  background:linear-gradient(to bottom,rgba(244,247,251,0),#f4f7fb 25%);
+}
+
+.main-btn{
+  width:100%;
+  min-height:54px;
+  border:0;
+  border-radius:14px;
+  background:#1165d7;
+  color:#fff;
+  font-size:17px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 7px 18px rgba(17,101,215,.2);
+}
+
+.main-btn:active{
+  transform:translateY(1px);
+}
+
+.msg{
+  display:none;
+  margin-top:11px;
+  padding:11px 12px;
+  border-radius:11px;
+  font-size:13px;
+  font-weight:700;
+  line-height:1.5;
+}
+
+.msg.error{
+  display:block;
+  background:#fff0f0;
+  border:1px solid #f5caca;
+  color:#b43232;
+}
+
+.msg.ok{
+  display:block;
+  background:#edf9f1;
+  border:1px solid #c9ead4;
+  color:#237443;
+}
+
+.auto-info{
+  margin-top:13px;
+  background:#f7f9fb;
+  border-radius:12px;
+  padding:12px;
+  font-size:12px;
+  color:#657687;
+  line-height:1.65;
+}
+
+@media(max-width:560px){
+
+  .wrap{
+    padding:12px 10px 50px;
+  }
+
+  .header{
+    padding:19px 15px;
+    border-radius:15px;
+  }
+
+  .header h1{
+    font-size:21px;
+  }
+
+  .card{
+    padding:15px 13px;
+    border-radius:15px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .upload-row{
+    align-items:stretch;
+    flex-direction:column;
+  }
+
+  .file-btn{
+    text-align:center;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <header class="header">
+    <div class="brand">🏠 우리아파트 안심거래</div>
+
+    <h1>비회원 공인중개사 확인</h1>
+
+    <p>
+      거래 진행을 위한 1단계입니다.<br>
+      공인중개사 기본정보와 자격서류를 확인합니다.
+    </p>
+
+    <div class="step">
+      <span class="active"></span>
+      <span></span>
+    </div>
+  </header>
+
+
+  <!-- 거래방 코드 -->
+  <section class="card">
+
+    <div class="card-title">
+      🔐 거래방 확인
+    </div>
+
+    <div class="notice">
+      매수자 또는 거래 당사자로부터 전달받은
+      <strong>4자리 거래방 코드</strong>를 입력해 주세요.
+    </div>
+
+    <div class="field">
+      <label for="roomCode">
+        거래방 코드<span class="req">*</span>
+      </label>
+
+      <input
+        id="roomCode"
+        class="room-code"
+        type="text"
+        inputmode="numeric"
+        maxlength="4"
+        placeholder="0000"
+        autocomplete="off"
+      >
+    </div>
+
+  </section>
+
+
+  <!-- 기본정보 -->
+  <section class="card">
+
+    <div class="card-title">
+      👤 공인중개사 기본정보
+    </div>
+
+    <div class="form-grid">
+
+      <div class="field">
+        <label for="officeName">
+          중개사무소명<span class="req">*</span>
+        </label>
+
+        <input
+          id="officeName"
+          type="text"
+          placeholder="중개사무소명 입력"
+        >
+      </div>
+
+
+      <div class="field">
+        <label for="representative">
+          대표자명<span class="req">*</span>
+        </label>
+
+        <input
+          id="representative"
+          type="text"
+          placeholder="대표자명 입력"
+        >
+      </div>
+
+
+      <div class="field">
+        <label for="brokerName">
+          공인중개사 성명<span class="req">*</span>
+        </label>
+
+        <input
+          id="brokerName"
+          type="text"
+          placeholder="성명 입력"
+        >
+      </div>
+
+
+      <div class="field">
+        <label for="mobile">
+          휴대전화번호<span class="req">*</span>
+        </label>
+
+        <input
+          id="mobile"
+          type="tel"
+          inputmode="numeric"
+          maxlength="11"
+          placeholder="01012345678"
+        >
+      </div>
+
+
+      <div class="field">
+        <label for="officePhone">
+          사무소 전화번호<span class="req">*</span>
+        </label>
+
+        <input
+          id="officePhone"
+          type="tel"
+          placeholder="0621234567"
+        >
+      </div>
+
+
+      <div class="field">
+        <label for="registrationNo">
+          중개사무소 등록번호<span class="req">*</span>
+        </label>
+
+        <input
+          id="registrationNo"
+          type="text"
+          placeholder="등록번호 입력"
+        >
+      </div>
+
+
+      <div class="field">
+        <label for="businessNo">
+          사업자등록번호<span class="req">*</span>
+        </label>
+
+        <input
+          id="businessNo"
+          type="text"
+          inputmode="numeric"
+          maxlength="10"
+          placeholder="숫자만 입력"
+        >
+      </div>
+
+
+      <div class="field full">
+        <label for="address">
+          중개사무소 주소<span class="req">*</span>
+        </label>
+
+        <input
+          id="address"
+          type="text"
+          placeholder="중개사무소 주소 입력"
+        >
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- 서류 -->
+  <section class="card">
+
+    <div class="card-title">
+      📎 자격서류 등록
+    </div>
+
+    <div class="notice">
+      여기에서 등록한 서류는
+      <strong>2단계 거래방으로 자동 전달</strong>되도록 사용할 수 있습니다.
+    </div>
+
+
+    <div class="field" style="margin-bottom:13px;">
+
+      <label>
+        중개사무소 등록증<span class="req">*</span>
+      </label>
+
+      <div class="upload-box">
+
+        <div class="upload-row">
+
+          <div
+            class="file-name"
+            id="registrationFileName"
+          >
+            선택된 파일 없음
+          </div>
+
+          <label class="file-btn">
+            파일 선택
+
+            <input
+              id="registrationFile"
+              type="file"
+              accept=".jpg,.jpeg,.png,.pdf"
+            >
+          </label>
+
+        </div>
+
+        <div class="file-info">
+          JPG · PNG · PDF 파일을 등록할 수 있습니다.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        공제증서<span class="req">*</span>
+      </label>
+
+      <div class="upload-box">
+
+        <div class="upload-row">
+
+          <div
+            class="file-name"
+            id="guaranteeFileName"
+          >
+            선택된 파일 없음
+          </div>
+
+          <label class="file-btn">
+            파일 선택
+
+            <input
+              id="guaranteeFile"
+              type="file"
+              accept=".jpg,.jpeg,.png,.pdf"
+            >
+          </label>
+
+        </div>
+
+        <div class="file-info">
+          현재 유효한 공제증서를 등록해 주세요.
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- 확인 -->
+  <section class="card">
+
+    <div class="card-title">
+      ✅ 확인사항
+    </div>
+
+    <div class="check-list">
+
+      <label class="check-item">
+
+        <input
+          id="agreeInfo"
+          type="checkbox"
+        >
+
+        <span>
+          입력한 공인중개사 정보와 등록서류가
+          사실과 일치함을 확인합니다.
+        </span>
+
+      </label>
+
+
+      <label class="check-item">
+
+        <input
+          id="agreeTrade"
+          type="checkbox"
+        >
+
+        <span>
+          거래방에서 매수자·매도자와
+          거래 진행상황을 확인하는 것에 동의합니다.
+        </span>
+
+      </label>
+
+    </div>
+
+
+    <div class="auto-info">
+      ※ 이메일 입력 없음<br>
+      ※ 세금계산서 정보 입력 없음<br>
+      ※ 1단계에서 입력한 정보와 등록증·공제증서는
+      2단계 거래방에서 자동으로 불러오도록 연동할 수 있습니다.
+    </div>
+
+  </section>
+
+
+  <div class="btn-wrap">
+
+    <button
+      id="enterBtn"
+      class="main-btn"
+      type="button"
+    >
+      확인 후 거래방 입장
+    </button>
+
+    <div
+      id="msg"
+      class="msg"
+    ></div>
+
+  </div>
+
+</div>
+
+
+<script>
+(function(){
+
+"use strict";
+
+const $ = id =>
+  document.getElementById(id);
+
+
+const roomCode =
+  $("roomCode");
+
+const officeName =
+  $("officeName");
+
+const representative =
+  $("representative");
+
+const brokerName =
+  $("brokerName");
+
+const mobile =
+  $("mobile");
+
+const officePhone =
+  $("officePhone");
+
+const registrationNo =
+  $("registrationNo");
+
+const businessNo =
+  $("businessNo");
+
+const address =
+  $("address");
+
+const registrationFile =
+  $("registrationFile");
+
+const guaranteeFile =
+  $("guaranteeFile");
+
+const registrationFileName =
+  $("registrationFileName");
+
+const guaranteeFileName =
+  $("guaranteeFileName");
+
+const agreeInfo =
+  $("agreeInfo");
+
+const agreeTrade =
+  $("agreeTrade");
+
+const enterBtn =
+  $("enterBtn");
+
+const msg =
+  $("msg");
+
+
+/* ===============================
+   숫자 입력 제한
+================================ */
+
+roomCode.addEventListener(
+  "input",
+  function(){
+
+    this.value =
+      this.value
+      .replace(/\D/g,"")
+      .slice(0,4);
+
+  }
+);
+
+
+mobile.addEventListener(
+  "input",
+  function(){
+
+    this.value =
+      this.value
+      .replace(/\D/g,"")
+      .slice(0,11);
+
+  }
+);
+
+
+businessNo.addEventListener(
+  "input",
+  function(){
+
+    this.value =
+      this.value
+      .replace(/\D/g,"")
+      .slice(0,10);
+
+  }
+);
+
+
+/* ===============================
+   파일명 표시
+================================ */
+
+registrationFile.addEventListener(
+  "change",
+  function(){
+
+    if(this.files.length){
+
+      registrationFileName.textContent =
+        this.files[0].name;
+
+    }else{
+
+      registrationFileName.textContent =
+        "선택된 파일 없음";
+
+    }
+
+  }
+);
+
+
+guaranteeFile.addEventListener(
+  "change",
+  function(){
+
+    if(this.files.length){
+
+      guaranteeFileName.textContent =
+        this.files[0].name;
+
+    }else{
+
+      guaranteeFileName.textContent =
+        "선택된 파일 없음";
+
+    }
+
+  }
+);
+
+
+/* ===============================
+   메시지
+================================ */
+
+function showError(text){
+
+  msg.className =
+    "msg error";
+
+  msg.textContent =
+    text;
+
+}
+
+
+function showOk(text){
+
+  msg.className =
+    "msg ok";
+
+  msg.textContent =
+    text;
+
+}
+
+
+/* ===============================
+   1단계 저장
+================================ */
+
+enterBtn.addEventListener(
+  "click",
+  function(){
+
+
+    if(roomCode.value.length !== 4){
+
+      showError(
+        "4자리 거래방 코드를 정확히 입력해 주세요."
+      );
+
+      roomCode.focus();
+
+      return;
+
+    }
+
+
+    if(!officeName.value.trim()){
+
+      showError(
+        "중개사무소명을 입력해 주세요."
+      );
+
+      officeName.focus();
+
+      return;
+
+    }
+
+
+    if(!representative.value.trim()){
+
+      showError(
+        "대표자명을 입력해 주세요."
+      );
+
+      representative.focus();
+
+      return;
+
+    }
+
+
+    if(!brokerName.value.trim()){
+
+      showError(
+        "공인중개사 성명을 입력해 주세요."
+      );
+
+      brokerName.focus();
+
+      return;
+
+    }
+
+
+    if(mobile.value.length < 10){
+
+      showError(
+        "휴대전화번호를 정확히 입력해 주세요."
+      );
+
+      mobile.focus();
+
+      return;
+
+    }
+
+
+    if(!officePhone.value.trim()){
+
+      showError(
+        "사무소 전화번호를 입력해 주세요."
+      );
+
+      officePhone.focus();
+
+      return;
+
+    }
+
+
+    if(!registrationNo.value.trim()){
+
+      showError(
+        "중개사무소 등록번호를 입력해 주세요."
+      );
+
+      registrationNo.focus();
+
+      return;
+
+    }
+
+
+    if(businessNo.value.length !== 10){
+
+      showError(
+        "사업자등록번호 10자리를 입력해 주세요."
+      );
+
+      businessNo.focus();
+
+      return;
+
+    }
+
+
+    if(!address.value.trim()){
+
+      showError(
+        "중개사무소 주소를 입력해 주세요."
+      );
+
+      address.focus();
+
+      return;
+
+    }
+
+
+    if(
+      !registrationFile.files ||
+      !registrationFile.files.length
+    ){
+
+      showError(
+        "중개사무소 등록증을 첨부해 주세요."
+      );
+
+      return;
+
+    }
+
+
+    if(
+      !guaranteeFile.files ||
+      !guaranteeFile.files.length
+    ){
+
+      showError(
+        "공제증서를 첨부해 주세요."
+      );
+
+      return;
+
+    }
+
+
+    if(!agreeInfo.checked){
+
+      showError(
+        "공인중개사 정보 확인에 동의해 주세요."
+      );
+
+      return;
+
+    }
+
+
+    if(!agreeTrade.checked){
+
+      showError(
+        "거래방 진행 확인에 동의해 주세요."
+      );
+
+      return;
+
+    }
+
+
+    /*
+      현재는 기본정보를 localStorage에 저장합니다.
+
+      이후 Supabase를 연결하면
+      이 부분만 DB 저장 방식으로 교체하면 됩니다.
+
+      실제 파일은 localStorage에 직접 저장하지 않고
+      Supabase Storage 등에 업로드한 뒤
+      파일 URL을 저장하는 방식으로 연결합니다.
+    */
+
+    const brokerData = {
+
+      roomCode:
+        roomCode.value,
+
+      officeName:
+        officeName.value.trim(),
+
+      representative:
+        representative.value.trim(),
+
+      brokerName:
+        brokerName.value.trim(),
+
+      mobile:
+        mobile.value,
+
+      officePhone:
+        officePhone.value.trim(),
+
+      registrationNo:
+        registrationNo.value.trim(),
+
+      businessNo:
+        businessNo.value,
+
+      address:
+        address.value.trim(),
+
+      registrationFileName:
+        registrationFile.files[0].name,
+
+      guaranteeFileName:
+        guaranteeFile.files[0].name,
+
+      savedAt:
+        new Date().toISOString()
+
+    };
+
+
+    localStorage.setItem(
+      "woori_guest_broker_step1",
+      JSON.stringify(brokerData)
+    );
+
+
+    showOk(
+      "1단계 확인이 완료되었습니다. 거래방으로 이동합니다."
+    );
+
+
+    setTimeout(
+      function(){
+
+        /*
+          2단계 거래방 경로
+
+          실제 거래방 파일명이 다르면
+          아래 한 줄의 경로만 변경하면 됩니다.
+        */
+
+        location.href =
+          "/trade-room.html?code=" +
+          encodeURIComponent(
+            roomCode.value
+          );
+
+      },
+      500
+    );
+
+  }
+);
+
+})();
+</script>
+
+</body>
+</html>
