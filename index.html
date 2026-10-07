@@ -1,313 +1,3742 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>우리아파트 안심딜 (Ansim Deal) | 꼬마빌딩·신축대지 100% 매매 & 4대 서류 검증</title>
-  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif; }
-    .gold-gradient { background: linear-gradient(135deg, #d4af37 0%, #edc967 50%, #b8860b 100%); }
-    .gold-text { background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 50%, #b8860b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1165d7">
+
+<title>[우리자산(빌딩·상가·대지) 안심딜] 원하는 자산(빌딩·상가·대지) 매수·임차 수수료 50%에 계약하세요</title>
+<meta name="description" content="매수부터 전세·월세 임차까지 중개수수료 50%에 계약하세요! 원하는 자산(빌딩·상가·대지) 조건 등록 시 동네 공인중개사가 검증된 안심 매물을 1:1 제안합니다.">
+<meta property="og:title" content="[우리자산(빌딩·상가·대지) 안심딜] 원하는 자산(빌딩·상가·대지) 매수·임차 수수료 50%에 계약하세요">
+<meta property="og:description" content="매수부터 전세·월세 임차까지 중개수수료 50%에 계약하세요! 원하는 자산(빌딩·상가·대지) 조건 등록 시 동네 공인중개사가 검증된 안심 매물을 1:1 제안합니다.">
+
+
+<link rel="canonical" href="https://www.wooriapt.app/">
+<meta property="og:url" content="https://www.wooriapt.app/">
+<meta property="og:image" content="https://www.wooriapt.app/apt-hero.png">
+<meta name="naver-site-verification" content="naver064ab3e4fb0e2993fc353645d9c22be0">
+
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="manifest" href="/manifest.webmanifest">
+
+<style>
+
+/* =========================================
+   공통
+========================================= */
+
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  width:100%;
+  min-width:0;
+  min-height:100%;
+  overflow-x:hidden;
+}
+
+body{
+  background:#f4f6f8;
+  color:#172b3d;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans KR",
+    Arial,
+    sans-serif;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input{
+  font:inherit;
+}
+
+.wrap{
+  width:100%;
+  max-width:1180px;
+  min-width:0;
+  margin:0 auto;
+  padding:0 20px 46px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header{
+  min-height:78px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:17px;
+  font-weight:800;
+  color:#173f67;
+}
+
+.logo-mark{
+  font-size:28px;
+}
+
+.logo strong{
+  display:block;
+  color:#1165d7;
+  font-size:19px;
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.install-wrap{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.install-btn{
+  width:34px;
+  height:42px;
+  border:0;
+  background:transparent;
+  padding:0;
+  cursor:pointer;
+  position:relative;
+}
+
+.install-btn .phone{
+  display:block;
+  width:21px;
+  height:34px;
+  margin:auto;
+  border:2px solid #1165d7;
+  border-radius:5px;
+  position:relative;
+}
+
+.install-btn .phone::after{
+  content:"";
+  position:absolute;
+  bottom:3px;
+  left:50%;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:#1165d7;
+  transform:translateX(-50%);
+}
+
+.install-label{
+  font-size:13px;
+  font-weight:800;
+  color:#24577e;
+}
+
+
+/* =========================================
+   메뉴 버튼
+========================================= */
+
+.menu{
+  position:relative;
+  z-index:1002;
+  width:42px;
+  height:42px;
+  border:1px solid #d8e3ec;
+  border-radius:10px;
+  background:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  cursor:pointer;
+}
+
+.menu span{
+  width:20px;
+  height:2px;
+  border-radius:2px;
+  background:#173f67;
+}
+
+
+/* =========================================
+   햄버거 메뉴
+========================================= */
+
+.mobile-menu-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  background:rgba(15,23,42,.38);
+}
+
+.mobile-menu-backdrop.open{
+  display:block;
+}
+
+.mobile-menu-panel{
+  position:fixed;
+  top:0;
+  right:-340px;
+  width:min(330px,88vw);
+  height:100vh;
+  z-index:1001;
+  padding:82px 20px 28px;
+  background:#fff;
+  box-shadow:-12px 0 30px rgba(15,23,42,.18);
+  transition:right .25s ease;
+  overflow-y:auto;
+}
+
+.mobile-menu-panel.open{
+  right:0;
+}
+
+.mobile-menu-title{
+  margin:0 0 18px;
+  padding-bottom:14px;
+  border-bottom:1px solid #e5e7eb;
+  color:#111827;
+  font-size:20px;
+  font-weight:900;
+}
+
+.mobile-menu-list{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+
+.mobile-menu-list a{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  min-height:54px;
+  padding:13px 15px;
+  border:1px solid #e2e8f0;
+  border-radius:12px;
+  background:#fff;
+  color:#172033;
+  font-size:16px;
+  font-weight:800;
+}
+
+.mobile-menu-list a.primary{
+  border-color:#1165d7;
+  background:#eef6ff;
+  color:#0b58bd;
+}
+
+.mobile-menu-divider{
+  height:1px;
+  margin:10px 0;
+  background:#e5e7eb;
+}
+
+body.menu-open{
+  overflow:hidden;
+}
+
+
+/* =========================================
+   메인 문구
+========================================= */
+
+.hero{
+  width:100%;
+  min-width:0;
+  padding:52px 38px;
+  border-radius:20px;
+  background:
+    linear-gradient(
+      90deg,
+      #f5faff 0%,
+      #eef6ff 48%,
+      rgba(238,246,255,1) 58%,
+      rgba(238,246,255,.96) 65%,
+      rgba(238,246,255,.68) 73%,
+      rgba(238,246,255,.12) 88%
+    ),
+    url("/apartment.jpg") right center / auto 135% no-repeat,
+    #eef6ff;
+  border:1px solid #dce9f5;
+}
+
+.hero-text{
+  position:relative;
+  z-index:1;
+  width:58%;
+}
+
+.hero-text h1{
+  margin:0;
+  color:#172b3d;
+  font-size:42px;
+  line-height:1.3;
+  font-weight:900;
+  letter-spacing:-1.5px;
+}
+
+.hero-text h1 em{
+  color:#1165d7;
+  font-style:normal;
+}
+
+.hero-text p{
+  margin:18px 0 0;
+  color:#607485;
+  font-size:18px;
+  line-height:1.6;
+  font-weight:600;
+}
+
+
+/* =========================================
+   100% 매매 전용 (통매매)
+   원상복구
+========================================= */
+
+.trade{
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-top:20px;
+}
+
+.trade a{
+  min-width:0;
+  min-height:150px;
+  padding:22px 20px;
+  border:1px solid #dce6ef;
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 5px 16px rgba(31,65,92,.06);
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  transition:.18s ease;
+}
+
+.trade a:hover{
+  transform:translateY(-2px);
+  box-shadow:0 9px 22px rgba(31,65,92,.10);
+}
+
+.trade .ico{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:46px;
+  height:46px;
+  margin-bottom:13px;
+  border-radius:13px;
+  background:#eef6ff;
+  font-size:23px;
+}
+
+.trade b{
+  display:block;
+  margin-bottom:7px;
+  color:#173f67;
+  font-size:19px;
+  line-height:1.35;
+  font-weight:900;
+}
+
+.trade a > span:last-child{
+  display:block;
+  color:#718391;
+  font-size:13px;
+  line-height:1.5;
+  font-weight:600;
+}
+
+.trade .sale{
+  border-top:4px solid #1165d7;
+}
+
+.trade .jeonse{
+  border-top:4px solid #3978c5;
+}
+
+.trade .monthly{
+  border-top:4px solid #6594ce;
+}
+
+
+/* =========================================
+   나의 제안 / 거래 진행
+   글씨만 확실하게 축소
+========================================= */
+
+.return-access{
+  width:100%;
+  margin-top:18px;
+  padding:18px;
+  border:1px solid #dbe5ee;
+  border-radius:14px;
+  background:#fff;
+}
+
+.access-panels{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.access-panel{
+  min-width:0;
+  padding:4px 8px;
+}
+
+.transaction-panel{
+  border-left:1px solid #e1e8ee;
+  padding-left:20px;
+}
+
+.return-access-title{
+  margin:0 0 4px;
+  color:#173f67;
+
+  /* 축소 */
+  font-size:15px;
+
+  line-height:1.25;
+  font-weight:900;
+}
+
+.transaction-panel .return-access-title{
+  color:#287a5a;
+}
+
+.return-access-desc{
+  margin:0 0 8px;
+  color:#5d7080;
+
+  /* 축소 */
+  font-size:10px;
+
+  line-height:1.35;
+}
+
+.return-access-row{
+  display:flex;
+  gap:6px;
+  width:100%;
+}
+
+.return-access-row input{
+  flex:1 1 auto;
+  min-width:0;
+  width:0;
+
+  /* 높이도 약간 축소 */
+  height:42px;
+
+  padding:0 10px;
+  border:1px solid #c9d7e3;
+  border-radius:9px;
+  background:#fff;
+  color:#172033;
+
+  /* 확실하게 축소 */
+  font-size:11px;
+
+  line-height:1.2;
+  font-weight:700;
+  outline:none;
+}
+
+.return-access-row input::placeholder{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:-0.4px;
+}
+
+.return-access-row input:focus{
+  border-color:#1165d7;
+  box-shadow:0 0 0 3px rgba(17,101,215,.10);
+}
+
+.return-access-row button{
+  flex:0 0 62px;
+
+  /* 높이 축소 */
+  height:42px;
+
+  border:0;
+  border-radius:9px;
+  background:#1165d7;
+  color:#fff;
+
+  /* 축소 */
+  font-size:11px;
+
+  line-height:1;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.transaction-panel .return-access-row input:focus{
+  border-color:#2f8c68;
+  box-shadow:0 0 0 3px rgba(47,140,104,.10);
+}
+
+.transaction-panel .return-access-row button{
+  background:#2f8c68;
+}
+
+.return-access-help{
+  margin:8px 2px 0;
+  color:#6b7c89;
+
+  /* 크게 축소 */
+  font-size:9px;
+
+  line-height:1.45;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+
+
+/* =========================================
+   공인중개사 매수요청번호 조회
+========================================= */
+
+.request-lookup{
+  width:100%;
+  margin-top:12px;
+  padding:18px;
+  border:1px solid #dbe5ee;
+  border-radius:14px;
+  background:#fff;
+}
+
+.request-lookup .return-access-title{
+  color:#8a5a16;
+}
+
+.request-lookup .return-access-row input:focus{
+  border-color:#b7791f;
+  box-shadow:0 0 0 3px rgba(183,121,31,.10);
+}
+
+.request-lookup .return-access-row button{
+  background:#b7791f;
+}
+
+.request-result{
+  display:none;
+  margin-top:14px;
+  padding:14px;
+  border:1px solid #e1e8ee;
+  border-radius:12px;
+  background:#f8fafc;
+}
+
+.request-result.open{
+  display:block;
+}
+
+.request-result-title{
+  margin:0 0 10px;
+  color:#173f67;
+  font-size:15px;
+  font-weight:900;
+}
+
+.request-result-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px 14px;
+}
+
+.request-result-item{
+  min-width:0;
+  color:#43596a;
+  font-size:11px;
+  line-height:1.5;
+  word-break:keep-all;
+}
+
+.request-result-item b{
+  color:#172b3d;
+}
+
+.request-result-actions{
+  display:flex;
+  gap:8px;
+  margin-top:14px;
+}
+
+.request-result-actions button{
+  flex:1 1 0;
+  min-height:42px;
+  border:0;
+  border-radius:9px;
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+#requestRegisterBtn{
+  background:#1165d7;
+  color:#fff;
+}
+
+#requestExitBtn{
+  background:#e9eef3;
+  color:#334155;
+}
+
+@media(max-width:600px){
+  .request-result-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* =========================================
+   공통 섹션 제목
+========================================= */
+
+.title{
+  margin:38px 0 18px;
+  color:#173f67;
+  font-size:25px;
+  line-height:1.4;
+  font-weight:900;
+  text-align:center;
+}
+
+
+/* =========================================
+   진행 절차
+========================================= */
+
+.process{
+  width:100%;
+  min-width:0;
+}
+
+.steps{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:14px;
+}
+
+.step{
+  min-width:0;
+  min-height:190px;
+  padding:20px 16px;
+  border:1px solid #dce6ef;
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 5px 16px rgba(31,65,92,.06);
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+}
+
+.step .circle{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:50px;
+  height:50px;
+  margin-bottom:8px;
+  border-radius:14px;
+  background:#eef6ff;
+  font-size:24px;
+}
+
+.step .num{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:23px;
+  height:23px;
+  margin-bottom:8px;
+  border-radius:50%;
+  background:#1165d7;
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+}
+
+.step b{
+  display:block;
+  color:#173f67;
+  font-size:16px;
+  line-height:1.4;
+  font-weight:900;
+}
+
+.step p{
+  margin:9px 0 0;
+  color:#718391;
+  font-size:13px;
+  line-height:1.55;
+  font-weight:600;
+}
+
+
+/* =========================================
+   우리자산(빌딩·상가·대지) 안심딜 약속
+========================================= */
+
+.promise{
+  width:100%;
+  min-width:0;
+}
+
+.promise-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:14px;
+}
+
+.promise-grid .card{
+  min-width:0;
+  min-height:190px;
+  padding:20px 16px;
+  border:1px solid #dce6ef;
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 5px 16px rgba(31,65,92,.06);
+  text-align:center;
+}
+
+.promise-grid .ci{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:50px;
+  height:50px;
+  margin:0 auto 12px;
+  border-radius:14px;
+  background:#eef6ff;
+  font-size:24px;
+}
+
+.promise-grid h3{
+  margin:0;
+  color:#173f67;
+  font-size:16px;
+  line-height:1.4;
+  font-weight:900;
+}
+
+.promise-grid p{
+  margin:9px 0 0;
+  color:#718391;
+  font-size:13px;
+  line-height:1.55;
+  font-weight:600;
+}
+
+.promise-grid .more{
+  display:block;
+  margin-top:12px;
+  color:#1165d7;
+  font-size:12px;
+  font-weight:800;
+}
+
+
+/* =========================================
+   공인중개사
+========================================= */
+
+.broker{
+  width:100%;
+  min-width:0;
+  margin-top:28px;
+  padding:18px;
+  border:1px solid #dce6ef;
+  border-radius:16px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.broker-left{
+  min-width:0;
+  flex:1 1 auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.person{
+  flex:0 0 auto;
+  font-size:32px;
+}
+
+.broker h2{
+  margin:0;
+  color:#173f67;
+  font-size:16px;
+  line-height:1.3;
+  font-weight:900;
+  word-break:keep-all;
+}
+
+.broker p{
+  margin:5px 0 0;
+  color:#718391;
+  font-size:11px;
+  line-height:1.45;
+  word-break:keep-all;
+}
+
+.broker-actions{
+  flex:0 1 420px;
+  min-width:0;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:6px;
+}
+
+.broker-actions .broker-btn{
+  min-width:0;
+  min-height:50px;
+  padding:7px 5px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:11px;
+  line-height:1.25;
+  font-weight:800;
+  white-space:normal;
+}
+
+.guide-btn{
+  border:1px solid #bfd5ea;
+  background:#fff;
+  color:#24577e;
+}
+
+.signup-btn{
+  border:1px solid #1165d7;
+  background:#1165d7;
+  color:#fff;
+}
+
+.login-btn{
+  border:1px solid #173f67;
+  background:#173f67;
+  color:#fff;
+}
+
+
+/* =========================================
+   하단
+========================================= */
+
+.footer{
+  margin-top:36px;
+  padding:22px 0;
+  border-top:1px solid #dce5ed;
+  text-align:center;
+  color:#80909c;
+  font-size:12px;
+  line-height:1.8;
+}
+
+
+/* =========================================
+   태블릿
+========================================= */
+
+@media(max-width:1000px){
+
+  .steps{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .promise-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+}
+
+@media(max-width:850px){
+
+  .broker{
+    padding:15px 12px;
+    gap:10px;
+  }
+
+  .person{
+    font-size:28px;
+  }
+
+  .broker h2{
+    font-size:14px;
+  }
+
+  .broker p{
+    font-size:10px;
+  }
+
+  .broker-actions{
+    flex-basis:350px;
+    gap:5px;
+  }
+
+  .broker-actions .broker-btn{
+    min-height:46px;
+    padding:6px 3px;
+    font-size:10px;
+  }
+
+}
+
+
+/* =========================================
+   모바일
+========================================= */
+
+@media(max-width:700px){
+
+  .wrap{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .hero{
+    padding:35px 20px;
+    background:
+      linear-gradient(
+        135deg,
+        #f5faff 0%,
+        #eef6ff 100%
+      );
+  }
+
+  .hero-text{
+    width:100%;
+  }
+
+  .hero-text h1{
+    font-size:32px;
+  }
+
+  .hero-text p{
+    font-size:15px;
+  }
+
+  /* 원래 크기 유지 */
+  .trade{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+  }
+
+  .trade a{
+    min-height:135px;
+    padding:16px 10px;
+  }
+
+  .trade .ico{
+    width:40px;
+    height:40px;
+    font-size:20px;
+  }
+
+  .trade b{
+    font-size:15px;
+  }
+
+  .trade a > span:last-child{
+    font-size:11px;
+  }
+
+}
+
+
+@media(max-width:600px){
+
+  .access-panels{
+    grid-template-columns:1fr;
+  }
+
+  .transaction-panel{
+    border-left:0;
+    border-top:1px solid #e1e8ee;
+    padding-left:8px;
+    padding-top:18px;
+    margin-top:5px;
+  }
+
+  /* 나의 제안 / 거래 진행은 모바일에서도 작게 */
+  .return-access-title{
+    font-size:14px;
+  }
+
+  .return-access-desc{
+    font-size:9px;
+  }
+
+  .return-access-row input{
+    height:40px;
+    font-size:10px;
+    padding:0 8px;
+  }
+
+  .return-access-row input::placeholder{
+    font-size:10px;
+  }
+
+  .return-access-row button{
+    flex-basis:58px;
+    height:40px;
+    font-size:10px;
+  }
+
+  .return-access-help{
+    font-size:8px;
+    line-height:1.4;
+  }
+
+
+  .steps{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+
+  .promise-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+
+  .step,
+  .promise-grid .card{
+    min-height:175px;
+    padding:16px 12px;
+  }
+
+  .broker{
+    padding:12px 8px;
+    gap:7px;
+  }
+
+  .broker-left{
+    gap:6px;
+  }
+
+  .person{
+    font-size:23px;
+  }
+
+  .broker h2{
+    font-size:11px;
+    line-height:1.25;
+  }
+
+  .broker p{
+    margin-top:3px;
+    font-size:8px;
+    line-height:1.35;
+  }
+
+  .broker-actions{
+    flex:0 1 57%;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:3px;
+  }
+
+  .broker-actions .broker-btn{
+    min-height:42px;
+    padding:4px 2px;
+    border-radius:7px;
+    font-size:8px;
+    line-height:1.15;
+  }
+
+}
+
+
+@media(max-width:480px){
+
+  .hero-text h1{
+    font-size:28px;
+  }
+
+  /* 100% 매매 전용 (통매매) 기존 설정 */
+  .trade{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+  }
+
+  .trade a{
+    min-height:128px;
+    padding:13px 7px;
+  }
+
+  .trade .ico{
+    width:36px;
+    height:36px;
+    margin-bottom:10px;
+    font-size:18px;
+  }
+
+  .trade b{
+    font-size:13px;
+  }
+
+  .trade a > span:last-child{
+    font-size:10px;
+    line-height:1.4;
+  }
+
+}
+
+
+@media(max-width:380px){
+
+  .steps{
+    grid-template-columns:1fr;
+  }
+
+  .promise-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+
+
+/* =========================================
+   플랫폼 서비스 이용료 계산기
+   기존 계산기 내용/금액/계산식 그대로 메인에 배치
+========================================= */
+.fee-widget{
+  width:100%;
+  max-width:720px;
+  margin:22px auto 0;
+}
+.fee-head{
+  margin-top:12px;
+  padding:26px 22px;
+  background:#fff;
+  border:1px solid #dce6ee;
+  border-radius:18px;
+  box-shadow:0 5px 18px rgba(15,23,42,.04);
+}
+
+.fee-head h1{
+  margin:0;
+  font-size:27px;
+  color:#173f67;
+  letter-spacing:-.8px;
+}
+
+.fee-head p{
+  margin:10px 0 0;
+  color:#667b8d;
+  font-size:14px;
+  line-height:1.6;
+}
+
+.type-tabs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:16px;
+}
+
+.type-btn{
+  height:52px;
+  border:1px solid #cbd9e5;
+  border-radius:11px;
+  background:#fff;
+  color:#314b61;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.type-btn.active{
+  border-color:#1165d7;
+  background:#1165d7;
+  color:#fff;
+}
+
+.calculator{
+  margin-top:12px;
+  padding:22px;
+  background:#fff;
+  border:1px solid #dce6ee;
+  border-radius:18px;
+}
+
+.input-group{
+  margin-bottom:15px;
+}
+
+.input-group:last-child{
+  margin-bottom:0;
+}
+
+.input-group label{
+  display:block;
+  margin-bottom:7px;
+  font-size:14px;
+  font-weight:900;
+  color:#314b61;
+}
+
+.money-box{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.money-box input{
+  width:100%;
+  height:50px;
+  padding:0 13px;
+  border:1px solid #cbd9e5;
+  border-radius:10px;
+  outline:none;
+  font-size:18px;
+  font-weight:800;
+  text-align:right;
+}
+
+.money-box input:focus{
+  border-color:#1165d7;
+  box-shadow:0 0 0 3px rgba(17,101,215,.10);
+}
+
+.unit{
+  flex:0 0 auto;
+  font-size:14px;
+  font-weight:800;
+}
+
+.hidden{
+  display:none !important;
+}
+
+.calc-btn{
+  width:100%;
+  height:54px;
+  margin-top:18px;
+  border:0;
+  border-radius:11px;
+  background:#1165d7;
+  color:#fff;
+  font-size:17px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.payment-btn{
+  display:none;
+  width:100%;
+  height:54px;
+  margin-top:10px;
+  border:0;
+  border-radius:11px;
+  background:#1c9b74;
+  color:#fff;
+  font-size:17px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.result{
+  display:block;
+  margin-top:16px;
+}
+
+.result.show{
+  display:block;
+}
+
+.result-title{
+  margin:0 0 10px;
+  font-size:19px;
+  font-weight:900;
+  color:#173f67;
+}
+
+.compare{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.compare-card{
+  min-width:0;
+  padding:20px 12px;
+  border:1px solid #dce6ee;
+  border-radius:16px;
+  background:#fff;
+  text-align:center;
+}
+
+.compare-card.platform{
+  border:2px solid #1165d7;
+  background:#f2f7ff;
+}
+
+.compare-label{
+  min-height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#53697b;
+  font-size:13px;
+  font-weight:900;
+  line-height:1.4;
+}
+
+.compare-card.platform .compare-label{
+  color:#1165d7;
+}
+
+.price{
+  margin-top:10px;
+  font-size:25px;
+  font-weight:950;
+  color:#172b3d;
+  letter-spacing:-1px;
+}
+
+.platform .price{
+  color:#1165d7;
+}
+
+.vat{
+  margin-top:5px;
+  color:#718291;
+  font-size:11px;
+  font-weight:700;
+}
+
+.detail{
+  margin-top:10px;
+  padding:13px 15px;
+  border-radius:11px;
+  background:#eef4f8;
+  color:#53697b;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.notice{
+  margin-top:16px;
+  padding:17px;
+  border:1px solid #d9e5ef;
+  border-radius:14px;
+  background:#fff;
+}
+
+.notice strong{
+  display:block;
+  margin-bottom:7px;
+  color:#173f67;
+  font-size:14px;
+}
+
+.notice p{
+  margin:0;
+  color:#617687;
+  font-size:12px;
+  line-height:1.7;
+}
+
+
+@media(max-width:480px){
+  .fee-head{
+    padding:21px 17px;
+  }
+
+  .fee-head h1{
+    font-size:22px;
+  }
+
+  .type-btn{
+    height:47px;
+    font-size:14px;
+  }
+
+  .calculator{
+    padding:17px 14px;
+  }
+
+  .money-box input{
+    font-size:17px;
+  }
+
+  .compare{
+    gap:6px;
+  }
+
+  .compare-card{
+    padding:17px 7px;
+  }
+
+  .compare-label{
+    font-size:11px;
+  }
+
+  .price{
+    font-size:20px;
+  }
+}
+
+</style>
+<!-- Vercel Web Analytics -->
+<script defer src="/_vercel/insights/script.js"></script>
+
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-amber-500 selection:text-black">
 
-  <!-- 상단 네비게이션 헤더 -->
-  <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/85 border-b border-slate-800">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <a href="/" class="flex items-center gap-2">
-          <span class="text-2xl font-black tracking-tight text-white flex items-center gap-1.5">
-            <span class="w-8 h-8 rounded-lg gold-gradient flex items-center justify-center text-slate-950 text-base font-black shadow-lg">안</span>
-            <span>안심딜</span>
-          </span>
-          <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-bold uppercase tracking-wider">100% 매매 전용</span>
-        </a>
-      </div>
 
-      <nav class="hidden md:flex items-center gap-6 text-sm font-bold text-slate-300">
-        <a href="#assets" class="hover:text-amber-400 transition">3대 핵심 매매자산</a>
-        <a href="#docs" class="hover:text-amber-400 transition">토지·건물 필수 4대 서류</a>
-        <a href="#request" class="hover:text-amber-400 transition">VIP 매수·매도 의뢰</a>
-        <a href="#contract" class="hover:text-amber-400 transition">안심 전자계약</a>
-      </nav>
+<body>
 
-      <div class="flex items-center gap-2.5">
-        <a href="/broker" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-bold border border-amber-500/30 transition">🏢 회원 중개사 센터</a>
-        <a href="#request" class="px-4 py-2 rounded-xl gold-gradient hover:opacity-90 text-slate-950 text-xs font-black transition shadow-lg">VIP 매매의뢰</a>
-      </div>
+<div class="wrap">
+
+
+<header class="header">
+
+  <a class="logo" href="/">
+
+    <span class="logo-mark">🏠</span>
+
+    <span>
+      우리자산(빌딩·상가·대지)
+      <strong>안심거래</strong>
+    </span>
+
+  </a>
+
+
+  <div class="top-actions">
+
+    <div class="install-wrap">
+
+      <button
+        id="installBtn"
+        class="install-btn"
+        type="button"
+        aria-label="앱 설치"
+      >
+        <span class="phone"></span>
+      </button>
+
+      <span class="install-label">
+        앱설치
+      </span>
+
     </div>
-  </header>
 
-  <!-- 히어로 섹션 -->
-  <section class="relative pt-12 pb-20 px-4 sm:px-6 overflow-hidden text-center">
-    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-amber-500/15 via-transparent to-transparent pointer-events-none"></div>
 
-    <div class="max-w-4xl mx-auto space-y-6 relative z-10">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-amber-500/40 text-amber-300 text-xs font-bold shadow-inner">
-        <span>🛡️ [전세·월세 배제] 꼬마빌딩 & 신축 대지 100% 매매 전문 플랫폼</span>
+    <button
+      id="menuBtn"
+      class="menu"
+      type="button"
+      aria-label="메뉴 열기"
+      aria-expanded="false"
+      aria-controls="mobileMenu"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </div>
+
+</header>
+
+
+<div
+  id="menuBackdrop"
+  class="mobile-menu-backdrop"
+></div>
+
+
+<nav
+  id="mobileMenu"
+  class="mobile-menu-panel"
+  aria-hidden="true"
+>
+
+  <div class="mobile-menu-title">
+    메뉴
+  </div>
+
+  <div class="mobile-menu-list">
+
+    <a class="primary" href="/request.html?type=sale">
+      <span>🏠 자산(빌딩·상가·대지) 매수</span>
+      <span>›</span>
+    </a>
+
+    <a class="primary" href="/request.html?type=jeonse">
+      <span>🔑 전세 구하기</span>
+      <span>›</span>
+    </a>
+
+    <a class="primary" href="/request.html?type=monthly">
+      <span>🏢 월세 구하기</span>
+      <span>›</span>
+    </a>
+
+    <div class="mobile-menu-divider"></div>
+
+    <a href="/check" class="check-link font-bold text-rose-600 mr-3">🚫 1초 팩트체크</a> <a href="/broker-guide.html">
+      <span>안심거래 이용안내</span>
+      <span>›</span>
+    </a>
+
+    <a href="/broker-signup.html">
+      <span>공인중개사 회원가입</span>
+      <span>›</span>
+    </a>
+
+    <a href="/broker-login.html">
+      <span>공인중개사 로그인</span>
+      <span>›</span>
+    </a>
+
+  </div>
+
+</nav>
+
+
+<section class="hero">
+
+  <div class="hero-text">
+
+    <h1>
+      원하는 자산(빌딩·상가·대지),<br>
+      <em>매수·임차 수수료 50%에 계약하세요!</em>
+    </h1>
+
+    <p>
+      복비 반값 혜택과 특허 안심거래!<br>
+      희망조건만 등록하면 동네 공인중개사가 1:1 안심 매물을 제안합니다.
+    </p>
+
+  </div>
+
+</section>
+
+
+<section class="trade">
+
+  <a class="sale" href="/request.html?type=sale">
+
+    <span class="ico">🏠</span>
+
+    <b>자산(빌딩·상가·대지) 매수</b>
+
+    <span style="display:inline-block; margin:3px 0 4px; padding:2px 7px; border-radius:5px; background:#eff6ff; color:#1165d7; font-size:11px; font-weight:800; border:1px solid #bfdbfe;">수수료 50%에 계약하기</span>
+
+    <span>매수조건 등록 ›</span>
+
+  </a>
+
+
+  <a class="jeonse" href="/request.html?type=jeonse">
+
+    <span class="ico">🔑</span>
+
+    <b>전세 구하기</b>
+
+    <span style="display:inline-block; margin:3px 0 4px; padding:2px 7px; border-radius:5px; background:#eff6ff; color:#1165d7; font-size:11px; font-weight:800; border:1px solid #bfdbfe;">수수료 50%에 계약하기</span>
+
+    <span>전세조건 등록 ›</span>
+
+  </a>
+
+
+  <a class="monthly" href="/request.html?type=monthly">
+
+    <span class="ico">🏢</span>
+
+    <b>월세 구하기</b>
+
+    <span style="display:inline-block; margin:3px 0 4px; padding:2px 7px; border-radius:5px; background:#eff6ff; color:#1165d7; font-size:11px; font-weight:800; border:1px solid #bfdbfe;">수수료 50%에 계약하기</span>
+
+    <span>월세조건 등록 ›</span>
+
+  </a>
+
+</section>
+
+<section class="fee-widget">
+<!-- =========================
+     제목
+========================= -->
+
+<!-- 수수료 50% 계약 안내 배너 -->
+<div style="margin-bottom:12px; padding:16px 20px; border-radius:16px; background:linear-gradient(135deg, #1165d7 0%, #1d4ed8 100%); color:#fff; text-align:center; box-shadow:0 6px 20px rgba(17,101,215,0.22);">
+  <div style="font-size:17px; font-weight:900; letter-spacing:-0.5px; line-height:1.4;">💡 우리자산(빌딩·상가·대지)에서 매수·임차 수수료 50%에 계약하세요!</div>
+  <div style="font-size:12px; opacity:0.92; margin-top:5px; font-weight:600;">아래 계산기에서 내가 아낄 수 있는 중개수수료를 직접 확인해 보세요</div>
+</div>
+
+<section class="fee-head">
+
+  <h1>
+    플랫폼 서비스 이용료
+  </h1>
+
+  <p>
+    거래 유형과 금액을 입력하면
+    요율표 기준 예상금액과
+    우리자산(빌딩·상가·대지) 안심딜 플랫폼 서비스 이용료를
+    확인할 수 있습니다.
+  </p>
+
+</section>
+
+
+<!-- =========================
+     거래유형
+========================= -->
+
+<div class="type-tabs">
+
+  <button
+    type="button"
+    class="type-btn active"
+    data-type="sale"
+  >
+    매매
+  </button>
+
+  <button
+    type="button"
+    class="type-btn"
+    data-type="jeonse"
+  >
+    전세
+  </button>
+
+  <button
+    type="button"
+    class="type-btn"
+    data-type="monthly"
+  >
+    월세
+  </button>
+
+</div>
+
+
+<!-- =========================
+     계산기
+========================= -->
+
+<section class="calculator">
+
+
+  <!-- 매매 -->
+
+  <div
+    id="saleFields"
+    class="field-area"
+  >
+
+    <div class="input-group">
+
+      <label for="salePrice">
+        매매금액
+      </label>
+
+      <div class="money-box">
+
+        <input
+          id="salePrice"
+          type="text"
+          inputmode="numeric"
+          placeholder="예: 300000000"
+        >
+
+        <span class="unit">
+          원
+        </span>
+
       </div>
 
-      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight">
-        꼬마빌딩 & 신축 대지 매매,<br>
-        <span class="gold-text">토지이용계획서 등 4대 서류로 안심딜</span>
-      </h1>
+    </div>
 
-      <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-        잔챙이 임대차(전세·월세)는 취급하지 않습니다.<br>
-        공인중개사가 <b>공적 장부 4종을 사전 검증·등록</b>하고 <b>100% 무인 안심 전자계약</b>으로 가장 안전한 통매매(Deal)를 완성합니다.
+  </div>
+
+
+  <!-- 전세 -->
+
+  <div
+    id="jeonseFields"
+    class="field-area hidden"
+  >
+
+    <div class="input-group">
+
+      <label for="jeonsePrice">
+        전세보증금
+      </label>
+
+      <div class="money-box">
+
+        <input
+          id="jeonsePrice"
+          type="text"
+          inputmode="numeric"
+          placeholder="예: 200000000"
+        >
+
+        <span class="unit">
+          원
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- 월세 -->
+
+  <div
+    id="monthlyFields"
+    class="field-area hidden"
+  >
+
+    <div class="input-group">
+
+      <label for="monthlyDeposit">
+        보증금
+      </label>
+
+      <div class="money-box">
+
+        <input
+          id="monthlyDeposit"
+          type="text"
+          inputmode="numeric"
+          placeholder="예: 10000000"
+        >
+
+        <span class="unit">
+          원
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="input-group">
+
+      <label for="monthlyRent">
+        월세
+      </label>
+
+      <div class="money-box">
+
+        <input
+          id="monthlyRent"
+          type="text"
+          inputmode="numeric"
+          placeholder="예: 500000"
+        >
+
+        <span class="unit">
+          원
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <button
+    id="calcBtn"
+    class="calc-btn"
+    type="button"
+  >
+    이용료 확인
+  </button>
+
+
+
+</section>
+
+
+<!-- =========================
+     결과
+========================= -->
+
+<section
+  id="result"
+  class="result"
+>
+
+  <h2 class="result-title">
+    거래당사자 예상 비용 비교
+  </h2>
+
+
+  <div class="compare">
+
+
+    <div class="compare-card">
+
+      <div class="compare-label">
+        <span id="normalParty">매도자</span><br>
+        공인중개사 중개수수료
+      </div>
+
+      <div
+        id="normalPrice"
+        class="price"
+      >
+        0원
+      </div>
+
+      <div class="vat">
+        부가세 포함
+      </div>
+
+    </div>
+
+
+    <div class="compare-card platform">
+
+      <div class="compare-label">
+        <span id="platformParty">매수자</span><br>
+        플랫폼 서비스 이용료
+      </div>
+
+      <div
+        id="platformPrice"
+        class="price"
+      >
+        0원
+      </div>
+
+      <div class="vat">
+        부가세 포함
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <div
+    id="detail"
+    class="detail"
+  >
+    <strong id="feeOnlyNotice">매수자는 공인중개사 중개수수료를 별도로 지급하지 않습니다.<br>표시된 플랫폼 서비스 이용료만 지급합니다.</strong>
+  </div>
+
+</section>
+
+
+<!-- =========================
+     안내
+========================= -->
+
+
+
+</section>
+
+
+
+<section
+  id="my-proposals-access"
+  class="return-access access-panels"
+>
+
+  <div class="access-panel proposal-panel">
+
+    <h2 class="return-access-title">
+      나의 제안
+    </h2>
+
+    <p class="return-access-desc">
+      제안받은 매물을 확인하세요.
+    </p>
+
+    <div class="return-access-row">
+
+      <input
+        id="accessInput"
+        type="text"
+        inputmode="numeric"
+        autocomplete="off"
+        placeholder="매수·임차인 휴대전화번호"
+        aria-label="매수·임차인 휴대전화번호"
+      >
+
+      <button
+        id="accessBtn"
+        type="button"
+      >
+        확인
+      </button>
+
+    </div>
+
+    <p class="return-access-help">
+      등록한 휴대전화번호를 입력하고 확인을 눌러주세요.
+    </p>
+
+  </div>
+
+
+  <div class="access-panel transaction-panel">
+
+    <h2 class="return-access-title">
+      거래 진행
+    </h2>
+
+    <p class="return-access-desc">
+      진행 중인 거래를 확인하세요.
+    </p>
+
+    <div class="return-access-row">
+
+      <input
+        id="transactionCode"
+        type="text"
+        inputmode="numeric"
+        autocomplete="off"
+        maxlength="4"
+        placeholder="4자리 거래방 코드"
+        aria-label="4자리 거래방 코드"
+      >
+
+      <button
+        id="transactionBtn"
+        type="button"
+      >
+        확인
+      </button>
+
+    </div>
+
+    <p class="return-access-help">
+      거래 당사자에게 발급된
+      4자리 거래방 코드를 입력하세요.
+      <br>
+      전자계약, 등록서류, 서명 및 계약완료 내용은
+      거래방에서 확인할 수 있습니다.
+    </p>
+
+  </div>
+
+</section>
+
+
+<section class="request-lookup">
+
+  <h2 class="return-access-title">
+    매수요청번호 조회
+  </h2>
+
+  <p class="return-access-desc">
+    공인중개사는 매수요청번호로 희망조건을 확인하세요.
+  </p>
+
+  <div class="return-access-row">
+
+    <input
+      id="requestNumberInput"
+      type="text"
+      inputmode="numeric"
+      autocomplete="off"
+      maxlength="4"
+      placeholder="4자리 매수요청번호"
+      aria-label="4자리 매수요청번호"
+    >
+
+    <button
+      id="requestNumberBtn"
+      type="button"
+    >
+      확인
+    </button>
+
+  </div>
+
+  <div
+    id="requestResult"
+    class="request-result"
+  >
+
+    <h3 class="request-result-title">
+      매수 희망조건
+    </h3>
+
+    <div
+      id="requestResultGrid"
+      class="request-result-grid"
+    ></div>
+
+    <div class="request-result-actions">
+      <button
+        id="requestRegisterBtn"
+        type="button"
+      >
+        매물 등록
+      </button>
+
+      <button
+        id="requestExitBtn"
+        type="button"
+      >
+        나가기
+      </button>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="process">
+
+  <h2 class="title">
+    희망조건 등록부터 안전한 계약까지,
+    이렇게 진행됩니다
+  </h2>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="circle">📝</div>
+      <div class="num">1</div>
+      <b>희망조건 등록</b>
+      <p>
+        원하는 자산(빌딩·상가·대지) 조건을<br>
+        간단히 등록
       </p>
-
-      <!-- 4대 서류 즉시 확인 배지 -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto pt-4 text-xs font-bold text-slate-300">
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-center gap-2 shadow-lg">
-          <span>📜</span> <span>토지이용계획확인서</span>
-        </div>
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-center gap-2 shadow-lg">
-          <span>🏢</span> <span>건축물대장 (위반확인)</span>
-        </div>
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-center gap-2 shadow-lg">
-          <span>🔒</span> <span>등기부등본 (소유자·대출)</span>
-        </div>
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-center gap-2 shadow-lg">
-          <span>✍️</span> <span>100% 안심 전자계약</span>
-        </div>
-      </div>
     </div>
-  </section>
 
-  <!-- 3대 핵심 전문 자산 (전부 100% 매매) -->
-  <section id="assets" class="py-16 px-4 sm:px-6 bg-slate-900/50 border-y border-slate-800">
-    <div class="max-w-5xl mx-auto space-y-10">
-      <div class="text-center space-y-2">
-        <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">Target Assets</span>
-        <h2 class="text-2xl sm:text-3xl font-black text-white">우리아파트 안심딜 3대 핵심 매매 자산</h2>
-        <p class="text-xs sm:text-sm text-slate-400">규제가 없고 의사결정이 즉결되는 알짜 품목만 선별하여 매매합니다.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- 1. 올근생 꼬마빌딩 통매매 -->
-        <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 transition space-y-4 shadow-xl">
-          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl font-bold border border-amber-500/20">🏢</div>
-          <div>
-            <span class="text-[11px] font-bold text-amber-400 uppercase">매매 전문 01</span>
-            <h3 class="text-lg font-black text-white mt-1">올근생 꼬마빌딩 (통매매)</h3>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            전 층 상가·사무실 구성. 주택 수에 미포함되어 종합부동산세·취득세 중과 배제. 매매가 20억~50억+ 규모.
-          </p>
-          <div class="pt-2 border-t border-slate-800 text-[11px] font-semibold text-slate-300 flex justify-between">
-            <span>거래방식: <b>100% 통매매</b></span>
-            <span class="text-amber-400 font-bold">임대수익률 기준 즉결</span>
-          </div>
-        </div>
-
-        <!-- 2. 상가주택 통매매 -->
-        <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 transition space-y-4 shadow-xl">
-          <div class="w-12 h-12 rounded-2xl bg-teal-500/10 text-teal-400 flex items-center justify-center text-2xl font-bold border border-teal-500/20">🏠</div>
-          <div>
-            <span class="text-[11px] font-bold text-teal-400 uppercase">매매 전문 02</span>
-            <h3 class="text-lg font-black text-white mt-1">상가주택 통매매</h3>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            1~2층 상가 + 3~4층 주인세대/원룸. 은퇴 자산가의 실거주와 안정적인 월세 수입을 동시 충족. 매매가 15억~35억.
-          </p>
-          <div class="pt-2 border-t border-slate-800 text-[11px] font-semibold text-slate-300 flex justify-between">
-            <span>거래방식: <b>100% 통매매</b></span>
-            <span class="text-teal-400 font-bold">택지지구 표준상품</span>
-          </div>
-        </div>
-
-        <!-- 3. 신축 건축부지 (대지) -->
-        <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 transition space-y-4 shadow-xl">
-          <div class="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-2xl font-bold border border-blue-500/20">🏗️</div>
-          <div>
-            <span class="text-[11px] font-bold text-blue-400 uppercase">매매 전문 03</span>
-            <h3 class="text-lg font-black text-white mt-1">신축 건축부지 (오직 대지)</h3>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            잡종지·임야 완전 배제! 지목이 "대(垈)"로 된 인허가 규제 없는 알짜 토지만 매매. 매매가 10억~30억.
-          </p>
-          <div class="pt-2 border-t border-slate-800 text-[11px] font-semibold text-slate-300 flex justify-between">
-            <span>거래방식: <b>100% 토지매매</b></span>
-            <span class="text-blue-400 font-bold">인허가 리스크 0%</span>
-          </div>
-        </div>
-      </div>
+    <div class="step">
+      <div class="circle">👤</div>
+      <div class="num">2</div>
+      <b>공인중개사 전달</b>
+      <p>
+        해당 지역 공인중개사에게<br>
+        요청이 전달됩니다
+      </p>
     </div>
-  </section>
 
-  <!-- 필수 4대 공적 서류 사전 검증 센터 -->
-  <section id="docs" class="py-16 px-4 sm:px-6">
-    <div class="max-w-4xl mx-auto rounded-3xl bg-slate-900 border border-amber-500/40 p-6 sm:p-10 space-y-8 shadow-2xl">
-      <div class="text-center space-y-2">
-        <span class="px-3.5 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-black">Official Verification</span>
-        <h2 class="text-2xl sm:text-3xl font-black text-white">중개사가 플랫폼에 사전 등록하는 [필수 4대 서류 세트]</h2>
-        <p class="text-xs sm:text-sm text-slate-400">4대 서류가 첨부되지 않은 매물은 거래 제안이 불가하여 허위매물이 100% 차단됩니다.</p>
+    <div class="step">
+      <div class="circle">🏠</div>
+      <div class="num">3</div>
+      <b>매물 제안</b>
+      <p>
+        공인중개사가 조건에 맞는<br>
+        매물을 제안합니다
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="circle">🔎</div>
+      <div class="num">4</div>
+      <b>비교·선택</b>
+      <p>
+        제안받은 매물을<br>
+        비교하고 선택
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="circle">🤝</div>
+      <div class="num">5</div>
+      <b>안전한 계약</b>
+      <p>
+        안전한 절차로<br>
+        계약을 완료합니다
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="promise">
+
+  <h2 class="title">
+    우리자산(빌딩·상가·대지) 안심딜의 약속
+  </h2>
+
+  <div class="promise-grid">
+
+    <a class="card" href="/detail.html?topic=broker">
+      <div class="ci">🛡️</div>
+      <h3>검증된<br>공인중개사</h3>
+      <p>
+        가입 심사 및 교육을<br>
+        통과한 공인중개사만<br>
+        활동합니다.
+      </p>
+      <span class="more">자세히 보기 ›</span>
+    </a>
+
+    <a class="card" href="/detail.html?topic=contract">
+      <div class="ci">🏛️</div>
+      <h3>국토부 표준<br>전자계약 혜택</h3>
+      <p>
+        대출 우대금리 감면!<br>
+        확정일자 자동 발급,<br>
+        책상에서 1초 만에<br>
+        비대면 모바일 서명.
+      </p>
+      <span class="more">혜택 자세히 보기 ›</span>
+    </a>
+
+    <a class="card" href="/detail.html?topic=escrow">
+      <div class="ci">🔒</div>
+      <h3>선택형<br>에스크로</h3>
+      <p>
+        에스크로 이용 선택 시<br>
+        우리은행 부동산에스크로이체<br>
+        이용방법을 안내합니다.
+      </p>
+      <span class="more">자세히 보기 ›</span>
+    </a>
+
+    <a class="card" href="/detail.html?topic=registry">
+      <div class="ci">📋</div>
+      <h3>매매 셀프등기<br>무료 가이드</h3>
+      <p>
+        법무사비 절약 노하우!<br>
+        서류·절차 100% 무료 안내<br>
+        (세금·공과금은 직접 납부)
+      </p>
+      <span class="more">안내 보기 ›</span>
+    </a>
+
+  </div>
+
+
+  <div class="broker">
+
+    <div class="broker-left">
+
+      <div class="person">
+        👨🏻‍💼
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs">
-        <!-- 토지 4대 서류 -->
-        <div class="p-5 rounded-2xl bg-slate-950 border border-blue-500/30 space-y-3">
-          <div class="font-black text-blue-400 text-sm flex items-center gap-2 border-b border-slate-800 pb-2">
-            <span>🏗️</span> <span>토지(신축 대지) 거래 필수 4대 서류</span>
-          </div>
-          <ul class="space-y-2.5 text-slate-300">
-            <li class="flex items-start gap-2">
-              <span class="text-blue-400 font-bold">1.</span>
-              <div><b>토지이용계획확인서 :</b> 용도지역(상업지/주거지), 건폐율·용적률, 건축 가능 규모 및 규제 확인</div>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-blue-400 font-bold">2.</span>
-              <div><b>토지 등기부등본 :</b> 진짜 소유자(명의인) 및 은행 근저당권(대출금액) 확인</div>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-blue-400 font-bold">3.</span>
-              <div><b>토지대장 :</b> 지목이 "대(垈)"인지 사실 확인 및 실제 면적(㎡, 평수) 확인</div>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-blue-400 font-bold">4.</span>
-              <div><b>지적도 :</b> 땅 모양(형상) 및 도로 접도 여부(길 없는 맹지 원천 차단)</div>
-            </li>
-          </ul>
-        </div>
+      <div>
 
-        <!-- 건물 4대 서류 -->
-        <div class="p-5 rounded-2xl bg-slate-950 border border-amber-500/30 space-y-3">
-          <div class="font-black text-amber-400 text-sm flex items-center gap-2 border-b border-slate-800 pb-2">
-            <span>🏢</span> <span>건물(꼬마빌딩·상가주택) 거래 필수 4대 서류</span>
-          </div>
-          <ul class="space-y-2.5 text-slate-300">
-            <li class="flex items-start gap-2">
-              <span class="text-amber-400 font-bold">1.</span>
-              <div><b>건축물대장 :</b> 위반건축물(노란 딱지) 여부 확인 (불법 증축 시 대출 거절 차단)</div>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-amber-400 font-bold">2.</span>
-              <div><b>건물 등기부등본 :</b> 건물 소유자 명의 및 근저당권(은행 빚) 확인</div>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-amber-400 font-bold">3.</span>
-              <div><b>토지 등기부 & 대장 :</b> 건물주와 바닥 땅 주인이 동일 인물인지 소유권 일치 확인</div>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-amber-400 font-bold">4.</span>
-              <div><b>임대차 현황표 :</b> 층별 보증금 승계액 및 월세 합계, 실질 연수익률 산출</div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+        <h2>
+          공인중개사로 활동하시나요?
+        </h2>
 
-  <!-- VIP 매수의뢰 / 매도의뢰 등록 폼 (100% 매매 전용) -->
-  <section id="request" class="py-16 px-4 sm:px-6 bg-slate-900/60 border-t border-slate-800">
-    <div class="max-w-xl mx-auto space-y-6">
-      <div class="text-center space-y-2">
-        <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">Safe Deal Request</span>
-        <h2 class="text-2xl sm:text-3xl font-black text-white">VIP 자산 안심 매매의뢰</h2>
-        <p class="text-xs sm:text-sm text-slate-400">오직 100% 매매만 접수하며, 해당 구(區) 인증 회원 중개사에게 즉시 배분됩니다.</p>
+        <p>
+          우리자산(빌딩·상가·대지) 안심딜의 공인중개사가 되어
+          더 많은 고객과 만나세요.
+        </p>
+
       </div>
 
-      <form id="dealForm" onsubmit="event.preventDefault(); alert('🎉 안심 매매의뢰가 안전하게 접수되었습니다!\n해당 지역 회원 중개사에게 4대 서류 검증 요청이 전달됩니다.');" class="p-6 sm:p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl space-y-5">
-
-        <!-- 거래 유형 (100% 매매 단일 고정) -->
-        <div class="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-xs">
-          <span class="font-bold text-slate-300">거래 방식:</span>
-          <span class="font-black text-amber-400 flex items-center gap-1.5">
-            <span>🏷️</span> <span>100% 매매 (통매매) 전용 [전세·월세 불가]</span>
-          </span>
-        </div>
-
-        <!-- 품목 선택 -->
-        <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1.5">매매 자산 품목 선택 <span class="text-amber-400">*</span></label>
-          <div class="grid grid-cols-3 gap-2">
-            <label class="cursor-pointer">
-              <input type="radio" name="assetType" value="building" checked class="peer sr-only">
-              <div class="py-3 px-2 rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-amber-400 peer-checked:bg-amber-500/10 text-center text-xs font-bold text-slate-300 peer-checked:text-amber-300 transition">
-                🏢 꼬마빌딩
-              </div>
-            </label>
-            <label class="cursor-pointer">
-              <input type="radio" name="assetType" value="sang-ga" class="peer sr-only">
-              <div class="py-3 px-2 rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-amber-400 peer-checked:bg-amber-500/10 text-center text-xs font-bold text-slate-300 peer-checked:text-amber-300 transition">
-                🏠 상가주택
-              </div>
-            </label>
-            <label class="cursor-pointer">
-              <input type="radio" name="assetType" value="land" class="peer sr-only">
-              <div class="py-3 px-2 rounded-xl bg-slate-950 border border-slate-800 peer-checked:border-amber-400 peer-checked:bg-amber-500/10 text-center text-xs font-bold text-slate-300 peer-checked:text-amber-300 transition">
-                🏗️ 신축 대지
-              </div>
-            </label>
-          </div>
-        </div>
-
-        <!-- 지역 선택 -->
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-bold text-slate-300 mb-1.5">희망 지역 (시·도) <span class="text-amber-400">*</span></label>
-            <select id="sido" class="w-full py-2.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-xs font-medium text-slate-200">
-              <option value="경남">경상남도</option>
-              <option value="부산">부산광역시</option>
-              <option value="울산">울산광역시</option>
-              <option value="서울">서울특별시</option>
-              <option value="경기">경기도</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-300 mb-1.5">희망 구/시/군 <span class="text-amber-400">*</span></label>
-            <input type="text" id="gugun" required placeholder="예: 양산시, 해운대구" class="w-full py-2.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200">
-          </div>
-        </div>
-
-        <!-- 매매 예산 / 희망가 -->
-        <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1.5">매매 희망 예산 (또는 매도 희망가) <span class="text-amber-400">*</span></label>
-          <select id="budget" class="w-full py-2.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200">
-            <option value="10억~20억">10억 ~ 20억 원</option>
-            <option value="20억~30억" selected>20억 ~ 30억 원</option>
-            <option value="30억~50억">30억 ~ 50억 원</option>
-            <option value="50억 이상">50억 원 이상 (VIP 대형 딜)</option>
-          </select>
-        </div>
-
-        <!-- 서류 준비 확인 체크 -->
-        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5 text-xs text-slate-400">
-          <div class="font-bold text-slate-300 flex items-center gap-1.5">
-            <span>📄</span> <span>공적 4대 서류 기반 안심 거래 동의</span>
-          </div>
-          <p class="text-[11px] leading-relaxed">
-            본 의뢰는 중개사의 [토지이용계획확인서·등기부·대장] 4대 서류 사전 검증을 거친 후 전자계약으로 안전하게 체결됩니다.
-          </p>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-300 mb-1.5">안심 연락처 (휴대폰 번호) <span class="text-amber-400">*</span></label>
-          <input type="tel" id="userPhone" required placeholder="010-0000-0000 (번호 암호화 보호)" class="w-full py-2.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200">
-        </div>
-
-        <button type="submit" class="w-full py-4 px-6 gold-gradient hover:opacity-90 text-slate-950 font-black text-sm rounded-2xl shadow-xl transition active:scale-95">
-          🔒 4대 서류 검증 기반 VIP 매매의뢰 등록하기
-        </button>
-      </form>
     </div>
-  </section>
 
-  <!-- 하단 푸터 -->
-  <footer class="py-10 px-4 sm:px-6 bg-slate-950 border-t border-slate-800 text-center text-xs text-slate-500 space-y-3">
-    <div class="flex items-center justify-center gap-4 text-slate-400 font-bold">
-      <a href="/broker" class="hover:text-amber-400 transition">회원 중개사 가입 (얼리버드 월 3만 원)</a>
-      <span>|</span>
-      <a href="/admin" class="hover:text-amber-400 transition">관리자 센터</a>
+
+    <div class="broker-actions">
+
+      <a
+        class="broker-btn guide-btn"
+        href="/broker-guide.html"
+      >
+        안심거래<br>
+        이용안내 ›
+      </a>
+
+      <a
+        class="broker-btn signup-btn"
+        href="/broker-signup.html"
+      >
+        공인중개사<br>
+        회원가입 ›
+      </a>
+
+      <a
+        class="broker-btn login-btn"
+        href="/broker-login.html"
+      >
+        공인중개사<br>
+        로그인 ›
+      </a>
+
     </div>
-    <p>우리아파트 자산 안심매매 플랫폼 【안심딜 (Ansim Deal)】 | 100% 매매 전용 & 4대 서류 검증 전자계약</p>
-    <p class="text-[10px] text-slate-600">Copyright © 2026 우리아파트 안심딜. All Rights Reserved.</p>
-  </footer>
+
+  </div>
+
+</section>
+
+
+<footer class="footer">
+
+  <div>
+    이용약관　|　개인정보처리방침　|　고객센터
+  </div>
+
+  <div>
+    업체명: 에너젠51　|　대표자: 장수용　|　사업자등록번호: 410-27-88141
+  </div>
+
+  <div>
+    주소: 광주광역시 광산구 하남산단8번로 176
+  </div>
+
+  <span>
+    © 우리자산(빌딩·상가·대지) 안심딜.
+    All rights reserved.
+  </span>
+
+</footer>
+
+
+</div>
+
+
+<script>
+(function(){
+
+"use strict";
+
+
+/* =========================
+   기본값
+========================= */
+
+let currentType =
+  "sale";
+
+
+let calculatedPlatformBase =
+  0;
+
+
+const typeButtons =
+  document.querySelectorAll(
+    ".type-btn"
+  );
+
+
+const saleFields =
+  document.getElementById(
+    "saleFields"
+  );
+
+
+const jeonseFields =
+  document.getElementById(
+    "jeonseFields"
+  );
+
+
+const monthlyFields =
+  document.getElementById(
+    "monthlyFields"
+  );
+
+
+const result =
+  document.getElementById(
+    "result"
+  );
+
+
+const normalPrice =
+  document.getElementById(
+    "normalPrice"
+  );
+
+
+const platformPrice =
+  document.getElementById(
+    "platformPrice"
+  );
+
+
+const detail =
+  document.getElementById(
+    "detail"
+  );
+
+
+const calcBtn =
+  document.getElementById(
+    "calcBtn"
+  );
+
+
+const paymentBtn =
+  document.getElementById(
+    "paymentBtn"
+  );
+
+
+const normalParty =
+  document.getElementById(
+    "normalParty"
+  );
+
+const platformParty =
+  document.getElementById(
+    "platformParty"
+  );
+
+function updatePartyLabels(){
+
+  const feeOnlyNotice =
+    document.getElementById(
+      "feeOnlyNotice"
+    );
+
+  if(
+    currentType ===
+    "sale"
+  ){
+    normalParty.textContent =
+      "매도자";
+
+    platformParty.textContent =
+      "매수자";
+
+    if(feeOnlyNotice){
+      feeOnlyNotice.innerHTML =
+        "매수자는 공인중개사 중개수수료를 별도로 지급하지 않습니다.<br>표시된 플랫폼 서비스 이용료만 지급합니다.";
+    }
+  }
+  else{
+    normalParty.textContent =
+      "임대인";
+
+    platformParty.textContent =
+      "임차인";
+
+    if(feeOnlyNotice){
+      feeOnlyNotice.innerHTML =
+        "임차인은 공인중개사 중개수수료를 별도로 지급하지 않습니다.<br>표시된 플랫폼 서비스 이용료만 지급합니다.";
+    }
+  }
+
+}
+
+
+/* =========================
+   숫자 처리
+========================= */
+
+function numberOnly(value){
+
+  return Number(
+    String(value || "")
+      .replace(
+        /[^0-9]/g,
+        ""
+      )
+  ) || 0;
+
+}
+
+
+function formatWon(value){
+
+  return Math.round(value)
+    .toLocaleString(
+      "ko-KR"
+    ) +
+    "원";
+
+}
+
+
+function formatInput(input){
+
+  const number =
+    numberOnly(
+      input.value
+    );
+
+
+  if(!number){
+
+    input.value =
+      "";
+
+    return;
+
+  }
+
+
+  input.value =
+    number
+      .toLocaleString(
+        "ko-KR"
+      );
+
+}
+
+
+/* =========================
+   거래유형 선택
+========================= */
+
+typeButtons.forEach(
+  button => {
+
+    button.addEventListener(
+      "click",
+      function(){
+
+        currentType =
+          this.dataset.type;
+
+
+        updatePartyLabels();
+
+
+        typeButtons.forEach(
+          btn => {
+
+            btn
+              .classList
+              .remove(
+                "active"
+              );
+
+          }
+        );
+
+
+        this
+          .classList
+          .add(
+            "active"
+          );
+
+
+        saleFields
+          .classList
+          .add(
+            "hidden"
+          );
+
+
+        jeonseFields
+          .classList
+          .add(
+            "hidden"
+          );
+
+
+        monthlyFields
+          .classList
+          .add(
+            "hidden"
+          );
+
+
+        if(
+          currentType ===
+          "sale"
+        ){
+
+          saleFields
+            .classList
+            .remove(
+              "hidden"
+            );
+
+        }
+
+
+        if(
+          currentType ===
+          "jeonse"
+        ){
+
+          jeonseFields
+            .classList
+            .remove(
+              "hidden"
+            );
+
+        }
+
+
+        if(
+          currentType ===
+          "monthly"
+        ){
+
+          monthlyFields
+            .classList
+            .remove(
+              "hidden"
+            );
+
+        }
+
+
+        result
+          .classList
+          .remove(
+            "show"
+          );
+
+
+        paymentBtn.style.display =
+          "none";
+
+
+        calculatedPlatformBase =
+          0;
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================
+   입력금액 콤마
+========================= */
+
+document
+  .querySelectorAll(
+    ".money-box input"
+  )
+  .forEach(
+    input => {
+
+      input.addEventListener(
+        "input",
+        function(){
+
+          formatInput(
+            this
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================
+   매매 내부 요율 계산
+========================= */
+
+function calculateSaleFee(
+  price
+){
+
+  let rate =
+    0;
+
+  let limit =
+    Infinity;
+
+
+  if(
+    price <
+    50000000
+  ){
+
+    rate =
+      0.006;
+
+    limit =
+      250000;
+
+  }
+
+  else if(
+    price <
+    200000000
+  ){
+
+    rate =
+      0.005;
+
+    limit =
+      800000;
+
+  }
+
+  else if(
+    price <
+    900000000
+  ){
+
+    rate =
+      0.004;
+
+  }
+
+  else if(
+    price <
+    1200000000
+  ){
+
+    rate =
+      0.005;
+
+  }
+
+  else if(
+    price <
+    1500000000
+  ){
+
+    rate =
+      0.006;
+
+  }
+
+  else{
+
+    rate =
+      0.007;
+
+  }
+
+
+  return Math.min(
+    price * rate,
+    limit
+  );
+
+}
+
+
+/* =========================
+   전세·월세 내부 요율 계산
+========================= */
+
+function calculateRentFee(
+  price
+){
+
+  let rate =
+    0;
+
+  let limit =
+    Infinity;
+
+
+  if(
+    price <
+    50000000
+  ){
+
+    rate =
+      0.005;
+
+    limit =
+      200000;
+
+  }
+
+  else if(
+    price <
+    100000000
+  ){
+
+    rate =
+      0.004;
+
+    limit =
+      300000;
+
+  }
+
+  else if(
+    price <
+    600000000
+  ){
+
+    rate =
+      0.003;
+
+  }
+
+  else if(
+    price <
+    1200000000
+  ){
+
+    rate =
+      0.004;
+
+  }
+
+  else if(
+    price <
+    1500000000
+  ){
+
+    rate =
+      0.005;
+
+  }
+
+  else{
+
+    rate =
+      0.006;
+
+  }
+
+
+  return Math.min(
+    price * rate,
+    limit
+  );
+
+}
+
+
+/* =========================
+   이용료 계산
+========================= */
+
+calcBtn
+  .addEventListener(
+    "click",
+    function(){
+
+      let transactionPrice =
+        0;
+
+
+      let baseFee =
+        0;
+
+
+      /* =====================
+         매매
+      ===================== */
+
+      if(
+        currentType ===
+        "sale"
+      ){
+
+        transactionPrice =
+          numberOnly(
+            document
+              .getElementById(
+                "salePrice"
+              )
+              .value
+          );
+
+
+        if(
+          !transactionPrice
+        ){
+
+          alert(
+            "매매금액을 입력해 주세요."
+          );
+
+          return;
+
+        }
+
+
+        baseFee =
+          calculateSaleFee(
+            transactionPrice
+          );
+
+      }
+
+
+      /* =====================
+         전세
+      ===================== */
+
+      if(
+        currentType ===
+        "jeonse"
+      ){
+
+        transactionPrice =
+          numberOnly(
+            document
+              .getElementById(
+                "jeonsePrice"
+              )
+              .value
+          );
+
+
+        if(
+          !transactionPrice
+        ){
+
+          alert(
+            "전세보증금을 입력해 주세요."
+          );
+
+          return;
+
+        }
+
+
+        baseFee =
+          calculateRentFee(
+            transactionPrice
+          );
+
+      }
+
+
+      /* =====================
+         월세
+      ===================== */
+
+      if(
+        currentType ===
+        "monthly"
+      ){
+
+        const deposit =
+          numberOnly(
+            document
+              .getElementById(
+                "monthlyDeposit"
+              )
+              .value
+          );
+
+
+        const rent =
+          numberOnly(
+            document
+              .getElementById(
+                "monthlyRent"
+              )
+              .value
+          );
+
+
+        if(
+          !rent
+        ){
+
+          alert(
+            "월세를 입력해 주세요."
+          );
+
+          return;
+
+        }
+
+
+        /*
+          월세 거래금액
+          보증금 + 월세 × 100
+        */
+
+        transactionPrice =
+          deposit +
+          (
+            rent *
+            100
+          );
+
+
+        /*
+          5천만원 미만이면
+          월세 × 70 적용
+        */
+
+        if(
+          transactionPrice <
+          50000000
+        ){
+
+          transactionPrice =
+            deposit +
+            (
+              rent *
+              70
+            );
+
+        }
+
+
+        baseFee =
+          calculateRentFee(
+            transactionPrice
+          );
+
+      }
+
+
+      /* =====================
+         플랫폼 서비스 이용료
+         내부 기준 50%
+      ===================== */
+
+      calculatedPlatformBase =
+        Math.round(
+          baseFee *
+          0.5
+        );
+
+
+      /*
+        요율표 기준 금액
+        부가세 포함
+      */
+
+      const normalWithVat =
+        Math.round(
+          baseFee *
+          1.1
+        );
+
+
+      /*
+        플랫폼 서비스 이용료
+        부가세 포함
+      */
+
+      const platformWithVat =
+        Math.round(
+          calculatedPlatformBase *
+          1.1
+        );
+
+
+      normalPrice
+        .textContent =
+        formatWon(
+          normalWithVat
+        );
+
+
+      platformPrice
+        .textContent =
+        formatWon(
+          platformWithVat
+        );
+
+
+      detail
+        .textContent =
+        "표시 금액은 부가가치세를 포함한 예상금액입니다.";
+
+
+      result
+        .classList
+        .add(
+          "show"
+        );
+
+
+      paymentBtn.style.display =
+        "block";
+
+
+      result
+        .scrollIntoView({
+
+          behavior:
+            "smooth",
+
+          block:
+            "nearest"
+
+        });
+
+    }
+  );
+
+
+/* =========================
+   입금확인 페이지 이동
+========================= */
+
+paymentBtn
+  .addEventListener(
+    "click",
+    function(){
+
+      if(
+        !calculatedPlatformBase
+      ){
+
+        alert(
+          "먼저 플랫폼 서비스 이용료를 확인해 주세요."
+        );
+
+        return;
+
+      }
+
+
+      /*
+        중요:
+        VAT 제외 플랫폼 서비스 이용료를 저장합니다.
+        service-fee-payment.html에서
+        VAT 10%를 한 번만 계산합니다.
+      */
+
+      localStorage
+        .setItem(
+          "wooriapt_service_fee",
+          String(
+            calculatedPlatformBase
+          )
+        );
+
+
+      localStorage
+        .setItem(
+          "wooriapt_service_type",
+          currentType
+        );
+
+
+      location.href =
+        "/service-fee-payment.html";
+
+    }
+  );
+
+
+})();
+</script>
+
+<script>
+
+let deferredPrompt = null;
+
+
+/* 앱 설치 */
+
+window.addEventListener(
+  "beforeinstallprompt",
+  e => {
+
+    e.preventDefault();
+    deferredPrompt = e;
+
+  }
+);
+
+
+document
+.getElementById("installBtn")
+.addEventListener(
+  "click",
+  async () => {
+
+    if(deferredPrompt){
+
+      deferredPrompt.prompt();
+
+      await deferredPrompt.userChoice;
+
+      deferredPrompt = null;
+
+      return;
+    }
+
+    if(
+      /iphone|ipad|ipod/i.test(
+        navigator.userAgent
+      )
+    ){
+
+      alert(
+        "Safari의 공유 버튼을 누른 뒤 ‘홈 화면에 추가’를 선택해 주세요."
+      );
+
+    }else{
+
+      alert(
+        "브라우저 메뉴에서 ‘앱 설치’ 또는 ‘홈 화면에 추가’를 선택해 주세요."
+      );
+
+    }
+
+  }
+);
+
+
+/* 햄버거 메뉴 */
+
+const menuBtn =
+document.getElementById("menuBtn");
+
+const mobileMenu =
+document.getElementById("mobileMenu");
+
+const menuBackdrop =
+document.getElementById("menuBackdrop");
+
+
+function openMenu(){
+
+  mobileMenu.classList.add("open");
+  menuBackdrop.classList.add("open");
+  document.body.classList.add("menu-open");
+
+  menuBtn.setAttribute(
+    "aria-expanded",
+    "true"
+  );
+
+  mobileMenu.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+}
+
+
+function closeMenu(){
+
+  mobileMenu.classList.remove("open");
+  menuBackdrop.classList.remove("open");
+  document.body.classList.remove("menu-open");
+
+  menuBtn.setAttribute(
+    "aria-expanded",
+    "false"
+  );
+
+  mobileMenu.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+}
+
+
+menuBtn.addEventListener(
+  "click",
+  () => {
+
+    if(
+      mobileMenu.classList.contains(
+        "open"
+      )
+    ){
+
+      closeMenu();
+
+    }else{
+
+      openMenu();
+
+    }
+
+  }
+);
+
+
+menuBackdrop.addEventListener(
+  "click",
+  closeMenu
+);
+
+
+document.addEventListener(
+  "keydown",
+  e => {
+
+    if(e.key === "Escape"){
+      closeMenu();
+    }
+
+  }
+);
+
+
+mobileMenu
+.querySelectorAll("a")
+.forEach(
+  link => {
+
+    link.addEventListener(
+      "click",
+      closeMenu
+    );
+
+  }
+);
+
+
+/* 숫자 정리 */
+
+function normalizeAccessValue(value){
+
+  return String(value || "")
+    .replace(/[^0-9]/g,"");
+
+}
+
+
+/* 나의 제안 */
+
+const accessInput =
+document.getElementById("accessInput");
+
+const accessBtn =
+document.getElementById("accessBtn");
+
+
+accessInput.addEventListener(
+  "input",
+  function(){
+
+    this.value =
+      normalizeAccessValue(
+        this.value
+      )
+      .slice(0,14);
+
+  }
+);
+
+
+accessBtn.addEventListener(
+  "click",
+  function(){
+
+    const value =
+      normalizeAccessValue(
+        accessInput.value
+      );
+
+    if(!value){
+
+      alert(
+        "휴대전화번호를 입력해 주세요."
+      );
+
+      accessInput.focus();
+
+      return;
+    }
+
+    if(value === "5804"){
+      localStorage.setItem(
+        "wooriapt_test_key",
+        "5804"
+      );
+
+      location.href =
+        "/my-proposals.html?test=5804";
+
+      return;
+    }
+
+    if(!/^01[016789][0-9]{7,8}$/.test(value)){
+      alert(
+        "휴대전화번호를 정확히 입력해 주세요."
+      );
+
+      accessInput.focus();
+
+      return;
+    }
+
+    localStorage.setItem(
+      "wooriapt_buyer_phone",
+      value
+    );
+
+    location.href =
+      "/my-proposals.html?phone=" +
+      encodeURIComponent(value);
+
+  }
+);
+
+
+accessInput.addEventListener(
+  "keydown",
+  function(e){
+
+    if(e.key === "Enter"){
+
+      e.preventDefault();
+      accessBtn.click();
+
+    }
+
+  }
+);
+
+
+/* 거래 진행 */
+
+const transactionCode =
+document.getElementById(
+  "transactionCode"
+);
+
+const transactionBtn =
+document.getElementById(
+  "transactionBtn"
+);
+
+
+transactionCode.addEventListener(
+  "input",
+  function(){
+
+    this.value =
+      normalizeAccessValue(
+        this.value
+      )
+      .slice(0,4);
+
+  }
+);
+
+
+transactionBtn.addEventListener(
+  "click",
+  function(){
+
+    const code =
+      normalizeAccessValue(
+        transactionCode.value
+      );
+
+    if(code.length !== 4){
+
+      alert(
+        "4자리 거래방 코드를 입력해 주세요."
+      );
+
+      transactionCode.focus();
+
+      return;
+    }
+
+    if(code === "5804"){
+      localStorage.setItem(
+        "wooriapt_test_key",
+        "5804"
+      );
+
+      location.href =
+        "/broker-agreement.html?code=" +
+        encodeURIComponent(code);
+
+      return;
+    }
+
+    let issuedCodes = [];
+
+    try{
+      const trade =
+        JSON.parse(
+          localStorage.getItem("wooriapt_trade") || "null"
+        );
+
+      if(trade){
+        issuedCodes = [
+          trade.tradeRoomCode,
+          trade.buyerCode,
+          trade.sellerCode
+        ]
+        .filter(Boolean)
+        .map(String);
+      }
+    }catch(e){}
+
+    if(!issuedCodes.includes(code)){
+      alert(
+        "발급된 거래방 코드를 확인해 주세요."
+      );
+
+      transactionCode.focus();
+
+      return;
+    }
+
+    localStorage.setItem(
+      "wooriapt_trade_room_code",
+      code
+    );
+
+    location.href =
+      "/transaction-room.html?code=" +
+      encodeURIComponent(code);
+
+  }
+);
+
+
+transactionCode.addEventListener(
+  "keydown",
+  function(e){
+
+    if(e.key === "Enter"){
+
+      e.preventDefault();
+      transactionBtn.click();
+
+    }
+
+  }
+);
+
+
+/* 매수요청번호 조회 */
+
+const requestNumberInput =
+document.getElementById("requestNumberInput");
+
+const requestNumberBtn =
+document.getElementById("requestNumberBtn");
+
+const requestResult =
+document.getElementById("requestResult");
+
+const requestResultGrid =
+document.getElementById("requestResultGrid");
+
+const requestRegisterBtn =
+document.getElementById("requestRegisterBtn");
+
+const requestExitBtn =
+document.getElementById("requestExitBtn");
+
+let currentRequestNumber = "";
+
+requestNumberInput.addEventListener(
+  "input",
+  function(){
+    this.value =
+      normalizeAccessValue(this.value)
+      .slice(0,4);
+  }
+);
+
+function requestTypeLabel(type){
+  if(type === "sale") return "매매";
+  if(type === "jeonse") return "전세";
+  if(type === "monthly") return "월세";
+  return type || "-";
+}
+
+function moneyLabel(value){
+  const n = Number(value);
+  if(!Number.isFinite(n) || n <= 0) return "-";
+  return n.toLocaleString("ko-KR") + "원";
+}
+
+function addRequestItem(label,value){
+  const div = document.createElement("div");
+  div.className = "request-result-item";
+
+  const b = document.createElement("b");
+  b.textContent = label + " : ";
+
+  const span = document.createElement("span");
+  span.textContent = value || "-";
+
+  div.appendChild(b);
+  div.appendChild(span);
+  requestResultGrid.appendChild(div);
+}
+
+function renderRequest(data){
+  requestResultGrid.innerHTML = "";
+
+  addRequestItem(
+    "매수요청번호",
+    data.request_number
+  );
+
+  addRequestItem(
+    "거래유형",
+    requestTypeLabel(data.request_type)
+  );
+
+  addRequestItem(
+    "지역",
+    [data.sido,data.sigungu,data.dong]
+      .filter(Boolean)
+      .join(" ")
+  );
+
+  addRequestItem(
+    "자산(빌딩·상가·대지)",
+    data.apartment || "미지정"
+  );
+
+  addRequestItem(
+    "희망면적",
+    data.size || "-"
+  );
+
+  if(data.request_type === "sale"){
+    addRequestItem(
+      "희망가격",
+      moneyLabel(data.sale_min) +
+      " ~ " +
+      moneyLabel(data.sale_max)
+    );
+  }
+
+  if(data.request_type === "jeonse"){
+    addRequestItem(
+      "희망가격",
+      moneyLabel(data.jeonse_min) +
+      " ~ " +
+      moneyLabel(data.jeonse_max)
+    );
+  }
+
+  if(data.request_type === "monthly"){
+    addRequestItem(
+      "희망보증금",
+      moneyLabel(data.monthly_deposit_min) +
+      " ~ " +
+      moneyLabel(data.monthly_deposit_max)
+    );
+
+    addRequestItem(
+      "희망월세",
+      moneyLabel(data.monthly_rent)
+    );
+  }
+
+  addRequestItem(
+    "입주희망일",
+    data.move_date || "-"
+  );
+
+  addRequestItem(
+    "입주일 조정",
+    data.move_flexible ? "협의 가능" : "지정일"
+  );
+
+  addRequestItem(
+    "기타조건",
+    data.memo || "없음"
+  );
+
+  currentRequestNumber =
+    String(data.request_number || "");
+
+  requestResult.classList.add("open");
+}
+
+async function lookupRequest(){
+  const requestNumber =
+    normalizeAccessValue(
+      requestNumberInput.value
+    );
+
+  if(requestNumber.length !== 4){
+    alert(
+      "4자리 매수요청번호를 입력해 주세요."
+    );
+    requestNumberInput.focus();
+    return;
+  }
+
+  requestNumberBtn.disabled = true;
+
+  try{
+    const response = await fetch(
+      "/api/property-request-lookup?requestNumber=" +
+      encodeURIComponent(requestNumber),
+      {
+        method:"GET",
+        headers:{
+          "Accept":"application/json"
+        }
+      }
+    );
+
+    const data = await response.json();
+
+    if(
+      !response.ok ||
+      !data ||
+      data.ok !== true ||
+      !data.request
+    ){
+      throw new Error(
+        data && data.message
+          ? data.message
+          : "매수요청번호를 확인해 주세요."
+      );
+    }
+
+    renderRequest(data.request);
+
+  }catch(error){
+    requestResult.classList.remove("open");
+    currentRequestNumber = "";
+    alert(
+      error && error.message
+        ? error.message
+        : "매수요청번호를 확인해 주세요."
+    );
+  }finally{
+    requestNumberBtn.disabled = false;
+  }
+}
+
+requestNumberBtn.addEventListener(
+  "click",
+  lookupRequest
+);
+
+requestNumberInput.addEventListener(
+  "keydown",
+  function(e){
+    if(e.key === "Enter"){
+      e.preventDefault();
+      lookupRequest();
+    }
+  }
+);
+
+requestRegisterBtn.addEventListener(
+  "click",
+  function(){
+    if(!currentRequestNumber) return;
+
+    location.href =
+      "/broker-property-register.html?request=" +
+      encodeURIComponent(currentRequestNumber);
+  }
+);
+
+requestExitBtn.addEventListener(
+  "click",
+  function(){
+    currentRequestNumber = "";
+    requestNumberInput.value = "";
+    requestResultGrid.innerHTML = "";
+    requestResult.classList.remove("open");
+    requestNumberInput.focus();
+  }
+);
+
+
+/* 서비스워커 */
+
+if(
+  "serviceWorker" in navigator
+){
+
+  window.addEventListener(
+    "load",
+    () => {
+
+      navigator
+      .serviceWorker
+      .register("/sw.js")
+      .catch(()=>{});
+
+    }
+  );
+
+}
+
+
+/* 지도에서 넘어온 경우 자산(빌딩·상가·대지) 신뢰도 검증 배너 */
+(function() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const aptName = params.get('apt');
+    const mode = params.get('mode');
+    if (aptName) {
+      const actionText = mode === 'sell' ? '내 집 내놓기' : '집 구하기';
+      const banner = document.createElement('div');
+      banner.id = 'mapAptWelcomeBanner';
+      banner.style.cssText = 'background: linear-gradient(135deg, #059669, #047857); color: white; padding: 14px 18px; margin: 12px 16px; border-radius: 14px; box-shadow: 0 4px 15px rgba(5,150,105,0.25); display: flex; align-items: center; justify-content: space-between; gap: 12px; z-index: 99; position: relative;';
+      banner.innerHTML = '<div style="flex: 1;">' +
+        '<div style="font-size: 11px; font-weight: 700; opacity: 0.9; display: flex; align-items: center; gap: 4px;">' +
+          '<span>📍 지도에서 선택하신 단지:</span>' +
+          '<strong style="color: #fef08a; font-size: 13px;">' + aptName + ' (' + actionText + ')</strong>' +
+        '</div>' +
+        '<div style="font-size: 14px; font-weight: 900; margin-top: 3px;">' +
+          '플랫폼의 특허 안심거래 시스템과 50% 절감 혜택을 먼저 확인하세요!' +
+        '</div>' +
+        '<div style="font-size: 11px; opacity: 0.92; margin-top: 2px;">' +
+          '✓ 국토부 표준 전자계약 · 선택형 에스크로 · 공인중개사 안심 역제안 팩트 검증' +
+        '</div>' +
+      '</div>' +
+      '<a href="#tradeSection" style="padding: 9px 14px; background: #fef08a; color: #0f172a; font-size: 12px; font-weight: 900; border-radius: 10px; text-decoration: none; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">' +
+        '안심절차 확인 ↓' +
+      '</a>';
+
+      const header = document.querySelector('.header');
+      if (header && header.parentNode) {
+        header.parentNode.insertBefore(banner, header.nextSibling);
+      }
+    }
+  } catch(e) {
+    console.warn(e);
+  }
+})();
+
+</script>
+
 </body>
 </html>
