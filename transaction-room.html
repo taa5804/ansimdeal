@@ -1,0 +1,2329 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1165d7">
+<title>거래진행실 | 우리아파트 안심거래</title>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#f4f7fa;
+  color:#172b3d;
+  font-family:-apple-system,BlinkMacSystemFont,
+  "Segoe UI","Noto Sans KR",Arial,sans-serif;
+}
+
+button,input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.wrap{
+  width:100%;
+  max-width:920px;
+  margin:0 auto;
+  padding:0 16px 55px;
+}
+
+/* HEADER */
+
+.header{
+  height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:#173f67;
+  font-size:15px;
+  font-weight:800;
+  text-decoration:none;
+}
+
+.logo-mark{
+  font-size:27px;
+}
+
+.logo strong{
+  display:block;
+  color:#1165d7;
+  font-size:18px;
+}
+
+.print-top{
+  height:38px;
+  padding:0 13px;
+  border:1px solid #cbd9e4;
+  border-radius:9px;
+  background:#fff;
+  color:#315875;
+  font-size:13px;
+  font-weight:800;
+}
+
+/* TITLE */
+
+.page-head{
+  margin:20px 0 17px;
+}
+
+.page-head h1{
+  margin:0;
+  font-size:30px;
+  letter-spacing:-1px;
+}
+
+.page-head p{
+  margin:8px 0 0;
+  color:#6d7f8d;
+  font-size:14px;
+  line-height:1.55;
+}
+
+/* TRADE HEADER */
+
+.trade-head{
+  padding:19px;
+  background:#173f67;
+  color:#fff;
+  border-radius:18px;
+}
+
+.trade-number{
+  margin:0 0 8px;
+  font-size:12px;
+  opacity:.8;
+}
+
+.trade-property{
+  margin:0;
+  font-size:21px;
+  font-weight:900;
+}
+
+.trade-status{
+  display:inline-flex;
+  margin-top:12px;
+  padding:7px 11px;
+  border-radius:999px;
+  background:rgba(255,255,255,.15);
+  font-size:12px;
+  font-weight:800;
+}
+
+/* GUIDE */
+
+.guide{
+  margin-top:14px;
+  padding:15px 17px;
+  border:1px solid #d8e7f3;
+  border-radius:15px;
+  background:#eef6ff;
+  color:#315875;
+  font-size:13px;
+  line-height:1.65;
+}
+
+/* SECTION */
+
+.section{
+  margin-top:17px;
+  padding:19px;
+  background:#fff;
+  border:1px solid #dce5ec;
+  border-radius:18px;
+  box-shadow:0 4px 16px rgba(23,63,103,.04);
+}
+
+.section-title{
+  margin:0 0 5px;
+  font-size:18px;
+  color:#173f67;
+}
+
+.section-desc{
+  margin:0 0 15px;
+  color:#718291;
+  font-size:13px;
+  line-height:1.55;
+}
+
+/* PROGRESS */
+
+.progress{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+
+.step{
+  position:relative;
+  display:flex;
+  gap:13px;
+  padding:0 0 19px;
+}
+
+.step:last-child{
+  padding-bottom:0;
+}
+
+.step::after{
+  content:"";
+  position:absolute;
+  left:14px;
+  top:30px;
+  bottom:0;
+  width:2px;
+  background:#e1e8ee;
+}
+
+.step:last-child::after{
+  display:none;
+}
+
+.step-dot{
+  position:relative;
+  z-index:2;
+  flex:none;
+  width:30px;
+  height:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#e8edf2;
+  color:#758694;
+  font-size:12px;
+  font-weight:900;
+}
+
+.step.done .step-dot{
+  background:#1165d7;
+  color:#fff;
+}
+
+.step.current .step-dot{
+  background:#173f67;
+  color:#fff;
+}
+
+.step-text{
+  padding-top:4px;
+}
+
+.step-text b{
+  display:block;
+  color:#263e50;
+  font-size:14px;
+}
+
+.step-text span{
+  display:block;
+  margin-top:3px;
+  color:#7a8995;
+  font-size:12px;
+}
+
+/* MEMBERS */
+
+.members{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.member{
+  padding:14px;
+  border-radius:12px;
+  background:#f7f9fb;
+}
+
+.member-role{
+  margin:0 0 6px;
+  color:#7a8995;
+  font-size:12px;
+}
+
+.member-status{
+  margin:0;
+  color:#263e50;
+  font-size:14px;
+  font-weight:900;
+}
+
+/* DOCUMENT */
+
+.document{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px 0;
+  border-bottom:1px solid #edf1f4;
+}
+
+.document:last-child{
+  border-bottom:0;
+  padding-bottom:0;
+}
+
+.document:first-child{
+  padding-top:0;
+}
+
+.document-name{
+  min-width:0;
+}
+
+.document-name b{
+  display:block;
+  font-size:14px;
+  color:#263e50;
+}
+
+.document-name span{
+  display:block;
+  margin-top:3px;
+  color:#7a8995;
+  font-size:11px;
+}
+
+.document-status{
+  flex:none;
+  padding:6px 9px;
+  border-radius:999px;
+  background:#eef6ff;
+  color:#1165d7;
+  font-size:11px;
+  font-weight:900;
+}
+
+
+/* BROKER IDENTITY / DOCUMENT UPLOAD */
+
+.identity-box{
+  margin-bottom:18px;
+  padding:15px;
+  border:1px solid #dce6ed;
+  border-radius:13px;
+  background:#f8fafc;
+}
+
+.identity-title{
+  margin:0 0 8px;
+  color:#263e50;
+  font-size:14px;
+  font-weight:900;
+}
+
+.identity-note{
+  margin:0 0 12px;
+  color:#6f808d;
+  font-size:11px;
+  line-height:1.65;
+}
+
+.identity-checks{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.identity-check{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:11px;
+  border:1px solid #dce6ed;
+  border-radius:10px;
+  background:#fff;
+  color:#31506a;
+  font-size:12px;
+  font-weight:800;
+}
+
+.identity-check input{
+  width:18px;
+  height:18px;
+  flex:none;
+}
+
+.document-upload-list{
+  display:grid;
+  gap:10px;
+}
+
+.upload-item{
+  padding:14px;
+  border:1px solid #e0e7ed;
+  border-radius:12px;
+  background:#fff;
+}
+
+.upload-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.upload-name{
+  color:#263e50;
+  font-size:14px;
+  font-weight:900;
+}
+
+.upload-desc{
+  margin-top:3px;
+  color:#7a8995;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.upload-status{
+  flex:none;
+  padding:6px 9px;
+  border-radius:999px;
+  background:#f1f4f7;
+  color:#70808c;
+  font-size:11px;
+  font-weight:900;
+}
+
+.upload-status.done{
+  background:#eaf8ef;
+  color:#17824b;
+}
+
+.upload-controls{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.file-input{
+  min-width:0;
+  flex:1 1 230px;
+  padding:8px;
+  border:1px solid #cfdce5;
+  border-radius:9px;
+  background:#f8fafc;
+  font-size:11px;
+}
+
+.doc-btn{
+  flex:none;
+  min-height:38px;
+  padding:0 13px;
+  border:0;
+  border-radius:9px;
+  background:#1165d7;
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+}
+
+.doc-btn.view{
+  background:#173e60;
+}
+
+.doc-btn.delete{
+  background:#eef2f5;
+  color:#536a7c;
+}
+
+.doc-btn:disabled{
+  opacity:.45;
+  cursor:default;
+}
+
+.viewer{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  padding:18px;
+  background:rgba(8,20,31,.86);
+  align-items:center;
+  justify-content:center;
+}
+
+.viewer.show{
+  display:flex;
+}
+
+.viewer-box{
+  position:relative;
+  width:min(100%,1100px);
+  height:min(92vh,850px);
+  border-radius:14px;
+  overflow:hidden;
+  background:#fff;
+}
+
+.viewer-head{
+  height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:0 14px;
+  border-bottom:1px solid #e3e9ee;
+  background:#fff;
+}
+
+.viewer-title{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#263e50;
+  font-size:13px;
+  font-weight:900;
+}
+
+.viewer-close{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:9px;
+  background:#eef2f5;
+  color:#263e50;
+  font-size:20px;
+  font-weight:900;
+}
+
+.viewer-body{
+  width:100%;
+  height:calc(100% - 52px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:auto;
+  background:#eef2f5;
+}
+
+.viewer-body img{
+  display:block;
+  max-width:none;
+  width:auto;
+  height:auto;
+  min-width:min(100%,700px);
+  object-fit:contain;
+  cursor:zoom-in;
+}
+
+.viewer-body iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  background:#fff;
+}
+
+.readonly-doc-note{
+  padding:12px;
+  border-radius:10px;
+  background:#f5f8fa;
+  color:#607586;
+  font-size:11px;
+  line-height:1.65;
+}
+
+@media(max-width:600px){
+  .identity-checks{
+    grid-template-columns:1fr;
+  }
+
+  .upload-controls{
+    align-items:stretch;
+  }
+
+  .file-input{
+    flex-basis:100%;
+    width:100%;
+  }
+
+  .doc-btn{
+    flex:1;
+  }
+
+  .viewer{
+    padding:6px;
+  }
+
+  .viewer-box{
+    height:96vh;
+    border-radius:10px;
+  }
+}
+
+
+
+/* ELECTRONIC CONTRACT */
+.ec-box{margin-top:16px;padding:16px;border:1px solid #dce6ed;border-radius:13px;background:#f8fafc}
+.ec-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.ec-btn{min-height:42px;padding:0 14px;border:0;border-radius:9px;background:#1165d7;color:#fff;font-size:12px;font-weight:900}
+.ec-btn.dark{background:#173e60}.ec-btn:disabled{opacity:.4}
+.ec-lock{padding:11px;border-radius:9px;background:#fff4e5;color:#955900;font-size:11px;font-weight:800;line-height:1.6}
+.ec-lock.open{background:#eaf8ef;color:#16784a}
+.ec-row{display:grid;grid-template-columns:82px 1fr 68px 75px;gap:7px;align-items:center;padding:9px 0;border-bottom:1px solid #edf2f5}
+.ec-row:last-child{border-bottom:0}.ec-role{font-size:12px;font-weight:900}.ec-phone{width:100%;height:40px;padding:0 9px;border:1px solid #cfdce5;border-radius:8px}
+.ec-state{font-size:10px;font-weight:900;text-align:center;color:#788995}.ec-state.done{color:#16804a}
+.ec-modal{display:none;position:fixed;inset:0;z-index:10000;padding:12px;background:rgba(8,20,31,.86);align-items:center;justify-content:center}.ec-modal.show{display:flex}
+.ec-sheet{width:min(100%,900px);max-height:94vh;overflow:auto;padding:20px;border-radius:14px;background:#fff}.ec-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}
+.ec-title{font-size:20px;font-weight:900;color:#173e60}.ec-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.ec-field{display:grid;gap:6px}.ec-field.full{grid-column:1/-1}
+.ec-field label{font-size:11px;font-weight:900;color:#506879}.ec-field input,.ec-field textarea{width:100%;padding:10px;border:1px solid #cfdce5;border-radius:8px;font:inherit}.ec-field textarea{min-height:110px}
+.ec-preview table{width:100%;border-collapse:collapse}.ec-preview th,.ec-preview td{padding:9px;border:1px solid #cfd9e0;font-size:12px;text-align:left}.ec-preview th{width:24%;background:#f5f8fa}
+@media(max-width:600px){.ec-row{grid-template-columns:68px 1fr 60px}.ec-state{grid-column:2/-1;text-align:left}.ec-grid{grid-template-columns:1fr}}
+/* FEE */
+
+.fee{
+  border:1px solid #d8e7f3;
+  border-radius:14px;
+  overflow:hidden;
+}
+
+.fee-head{
+  padding:14px 15px;
+  background:#eef6ff;
+  color:#315875;
+  font-size:13px;
+  font-weight:900;
+}
+
+.fee-body{
+  padding:17px 15px;
+}
+
+.fee-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:8px 0;
+  font-size:14px;
+}
+
+.fee-row span:first-child{
+  color:#718291;
+}
+
+.fee-row strong{
+  color:#173f67;
+}
+
+.fee-account{
+  margin-top:10px;
+  padding:12px;
+  border-radius:10px;
+  background:#f7f9fb;
+  color:#516a7b;
+  font-size:12px;
+  line-height:1.55;
+}
+
+.fee-btn{
+  width:100%;
+  height:45px;
+  margin-top:12px;
+  border:0;
+  border-radius:11px;
+  background:#1165d7;
+  color:#fff;
+  font-weight:900;
+}
+
+/* HIDDEN FEE */
+
+.fee-hidden{
+  padding:15px;
+  border-radius:12px;
+  background:#f7f9fb;
+  color:#718291;
+  font-size:13px;
+  line-height:1.55;
+}
+
+/* CONTRACT */
+
+.contract-box{
+  padding:16px;
+  border:1px solid #dce5ec;
+  border-radius:13px;
+  background:#f9fbfc;
+}
+
+.contract-title{
+  margin:0 0 7px;
+  color:#173f67;
+  font-size:16px;
+  font-weight:900;
+}
+
+.contract-text{
+  margin:0;
+  color:#667b8a;
+  font-size:13px;
+  line-height:1.65;
+}
+
+.contract-actions{
+  display:flex;
+  gap:8px;
+  margin-top:13px;
+}
+
+.action{
+  flex:1;
+  height:44px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:900;
+}
+
+.action-light{
+  border:1px solid #cbd9e4;
+  background:#fff;
+  color:#315875;
+}
+
+.action-primary{
+  border:0;
+  background:#1165d7;
+  color:#fff;
+}
+
+/* NOTE */
+
+.note{
+  padding:14px 15px;
+  border-radius:12px;
+  background:#f7f9fb;
+  color:#687b8a;
+  font-size:12px;
+  line-height:1.65;
+}
+
+/* FOOTER */
+
+.footer{
+  margin-top:35px;
+  padding-top:20px;
+  border-top:1px solid #dce5ec;
+  color:#7a8995;
+  font-size:12px;
+}
+
+/* PRINT */
+
+@media print{
+
+  body{
+    background:#fff;
+  }
+
+  .wrap{
+    max-width:none;
+    padding:0;
+  }
+
+  .header,
+  .print-top,
+  .guide,
+  .fee-btn,
+  .contract-actions,
+  .footer{
+    display:none!important;
+  }
+
+  .page-head{
+    margin-top:0;
+  }
+
+  .section,
+  .trade-head{
+    box-shadow:none;
+    break-inside:avoid;
+  }
+
+}
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+  .wrap{
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .page-head h1{
+    font-size:25px;
+  }
+
+  .trade-property{
+    font-size:19px;
+  }
+
+  .members{
+    grid-template-columns:1fr;
+  }
+
+  .section{
+    padding:16px;
+  }
+
+  .contract-actions{
+    flex-direction:column;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="header">
+
+  <a class="logo" href="/">
+    <span class="logo-mark">🏠</span>
+
+    <span>
+      우리아파트
+      <strong>안심거래</strong>
+    </span>
+  </a>
+
+  <button
+    class="print-top"
+    type="button"
+    onclick="printRoom()">
+    🖨 인쇄
+  </button>
+
+</header>
+
+
+<section class="page-head">
+
+  <h1>거래진행실</h1>
+
+  <p>
+    거래 진행사항은 거래진행실에서 확인할 수 있습니다.
+  </p>
+
+</section>
+
+
+<!-- 거래 기본정보 -->
+
+<section class="trade-head">
+
+  <p class="trade-number">
+    거래번호 <span id="tradeNumber">-</span>
+  </p>
+
+  <h2
+    class="trade-property"
+    id="propertyName">
+    거래 정보를 불러오는 중입니다.
+  </h2>
+
+  <span
+    class="trade-status"
+    id="tradeStatus">
+    거래 진행 중
+  </span>
+
+</section>
+
+
+<div class="guide">
+
+  <b>이용 안내</b><br>
+  매수자·매도자·공인중개사는 같은 거래진행실에서
+  진행상황을 확인할 수 있습니다.
+  화면에 표시되는 순서대로 진행해 주세요.
+
+</div>
+
+
+<!-- 진행상황 -->
+
+<section class="section">
+
+  <h2 class="section-title">
+    거래 진행상황
+  </h2>
+
+  <p class="section-desc">
+    현재 어디까지 진행되었는지 확인할 수 있습니다.
+  </p>
+
+
+  <div class="progress">
+
+    <div class="step done">
+
+      <div class="step-dot">✓</div>
+
+      <div class="step-text">
+        <b>매물 선택</b>
+        <span>매수자가 거래할 매물을 결정했습니다.</span>
+      </div>
+
+    </div>
+
+
+    <div class="step current">
+
+      <div class="step-dot">2</div>
+
+      <div class="step-text">
+        <b>거래진행실</b>
+        <span>매수자·매도자·중개사가 거래를 진행합니다.</span>
+      </div>
+
+    </div>
+
+
+    <div class="step">
+
+      <div class="step-dot">3</div>
+
+      <div class="step-text">
+        <b>서류 확인</b>
+        <span>필요한 서류를 확인합니다.</span>
+      </div>
+
+    </div>
+
+
+    <div class="step">
+
+      <div class="step-dot">4</div>
+
+      <div class="step-text">
+        <b>전자계약</b>
+        <span>전자계약서를 확인하고 서명을 진행합니다.</span>
+      </div>
+
+    </div>
+
+
+    <div class="step">
+
+      <div class="step-dot">5</div>
+
+      <div class="step-text">
+        <b>계약 완료</b>
+        <span>계약이 완료되면 계약서를 인쇄할 수 있습니다.</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- 참여자 -->
+
+<section class="section">
+
+  <h2 class="section-title">
+    거래 참여자
+  </h2>
+
+  <p class="section-desc">
+    세 사람 모두 같은 거래진행실을 확인합니다.
+  </p>
+
+
+  <div class="members">
+
+    <div class="member">
+      <p class="member-role">매수자</p>
+      <p class="member-status" id="buyerStatus">
+        확인 대기
+      </p>
+    </div>
+
+    <div class="member">
+      <p class="member-role">매도자</p>
+      <p class="member-status" id="sellerStatus">
+        확인 대기
+      </p>
+    </div>
+
+    <div class="member">
+      <p class="member-role">공인중개사</p>
+      <p class="member-status" id="brokerStatus">
+        진행 중
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- 본인확인 / 관련서류 -->
+
+<section class="section">
+
+  <h2 class="section-title">
+    본인확인 · 관련서류
+  </h2>
+
+  <p class="section-desc" id="documentSectionDesc">
+    담당 공인중개사가 본인확인 후 거래 관련서류를 등록합니다.
+  </p>
+
+  <div class="identity-box" id="brokerIdentityBox">
+
+    <p class="identity-title">
+      공인중개사 본인확인
+    </p>
+
+    <p class="identity-note">
+      신분증 사본은 플랫폼에 업로드하거나 보관하지 않습니다.
+      담당 공인중개사가 당사자의 신분증을 직접 확인한 뒤 아래 항목만 완료 처리합니다.
+    </p>
+
+    <div class="identity-checks">
+
+      <label class="identity-check">
+        <input type="checkbox" id="party1Identity">
+        <span id="party1IdentityLabel">매수자 본인확인 완료</span>
+      </label>
+
+      <label class="identity-check">
+        <input type="checkbox" id="party2Identity">
+        <span id="party2IdentityLabel">매도자 본인확인 완료</span>
+      </label>
+
+    </div>
+
+  </div>
+
+  <div class="section-title" style="font-size:15px;margin-top:4px;">
+    관련서류 등록
+  </div>
+
+  <p class="section-desc" id="uploadGuide">
+    공인중개사가 JPG·PNG·PDF 파일을 등록합니다.
+    등록된 서류는 매수자·매도자·공인중개사가 모두 열어볼 수 있습니다.
+  </p>
+
+  <div id="documentUploadList" class="document-upload-list"></div>
+
+</section>
+
+
+<!-- 서류 크게보기 -->
+
+<div class="viewer" id="documentViewer" aria-hidden="true">
+
+  <div class="viewer-box">
+
+    <div class="viewer-head">
+      <div class="viewer-title" id="viewerTitle">
+        관련서류
+      </div>
+
+      <button
+        type="button"
+        class="viewer-close"
+        id="viewerClose"
+        aria-label="닫기">
+        ×
+      </button>
+    </div>
+
+    <div class="viewer-body" id="viewerBody"></div>
+
+  </div>
+
+</div>
+
+
+
+<!-- 전자계약 -->
+<section class="section" id="electronicContractSection">
+  <h2 class="section-title">🏛️ 국토교통부 표준 전자계약</h2>
+  <p class="section-desc">공인중개사가 사무실 책상에서 국토교통부 표준 양식으로 작성하고, 3자 모바일 전자서명을 진행합니다. (대출 우대금리 할인 & 확정일자 자동 연계)</p>
+  <div class="ec-box">
+    <div class="status-line"><span>국토부 표준 전자계약</span><span class="status-badge wait" id="ecStatus">작성 대기</span></div>
+    <div class="ec-actions">
+      <button type="button" class="ec-btn" id="ecWrite">✍️ 국토부 전자계약서 작성</button>
+      <button type="button" class="ec-btn dark" id="ecView" disabled>📄 전자계약서 확인</button>
+    </div>
+    <div id="ecBrokerSignControls">
+    <div class="ec-lock" id="ecLock">플랫폼 이용료 입금확인 후 전자서명이 활성화됩니다.</div>
+    <div class="ec-row"><div class="ec-role" id="ecRole1">매수인</div><input class="ec-phone" id="ecPhone1" type="tel" inputmode="numeric" placeholder="휴대전화번호"><button class="ec-btn" id="ecSend1" type="button">발송</button><div class="ec-state" id="ecState1">발송 대기</div></div>
+    <div class="ec-row"><div class="ec-role" id="ecRole2">매도인</div><input class="ec-phone" id="ecPhone2" type="tel" inputmode="numeric" placeholder="휴대전화번호"><button class="ec-btn" id="ecSend2" type="button">발송</button><div class="ec-state" id="ecState2">발송 대기</div></div>
+    <div class="ec-row"><div class="ec-role">공인중개사</div><input class="ec-phone" id="ecPhone3" type="tel" inputmode="numeric" placeholder="휴대전화번호"><button class="ec-btn" id="ecSend3" type="button">발송</button><div class="ec-state" id="ecState3">발송 대기</div></div>
+    </div>
+
+    <div id="ecParticipantStatus" style="display:none;margin-top:12px;padding:12px;border-radius:9px;background:#f5f8fa;color:#607586;font-size:11px;line-height:1.7;">
+      전자계약서 내용을 확인할 수 있습니다. 전자서명은 공인중개사가 발송한 개인별 문자 링크에서 진행합니다.
+    </div>
+  </div>
+</section>
+
+<div class="ec-modal" id="ecModal">
+ <div class="ec-sheet">
+  <div class="ec-head"><div class="ec-title" id="ecTitle">전자계약서 작성</div><button type="button" class="viewer-close" id="ecClose">×</button></div>
+  <div id="ecEdit">
+   <div class="ec-grid">
+    <div class="ec-field full"><label>부동산 표시</label><input id="ecProperty" placeholder="아파트명, 동·호수 등"></div>
+    <div class="ec-field"><label id="ecParty1Label">매수인</label><input id="ecParty1" placeholder="성명"></div>
+    <div class="ec-field"><label id="ecParty2Label">매도인</label><input id="ecParty2" placeholder="성명"></div>
+    <div class="ec-field"><label id="ecAmountLabel">매매대금</label><input id="ecAmount" placeholder="금액"></div>
+    <div class="ec-field"><label>계약금</label><input id="ecDeposit" placeholder="금액"></div>
+    <div class="ec-field"><label>중도금</label><input id="ecInterim" placeholder="금액 또는 없음"></div>
+    <div class="ec-field"><label>잔금</label><input id="ecBalance" placeholder="금액"></div>
+    <div class="ec-field full"><label>특약사항</label><textarea id="ecSpecial" placeholder="특약사항"></textarea></div>
+   </div>
+   <div class="ec-actions"><button type="button" class="ec-btn" id="ecSave">계약서 저장</button></div>
+  </div>
+  <div id="ecPreview" class="ec-preview" style="display:none"></div>
+ </div>
+</div>
+
+<!-- 이용료 : 매수자에게만 표시 -->
+
+<section
+  class="section"
+  id="feeSection">
+
+  <h2 class="section-title">
+    플랫폼 이용료
+  </h2>
+
+
+  <!-- 매수자 화면 -->
+
+  <div
+    class="fee"
+    id="buyerFee">
+
+    <div class="fee-head">
+      매수자 이용료
+    </div>
+
+    <div class="fee-body">
+
+      <div class="fee-row">
+        <span>이용료</span>
+        <strong id="feeAmount">
+          150,000원
+        </strong>
+      </div>
+
+      <div class="fee-row">
+        <span>입금 상태</span>
+        <strong id="paymentStatus">
+          입금 전
+        </strong>
+      </div>
+
+      <div class="fee-account">
+
+        아래 계좌로 입금해 주세요.<br>
+
+        <b>
+          <span id="bankName">-</span>
+          <span id="bankAccount">-</span>
+        </b><br>
+
+        예금주: <span id="accountHolder">-</span>
+
+      </div>
+
+      <button
+        class="fee-btn"
+        type="button"
+        onclick="paymentCheck()">
+        입금 확인 요청
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- 매수자 외 -->
+
+  <div
+    class="fee-hidden"
+    id="hiddenFee"
+    style="display:none">
+
+    플랫폼 이용료는 매수자 화면에서만 확인할 수 있습니다.
+    현재 이용료 납부 상태는 거래 진행상황에 표시됩니다.
+
+  </div>
+
+</section>
+
+
+<!-- 전자계약 -->
+
+<section class="section">
+
+  <h2 class="section-title">
+    전자계약
+  </h2>
+
+  <p class="section-desc">
+    이용료 입금 확인 후 전자계약 단계가 진행됩니다.
+  </p>
+
+
+  <div class="contract-box">
+
+    <p class="contract-title">
+      전자계약서 확인
+    </p>
+
+    <p class="contract-text">
+      계약서가 준비되면 이곳에서 계약서 내용을 확인하고
+      문자로 받은 서명 요청에 따라 서명을 진행합니다.
+    </p>
+
+
+    <div class="contract-actions">
+
+      <button
+        class="action action-light"
+        type="button"
+        onclick="printContract()">
+        계약서 인쇄
+      </button>
+
+      <button
+        class="action action-primary"
+        type="button"
+        onclick="contractNotice()">
+        전자계약 확인
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- 안내 -->
+
+<section class="section">
+
+  <h2 class="section-title">
+    확인해 주세요
+  </h2>
+
+  <div class="note">
+
+    거래진행실의 진행상황은 매수자·매도자·공인중개사가
+    함께 확인할 수 있습니다.<br><br>
+
+    매수자에게만 표시되는 이용료 금액과 입금정보는
+    다른 참여자에게 표시되지 않습니다.<br><br>
+
+    전자계약 서명 요청은 문자로 전달되며,
+    서명 완료 후 플랫폼에서 진행상황을 확인할 수 있습니다.
+
+  </div>
+
+</section>
+
+
+<footer class="footer">
+  © 우리아파트 안심거래. All rights reserved.
+</footer>
+
+</div>
+
+
+<script>
+
+"use strict";
+
+
+/* ====================================================
+   공통 입금계좌 설정
+==================================================== */
+
+const SETTINGS_SUPABASE_URL =
+  "https://dcysjuxyjqtvkihdsjvv.supabase.co";
+
+const SETTINGS_SUPABASE_KEY =
+  "sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
+
+
+async function loadPaymentSettings(){
+
+  try{
+
+    const url =
+      SETTINGS_SUPABASE_URL +
+      "/rest/v1/platform_settings" +
+      "?setting_key=eq.payment_account" +
+      "&select=bank_name,bank_account,account_holder" +
+      "&limit=1";
+
+    const response = await fetch(url,{
+      method:"GET",
+      headers:{
+        "apikey":SETTINGS_SUPABASE_KEY,
+        "Authorization":"Bearer " + SETTINGS_SUPABASE_KEY
+      }
+    });
+
+    if(!response.ok){
+      throw new Error("입금계좌 정보를 불러오지 못했습니다.");
+    }
+
+    const rows = await response.json();
+
+    if(!Array.isArray(rows) || rows.length===0){
+      throw new Error("등록된 입금계좌 정보가 없습니다.");
+    }
+
+    const settings = rows[0];
+
+    document.getElementById("bankName").textContent =
+      settings.bank_name || "-";
+
+    document.getElementById("bankAccount").textContent =
+      settings.bank_account || "-";
+
+    document.getElementById("accountHolder").textContent =
+      settings.account_holder || "-";
+
+  }catch(error){
+
+    console.error("platform_settings 조회 오류",error);
+
+    document.getElementById("bankName").textContent =
+      "계좌정보 확인 필요";
+
+    document.getElementById("bankAccount").textContent =
+      "-";
+
+    document.getElementById("accountHolder").textContent =
+      "-";
+
+  }
+}
+
+loadPaymentSettings();
+
+
+/*
+====================================================
+거래 데이터
+
+실제 운영에서는 Supabase와 연결합니다.
+
+현재는 테스트용 기본값입니다.
+====================================================
+*/
+
+const defaultTrade={
+
+  tradeNumber:"582641",
+
+  propertyName:
+    "광주 양산동 ○○아파트",
+
+  status:
+    "거래 진행 중",
+
+  buyerCode:
+    "4827",
+
+  sellerCode:
+    "6153",
+
+  buyerConfirmed:false,
+
+  sellerConfirmed:false,
+
+  brokerConfirmed:true,
+
+  paymentStatus:
+    "입금 전"
+
+};
+
+
+let tradeData;
+
+
+try{
+
+  const saved=
+    localStorage.getItem(
+      "wooriapt_trade"
+    );
+
+  tradeData=
+    saved
+    ? JSON.parse(saved)
+    : defaultTrade;
+
+}catch(e){
+
+  tradeData=
+    defaultTrade;
+
+}
+
+
+/* =========================================
+   거래방 코드 확인
+========================================= */
+
+const roomParams =
+  new URLSearchParams(
+    location.search
+  );
+
+const roomCode =
+  String(
+    roomParams.get("code") || ""
+  ).replace(/[^0-9]/g,"");
+
+
+const isTestRoom =
+  roomCode === "5804" ||
+  localStorage.getItem(
+    "wooriapt_test_key"
+  ) === "5804";
+
+
+if(isTestRoom){
+
+  localStorage.setItem(
+    "wooriapt_test_key",
+    "5804"
+  );
+
+  localStorage.setItem(
+    "wooriapt_trade_room_code",
+    "5804"
+  );
+
+}else{
+
+  const validRoomCodes = [
+    tradeData.tradeRoomCode,
+    tradeData.buyerCode,
+    tradeData.sellerCode
+  ]
+  .filter(Boolean)
+  .map(String);
+
+
+  if(
+    !roomCode ||
+    !validRoomCodes.includes(
+      roomCode
+    )
+  ){
+
+    alert(
+      "발급된 거래방 코드를 확인해 주세요."
+    );
+
+    location.replace("/");
+
+    throw new Error(
+      "INVALID_TRADE_ROOM_CODE"
+    );
+  }
+
+
+  localStorage.setItem(
+    "wooriapt_trade_room_code",
+    roomCode
+  );
+
+}
+
+
+/* 기본 표시 */
+
+document.getElementById(
+  "tradeNumber"
+).textContent=
+  tradeData.tradeNumber || "-";
+
+
+document.getElementById(
+  "propertyName"
+).textContent=
+  tradeData.propertyName ||
+  tradeData.apartment ||
+  "거래 매물";
+
+
+document.getElementById(
+  "tradeStatus"
+).textContent=
+  tradeData.status ||
+  "거래 진행 중";
+
+
+/* 참여자 상태 */
+
+document.getElementById(
+  "buyerStatus"
+).textContent=
+  tradeData.buyerConfirmed
+  ? "확인 완료"
+  : "확인 대기";
+
+
+document.getElementById(
+  "sellerStatus"
+).textContent=
+  tradeData.sellerConfirmed
+  ? "확인 완료"
+  : "확인 대기";
+
+
+document.getElementById(
+  "brokerStatus"
+).textContent=
+  tradeData.brokerConfirmed
+  ? "진행 중"
+  : "확인 대기";
+
+
+/* =========================================
+   화면 역할
+
+   실제 운영에서는 로그인/코드 확인 후
+   서버에서 role을 받아 처리합니다.
+
+   buyer
+   seller
+   broker
+========================================= */
+
+const role=
+  new URLSearchParams(
+    location.search
+  ).get("role") || "buyer";
+
+
+if(role==="buyer"){
+
+  document.getElementById(
+    "buyerFee"
+  ).style.display="block";
+
+  document.getElementById(
+    "hiddenFee"
+  ).style.display="none";
+
+}else{
+
+  document.getElementById(
+    "buyerFee"
+  ).style.display="none";
+
+  document.getElementById(
+    "hiddenFee"
+  ).style.display="block";
+
+}
+
+
+
+/* =========================================
+   거래유형 / 본인확인 / 관련서류
+
+   현재 파일은 화면 기능을 완성한 버전입니다.
+   파일 자체는 브라우저 저장소에 보관되므로
+   실제 서로 다른 기기에서 3자가 공유하려면
+   운영 DB/Storage 연결이 추가로 필요합니다.
+========================================= */
+
+const tradeType =
+  new URLSearchParams(location.search).get("type") ||
+  tradeData.tradeType ||
+  "sale";
+
+const documentDefinitions = {
+
+  sale:[
+    {
+      key:"registry",
+      name:"등기사항전부증명서(등기부등본)",
+      desc:"소유권·근저당 등 권리관계 확인 · ※ 당일 발급분에 한함"
+    },
+    {
+      key:"building",
+      name:"건축물대장",
+      desc:"건축물 현황 확인"
+    },
+    {
+      key:"land",
+      name:"토지대장",
+      desc:"필요한 경우 토지 현황 확인"
+    },
+    {
+      key:"seal",
+      name:"매도용 인감증명서",
+      desc:"소유권이전등기에 필요한 경우 등록"
+    },
+    {
+      key:"resident",
+      name:"주민등록초본",
+      desc:"주소변동 등 등기 관련 확인이 필요한 경우 등록"
+    },
+    {
+      key:"etc",
+      name:"기타 확인서류",
+      desc:"특약·권리관계 등 추가 확인이 필요한 서류"
+    }
+  ],
+
+  jeonse:[
+    {
+      key:"registry",
+      name:"등기사항전부증명서(등기부등본)",
+      desc:"소유권·근저당 등 권리관계 확인 · ※ 당일 발급분에 한함"
+    },
+    {
+      key:"building",
+      name:"건축물대장",
+      desc:"건축물 현황 확인"
+    },
+    {
+      key:"owner",
+      name:"임대인 관련 확인서류",
+      desc:"임대권한 및 소유관계 확인에 필요한 서류"
+    },
+    {
+      key:"deposit",
+      name:"보증금·권리관계 확인서류",
+      desc:"전세보증금과 선순위 권리관계 확인에 필요한 서류"
+    },
+    {
+      key:"etc",
+      name:"기타 확인서류",
+      desc:"거래에 추가로 필요한 확인서류"
+    }
+  ],
+
+  monthly:[
+    {
+      key:"registry",
+      name:"등기사항전부증명서(등기부등본)",
+      desc:"소유권·근저당 등 권리관계 확인 · ※ 당일 발급분에 한함"
+    },
+    {
+      key:"building",
+      name:"건축물대장",
+      desc:"건축물 현황 확인"
+    },
+    {
+      key:"owner",
+      name:"임대인 관련 확인서류",
+      desc:"임대권한 및 소유관계 확인에 필요한 서류"
+    },
+    {
+      key:"rent",
+      name:"보증금·월세 확인서류",
+      desc:"보증금·월세 및 권리관계 확인에 필요한 서류"
+    },
+    {
+      key:"etc",
+      name:"기타 확인서류",
+      desc:"거래에 추가로 필요한 확인서류"
+    }
+  ]
+
+};
+
+const identityKey =
+  "wooriapt_identity_" +
+  (tradeData.tradeNumber || "default");
+
+const documentsKey =
+  "wooriapt_documents_" +
+  (tradeData.tradeNumber || "default");
+
+let identityData = {
+  party1:false,
+  party2:false
+};
+
+let documentData = {};
+
+try{
+  identityData =
+    JSON.parse(localStorage.getItem(identityKey)) ||
+    identityData;
+}catch(e){}
+
+try{
+  documentData =
+    JSON.parse(localStorage.getItem(documentsKey)) ||
+    {};
+}catch(e){}
+
+const party1Identity =
+  document.getElementById("party1Identity");
+
+const party2Identity =
+  document.getElementById("party2Identity");
+
+const party1IdentityLabel =
+  document.getElementById("party1IdentityLabel");
+
+const party2IdentityLabel =
+  document.getElementById("party2IdentityLabel");
+
+const brokerIdentityBox =
+  document.getElementById("brokerIdentityBox");
+
+const uploadGuide =
+  document.getElementById("uploadGuide");
+
+const documentUploadList =
+  document.getElementById("documentUploadList");
+
+const documentViewer =
+  document.getElementById("documentViewer");
+
+const viewerTitle =
+  document.getElementById("viewerTitle");
+
+const viewerBody =
+  document.getElementById("viewerBody");
+
+const viewerClose =
+  document.getElementById("viewerClose");
+
+
+function setIdentityLabels(){
+
+  if(tradeType==="sale"){
+    party1IdentityLabel.textContent =
+      "매수자 본인확인 완료";
+
+    party2IdentityLabel.textContent =
+      "매도자 본인확인 완료";
+  }else{
+    party1IdentityLabel.textContent =
+      "임차인 본인확인 완료";
+
+    party2IdentityLabel.textContent =
+      "임대인 본인확인 완료";
+  }
+
+}
+
+function saveIdentity(){
+
+  identityData.party1 =
+    party1Identity.checked;
+
+  identityData.party2 =
+    party2Identity.checked;
+
+  localStorage.setItem(
+    identityKey,
+    JSON.stringify(identityData)
+  );
+
+}
+
+party1Identity.checked =
+  !!identityData.party1;
+
+party2Identity.checked =
+  !!identityData.party2;
+
+party1Identity.addEventListener(
+  "change",
+  saveIdentity
+);
+
+party2Identity.addEventListener(
+  "change",
+  saveIdentity
+);
+
+
+function escapeHtml(value){
+
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function renderDocuments(){
+
+  const list =
+    documentDefinitions[tradeType] ||
+    documentDefinitions.sale;
+
+  documentUploadList.innerHTML =
+    list.map(function(doc){
+
+      const saved =
+        documentData[doc.key];
+
+      const uploaded =
+        !!(
+          saved &&
+          saved.dataUrl &&
+          saved.fileName
+        );
+
+      const controls =
+        role==="broker"
+        ? `
+          <div class="upload-controls">
+
+            <input
+              class="file-input"
+              id="file_${doc.key}"
+              type="file"
+              accept=".jpg,.jpeg,.png,.pdf">
+
+            <button
+              type="button"
+              class="doc-btn"
+              onclick="registerDocument('${doc.key}')">
+              등록
+            </button>
+
+            <button
+              type="button"
+              class="doc-btn view"
+              ${uploaded ? "" : "disabled"}
+              onclick="openDocument('${doc.key}')">
+              크게보기
+            </button>
+
+            <button
+              type="button"
+              class="doc-btn delete"
+              ${uploaded ? "" : "disabled"}
+              onclick="deleteDocument('${doc.key}')">
+              삭제
+            </button>
+
+          </div>
+        `
+        : `
+          <div class="upload-controls">
+
+            <button
+              type="button"
+              class="doc-btn view"
+              ${uploaded ? "" : "disabled"}
+              onclick="openDocument('${doc.key}')">
+              ${uploaded ? "크게보기" : "등록 대기"}
+            </button>
+
+          </div>
+        `;
+
+      return `
+        <div class="upload-item">
+
+          <div class="upload-head">
+
+            <div>
+              <div class="upload-name">
+                ${escapeHtml(doc.name)}
+              </div>
+
+              <div class="upload-desc">
+                ${escapeHtml(
+                  uploaded
+                  ? saved.fileName
+                  : doc.desc
+                )}
+              </div>
+            </div>
+
+            <span class="upload-status ${uploaded ? "done" : ""}">
+              ${uploaded ? "등록완료" : "대기"}
+            </span>
+
+          </div>
+
+          ${controls}
+
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+
+window.registerDocument =
+function(key){
+
+  if(role!=="broker"){
+    return;
+  }
+
+  const input =
+    document.getElementById(
+      "file_" + key
+    );
+
+  if(
+    !input ||
+    !input.files ||
+    input.files.length===0
+  ){
+    alert(
+      "등록할 JPG·PNG·PDF 파일을 선택해 주세요."
+    );
+    return;
+  }
+
+  const file =
+    input.files[0];
+
+  const allowed =
+    [
+      "image/jpeg",
+      "image/png",
+      "application/pdf"
+    ];
+
+  if(!allowed.includes(file.type)){
+    alert(
+      "JPG·PNG·PDF 파일만 등록할 수 있습니다."
+    );
+    input.value="";
+    return;
+  }
+
+  /*
+    브라우저 저장 테스트를 위해 파일 크기를 제한합니다.
+    실제 운영에서는 Supabase Storage 등에 원본 파일을 저장해야 합니다.
+  */
+  if(file.size > 4 * 1024 * 1024){
+    alert(
+      "현재 테스트 화면에서는 파일당 4MB 이하만 등록할 수 있습니다."
+    );
+    return;
+  }
+
+  const reader =
+    new FileReader();
+
+  reader.onload =
+  function(){
+
+    documentData[key] = {
+      fileName:file.name,
+      mimeType:file.type,
+      dataUrl:reader.result,
+      uploadedAt:new Date().toISOString()
+    };
+
+    try{
+      localStorage.setItem(
+        documentsKey,
+        JSON.stringify(documentData)
+      );
+    }catch(e){
+      delete documentData[key];
+
+      alert(
+        "브라우저 저장공간이 부족합니다. 더 작은 파일로 다시 등록해 주세요."
+      );
+
+      return;
+    }
+
+    renderDocuments();
+
+  };
+
+  reader.readAsDataURL(file);
+
+};
+
+
+window.deleteDocument =
+function(key){
+
+  if(role!=="broker"){
+    return;
+  }
+
+  if(!documentData[key]){
+    return;
+  }
+
+  if(
+    !confirm(
+      "등록된 서류를 삭제하시겠습니까?"
+    )
+  ){
+    return;
+  }
+
+  delete documentData[key];
+
+  localStorage.setItem(
+    documentsKey,
+    JSON.stringify(documentData)
+  );
+
+  renderDocuments();
+
+};
+
+
+window.openDocument =
+function(key){
+
+  const saved =
+    documentData[key];
+
+  if(
+    !saved ||
+    !saved.dataUrl
+  ){
+    alert(
+      "아직 등록된 서류가 없습니다."
+    );
+    return;
+  }
+
+  viewerTitle.textContent =
+    saved.fileName || "관련서류";
+
+  viewerBody.innerHTML="";
+
+  if(
+    saved.mimeType==="application/pdf"
+  ){
+
+    const frame =
+      document.createElement("iframe");
+
+    frame.src =
+      saved.dataUrl;
+
+    frame.title =
+      saved.fileName || "PDF";
+
+    viewerBody.appendChild(frame);
+
+  }else{
+
+    const img =
+      document.createElement("img");
+
+    img.src =
+      saved.dataUrl;
+
+    img.alt =
+      saved.fileName || "관련서류";
+
+    let zoomed=false;
+
+    img.addEventListener(
+      "click",
+      function(){
+
+        zoomed=!zoomed;
+
+        if(zoomed){
+          img.style.width="160%";
+          img.style.maxWidth="none";
+          img.style.cursor="zoom-out";
+        }else{
+          img.style.width="auto";
+          img.style.maxWidth="none";
+          img.style.cursor="zoom-in";
+        }
+
+      }
+    );
+
+    viewerBody.appendChild(img);
+
+  }
+
+  documentViewer.classList.add(
+    "show"
+  );
+
+  documentViewer.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+};
+
+
+function closeDocumentViewer(){
+
+  documentViewer.classList.remove(
+    "show"
+  );
+
+  documentViewer.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+  viewerBody.innerHTML="";
+
+}
+
+
+viewerClose.addEventListener(
+  "click",
+  closeDocumentViewer
+);
+
+documentViewer.addEventListener(
+  "click",
+  function(e){
+
+    if(e.target===documentViewer){
+      closeDocumentViewer();
+    }
+
+  }
+);
+
+document.addEventListener(
+  "keydown",
+  function(e){
+
+    if(e.key==="Escape"){
+      closeDocumentViewer();
+    }
+
+  }
+);
+
+
+function applyDocumentRole(){
+
+  setIdentityLabels();
+
+  if(role==="broker"){
+
+    brokerIdentityBox.style.display =
+      "block";
+
+    uploadGuide.textContent =
+      "공인중개사가 JPG·PNG·PDF 파일을 등록합니다. 등록된 서류는 매수자·매도자·공인중개사가 모두 크게 볼 수 있습니다.";
+
+    party1Identity.disabled=false;
+    party2Identity.disabled=false;
+
+  }else{
+
+    /*
+      매수자·매도자는 공인중개사의 본인확인 상태를
+      읽기만 하고 변경할 수 없습니다.
+    */
+
+    brokerIdentityBox.style.display =
+      "block";
+
+    uploadGuide.textContent =
+      "담당 공인중개사가 등록한 관련서류를 확인할 수 있습니다. 등록된 서류의 크게보기를 누르세요.";
+
+    party1Identity.disabled=true;
+    party2Identity.disabled=true;
+
+  }
+
+  renderDocuments();
+
+}
+
+applyDocumentRole();
+
+
+
+
+
+/* =========================================
+   전자계약 작성 / 확인 / 전자서명 요청
+========================================= */
+const ecKey="wooriapt_contract_"+(tradeData.tradeNumber||"default");
+let ecData={};
+try{ecData=JSON.parse(localStorage.getItem(ecKey))||{};}catch(e){}
+
+const E=id=>document.getElementById(id);
+const ecStatus=E("ecStatus"),ecWrite=E("ecWrite"),ecView=E("ecView"),ecLock=E("ecLock");
+const ecBrokerSignControls=E("ecBrokerSignControls"),ecParticipantStatus=E("ecParticipantStatus");
+const ecRole1=E("ecRole1"),ecRole2=E("ecRole2");
+const ecPhones=[E("ecPhone1"),E("ecPhone2"),E("ecPhone3")];
+const ecSends=[E("ecSend1"),E("ecSend2"),E("ecSend3")];
+const ecStates=[E("ecState1"),E("ecState2"),E("ecState3")];
+const ecModal=E("ecModal"),ecTitle=E("ecTitle"),ecClose=E("ecClose"),ecEdit=E("ecEdit"),ecPreview=E("ecPreview");
+const ecProperty=E("ecProperty"),ecParty1=E("ecParty1"),ecParty2=E("ecParty2"),ecParty1Label=E("ecParty1Label"),ecParty2Label=E("ecParty2Label");
+const ecAmountLabel=E("ecAmountLabel"),ecAmount=E("ecAmount"),ecDeposit=E("ecDeposit"),ecInterim=E("ecInterim"),ecBalance=E("ecBalance"),ecSpecial=E("ecSpecial"),ecSave=E("ecSave");
+
+function ecNames(){
+ if(tradeType==="sale") return {one:"매수인",two:"매도인",amount:"매매대금",title:"부동산 매매 전자계약서"};
+ if(tradeType==="jeonse") return {one:"임차인",two:"임대인",amount:"전세보증금",title:"부동산 전세 전자계약서"};
+ return {one:"임차인",two:"임대인",amount:"보증금·월세",title:"부동산 월세 전자계약서"};
+}
+function ecFeeConfirmed(){
+ return !!(tradeData.feePaid===true||["paid","confirmed"].includes(tradeData.feeStatus)||["paid","confirmed"].includes(tradeData.paymentStatus));
+}
+function ecStore(){localStorage.setItem(ecKey,JSON.stringify(ecData));}
+function ecRefresh(){
+ const n=ecNames(),saved=!!ecData.saved,paid=ecFeeConfirmed(),canSend=role==="broker"&&saved&&paid;
+ ecRole1.textContent=n.one;ecRole2.textContent=n.two;ecParty1Label.textContent=n.one;ecParty2Label.textContent=n.two;ecAmountLabel.textContent=n.amount;
+ ecStatus.textContent=saved?"작성완료":"작성 대기";ecStatus.className="status-badge "+(saved?"done":"wait");ecView.disabled=!saved;
+ /* 전자계약서 작성·전화번호 입력·문자 발송 권한은 공인중개사에게만 있습니다. */
+ const isBroker = role==="broker";
+ ecWrite.style.display=isBroker?"":"none";
+ ecBrokerSignControls.style.display=isBroker?"block":"none";
+ ecParticipantStatus.style.display=isBroker?"none":"block";
+
+ /* 매수자·매도자(임차인·임대인)는 전자계약서 확인만 가능합니다. */
+ ecPhones.forEach((p,i)=>{p.disabled=!isBroker;p.value=ecData["phone"+(i+1)]||"";});
+ ecSends.forEach(b=>b.disabled=!canSend);
+ if(paid){ecLock.textContent=saved?"플랫폼 이용료 입금이 확인되었습니다. 전자서명 요청 문자를 발송할 수 있습니다.":"플랫폼 이용료 입금은 확인되었습니다. 전자계약서 작성 후 전자서명이 활성화됩니다.";ecLock.classList.add("open");}
+ else{ecLock.textContent="플랫폼 이용료 입금확인 후 전자서명이 활성화됩니다.";ecLock.classList.remove("open");}
+ ecStates.forEach((s,i)=>{let x=i+1;s.textContent=ecData["signed"+x]?"서명완료 ✓":(ecData["sent"+x]?"발송완료":"발송 대기");s.className="ec-state "+(ecData["signed"+x]?"done":"");});
+}
+function ecOpen(mode){
+ if(mode==="edit" && role!=="broker"){
+  alert("전자계약서 작성·수정 권한은 공인중개사에게만 있습니다.");
+  return;
+ }
+ const n=ecNames();ecModal.classList.add("show");
+ if(mode==="edit"){
+  ecTitle.textContent=n.title+" 작성";ecEdit.style.display="block";ecPreview.style.display="none";
+  ecProperty.value=ecData.property||"";ecParty1.value=ecData.party1||"";ecParty2.value=ecData.party2||"";ecAmount.value=ecData.amount||"";ecDeposit.value=ecData.deposit||"";ecInterim.value=ecData.interim||"";ecBalance.value=ecData.balance||"";ecSpecial.value=ecData.special||"";
+ }else{
+  ecTitle.textContent=n.title+" 확인";ecEdit.style.display="none";ecPreview.style.display="block";
+  ecPreview.innerHTML=`<h2 style="text-align:center">${escapeHtml(n.title)}</h2><table><tr><th>부동산 표시</th><td>${escapeHtml(ecData.property)}</td></tr><tr><th>${escapeHtml(n.one)}</th><td>${escapeHtml(ecData.party1)}</td></tr><tr><th>${escapeHtml(n.two)}</th><td>${escapeHtml(ecData.party2)}</td></tr><tr><th>${escapeHtml(n.amount)}</th><td>${escapeHtml(ecData.amount)}</td></tr><tr><th>계약금</th><td>${escapeHtml(ecData.deposit)}</td></tr><tr><th>중도금</th><td>${escapeHtml(ecData.interim)}</td></tr><tr><th>잔금</th><td>${escapeHtml(ecData.balance)}</td></tr><tr><th>특약사항</th><td>${escapeHtml(ecData.special).replace(/\n/g,"<br>")}</td></tr></table>`;
+ }
+}
+ecWrite.addEventListener("click",()=>{if(role==="broker")ecOpen("edit");});
+ecView.addEventListener("click",()=>{if(ecData.saved)ecOpen("view");});
+ecClose.addEventListener("click",()=>ecModal.classList.remove("show"));
+ecSave.addEventListener("click",()=>{
+ ecData={...ecData,property:ecProperty.value.trim(),party1:ecParty1.value.trim(),party2:ecParty2.value.trim(),amount:ecAmount.value.trim(),deposit:ecDeposit.value.trim(),interim:ecInterim.value.trim(),balance:ecBalance.value.trim(),special:ecSpecial.value.trim()};
+ if(!ecData.property||!ecData.party1||!ecData.party2||!ecData.amount){alert("부동산 표시, 계약 당사자, 계약금액을 입력해 주세요.");return;}
+ ecData.saved=true;ecData.savedAt=new Date().toISOString();ecStore();ecModal.classList.remove("show");ecRefresh();alert("전자계약서가 저장되었습니다.");
+});
+ecPhones.forEach(p=>p.addEventListener("input",()=>p.value=p.value.replace(/\D/g,"").slice(0,11)));
+function ecSend(i){
+ if(role!=="broker")return;
+ const p=ecPhones[i-1],phone=p.value.replace(/\D/g,"");
+ if(!/^01[016789][0-9]{7,8}$/.test(phone)){alert("휴대전화번호를 정확히 입력해 주세요.");p.focus();return;}
+ if(!ecData.saved){alert("전자계약서를 먼저 작성해 주세요.");return;}
+ if(!ecFeeConfirmed()){alert("플랫폼 이용료 입금확인 후 전자서명 요청을 발송할 수 있습니다.");return;}
+ ecData["phone"+i]=phone;ecData["sent"+i]=true;ecData["sentAt"+i]=new Date().toISOString();ecStore();ecRefresh();
+ alert("발송 준비가 완료되었습니다. 실제 LMS 발송과 개인별 전자서명 링크는 서버 연결이 필요합니다.");
+}
+ecSends.forEach((b,i)=>b.addEventListener("click",()=>ecSend(i+1)));
+ecRefresh();
+
+
+
+/* =========================================
+   입금 확인 요청
+========================================= */
+
+function paymentCheck(){
+
+  alert(
+    "입금 확인 요청이 등록되었습니다.\n\n"+
+    "실제 운영에서는 금융기관 입금 확인 후 "+
+    "자동으로 상태가 변경됩니다."
+  );
+
+}
+
+
+/* =========================================
+   거래진행실 인쇄
+========================================= */
+
+function printRoom(){
+
+  window.print();
+
+}
+
+
+/* =========================================
+   계약서 인쇄
+========================================= */
+
+function printContract(){
+
+  alert(
+    "전자계약서가 준비되면 계약서 인쇄 화면으로 연결됩니다."
+  );
+
+}
+
+
+/* =========================================
+   전자계약
+========================================= */
+
+function contractNotice(){
+
+  alert(
+    "전자계약 단계입니다.\n\n"+
+    "문자로 받은 서명 요청을 확인해 주세요."
+  );
+
+}
+
+</script>
+
+</body>
+</html>
