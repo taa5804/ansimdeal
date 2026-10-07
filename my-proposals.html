@@ -1,0 +1,1389 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1165d7">
+
+<title>나의 제안 | 우리아파트 안심거래</title>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#f4f6f8;
+  color:#172b3d;
+  font-family:-apple-system,BlinkMacSystemFont,
+  "Segoe UI","Noto Sans KR",Arial,sans-serif;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.wrap{
+  width:100%;
+  max-width:760px;
+  margin:0 auto;
+  padding:14px 12px 50px;
+}
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.brand{
+  color:#173a59;
+  font-size:19px;
+  font-weight:900;
+}
+
+.brand strong{
+  color:#1165d7;
+}
+
+.back{
+  padding:8px 11px;
+  border:1px solid #d4dfe7;
+  border-radius:10px;
+  background:#fff;
+  color:#476377;
+  font-size:13px;
+  font-weight:800;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #dce5ec;
+  border-radius:18px;
+  padding:20px 15px;
+  box-shadow:0 6px 18px rgba(26,61,88,.06);
+}
+
+.badge{
+  display:inline-block;
+  margin-bottom:9px;
+  padding:5px 10px;
+  border-radius:999px;
+  background:#eaf4ff;
+  color:#1165d7;
+  font-size:12px;
+  font-weight:900;
+}
+
+h1{
+  margin:0 0 7px;
+  color:#143b61;
+  font-size:27px;
+}
+
+.desc{
+  margin:0 0 18px;
+  color:#697e8e;
+  font-size:14px;
+  line-height:1.65;
+}
+
+.request-box{
+  margin-bottom:18px;
+  padding:14px;
+  border:1px solid #d7e5ef;
+  border-radius:12px;
+  background:#f6faff;
+}
+
+.request-label{
+  margin-bottom:6px;
+  color:#6d8190;
+  font-size:12px;
+  font-weight:800;
+}
+
+.request-number{
+  color:#1165d7;
+  font-size:19px;
+  font-weight:900;
+  letter-spacing:.3px;
+}
+
+.help{
+  margin-top:7px;
+  color:#718391;
+  font-size:11px;
+  line-height:1.55;
+}
+
+.count{
+  margin-bottom:10px;
+  color:#536d80;
+  font-size:13px;
+  font-weight:800;
+}
+
+.property{
+  margin-top:11px;
+  padding:16px;
+  border:1px solid #dce5ec;
+  border-radius:14px;
+  background:#fff;
+}
+
+.property.selected{
+  border-color:#1165d7;
+  box-shadow:0 0 0 2px rgba(17,101,215,.08);
+}
+
+.property-top{
+  display:flex;
+  align-items:flex-start;
+  gap:11px;
+}
+
+.check{
+  width:22px;
+  height:22px;
+  flex:0 0 22px;
+  margin-top:2px;
+  accent-color:#1165d7;
+}
+
+.property-main{
+  flex:1;
+  min-width:0;
+}
+
+.apartment{
+  margin-bottom:8px;
+  color:#173e60;
+  font-size:17px;
+  font-weight:900;
+  word-break:keep-all;
+}
+
+.info{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.item-label{
+  margin-bottom:3px;
+  color:#7a8c99;
+  font-size:11px;
+}
+
+.item-value{
+  color:#31546c;
+  font-size:14px;
+  font-weight:800;
+}
+
+.description{
+  margin-top:12px;
+  padding-top:11px;
+  border-top:1px solid #edf1f4;
+  color:#617788;
+  font-size:12px;
+  line-height:1.65;
+}
+
+.broker-hidden{
+  margin-top:12px;
+  padding:10px 11px;
+  border-radius:9px;
+  background:#f5f7f9;
+  color:#778996;
+  font-size:11px;
+  line-height:1.55;
+}
+
+.broker-visible{
+  margin-top:12px;
+  padding:11px;
+  border-radius:9px;
+  background:#edf8f1;
+  color:#26733e;
+  font-size:12px;
+  line-height:1.65;
+}
+
+.empty{
+  padding:35px 15px;
+  border:1px dashed #cbd8e1;
+  border-radius:13px;
+  text-align:center;
+  color:#718596;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.action-area{
+  margin-top:18px;
+}
+
+.selected-info{
+  margin-bottom:10px;
+  color:#536d80;
+  font-size:12px;
+  line-height:1.5;
+  text-align:center;
+}
+
+.decision-btn{
+  width:100%;
+  height:52px;
+  border:0;
+  border-radius:12px;
+  background:#1165d7;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+}
+
+.decision-btn:disabled{
+  background:#b9c6d0;
+  cursor:not-allowed;
+}
+
+.additional-request-area{
+  margin-top:18px;
+  padding:14px;
+  border:1px solid #d7e5ef;
+  border-radius:12px;
+  background:#f6faff;
+}
+
+.additional-request-title{
+  margin-bottom:7px;
+  color:#173e60;
+  font-size:14px;
+  font-weight:900;
+}
+
+.additional-request-help{
+  margin-bottom:11px;
+  color:#718391;
+  font-size:11px;
+  line-height:1.55;
+}
+
+.additional-request-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.additional-request-btn{
+  width:100%;
+  height:44px;
+  border:0;
+  border-radius:10px;
+  background:#1165d7;
+  color:#fff;
+  font-size:14px;
+  font-weight:900;
+}
+
+.additional-request-btn:disabled{
+  background:#b9c6d0;
+  cursor:not-allowed;
+}
+
+.notice{
+  margin-top:16px;
+  padding:13px;
+  border-radius:10px;
+  background:#f5f8fa;
+  color:#718391;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.msg{
+  display:none;
+  margin-top:14px;
+  padding:13px;
+  border-radius:10px;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.msg.ok{
+  display:block;
+  background:#edf8f1;
+  color:#26733e;
+}
+
+.msg.error{
+  display:block;
+  background:#fff1f0;
+  color:#c62828;
+}
+
+.footer{
+  margin-top:20px;
+  text-align:center;
+  color:#83939e;
+  font-size:11px;
+}
+
+@media(max-width:430px){
+
+  .wrap{
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .card{
+    padding:18px 13px;
+  }
+
+  h1{
+    font-size:24px;
+  }
+
+  .info{
+    grid-template-columns:1fr;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="header">
+
+  <a class="brand" href="/">
+    🏠 우리아파트 <strong>안심거래</strong>
+  </a>
+
+  <a
+    class="back"
+    href="/">
+    메인으로
+  </a>
+
+</header>
+
+
+<main class="card">
+
+  <span class="badge">
+    매수자 전용
+  </span>
+
+  <h1>
+    나의 제안
+  </h1>
+
+  <p class="desc">
+    내가 등록한 매수요청에 맞춰 중개사가 등록한 매물을 확인합니다.
+  </p>
+
+
+  <!-- 매수요청번호 -->
+
+  <div class="request-box">
+
+    <div class="request-label">
+      매수요청번호
+    </div>
+
+    <div
+      id="requestNumber"
+      class="request-number">
+      확인 중
+    </div>
+
+    <div class="help">
+      같은 매수요청번호로 등록된 매물이 모두 표시됩니다.
+    </div>
+
+  </div>
+
+
+  <div
+    id="count"
+    class="count">
+    등록 매물 0건
+  </div>
+
+
+  <!-- 매물 목록 -->
+
+  <div id="propertyList"></div>
+
+
+  <!-- 추가 요청 -->
+
+  <div class="additional-request-area">
+
+    <div class="additional-request-title">
+      추가 매물 요청
+    </div>
+
+    <div class="additional-request-help">
+      더 많은 매물을 확인하려면 매수자가 직접 추가 요청을 눌러주세요.
+    </div>
+
+    <div class="additional-request-buttons">
+
+      <button
+        id="secondRequestBtn"
+        class="additional-request-btn"
+        type="button">
+        2차 요청
+      </button>
+
+      <button
+        id="thirdRequestBtn"
+        class="additional-request-btn"
+        type="button"
+        disabled>
+        3차 요청
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- 결정 -->
+
+  <div class="action-area">
+
+    <div
+      id="selectedInfo"
+      class="selected-info">
+      매물을 선택해 주세요.
+    </div>
+
+    <button
+      id="decisionBtn"
+      class="decision-btn"
+      type="button"
+      disabled>
+      거래 결정
+    </button>
+
+  </div>
+
+
+  <div
+    id="msg"
+    class="msg">
+  </div>
+
+
+  <div class="notice">
+
+    여러 매물을 비교할 수 있습니다.<br>
+    최종적으로 거래할 매물 1건을 선택한 후
+    <b>거래 결정</b>을 눌러주세요.<br>
+    거래 결정 전에는 중개사무소명과 전화번호가 공개되지 않습니다.<br>
+    거래 결정 후 선택된 중개사에게 거래번호가 전달됩니다.
+
+  </div>
+
+</main>
+
+
+<footer class="footer">
+  © 우리아파트 안심거래
+</footer>
+
+</div>
+
+
+<script>
+
+"use strict";
+
+
+const requestNumberEl =
+  document.getElementById(
+    "requestNumber"
+  );
+
+const propertyList =
+  document.getElementById(
+    "propertyList"
+  );
+
+const countEl =
+  document.getElementById(
+    "count"
+  );
+
+const selectedInfo =
+  document.getElementById(
+    "selectedInfo"
+  );
+
+const decisionBtn =
+  document.getElementById(
+    "decisionBtn"
+  );
+
+const msg =
+  document.getElementById(
+    "msg"
+  );
+
+
+const secondRequestBtn =
+  document.getElementById(
+    "secondRequestBtn"
+  );
+
+const thirdRequestBtn =
+  document.getElementById(
+    "thirdRequestBtn"
+  );
+
+
+let requestNumber = "";
+
+let testMode = false;
+
+let properties = [];
+
+let selectedId = null;
+
+let secondRequestDone = false;
+
+let thirdRequestDone = false;
+
+
+/*
+  URL에 ?request=매수요청번호가 있으면 사용합니다.
+*/
+
+(function(){
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  testMode =
+    params.get("test") === "5804" ||
+    localStorage.getItem(
+      "wooriapt_test_key"
+    ) === "5804";
+
+
+  requestNumber =
+    params.get("request") ||
+    localStorage.getItem(
+      "wooriapt_request_number"
+    ) ||
+    "";
+
+
+  if(testMode){
+
+    requestNumberEl.textContent =
+      "5804";
+
+  }else if(requestNumber){
+
+    requestNumberEl.textContent =
+      requestNumber;
+
+  }else{
+
+    requestNumberEl.textContent =
+      "매수요청번호가 없습니다.";
+
+  }
+
+})();
+
+
+/*
+  2차·3차 요청 버튼 상태
+*/
+
+(function restoreAdditionalRequestState(){
+
+  if(!requestNumber && !testMode){
+
+    secondRequestBtn.disabled=true;
+    thirdRequestBtn.disabled=true;
+
+    return;
+  }
+
+
+  const key =
+    testMode
+    ? "5804"
+    : requestNumber;
+
+
+  secondRequestDone =
+    localStorage.getItem(
+      "wooriapt_ars_round_2_"+key
+    ) === "done";
+
+
+  thirdRequestDone =
+    localStorage.getItem(
+      "wooriapt_ars_round_3_"+key
+    ) === "done";
+
+
+  secondRequestBtn.disabled =
+    secondRequestDone;
+
+
+  thirdRequestBtn.disabled =
+    !secondRequestDone ||
+    thirdRequestDone;
+
+})();
+
+
+/*
+  중개사가 등록한 매물 중
+  현재 매수요청번호와 같은 매물만 가져옵니다.
+*/
+
+(function loadProperties(){
+
+  try{
+
+    const all =
+      JSON.parse(
+        localStorage.getItem(
+          "wooriapt_broker_properties"
+        ) || "[]"
+      );
+
+
+    properties =
+      testMode
+      ? all
+      : all.filter(
+          function(item){
+
+            return String(
+              item.requestNumber || ""
+            ) === String(
+              requestNumber
+            );
+
+          }
+        );
+
+
+  }catch(e){
+
+    properties=[];
+
+  }
+
+
+  render();
+
+})();
+
+
+function render(){
+
+  propertyList.innerHTML="";
+
+  countEl.textContent =
+    "등록 매물 "+
+    properties.length+
+    "건";
+
+
+  if(properties.length===0){
+
+    propertyList.innerHTML = `
+      <div class="empty">
+        아직 등록된 매물이 없습니다.<br>
+        중개사가 매수요청 조건에 맞는 매물을 등록하면
+        이곳에 표시됩니다.
+      </div>
+    `;
+
+    decisionBtn.disabled=true;
+
+    return;
+  }
+
+
+  properties.forEach(
+    function(property){
+
+      const box =
+        document.createElement("div");
+
+      box.className =
+        "property";
+
+
+      box.innerHTML = `
+
+        <div class="property-top">
+
+          <input
+            class="check"
+            type="checkbox"
+            data-id="${escapeHtml(
+              property.propertyId
+            )}">
+
+          <div class="property-main">
+
+            <div class="apartment">
+              ${escapeHtml(
+                property.apartment
+              )}
+            </div>
+
+
+            <div class="info">
+
+              <div>
+                <div class="item-label">
+                  금액
+                </div>
+
+                <div class="item-value">
+                  ${escapeHtml(
+                    property.amount
+                  )}
+                </div>
+              </div>
+
+
+              <div>
+                <div class="item-label">
+                  층수
+                </div>
+
+                <div class="item-value">
+                  ${escapeHtml(
+                    property.floor
+                  )}
+                </div>
+              </div>
+
+
+              <div>
+                <div class="item-label">
+                  면적
+                </div>
+
+                <div class="item-value">
+                  ${escapeHtml(
+                    property.area
+                  )}
+                </div>
+              </div>
+
+            </div>
+
+
+            ${
+              property.description
+              ?
+              `
+              <div class="description">
+                ${escapeHtml(
+                  property.description
+                )}
+              </div>
+              `
+              :
+              ""
+            }
+
+
+            <div class="broker-hidden">
+              🔒 거래 결정 전에는
+              중개사무소명과 전화번호가 공개되지 않습니다.
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+
+      const checkbox =
+        box.querySelector(
+          ".check"
+        );
+
+
+      checkbox.addEventListener(
+        "change",
+        function(){
+
+          /*
+            여러 건을 비교하기 위해
+            체크는 여러 개 가능하게 합니다.
+
+            단, 최종 거래 결정은
+            반드시 1건만 가능하게 합니다.
+          */
+
+          if(this.checked){
+
+            box.classList.add(
+              "selected"
+            );
+
+          }else{
+
+            box.classList.remove(
+              "selected"
+            );
+
+          }
+
+          updateSelection();
+
+        }
+      );
+
+
+      propertyList.appendChild(box);
+
+    }
+  );
+
+}
+
+
+function updateSelection(){
+
+  const checked =
+    Array.from(
+      document.querySelectorAll(
+        ".check:checked"
+      )
+    );
+
+
+  if(checked.length===0){
+
+    selectedId=null;
+
+    selectedInfo.textContent =
+      "매물을 선택해 주세요.";
+
+    decisionBtn.disabled=true;
+
+    return;
+
+  }
+
+
+  if(checked.length===1){
+
+    selectedId =
+      checked[0].dataset.id;
+
+    selectedInfo.textContent =
+      "선택한 매물 1건을 거래 결정할 수 있습니다.";
+
+    decisionBtn.disabled=false;
+
+    return;
+
+  }
+
+
+  /*
+    여러 건 체크는 비교용으로 허용.
+    거래 결정 시에는 1건만 선택하도록 안내합니다.
+  */
+
+  selectedId=null;
+
+  selectedInfo.textContent =
+    "현재 "+
+    checked.length+
+    "건을 선택했습니다. 거래 결정은 1건만 가능합니다.";
+
+  decisionBtn.disabled=true;
+
+}
+
+
+/*
+  2차·3차 추가 요청
+*/
+
+async function runAdditionalRequest(round){
+
+  const targetRequestNumber =
+    testMode
+    ? "5804"
+    : requestNumber;
+
+
+  if(!targetRequestNumber){
+
+    showMsg(
+      "매수요청번호를 확인해 주세요.",
+      false
+    );
+
+    return false;
+  }
+
+
+  const response =
+    await fetch(
+      "/api/ars-batch",
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          requestNumber:targetRequestNumber,
+          round:round
+        })
+      }
+    );
+
+
+  const data =
+    await response
+      .json()
+      .catch(
+        function(){
+          return null;
+        }
+      );
+
+
+  if(!response.ok){
+
+    throw new Error(
+      data && data.message
+      ? data.message
+      : "추가 요청 처리 중 오류가 발생했습니다."
+    );
+  }
+
+
+  return true;
+}
+
+
+secondRequestBtn.addEventListener(
+  "click",
+  async function(){
+
+    if(secondRequestDone){
+      return;
+    }
+
+
+    secondRequestBtn.disabled=true;
+
+
+    try{
+
+      const ok =
+        await runAdditionalRequest(2);
+
+
+      if(!ok){
+        secondRequestBtn.disabled=false;
+        return;
+      }
+
+
+      const key =
+        testMode
+        ? "5804"
+        : requestNumber;
+
+
+      secondRequestDone=true;
+
+
+      localStorage.setItem(
+        "wooriapt_ars_round_2_"+key,
+        "done"
+      );
+
+
+      thirdRequestBtn.disabled=false;
+
+
+      showMsg(
+        "2차 요청이 완료되었습니다.",
+        true
+      );
+
+    }catch(error){
+
+      secondRequestBtn.disabled=false;
+
+      showMsg(
+        error.message ||
+        "2차 요청 처리 중 오류가 발생했습니다.",
+        false
+      );
+
+    }
+
+  }
+);
+
+
+thirdRequestBtn.addEventListener(
+  "click",
+  async function(){
+
+    if(
+      !secondRequestDone ||
+      thirdRequestDone
+    ){
+      return;
+    }
+
+
+    thirdRequestBtn.disabled=true;
+
+
+    try{
+
+      const ok =
+        await runAdditionalRequest(3);
+
+
+      if(!ok){
+        thirdRequestBtn.disabled=false;
+        return;
+      }
+
+
+      const key =
+        testMode
+        ? "5804"
+        : requestNumber;
+
+
+      thirdRequestDone=true;
+
+
+      localStorage.setItem(
+        "wooriapt_ars_round_3_"+key,
+        "done"
+      );
+
+
+      showMsg(
+        "3차 요청이 완료되었습니다.",
+        true
+      );
+
+    }catch(error){
+
+      thirdRequestBtn.disabled=false;
+
+      showMsg(
+        error.message ||
+        "3차 요청 처리 중 오류가 발생했습니다.",
+        false
+      );
+
+    }
+
+  }
+);
+
+
+/*
+  최종 거래 결정
+*/
+
+decisionBtn.addEventListener(
+  "click",
+  function(){
+
+    if(!selectedId){
+
+      showMsg(
+        "거래 결정할 매물 1건만 선택해 주세요.",
+        false
+      );
+
+      return;
+
+    }
+
+
+    const property =
+      properties.find(
+        function(item){
+
+          return String(
+            item.propertyId
+          ) === String(
+            selectedId
+          );
+
+        }
+      );
+
+
+    if(!property){
+
+      showMsg(
+        "선택한 매물을 찾을 수 없습니다.",
+        false
+      );
+
+      return;
+
+    }
+
+
+    /*
+      실제 운영에서는 여기서 Supabase에
+      거래 생성 → 거래번호 생성 →
+      선택된 중개사 통보를 처리합니다.
+    */
+
+    const transactionNumber =
+      "TR"+
+      Date.now().toString().slice(-10);
+
+
+    const tradeRoomCode =
+      testMode
+      ? "5804"
+      : String(
+          Math.floor(
+            1000+
+            Math.random()*9000
+          )
+        );
+
+
+    const transaction = {
+
+      transactionNumber:
+        transactionNumber,
+
+      tradeRoomCode:
+        tradeRoomCode,
+
+      requestNumber:
+        requestNumber,
+
+      propertyId:
+        property.propertyId,
+
+      apartment:
+        property.apartment,
+
+      amount:
+        property.amount,
+
+      brokerOffice:
+        property.officeName,
+
+      brokerPhone:
+        property.officePhone,
+
+      status:
+        "CONTRACTING",
+
+      createdAt:
+        new Date().toISOString()
+
+    };
+
+
+    localStorage.setItem(
+      "wooriapt_selected_transaction",
+      JSON.stringify(
+        transaction
+      )
+    );
+
+
+    localStorage.setItem(
+      "wooriapt_trade",
+      JSON.stringify({
+        tradeNumber:
+          transactionNumber,
+        transactionNumber:
+          transactionNumber,
+        tradeRoomCode:
+          tradeRoomCode,
+        requestNumber:
+          requestNumber,
+        propertyId:
+          property.propertyId,
+        apartment:
+          property.apartment,
+        amount:
+          property.amount,
+        brokerName:
+          property.officeName,
+        brokerOffice:
+          property.officeName,
+        brokerPhone:
+          property.officePhone,
+        status:
+          "거래 진행 중",
+        createdAt:
+          transaction.createdAt
+      })
+    );
+
+
+    localStorage.setItem(
+      "wooriapt_trade_room_code",
+      tradeRoomCode
+    );
+
+
+    showMsg(
+      "거래가 결정되었습니다. 거래번호 "+
+      transactionNumber+
+      ", 거래방 코드 "+
+      tradeRoomCode+
+      "가 생성되었습니다.",
+      true
+    );
+
+
+    decisionBtn.disabled=true;
+
+
+    /*
+      결정 후 선택된 중개사 정보 공개
+    */
+
+    const selectedBox =
+      document.querySelector(
+        '.check[data-id="'+
+        selectedId+
+        '"]'
+      );
+
+
+    if(selectedBox){
+
+      const propertyBox =
+        selectedBox.closest(
+          ".property"
+        );
+
+
+      const old =
+        propertyBox.querySelector(
+          ".broker-hidden"
+        );
+
+
+      if(old){
+
+        old.className =
+          "broker-visible";
+
+        old.innerHTML =
+          "중개사무소명: "+
+          escapeHtml(
+            property.officeName
+          )+
+          "<br>전화번호: "+
+          escapeHtml(
+            property.officePhone
+          )+
+          "<br>거래번호: "+
+          escapeHtml(
+            transactionNumber
+          )+
+          "<br>거래방 코드: "+
+          escapeHtml(
+            tradeRoomCode
+          );
+
+      }
+
+    }
+
+
+    setTimeout(
+      function(){
+
+        location.href =
+          "/transaction-room.html?code="+
+          encodeURIComponent(
+            tradeRoomCode
+          );
+
+      },
+      300
+    );
+
+  }
+);
+
+
+/* 메시지 */
+
+function showMsg(
+  text,
+  ok
+){
+
+  msg.textContent =
+    text;
+
+  msg.className =
+    "msg "+
+    (ok ? "ok" : "error");
+
+}
+
+
+/* HTML 안전처리 */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
