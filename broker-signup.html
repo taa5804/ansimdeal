@@ -1,0 +1,1642 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1165d7">
+
+<title>공인중개사 회원가입 | 우리아파트 안심거래</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#f4f6f8;
+  color:#172b3d;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans KR",
+    Arial,
+    sans-serif;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.wrap{
+  width:100%;
+  max-width:720px;
+  margin:0 auto;
+  padding:0 14px 50px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+  min-height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#173a59;
+  font-size:21px;
+  font-weight:900;
+}
+
+.logo-mark{
+  font-size:27px;
+}
+
+.logo strong{
+  margin-left:3px;
+  color:#1165d7;
+}
+
+.home{
+  padding:10px 13px;
+  border:1px solid #c6d5e1;
+  border-radius:10px;
+  background:#fff;
+  color:#34546d;
+  font-size:14px;
+  font-weight:900;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+  padding:28px 24px;
+  border:1px solid #dbe5ec;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 6px 18px rgba(26,61,88,.06);
+}
+
+.badge{
+  display:inline-block;
+  padding:7px 10px;
+  border-radius:999px;
+  background:#eaf4ff;
+  color:#1165d7;
+  font-size:14px;
+  font-weight:900;
+}
+
+h1{
+  margin:14px 0 10px;
+  color:#143b61;
+  font-size:30px;
+  line-height:1.35;
+}
+
+.lead{
+  margin:0 0 22px;
+  color:#30495d;
+  font-size:16px;
+  line-height:1.75;
+}
+
+.required-info{
+  margin-bottom:24px;
+  padding:16px;
+  border:1px solid #d4e5f2;
+  border-radius:12px;
+  background:#f4f9fd;
+  color:#274b67;
+  font-size:15px;
+  line-height:1.8;
+}
+
+.required-info strong{
+  color:#1165d7;
+}
+
+.section-title{
+  margin:28px 0 14px;
+  padding-bottom:10px;
+  border-bottom:1px solid #e3eaf0;
+  color:#173e60;
+  font-size:19px;
+  font-weight:900;
+}
+
+/* =========================
+   FIELD
+========================= */
+
+.field{
+  margin-bottom:18px;
+}
+
+label{
+  display:block;
+  margin-bottom:8px;
+  color:#173e60;
+  font-size:16px;
+  font-weight:900;
+}
+
+.required{
+  color:#d92d20;
+}
+
+input,
+select{
+  width:100%;
+  min-height:52px;
+  padding:0 14px;
+  border:1px solid #c9d9e5;
+  border-radius:11px;
+  background:#fff;
+  color:#102b41;
+  font-size:17px;
+  outline:none;
+}
+
+input:focus,
+select:focus{
+  border-color:#1165d7;
+  box-shadow:0 0 0 3px rgba(17,101,215,.10);
+}
+
+.help{
+  margin-top:7px;
+  color:#657b8c;
+  font-size:13px;
+  line-height:1.6;
+}
+
+/* =========================
+   FILE
+========================= */
+
+.file-box{
+  padding:15px;
+  border:1px solid #d8e3eb;
+  border-radius:12px;
+  background:#fafcfd;
+}
+
+.file-box input[type="file"]{
+  min-height:auto;
+  padding:11px;
+  background:#fff;
+}
+
+.file-title{
+  margin-bottom:7px;
+  color:#173e60;
+  font-size:16px;
+  font-weight:900;
+}
+
+.file-desc{
+  margin-bottom:12px;
+  color:#5c7385;
+  font-size:13px;
+  line-height:1.6;
+}
+
+/* =========================
+   AGREEMENT
+========================= */
+
+.agree-box{
+  margin-top:25px;
+  padding:15px;
+  border:1px solid #d8e3eb;
+  border-radius:12px;
+  background:#fafcfd;
+}
+
+.agree-row{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+
+.agree-row input{
+  flex:none;
+  width:20px;
+  height:20px;
+  min-height:auto;
+  margin-top:2px;
+}
+
+.agree-row label{
+  margin:0;
+  color:#334e63;
+  font-size:15px;
+  line-height:1.6;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.submit-btn{
+  width:100%;
+  min-height:60px;
+  margin-top:22px;
+  border:0;
+  border-radius:12px;
+  background:#1165d7;
+  color:#fff;
+  font-size:19px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.submit-btn:disabled{
+  opacity:.6;
+  cursor:default;
+}
+
+.msg{
+  min-height:25px;
+  margin-top:12px;
+  text-align:center;
+  font-size:15px;
+  font-weight:800;
+  line-height:1.6;
+}
+
+.msg.error{
+  color:#b42318;
+}
+
+.msg.ok{
+  color:#117a46;
+}
+
+/* =========================
+   회원비 입금안내
+========================= */
+
+.payment-box{
+  display:none;
+  margin-top:25px;
+  padding:20px;
+  border:2px solid #bad8f8;
+  border-radius:16px;
+  background:#f4f9ff;
+}
+
+.payment-box.show{
+  display:block;
+}
+
+.payment-title{
+  margin:0 0 8px;
+  color:#143b61;
+  font-size:20px;
+  font-weight:900;
+}
+
+.payment-desc{
+  margin:0 0 17px;
+  color:#526b7e;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.payment-amount{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:14px 0;
+  border-top:1px solid #dce9f5;
+  border-bottom:1px solid #dce9f5;
+  font-size:15px;
+}
+
+.payment-amount span{
+  color:#526b7e;
+}
+
+.payment-amount strong{
+  color:#1165d7;
+  font-size:21px;
+}
+
+.account-box{
+  margin-top:15px;
+  padding:16px;
+  border-radius:12px;
+  background:#fff;
+  border:1px solid #d7e4ee;
+}
+
+.account-row{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+  padding:8px 0;
+  border-bottom:1px solid #edf2f6;
+}
+
+.account-row:last-child{
+  border-bottom:0;
+}
+
+.account-row span{
+  flex:none;
+  color:#6a7e8d;
+  font-size:14px;
+}
+
+.account-row strong{
+  text-align:right;
+  color:#173e60;
+  font-size:15px;
+  word-break:break-all;
+}
+
+.account-loading{
+  padding:15px;
+  text-align:center;
+  color:#6b7f8e;
+  font-size:14px;
+  line-height:1.6;
+}
+
+.payment-notice{
+  margin-top:14px;
+  color:#526b7e;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.footer{
+  padding:24px 5px 0;
+  text-align:center;
+  color:#768896;
+  font-size:13px;
+  line-height:1.7;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:520px){
+
+  .card{
+    padding:23px 17px;
+  }
+
+  h1{
+    font-size:27px;
+  }
+
+  .account-row{
+    gap:8px;
+  }
+
+  .account-row strong{
+    font-size:14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="header">
+
+  <a class="logo" href="/">
+    <span class="logo-mark">🏠</span>
+    <span>
+      우리아파트
+      <strong>안심거래</strong>
+    </span>
+  </a>
+
+  <a class="home" href="/">
+    메인으로
+  </a>
+
+</header>
+
+
+<main class="card">
+
+<span class="badge">
+  공인중개사 회원가입
+</span>
+
+<h1>
+  공인중개사 회원가입
+</h1>
+
+<p class="lead">
+  회원가입 후 등록서류를 확인하여
+  공인중개사 회원으로 승인합니다.
+</p>
+
+
+<div class="required-info">
+
+  회원가입 시 아래 두 서류가
+  <strong>모두 필요합니다.</strong>
+
+  <br><br>
+
+  ① <strong>사업자등록증</strong><br>
+  ② <strong>중개사무소 개설등록증</strong>
+
+</div>
+
+<div style="margin:16px 0 24px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:15px 18px; font-size:14px; color:#1e40af; line-height:1.65;">
+  <div style="font-weight:800; font-size:15px; margin-bottom:5px; display:flex; align-items:center; gap:6px;">
+    <span>💳</span> <span>공인중개사 월 회원비 안내</span>
+  </div>
+  • <strong>월 이용료</strong>: <strong>30,000원</strong> (VAT 별도 / 실결제 33,000원)<br>
+  • <strong>전자세금계산서 100% 발행</strong>: 가입 시 입력하신 사업자번호로 전자세금계산서가 발행되어 <strong>부가세 3,000원은 매입세액으로 100% 공제(환급)</strong>되며 전액 비용 인정됩니다.
+</div>
+
+
+<form id="signupForm" novalidate>
+
+<div class="section-title">
+  기본정보
+</div>
+
+
+<div class="field">
+
+  <label for="phone">
+    대표 휴대전화번호
+    <span class="required">*</span>
+  </label>
+
+  <input
+    id="phone"
+    type="tel"
+    inputmode="numeric"
+    autocomplete="tel"
+    placeholder="01012345678"
+    maxlength="11">
+
+  <div class="help">
+    로그인할 때 사용하는 휴대전화번호입니다.
+  </div>
+
+</div>
+
+
+<div class="field">
+
+  <label for="password">
+    비밀번호
+    <span class="required">*</span>
+  </label>
+
+  <input
+    id="password"
+    type="password"
+    autocomplete="new-password"
+    placeholder="비밀번호 8자 이상"
+    minlength="8"
+    maxlength="64">
+
+  <div class="help">
+    휴대전화번호(ID)와 함께 로그인할 때 사용하는 비밀번호입니다.
+  </div>
+
+</div>
+
+
+<div class="field">
+
+  <label for="passwordConfirm">
+    비밀번호 확인
+    <span class="required">*</span>
+  </label>
+
+  <input
+    id="passwordConfirm"
+    type="password"
+    autocomplete="new-password"
+    placeholder="비밀번호를 다시 입력하세요"
+    minlength="8"
+    maxlength="64">
+
+</div>
+
+
+<div class="field">
+
+  <label for="representativeName">
+    대표자명
+    <span class="required">*</span>
+  </label>
+
+  <input
+    id="representativeName"
+    type="text"
+    placeholder="대표자명을 입력하세요">
+
+</div>
+
+
+<div class="field">
+
+  <label for="officeName">
+    중개사무소명
+    <span class="required">*</span>
+  </label>
+
+  <input
+    id="officeName"
+    type="text"
+    placeholder="예: 양산우리공인중개사사무소">
+
+</div>
+
+
+<div class="field">
+
+  <label for="registrationNumber">
+    중개사무소 개설등록번호
+    <span class="required">*</span>
+  </label>
+
+  <input
+    id="registrationNumber"
+    type="text"
+    placeholder="개설등록번호를 입력하세요">
+
+</div>
+
+
+<div class="field">
+
+  <label for="taxEmail">
+    이메일
+    <span class="required">*</span>
+  </label>
+
+  <input
+    id="taxEmail"
+    type="email"
+    autocomplete="email"
+    placeholder="example@email.com">
+
+  <div class="help">
+    세금계산서 수신 및 비밀번호 찾기 인증번호 발송에 사용됩니다.
+  </div>
+
+</div>
+
+
+<div class="section-title">
+  필수서류
+</div>
+
+
+<div class="field">
+
+  <div class="file-box">
+
+    <div class="file-title">
+      사업자등록증
+      <span class="required">*</span>
+    </div>
+
+    <div class="file-desc">
+      현재 영업 중인 중개사무소의
+      사업자등록증을 첨부해 주세요.
+    </div>
+
+    <input
+      id="businessLicense"
+      type="file"
+      accept=".jpg,.jpeg,.png,.pdf">
+
+  </div>
+
+</div>
+
+
+<div class="field">
+
+  <div class="file-box">
+
+    <div class="file-title">
+      중개사무소 개설등록증
+      <span class="required">*</span>
+    </div>
+
+    <div class="file-desc">
+      관할 시·군·구청에서 발급된
+      중개사무소 개설등록증을 첨부해 주세요.
+    </div>
+
+    <input
+      id="officeRegistrationCertificate"
+      type="file"
+      accept=".jpg,.jpeg,.png,.pdf">
+
+  </div>
+
+</div>
+
+
+<div class="required-info">
+
+  사업자등록증의 사업장 주소를 확인하여
+  주소정보를 기준으로
+  <strong>기본 영업지역을 자동 등록</strong>합니다.
+
+</div>
+
+
+<div class="agree-box">
+
+  <div class="agree-row">
+
+    <input
+      id="agreeTerms"
+      type="checkbox">
+
+    <label for="agreeTerms">
+      이용약관 및 개인정보 처리에 동의합니다.
+      <span class="required">*</span>
+    </label>
+
+  </div>
+
+</div>
+
+
+<button
+  id="submitBtn"
+  class="submit-btn"
+  type="submit">
+  회원가입 신청
+</button>
+
+
+<div
+  id="msg"
+  class="msg"
+  aria-live="polite">
+</div>
+
+</form>
+
+
+<!-- =========================
+     회원가입 완료 후 입금안내
+========================= -->
+
+<section
+  id="paymentBox"
+  class="payment-box">
+
+  <h2 class="payment-title">
+    공인중개사 회원비 입금 안내
+  </h2>
+
+  <p class="payment-desc">
+    회원가입 신청이 접수되었습니다.<br>
+    아래 계좌로 월 회원비를 입금해 주세요.
+  </p>
+
+  <div class="payment-bill" style="background:#fff; border:1px solid #dce9f5; border-radius:14px; padding:18px 20px; margin:16px 0; box-shadow:0 2px 8px rgba(37,99,235,0.06);">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-size:14px; color:#475569;">
+      <span>월 이용료 (공급가액)</span>
+      <strong id="baseMonthlyFee" style="color:#1e293b; font-size:16px;">30,000원</strong>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:14px; color:#64748b;">
+      <span>부가가치세 (VAT 10%)</span>
+      <span id="vatMonthlyFee" style="color:#64748b; font-weight:600;">3,000원</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px dashed #cbd5e1;">
+      <span style="font-weight:800; font-size:15px; color:#0f172a;">실제 입금하실 금액</span>
+      <strong id="monthlyFee" style="color:#1d4ed8; font-size:22px; font-weight:900;">33,000원</strong>
+    </div>
+  </div>
+
+  <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px 16px; margin-bottom:16px; font-size:13px; line-height:1.65; color:#334155;">
+    <div style="font-weight:800; color:#1e40af; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+      <span>🧾</span> <span>전자세금계산서 100% 자동 발행 안내</span>
+    </div>
+    • 가입 시 제출하신 사업자등록증 정보로 <strong>월 33,000원(공급가 30,000원 + VAT 3,000원)에 대한 전자세금계산서가 발행</strong>됩니다.<br>
+    • 부가세 3,000원은 부가가치세 확정신고 시 <strong>매입세액으로 전액 공제(환급)</strong>되어 실제 순부담 비용은 30,000원입니다.
+  </div>
+
+
+  <div
+    id="accountLoading"
+    class="account-loading">
+    입금계좌 정보를 불러오는 중입니다.
+  </div>
+
+
+  <div
+    id="accountBox"
+    class="account-box"
+    style="display:none">
+
+    <div class="account-row">
+      <span>은행명</span>
+      <strong id="bankName">-</strong>
+    </div>
+
+    <div class="account-row">
+      <span>계좌번호</span>
+      <strong id="bankAccount">-</strong>
+    </div>
+
+    <div class="account-row">
+      <span>예금주</span>
+      <strong id="accountHolder">-</strong>
+    </div>
+
+  </div>
+
+
+  <div class="payment-notice">
+    입금 확인 후 회원 승인 절차가 진행됩니다.
+    입금자명은 가급적 대표자명 또는 중개사무소명으로 입력해 주세요.
+  </div>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+  © 우리아파트 안심거래. All rights reserved.
+</footer>
+
+</div>
+
+
+<script>
+(function(){
+
+"use strict";
+
+
+/* =====================================================
+   1. 공인중개사 회원정보 저장 Supabase
+   기존 연결 그대로 유지
+===================================================== */
+
+const MEMBER_SUPABASE_URL =
+  "https://wpshlmijsscmlasqtapa.supabase.co";
+
+const MEMBER_SUPABASE_KEY =
+  "sb_publishable_3QLYewR-TXBd1mNfte6OJg_kre42L7K";
+
+
+/* =====================================================
+   2. 공통 플랫폼 설정 Supabase
+   방금 platform_settings를 만든 프로젝트
+===================================================== */
+
+const SETTINGS_SUPABASE_URL =
+  "https://dcysjuxyjqtvkihdsjvv.supabase.co";
+
+const SETTINGS_SUPABASE_KEY =
+  "sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
+
+
+/* =====================================================
+   DOM
+===================================================== */
+
+const form =
+  document.getElementById("signupForm");
+
+const phone =
+  document.getElementById("phone");
+
+const password =
+  document.getElementById("password");
+
+const passwordConfirm =
+  document.getElementById("passwordConfirm");
+
+const representativeName =
+  document.getElementById("representativeName");
+
+const officeName =
+  document.getElementById("officeName");
+
+const registrationNumber =
+  document.getElementById("registrationNumber");
+
+const taxEmail =
+  document.getElementById("taxEmail");
+
+const businessLicense =
+  document.getElementById("businessLicense");
+
+const officeRegistrationCertificate =
+  document.getElementById(
+    "officeRegistrationCertificate"
+  );
+
+const agreeTerms =
+  document.getElementById("agreeTerms");
+
+const submitBtn =
+  document.getElementById("submitBtn");
+
+const msg =
+  document.getElementById("msg");
+
+
+const paymentBox =
+  document.getElementById("paymentBox");
+
+const monthlyFee =
+  document.getElementById("monthlyFee");
+
+const bankName =
+  document.getElementById("bankName");
+
+const bankAccount =
+  document.getElementById("bankAccount");
+
+const accountHolder =
+  document.getElementById("accountHolder");
+
+const accountLoading =
+  document.getElementById("accountLoading");
+
+const accountBox =
+  document.getElementById("accountBox");
+
+
+/* =====================================================
+   메시지
+===================================================== */
+
+function showMessage(type,text){
+
+  msg.className =
+    "msg " + type;
+
+  msg.textContent =
+    text;
+
+}
+
+
+/* =====================================================
+   비밀번호 해시
+   - 평문 비밀번호는 저장하지 않음
+   - PBKDF2 + SHA-256
+===================================================== */
+
+function bytesToBase64(bytes){
+
+  let binary = "";
+
+  for(
+    let i = 0;
+    i < bytes.length;
+    i++
+  ){
+
+    binary +=
+      String.fromCharCode(bytes[i]);
+
+  }
+
+  return btoa(binary);
+
+}
+
+
+async function makePasswordHash(passwordValue){
+
+  const encoder =
+    new TextEncoder();
+
+  const salt =
+    crypto.getRandomValues(
+      new Uint8Array(16)
+    );
+
+  const keyMaterial =
+    await crypto.subtle.importKey(
+      "raw",
+      encoder.encode(passwordValue),
+      "PBKDF2",
+      false,
+      ["deriveBits"]
+    );
+
+  const derivedBits =
+    await crypto.subtle.deriveBits(
+      {
+        name:"PBKDF2",
+        salt:salt,
+        iterations:210000,
+        hash:"SHA-256"
+      },
+      keyMaterial,
+      256
+    );
+
+  return {
+    hash:
+      bytesToBase64(
+        new Uint8Array(derivedBits)
+      ),
+    salt:
+      bytesToBase64(salt)
+  };
+
+}
+
+
+/* =====================================================
+   원화 표시
+===================================================== */
+
+function won(value){
+
+  const number =
+    Number(value || 0);
+
+  return number.toLocaleString("ko-KR") + "원";
+
+}
+
+
+/* =====================================================
+   공통 계좌정보 불러오기
+===================================================== */
+
+async function loadPaymentSettings(){
+
+  accountLoading.style.display =
+    "block";
+
+  accountLoading.textContent =
+    "입금계좌 정보를 불러오는 중입니다.";
+
+  accountBox.style.display =
+    "none";
+
+  try{
+
+    const url =
+      SETTINGS_SUPABASE_URL +
+      "/rest/v1/platform_settings" +
+      "?setting_key=eq.payment_account" +
+      "&select=bank_name,bank_account,account_holder,broker_monthly_fee" +
+      "&limit=1";
+
+
+    const response =
+      await fetch(
+        url,
+        {
+          method:"GET",
+
+          headers:{
+            "apikey":
+              SETTINGS_SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " +
+              SETTINGS_SUPABASE_KEY
+          }
+        }
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "입금계좌 정보를 불러오지 못했습니다."
+      );
+
+    }
+
+
+    const rows =
+      await response.json();
+
+
+    if(
+      !Array.isArray(rows) ||
+      rows.length === 0
+    ){
+
+      throw new Error(
+        "등록된 입금계좌 정보가 없습니다."
+      );
+
+    }
+
+
+    const settings =
+      rows[0];
+
+
+    const baseFee = Number(settings.broker_monthly_fee) || 30000;
+    const vatFee = Math.floor(baseFee * 0.1);
+    const totalFee = baseFee + vatFee;
+
+    const baseEl = document.getElementById("baseMonthlyFee");
+    if (baseEl) baseEl.textContent = won(baseFee);
+
+    const vatEl = document.getElementById("vatMonthlyFee");
+    if (vatEl) vatEl.textContent = won(vatFee);
+
+    monthlyFee.textContent = won(totalFee);
+
+
+    bankName.textContent =
+      settings.bank_name || "-";
+
+
+    bankAccount.textContent =
+      settings.bank_account || "-";
+
+
+    accountHolder.textContent =
+      settings.account_holder || "-";
+
+
+    accountLoading.style.display =
+      "none";
+
+    accountBox.style.display =
+      "block";
+
+  }catch(error){
+
+    console.error(
+      "platform_settings 조회 오류",
+      error
+    );
+
+    accountLoading.style.display =
+      "block";
+
+    accountLoading.textContent =
+      "입금계좌 정보를 불러오지 못했습니다. 본사에 문의해 주세요.";
+
+    accountBox.style.display =
+      "none";
+
+  }
+
+}
+
+
+/* =====================================================
+   휴대전화 숫자만
+===================================================== */
+
+phone.addEventListener(
+  "input",
+  function(){
+
+    this.value =
+      this.value
+      .replace(/\D/g,"")
+      .slice(0,11);
+
+  }
+);
+
+
+/* =====================================================
+   회원가입 신청
+===================================================== */
+
+form.addEventListener(
+  "submit",
+  async function(e){
+
+    e.preventDefault();
+
+    msg.className =
+      "msg";
+
+    msg.textContent =
+      "";
+
+    paymentBox.classList.remove(
+      "show"
+    );
+
+
+    const phoneValue =
+      phone.value.trim();
+
+    const passwordValue =
+      password.value;
+
+    const passwordConfirmValue =
+      passwordConfirm.value;
+
+    const representativeValue =
+      representativeName.value.trim();
+
+    const officeValue =
+      officeName.value.trim();
+
+    const registrationValue =
+      registrationNumber.value.trim();
+
+    const emailValue =
+      taxEmail.value.trim();
+
+
+    /* 휴대전화 */
+
+    if(
+      !/^01[016789][0-9]{7,8}$/.test(
+        phoneValue
+      )
+    ){
+
+      showMessage(
+        "error",
+        "휴대전화번호를 정확히 입력해 주세요."
+      );
+
+      phone.focus();
+
+      return;
+
+    }
+
+
+    /* 비밀번호 */
+
+    if(passwordValue.length < 8){
+
+      showMessage(
+        "error",
+        "비밀번호는 8자 이상 입력해 주세요."
+      );
+
+      password.focus();
+
+      return;
+
+    }
+
+
+    /* 비밀번호 확인 */
+
+    if(
+      passwordValue !==
+      passwordConfirmValue
+    ){
+
+      showMessage(
+        "error",
+        "비밀번호가 서로 일치하지 않습니다."
+      );
+
+      passwordConfirm.focus();
+
+      return;
+
+    }
+
+
+    /* 대표자 */
+
+    if(!representativeValue){
+
+      showMessage(
+        "error",
+        "대표자명을 입력해 주세요."
+      );
+
+      representativeName.focus();
+
+      return;
+
+    }
+
+
+    /* 사무소 */
+
+    if(!officeValue){
+
+      showMessage(
+        "error",
+        "중개사무소명을 입력해 주세요."
+      );
+
+      officeName.focus();
+
+      return;
+
+    }
+
+
+    /* 등록번호 */
+
+    if(!registrationValue){
+
+      showMessage(
+        "error",
+        "중개사무소 개설등록번호를 입력해 주세요."
+      );
+
+      registrationNumber.focus();
+
+      return;
+
+    }
+
+
+    /* 이메일 */
+
+    if(
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        emailValue
+      )
+    ){
+
+      showMessage(
+        "error",
+        "이메일 주소를 정확히 입력해 주세요."
+      );
+
+      taxEmail.focus();
+
+      return;
+
+    }
+
+
+    /* 사업자등록증 */
+
+    if(
+      !businessLicense.files ||
+      businessLicense.files.length === 0
+    ){
+
+      showMessage(
+        "error",
+        "사업자등록증을 첨부해 주세요."
+      );
+
+      return;
+
+    }
+
+
+    /* 개설등록증 */
+
+    if(
+      !officeRegistrationCertificate.files ||
+      officeRegistrationCertificate.files.length === 0
+    ){
+
+      showMessage(
+        "error",
+        "중개사무소 개설등록증을 첨부해 주세요."
+      );
+
+      return;
+
+    }
+
+
+    /* 약관 */
+
+    if(!agreeTerms.checked){
+
+      showMessage(
+        "error",
+        "이용약관 및 개인정보 처리에 동의해 주세요."
+      );
+
+      return;
+
+    }
+
+
+    submitBtn.disabled =
+      true;
+
+    submitBtn.textContent =
+      "회원정보 확인 중...";
+
+
+    try{
+
+
+      /* =============================================
+         기존 회원 확인
+      ============================================= */
+
+      const checkResponse =
+        await fetch(
+
+          MEMBER_SUPABASE_URL +
+          "/rest/v1/agent_members" +
+          "?select=id,phone" +
+          "&phone=eq." +
+          encodeURIComponent(phoneValue),
+
+          {
+            method:"GET",
+
+            headers:{
+              "apikey":
+                MEMBER_SUPABASE_KEY,
+
+              "Authorization":
+                "Bearer " +
+                MEMBER_SUPABASE_KEY
+            }
+          }
+
+        );
+
+
+      if(!checkResponse.ok){
+
+        throw new Error(
+          "회원정보 확인에 실패했습니다."
+        );
+
+      }
+
+
+      const existing =
+        await checkResponse.json();
+
+
+      if(
+        Array.isArray(existing) &&
+        existing.length > 0
+      ){
+
+        showMessage(
+          "error",
+          "이미 가입된 휴대전화번호입니다."
+        );
+
+        return;
+
+      }
+
+
+      /* =============================================
+         기존 이메일 확인
+      ============================================= */
+
+      const emailCheckResponse =
+        await fetch(
+
+          MEMBER_SUPABASE_URL +
+          "/rest/v1/agent_members" +
+          "?select=id,email" +
+          "&email=eq." +
+          encodeURIComponent(emailValue),
+
+          {
+            method:"GET",
+
+            headers:{
+              "apikey":
+                MEMBER_SUPABASE_KEY,
+
+              "Authorization":
+                "Bearer " +
+                MEMBER_SUPABASE_KEY
+            }
+          }
+
+        );
+
+
+      if(!emailCheckResponse.ok){
+
+        throw new Error(
+          "이메일 확인에 실패했습니다."
+        );
+
+      }
+
+
+      const existingEmail =
+        await emailCheckResponse.json();
+
+
+      if(
+        Array.isArray(existingEmail) &&
+        existingEmail.length > 0
+      ){
+
+        showMessage(
+          "error",
+          "이미 가입에 사용된 이메일입니다."
+        );
+
+        taxEmail.focus();
+
+        return;
+
+      }
+
+
+      /* =============================================
+         비밀번호 해시 생성
+      ============================================= */
+
+      const passwordData =
+        await makePasswordHash(
+          passwordValue
+        );
+
+
+      /* =============================================
+         회원정보 저장
+      ============================================= */
+
+      const saveResponse =
+        await fetch(
+
+          MEMBER_SUPABASE_URL +
+          "/rest/v1/agent_members",
+
+          {
+            method:"POST",
+
+            headers:{
+              "apikey":
+                MEMBER_SUPABASE_KEY,
+
+              "Authorization":
+                "Bearer " +
+                MEMBER_SUPABASE_KEY,
+
+              "Content-Type":
+                "application/json",
+
+              "Prefer":
+                "return=representation"
+            },
+
+            body:
+              JSON.stringify({
+
+                phone:
+                  phoneValue,
+
+                email:
+                  emailValue,
+
+                password_hash:
+                  passwordData.hash,
+
+                password_salt:
+                  passwordData.salt,
+
+                representative_name:
+                  representativeValue,
+
+                office_name:
+                  officeValue,
+
+                office_registration_no:
+                  registrationValue
+
+              })
+          }
+
+        );
+
+
+      const result =
+        await saveResponse
+        .json()
+        .catch(
+          () => null
+        );
+
+
+      if(!saveResponse.ok){
+
+        console.error(
+          "agent_members 저장 오류",
+          result
+        );
+
+        throw new Error(
+          "회원가입 정보를 저장하지 못했습니다."
+        );
+
+      }
+
+
+      /* =============================================
+         가입 성공
+      ============================================= */
+
+      showMessage(
+        "ok",
+        "회원가입 신청이 접수되었습니다."
+      );
+
+
+      /* 계좌정보 표시 */
+
+      paymentBox.classList.add(
+        "show"
+      );
+
+
+      await loadPaymentSettings();
+
+
+      /* 화면을 입금안내 위치로 이동 */
+
+      paymentBox.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+
+      /* 입력폼 초기화 */
+
+      form.reset();
+
+
+    }catch(error){
+
+      console.error(
+        error
+      );
+
+      showMessage(
+        "error",
+        error.message ||
+        "회원가입 처리 중 오류가 발생했습니다."
+      );
+
+    }finally{
+
+      submitBtn.disabled =
+        false;
+
+      submitBtn.textContent =
+        "회원가입 신청";
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   페이지 열릴 때 계좌정보 미리 조회
+   화면에는 가입완료 후에만 표시
+===================================================== */
+
+loadPaymentSettings();
+
+})();
+</script>
+
+</body>
+</html>
