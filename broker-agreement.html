@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1165d7">
+
+<title>1단계 필수동의 | 우리아파트 안심거래</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#f3f7fb;
+  color:#172b3d;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans KR",
+    Arial,
+    sans-serif;
+}
+
+.wrap{
+  width:100%;
+  max-width:720px;
+  margin:0 auto;
+  padding:28px 14px 60px;
+}
+
+.top{
+  margin-bottom:18px;
+}
+
+.brand{
+  color:#1165d7;
+  font-size:17px;
+  font-weight:900;
+}
+
+.step{
+  margin-top:5px;
+  color:#53697d;
+  font-size:14px;
+  font-weight:800;
+}
+
+.card{
+  overflow:hidden;
+  background:#fff;
+  border:1px solid #dce5ee;
+  border-radius:18px;
+  box-shadow:0 8px 25px rgba(30,61,87,.08);
+}
+
+.head{
+  padding:24px 22px;
+  background:
+    linear-gradient(
+      135deg,
+      #1165d7 0%,
+      #2584ed 100%
+    );
+  color:#fff;
+}
+
+.head h1{
+  margin:0 0 8px;
+  font-size:25px;
+  line-height:1.4;
+}
+
+.head p{
+  margin:0;
+  font-size:14px;
+  line-height:1.65;
+  opacity:.96;
+}
+
+.body{
+  padding:22px;
+}
+
+.code-box{
+  margin-bottom:20px;
+  padding:14px 16px;
+  border-radius:12px;
+  background:#f1f7ff;
+  border:1px solid #cfe2fa;
+}
+
+.code-label{
+  margin-bottom:5px;
+  color:#5e7184;
+  font-size:13px;
+  font-weight:800;
+}
+
+.code-value{
+  color:#1165d7;
+  font-size:21px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.notice-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:14px;
+  color:#1c3650;
+  font-size:19px;
+  font-weight:900;
+}
+
+.notice-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;
+  height:28px;
+  flex:none;
+  border-radius:50%;
+  background:#e7f1ff;
+  color:#1165d7;
+  font-size:16px;
+  font-weight:900;
+}
+
+.notice{
+  padding:18px;
+  border:1px solid #dce5ee;
+  border-radius:13px;
+  background:#fbfcfe;
+}
+
+.notice p{
+  margin:0 0 15px;
+  color:#344b60;
+  font-size:15px;
+  line-height:1.8;
+}
+
+.notice p:last-child{
+  margin-bottom:0;
+}
+
+.notice strong{
+  color:#0d5db9;
+}
+
+.important{
+  margin-top:17px;
+  padding:15px;
+  border-radius:11px;
+  background:#fff6e6;
+  border:1px solid #f0d39d;
+  color:#604d2e;
+  font-size:14px;
+  line-height:1.75;
+  font-weight:700;
+}
+
+.agree-box{
+  margin-top:22px;
+  padding:16px;
+  border:2px solid #cbd8e4;
+  border-radius:12px;
+  background:#fff;
+}
+
+.agree-label{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  cursor:pointer;
+  color:#253c50;
+  font-size:15px;
+  line-height:1.65;
+  font-weight:800;
+}
+
+.agree-label input{
+  width:21px;
+  height:21px;
+  margin:2px 0 0;
+  flex:none;
+  accent-color:#1165d7;
+}
+
+.btn{
+  width:100%;
+  height:54px;
+  margin-top:18px;
+  border:0;
+  border-radius:11px;
+  background:#b7c4d0;
+  color:#fff;
+  font-size:17px;
+  font-weight:900;
+  cursor:not-allowed;
+}
+
+.btn.active{
+  background:
+    linear-gradient(
+      135deg,
+      #1165d7 0%,
+      #237fe6 100%
+    );
+  cursor:pointer;
+  box-shadow:0 6px 16px rgba(17,101,215,.20);
+}
+
+.bottom{
+  margin-top:17px;
+  color:#6b7e8f;
+  font-size:13px;
+  line-height:1.7;
+  text-align:center;
+}
+
+.error{
+  margin-top:16px;
+  padding:13px;
+  border-radius:10px;
+  background:#fff0f0;
+  color:#b3261e;
+  font-size:14px;
+  font-weight:800;
+  text-align:center;
+  display:none;
+}
+
+@media(max-width:600px){
+
+  .wrap{
+    padding:18px 10px 40px;
+  }
+
+  .head{
+    padding:20px 17px;
+  }
+
+  .head h1{
+    font-size:22px;
+  }
+
+  .body{
+    padding:17px;
+  }
+
+  .notice{
+    padding:15px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <div class="top">
+    <div class="brand">
+      우리아파트 안심거래
+    </div>
+
+    <div class="step">
+      1단계 · 매물 제안 전 필수 동의
+    </div>
+  </div>
+
+
+  <div class="card">
+
+    <div class="head">
+
+      <h1>
+        공인중개사 필수 동의
+      </h1>
+
+      <p>
+        매물 제안 전에 중개보수 운영기준을 확인해 주세요.
+      </p>
+
+    </div>
+
+
+    <div class="body">
+
+      <div class="code-box">
+
+        <div class="code-label">
+          매수·임차 요청번호
+        </div>
+
+        <div
+          class="code-value"
+          id="requestCode"
+        >
+          -
+        </div>
+
+      </div>
+
+
+      <div class="notice-title">
+
+        <span class="notice-icon">
+          !
+        </span>
+
+        <span>
+          중개보수 운영기준
+        </span>
+
+      </div>
+
+
+      <div class="notice">
+
+        <p>
+          우리아파트 안심거래를 통해 성사되는 거래에서는
+          <strong>
+            공인중개사가 매수인·임차인에게 중개보수를 청구할 수 없습니다.
+          </strong>
+        </p>
+
+        <p>
+          공인중개사는 매도인·임대인에게
+          <strong>
+            법정 중개보수 상한 범위 내에서 중개보수를 청구하고 직접 수령
+          </strong>
+          합니다.
+        </p>
+
+        <p>
+          플랫폼은 매도인·임대인이 공인중개사에게 지급하는
+          <strong>
+            중개보수를 배분받지 않습니다.
+          </strong>
+        </p>
+
+      </div>
+
+
+      <div class="important">
+
+        위 운영기준에 동의하지 않는 경우
+        우리아파트 안심거래를 통한 매물 제안을 진행할 수 없습니다.
+
+      </div>
+
+
+      <div class="agree-box">
+
+        <label class="agree-label">
+
+          <input
+            type="checkbox"
+            id="agreeCheck"
+          >
+
+          <span>
+            위 중개보수 운영기준을 모두 확인하였으며 이에 동의합니다.
+          </span>
+
+        </label>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="btn"
+        id="nextBtn"
+        disabled
+      >
+        동의하고 2단계 매물 제안방 들어가기
+      </button>
+
+
+      <div
+        class="error"
+        id="errorMsg"
+      ></div>
+
+
+      <div class="bottom">
+
+        동의 후 2단계 매물 제안방에서
+        매수·임차 희망조건을 확인하고 매물을 제안할 수 있습니다.
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+(function(){
+
+"use strict";
+
+
+const params =
+new URLSearchParams(
+  location.search
+);
+
+
+const code =
+String(
+  params.get("code") || ""
+)
+.trim();
+
+
+const requestCode =
+document.getElementById(
+  "requestCode"
+);
+
+
+const agreeCheck =
+document.getElementById(
+  "agreeCheck"
+);
+
+
+const nextBtn =
+document.getElementById(
+  "nextBtn"
+);
+
+
+const errorMsg =
+document.getElementById(
+  "errorMsg"
+);
+
+
+
+if(!code){
+
+  requestCode.textContent =
+  "요청번호 없음";
+
+  errorMsg.textContent =
+  "매수·임차 요청번호가 없습니다.";
+
+  errorMsg.style.display =
+  "block";
+
+  agreeCheck.disabled =
+  true;
+
+  return;
+
+}
+
+
+requestCode.textContent =
+code;
+
+
+
+agreeCheck.addEventListener(
+  "change",
+  function(){
+
+    if(this.checked){
+
+      nextBtn.disabled =
+      false;
+
+      nextBtn.classList.add(
+        "active"
+      );
+
+    }else{
+
+      nextBtn.disabled =
+      true;
+
+      nextBtn.classList.remove(
+        "active"
+      );
+
+    }
+
+  }
+);
+
+
+
+nextBtn.addEventListener(
+  "click",
+  function(){
+
+    if(!agreeCheck.checked){
+      return;
+    }
+
+
+    localStorage.setItem(
+      "brokerFeeAgreement_" + code,
+      JSON.stringify({
+        agreed:true,
+        agreedAt:
+          new Date().toISOString()
+      })
+    );
+
+
+    if(code === "5804"){
+
+      localStorage.setItem(
+        "wooriapt_test_key",
+        "5804"
+      );
+
+    }
+
+
+    location.href =
+      "/broker-property-register.html?request=" +
+      encodeURIComponent(code);
+
+  }
+);
+
+})();
+</script>
+
+</body>
+</html>
