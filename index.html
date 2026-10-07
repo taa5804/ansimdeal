@@ -1484,7 +1484,7 @@ body.menu-open{
   <div class="mobile-menu-list">
 
     <a class="primary" href="/request.html?type=sale">
-      <span>🏠 빌딩 · 상가 매수</span>
+      <span>🏠 빌딩 · 상가 매매</span>
       <span>›</span>
     </a>
 
@@ -1525,8 +1525,8 @@ body.menu-open{
   <div class="hero-text">
 
     <h1>
-      원하는 꼬마빌딩·상가 &amp; 신축 대지,<br>
-      <em>매매 중개수수료 50% 우대에 계약하세요!</em>
+      원하는 빌딩·상가 &amp; 대지,<br>
+      <em>매매 수수료 50% 우대에 계약하세요!</em>
     </h1>
 
     <p>
@@ -1545,11 +1545,11 @@ body.menu-open{
 
     <span class="ico">🏠</span>
 
-    <b>빌딩 · 상가 매수</b>
+    <b>빌딩 · 상가 매매</b>
 
     <span style="display:inline-block; margin:3px 0 4px; padding:2px 7px; border-radius:5px; background:#eff6ff; color:#1165d7; font-size:11px; font-weight:800; border:1px solid #bfdbfe;">수수료 50%에 계약하기</span>
 
-    <span>빌딩·상가 매수 등록 ›</span>
+    <span>매매조건 등록 ›</span>
 
   </a>
 
@@ -1588,7 +1588,7 @@ body.menu-open{
 
 <!-- 수수료 50% 계약 안내 배너 -->
 <div style="margin-bottom:12px; padding:16px 20px; border-radius:16px; background:linear-gradient(135deg, #1165d7 0%, #1d4ed8 100%); color:#fff; text-align:center; box-shadow:0 6px 20px rgba(17,101,215,0.22);">
-  <div style="font-size:17px; font-weight:900; letter-spacing:-0.5px; line-height:1.4;">💡 우리아파트에서 매매 중개수수료 50% 우대에 계약하세요!</div>
+  <div style="font-size:17px; font-weight:900; letter-spacing:-0.5px; line-height:1.4;">💡 우리아파트에서 매매 수수료 50% 우대에 계약하세요!</div>
   <div style="font-size:12px; opacity:0.92; margin-top:5px; font-weight:600;">아래 계산기에서 내가 아낄 수 있는 중개수수료를 직접 확인해 보세요</div>
 </div>
 
@@ -2931,14 +2931,16 @@ paymentBtn
 
 
 <script>
-  // 안심딜 대형 자산 50% 반값 계산기 엔진 (법정 0.9% -> 0.45%)
-  window.addEventListener("DOMContentLoaded", function() {
-    var bB = document.getElementById("btnCalcBuilding");
-    var bL = document.getElementById("btnCalcLand");
-    if (bB && bL) {
-      bB.addEventListener("click", function() { bB.classList.add("active"); bL.classList.remove("active"); });
-      bL.addEventListener("click", function() { bL.classList.add("active"); bB.classList.remove("active"); });
+  // 대형 자산 50% 반값 계산 로직 연동
+  function adjustAssetFee() {
+    var pInput = document.querySelector("input[type='number'], input[placeholder*='3000000000']");
+    if (pInput) {
+      var val = parseFloat(pInput.value) || 3000000000;
+      var normal = Math.round(val * 0.009);
+      var ansim = Math.round(val * 0.0045);
+      var saved = normal - ansim;
+      var displays = document.querySelectorAll(".calc-result, [id*='result'], [class*='fee']");
     }
-  });
+  }
 </script>
 </body></html>
