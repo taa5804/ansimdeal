@@ -1,54 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko"><head>
-<script id="ansimdeal-surgical-patch">
-(function() {
-  function applySurgicalFix() {
-    // 1. 카드 3개 중 [월세] 삭제 및 [전세] -> [신축 대지 매매] 변환
-    var cards = document.querySelectorAll("a, div, section");
-    cards.forEach(function(el) {
-      var txt = el.innerText || "";
-      if (txt.includes("전세") && (txt.includes("구하기") || txt.includes("조건"))) {
-        el.innerHTML = el.innerHTML.replace(/전세\s*구하기/g, "신축 대지(垈地) 매매")
-                                   .replace(/전세조건\s*등록/g, "대지조건 등록")
-                                   .replace(/🔑/g, "🏗️");
-      }
-      if (txt.includes("월세") && (txt.includes("구하기") || txt.includes("조건"))) {
-        el.style.setProperty("display", "none", "important");
-      }
-    });
 
-    // 2. 계산기 탭: 전세/월세 제거 및 빌딩·상가 / 대지 2개만 유지
-    var tabs = document.querySelectorAll("button, a, div[role='button'], li, span");
-    tabs.forEach(function(tb) {
-      if (tb.children.length === 0) {
-        var t = tb.innerText.trim();
-        if (t === "매매") tb.innerText = "🏢 빌딩 · 상가 매매";
-        if (t === "전세") tb.innerText = "🏗️ 신축 대지 매매";
-        if (t === "월세") {
-          var p = tb.closest("button") || tb.closest("li") || tb.closest("a") || tb;
-          p.style.setProperty("display", "none", "important");
-        }
-      }
-    });
-
-    // 3. 3열 그리드를 깔끔한 2열 균형 그리드로 정돈
-    var grids = document.querySelectorAll("[class*='grid-cols-3']");
-    grids.forEach(function(g) {
-      g.className = g.className.replace(/grid-cols-3/g, "grid-cols-2").replace(/md:grid-cols-3/g, "md:grid-cols-2");
-    });
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", applySurgicalFix);
-  } else {
-    applySurgicalFix();
-  }
-  window.addEventListener("load", applySurgicalFix);
-  setTimeout(applySurgicalFix, 150);
-  setTimeout(applySurgicalFix, 600);
-  setTimeout(applySurgicalFix, 1500);
-})();
-</script>
 
 <script>
 (function() {
@@ -106,7 +58,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1165d7">
 
-<title>[우리아파트 안심거래] 원하는 아파트 매수·임차 수수료 50%에 계약하세요</title>
+<title>[우리아파트 안심딜] 빌딩·상가·신축 대지 매매 수수료 50%에 계약하세요</title>
 <meta name="description" content="매수부터 전세·월세 임차까지 중개수수료 50%에 계약하세요! 원하는 아파트 조건 등록 시 동네 공인중개사가 검증된 안심 매물을 1:1 제안합니다.">
 <meta property="og:title" content="[우리아파트 안심거래] 원하는 아파트 매수·임차 수수료 50%에 계약하세요">
 <meta property="og:description" content="매수부터 전세·월세 임차까지 중개수수료 50%에 계약하세요! 원하는 아파트 조건 등록 시 동네 공인중개사가 검증된 안심 매물을 1:1 제안합니다.">
@@ -424,7 +376,7 @@ body.menu-open{
 .trade{
   width:100%;
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:14px;
   margin-top:20px;
 }
@@ -925,7 +877,7 @@ body.menu-open{
   flex:0 1 420px;
   min-width:0;
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:6px;
 }
 
@@ -985,11 +937,11 @@ body.menu-open{
 @media(max-width:1000px){
 
   .steps{
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 
   .promise-grid{
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 
 }
@@ -1062,7 +1014,7 @@ body.menu-open{
 
   /* 원래 크기 유지 */
   .trade{
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-columns:repeat(2,minmax(0,1fr));
     gap:8px;
   }
 
@@ -1175,7 +1127,7 @@ body.menu-open{
 
   .broker-actions{
     flex:0 1 57%;
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-columns:repeat(2,minmax(0,1fr));
     gap:3px;
   }
 
@@ -1198,7 +1150,7 @@ body.menu-open{
 
   /* 매매 / 전세 / 월세 기존 설정 */
   .trade{
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-columns:repeat(2,minmax(0,1fr));
     gap:6px;
   }
 
@@ -1867,86 +1819,8 @@ document
    매매 내부 요율 계산
 ========================= */
 
-function calculateSaleFee(
-  price
-){
-
-  let rate =
-    0;
-
-  let limit =
-    Infinity;
-
-
-  if(
-    price <
-    50000000
-  ){
-
-    rate =
-      0.006;
-
-    limit =
-      250000;
-
-  }
-
-  else if(
-    price <
-    200000000
-  ){
-
-    rate =
-      0.005;
-
-    limit =
-      800000;
-
-  }
-
-  else if(
-    price <
-    900000000
-  ){
-
-    rate =
-      0.004;
-
-  }
-
-  else if(
-    price <
-    1200000000
-  ){
-
-    rate =
-      0.005;
-
-  }
-
-  else if(
-    price <
-    1500000000
-  ){
-
-    rate =
-      0.006;
-
-  }
-
-  else{
-
-    rate =
-      0.007;
-
-  }
-
-
-  return Math.min(
-    price * rate,
-    limit
-  );
-
+function calculateSaleFee(price){
+  return Math.round(price * 0.009);
 }
 
 
