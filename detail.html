@@ -1,0 +1,2002 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>상세안내</title>
+
+<link rel="stylesheet" href="/assets/style.css">
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body.detail-page{
+  background:#f5f7fb;
+  color:#172b3d;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans KR",
+    Arial,
+    sans-serif;
+}
+
+.detail-wrap{
+  width:100%;
+  max-width:980px;
+  margin:0 auto;
+  padding:20px 16px 60px;
+}
+
+.back-link{
+  display:inline-block;
+  margin-bottom:18px;
+  color:#245a91;
+  font-size:15px;
+  font-weight:800;
+  text-decoration:none;
+}
+
+.detail-card{
+  background:#fff;
+  border:1px solid #e1e8ef;
+  border-radius:18px;
+  padding:28px;
+  box-shadow:0 7px 24px rgba(31,65,92,.07);
+}
+
+.detail-card h1{
+  margin:0 0 20px;
+  color:#152b49;
+  font-size:32px;
+  line-height:1.35;
+  font-weight:900;
+}
+
+.detail-card h2{
+  margin:28px 0 10px;
+  color:#173f67;
+  font-size:21px;
+  line-height:1.5;
+}
+
+.detail-card p{
+  margin:0 0 12px;
+  color:#34495c;
+  font-size:16px;
+  line-height:1.8;
+}
+
+.detail-card .intro{
+  margin-bottom:22px;
+  color:#263e54;
+  font-size:17px;
+  line-height:1.8;
+}
+
+.detail-note{
+  margin-top:24px;
+  padding:16px;
+  border-radius:12px;
+  background:#f4f8fc;
+  color:#38536c;
+  font-size:15px;
+  line-height:1.8;
+}
+
+
+/* =========================================
+   플랫폼 이용료 안내
+========================================= */
+
+.fee-page{
+  margin:-28px;
+  padding:28px;
+  border-radius:18px;
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #fbfdff 100%
+    );
+}
+
+.fee-title{
+  margin:0 0 20px;
+  color:#102847;
+  font-size:34px;
+  font-weight:900;
+  letter-spacing:-1px;
+}
+
+.fee-info{
+  padding:22px;
+  border:1px solid #a8d0ff;
+  border-radius:16px;
+  background:
+    linear-gradient(
+      135deg,
+      #f3f9ff 0%,
+      #eef7ff 100%
+    );
+}
+
+.fee-info-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+  color:#153f70;
+  font-size:18px;
+  font-weight:900;
+}
+
+.info-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:none;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:2px solid #1670dc;
+  color:#1670dc;
+  font-size:19px;
+  font-weight:900;
+  background:#fff;
+}
+
+.fee-info p{
+  margin:7px 0;
+  color:#22384d;
+  font-size:15px;
+  line-height:1.75;
+}
+
+.fee-info strong{
+  color:#075dbf;
+}
+
+.info-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:16px;
+}
+
+.info-box{
+  padding:14px 15px;
+  border-radius:12px;
+  background:#fff;
+  border:1px solid #dce8f4;
+  color:#34495c;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.info-box.blue{
+  border-left:4px solid #1670dc;
+}
+
+.info-box.green{
+  border-left:4px solid #34a853;
+}
+
+.info-box.blue strong{
+  color:#1262c0;
+}
+
+.info-box.green strong{
+  color:#23853b;
+}
+
+.fee-small-notice{
+  display:flex;
+  flex-wrap:wrap;
+  gap:18px;
+  margin-top:16px;
+  padding-top:15px;
+  border-top:1px solid #d4e4f4;
+  color:#40556b;
+  font-size:13px;
+  font-weight:700;
+}
+
+.calculator-box{
+  margin-top:28px;
+}
+
+.calc-heading{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin:0 0 16px;
+  color:#172b3d;
+  font-size:24px;
+  font-weight:900;
+}
+
+.calc-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:32px;
+  height:32px;
+  border-radius:8px;
+  background:#173f67;
+  color:#fff;
+  font-size:18px;
+}
+
+.calc-tabs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin-bottom:18px;
+}
+
+.calc-tab{
+  height:52px;
+  border:1px solid #cad7e3;
+  border-radius:10px;
+  background:#fff;
+  color:#29445f;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.calc-tab.active{
+  border-color:#1165d7;
+  background:
+    linear-gradient(
+      135deg,
+      #1165d7 0%,
+      #2582ed 100%
+    );
+  color:#fff;
+  box-shadow:0 5px 14px rgba(17,101,215,.18);
+}
+
+.calc-inputs{
+  margin-top:8px;
+}
+
+.field-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.field-group{
+  min-width:0;
+}
+
+.field-group.full{
+  grid-column:1 / -1;
+}
+
+.field-label{
+  display:block;
+  margin-bottom:7px;
+  color:#263d52;
+  font-size:14px;
+  font-weight:900;
+}
+
+.input-money-wrap{
+  position:relative;
+}
+
+.input-money-wrap input{
+  width:100%;
+  height:50px;
+  padding:0 50px 0 14px;
+  border:1px solid #bfcddd;
+  border-radius:9px;
+  background:#fff;
+  color:#172b3d;
+  font-size:17px;
+  font-weight:800;
+  outline:none;
+}
+
+.input-money-wrap input:focus{
+  border-color:#1165d7;
+  box-shadow:0 0 0 3px rgba(17,101,215,.10);
+}
+
+.input-unit{
+  position:absolute;
+  top:50%;
+  right:15px;
+  transform:translateY(-50%);
+  color:#617487;
+  font-size:14px;
+  font-weight:800;
+}
+
+.calc-btn-wrap{
+  text-align:center;
+  margin-top:20px;
+}
+
+.calc-btn{
+  width:100%;
+  max-width:310px;
+  height:52px;
+  border:0;
+  border-radius:10px;
+  background:
+    linear-gradient(
+      135deg,
+      #1165d7 0%,
+      #1e7be8 100%
+    );
+  color:#fff;
+  font-size:18px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 6px 16px rgba(17,101,215,.20);
+}
+
+.calc-btn:hover{
+  filter:brightness(.97);
+}
+
+.calc-result{
+  margin-top:26px;
+}
+
+.result-empty{
+  padding:20px;
+  border:1px dashed #b9c8d7;
+  border-radius:12px;
+  background:#fafcfe;
+  color:#67798a;
+  font-size:15px;
+  text-align:center;
+}
+
+.result-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.result-card{
+  overflow:hidden;
+  border-radius:15px;
+  background:#fff;
+}
+
+.result-card.buyer{
+  border:1px solid #b9d8fa;
+  box-shadow:0 5px 18px rgba(17,101,215,.08);
+}
+
+.result-card.seller{
+  border:1px solid #bfe2c6;
+  box-shadow:0 5px 18px rgba(52,168,83,.08);
+}
+
+.result-head{
+  padding:15px;
+  text-align:center;
+  font-size:19px;
+  font-weight:900;
+}
+
+.result-card.buyer .result-head{
+  background:#edf6ff;
+  color:#1262c0;
+}
+
+.result-card.seller .result-head{
+  background:#f0faef;
+  color:#23853b;
+}
+
+.result-sub{
+  margin:0 14px 12px;
+  padding:10px;
+  border-radius:8px;
+  text-align:center;
+  font-size:13px;
+  font-weight:800;
+}
+
+.result-card.buyer .result-sub{
+  background:#f2f8ff;
+  color:#235f9f;
+}
+
+.result-card.seller .result-sub{
+  background:#f3fbf1;
+  color:#387d42;
+}
+
+.result-body{
+  margin:0 14px 14px;
+  border:1px solid #e0e6eb;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.result-line{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  min-height:58px;
+  padding:12px 14px;
+  border-bottom:1px dashed #d8e0e7;
+}
+
+.result-line:last-child{
+  border-bottom:0;
+}
+
+.result-label{
+  color:#26394c;
+  font-size:14px;
+  line-height:1.5;
+  font-weight:800;
+}
+
+.result-value{
+  flex:none;
+  color:#172b3d;
+  font-size:18px;
+  font-weight:900;
+}
+
+.result-card.buyer .main-value{
+  color:#1165d7;
+}
+
+.result-card.seller .main-value{
+  color:#24953d;
+}
+
+.result-total{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:0 14px 14px;
+  padding:14px;
+  border-radius:10px;
+  font-weight:900;
+}
+
+.result-card.buyer .result-total{
+  background:#e9f4ff;
+  color:#1165d7;
+}
+
+.result-card.seller .result-total{
+  background:#eaf8e7;
+  color:#23853b;
+}
+
+.result-total strong{
+  font-size:21px;
+}
+
+.bottom-notice{
+  display:flex;
+  gap:12px;
+  margin-top:22px;
+  padding:18px;
+  border:1px solid #f2d18a;
+  border-radius:14px;
+  background:#fff9ec;
+}
+
+.warning-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:none;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#f7b928;
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
+}
+
+.bottom-notice-text{
+  color:#4a4333;
+  font-size:14px;
+  line-height:1.9;
+  font-weight:700;
+}
+
+
+/* =========================================
+   모바일
+========================================= */
+
+@media(max-width:700px){
+
+  .detail-wrap{
+    padding:12px 10px 40px;
+  }
+
+  .detail-card{
+    padding:18px 14px;
+    border-radius:14px;
+  }
+
+  .fee-page{
+    margin:-18px -14px;
+    padding:20px 14px;
+  }
+
+  .fee-title{
+    font-size:28px;
+  }
+
+  .info-row{
+    grid-template-columns:1fr;
+  }
+
+  .fee-small-notice{
+    display:block;
+  }
+
+  .fee-small-notice div{
+    margin-top:6px;
+  }
+
+  .field-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field-group.full{
+    grid-column:auto;
+  }
+
+  .result-grid{
+    grid-template-columns:1fr;
+  }
+
+  .calc-tab{
+    height:48px;
+    font-size:15px;
+  }
+
+  .result-line{
+    padding:11px;
+  }
+
+  .result-value{
+    font-size:16px;
+  }
+
+}
+
+/* =========================================
+   매매 셀프등기 안내 전용 스타일
+========================================= */
+.registry-page {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Arial, sans-serif;
+  color: #1a2a3a;
+  line-height: 1.7;
+}
+
+.registry-header {
+  margin-bottom: 24px;
+}
+
+.reg-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  background: #e8f4fd;
+  color: #1971c2;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.reg-title {
+  margin: 0 0 10px;
+  font-size: 28px;
+  font-weight: 900;
+  color: #0f2b48;
+  line-height: 1.35;
+}
+
+.reg-subtitle {
+  margin: 0;
+  font-size: 15px;
+  color: #556980;
+  line-height: 1.6;
+}
+
+.reg-alert-box {
+  margin: 20px 0 28px;
+  padding: 20px 22px;
+  background: #fff9db;
+  border: 1.5px solid #f59f00;
+  border-radius: 14px;
+}
+
+.reg-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #d9480f;
+  margin-bottom: 12px;
+}
+
+.reg-alert-icon {
+  font-size: 20px;
+}
+
+.reg-alert-list {
+  margin: 0;
+  padding-left: 20px;
+  color: #495057;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.reg-alert-list li {
+  margin-bottom: 6px;
+}
+
+.reg-alert-list u {
+  text-decoration-color: #d9480f;
+  font-weight: 700;
+}
+
+.reg-sec-title {
+  margin: 32px 0 16px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #183b56;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 8px;
+}
+
+.reg-steps-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.reg-step-card {
+  padding: 18px 20px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.reg-step-num {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  color: #2563eb;
+  background: #dbeafe;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.reg-step-name {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 2px;
+}
+
+.reg-step-place {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.reg-step-desc {
+  margin: 0;
+  font-size: 14px;
+  color: #334155;
+  line-height: 1.7;
+}
+
+.reg-docs-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.reg-docs-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  font-size: 14px;
+}
+
+.reg-docs-table th {
+  background: #f1f5f9;
+  color: #1e293b;
+  font-weight: 700;
+  padding: 12px 14px;
+  border-bottom: 1px solid #cbd5e1;
+  text-align: left;
+}
+
+.reg-docs-table td {
+  padding: 14px;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: top;
+  line-height: 1.65;
+  color: #334155;
+}
+
+.reg-doc-who {
+  font-weight: 800;
+  color: #0f2b48;
+  background: #f8fafc;
+}
+
+.reg-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.reg-link-item {
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.reg-link-badge {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0284c7;
+  margin-bottom: 4px;
+}
+
+.reg-link-name {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.reg-link-desc {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.reg-warning-box {
+  padding: 20px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 14px;
+}
+
+.reg-warning-box h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #b91c1c;
+}
+
+.reg-warning-box ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14px;
+  color: #450a0a;
+  line-height: 1.7;
+}
+
+.reg-warning-box li {
+  margin-bottom: 8px;
+}
+
+</style>
+</head>
+
+<body class="detail-page">
+
+<div class="detail-wrap">
+
+<a class="back-link" href="/">← 메인화면</a>
+
+<div class="detail-card" id="content"></div>
+
+</div>
+
+<script>
+
+const pages = {
+
+broker: `
+<h1>검증된 공인중개사</h1>
+
+<p class="intro">
+<b>
+안심하고 거래할 수 있도록<br>
+공인중개사 정보를 확인합니다.
+</b>
+</p>
+
+<h2>① 공인중개사 자격 확인</h2>
+<p>
+고객에게 매물을 제안하고 거래를 진행하는 중개사가
+정식 공인중개사인지 확인합니다.
+</p>
+
+<h2>② 중개사무소 정보 확인</h2>
+<p>
+실제로 운영되는 중개사무소의 기본 정보를 확인하여
+고객이 안심하고 상담할 수 있도록 합니다.
+</p>
+
+<h2>③ 제안한 공인중개사 정보 확인</h2>
+<p>
+매물 제안을 받으면 어떤 공인중개사가 제안했는지
+고객이 확인할 수 있도록 합니다.
+</p>
+
+<h2>④ 고객이 직접 선택</h2>
+<p>
+제안받은 매물과 조건을 비교한 후
+원하는 공인중개사와 매물을 고객이 직접 선택합니다.
+</p>
+
+<h2>⑤ 거래 단계까지 안전하게 연결</h2>
+<p>
+선택한 공인중개사와 거래를 진행하고 이후 전자계약,
+선택형 에스크로 등 안심거래 절차로 연결됩니다.
+</p>
+`,
+
+contract: `
+<h1>국토교통부 표준 전자계약</h1>
+
+<p class="intro">
+<b>
+대출금리 할인부터 확정일자 자동 발급까지, 책상에서 1초 만에 끝내는 공인 전자계약
+</b>
+</p>
+
+<p>
+우리아파트 안심거래는 <b>국토교통부 고시 주택 매매·임대차 표준계약서 서식(공인중개사법 시행규칙 제461호)</b>을 준수합니다.
+복잡한 종이 서류와 현장 방문 없이, 스마트폰 터치 한 번으로 안전하고 편리하게 계약을 체결하고 다양한 국가 공인 혜택을 받으실 수 있습니다.
+</p>
+
+<h2>① 시중은행 대출 우대금리 감면 (연 0.1% ~ 0.2%p)</h2>
+<p>
+국토부 표준 전자계약 체결 시 <b>KB국민·신한·우리·하나은행 등 주요 시중은행 주택담보대출 및 전세자금대출(버팀목·디딤돌 포함) 우대금리 할인</b>을 받아 수백만 원의 대출 이자를 절감할 수 있습니다.
+</p>
+
+<h2>② 대법원 확정일자 & 실거래가 신고 무료 자동 발급</h2>
+<p>
+계약서 서명이 완료되는 즉시 <b>주민센터나 구청 방문 없이 대법원 확정일자와 구청 실거래가 신고가 1초 만에 자동으로 완료</b>됩니다. 별도의 발급 수수료나 신고 번거로움이 없습니다.
+</p>
+
+<h2>③ 현장 발품 제로! 사무실 책상에서 비대면 3자 전자서명</h2>
+<p>
+손님과 공인중개사 모두 부동산 사무소를 오가며 뙤약볕에 헛걸음할 필요가 없습니다. <b>사무실 책상과 집에서 카카오톡 모바일 본인인증 및 터치 서명</b>으로 5분 만에 계약이 체결됩니다.
+</p>
+
+<h2>④ 공인중개사 종이서류 5년 보관 의무 법적 면제</h2>
+<p>
+계약서는 공인전자문서센터에 안전하게 영구 암호화 보관되므로, <b>공인중개사의 종이계약서 5년 캐비닛 보관 의무가 법적으로 면제</b>되어 서류 분실 및 과태료 위험이 전혀 없습니다.
+</p>
+
+<h2>⑤ 위·변조 방지 시점확인 및 전세사기 원천 차단</h2>
+<p>
+전자서명법에 따른 공인 시점확인(타임스탬프)과 위조·변조 방지 기술이 적용되어 이중계약, 위조계약, 전세사기 위험을 원천 차단하며 대한민국 법원에서 100% 완전한 법적 증명력을 갖습니다.
+</p>
+`,
+
+escrow: `
+<h1>선택형 에스크로</h1>
+
+<p class="intro">
+<b>
+필요한 거래대금만 선택해서 안전하게 보호합니다.
+</b>
+</p>
+
+<p>
+매매·전세·월세 계약에서 모든 금액을 반드시 에스크로에 넣는 것이 아니라,
+<b>이용자가 원하는 지급 단계와 금액만 선택하여 이용</b>할 수 있습니다.
+</p>
+
+<h2>① 원하는 금액만 선택</h2>
+<p>
+매매와 전세는
+<b>계약금·중도금·잔금 중 필요한 항목만 선택</b>할 수 있습니다.
+계약금만 이용하거나, 계약금+잔금 또는 전체 금액을 이용하는 방식도 가능합니다.
+월세는 계약금과 보증금 잔금 등을 선택할 수 있습니다.
+</p>
+
+<h2>② 거래대금을 플랫폼이 보관하지 않습니다</h2>
+<p>
+에스크로를 선택하면 제휴 금융기관·에스크로 시스템을 통해
+<b>거래전용 계좌가 발급</b>되고,
+매수자·임차인이 해당 계좌로 직접 송금합니다.
+자금은 금융기관이 예치·지급하고 플랫폼은 진행상태만 확인하는 구조입니다.
+</p>
+
+<h2>③ 큰 금액을 먼저 보내는 불안 감소</h2>
+<p>
+계약 상대방에게 바로 송금하는 대신 에스크로를 이용하면
+거래조건을 확인하면서 자금을 안전하게 관리할 수 있습니다.
+특히 매매 잔금에 에스크로를 이용하면
+<b>
+소유권 이전 과정에서 발생할 수 있는 자금지급 위험을 줄이는 데 도움이 됩니다.
+</b>
+</p>
+
+<h2>④ 매매·전세·월세 모두 선택 가능</h2>
+<p>
+매매뿐 아니라 전세에서도 계약금·중도금·잔금을 선택할 수 있고,
+월세는 계약금·보증금 잔금 등 필요한 부분에 이용할 수 있도록 구성합니다.
+</p>
+
+<h2>⑤ 이용 여부는 고객이 선택</h2>
+<p>
+에스크로는 강제로 이용하는 서비스가 아닙니다.
+거래금액과 상황을 보고
+<b>고객이 필요하다고 판단하는 경우에만 선택</b>할 수 있도록 합니다.
+</p>
+
+<div class="detail-note">
+<b>
+“전부 맡길 필요 없이, 필요한 금액만 선택해서 더 안전하게.”
+</b>
+</div>
+`,
+  registry: `
+<div class="registry-page">
+
+  <div class="registry-header">
+    <span class="reg-badge">100% 무료 정보성 가이드</span>
+    <h1 class="reg-title">매매 소유권이전 셀프등기 절차 안내</h1>
+    <p class="reg-subtitle">
+      법무사 수수료 부담 없이 매수인이 직접 등기소를 방문하여 소유권이전등기를 마칠 수 있도록<br>
+      필요 서류와 잔금 당일 진행 절차를 알기 쉽게 안내해 드립니다.
+    </p>
+  </div>
+
+  <!-- 핵심 법적 공지 및 직접 납부 원칙 알림 -->
+  <div class="reg-alert-box">
+    <div class="reg-alert-title">
+      <span class="reg-alert-icon">⚠️</span>
+      <strong>필독: 세금·공과금 직접 납부 및 등기 대행 불가 안내</strong>
+    </div>
+    <ul class="reg-alert-list">
+      <li><strong>플랫폼 내 결제/수납 절대 불가:</strong> 본 플랫폼은 취득세, 국민주택채권 매입액, 인지세, 등기신청수수료 등 <u>어떠한 세금이나 공과금도 대신 수납하거나 결제받지 않습니다.</u></li>
+      <li><strong>본인 직접 납부 원칙:</strong> 모든 세금 및 공과금은 매수인이 관할 지자체 세무과(위택스), 시중은행, 대법원 인터넷등기소에 <u>직접 납부</u>하셔야 합니다.</li>
+      <li><strong>순수 절차 무료 안내:</strong> 본 플랫폼은 법무사법 및 변호사법을 엄격히 준수하며, 일체의 등기 대리·대행 행위를 하지 않고 순수 절차 및 서류 체크리스트 정보만을 <strong>100% 무료</strong>로 제공합니다.</li>
+    </ul>
+  </div>
+
+  <!-- 잔금 당일 5단계 원스톱 동선 로드맵 -->
+  <h2 class="reg-sec-title">📍 잔금 당일 5단계 완벽 동선 로드맵</h2>
+  <div class="reg-steps-grid">
+    <div class="reg-step-card">
+      <div class="reg-step-num">STEP 1</div>
+      <div class="reg-step-name">사전 서류 준비</div>
+      <div class="reg-step-place">잔금일 전 (온라인 정부24 / 주민센터)</div>
+      <p class="reg-step-desc">
+        • 매수인 주민등록초본 (과거 5년 또는 주소변동 이력 포함) 발급<br>
+        • 정부24에서 건축물대장(전유부), 토지대장(대지권등록부) 발급<br>
+        • 매수인 신분증, 도장(일반 막도장도 가능) 준비
+      </p>
+    </div>
+
+    <div class="reg-step-card">
+      <div class="reg-step-num">STEP 2</div>
+      <div class="reg-step-name">잔금 지급 & 서류 인수</div>
+      <div class="reg-step-place">잔금 당일 오전 (중개사무소)</div>
+      <p class="reg-step-desc">
+        • 매도인에게 잔금 송금 후 영수증 수령<br>
+        • <strong>매도인 서류 4종 필수 수령</strong>:<br>
+        &nbsp;&nbsp;① 등기필정보 (등기권리증 보안스티커 부착 원본)<br>
+        &nbsp;&nbsp;② 매도용 인감증명서 (매수인 성명·주민번호·주소 정확히 기재)<br>
+        &nbsp;&nbsp;③ 매도인 주민등록초본 (주소변동 이력 포함)<br>
+        &nbsp;&nbsp;④ 위임장 (매도인 인감도장 날인)<br>
+        • <strong>중개사 서류 수령</strong>: 부동산거래계약신고필증, 매매계약서 원본
+      </p>
+    </div>
+
+    <div class="reg-step-card">
+      <div class="reg-step-num">STEP 3</div>
+      <div class="reg-step-name">시·군·구청 세무과 방문</div>
+      <div class="reg-step-place">관할 시·군·구청 세무과 (또는 인터넷 위택스)</div>
+      <p class="reg-step-desc">
+        • 매매계약서 사본, 부동산거래계약신고필증 지참<br>
+        • 취득세 신고서 작성 및 제출 후 <strong>취득세 납부고지서</strong> 발급받기<br>
+        ※ 위택스(Wetax) 전자신고 이용 시 온라인으로 즉시 발급 가능
+      </p>
+    </div>
+
+    <div class="reg-step-card">
+      <div class="reg-step-num">STEP 4</div>
+      <div class="reg-step-name">은행 방문 (공과금 본인 직접 납부)</div>
+      <div class="reg-step-place">시중은행 창구 (또는 인터넷 뱅킹/ATM)</div>
+      <p class="reg-step-desc">
+        • <strong>취득세 납부</strong>: 고지서 납부 후 영수필확인서 수령<br>
+        • <strong>국민주택채권 매입</strong>: 주택도시기금 시가표준액 기준 매입 후 즉시할인 (채권발행번호 영수증 수령)<br>
+        • <strong>정부수입인지 구매</strong>: 전자수입인지 또는 은행 창구 구매 (매매가액별 인지세 납부)<br>
+        • <strong>등기신청수수료 납부</strong>: 법원 등기수수료 납부 후 영수필확인서 수령
+      </p>
+    </div>
+
+    <div class="reg-step-card">
+      <div class="reg-step-num">STEP 5</div>
+      <div class="reg-step-name">관할 등기소 접수</div>
+      <div class="reg-step-place">부동산 관할 등기국/등기소</div>
+      <p class="reg-step-desc">
+        • 소유권이전등기 신청서 작성 및 법정 편철 순서대로 서류 편철<br>
+        • 등기소 접수계에 신분증 제시 후 최종 서류 제출<br>
+        • 등기 접수증 수령 (우편 수령 신청 시 등기권리증 우편 발송)<br>
+        • 접수 후 약 3~7일 이내 등기 완료 및 새로운 등기필정보 수령
+      </p>
+    </div>
+  </div>
+
+  <!-- 준비 서류 완벽 체크리스트 -->
+  <h2 class="reg-sec-title">📑 소유권이전등기 필수 준비서류 체크리스트</h2>
+  <div class="reg-docs-table-wrap">
+    <table class="reg-docs-table">
+      <thead>
+        <tr>
+          <th style="width:25%;">구분</th>
+          <th style="width:45%;">준비 서류</th>
+          <th style="width:30%;">발급처 / 확인사항</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="reg-doc-who">매도인에게<br>받을 서류</td>
+          <td>
+            1. <strong>등기필정보 (등기권리증)</strong> 원본<br>
+            2. <strong>부동산 매도용 인감증명서</strong> 1통 (매수인 성명·주민번호·주소 정확히 기재)<br>
+            3. <strong>주민등록초본</strong> 1통 (과거 주소변동이력 전체 포함)<br>
+            4. <strong>위임장</strong> 1부 (매도인 인감도장 날인)
+          </td>
+          <td>
+            잔금 지급 시 인수<br>
+            (인감증명서 발급 3개월 이내)
+          </td>
+        </tr>
+        <tr>
+          <td class="reg-doc-who">매수인이<br>준비할 서류</td>
+          <td>
+            1. <strong>매매계약서</strong> 원본 및 사본<br>
+            2. <strong>부동산거래계약신고필증</strong> 원본 (중개사무소 수령)<br>
+            3. <strong>주민등록초본</strong> 1통 (주소변동 포함)<br>
+            4. <strong>토지대장 (대지권등록부 포함)</strong> 1부<br>
+            5. <strong>건축물대장 (전유부)</strong> 1부<br>
+            6. 매수인 신분증 및 도장 (일반 막도장 가능)
+          </td>
+          <td>
+            정부24 및 주민센터<br>
+            (발급 3개월 이내)
+          </td>
+        </tr>
+        <tr>
+          <td class="reg-doc-who">본인 직접 납부<br>영수증 (4종)</td>
+          <td>
+            1. <strong>취득세 납부 영수필확인서</strong><br>
+            2. <strong>국민주택채권 매입 영수증</strong> (채권발행번호 확인)<br>
+            3. <strong>정부수입인지</strong> (전자수입인지 출력본)<br>
+            4. <strong>등기신청수수료 납부 영수필확인서</strong>
+          </td>
+          <td>
+            위택스/구청, 은행,<br>
+            대법원 인터넷등기소
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 공과금 및 세금 직접 납부 공식 기관 바로가기 -->
+  <h2 class="reg-sec-title">🏛️ 공과금 본인 직접 납부 공식 안내처</h2>
+  <div class="reg-links-grid">
+    <div class="reg-link-item">
+      <div class="reg-link-badge">취득세 신고·납부</div>
+      <div class="reg-link-name">위택스 (Wetax) / 이택스 (서울)</div>
+      <p class="reg-link-desc">부동산 취득세 온라인 신고 및 신용카드/계좌이체 직접 납부 (wetax.go.kr / etax.seoul.go.kr)</p>
+    </div>
+    <div class="reg-link-item">
+      <div class="reg-link-badge">국민주택채권 매입</div>
+      <div class="reg-link-name">주택도시기금 & 시중은행</div>
+      <p class="reg-link-desc">주택도시기금 사이트에서 시가표준액별 채권매입액 계산 후, 국민·신한·우리·하나·농협 창구에서 즉시할인 매입</p>
+    </div>
+    <div class="reg-link-item">
+      <div class="reg-link-badge">정부수입인지 (인지세)</div>
+      <div class="reg-link-name">전자수입인지 사이트</div>
+      <p class="reg-link-desc">기획재정부 전자수입인지(e-revenuestamp.or.kr)에서 종이문서용 전자수입인지 직접 결제 후 출력</p>
+    </div>
+    <div class="reg-link-item">
+      <div class="reg-link-badge">등기신청수수료 (증지)</div>
+      <div class="reg-link-name">대법원 인터넷등기소</div>
+      <p class="reg-link-desc">인터넷등기소(iros.go.kr) 전자납부시스템에서 등기신청수수료 납부 후 영수필확인서 출력 또는 등기소 현장 납부</p>
+    </div>
+  </div>
+
+  <!-- 셀프등기 전 필수 확인사항 (주의점) -->
+  <div class="reg-warning-box">
+    <h3>🚨 셀프등기 진행 전 반드시 체크하세요!</h3>
+    <ul>
+      <li><strong>은행 주택담보대출이 있는 경우:</strong> 매수인이 은행 주택담보대출을 받는 경우, 대출 은행의 근저당권 설정 법무사가 등기 절차를 함께 진행하는 것이 일반적이므로 셀프등기가 제한될 수 있습니다. 대출 은행에 셀프등기 가능 여부를 반드시 사전에 확인하세요.</li>
+      <li><strong>매도인 서류 오탈자 검수:</strong> 매도용 인감증명서에 기재된 매수인 인적사항(성명, 주민등록번호, 주소)이 주민등록초본과 글자 하나라도 다르면 등기가 각하될 수 있습니다. 잔금 당일 현장에서 철저히 대조 확인하세요.</li>
+      <li><strong>등기 신청 기한:</strong> 소유권이전등기는 잔금 지급일(소유권 이전의 효력이 발생한 날)로부터 60일 이내에 신청해야 과태료가 발생하지 않습니다. (통상 잔금 당일 바로 신청합니다.)</li>
+    </ul>
+  </div>
+
+</div>
+`
+
+};
+
+
+const feePage = `
+
+<div class="fee-page">
+
+<h1 class="fee-title">
+플랫폼 이용료 안내
+</h1>
+
+
+<div class="fee-info">
+
+<div class="fee-info-title">
+<span class="info-icon">i</span>
+<span>
+거래당사자의 예상 비용을 간편하게 확인하세요.
+</span>
+</div>
+
+<p>
+매매·전세·월세의 거래금액을 직접 입력하면
+<b>매수인·매도인 또는 임차인·임대인의 예상 비용</b>을 확인할 수 있습니다.
+</p>
+
+
+<div class="info-row">
+
+<div class="info-box blue">
+매수인·임차인은 공인중개사 중개보수를 별도로 부담하지 않으며,
+<strong>우리아파트 안심거래 플랫폼 이용료만 지급</strong>합니다.
+</div>
+
+<div class="info-box green">
+매도인·임대인은 플랫폼 이용료를 부담하지 않으며,
+담당 공인중개사에게
+<strong>공인중개사 중개보수를 지급</strong>합니다.
+</div>
+
+</div>
+
+
+<div class="fee-small-notice">
+
+<div>
+✓ 표시되는 예상 비용은
+<strong>부가세가 포함된 금액</strong>입니다.
+</div>
+
+<div>
+✓ 계산방식과 적용요율은 화면에 표시하지 않습니다.
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="calculator-box">
+
+<div class="calc-heading">
+<span class="calc-icon">▦</span>
+<span>거래당사자 예상 비용 확인</span>
+</div>
+
+
+<div class="calc-tabs">
+
+<button
+class="calc-tab active"
+data-type="sale"
+type="button"
+>
+매매
+</button>
+
+<button
+class="calc-tab"
+data-type="jeonse"
+type="button"
+>
+전세
+</button>
+
+<button
+class="calc-tab"
+data-type="monthly"
+type="button"
+>
+월세
+</button>
+
+</div>
+
+
+<div
+class="calc-inputs"
+id="calcInputs"
+></div>
+
+
+<div class="calc-btn-wrap">
+
+<button
+class="calc-btn"
+id="calcBtn"
+type="button"
+>
+▦ 비용 확인하기
+</button>
+
+</div>
+
+
+<div
+class="calc-result"
+id="calcResult"
+>
+
+<div class="result-empty">
+거래금액을 입력한 후 비용 확인하기를 눌러주세요.
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="bottom-notice">
+
+<div class="warning-icon">
+!
+</div>
+
+<div class="bottom-notice-text">
+
+✓ 표시된 금액은 부가세가 포함된 예상 금액입니다.<br>
+
+✓ 매수인·임차인의 공인중개사 중개보수는 0원입니다.<br>
+
+✓ 매도인·임대인의 플랫폼 이용료는 0원입니다.
+
+</div>
+
+</div>
+
+</div>
+`;
+
+
+const topic =
+new URLSearchParams(
+  location.search
+).get("topic") || "broker";
+
+
+document
+.getElementById("content")
+.innerHTML =
+topic === "fee"
+  ? feePage
+  : (pages[topic] || pages.broker);
+
+
+
+if(topic === "fee"){
+
+  let type = "sale";
+
+  const inputs =
+  document.getElementById(
+    "calcInputs"
+  );
+
+  const result =
+  document.getElementById(
+    "calcResult"
+  );
+
+
+  function formatInputNumber(input){
+
+    const raw =
+    input.value.replace(
+      /[^0-9]/g,
+      ""
+    );
+
+    if(!raw){
+
+      input.value = "";
+      return;
+
+    }
+
+    input.value =
+    Number(raw).toLocaleString();
+
+  }
+
+
+  function numberValue(id){
+
+    const el =
+    document.getElementById(id);
+
+    if(!el){
+      return 0;
+    }
+
+    return Number(
+      String(el.value || "")
+      .replace(/,/g,"")
+      .replace(/[^0-9]/g,"")
+    );
+
+  }
+
+
+  function bindMoneyInputs(){
+
+    document
+    .querySelectorAll(
+      ".money-input"
+    )
+    .forEach(input => {
+
+      input.addEventListener(
+        "input",
+        function(){
+
+          formatInputNumber(this);
+
+        }
+      );
+
+    });
+
+  }
+
+
+  function renderInputs(){
+
+    document
+    .querySelectorAll(
+      ".calc-tab"
+    )
+    .forEach(btn => {
+
+      btn.classList.toggle(
+        "active",
+        btn.dataset.type === type
+      );
+
+    });
+
+
+    if(type === "sale"){
+
+      inputs.innerHTML = `
+
+      <div class="field-grid">
+
+        <div class="field-group full">
+
+          <label class="field-label">
+          거래금액(매매가)
+          </label>
+
+          <div class="input-money-wrap">
+
+            <input
+            id="price"
+            class="money-input"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="매매가격을 입력하세요"
+            >
+
+            <span class="input-unit">
+            원
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      `;
+
+    }
+
+
+    if(type === "jeonse"){
+
+      inputs.innerHTML = `
+
+      <div class="field-grid">
+
+        <div class="field-group full">
+
+          <label class="field-label">
+          전세보증금
+          </label>
+
+          <div class="input-money-wrap">
+
+            <input
+            id="price"
+            class="money-input"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="전세보증금을 입력하세요"
+            >
+
+            <span class="input-unit">
+            원
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      `;
+
+    }
+
+
+    if(type === "monthly"){
+
+      inputs.innerHTML = `
+
+      <div class="field-grid">
+
+        <div class="field-group">
+
+          <label class="field-label">
+          보증금
+          </label>
+
+          <div class="input-money-wrap">
+
+            <input
+            id="deposit"
+            class="money-input"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="보증금 입력"
+            >
+
+            <span class="input-unit">
+            원
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="field-group">
+
+          <label class="field-label">
+          월세
+          </label>
+
+          <div class="input-money-wrap">
+
+            <input
+            id="monthlyRent"
+            class="money-input"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="월세 입력"
+            >
+
+            <span class="input-unit">
+            원
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      `;
+
+    }
+
+
+    result.innerHTML = `
+
+    <div class="result-empty">
+    거래금액을 입력한 후 비용 확인하기를 눌러주세요.
+    </div>
+
+    `;
+
+
+    bindMoneyInputs();
+
+  }
+    document
+  .querySelectorAll(
+    ".calc-tab"
+  )
+  .forEach(btn => {
+
+    btn.addEventListener(
+      "click",
+      function(){
+
+        type =
+        this.dataset.type;
+
+        renderInputs();
+
+      }
+    );
+
+  });
+
+
+
+  /*
+    내부 계산용 중개보수 기준
+
+    화면에는 요율이나 계산식을
+    표시하지 않습니다.
+  */
+
+  function brokerageBase(
+    value,
+    isSale
+  ){
+
+    let rate = 0;
+    let cap = null;
+
+
+    if(isSale){
+
+      if(value <= 50000000){
+
+        rate = 0.006;
+        cap = 250000;
+
+      }else if(
+        value <= 200000000
+      ){
+
+        rate = 0.005;
+        cap = 800000;
+
+      }else if(
+        value <= 900000000
+      ){
+
+        rate = 0.004;
+
+      }else if(
+        value <= 1200000000
+      ){
+
+        rate = 0.005;
+
+      }else if(
+        value <= 1500000000
+      ){
+
+        rate = 0.006;
+
+      }else{
+
+        rate = 0.007;
+
+      }
+
+    }else{
+
+      if(value <= 50000000){
+
+        rate = 0.005;
+        cap = 200000;
+
+      }else if(
+        value <= 100000000
+      ){
+
+        rate = 0.004;
+        cap = 300000;
+
+      }else if(
+        value <= 600000000
+      ){
+
+        rate = 0.003;
+
+      }else if(
+        value <= 1200000000
+      ){
+
+        rate = 0.004;
+
+      }else if(
+        value <= 1500000000
+      ){
+
+        rate = 0.005;
+
+      }else{
+
+        rate = 0.006;
+
+      }
+
+    }
+
+
+    let fee =
+    value * rate;
+
+
+    if(cap !== null){
+
+      fee =
+      Math.min(
+        fee,
+        cap
+      );
+
+    }
+
+
+    return fee;
+
+  }
+
+
+
+  function money(value){
+
+    return Math.round(
+      value
+    ).toLocaleString() + "원";
+
+  }
+
+
+
+  document
+  .getElementById(
+    "calcBtn"
+  )
+  .addEventListener(
+    "click",
+    function(){
+
+      let transactionValue = 0;
+
+
+      if(type === "monthly"){
+
+        const deposit =
+        numberValue(
+          "deposit"
+        );
+
+        const monthly =
+        numberValue(
+          "monthlyRent"
+        );
+
+
+        if(
+          deposit <= 0 &&
+          monthly <= 0
+        ){
+
+          result.innerHTML = `
+
+          <div class="result-empty">
+          보증금 또는 월세 금액을 입력해 주세요.
+          </div>
+
+          `;
+
+          return;
+
+        }
+
+
+        const first =
+        deposit +
+        (
+          monthly * 100
+        );
+
+
+        transactionValue =
+        first < 50000000
+          ? deposit +
+            (
+              monthly * 70
+            )
+          : first;
+
+      }else{
+
+        transactionValue =
+        numberValue(
+          "price"
+        );
+
+
+        if(
+          transactionValue <= 0
+        ){
+
+          result.innerHTML = `
+
+          <div class="result-empty">
+          거래금액을 입력해 주세요.
+          </div>
+
+          `;
+
+          return;
+
+        }
+
+      }
+
+
+
+      const baseFee =
+      brokerageBase(
+        transactionValue,
+        type === "sale"
+      );
+
+
+      /*
+        부가세 10% 포함
+      */
+
+      const sellerBrokerage =
+      baseFee * 1.1;
+
+
+      /*
+        매수인·임차인 플랫폼 이용료
+
+        기준 중개보수의 50%
+        + 해당 금액의 부가세
+      */
+
+      const buyerPlatformFee =
+      (
+        baseFee * 0.5
+      ) * 1.1;
+            const buyerBrokerage =
+      0;
+
+
+      const sellerPlatformFee =
+      0;
+
+
+      const buyerTotal =
+      buyerBrokerage +
+      buyerPlatformFee;
+
+
+      const sellerTotal =
+      sellerBrokerage +
+      sellerPlatformFee;
+
+
+
+      const buyerName =
+      type === "sale"
+        ? "매수인"
+        : "임차인";
+
+
+      const sellerName =
+      type === "sale"
+        ? "매도인"
+        : "임대인";
+
+
+
+      result.innerHTML = `
+
+      <div class="result-grid">
+
+
+        <div class="result-card buyer">
+
+          <div class="result-head">
+          ${buyerName}
+          </div>
+
+          <div class="result-sub">
+          공인중개사 중개보수 0원
+          </div>
+
+
+          <div class="result-body">
+
+            <div class="result-line">
+
+              <div class="result-label">
+              공인중개사 중개보수
+              </div>
+
+              <div class="result-value">
+              0원
+              </div>
+
+            </div>
+
+
+            <div class="result-line">
+
+              <div class="result-label">
+              플랫폼 이용료
+              </div>
+
+              <div class="result-value main-value">
+              ${money(buyerPlatformFee)}
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="result-total">
+
+            <span>
+            예상 총 비용
+            </span>
+
+            <strong>
+            ${money(buyerTotal)}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="result-card seller">
+
+          <div class="result-head">
+          ${sellerName}
+          </div>
+
+          <div class="result-sub">
+          플랫폼 이용료 0원
+          </div>
+
+
+          <div class="result-body">
+
+            <div class="result-line">
+
+              <div class="result-label">
+              공인중개사 중개보수
+              </div>
+
+              <div class="result-value main-value">
+              ${money(sellerBrokerage)}
+              </div>
+
+            </div>
+
+
+            <div class="result-line">
+
+              <div class="result-label">
+              플랫폼 이용료
+              </div>
+
+              <div class="result-value">
+              0원
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="result-total">
+
+            <span>
+            예상 총 비용
+            </span>
+
+            <strong>
+            ${money(sellerTotal)}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+      `;
+
+    }
+
+  );
+
+
+  renderInputs();
+
+}
+
+</script>
+
+</body>
+</html>
