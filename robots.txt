@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.wooriapt.app/sitemap.xml
+Sitemap: https://www.ansimdeal.com/pages-sitemap.xml
