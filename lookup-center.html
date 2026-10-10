@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>안심딜 - 제안 확인 · 거래 조회 · 서비스 이용료 결제</title>
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --card: #ffffff;
+      --line: #e4e9f2;
+      --text: #0f172a;
+      --sub: #64748b;
+      --brand: #1769ff;
+      --brand-dark: #0f52cc;
+      --accent: #0f766e;
+      --warn: #d97706;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 420px at 50% -180px, #dbeafe 0%, rgba(219, 234, 254, 0) 70%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      backdrop-filter: blur(8px);
+      margin-bottom: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .brand-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--brand), #60a5fa);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: #1e293b;
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .back-btn:hover { background: #f1f5f9; }
+
+    .hero {
+      background: linear-gradient(160deg, #0f172a 0%, #1e293b 65%, #334155 100%);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: rgba(96, 165, 250, 0.2);
+      border: 1px solid rgba(147, 197, 253, 0.45);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 {
+      margin: 0 0 6px;
+      font-size: clamp(20px, 3vw, 25px);
+      line-height: 1.3;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .type-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .type-btn {
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #334155;
+      border-radius: 12px;
+      padding: 11px 6px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    .type-btn.active {
+      border-color: var(--brand);
+      background: #dbeafe;
+      color: #1e40af;
+      box-shadow: 0 4px 12px rgba(23, 105, 255, 0.14);
+    }
+
+    .card-box {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 20px 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .card-box.active { display: block; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .section-badge {
+      font-size: 11px;
+      font-weight: 800;
+      color: #1d4ed8;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 4px 9px;
+      border-radius: 999px;
+    }
+
+    .section-desc {
+      margin: 0 0 14px;
+      font-size: 13px;
+      color: var(--sub);
+      line-height: 1.55;
+    }
+
+    .lookup-bar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .field-input, .field-select, .field-textarea {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 14px;
+      color: var(--text);
+      background: #fff;
+      font-family: inherit;
+    }
+
+    .field-textarea { min-height: 82px; resize: vertical; }
+
+    .btn-primary {
+      border: 1px solid #2563eb;
+      background: #1769ff;
+      color: #ffffff;
+      border-radius: 10px;
+      padding: 11px 16px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover { background: var(--brand-dark); }
+
+    .btn-sub {
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #334155;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .proposal-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .proposal-card {
+      border: 1px solid #dbe4f0;
+      border-radius: 13px;
+      padding: 14px;
+      background: #f8fafc;
+    }
+
+    .proposal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .proposal-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0;
+    }
+
+    .proposal-tag {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+
+    .proposal-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      font-size: 12px;
+      color: #334155;
+      margin-bottom: 10px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 9px;
+      padding: 9px 11px;
+    }
+
+    .proposal-desc {
+      margin: 0 0 10px;
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.5;
+    }
+
+    .proposal-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Timeline steps for status */
+    .status-timeline {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+    }
+
+    .timeline-item.done {
+      border-color: #93c5fd;
+      background: #eff6ff;
+    }
+
+    .timeline-item.current {
+      border-color: #1769ff;
+      background: #dbeafe;
+    }
+
+    .timeline-dot {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: #cbd5e1;
+      color: #334155;
+      font-size: 12px;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .timeline-item.done .timeline-dot {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .timeline-item.current .timeline-dot {
+      background: #1d4ed8;
+      color: #fff;
+    }
+
+    .timeline-body h4 {
+      margin: 0 0 3px;
+      font-size: 14px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .timeline-body p {
+      margin: 0;
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.45;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-group.full { grid-column: 1 / -1; }
+
+    .field-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: #334155;
+    }
+
+    .bank-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      color: #1e3a8a;
+      line-height: 1.6;
+    }
+
+    .footer {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    @media (max-width: 640px) {
+      .type-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .form-grid, .proposal-meta { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <a class="brand" href="previous_ansimdeal.html">
+        <div class="brand-badge">안</div>
+        <span>안심딜</span>
+      </a>
+      <a class="back-btn" href="previous_ansimdeal.html">← 메인 화면으로</a>
+    </header>
+
+    <section class="hero">
+      <div class="hero-tag">우리아파트 안심거래 표준 양식 · 조회 및 결제 센터</div>
+      <h1>제안 확인 · 거래 진행 조회 · 서비스 이용료 결제</h1>
+      <p>발급받은 요청번호(REQ-XXXXXX)로 도착한 상가 매물 제안을 확인하거나 거래 진행 단계 및 서비스 이용료 결제를 진행합니다.</p>
+    </section>
+
+    <div class="type-tabs">
+      <button type="button" class="type-btn active" data-tab="proposal" onclick="switchTab('proposal')">1. 나의 제안 확인</button>
+      <button type="button" class="type-btn" data-tab="status" onclick="switchTab('status')">2. 거래 진행 상황</button>
+      <button type="button" class="type-btn" data-tab="request" onclick="switchTab('request')">3. 요청번호 매물 제안</button>
+      <button type="button" class="type-btn" data-tab="payment" onclick="switchTab('payment')">4. 서비스 이용료 결제</button>
+    </div>
+
+    <!-- 1. 나의 제안 확인하기 -->
+    <section id="panel-proposal" class="card-box active">
+      <div class="section-head">
+        <h2 class="section-title">📩 나의 제안 확인하기 (임차인 전용)</h2>
+        <span class="section-badge">비공개 1:1 매물 제안</span>
+      </div>
+      <p class="section-desc">임차 요청 등록 시 발급받은 요청번호(예: REQ-240901)를 입력하면 검증된 공인중개사가 제안한 상가·점포 매물을 확인할 수 있습니다.</p>
+
+      <div class="lookup-bar">
+        <input type="text" id="proposalCodeInput" class="field-input" placeholder="요청번호 입력 (예: REQ-240901)" value="REQ-240901" />
+        <button type="button" class="btn-primary" onclick="loadProposals()">제안 조회하기</button>
+      </div>
+
+      <div id="proposalResultArea" class="proposal-list">
+        <div class="proposal-card">
+          <div class="proposal-top">
+            <h3 class="proposal-title">[제안 #1] 역삼역 도보 4분 대로변 이면 1층 코너 점포 (전용 18평)</h3>
+            <span class="proposal-tag">🏅 검증된 공인중개사 제안</span>
+          </div>
+          <div class="proposal-meta">
+            <div><strong>조건:</strong> 보증금 3,000만 / 월세 230만 (관리비 15만)</div>
+            <div><strong>권리금:</strong> 무권리 (공실 즉시 입주 가능)</div>
+            <div><strong>건축물 용도:</strong> 제2종 근린생활시설 (일반음식점·카페 가능)</div>
+            <div><strong>담당 중개사:</strong> 강남안심공인중개사사무소 (등록 제11680-2021-00124호)</div>
+          </div>
+          <p class="proposal-desc">
+            정화조 용량 넉넉하며 전면 통유리 폴딩도어 시공 완료된 점포입니다. 가계약 전 관할 구청 영업신고 가능 여부 사전 확인을 위한 건축물대장 사본을 즉시 제공해 드립니다.
+          </p>
+          <div class="proposal-actions">
+            <button type="button" class="btn-primary" onclick="alert('현장 방문(임장) 일정 예약이 요청되었습니다. 담당 공인중개사가 안심번호로 연락드립니다.')">📅 현장 방문(임장) 신청</button>
+            <button type="button" class="btn-sub" onclick="location.href='promise-detail.html?tab=contract'">📑 표준 가계약서 양식 미리보기</button>
+            <button type="button" class="btn-sub" onclick="location.href='tools-center.html?tab=map'">🗺️ 상권분석 말풍선 보기</button>
+          </div>
+        </div>
+
+        <div class="proposal-card">
+          <div class="proposal-top">
+            <h3 class="proposal-title">[제안 #2] 선릉역 오피스 밀집구역 1층 베이커리·카페 추천 상가 (전용 15평)</h3>
+            <span class="proposal-tag">🏅 검증된 공인중개사 제안</span>
+          </div>
+          <div class="proposal-meta">
+            <div><strong>조건:</strong> 보증금 2,500만 / 월세 210만 (관리비 12만)</div>
+            <div><strong>권리금:</strong> 시설권리 협의 (에어컨·주방급배수 완비)</div>
+            <div><strong>건축물 용도:</strong> 제1종·제2종 근린생활시설</div>
+            <div><strong>담당 중개사:</strong> 테헤란로파트너스공인중개사 (등록 제11680-2022-00089호)</div>
+          </div>
+          <p class="proposal-desc">
+            주변 직장인 점심 유동인구가 매우 풍부한 구역입니다. 3상 전기 15kW 승압 완료되어 별도 설비 공사비 부담이 적습니다.
+          </p>
+          <div class="proposal-actions">
+            <button type="button" class="btn-primary" onclick="alert('현장 방문(임장) 일정 예약이 요청되었습니다.')">📅 현장 방문(임장) 신청</button>
+            <button type="button" class="btn-sub" onclick="location.href='promise-detail.html?tab=contract'">📑 표준 가계약서 양식 미리보기</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 거래 진행 상황 확인 -->
+    <section id="panel-status" class="card-box">
+      <div class="section-head">
+        <h2 class="section-title">📊 거래 진행 상황 확인</h2>
+        <span class="section-badge">5단계 진행 현황</span>
+      </div>
+      <p class="section-desc">요청번호(REQ-XXXXXX) 또는 계약번호를 입력하여 현재 상가 거래 진행 단계를 실시간으로 확인합니다.</p>
+
+      <div class="lookup-bar">
+        <input type="text" id="statusCodeInput" class="field-input" placeholder="요청번호 입력 (예: REQ-240901)" value="REQ-240901" />
+        <button type="button" class="btn-primary" onclick="checkStatus()">진행단계 조회</button>
+      </div>
+
+      <div class="status-timeline" id="statusTimelineArea">
+        <div class="timeline-item done">
+          <div class="timeline-dot">✓</div>
+          <div class="timeline-body">
+            <h4>1단계 · 임차 조건 등록 완료</h4>
+            <p>요청번호 REQ-240901 정상 접수 완료 (희망지역: 강남구 역삼동 · 희망업종: 카페/음식점)</p>
+          </div>
+        </div>
+        <div class="timeline-item done">
+          <div class="timeline-dot">✓</div>
+          <div class="timeline-body">
+            <h4>2단계 · 검증된 공인중개사 비공개 매물 제안 (2건 도착)</h4>
+            <p>자격 및 공제보험 가입이 확인된 파트너 공인중개사 2곳에서 조건 맞춤 상가 제안서를 발송했습니다.</p>
+          </div>
+        </div>
+        <div class="timeline-item done">
+          <div class="timeline-dot">✓</div>
+          <div class="timeline-body">
+            <h4>3단계 · 현장 방문(임장) 및 매수자(임차인) 인허가 사전 확인</h4>
+            <p>현장 점검 완료 및 가계약 체결 전 관할 구청 영업 인허가(건축물 용도·정화조·위생교육) 직접 확인 단계입니다.</p>
+          </div>
+        </div>
+        <div class="timeline-item current">
+          <div class="timeline-dot">4</div>
+          <div class="timeline-body">
+            <h4>4단계 · 표준 가계약 체결 진행 중 (현재 단계)</h4>
+            <p>인허가 확인 완료 후 배액배상(매수 포기 시 몰취 / 매도 파기 시 원금반환+동액위약금 총 2배) 및 영업승계금지 특약이 반영된 표준 가계약서를 작성합니다.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">5</div>
+          <div class="timeline-body">
+            <h4>5단계 · 간편 일반 전자계약 및 점포 인도 (요금 정산)</h4>
+            <p>비대면 일반 전자계약 체결 및 잔금·공과금 정산 후 점포 인도를 완료합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 공인중개사 임차요청번호 조회 및 매물 제안 등록 -->
+    <section id="panel-request" class="card-box">
+      <div class="section-head">
+        <h2 class="section-title">🔎 4자리 임차요청번호 조회 및 매물 제안방 이동 (공인중개사 전용)</h2>
+        <span class="section-badge">4자리 코드 조회 · 만능키 5804 지원</span>
+      </div>
+      <p class="section-desc">임차인이 등록한 4자리 임차요청번호(또는 만능키 5804)를 조회하고, 전세·월세 전용 매물 제안방에서 상가·점포 매물을 비공개로 제안합니다.</p>
+
+      <div class="lookup-bar">
+        <input type="text" id="brokerLookupCode" class="field-input" placeholder="4자리 임차요청번호 입력 (만능키: 5804)" value="5804" />
+        <button type="button" class="btn-primary" onclick="lookupRequestForBroker()">요청조건 불러오기</button>
+      </div>
+
+      <div id="brokerRequestSummary" class="bank-box">
+        <strong>[조회된 임차 요청 내역 · #5804 (만능키)]</strong><br />
+        • 희망 거래유형: 상가 월세/전세 임차 (보증금 3,000~5,000만 원 / 월세 250만 원 이하)<br />
+        • 희망 지역 및 면적: 서울 강남구 역삼동·선릉역 인근 / 전용 18평 이상 (1층 선호)<br />
+        • 희망 업종: 일반음식점 · 카페 · 베이커리 (제2종 근린생활시설 필수)<br />
+        • <strong>중개사 주의사항:</strong> ① 상세 번지·상호명 비공개 보호(직거래 원천 차단) ② 점포 사진은 선택 사항(무사진 1분 제안 가능) ③ 건축물대장 용도 및 5대 설비 체크 필수
+      </div>
+
+      <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <button type="button" class="btn-sub" onclick="location.href='broker-agreement.html?code=' + encodeURIComponent(document.getElementById('brokerLookupCode').value.trim() || '5804')">📋 1단계 주의사항 및 약관 동의 화면 보기</button>
+        <button type="button" class="btn-primary" onclick="location.href='broker-property-register.html?requestNumber=' + encodeURIComponent(document.getElementById('brokerLookupCode').value.trim() || '5804')">🚀 4자리 코드 매물 제안방(전세·월세 전용) 바로 입장 →</button>
+      </div>
+    </section>
+
+    <!-- 4. 서비스 이용료 입금확인 및 결제 신청 -->
+    <section id="panel-payment" class="card-box">
+      <div class="section-head">
+        <h2 class="section-title">💳 서비스 이용료 입금확인 및 결제 신청</h2>
+        <span class="section-badge">법정 상한 대비 50% 절감</span>
+      </div>
+      <p class="section-desc">우리아파트 안심거래의 결제 양식과 동일하게, 산출된 서비스 이용료(50% 절감 적용) 입금 확인 및 현금영수증·세금계산서 발행을 신청합니다.</p>
+
+      <div class="bank-box">
+        <strong>[안심딜 서비스 이용료 안내 및 정산 계좌]</strong><br />
+        • 적용 기준: 상가 임대차 환산보증금(보증금 + 월세×100) 법정 상한 요율(최대 0.9%)의 <strong>50% 절감 금액 (0.45%)</strong><br />
+        • 입금 계좌: <strong>우리은행 1005-802-XXXXXX (예금주: 안심딜 파트너스)</strong><br />
+        • 입금자명은 신청자 성함(또는 상호명)과 동일하게 기재해 주시기 바랍니다.
+      </div>
+
+      <form onsubmit="submitFeePayment(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="field-label">요청번호 또는 계약번호</label>
+            <input type="text" id="payReqCode" class="field-input" placeholder="예: 5804 또는 REQ-240901" value="5804" required />
+          </div>
+          <div class="form-group">
+            <label class="field-label">거래 유형</label>
+            <select id="payTradeType" class="field-select">
+              <option value="상가 월세">상가 월세</option>
+              <option value="상가 전세">상가 전세</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="field-label">입금자 성함 (또는 법인·상호명)</label>
+            <input type="text" class="field-input" placeholder="예: 홍길동 (카페안심)" required />
+          </div>
+          <div class="form-group">
+            <label class="field-label">연락처</label>
+            <input type="tel" class="field-input" placeholder="예: 010-1234-5678" required />
+          </div>
+          <div class="form-group">
+            <label class="field-label">결제(입금) 예정 서비스 이용료</label>
+            <input type="text" id="payFeeAmount" class="field-input" placeholder="예: 900,000원 (부가세 별도)" required />
+          </div>
+          <div class="form-group">
+            <label class="field-label">증빙 서류 발급 선택</label>
+            <select class="field-select">
+              <option value="세금계산서(사업자)">전자세금계산서 발급 (사업자 지출증빙)</option>
+              <option value="현금영수증(지출증빙)">현금영수증 발급 (사업자 지출증빙)</option>
+              <option value="현금영수증(소득공제)">현금영수증 발급 (개인 소득공제)</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="field-label">사업자등록번호 또는 현금영수증 번호 (비고)</label>
+            <input type="text" class="field-input" placeholder="사업자등록번호(000-00-00000) 또는 휴대폰 번호 입력" />
+          </div>
+        </div>
+        <div style="margin-top:14px; display:flex; justify-content:flex-end; gap:8px;">
+          <button type="submit" class="btn-primary">✅ 서비스 이용료 입금확인 신청하기</button>
+        </div>
+      </form>
+    </section>
+
+    <footer class="footer">
+      안심딜 · 상가 전월세 안전거래 플랫폼 (우리아파트 안심거래 표준 양식 적용)
+    </footer>
+  </div>
+
+  <script>
+    function switchTab(tabName) {
+      document.querySelectorAll('.type-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.tab === tabName);
+      });
+      document.querySelectorAll('.card-box').forEach((box) => {
+        box.classList.remove('active');
+      });
+      const target = document.getElementById('panel-' + tabName);
+      if (target) target.classList.add('active');
+    }
+
+    function loadProposals() {
+      const code = document.getElementById('proposalCodeInput').value.trim() || '5804';
+      if (code === '5804') {
+        localStorage.setItem('wooriapt_test_key', '5804');
+      }
+      alert('요청번호 [' + code + ']에 도착한 검증된 공인중개사 상가 매물 제안을 불러왔습니다.');
+    }
+
+    function checkStatus() {
+      const code = document.getElementById('statusCodeInput').value.trim() || '5804';
+      if (code === '5804') {
+        localStorage.setItem('wooriapt_test_key', '5804');
+      }
+      alert('요청번호 [' + code + ']의 현재 거래 진행 단계는 [4단계: 표준 가계약 체결]입니다.');
+    }
+
+    function lookupRequestForBroker() {
+      const code = document.getElementById('brokerLookupCode').value.trim() || '5804';
+      if (code === '5804') {
+        localStorage.setItem('wooriapt_test_key', '5804');
+      }
+      document.getElementById('brokerRequestSummary').innerHTML =
+        '<strong>[조회된 임차 요청 내역 · #' + code + ']</strong><br />' +
+        '• 희망 거래유형: 상가 월세/전세 임차 (보증금 3,000~5,000만 원 / 월세 250만 원 이하)<br />' +
+        '• 희망 지역 및 면적: 서울 강남구 역삼동·선릉역 인근 / 전용 18평 이상 (1층 선호)<br />' +
+        '• 희망 업종: 일반음식점 · 카페 · 베이커리 (제2종 근린생활시설 필수)<br />' +
+        '• <strong>중개사 주의사항:</strong> ① 상세 번지·상호명 비공개 보호(직거래 원천 차단) ② 점포 사진은 선택 사항(무사진 1분 제안 가능) ③ 건축물대장 용도 및 5대 설비 체크 필수';
+    }
+
+    function submitBrokerProposal(e) {
+      e.preventDefault();
+      alert('임차인에게 비공개 매물 제안서가 정상 발송되었습니다.');
+    }
+
+    function submitFeePayment(e) {
+      e.preventDefault();
+      alert('서비스 이용료 입금확인 및 증빙서류 발행 신청이 완료되었습니다.');
+    }
+
+    // URL 파라미터에 따른 초기 탭 및 데이터 세팅
+    (function initFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get('tab');
+      const code = params.get('code');
+      const fee = params.get('discountFee');
+      const dealType = params.get('dealType');
+
+      if (tab && ['proposal', 'status', 'request', 'payment'].includes(tab)) {
+        switchTab(tab);
+      }
+      if (code) {
+        ['proposalCodeInput', 'statusCodeInput', 'brokerLookupCode', 'payReqCode'].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) el.value = code;
+        });
+      }
+      if (fee) {
+        const feeEl = document.getElementById('payFeeAmount');
+        if (feeEl) feeEl.value = Number(fee).toLocaleString('ko-KR') + '원 (50% 절감 적용)';
+      }
+      if (dealType) {
+        const typeEl = document.getElementById('payTradeType');
+        if (typeEl) typeEl.value = dealType;
+      }
+    })();
+  </script>
+</body>
+</html>
