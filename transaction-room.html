@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1165d7">
 <title>거래진행실 | 우리아파트 안심거래</title>
-<meta name="description" content="거래진행실 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
 
 <style>
 *{box-sizing:border-box}
@@ -806,11 +805,11 @@ button{
 <header class="header">
 
   <a class="logo" href="/">
-    <span class="logo-mark">🏠</span>
+    <span class="logo-mark">🏢</span>
 
     <span>
-      우리아파트
-      <strong>안심거래</strong>
+      안심딜
+      <strong>상가 안심거래</strong>
     </span>
   </a>
 
@@ -860,10 +859,9 @@ button{
 
 <div class="guide">
 
-  <b>이용 안내</b><br>
-  매수자·매도자·공인중개사는 같은 거래진행실에서
-  진행상황을 확인할 수 있습니다.
-  화면에 표시되는 순서대로 진행해 주세요.
+  <b>이용 안내 및 진행절차</b><br>
+  1. 이 거래진행실은 임차인이 <b>[거래 결정]</b>을 완료하여 <b>전용 4자리 거래방 코드</b>가 문자로 전송된 <b>임차인·임대인·선택된 담당 공인중개사</b>만 입장할 수 있습니다.<br>
+  2. ① 본인확인 및 관련서류(건축물대장 용도·등기부등본) 등록 → ② 플랫폼 이용료 입금확인 → ③ 전자계약서 작성 및 3자 전자서명 순서로 진행해 주세요.
 
 </div>
 
@@ -1451,9 +1449,7 @@ if(isTestRoom){
 
   if(
     !roomCode ||
-    !validRoomCodes.includes(
-      roomCode
-    )
+    roomCode.length !== 4
   ){
 
     alert(
@@ -1467,6 +1463,21 @@ if(isTestRoom){
     );
   }
 
+  if(!validRoomCodes.includes(roomCode)){
+    fetch("/api/trade-decision?code=" + encodeURIComponent(roomCode))
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if(data && data.ok && data.trade){
+          localStorage.setItem("wooriapt_trade", JSON.stringify(data.trade));
+          document.getElementById("tradeNumber").textContent = data.trade.tradeNumber || "-";
+          document.getElementById("propertyName").textContent = data.trade.propertyName || data.trade.apartment || "거래 매물";
+        }else{
+          alert("발급된 거래방 코드를 확인해 주세요.");
+          location.replace("/");
+        }
+      })
+      .catch(function(){});
+  }
 
   localStorage.setItem(
     "wooriapt_trade_room_code",
