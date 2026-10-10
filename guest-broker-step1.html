@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1165d7">
 <title>비회원 공인중개사 1단계 확인 | 우리아파트 안심거래</title>
-<meta name="description" content="비회원 공인중개사 1단계 확인 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
 
 <style>
 *{
@@ -854,6 +853,32 @@ enterBtn.addEventListener(
   "click",
   function(){
 
+    /* ===============================
+       🔑 대표님 만능 마스터키 (5804) 즉시 통과
+    ================================ */
+    if(roomCode.value.trim() === "5804"){
+      localStorage.setItem("wooriapt_test_key", "5804");
+      const masterData = {
+        roomCode: "5804",
+        officeName: officeName.value.trim() || "안심딜 마스터 공인중개사사무소",
+        representative: representative.value.trim() || "관리자(마스터키)",
+        brokerName: brokerName.value.trim() || "관리자(마스터키)",
+        mobile: mobile.value || "01058045804",
+        officePhone: officePhone.value.trim() || "0258045804",
+        registrationNo: registrationNo.value.trim() || "제11680-2026-05804호",
+        businessNo: businessNo.value || "1234567890",
+        address: address.value.trim() || "서울특별시 강남구 테헤란로 152",
+        registrationFileName: "master_registration.pdf",
+        guaranteeFileName: "master_guarantee.pdf",
+        savedAt: new Date().toISOString()
+      };
+      localStorage.setItem("woori_guest_broker_step1", JSON.stringify(masterData));
+      showOk("🔑 만능 마스터키(5804) 인증 완료! 거래방으로 바로 이동합니다.");
+      setTimeout(function(){
+        location.href = "trade-room.html?code=5804";
+      }, 300);
+      return;
+    }
 
     if(roomCode.value.length !== 4){
 
@@ -1095,8 +1120,7 @@ enterBtn.addEventListener(
           아래 한 줄의 경로만 변경하면 됩니다.
         */
 
-        location.href =
-          "/trade-room.html?code=" +
+        location.href="trade-room.html?code=" +
           encodeURIComponent(
             roomCode.value
           );
