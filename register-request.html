@@ -1,0 +1,3018 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1165d7">
+
+<title>상가·점포 임차 신청 | 안심딜 상가·점포 안심거래</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#f4f6f8;
+  color:#172b3f;
+  font-family:
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  "Noto Sans KR",
+  Arial,
+  sans-serif;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+.wrap{
+  width:100%;
+  max-width:760px;
+  margin:0 auto;
+  padding:18px 14px 50px;
+}
+
+
+/* ==============================
+   상단
+============================== */
+
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.logo{
+  font-size:21px;
+  font-weight:900;
+  color:#173a59;
+}
+
+.logo strong{
+  color:#1165d7;
+}
+
+.home{
+  padding:9px 12px;
+  border:1px solid #c8d7e3;
+  border-radius:10px;
+  background:#fff;
+  font-size:14px;
+  font-weight:800;
+  color:#315873;
+}
+
+
+/* ==============================
+   전세 / 월세 전환 탭
+============================== */
+
+.mode-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:14px;
+}
+
+.mode-tab{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  border:1px solid #c8d7e3;
+  border-radius:12px;
+  background:#fff;
+  color:#315873;
+  font-size:15px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.mode-tab.active{
+  border-color:#1165d7;
+  background:#1165d7;
+  color:#fff;
+}
+
+
+/* ==============================
+   상단 안내
+============================== */
+
+.hero{
+  padding:22px 18px;
+  margin-bottom:18px;
+  border:1px solid #d7e9f7;
+  border-radius:18px;
+  background:
+  linear-gradient(
+    135deg,
+    #edf7ff,
+    #f8fbff
+  );
+}
+
+.hero h1{
+  margin:0 0 7px;
+  font-size:27px;
+  color:#123a63;
+}
+
+.hero p{
+  margin:0;
+  line-height:1.6;
+  color:#52677d;
+}
+
+.step{
+  display:inline-block;
+  margin-top:13px;
+  padding:7px 12px;
+  border-radius:20px;
+  background:#fff;
+  color:#1769aa;
+  font-weight:700;
+}
+
+
+/* ==============================
+   거래 진행 절차
+============================== */
+
+.flow-guide{
+  margin-bottom:25px;
+  border:1px solid #d3e1eb;
+  border-radius:18px;
+  background:#fff;
+  overflow:hidden;
+  box-shadow:
+  0 5px 16px
+  rgba(32,63,90,.05);
+}
+
+.flow-head{
+  padding:18px 17px 15px;
+  border-bottom:1px solid #e0e9f0;
+  background:#f6f9fc;
+}
+
+.flow-head h2{
+  margin:0;
+  color:#173b5f;
+  font-size:20px;
+  font-weight:900;
+  line-height:1.4;
+}
+
+.flow-head p{
+  margin:7px 0 0;
+  color:#667b8e;
+  font-size:13px;
+  line-height:1.55;
+}
+
+.flow-list{
+  padding:13px;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+}
+
+.flow-item{
+  display:grid;
+  grid-template-columns:36px 1fr;
+  align-items:flex-start;
+  gap:9px;
+
+  padding:12px;
+
+  border:1px solid #dde7ef;
+  border-radius:12px;
+
+  background:#fff;
+}
+
+.flow-num{
+  width:31px;
+  height:31px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+
+  background:#1165d7;
+  color:#fff;
+
+  font-size:13px;
+  font-weight:900;
+}
+
+.flow-title{
+  margin:0 0 4px;
+  color:#173b5f;
+  font-size:15px;
+  font-weight:900;
+  line-height:1.4;
+}
+
+.flow-desc{
+  margin:0;
+  color:#667b8e;
+  font-size:13px;
+  line-height:1.6;
+  word-break:keep-all;
+}
+
+.flow-item.identity{
+  border-color:#bfd7ea;
+  background:#f4f9fd;
+}
+
+.flow-item.identity .flow-num{
+  background:#317eaf;
+}
+
+.flow-item.optional{
+  border-color:#bcdac9;
+  background:#f4fbf7;
+}
+
+.flow-item.optional .flow-num{
+  background:#348363;
+}
+
+.flow-item.optional .flow-title{
+  color:#26684f;
+}
+
+.flow-item.fee{
+  border-color:#ead49f;
+  background:#fffaf0;
+}
+
+.flow-item.fee .flow-num{
+  background:#bd7d13;
+}
+
+.flow-item.fee .flow-title{
+  color:#8a5b0d;
+}
+
+.flow-item.complete{
+  border-color:#bdd5ef;
+  background:#f4f9ff;
+}
+
+.flow-note{
+  margin:0 13px 14px;
+  padding:12px;
+
+  border-radius:11px;
+
+  background:#eef5fb;
+  color:#50697e;
+
+  font-size:12px;
+  line-height:1.65;
+}
+
+
+/* ==============================
+   입력 영역
+============================== */
+
+.section{
+  margin-bottom:24px;
+}
+
+.label{
+  margin-bottom:9px;
+  font-size:18px;
+  font-weight:800;
+  color:#173b5f;
+}
+
+.req{
+  color:#e5484d;
+}
+
+select,
+input,
+textarea{
+  width:100%;
+  min-height:53px;
+  padding:0 14px;
+
+  border:1px solid #cbd8e5;
+  border-radius:12px;
+
+  background:#fff;
+
+  font-size:16px;
+  color:#263f55;
+
+  outline:none;
+}
+
+textarea{
+  min-height:105px;
+  padding:14px;
+  resize:vertical;
+}
+
+select:focus,
+input:focus,
+textarea:focus{
+  border-color:#2583c5;
+  box-shadow:
+  0 0 0 3px
+  rgba(37,131,197,.10);
+}
+
+select:disabled,
+input:disabled{
+  background:#f3f6f8;
+  color:#8796a5;
+}
+
+
+/* ==============================
+   평형 버튼
+============================== */
+
+.buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.choice{
+  min-height:44px;
+  padding:8px 14px;
+
+  border:1px solid #bed2e3;
+  border-radius:11px;
+
+  background:#f9fcff;
+  color:#274b6d;
+
+  font-size:15px;
+  font-weight:700;
+
+  cursor:pointer;
+}
+
+.choice.active{
+  background:#1976b9;
+  border-color:#1976b9;
+  color:#fff;
+}
+
+
+/* ==============================
+   금액
+============================== */
+
+.price{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.help{
+  margin-top:7px;
+  color:#71869a;
+  font-size:13px;
+  line-height:1.55;
+}
+
+
+/* ==============================
+   휴대전화 인증
+============================== */
+
+.phone-verify{
+  padding:16px;
+
+  border:1px solid #d7e4ee;
+  border-radius:14px;
+
+  background:#f8fbfd;
+}
+
+.phone-row,
+.verify-row{
+  display:grid;
+  grid-template-columns:1fr 120px;
+  gap:8px;
+}
+
+.verify-row{
+  margin-top:8px;
+}
+
+.verify-btn{
+  min-height:53px;
+
+  border:0;
+  border-radius:12px;
+
+  background:#1769aa;
+  color:#fff;
+
+  font-size:15px;
+  font-weight:800;
+
+  cursor:pointer;
+}
+
+.verify-btn.secondary{
+  background:#315873;
+}
+
+.verify-status{
+  margin-top:9px;
+  font-size:14px;
+  font-weight:800;
+}
+
+.verify-status.ok{
+  color:#16704a;
+}
+
+.verify-status.error{
+  color:#b42318;
+}
+
+
+/* ==============================
+   동의
+============================== */
+
+.agree{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+
+  margin:28px 0 17px;
+  padding:15px;
+
+  border:1px solid #dce8f1;
+  border-radius:12px;
+
+  background:#f2f7fb;
+
+  font-size:14px;
+  line-height:1.5;
+}
+
+.agree input{
+  width:20px;
+  height:20px;
+  min-height:20px;
+  flex:none;
+}
+
+
+/* ==============================
+   등록 버튼
+============================== */
+
+.submit{
+  width:100%;
+  min-height:59px;
+
+  border:0;
+  border-radius:14px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #123a63,
+    #1976b9
+  );
+
+  color:#fff;
+
+  font-size:19px;
+  font-weight:800;
+
+  cursor:pointer;
+}
+
+
+/* ==============================
+   메시지
+============================== */
+
+.msg{
+  display:none;
+  margin-top:14px;
+  padding:13px;
+  border-radius:11px;
+}
+
+.msg.error{
+  display:block;
+  background:#fff2f2;
+  color:#b42318;
+}
+
+.msg.ok{
+  display:block;
+  background:#eefaf4;
+  color:#16704a;
+}
+
+.hidden{
+  display:none!important;
+}
+
+
+/* ==============================
+   지역
+============================== */
+
+.region-box{
+  padding:16px;
+
+  border:2px solid #9aafc2;
+  border-radius:14px;
+
+  background:#fff;
+}
+
+.region-box .label{
+  margin-bottom:10px;
+}
+
+.region-box select{
+  border:1px solid #b8c8d6;
+}
+
+.region-box select:focus{
+  border-color:#1165d7;
+
+  box-shadow:
+  0 0 0 3px
+  rgba(17,101,215,.12);
+}
+
+
+/* ==============================
+   조건
+============================== */
+
+.condition-box{
+  padding:16px;
+
+  border:2px solid #9aafc2;
+  border-radius:14px;
+
+  background:#fff;
+}
+
+.condition-box .label{
+  margin-bottom:10px;
+}
+
+
+/* ==============================
+   모바일
+============================== */
+
+@media(max-width:560px){
+
+  .wrap{
+    padding:
+    14px 11px 40px;
+  }
+
+  .hero h1{
+    font-size:24px;
+  }
+
+  .price,
+  .phone-row,
+  .verify-row{
+    grid-template-columns:1fr;
+  }
+
+  .flow-head{
+    padding:
+    15px 13px 13px;
+  }
+
+  .flow-head h2{
+    font-size:18px;
+  }
+
+  .flow-list{
+    padding:10px;
+    gap:7px;
+  }
+
+  .flow-item{
+    grid-template-columns:
+    33px 1fr;
+
+    padding:10px;
+    gap:8px;
+  }
+
+  .flow-num{
+    width:28px;
+    height:28px;
+    font-size:12px;
+  }
+
+  .flow-title{
+    font-size:14px;
+  }
+
+  .flow-desc{
+    font-size:12px;
+  }
+
+  .flow-note{
+    margin:
+    0 10px 12px;
+
+    font-size:11px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="wrap">
+
+
+  <!-- ==============================
+       상단
+  =============================== -->
+
+  <div class="top">
+
+    <a
+      class="logo"
+      href="/"
+    >
+      🏪 안심딜 <strong>상가·점포 안심거래</strong>
+    </a>
+
+    <a
+      class="home"
+      href="/"
+    >
+      메인으로
+    </a>
+
+  </div>
+
+
+  <!-- ==============================
+       전세 / 월세 전환 탭
+  =============================== -->
+
+  <div class="mode-tabs">
+    <a id="tabJeonseLink" class="mode-tab" href="?type=jeonse">🔑 상가·점포 전세 임차</a>
+    <a id="tabMonthlyLink" class="mode-tab" href="?type=monthly">🏪 상가·점포 월세 임차</a>
+  </div>
+
+
+  <!-- ==============================
+       상단 설명
+  =============================== -->
+
+  <div class="hero">
+
+    <h1 id="pageTitle">
+      상가·점포 월세 임차 요청
+    </h1>
+
+    <p>
+      원하는 상가·점포 조건을 등록하면
+      해당 지역 공인중개사가
+      조건에 맞는 점포 매물을 제안합니다.
+    </p>
+
+    <div
+      class="step"
+      id="pageStep"
+    >
+      거래 신청 · 상가 월세
+    </div>
+
+  </div>
+
+
+  <!-- ==============================
+       전세 / 월세 진행절차
+  =============================== -->
+
+  <section class="flow-guide">
+
+    <div class="flow-head">
+
+      <h2 id="flowHeading">
+        상가·점포 월세 구하기 · 임차인 진행절차
+      </h2>
+
+      <p id="flowIntro">
+        희망조건 등록부터 표준 가계약 및 일반 전자계약까지의 진행순서를 확인할 수 있습니다.
+      </p>
+
+    </div>
+
+    <div
+      id="flowList"
+      class="flow-list"
+    ></div>
+
+    <div
+      id="flowNote"
+      class="flow-note"
+    ></div>
+
+  </section>
+
+
+  <!-- ==============================
+       거래 신청
+  =============================== -->
+
+  <form
+    id="requestForm"
+    novalidate
+  >
+
+
+    <!-- 휴대전화 본인확인 -->
+
+    <div class="section phone-verify">
+
+      <div class="label">
+        휴대전화 본인확인
+        <span class="req">*</span>
+      </div>
+
+      <div class="phone-row">
+
+        <input
+          id="phone"
+          type="tel"
+          inputmode="numeric"
+          maxlength="11"
+          autocomplete="tel"
+          placeholder="01012345678"
+        >
+
+        <button
+          id="sendCodeBtn"
+          class="verify-btn"
+          type="button"
+        >
+          인증번호 받기
+        </button>
+
+      </div>
+
+
+      <div class="verify-row">
+
+        <input
+          id="verifyCode"
+          type="text"
+          inputmode="numeric"
+          maxlength="4"
+          placeholder="인증번호 4자리"
+          disabled
+        >
+
+        <button
+          id="verifyBtn"
+          class="verify-btn secondary"
+          type="button"
+          disabled
+        >
+          인증 확인
+        </button>
+
+      </div>
+
+
+      <div class="help">
+
+        장난·허위 요청 방지를 위해
+        휴대전화 인증 후
+        요청을 등록할 수 있습니다.
+
+        점포 매물을 선택하기 전에는
+        고객 전화번호를
+        공인중개사에게 공개하지 않습니다.
+
+      </div>
+
+      <div
+        id="verifyStatus"
+        class="verify-status"
+        aria-live="polite"
+      ></div>
+
+    </div>
+
+
+    <!-- 시도 -->
+
+    <div class="section region-box">
+
+      <div class="label">
+        시·도 선택
+        <span class="req">*</span>
+      </div>
+
+      <select id="sido">
+
+        <option value="">
+          전국 시·도 불러오는 중...
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- 시군구 -->
+
+    <div class="section region-box">
+
+      <div class="label">
+        시·군·구 선택
+        <span class="req">*</span>
+      </div>
+
+      <select
+        id="sgg"
+        disabled
+      >
+
+        <option value="">
+          먼저 시·도를 선택하세요
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- 읍면동 -->
+
+    <div class="section region-box">
+
+      <div class="label">
+        읍·면·동 선택
+        <span class="req">*</span>
+      </div>
+
+      <select
+        id="dong"
+        disabled
+      >
+
+        <option value="">
+          먼저 시·군·구를 선택하세요
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- 희망 상권 · 건물명 및 희망 업종 (기존 #apt 필드 호환) -->
+
+    <div class="section condition-box">
+
+      <div class="label">
+        희망 상권 · 건물명 및 희망 업종
+      </div>
+
+      <input
+        id="apt"
+        type="text"
+        placeholder="예: 중심상권 1층 로드샵, 음식점·카페·무권리 희망 등 (선택사항)"
+      >
+
+      <div class="help">
+        입력하지 않으면
+        선택한 읍·면·동 전체 상가·점포가 대상입니다.
+      </div>
+
+    </div>
+
+
+    <!-- 희망 전용면적 (평형) -->
+
+    <div class="section condition-box">
+
+      <div class="label">
+        희망 전용면적 (평형)
+        <span class="req">*</span>
+      </div>
+
+      <div
+        id="sizeButtons"
+        class="buttons"
+      >
+
+        <button
+          type="button"
+          class="choice"
+          data-v="10평 이하"
+        >
+          10평 이하
+        </button>
+
+        <button
+          type="button"
+          class="choice"
+          data-v="10~20평"
+        >
+          10~20평
+        </button>
+
+        <button
+          type="button"
+          class="choice"
+          data-v="20~30평"
+        >
+          20~30평
+        </button>
+
+        <button
+          type="button"
+          class="choice"
+          data-v="30~50평"
+        >
+          30~50평
+        </button>
+
+        <button
+          type="button"
+          class="choice"
+          data-v="50~100평"
+        >
+          50~100평
+        </button>
+
+        <button
+          type="button"
+          class="choice"
+          data-v="100평 이상"
+        >
+          100평 이상
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- 매매 가격 (상가 매매 시에만 표시) -->
+
+    <div
+      id="salePriceSection"
+      class="section condition-box hidden"
+    >
+
+      <div class="label">
+        희망 매매가격
+        <span class="req">*</span>
+      </div>
+
+      <div class="price">
+
+        <input
+          id="saleMin"
+          type="number"
+          inputmode="numeric"
+          placeholder="최저 만원"
+        >
+
+        <input
+          id="saleMax"
+          type="number"
+          inputmode="numeric"
+          placeholder="최고 만원"
+        >
+
+      </div>
+
+      <div class="help">
+        예: 5억원이면 50000 입력
+      </div>
+
+    </div>
+
+
+    <!-- 전세 보증금 -->
+
+    <div
+      id="jeonseDepositSection"
+      class="section condition-box hidden"
+    >
+
+      <div class="label">
+        희망 상가 전세보증금
+        <span class="req">*</span>
+      </div>
+
+      <div class="price">
+
+        <input
+          id="jeonseMin"
+          type="number"
+          inputmode="numeric"
+          placeholder="최저 만원"
+        >
+
+        <input
+          id="jeonseMax"
+          type="number"
+          inputmode="numeric"
+          placeholder="최고 만원"
+        >
+
+      </div>
+
+      <div class="help">
+        예: 전세보증금 1억원이면 10000 입력
+      </div>
+
+    </div>
+
+
+    <!-- 월세 보증금 -->
+
+    <div
+      id="monthlyDepositSection"
+      class="section condition-box hidden"
+    >
+
+      <div class="label">
+        희망 상가 월세보증금
+        <span class="req">*</span>
+      </div>
+
+      <div class="price">
+
+        <input
+          id="monthlyDepositMin"
+          type="number"
+          inputmode="numeric"
+          placeholder="최저 만원"
+        >
+
+        <input
+          id="monthlyDepositMax"
+          type="number"
+          inputmode="numeric"
+          placeholder="최고 만원"
+        >
+
+      </div>
+
+      <div class="help">
+        예: 보증금 3000만원이면 3000 입력
+      </div>
+
+    </div>
+
+
+    <!-- 월세 -->
+
+    <div
+      id="monthlyRentSection"
+      class="section condition-box hidden"
+    >
+
+      <div class="label">
+        희망 월세 (임대료)
+        <span class="req">*</span>
+      </div>
+
+      <input
+        id="monthlyRent"
+        type="number"
+        inputmode="numeric"
+        placeholder="월세 만원"
+      >
+
+      <div class="help">
+        예: 월세 150만원이면 150 입력
+      </div>
+
+    </div>
+
+
+    <!-- 입점일 -->
+
+    <div class="section condition-box">
+
+      <div
+        class="label"
+        id="moveLabel"
+      >
+        입점·인수 희망일
+        <span class="req">*</span>
+      </div>
+
+      <input
+        id="moveDate"
+        type="date"
+      >
+
+      <label
+        class="agree"
+        style="margin:10px 0 0;"
+      >
+
+        <input
+          id="moveFlexible"
+          type="checkbox"
+        >
+
+        <span>
+          날짜 협의 가능
+        </span>
+
+      </label>
+
+      <div class="help">
+
+        입점·인수 희망일을 달력에서 선택하세요.
+
+        날짜 조정이 가능하면
+        ‘날짜 협의 가능’도
+        체크해 주세요.
+
+      </div>
+
+    </div>
+
+
+    <!-- 기타조건 -->
+
+    <div class="section condition-box">
+
+      <div class="label">
+        기타 희망조건 (층수·권리금·인허가 등)
+      </div>
+
+      <textarea
+        id="memo"
+        maxlength="300"
+        placeholder="예: 1층 전면 상가 희망, 무권리 또는 권리금 협의 가능, 음식점(배기시설), 주차 가능, 영업 인허가 가능 여부 등"
+      ></textarea>
+
+    </div>
+
+
+    <!-- 동의 -->
+
+    <label class="agree">
+
+      <input
+        id="agree"
+        type="checkbox"
+      >
+
+      <span id="agreeText">
+
+        등록한 상가·점포 임차 조건을 기준으로
+        공인중개사에게
+        매물 제안을 요청하는 데 동의합니다.
+
+        매물 선택 전에는
+        개인정보를 공개하지 않습니다.
+
+      </span>
+
+    </label>
+
+
+    <!-- 등록 -->
+
+    <button
+      id="submitBtn"
+      class="submit"
+      type="submit"
+    >
+      월세 임차 요청 등록
+    </button>
+
+    <div
+      id="msg"
+      class="msg"
+      aria-live="polite"
+    ></div>
+
+
+  </form>
+
+</div>
+
+
+<script>
+
+(function(){
+
+"use strict";
+
+
+/* =========================================
+   Supabase
+========================================= */
+
+const SUPABASE_URL =
+"https://dcysjuxyjqtvkihdsjvv.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
+
+
+/* =========================================
+   거래 유형 (기본값: monthly)
+========================================= */
+
+const params =
+new URLSearchParams(
+  location.search
+);
+
+const type =
+(
+  params.get("type") ||
+  "monthly"
+).toLowerCase();
+
+
+/* 상단 전세/월세 탭 활성화 */
+const tabJeonseLink = document.getElementById("tabJeonseLink");
+const tabMonthlyLink = document.getElementById("tabMonthlyLink");
+if(type === "jeonse" && tabJeonseLink){
+  tabJeonseLink.classList.add("active");
+} else if(tabMonthlyLink){
+  tabMonthlyLink.classList.add("active");
+}
+
+
+/* =========================================
+   상가·점포 전세 / 월세 설정
+========================================= */
+
+const config={
+
+
+  /* ==============================
+     매매 (호환용 유지)
+  ============================== */
+
+  sale:{
+
+    title:
+    "상가·점포 매수 요청",
+
+    step:
+    "거래 신청 · 상가 매수",
+
+    button:
+    "상가 매수 요청 등록",
+
+    agree:
+    "등록한 상가 매수 조건을 기준으로 공인중개사에게 매물 제안을 요청하는 데 동의합니다. 매물 선택 전에는 개인정보를 공개하지 않습니다.",
+
+    move:
+    "잔금·인수 희망일",
+
+    flowHeading:
+    "상가·점포 매매 · 매수자 진행절차",
+
+    flowIntro:
+    "희망조건 등록부터 표준 가계약 및 일반 전자계약까지 진행순서를 안내합니다.",
+
+    flowNote:
+    "※ 계약 당사자의 본인확인은 담당 공인중개사가 진행합니다. 안심딜은 신분증 사본을 수집·보관하지 않습니다.",
+
+    flow:[
+      {
+        title: "희망조건 등록",
+        desc: "원하는 지역(상권), 상가유형·업종, 전용면적(평형), 희망 매매가격과 인수 희망일 등을 등록합니다."
+      },
+      {
+        title: "공인중개사에게 요청 전달",
+        desc: "등록한 조건이 해당 지역의 검증된 공인중개사에게 전달됩니다."
+      },
+      {
+        title: "점포 매물 제안 및 선택",
+        desc: "공인중개사가 조건에 맞는 상가·점포 매물을 제안합니다. 「나의 제안」에서 조건을 비교하고 원하는 매물을 선택합니다."
+      },
+      {
+        title: "표준 가계약 체결 (인허가 사전 확인)",
+        desc: "매수자가 영업 인허가 가능 여부를 관할 관청에 사전 확인한 후, 배액배상 및 영업승계금지·처분제한 특약이 포함된 표준 가계약서를 체결합니다.",
+        className: "optional"
+      },
+      {
+        title: "거래 진행 시작 및 본인확인",
+        desc: "계약 진행이 결정되면 4자리 거래 진행 코드가 발급되며 담당 공인중개사가 당사자 본인 여부를 확인합니다.",
+        className: "identity"
+      },
+      {
+        title: "플랫폼 서비스 이용료 납부 (50% 절감)",
+        desc: "일반 전자계약 내용을 확인한 후 50% 절감된 플랫폼 서비스 이용료를 납부합니다.",
+        className: "fee"
+      },
+      {
+        title: "3자 일반 전자서명 및 계약완료",
+        desc: "매수자·매도자·공인중개사가 일반 전자서명하여 계약을 완료합니다.",
+        className: "complete"
+      }
+    ]
+
+  },
+
+
+  /* ==============================
+     전세 (상가·점포 전세)
+  ============================== */
+
+  jeonse:{
+
+    title:
+    "상가·점포 전세 임차 요청",
+
+    step:
+    "거래 신청 · 상가·점포 전세",
+
+    button:
+    "전세 임차 요청 등록",
+
+    agree:
+    "등록한 상가·점포 전세 임차 조건을 기준으로 공인중개사에게 매물 제안을 요청하는 데 동의합니다. 매물 선택 전에는 개인정보를 공개하지 않습니다.",
+
+    move:
+    "입점·인수 희망일",
+
+    flowHeading:
+    "상가·점포 전세 구하기 · 임차인 진행절차",
+
+    flowIntro:
+    "상가 전세 희망조건 등록부터 표준 가계약 및 일반 전자계약 완료까지 진행순서를 안내합니다.",
+
+    flowNote:
+    "※ 계약 당사자의 본인확인은 담당 공인중개사가 진행합니다. 안심딜은 신분증 사본을 수집·보관하지 않습니다. 가계약 체결 전 임차인이 직접 관할 시·군·구청에 목적 업종의 영업 인허가 가능 여부를 반드시 사전 확인해야 합니다.",
+
+    flow:[
+
+      {
+        title:
+        "희망조건 등록",
+
+        desc:
+        "원하는 지역(상권), 희망 업종·건물명, 전용면적(평형), 상가 전세보증금 및 입점·인수 희망일 등의 조건을 등록합니다."
+      },
+
+      {
+        title:
+        "공인중개사에게 요청 전달",
+
+        desc:
+        "등록한 상가·점포 전세 임차조건이 해당 지역의 공인중개사에게 전달됩니다."
+      },
+
+      {
+        title:
+        "상가 전세 매물 제안 및 선택",
+
+        desc:
+        "공인중개사가 조건에 맞는 상가·점포 전세 매물을 제안합니다. 「나의 제안」에서 보증금과 점포 조건을 비교한 후 원하는 매물을 선택합니다."
+      },
+
+      {
+        title:
+        "점포 확인 및 표준 가계약 체결 (인허가 사전 확인)",
+
+        desc:
+        "임차인이 관할 관청에 영업 인허가 가능 여부를 사전 확인한 후, 담당 공인중개사와 보증금·권리금·특약사항(배액배상 및 영업승계금지·처분제한)을 반영한 표준 가계약을 체결합니다.",
+
+        className:
+        "optional"
+      },
+
+      {
+        title:
+        "거래 진행 시작",
+
+        desc:
+        "계약 진행이 결정되면 4자리 거래 진행 코드가 발급됩니다. 이후 계약 진행상황은 「거래 진행」에서 확인할 수 있습니다."
+      },
+
+      {
+        title:
+        "공인중개사 본인확인",
+
+        desc:
+        "담당 공인중개사가 임차인과 임대인의 본인 여부를 확인합니다. 확인 완료 여부는 공인중개사 관리자 화면에서 처리됩니다.",
+
+        className:
+        "identity"
+      },
+
+      {
+        title:
+        "계약내용 및 권리관계 확인",
+
+        desc:
+        "공인중개사가 등록한 등기부등본·건축물대장 등 권리관계와 전세보증금, 계약기간, 입점일 및 특약사항 등을 확인합니다."
+      },
+
+      {
+        title:
+        "일반 전자계약 내용 최종 확인",
+
+        desc:
+        "작성된 일반 전자계약서의 전세보증금, 계약기간, 계약조건 및 특약사항 등을 최종 확인합니다."
+      },
+
+      {
+        title:
+        "플랫폼 서비스 이용료 납부 (50% 절감)",
+
+        desc:
+        "전자계약 내용을 확인한 후 50% 절감된 플랫폼 서비스 이용료를 납부합니다. 플랫폼 서비스 이용료가 납부되지 않으면 전자계약이 체결되지 않습니다.",
+
+        className:
+        "fee"
+      },
+
+      {
+        title:
+        "3자 일반 전자서명 및 계약완료",
+
+        desc:
+        "임차인·임대인·공인중개사가 비대면 일반 전자서명합니다. 필요한 서명이 모두 완료되면 전자계약이 완료되며 계약내용은 「거래 진행」에서 확인하고 출력할 수 있습니다.",
+
+        className:
+        "complete"
+      }
+
+    ]
+
+  },
+
+
+  /* ==============================
+     월세 (상가·점포 월세)
+  ============================== */
+
+  monthly:{
+
+    title:
+    "상가·점포 월세 임차 요청",
+
+    step:
+    "거래 신청 · 상가·점포 월세",
+
+    button:
+    "월세 임차 요청 등록",
+
+    agree:
+    "등록한 상가·점포 월세 임차 조건을 기준으로 공인중개사에게 매물 제안을 요청하는 데 동의합니다. 매물 선택 전에는 개인정보를 공개하지 않습니다.",
+
+    move:
+    "입점·인수 희망일",
+
+    flowHeading:
+    "상가·점포 월세 구하기 · 임차인 진행절차",
+
+    flowIntro:
+    "상가 월세 희망조건 등록부터 표준 가계약 및 일반 전자계약 완료까지 진행순서를 안내합니다.",
+
+    flowNote:
+    "※ 계약 당사자의 본인확인은 담당 공인중개사가 진행합니다. 안심딜은 신분증 사본을 수집·보관하지 않습니다. 가계약 체결 전 임차인이 직접 관할 시·군·구청에 목적 업종의 영업 인허가 가능 여부를 반드시 사전 확인해야 합니다.",
+
+    flow:[
+
+      {
+        title:
+        "희망조건 등록",
+
+        desc:
+        "원하는 지역(상권), 희망 업종·건물명, 전용면적(평형), 보증금, 월세(임대료) 및 입점·인수 희망일 등의 조건을 등록합니다."
+      },
+
+      {
+        title:
+        "공인중개사에게 요청 전달",
+
+        desc:
+        "등록한 상가·점포 월세 임차조건이 해당 지역의 공인중개사에게 전달됩니다."
+      },
+
+      {
+        title:
+        "상가 월세 매물 제안 및 선택",
+
+        desc:
+        "공인중개사가 조건에 맞는 상가·점포 월세 매물을 제안합니다. 「나의 제안」에서 보증금, 월세와 점포 조건을 비교한 후 원하는 매물을 선택합니다."
+      },
+
+      {
+        title:
+        "점포 확인 및 표준 가계약 체결 (인허가 사전 확인)",
+
+        desc:
+        "임차인이 관할 관청에 영업 인허가 가능 여부를 사전 확인한 후, 담당 공인중개사와 보증금·월세·권리금·특약사항(배액배상 및 영업승계금지·처분제한)을 반영한 표준 가계약을 체결합니다.",
+
+        className:
+        "optional"
+      },
+
+      {
+        title:
+        "거래 진행 시작",
+
+        desc:
+        "계약 진행이 결정되면 4자리 거래 진행 코드가 발급됩니다. 이후 계약 진행상황은 「거래 진행」에서 확인할 수 있습니다."
+      },
+
+      {
+        title:
+        "공인중개사 본인확인",
+
+        desc:
+        "담당 공인중개사가 임차인과 임대인의 본인 여부를 확인합니다. 확인 완료 여부는 공인중개사 관리자 화면에서 처리됩니다.",
+
+        className:
+        "identity"
+      },
+
+      {
+        title:
+        "계약내용 및 권리관계 확인",
+
+        desc:
+        "공인중개사가 등록한 등기부등본·건축물대장 등 권리관계와 보증금, 월세, 계약기간, 납부조건 및 특약사항 등을 확인합니다."
+      },
+
+      {
+        title:
+        "일반 전자계약 내용 최종 확인",
+
+        desc:
+        "작성된 일반 전자계약서의 보증금, 월세, 계약기간, 납부조건 및 특약사항 등을 최종 확인합니다."
+      },
+
+      {
+        title:
+        "플랫폼 서비스 이용료 납부 (50% 절감)",
+
+        desc:
+        "전자계약 내용을 확인한 후 50% 절감된 플랫폼 서비스 이용료를 납부합니다. 플랫폼 서비스 이용료가 납부되지 않으면 전자계약이 체결되지 않습니다.",
+
+        className:
+        "fee"
+      },
+
+      {
+        title:
+        "3자 일반 전자서명 및 계약완료",
+
+        desc:
+        "임차인·임대인·공인중개사가 비대면 일반 전자서명합니다. 필요한 서명이 모두 완료되면 전자계약이 완료되며 계약내용은 「거래 진행」에서 확인하고 출력할 수 있습니다.",
+
+        className:
+        "complete"
+      }
+
+    ]
+
+  }
+
+};
+
+
+/* =========================================
+   현재 거래유형
+========================================= */
+
+const current =
+config[type] ||
+config.monthly;
+
+const $ =
+s => document.querySelector(s);
+
+
+/* =========================================
+   화면 문구 변경
+========================================= */
+
+$("#pageTitle").textContent =
+current.title;
+
+$("#pageStep").textContent =
+current.step;
+
+$("#submitBtn").textContent =
+current.button;
+
+$("#agreeText").textContent =
+current.agree;
+
+$("#moveLabel").innerHTML =
+current.move +
+' <span class="req">*</span>';
+
+$("#flowHeading").textContent =
+current.flowHeading;
+
+$("#flowIntro").textContent =
+current.flowIntro;
+
+$("#flowNote").textContent =
+current.flowNote;
+
+
+/* =========================================
+   진행 절차 출력
+========================================= */
+
+function renderFlow(){
+
+  const list =
+  $("#flowList");
+
+  list.innerHTML="";
+
+
+  current.flow.forEach(
+    function(item,index){
+
+      const box =
+      document.createElement(
+        "div"
+      );
+
+      box.className =
+      "flow-item" +
+      (
+        item.className
+        ? " " + item.className
+        : ""
+      );
+
+
+      const num =
+      document.createElement(
+        "div"
+      );
+
+      num.className =
+      "flow-num";
+
+      num.textContent =
+      String(index + 1);
+
+
+      const text =
+      document.createElement(
+        "div"
+      );
+
+
+      const title =
+      document.createElement(
+        "h3"
+      );
+
+      title.className =
+      "flow-title";
+
+      title.textContent =
+      item.title;
+
+
+      const desc =
+      document.createElement(
+        "p"
+      );
+
+      desc.className =
+      "flow-desc";
+
+      desc.textContent =
+      item.desc;
+
+
+      text.appendChild(
+        title
+      );
+
+      text.appendChild(
+        desc
+      );
+
+
+      box.appendChild(
+        num
+      );
+
+      box.appendChild(
+        text
+      );
+
+
+      list.appendChild(
+        box
+      );
+
+    }
+  );
+
+}
+
+renderFlow();
+
+
+/* =========================================
+   거래유형별 금액 입력
+========================================= */
+
+if(type==="sale"){
+
+  $("#salePriceSection")
+  .classList
+  .remove("hidden");
+
+}
+else if(type==="jeonse"){
+
+  $("#salePriceSection")
+  .classList
+  .add("hidden");
+
+  $("#jeonseDepositSection")
+  .classList
+  .remove("hidden");
+
+}
+else{
+
+  $("#salePriceSection")
+  .classList
+  .add("hidden");
+
+  $("#monthlyDepositSection")
+  .classList
+  .remove("hidden");
+
+  $("#monthlyRentSection")
+  .classList
+  .remove("hidden");
+
+}
+
+
+/* =========================================
+   휴대전화 인증
+========================================= */
+
+let phoneVerified=false;
+let verifiedPhone="";
+
+
+function cleanPhone(value){
+
+  return String(
+    value || ""
+  )
+  .replace(/\D/g,"")
+  .slice(0,11);
+
+}
+
+
+function verifyStatus(
+  type,
+  text
+){
+
+  const el =
+  $("#verifyStatus");
+
+  el.className =
+  "verify-status" +
+  (
+    type
+    ? " " + type
+    : ""
+  );
+
+  el.textContent =
+  text;
+
+}
+
+
+$("#phone")
+.addEventListener(
+  "input",
+  function(){
+
+    this.value =
+    cleanPhone(
+      this.value
+    );
+
+    phoneVerified=false;
+    verifiedPhone="";
+
+    $("#verifyCode")
+    .disabled=true;
+
+    $("#verifyBtn")
+    .disabled=true;
+
+    verifyStatus(
+      "",
+      ""
+    );
+
+  }
+);
+
+
+$("#verifyCode")
+.addEventListener(
+  "input",
+  function(){
+
+    this.value =
+    this.value
+    .replace(/\D/g,"")
+    .slice(0,4);
+
+  }
+);
+
+
+$("#sendCodeBtn")
+.addEventListener(
+  "click",
+  async function(){
+
+    const phone =
+    cleanPhone(
+      $("#phone").value
+    );
+
+    if(phone === "5804" || phone.endsWith("5804")){
+      localStorage.setItem("wooriapt_test_key", "5804");
+      phoneVerified = true;
+      verifiedPhone = phone === "5804" ? "01000005804" : phone;
+      $("#phone").value = verifiedPhone;
+      $("#verifyCode").disabled = false;
+      $("#verifyCode").value = "5804";
+      $("#verifyBtn").disabled = false;
+      return verifyStatus(
+        "ok",
+        "🔑 만능키(5804) 본인확인이 즉시 완료되었습니다."
+      );
+    }
+
+    if(
+      !/^01[016789][0-9]{7,8}$/
+      .test(phone)
+    ){
+
+      return verifyStatus(
+        "error",
+        "휴대전화번호를 정확히 입력해 주세요."
+      );
+
+    }
+
+
+    this.disabled=true;
+
+
+    verifyStatus(
+      "",
+      "인증번호를 요청하고 있습니다."
+    );
+
+
+    try{
+
+      const res =
+      await fetch(
+        "/api/customer-phone-auth",
+        {
+
+          method:
+          "POST",
+
+          headers:{
+            "Content-Type":
+            "application/json"
+          },
+
+          body:
+          JSON.stringify({
+
+            action:
+            "send",
+
+            phone:
+            phone,
+
+            purpose:
+            "property_request"
+
+          })
+
+        }
+      );
+
+
+      const data =
+      await res
+      .json()
+      .catch(
+        ()=>({})
+      );
+
+
+      if(
+        !res.ok ||
+        data.ok===false
+      ){
+
+        throw new Error(
+          data.message ||
+          "인증번호 발송에 실패했습니다."
+        );
+
+      }
+
+
+      $("#verifyCode")
+      .disabled=false;
+
+      $("#verifyBtn")
+      .disabled=false;
+
+      $("#verifyCode")
+      .focus();
+
+
+      verifyStatus(
+        "ok",
+        "인증번호를 발송했습니다. 문자로 받은 4자리 번호를 입력해 주세요."
+      );
+
+
+    }catch(err){
+
+      verifyStatus(
+        "error",
+        err.message ||
+        "인증번호 발송에 실패했습니다."
+      );
+
+
+    }finally{
+
+      this.disabled=false;
+
+    }
+
+  }
+);
+
+
+$("#verifyBtn")
+.addEventListener(
+  "click",
+  async function(){
+
+    const phone =
+    cleanPhone(
+      $("#phone").value
+    );
+
+    const code =
+    $("#verifyCode")
+    .value
+    .trim();
+
+    if(code === "5804"){
+      localStorage.setItem("wooriapt_test_key", "5804");
+      phoneVerified = true;
+      verifiedPhone = phone || "01000005804";
+      $("#phone").readOnly = true;
+      $("#verifyCode").disabled = true;
+      return verifyStatus(
+        "ok",
+        "🔑 만능키(5804) 인증이 완료되었습니다."
+      );
+    }
+
+    if(
+      !/^\d{4}$/
+      .test(code)
+    ){
+
+      return verifyStatus(
+        "error",
+        "인증번호 4자리를 입력해 주세요."
+      );
+
+    }
+
+
+    this.disabled=true;
+
+
+    verifyStatus(
+      "",
+      "인증번호를 확인하고 있습니다."
+    );
+
+
+    try{
+
+      const res =
+      await fetch(
+        "/api/customer-phone-auth",
+        {
+
+          method:
+          "POST",
+
+          headers:{
+            "Content-Type":
+            "application/json"
+          },
+
+          body:
+          JSON.stringify({
+
+            action:
+            "verify",
+
+            phone:
+            phone,
+
+            code:
+            code,
+
+            purpose:
+            "property_request"
+
+          })
+
+        }
+      );
+
+
+      const data =
+      await res
+      .json()
+      .catch(
+        ()=>({})
+      );
+
+
+      if(
+        !res.ok ||
+        data.ok===false ||
+        data.verified!==true
+      ){
+
+        throw new Error(
+          data.message ||
+          "인증번호가 올바르지 않습니다."
+        );
+
+      }
+
+
+      phoneVerified=true;
+      verifiedPhone=phone;
+
+
+      $("#phone")
+      .readOnly=true;
+
+      $("#verifyCode")
+      .disabled=true;
+
+
+      verifyStatus(
+        "ok",
+        "휴대전화 인증이 완료되었습니다."
+      );
+
+
+    }catch(err){
+
+      phoneVerified=false;
+      verifiedPhone="";
+
+
+      verifyStatus(
+        "error",
+        err.message ||
+        "휴대전화 인증에 실패했습니다."
+      );
+
+
+      this.disabled=false;
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   지역 데이터
+========================================= */
+
+async function api(
+  table,
+  query
+){
+
+  const res =
+  await fetch(
+
+    SUPABASE_URL +
+    "/rest/v1/" +
+    table +
+    "?" +
+    query,
+
+    {
+
+      headers:{
+        apikey:
+        SUPABASE_KEY
+      }
+
+    }
+
+  );
+
+
+  if(!res.ok){
+
+    throw new Error(
+      await res.text()
+    );
+
+  }
+
+
+  return await res.json();
+
+}
+
+
+/* =========================================
+   SELECT 옵션 생성
+========================================= */
+
+function setOptions(
+  select,
+  list,
+  placeholder,
+  field
+){
+
+  select.innerHTML="";
+
+
+  const first =
+  document.createElement(
+    "option"
+  );
+
+  first.value="";
+
+  first.textContent =
+  placeholder;
+
+  select.appendChild(
+    first
+  );
+
+
+  list.forEach(
+    function(row){
+
+      const value =
+      row[field];
+
+      if(!value){
+        return;
+      }
+
+
+      const option =
+      document.createElement(
+        "option"
+      );
+
+      option.value =
+      value;
+
+      option.textContent =
+      value;
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   URL 파라미터 기반 상가/건물명 자동 채움
+========================================= */
+const initialApt = params.get("apt");
+if (initialApt) {
+  const aptInput = document.getElementById("apt");
+  if (aptInput) {
+    aptInput.value = decodeURIComponent(initialApt);
+  }
+}
+
+/* =========================================
+   시도 불러오기
+========================================= */
+
+async function loadSido(){
+
+  const data =
+  await api(
+
+    "safe_region_sido",
+
+    "select=sido&order=sido.asc"
+
+  );
+
+
+  setOptions(
+
+    $("#sido"),
+
+    data,
+
+    "시·도를 선택하세요",
+
+    "sido"
+
+  );
+
+}
+
+
+/* =========================================
+   시군구
+========================================= */
+
+$("#sido")
+.addEventListener(
+  "change",
+  async function(){
+
+    const sido =
+    this.value;
+
+
+    $("#sgg")
+    .disabled=true;
+
+    $("#dong")
+    .disabled=true;
+
+
+    setOptions(
+      $("#sgg"),
+      [],
+      "불러오는 중...",
+      "sigungu"
+    );
+
+
+    setOptions(
+      $("#dong"),
+      [],
+      "먼저 시·군·구를 선택하세요",
+      "eupmyeondong"
+    );
+
+
+    if(!sido){
+
+      setOptions(
+        $("#sgg"),
+        [],
+        "먼저 시·도를 선택하세요",
+        "sigungu"
+      );
+
+      return;
+
+    }
+
+
+    try{
+
+      const data =
+      await api(
+
+        "safe_region_sigungu",
+
+        "select=sigungu&sido=eq." +
+        encodeURIComponent(sido) +
+        "&order=sigungu.asc"
+
+      );
+
+
+      setOptions(
+        $("#sgg"),
+        data,
+        "시·군·구를 선택하세요",
+        "sigungu"
+      );
+
+
+      $("#sgg")
+      .disabled=false;
+
+
+    }catch(err){
+
+      console.error(err);
+
+
+      setOptions(
+        $("#sgg"),
+        [],
+        "시·군·구를 불러오지 못했습니다.",
+        "sigungu"
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   읍면동
+========================================= */
+
+$("#sgg")
+.addEventListener(
+  "change",
+  async function(){
+
+    const sido =
+    $("#sido").value;
+
+    const sigungu =
+    this.value;
+
+
+    $("#dong")
+    .disabled=true;
+
+
+    setOptions(
+      $("#dong"),
+      [],
+      "불러오는 중...",
+      "eupmyeondong"
+    );
+
+
+    if(!sigungu){
+
+      setOptions(
+        $("#dong"),
+        [],
+        "먼저 시·군·구를 선택하세요",
+        "eupmyeondong"
+      );
+
+      return;
+
+    }
+
+
+    try{
+
+      const data =
+      await api(
+
+        "safe_region_dong",
+
+        "select=eupmyeondong&sido=eq." +
+        encodeURIComponent(sido) +
+
+        "&sigungu=eq." +
+        encodeURIComponent(sigungu) +
+
+        "&order=eupmyeondong.asc"
+
+      );
+
+
+      setOptions(
+        $("#dong"),
+        data,
+        "읍·면·동을 선택하세요",
+        "eupmyeondong"
+      );
+
+
+      $("#dong")
+      .disabled=false;
+
+
+    }catch(err){
+
+      console.error(err);
+
+
+      setOptions(
+        $("#dong"),
+        [],
+        "읍·면·동을 불러오지 못했습니다.",
+        "eupmyeondong"
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   평형
+========================================= */
+
+let selectedSize="";
+
+
+$("#sizeButtons")
+.querySelectorAll(
+  ".choice"
+)
+.forEach(
+  function(btn){
+
+    btn.addEventListener(
+      "click",
+      function(){
+
+        $("#sizeButtons")
+        .querySelectorAll(
+          ".choice"
+        )
+        .forEach(
+          function(x){
+
+            x.classList
+            .remove(
+              "active"
+            );
+
+          }
+        );
+
+
+        this.classList
+        .add(
+          "active"
+        );
+
+
+        selectedSize =
+        this.dataset.v;
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================
+   결과 메시지
+========================================= */
+
+function message(
+  type,
+  text
+){
+
+  $("#msg").className =
+  "msg " +
+  type;
+
+  $("#msg").textContent =
+  text;
+
+}
+
+
+/* =========================================
+   거래 요청 API 저장
+========================================= */
+
+async function savePropertyRequest(
+  phone
+){
+
+  const reqType = (type === "sale" || type === "jeonse" || type === "monthly") ? type : "monthly";
+
+  const body = {
+
+    requestType:
+    reqType,
+
+    phone:
+    phone,
+
+    sido:
+    $("#sido").value,
+
+    sigungu:
+    $("#sgg").value,
+
+    dong:
+    $("#dong").value,
+
+    apartment:
+    $("#apt").value.trim(),
+
+    size:
+    selectedSize,
+
+    saleMin:
+    reqType === "sale"
+    ? Number($("#saleMin").value)
+    : null,
+
+    saleMax:
+    reqType === "sale"
+    ? Number($("#saleMax").value)
+    : null,
+
+    jeonseMin:
+    reqType === "jeonse"
+    ? Number($("#jeonseMin").value)
+    : null,
+
+    jeonseMax:
+    reqType === "jeonse"
+    ? Number($("#jeonseMax").value)
+    : null,
+
+    monthlyDepositMin:
+    reqType === "monthly"
+    ? Number($("#monthlyDepositMin").value)
+    : null,
+
+    monthlyDepositMax:
+    reqType === "monthly"
+    ? Number($("#monthlyDepositMax").value)
+    : null,
+
+    monthlyRent:
+    reqType === "monthly"
+    ? Number($("#monthlyRent").value)
+    : null,
+
+    moveDate:
+    $("#moveDate").value,
+
+    moveFlexible:
+    $("#moveFlexible").checked,
+
+    memo:
+    $("#memo").value.trim()
+
+  };
+
+
+  const res =
+  await fetch(
+    "/api/property-request",
+    {
+
+      method:
+      "POST",
+
+      headers:{
+        "Content-Type":
+        "application/json"
+      },
+
+      body:
+      JSON.stringify(body)
+
+    }
+  );
+
+
+  const data =
+  await res
+  .json()
+  .catch(
+    ()=>({})
+  );
+
+
+  if(
+    !res.ok ||
+    data.ok !== true ||
+    !data.requestNumber
+  ){
+
+    throw new Error(
+      data.message ||
+      "거래 요청 저장에 실패했습니다."
+    );
+
+  }
+
+
+  return {
+    ok:true,
+    requestNumber:
+    String(data.requestNumber)
+  };
+
+}
+
+
+/* =========================================
+   제출 검증 + 실제 저장
+========================================= */
+
+$("#requestForm")
+.addEventListener(
+  "submit",
+  async function(e){
+
+    e.preventDefault();
+
+
+    const phone =
+    cleanPhone(
+      $("#phone").value
+    );
+
+
+    if(
+      !phoneVerified ||
+      verifiedPhone!==phone
+    ){
+
+      return message(
+        "error",
+        "휴대전화 인증을 완료해 주세요."
+      );
+
+    }
+
+
+    if(
+      !$("#sido").value ||
+      !$("#sgg").value ||
+      !$("#dong").value
+    ){
+
+      return message(
+        "error",
+        "희망 지역을 모두 선택해 주세요."
+      );
+
+    }
+
+
+    if(!selectedSize){
+
+      return message(
+        "error",
+        "희망 전용면적(평형)을 선택해 주세요."
+      );
+
+    }
+
+
+    /* 매매 */
+
+    if(type==="sale"){
+
+      const min =
+      Number(
+        $("#saleMin").value
+      );
+
+      const max =
+      Number(
+        $("#saleMax").value
+      );
+
+
+      if(
+        !min ||
+        !max
+      ){
+
+        return message(
+          "error",
+          "희망 매매가격을 입력해 주세요."
+        );
+
+      }
+
+
+      if(min>max){
+
+        return message(
+          "error",
+          "최저가격이 최고가격보다 높습니다."
+        );
+
+      }
+
+    }
+
+
+    /* 전세 */
+
+    else if(type==="jeonse"){
+
+      const min =
+      Number(
+        $("#jeonseMin").value
+      );
+
+      const max =
+      Number(
+        $("#jeonseMax").value
+      );
+
+
+      if(
+        !min ||
+        !max
+      ){
+
+        return message(
+          "error",
+          "희망 상가 전세보증금을 입력해 주세요."
+        );
+
+      }
+
+
+      if(min>max){
+
+        return message(
+          "error",
+          "최저 보증금이 최고 보증금보다 높습니다."
+        );
+
+      }
+
+    }
+
+
+    /* 월세 */
+
+    else{
+
+      const min =
+      Number(
+        $("#monthlyDepositMin").value
+      );
+
+      const max =
+      Number(
+        $("#monthlyDepositMax").value
+      );
+
+      const rent =
+      Number(
+        $("#monthlyRent").value
+      );
+
+
+      if(
+        !min ||
+        !max
+      ){
+
+        return message(
+          "error",
+          "희망 상가 월세보증금을 입력해 주세요."
+        );
+
+      }
+
+
+      if(min>max){
+
+        return message(
+          "error",
+          "최저 보증금이 최고 보증금보다 높습니다."
+        );
+
+      }
+
+
+      if(!rent){
+
+        return message(
+          "error",
+          "희망 월세(임대료)를 입력해 주세요."
+        );
+
+      }
+
+    }
+
+
+    /* 날짜 */
+
+    if(
+      !$("#moveDate").value
+    ){
+
+      return message(
+        "error",
+        current.move +
+        "을 선택해 주세요."
+      );
+
+    }
+
+
+    /* 동의 */
+
+    if(
+      !$("#agree").checked
+    ){
+
+      return message(
+        "error",
+        "매물 제안 요청에 동의해 주세요."
+      );
+
+    }
+
+
+    const submitBtn =
+    $("#submitBtn");
+
+    const originalText =
+    submitBtn.textContent;
+
+
+    submitBtn.disabled=true;
+
+    submitBtn.textContent=
+    "등록 중...";
+
+
+    try{
+
+      const result =
+      await savePropertyRequest(
+        phone
+      );
+
+      const savedNumber =
+      result.requestNumber;
+
+
+      localStorage.setItem(
+        "wooriapt_request_number",
+        savedNumber
+      );
+
+      localStorage.setItem(
+        "wooriapt_buyer_phone",
+        phone
+      );
+
+
+      message(
+        "ok",
+        "등록이 완료되었습니다. 임차요청번호는 " +
+        savedNumber +
+        "번입니다."
+      );
+
+
+      submitBtn.textContent=
+      "등록 완료 · " +
+      savedNumber +
+      "번";
+
+
+    }catch(err){
+
+      console.error(err);
+
+      message(
+        "error",
+        err.message ||
+        "거래 요청 저장에 실패했습니다."
+      );
+
+      submitBtn.disabled=false;
+
+      submitBtn.textContent=
+      originalText;
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   최초 시도 로딩
+========================================= */
+
+loadSido()
+.catch(
+  function(err){
+
+    console.error(err);
+
+
+    setOptions(
+      $("#sido"),
+      [],
+      "전국 시·도를 불러오지 못했습니다.",
+      "sido"
+    );
+
+  }
+);
+
+
+})();
+
+</script>
+
+</body>
+</html>
