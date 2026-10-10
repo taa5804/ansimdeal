@@ -545,7 +545,7 @@ button, input {
   box-shadow: 0 5px 18px rgba(15,23,42,.04);
 }
 
-.fee-head h1, .fee-head h2 {
+.fee-head h1 {
   margin: 0;
   font-size: 27px;
   color: #173f67;
@@ -1214,7 +1214,7 @@ button, input {
   <div class="title">상가·점포 서비스 이용료 50% 절감 계산기</div>
   <div class="fee-widget">
     <div class="fee-head">
-      <h2>서비스 이용료 계산</h2>
+      <h1>서비스 이용료 계산</h1>
       <p>상가 월세 및 전세 계약 시 절감되는 예상 서비스 이용료를 확인해 보세요.</p>
       <div class="type-tabs">
         <button class="type-btn active" id="tabMonthly" onclick="switchCalcTab('monthly')">상가 월세</button>
@@ -1462,7 +1462,8 @@ button, input {
       }
       if(code === "5804"){
         localStorage.setItem("wooriapt_test_key", "5804");
-        location.href = "broker-agreement.html?code=" + encodeURIComponent(code);
+        localStorage.setItem("wooriapt_trade_room_code", "5804");
+        location.href = "transaction-room.html?code=5804&test=5804";
         return;
       }
       localStorage.setItem("wooriapt_trade_room_code", code);
@@ -1492,6 +1493,28 @@ button, input {
         requestNumberInput.focus();
         return;
       }
+      if(requestNumber === "5804"){
+        localStorage.setItem("wooriapt_test_key", "5804");
+        requestResultGrid.innerHTML = "";
+        const masterItems = [
+          ["요청번호", "5804 (🔑 만능키 전체 확인 모드)"],
+          ["거래유형", "상가·점포 전세 및 월세 (제안방에서 전환 가능)"],
+          ["희망지역", "경기 평택시 청북읍 (전국 상권 테스트)"],
+          ["희망상권/업종", "1층 로드샵 · 카페/베이커리/일반음식점"],
+          ["희망면적", "10~30평"],
+          ["희망조건", "보증금 2,000~5,000만 / 월세 200만 (전세 1~2억)"],
+          ["입점희망일", "즉시 또는 날짜 협의 가능"],
+          ["기타조건", "무권리 선호, 제2종 근생 영업 인허가 가능 건축물"]
+        ];
+        masterItems.forEach(function(pair){
+          const div = document.createElement("div");
+          div.innerHTML = "<b>" + pair[0] + " : </b><span>" + pair[1] + "</span>";
+          requestResultGrid.appendChild(div);
+        });
+        currentRequestNumber = "5804";
+        requestResult.style.display = "block";
+        return;
+      }
       requestNumberBtn.disabled = true;
       try{
         const response = await fetch("/api/property-request-lookup?requestNumber=" + encodeURIComponent(requestNumber), {
@@ -1503,14 +1526,16 @@ button, input {
           throw new Error(data && data.message ? data.message : "임차요청번호를 확인해 주세요.");
         }
         const req = data.request;
+        const rNum = req.requestNumber || req.request_number || requestNumber;
+        const rType = req.requestType || req.request_type || "monthly";
         requestResultGrid.innerHTML = "";
         const items = [
-          ["요청번호", req.request_number],
-          ["거래유형", req.request_type === "jeonse" ? "상가 전세" : req.request_type === "monthly" ? "상가 월세" : "상가 매매"],
+          ["요청번호", rNum],
+          ["거래유형", rType === "jeonse" ? "상가 전세" : rType === "monthly" ? "상가 월세" : "상가 매매"],
           ["희망지역", [req.sido, req.sigungu, req.dong].filter(Boolean).join(" ")],
           ["희망상권/업종", req.apartment || "미지정"],
           ["희망면적", req.size || "-"],
-          ["입점희망일", req.move_date || "-"],
+          ["입점희망일", req.moveDate || req.move_date || "-"],
           ["기타조건", req.memo || "없음"]
         ];
         items.forEach(function(pair){
@@ -1518,7 +1543,7 @@ button, input {
           div.innerHTML = "<b>" + pair[0] + " : </b><span>" + (pair[1] || "-") + "</span>";
           requestResultGrid.appendChild(div);
         });
-        currentRequestNumber = String(req.request_number || "");
+        currentRequestNumber = String(rNum);
         requestResult.style.display = "block";
       }catch(error){
         requestResult.style.display = "none";
