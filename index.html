@@ -1109,6 +1109,9 @@ button, input {
           <input id="transactionCode" type="text" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="4자리 거래방 코드">
           <button id="transactionBtn" type="button">확인</button>
         </div>
+        <p class="return-access-help" style="margin:8px 0 0; font-size:11px; color:#64748b; line-height:1.5;">
+          임차인이 <b>[거래 결정]</b> 시 선택된 담당 중개사와 거래 당사자에게만 문자로 전송된 <b>전용 4자리 거래방 코드</b>를 입력하세요.
+        </p>
       </div>
     </div>
   </div>
@@ -1453,7 +1456,7 @@ button, input {
     transactionCode.addEventListener("input", function(){
       this.value = normalizeAccessValue(this.value).slice(0,4);
     });
-    transactionBtn.addEventListener("click", function(){
+    transactionBtn.addEventListener("click", async function(){
       const code = normalizeAccessValue(transactionCode.value);
       if(code.length !== 4){
         alert("4자리 거래방 코드를 입력해 주세요.");
@@ -1466,6 +1469,32 @@ button, input {
         location.href = "transaction-room.html?code=5804&test=5804";
         return;
       }
+
+      let issuedCodes = [];
+      try{
+        const trade = JSON.parse(localStorage.getItem("wooriapt_trade") || "null");
+        if(trade){
+          issuedCodes = [trade.tradeRoomCode, trade.buyerCode, trade.sellerCode].filter(Boolean).map(String);
+        }
+      }catch(e){}
+
+      if(!issuedCodes.includes(code)){
+        try{
+          const res = await fetch("/api/trade-decision?code=" + encodeURIComponent(code));
+          const data = await res.json().catch(function(){ return null; });
+          if(res.ok && data && data.ok && data.trade){
+            localStorage.setItem("wooriapt_trade", JSON.stringify(data.trade));
+            issuedCodes.push(String(data.trade.tradeRoomCode || code));
+          }
+        }catch(err){}
+      }
+
+      if(!issuedCodes.includes(code)){
+        alert("발급된 거래방 코드를 확인해 주세요. (임차인이 [거래 결정] 시 문자로 전송된 4자리 거래방 코드만 입장 가능합니다.)");
+        transactionCode.focus();
+        return;
+      }
+
       localStorage.setItem("wooriapt_trade_room_code", code);
       location.href = "transaction-room.html?code=" + encodeURIComponent(code);
     });
