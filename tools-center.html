@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#1165d7">
+
+  <title>[안심딜] 상권분석 지도 말풍선 & 전기·가스·수도 자동 정산기</title>
+
+  <style>
+/* =========================================
+   공통 (우리아파트 안심거래 / 안심딜 원본 스타일 100% 동일)
+========================================= */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; min-height: 100%; overflow-x: hidden; }
+body {
+  background: #f4f6f8;
+  color: #172b3d;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Arial, sans-serif;
+  line-height: 1.6;
+}
+a { color: inherit; text-decoration: none; }
+button, input, select { font: inherit; }
+
+.wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 20px 50px;
+}
+
+.header {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid #e1e8ee;
+  margin-bottom: 24px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 17px;
+  font-weight: 800;
+  color: #173f67;
+}
+.logo-mark { font-size: 28px; }
+.logo strong { display: block; color: #1165d7; font-size: 19px; }
+
+.back-btn-deal {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 11px;
+  background: #1165d7;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  border: 0;
+}
+
+.hero {
+  width: 100%;
+  padding: 36px 32px;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #f5faff 0%, #eef6ff 48%, rgba(238,246,255,1) 58%), #eef6ff;
+  border: 1px solid #dce9f5;
+  margin-bottom: 24px;
+}
+.hero-text h1 {
+  margin: 0;
+  color: #172b3d;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+.hero-text h1 em { color: #1165d7; font-style: normal; }
+.hero-text p { margin: 8px 0 0; color: #607485; font-size: 15px; font-weight: 600; }
+
+.type-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.type-btn {
+  height: 54px;
+  border: 1px solid #cbd9e5;
+  border-radius: 12px;
+  background: #fff;
+  color: #314b61;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+}
+.type-btn.active {
+  border-color: #1165d7;
+  background: #1165d7;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(17,101,215,0.20);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.card-box {
+  background: #fff;
+  border: 1px solid #dce6ef;
+  border-radius: 18px;
+  padding: 28px 24px;
+  box-shadow: 0 5px 18px rgba(31,65,92,.05);
+  margin-bottom: 24px;
+}
+
+/* =========================================
+   1. 상권분석 지도 말풍선 UI
+========================================= */
+.map-search-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.map-search-bar input {
+  flex: 1;
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid #cbd9e5;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.map-search-bar button {
+  padding: 0 22px;
+  border-radius: 10px;
+  border: 0;
+  background: #1165d7;
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.map-board {
+  position: relative;
+  width: 100%;
+  height: 440px;
+  border-radius: 16px;
+  border: 1px solid #cbd9e5;
+  background:
+    linear-gradient(rgba(226, 232, 240, 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(226, 232, 240, 0.5) 1px, transparent 1px),
+    radial-gradient(circle at 30% 40%, #e0f2fe 0%, #f1f5f9 65%);
+  background-size: 36px 36px, 36px 36px, 100% 100%;
+  overflow: hidden;
+}
+
+/* 도로 표현 */
+.road-h {
+  position: absolute;
+  top: 48%;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: #ffffff;
+  border-top: 2px solid #cbd5e1;
+  border-bottom: 2px solid #cbd5e1;
+}
+.road-v {
+  position: absolute;
+  left: 45%;
+  top: 0;
+  bottom: 0;
+  width: 28px;
+  background: #ffffff;
+  border-left: 2px solid #cbd5e1;
+  border-right: 2px solid #cbd5e1;
+}
+
+/* 지도 위 말풍선 (Speech Bubble) */
+.map-bubble {
+  position: absolute;
+  background: #fff;
+  border: 2px solid #1165d7;
+  border-radius: 14px;
+  padding: 10px 14px;
+  box-shadow: 0 8px 20px rgba(15,23,42,0.14);
+  cursor: pointer;
+  transition: transform .15s ease;
+  min-width: 185px;
+  z-index: 10;
+}
+.map-bubble:hover, .map-bubble.selected {
+  transform: translateY(-4px) scale(1.03);
+  background: #1165d7;
+  color: #fff;
+  z-index: 20;
+}
+.map-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -9px;
+  left: 26px;
+  border-width: 9px 8px 0;
+  border-style: solid;
+  border-color: #1165d7 transparent;
+}
+.map-bubble .b-badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: #eef6ff;
+  color: #1165d7;
+  font-size: 11px;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+.map-bubble:hover .b-badge, .map-bubble.selected .b-badge {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+.map-bubble strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 900;
+}
+.map-bubble span {
+  display: block;
+  font-size: 11.5px;
+  opacity: 0.9;
+  margin-top: 2px;
+}
+
+.bubble-detail-bar {
+  margin-top: 16px;
+  padding: 20px;
+  border-radius: 14px;
+  background: #f2f7ff;
+  border: 1px solid #bfd5ea;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  text-align: center;
+}
+.stat-item span { display: block; font-size: 12px; color: #53697b; font-weight: 700; }
+.stat-item strong { display: block; margin-top: 4px; font-size: 20px; color: #1165d7; font-weight: 900; }
+
+/* =========================================
+   2. 전기·가스·수도 자동 정산기 UI
+========================================= */
+.meter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.meter-card {
+  border: 1px solid #dce6ee;
+  border-radius: 16px;
+  padding: 20px 18px;
+  background: #fcfdfe;
+}
+.meter-card h3 {
+  margin: 0 0 14px;
+  color: #173f67;
+  font-size: 17px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #eef4f8;
+}
+.input-group { margin-bottom: 12px; }
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #314b61;
+}
+.money-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.money-box input {
+  width: 100%;
+  height: 44px;
+  padding: 0 11px;
+  border: 1px solid #cbd9e5;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight: 800;
+  text-align: right;
+}
+.unit { flex: 0 0 auto; font-size: 12.5px; font-weight: 800; color: #53697b; }
+
+.calc-btn {
+  width: 100%;
+  height: 54px;
+  margin-top: 18px;
+  border: 0;
+  border-radius: 11px;
+  background: #1165d7;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.settlement-sheet {
+  margin-top: 22px;
+  padding: 24px;
+  border: 2px solid #173f67;
+  border-radius: 16px;
+  background: #fff;
+}
+.settlement-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 13.5px;
+}
+.settlement-table th, .settlement-table td {
+  border: 1px solid #cbd9e5;
+  padding: 10px 12px;
+  text-align: center;
+}
+.settlement-table th { background: #f1f6fa; color: #173f67; font-weight: 800; }
+
+.footer {
+  margin-top: 40px;
+  padding: 22px 0;
+  border-top: 1px solid #dce5ed;
+  text-align: center;
+  color: #80909c;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+@media(max-width: 850px) {
+  .meter-grid, .bubble-detail-bar { grid-template-columns: 1fr; }
+}
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="header">
+    <a href="previous_ansimdeal.html" class="logo">
+      <span class="logo-mark">🏪</span>
+      <div>
+        <strong>안심딜 (ansimdeal)</strong>
+        <span>상가 · 점포 안심거래</span>
+      </div>
+    </a>
+    <a href="previous_ansimdeal.html" class="back-btn-deal">← 메인화면으로 돌아가기</a>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1>상가·점포 <em>상권분석 지도 & 공과금 자동 정산기</em></h1>
+      <p>지도 위 말풍선으로 상권 매출·임대 시세를 확인하고, 잔금일 계량기 검침으로 공과금을 1초 만에 정산하세요.</p>
+    </div>
+  </section>
+
+  <!-- 2대 기능 전환 탭 -->
+  <div class="type-tabs">
+    <button class="type-btn active" id="tabBtnMap" onclick="switchTool('map')">🗺️ 상권분석 지도 말풍선</button>
+    <button class="type-btn" id="tabBtnUtility" onclick="switchTool('utility')">⚡ 전기·가스·수도 요금 자동 정산기</button>
+  </div>
+
+  <!-- ========================================================
+       탭 1: 상권분석 지도 말풍선
+       ======================================================== -->
+  <div id="panel-map" class="tab-panel active">
+    <div class="card-box">
+      <div class="map-search-bar">
+        <input type="text" id="districtQuery" value="서울 마포구 홍대입구역·연남동 상권" placeholder="조회할 역세권 또는 상권명을 입력하세요 (예: 홍대입구역, 강남역, 성수동)">
+        <button onclick="alert('해당 상권의 실시간 매출 및 시세 말풍선 데이터를 불러왔습니다.')">상권 조회</button>
+      </div>
+
+      <!-- 지도 및 말풍선 보드 -->
+      <div class="map-board">
+        <div class="road-h"></div>
+        <div class="road-v"></div>
+
+        <!-- 말풍선 1 -->
+        <div class="map-bubble selected" style="top: 14%; left: 12%;" onclick="selectBubble(this, '홍대 메인 걷고싶은거리 1층', '48,200명/일', '4,650만 원', '보 5,000 / 월 380만', '권리금 평균 6,500만')">
+          <span class="b-badge">🔥 핵심 A급 로드샵</span>
+          <strong>홍대 걷고싶은거리 1층</strong>
+          <span>월평균 매출 4,650만 · 유동 4.8만명</span>
+          <span>시세: 보 5,000 / 월 380만</span>
+        </div>
+
+        <!-- 말풍선 2 -->
+        <div class="map-bubble" style="top: 22%; left: 56%;" onclick="selectBubble(this, '연남동 경의선숲길 카페거리', '31,500명/일', '3,280만 원', '보 3,000 / 월 240만', '권리금 평균 4,200만')">
+          <span class="b-badge">☕ 카페·음식점 강세</span>
+          <strong>연남동 숲길 카페거리</strong>
+          <span>월평균 매출 3,280만 · 유동 3.1만명</span>
+          <span>시세: 보 3,000 / 월 240만</span>
+        </div>
+
+        <!-- 말풍선 3 -->
+        <div class="map-bubble" style="top: 60%; left: 18%;" onclick="selectBubble(this, '합정·서교동 오피스 골목상권', '22,400명/일', '2,590만 원', '보 2,000 / 월 165만', '권리금 평균 2,500만')">
+          <span class="b-badge">🍲 직장인 점심·주점</span>
+          <strong>서교동 먹자골목 1층</strong>
+          <span>월평균 매출 2,590만 · 유동 2.2만명</span>
+          <span>시세: 보 2,000 / 월 165만</span>
+        </div>
+
+        <!-- 말풍선 4 -->
+        <div class="map-bubble" style="top: 62%; left: 58%;" onclick="selectBubble(this, '동교동 역세권 대로변 2층', '39,100명/일', '2,950만 원', '보 3,000 / 월 190만', '무권리 또는 1,500만')">
+          <span class="b-badge">💇 뷰티·미용·학원 추천</span>
+          <strong>홍대입구역 대로변 2층</strong>
+          <span>월평균 매출 2,950만 · 유동 3.9만명</span>
+          <span>시세: 보 3,000 / 월 190만</span>
+        </div>
+      </div>
+
+      <!-- 말풍선 클릭 시 하단 요약 지표 -->
+      <div class="bubble-detail-bar">
+        <div class="stat-item">
+          <span>선택 구역 일평균 유동인구</span>
+          <strong id="statPop">48,200명/일</strong>
+        </div>
+        <div class="stat-item">
+          <span>업종 월평균 추정매출</span>
+          <strong id="statSales">4,650만 원</strong>
+        </div>
+        <div class="stat-item">
+          <span>1층(15평 기준) 평균 임대료</span>
+          <strong id="statRent">보 5,000 / 월 380만</strong>
+        </div>
+        <div class="stat-item">
+          <span>구역 평균 권리금 시세</span>
+          <strong id="statPremium">평균 6,500만</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       탭 2: 전기·가스·수도 요금 자동 정산기
+       ======================================================== -->
+  <div id="panel-utility" class="tab-panel">
+    <div class="card-box">
+      <div style="margin-bottom:18px;">
+        <h2 style="margin:0; color:#173f67; font-size:22px; font-weight:900;">⚡ 잔금일 전기 · 가스 · 수도 계량기 일할 자동 정산기</h2>
+        <p style="margin:6px 0 0; color:#607485; font-size:13.5px;">
+          상가 양도양수(입주/퇴실) 당일 계량기 숫자를 입력하면 이전 점주(양도인)가 부담해야 할 공과금 정산액이 자동 계산됩니다.
+        </p>
+      </div>
+
+      <!-- 정산 기준일 설정 -->
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-bottom:18px; padding:14px 16px; background:#f8fbff; border:1px solid #d9e5ef; border-radius:12px;">
+        <div class="input-group" style="margin:0;">
+          <label>전월 정기검침일</label>
+          <div class="money-box"><input type="number" id="prevDay" value="1" min="1" max="31"><span class="unit">일</span></div>
+        </div>
+        <div class="input-group" style="margin:0;">
+          <label>당월 잔금(인도)일 — 사용일수</label>
+          <div class="money-box"><input type="number" id="usedDays" value="15" min="1" max="31"><span class="unit">일간 사용</span></div>
+        </div>
+        <div class="input-group" style="margin:0;">
+          <label>한전 계약전력 (상가 기본)</label>
+          <div class="money-box"><input type="number" id="contractKw" value="5" min="1" max="100"><span class="unit">kW</span></div>
+        </div>
+      </div>
+
+      <!-- 3대 계량기 입력 -->
+      <div class="meter-grid">
+        <!-- 1. 전기 -->
+        <div class="meter-card">
+          <h3>⚡ 전기 계량기 (일반용)</h3>
+          <div class="input-group">
+            <label>전월 검침 지침 (kWh)</label>
+            <div class="money-box"><input type="number" id="elecPrev" value="12400"><span class="unit">kWh</span></div>
+          </div>
+          <div class="input-group">
+            <label>잔금일 현재 지침 (kWh)</label>
+            <div class="money-box"><input type="number" id="elecCurr" value="12850"><span class="unit">kWh</span></div>
+          </div>
+          <div class="input-group" style="margin-bottom:0;">
+            <label>적용 단가 (1kWh당 평균)</label>
+            <div class="money-box"><input type="number" id="elecRate" value="155"><span class="unit">원</span></div>
+          </div>
+        </div>
+
+        <!-- 2. 도시가스 -->
+        <div class="meter-card">
+          <h3>🔥 도시가스 계량기 (영업용)</h3>
+          <div class="input-group">
+            <label>전월 검침 지침 (㎥)</label>
+            <div class="money-box"><input type="number" id="gasPrev" value="3210"><span class="unit">㎥</span></div>
+          </div>
+          <div class="input-group">
+            <label>잔금일 현재 지침 (㎥)</label>
+            <div class="money-box"><input type="number" id="gasCurr" value="3295"><span class="unit">㎥</span></div>
+          </div>
+          <div class="input-group" style="margin-bottom:0;">
+            <label>적용 단가 (1㎥당 평균)</label>
+            <div class="money-box"><input type="number" id="gasRate" value="1120"><span class="unit">원</span></div>
+          </div>
+        </div>
+
+        <!-- 3. 상하수도 -->
+        <div class="meter-card">
+          <h3>💧 수도 계량기 (영업용)</h3>
+          <div class="input-group">
+            <label>전월 검침 지침 (톤/㎥)</label>
+            <div class="money-box"><input type="number" id="waterPrev" value="840"><span class="unit">㎥</span></div>
+          </div>
+          <div class="input-group">
+            <label>잔금일 현재 지침 (톤/㎥)</label>
+            <div class="money-box"><input type="number" id="waterCurr" value="868"><span class="unit">㎥</span></div>
+          </div>
+          <div class="input-group" style="margin-bottom:0;">
+            <label>적용 단가 (상하수도 합산)</label>
+            <div class="money-box"><input type="number" id="waterRate" value="1650"><span class="unit">원</span></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calcUtilities()">⚡ 전기 · 가스 · 수도 일할 정산금 자동 계산하기</button>
+
+      <!-- 정산 결과 시트 -->
+      <div class="settlement-sheet" id="settlementResult">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <h3 style="margin:0; color:#173f67; font-size:18px; font-weight:900;">📋 상가 공과금 일할 정산 내역서 (양도인 부담분)</h3>
+          <div style="display:flex; gap:8px;">
+            <button onclick="copySettlement()" style="padding:8px 14px; border-radius:8px; border:1px solid #cbd9e5; background:#fff; font-size:12.5px; font-weight:800; cursor:pointer;">📋 문자 발송용 복사</button>
+            <button onclick="window.print()" style="padding:8px 14px; border-radius:8px; border:0; background:#1165d7; color:#fff; font-size:12.5px; font-weight:800; cursor:pointer;">🖨️ 정산서 인쇄</button>
+          </div>
+        </div>
+
+        <table class="settlement-table">
+          <tr>
+            <th>항목</th>
+            <th>전월 지침</th>
+            <th>당일 지침</th>
+            <th>당월 사용량</th>
+            <th>일할 기본료 + 사용료 (VAT 포함)</th>
+          </tr>
+          <tr>
+            <th>⚡ 전기 요금</th>
+            <td id="resElecPrev">12,400</td>
+            <td id="resElecCurr">12,850</td>
+            <td id="resElecUse" style="font-weight:800;">450 kWh</td>
+            <td id="resElecCost" style="font-weight:900; color:#1165d7;">100,190원</td>
+          </tr>
+          <tr>
+            <th>🔥 도시가스 요금</th>
+            <td id="resGasPrev">3,210</td>
+            <td id="resGasCurr">3,295</td>
+            <td id="resGasUse" style="font-weight:800;">85 ㎥</td>
+            <td id="resGasCost" style="font-weight:900; color:#1165d7;">105,820원</td>
+          </tr>
+          <tr>
+            <th>💧 상하수도 요금</th>
+            <td id="resWaterPrev">840</td>
+            <td id="resWaterCurr">868</td>
+            <td id="resWaterUse" style="font-weight:800;">28 ㎥(톤)</td>
+            <td id="resWaterCost" style="font-weight:900; color:#1165d7;">48,700원</td>
+          </tr>
+          <tr style="background:#f2f7ff;">
+            <th colspan="4" style="font-size:15px; color:#173f67;">잔금일 양도인(이전 점주) 정산 총 합계액</th>
+            <td id="resTotalCost" style="font-size:19px; font-weight:950; color:#1165d7;">254,710원</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p><strong>안심딜 (ansimdeal)</strong> | 상가·점포 전월세 안심거래 플랫폼</p>
+    <p>© 2026 AnsimDeal. All rights reserved.</p>
+  </footer>
+</div>
+
+<script>
+  function switchTool(tab) {
+    document.getElementById('tabBtnMap').classList.toggle('active', tab === 'map');
+    document.getElementById('tabBtnUtility').classList.toggle('active', tab === 'utility');
+    document.getElementById('panel-map').classList.toggle('active', tab === 'map');
+    document.getElementById('panel-utility').classList.toggle('active', tab === 'utility');
+  }
+
+  function selectBubble(el, name, pop, sales, rent, premium) {
+    document.querySelectorAll('.map-bubble').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('statPop').textContent = pop;
+    document.getElementById('statSales').textContent = sales;
+    document.getElementById('statRent').textContent = rent;
+    document.getElementById('statPremium').textContent = premium;
+  }
+
+  function calcUtilities() {
+    const usedDays = Math.max(1, Number(document.getElementById('usedDays').value) || 15);
+    const kw = Math.max(1, Number(document.getElementById('contractKw').value) || 5);
+
+    const ePrev = Number(document.getElementById('elecPrev').value) || 0;
+    const eCurr = Number(document.getElementById('elecCurr').value) || 0;
+    const eRate = Number(document.getElementById('elecRate').value) || 155;
+    const eUse = Math.max(0, eCurr - ePrev);
+    // 한전 일반용 기본요금(약 6,160원/kW) 일할계산 + 전력량요금 + 부가세/기금(13.7%)
+    const eBase = Math.round((kw * 6160) * (usedDays / 30));
+    const eCost = Math.round((eBase + (eUse * eRate)) * 1.137);
+
+    const gPrev = Number(document.getElementById('gasPrev').value) || 0;
+    const gCurr = Number(document.getElementById('gasCurr').value) || 0;
+    const gRate = Number(document.getElementById('gasRate').value) || 1120;
+    const gUse = Math.max(0, gCurr - gPrev);
+    const gCost = Math.round(((gUse * gRate) + 1000) * 1.1);
+
+    const wPrev = Number(document.getElementById('waterPrev').value) || 0;
+    const wCurr = Number(document.getElementById('waterCurr').value) || 0;
+    const wRate = Number(document.getElementById('waterRate').value) || 1650;
+    const wUse = Math.max(0, wCurr - wPrev);
+    const wCost = Math.round((wUse * wRate) + (2500 * (usedDays / 30)));
+
+    const total = eCost + gCost + wCost;
+
+    document.getElementById('resElecPrev').textContent = ePrev.toLocaleString('ko-KR');
+    document.getElementById('resElecCurr').textContent = eCurr.toLocaleString('ko-KR');
+    document.getElementById('resElecUse').textContent = eUse.toLocaleString('ko-KR') + ' kWh';
+    document.getElementById('resElecCost').textContent = eCost.toLocaleString('ko-KR') + '원';
+
+    document.getElementById('resGasPrev').textContent = gPrev.toLocaleString('ko-KR');
+    document.getElementById('resGasCurr').textContent = gCurr.toLocaleString('ko-KR');
+    document.getElementById('resGasUse').textContent = gUse.toLocaleString('ko-KR') + ' ㎥';
+    document.getElementById('resGasCost').textContent = gCost.toLocaleString('ko-KR') + '원';
+
+    document.getElementById('resWaterPrev').textContent = wPrev.toLocaleString('ko-KR');
+    document.getElementById('resWaterCurr').textContent = wCurr.toLocaleString('ko-KR');
+    document.getElementById('resWaterUse').textContent = wUse.toLocaleString('ko-KR') + ' ㎥(톤)';
+    document.getElementById('resWaterCost').textContent = wCost.toLocaleString('ko-KR') + '원';
+
+    document.getElementById('resTotalCost').textContent = total.toLocaleString('ko-KR') + '원';
+  }
+
+  function copySettlement() {
+    const text = `[안심딜 상가 공과금 일할 정산 내역]\n` +
+      `• 전기: ${document.getElementById('resElecUse').textContent} ➔ ${document.getElementById('resElecCost').textContent}\n` +
+      `• 도시가스: ${document.getElementById('resGasUse').textContent} ➔ ${document.getElementById('resGasCost').textContent}\n` +
+      `• 상하수도: ${document.getElementById('resWaterUse').textContent} ➔ ${document.getElementById('resWaterCost').textContent}\n` +
+      `▶ 정산 합계액: ${document.getElementById('resTotalCost').textContent}`;
+    navigator.clipboard.writeText(text).then(() => {
+      alert('✅ 공과금 정산 내역이 클립보드에 복사되었습니다!\n문자나 카카오톡에 바로 붙여넣어 전송하실 수 있습니다.');
+    });
+  }
+
+  window.addEventListener('load', function() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('tab') === 'utility') {
+      switchTool('utility');
+    } else {
+      switchTool('map');
+    }
+    calcUtilities();
+  });
+</script>
+
+</body>
+</html>
