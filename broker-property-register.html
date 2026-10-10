@@ -4,24 +4,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1165d7">
-<title>공인중개사 매물 제안방 | 안심딜 상가·점포 안심거래</title>
+
+<title>매물 등록 | 안심딜 상가 안심거래</title>
+<meta name="description" content="매물 등록 | 안심딜 상가 안심거래 - 상가·점포 전세·월세 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
 
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;min-height:100%}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
 body{
   background:#f4f6f8;
   color:#172b3d;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,
+  "Segoe UI","Noto Sans KR",Arial,sans-serif;
 }
-a{color:inherit;text-decoration:none}
-button,input,select,textarea{font:inherit}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
 
 .wrap{
   width:100%;
-  max-width:780px;
+  max-width:720px;
   margin:0 auto;
-  padding:16px 14px 60px;
+  padding:14px 12px 50px;
 }
 
 .header{
@@ -31,22 +43,23 @@ button,input,select,textarea{font:inherit}
   gap:10px;
   margin-bottom:16px;
 }
+
 .brand{
-  display:flex;
-  align-items:center;
-  gap:8px;
   color:#173a59;
   font-size:19px;
   font-weight:900;
 }
-.brand strong{color:#1165d7}
-.header-btns{display:flex;gap:8px}
+
+.brand strong{
+  color:#1165d7;
+}
+
 .back{
-  padding:8px 12px;
+  padding:8px 11px;
   border:1px solid #d4dfe7;
   border-radius:10px;
   background:#fff;
-  color:#365873;
+  color:#476377;
   font-size:13px;
   font-weight:800;
 }
@@ -55,15 +68,14 @@ button,input,select,textarea{font:inherit}
   background:#fff;
   border:1px solid #dce5ec;
   border-radius:18px;
-  padding:22px 18px;
+  padding:22px 16px;
   box-shadow:0 6px 18px rgba(26,61,88,.06);
-  margin-bottom:16px;
 }
 
 .badge{
   display:inline-block;
-  margin-bottom:8px;
-  padding:5px 11px;
+  margin-bottom:9px;
+  padding:5px 10px;
   border-radius:999px;
   background:#eaf4ff;
   color:#1165d7;
@@ -72,227 +84,41 @@ button,input,select,textarea{font:inherit}
 }
 
 h1{
-  margin:0 0 8px;
+  margin:0 0 7px;
   color:#143b61;
-  font-size:26px;
-  line-height:1.35;
+  font-size:27px;
 }
+
 .desc{
-  margin:0 0 18px;
-  color:#5c7285;
+  margin:0 0 20px;
+  color:#697e8e;
   font-size:14px;
-  line-height:1.6;
+  line-height:1.65;
 }
 
-/* 주의사항 박스 */
-.caution-box{
+.notice{
   margin-bottom:20px;
-  padding:16px;
-  border-radius:14px;
-  background:#fff9eb;
-  border:1px solid #f5d896;
-}
-.caution-title{
-  margin:0 0 10px;
-  color:#92400e;
-  font-size:15px;
-  font-weight:900;
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
-.caution-list{
-  margin:0;
-  padding:0;
-  list-style:none;
-  display:grid;
-  gap:8px;
-}
-.caution-list li{
-  padding:10px 12px;
-  background:#fff;
-  border:1px solid #f7e4b5;
-  border-radius:10px;
-  font-size:13px;
-  line-height:1.55;
-  color:#334155;
-}
-.caution-list li strong{
-  color:#b45309;
-}
-
-/* 4자리 코드 조회 박스 */
-.code-lookup-box{
-  padding:18px;
-  border:2px solid #1165d7;
-  border-radius:15px;
-  background:#f4f9ff;
-  margin-bottom:18px;
-}
-.code-lookup-label{
-  display:block;
-  margin-bottom:8px;
-  color:#143b61;
-  font-size:15px;
-  font-weight:900;
-}
-.code-row{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:8px;
-}
-.code-input{
-  height:52px;
-  padding:0 16px;
-  border:1px solid #9ec2f3;
+  padding:13px;
   border-radius:11px;
-  background:#fff;
-  font-size:20px;
-  font-weight:900;
-  letter-spacing:4px;
-  color:#1165d7;
-  outline:none;
-}
-.code-btn{
-  height:52px;
-  padding:0 18px;
-  border:0;
-  border-radius:11px;
-  background:#1165d7;
-  color:#fff;
-  font-size:14px;
-  font-weight:900;
-  cursor:pointer;
-}
-.code-help{
-  margin-top:8px;
+  background:#f4f9fd;
+  color:#36566e;
   font-size:12px;
-  color:#4b6780;
-  line-height:1.5;
-}
-
-/* 조회된 임차인 희망조건 요약 */
-.req-summary{
-  display:none;
-  margin-top:14px;
-  padding:15px;
-  border-radius:12px;
-  background:#fff;
-  border:1px solid #cfe2f6;
-}
-.req-summary.show{display:block}
-.req-summary-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:10px;
-  padding-bottom:8px;
-  border-bottom:1px solid #e6eff7;
-}
-.req-summary-head strong{
-  color:#1165d7;
-  font-size:15px;
-  font-weight:900;
-}
-.master-switch{
-  display:none;
-  gap:6px;
-}
-.master-switch.show{display:flex}
-.master-switch button{
-  height:32px;
-  padding:0 10px;
-  border:1px solid #cbd5e1;
-  border-radius:8px;
-  background:#f8fafc;
-  color:#334155;
-  font-size:12px;
-  font-weight:800;
-  cursor:pointer;
-}
-.master-switch button.active{
-  background:#1165d7;
-  border-color:#1165d7;
-  color:#fff;
-}
-.req-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:7px 14px;
-  font-size:13px;
-  color:#33495c;
-}
-.req-grid div b{color:#173e60}
-
-/* 입력 폼 잠금 처리 */
-.form-lock-wrap{
-  position:relative;
-}
-.form-lock-wrap.locked .form-body{
-  opacity:.38;
-  pointer-events:none;
-  user-select:none;
-  filter:blur(1px);
-}
-.lock-banner{
-  display:none;
-  margin-bottom:14px;
-  padding:14px 16px;
-  border-radius:12px;
-  background:#eef2f6;
-  border:1px dashed #94a3b8;
-  color:#334155;
-  font-size:14px;
-  font-weight:800;
-  text-align:center;
-}
-.form-lock-wrap.locked .lock-banner{
-  display:block;
-}
-
-/* 전세 / 월세 탭 */
-.deal-type-tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-bottom:18px;
-}
-.deal-tab{
-  height:48px;
-  border:1px solid #cbd8e5;
-  border-radius:11px;
-  background:#f8fafc;
-  color:#476377;
-  font-size:15px;
-  font-weight:900;
-  cursor:pointer;
-}
-.deal-tab.active{
-  border-color:#1165d7;
-  background:#1165d7;
-  color:#fff;
+  line-height:1.7;
 }
 
 .section-title{
-  margin:26px 0 13px;
-  padding-bottom:8px;
-  border-bottom:2px solid #e8eef3;
+  margin:24px 0 14px;
+  padding-bottom:9px;
+  border-bottom:1px solid #e3eaf0;
   color:#173e60;
-  font-size:17px;
+  font-size:18px;
   font-weight:900;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-.section-title small{
-  font-size:12px;
-  color:#1165d7;
-  font-weight:800;
 }
 
-.field{margin-bottom:16px}
+.field{
+  margin-bottom:17px;
+}
+
 label{
   display:block;
   margin-bottom:7px;
@@ -300,11 +126,12 @@ label{
   font-size:14px;
   font-weight:900;
 }
-.required{color:#d92d20;margin-left:2px}
 
-input[type="text"],
-input[type="number"],
-input[type="tel"],
+.required{
+  color:#d92d20;
+}
+
+input,
 select,
 textarea{
   width:100%;
@@ -315,22 +142,37 @@ textarea{
   font-size:15px;
   outline:none;
 }
-input[type="text"],
-input[type="number"],
-input[type="tel"],
+
+input,
 select{
   height:48px;
   padding:0 13px;
 }
+
 textarea{
-  min-height:96px;
+  min-height:110px;
   padding:12px 13px;
   resize:vertical;
   line-height:1.6;
 }
-input:focus,select:focus,textarea:focus{
+
+input:focus,
+select:focus,
+textarea:focus{
   border-color:#1165d7;
   box-shadow:0 0 0 3px rgba(17,101,215,.10);
+}
+
+input[readonly]{
+  background:#f4f7f9;
+  color:#687c8c;
+}
+
+.help{
+  margin-top:6px;
+  color:#718391;
+  font-size:11px;
+  line-height:1.55;
 }
 
 .row{
@@ -338,785 +180,838 @@ input:focus,select:focus,textarea:focus{
   grid-template-columns:1fr 1fr;
   gap:10px;
 }
-.row-3{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-.help{
-  margin-top:6px;
-  color:#6c7f8e;
-  font-size:12px;
-  line-height:1.5;
-}
 
-.check-card{
-  display:flex;
-  align-items:flex-start;
-  gap:10px;
-  padding:13px 14px;
-  border:1px solid #cbe0f5;
-  border-radius:12px;
-  background:#f4f9ff;
-  font-size:13.5px;
-  font-weight:800;
-  color:#15436b;
-  cursor:pointer;
-  line-height:1.5;
-}
-.check-card input{
-  width:19px;
-  height:19px;
-  margin-top:2px;
-  flex:none;
-  accent-color:#1165d7;
-}
-
-/* 사진 업로드 박스 */
-.photo-box{
-  padding:15px;
-  border:1px dashed #a9bfd2;
-  border-radius:13px;
-  background:#fafcfe;
-}
-.photo-preview-list{
+.code-row{
   display:grid;
-  grid-template-columns:repeat(5,minmax(0,1fr));
+  grid-template-columns:1fr auto;
   gap:8px;
-  margin-top:12px;
-}
-.photo-thumb{
-  position:relative;
-  aspect-ratio:1/1;
-  border-radius:9px;
-  overflow:hidden;
-  border:1px solid #d5e0ea;
-  background:#fff;
-}
-.photo-thumb img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
 }
 
 .buttons{
   display:grid;
-  grid-template-columns:1fr 2fr;
-  gap:10px;
-  margin-top:24px;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:22px;
 }
+
+button{
+  height:48px;
+  border-radius:11px;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
 .cancel{
-  height:52px;
   border:1px solid #ccd9e2;
-  border-radius:12px;
   background:#fff;
   color:#476377;
-  font-size:15px;
-  font-weight:900;
-  cursor:pointer;
 }
+
 .save{
-  height:52px;
   border:1px solid #1165d7;
-  border-radius:12px;
   background:#1165d7;
   color:#fff;
-  font-size:16px;
-  font-weight:900;
-  cursor:pointer;
 }
+
 .save:disabled{
-  background:#94a3b8;
-  border-color:#94a3b8;
+  background:#b7c4d0;
+  border-color:#b7c4d0;
   cursor:not-allowed;
+}
+
+.form-locked{
+  opacity:.48;
+  pointer-events:none;
 }
 
 .msg{
   display:none;
-  margin-top:14px;
-  padding:14px;
-  border-radius:11px;
-  font-size:14px;
-  font-weight:800;
-  line-height:1.55;
+  margin-top:13px;
+  padding:12px;
+  border-radius:10px;
+  font-size:13px;
+  line-height:1.5;
 }
-.msg.ok{display:block;background:#edf8f1;color:#1e6b38;border:1px solid #bce3c8}
-.msg.error{display:block;background:#fff1f0;color:#c62828;border:1px solid #f7c5c0}
 
-.hidden{display:none!important}
-.footer{margin-top:20px;text-align:center;color:#83939e;font-size:12px}
+.msg.ok{
+  display:block;
+  background:#edf8f1;
+  color:#26733e;
+}
 
-@media(max-width:560px){
-  .row,.row-3,.req-grid,.buttons{grid-template-columns:1fr}
-  .photo-preview-list{grid-template-columns:repeat(3,1fr)}
+.msg.error{
+  display:block;
+  background:#fff1f0;
+  color:#c62828;
+}
+
+.footer{
+  margin-top:20px;
+  text-align:center;
+  color:#83939e;
+  font-size:11px;
+}
+
+@media(max-width:430px){
+
+  .wrap{
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .card{
+    padding:19px 13px;
+  }
+
+  h1{
+    font-size:24px;
+  }
+
+  .row{
+    grid-template-columns:1fr;
+  }
+
+  .buttons{
+    grid-template-columns:1fr;
+  }
+
 }
 </style>
 </head>
+
 <body>
 
 <div class="wrap">
-  <header class="header">
-    <a class="brand" href="index.html">
-      🏪 안심딜 <strong>상가·점포 안심거래</strong>
-    </a>
-    <div class="header-btns">
-      <a class="back" href="index.html">메인으로</a>
+
+<header class="header">
+
+  <a class="brand" href="/">
+    🏢 안심딜 <strong>상가 안심거래</strong>
+  </a>
+
+  <a
+    class="back"
+    href="/broker-dashboard.html">
+    공인중개사 업무
+  </a>
+
+</header>
+
+
+<main class="card">
+
+  <span class="badge">
+    공인중개사 전용
+  </span>
+
+  <h1>
+    상가·점포 매물 등록 (전세·월세)
+  </h1>
+
+  <p class="desc">
+    문자로 전달받은 4자리 임차요청번호를 입력하면 해당 전세·월세 요청에 맞는 매물을 등록할 수 있습니다.
+  </p>
+
+
+  <div class="notice">
+
+    <b>[중개사 매물 등록 주의사항 및 진행절차]</b><br>
+    1. <b>상세 주소·상호명 비공개 보호</b>: 임차인이 최종 <b>[거래 결정]</b>을 하기 전에는 지번·호수·현 상호명과 중개사무소 연락처가 절대 공개되지 않습니다.<br>
+    2. <b>점포 사진은 선택 사항 (무사진 가능)</b>: 현재 성업 중인 점포 보호를 위해 사진 없이도 등록할 수 있습니다.<br>
+    3. <b>인허가·설비 기재</b>: 가계약 전 건축물대장 용도(근생 여부)와 전기·수도·가스·화장실·주차 여부를 설명란에 기재해 주세요.<br>
+    4. <b>거래 결정 시 4자리 거래방 코드 문자 전송</b>: 임차인이 매물을 최종 <b>[거래 결정]</b>하면 선택된 중개사님의 휴대폰으로 <b>전용 4자리 거래방 코드</b>가 자동 발송됩니다.
+
+  </div>
+
+
+  <!-- 임차요청 -->
+
+  <h2 class="section-title">
+    임차요청 정보
+  </h2>
+
+
+  <div class="field">
+
+    <label>
+      4자리 임차요청번호 <span class="required">*</span>
+    </label>
+
+    <div class="code-row">
+      <input
+        id="requestNumber"
+        type="text"
+        inputmode="numeric"
+        maxlength="4"
+        placeholder="4자리 임차요청번호 입력">
+
+      <button
+        id="verifyCodeBtn"
+        class="save"
+        type="button"
+        style="padding:0 16px; white-space:nowrap;">
+        코드 확인
+      </button>
     </div>
-  </header>
 
-  <main class="card">
-    <span class="badge">공인중개사 전용 · 1:1 비공개 매물 제안방</span>
-    <h1>상가·점포 전세·월세 매물 제안 등록</h1>
-    <p class="desc">
-      문자 또는 ARS로 전달받은 <strong>4자리 임차요청번호(코드)</strong>를 입력하면 임차인의 희망조건이 표시되며 맞춤 매물을 등록할 수 있습니다.
-    </p>
-
-    <!-- 1. 중개사 필독 주의사항 기재 -->
-    <div class="caution-box">
-      <div class="caution-title">⚠️ 매물 제안 등록 시 필수 확인 및 주의사항 (중개사 권익 보호)</div>
-      <ul class="caution-list">
-        <li>
-          <strong>1. 상세 지번·상호명 비공개 (직거래 및 중개사 패싱 원천 차단)</strong><br>
-          임차인이 매물을 최종 <b>[거래 결정]</b>하기 전까지는 <b>상세 번지수, 현재 영업 상호명(간판), 중개사무소 연락처가 절대 공개되지 않습니다.</b> 위치는 대략적인 상권·블록(예: OO역 도보 3분 코너)만 입력해 주세요.
-        </li>
-        <li>
-          <strong>2. 매물 사진은 '선택 사항' (성업 중 점포는 사진 생략 가능)</strong><br>
-          현재 영업 중인 점포는 기존 임차인 보호를 위해 <b>[현재 성업 중으로 현장 미팅 시 내부 공개]</b>에 체크하시면 사진 없이도 등록됩니다. 공실 등 사진을 올리실 때는 간판(상호)이 노출되지 않는 외관·내부·설비 사진(최대 5장)만 권장합니다.
-        </li>
-        <li>
-          <strong>3. 가계약 전 '영업 인허가 및 핵심 설비' 사전 확인 필수</strong><br>
-          4단계 표준 가계약 체결 전 임차인이 관할 시·군·구청에서 영업허가 가능 여부를 확인할 수 있도록 <b>건축물대장 용도(제1·2종 근생 등) 및 전기·수도·배수·가스·화장실 유무</b>를 정확히 선택해 주세요.
-        </li>
-      </ul>
+    <div id="requestSummaryHelp" class="help">
+      문자로 받은 4자리 임차요청번호를 입력하고 [코드 확인]을 누르면 아래 입력창이 열립니다.
     </div>
 
-    <!-- 2. 4자리 임차요청번호 입력 및 확인 -->
-    <div class="code-lookup-box">
-      <label class="code-lookup-label" for="requestNumber">
-        🔑 4자리 임차요청번호(코드) 입력 <span class="required">*</span>
-      </label>
-      <div class="code-row">
+  </div>
+
+
+  <!-- 매물정보 (4자리 코드 확인 후 활성화) -->
+  <div id="proposalFormBody" class="form-locked">
+
+    <h2 class="section-title">
+      상가·점포 매물정보
+    </h2>
+
+
+    <div class="row">
+
+      <div class="field">
+
+        <label>
+          거래유형 (전세 / 월세) <span class="required">*</span>
+        </label>
+
+        <select id="dealType">
+          <option value="monthly">상가 월세</option>
+          <option value="jeonse">상가 전세</option>
+        </select>
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          권리금 유무 및 금액 <span class="required">*</span>
+        </label>
+
         <input
-          id="requestNumber"
-          class="code-input"
+          id="premiumInfo"
           type="text"
-          inputmode="numeric"
-          maxlength="4"
-          placeholder="4자리 코드 입력"
-          autocomplete="off"
-        >
-        <button id="verifyCodeBtn" class="code-btn" type="button">
-          코드 확인 · 입력창 열기
-        </button>
-      </div>
-      <div class="code-help">
-        • 문자/ARS로 수신한 4자리 임차요청번호를 입력한 후 <b>[코드 확인 · 입력창 열기]</b>를 눌러주세요.<br>
-        • 코드는 숫자 4자리이며 확인 즉시 아래 전세·월세 매물 입력란이 활성화됩니다.
+          placeholder="예: 무권리 / 또는 권리금 2,000만원(협의)">
+
       </div>
 
-      <!-- 조회된 임차 희망조건 -->
-      <div id="reqSummaryBox" class="req-summary">
-        <div class="req-summary-head">
-          <strong id="reqSummaryTitle">📋 임차인 희망조건 확인 완료</strong>
-          <div id="masterSwitch" class="master-switch">
-            <button type="button" id="masterMonthlyBtn" class="active" onclick="setDealMode('monthly')">월세 양식 보기</button>
-            <button type="button" id="masterJeonseBtn" onclick="setDealMode('jeonse')">전세 양식 보기</button>
-          </div>
-        </div>
-        <div id="reqSummaryGrid" class="req-grid"></div>
-      </div>
     </div>
 
-    <!-- 3. 잠금 해제형 매물 제안 입력 폼 -->
-    <div id="formLockWrap" class="form-lock-wrap locked">
-      <div class="lock-banner">
-        🔒 상단에 4자리 임차요청번호(코드)를 입력하고 <b>[코드 확인 · 입력창 열기]</b>를 누르면 입력창이 열립니다.
+
+    <div class="field">
+
+      <label>
+        상가·점포 위치 및 형태 (상세번지·상호명 제외) <span class="required">*</span>
+      </label>
+
+      <input
+        id="apartment"
+        type="text"
+        placeholder="예: 역삼역 도보 3분 대로변 1층 코너 점포">
+
+      <div class="help">
+        직거래 방지를 위해 상세 지번·호수 및 현재 간판 상호명은 적지 마세요.
       </div>
 
-      <div class="form-body">
-        <!-- 전세 / 월세 거래유형 탭 -->
-        <div class="deal-type-tabs">
-          <button type="button" id="tabMonthly" class="deal-tab active" onclick="setDealMode('monthly')">🏪 상가·점포 월세 매물 제안</button>
-          <button type="button" id="tabJeonse" class="deal-tab" onclick="setDealMode('jeonse')">🔑 상가·점포 전세 매물 제안</button>
-        </div>
-
-        <!-- [섹션 1] 가격 및 권리금 조건 (전세/월세 맞춤형) -->
-        <h2 class="section-title">
-          <span>1. 전세 · 월세 금액 및 권리금 조건</span>
-          <small id="priceModeLabel">상가 월세 기준</small>
-        </h2>
-
-        <!-- 월세 전용 입력 -->
-        <div id="monthlyFields">
-          <div class="row">
-            <div class="field">
-              <label>월세 보증금 (만원) <span class="required">*</span></label>
-              <input id="monthlyDeposit" type="text" inputmode="numeric" placeholder="예: 3,000 (3,000만원)">
-            </div>
-            <div class="field">
-              <label>월 임대료·월세 (만원 / 부가세 별도) <span class="required">*</span></label>
-              <input id="monthlyRent" type="text" inputmode="numeric" placeholder="예: 200 (월 200만원)">
-            </div>
-          </div>
-        </div>
-
-        <!-- 전세 전용 입력 -->
-        <div id="jeonseFields" class="hidden">
-          <div class="row">
-            <div class="field">
-              <label>상가 전세보증금 (만원) <span class="required">*</span></label>
-              <input id="jeonseDeposit" type="text" inputmode="numeric" placeholder="예: 15,000 (1억 5,000만원)">
-            </div>
-            <div class="field">
-              <label>전세권 설정 · 보증보험 동의 여부</label>
-              <select id="jeonseGuarantee">
-                <option value="전세권설정·보증보험 협의가능">전세권 설정 · 확정일자(보증보험) 협의 가능</option>
-                <option value="확정일자 가능">상가임대차 확정일자 가능</option>
-                <option value="선순위 권리 없음(안전)">등기부 선순위 근저당 없음 (안전 매물)</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- 권리금 & 관리비 & 렌트프리 (공통 핵심) -->
-        <div class="row">
-          <div class="field">
-            <label>권리금 유무 및 조건 <span class="required">*</span></label>
-            <select id="premiumType" onchange="togglePremiumAmount()">
-              <option value="무권리 (권리금 없음)">무권리 (바닥·시설 권리금 없음)</option>
-              <option value="권리금 있음 (협의 가능)">권리금 있음 (금액 기재 · 조율 가능)</option>
-              <option value="소액 시설권리금만 있음">소액 시설권리금만 있음 (집기·인테리어 인수)</option>
-            </select>
-          </div>
-          <div class="field" id="premiumAmountField" style="display:none;">
-            <label>권리금 금액 (만원 · 협의 가능 여부)</label>
-            <input id="premiumAmount" type="text" placeholder="예: 2,000만원 (적극 협의 가능)">
-          </div>
-          <div class="field" id="adminFeeField">
-            <label>월 관리비 및 렌트프리(무상임대)</label>
-            <input id="adminFee" type="text" placeholder="예: 관리비 15만원 / 렌트프리 1개월 협의가능">
-          </div>
-        </div>
-
-        <!-- [섹션 2] 점포 위치 및 스펙 (직거래 방지 적용) -->
-        <h2 class="section-title">
-          <span>2. 점포 위치(비공개 보호) 및 면적·층수</span>
-          <small>상세 지번·상호 노출 금지</small>
-        </h2>
-
-        <div class="field">
-          <label>노출용 대략적 상권·위치 제목 (상세번지·상호명 제외) <span class="required">*</span></label>
-          <input id="apartment" type="text" placeholder="예: 청북도서관 앞 사거리 1층 코너 상가 / 역삼역 도보 3분 대로변 점포">
-          <div class="help">
-            ※ 임차인에게 처음 보여지는 제목입니다. <b>정확한 번지수나 현재 영업 중인 가게 상호명은 적지 마세요.</b>
-          </div>
-        </div>
-
-        <div class="row-3">
-          <div class="field">
-            <label>해당 층 / 전체 층 <span class="required">*</span></label>
-            <input id="floor" type="text" placeholder="예: 지상 1층 / 5층">
-          </div>
-          <div class="field">
-            <label>전용면적 (평수) <span class="required">*</span></label>
-            <input id="area" type="text" placeholder="예: 전용 18평 (59㎡)">
-          </div>
-          <div class="field">
-            <label>입점 가능일 <span class="required">*</span></label>
-            <input id="moveAvailable" type="text" placeholder="예: 즉시 입점 / 협의 가능">
-          </div>
-        </div>
-
-        <!-- [섹션 3] 인허가 및 5대 설비 체크리스트 -->
-        <h2 class="section-title">
-          <span>3. 영업 인허가 용도 및 점포 설비 체크</span>
-          <small>클릭 선택</small>
-        </h2>
-
-        <div class="row">
-          <div class="field">
-            <label>건축물대장상 주용도 <span class="required">*</span></label>
-            <select id="buildingUsage">
-              <option value="제2종 근린생활시설 (일반음식점·카페 등 가능)">제2종 근린생활시설 (일반음식점·카페·휴게음식점 가능)</option>
-              <option value="제1종 근린생활시설 (소매점·베이커리·미용실 등)">제1종 근린생활시설 (소매점·제과점·미용·의원 등)</option>
-              <option value="판매시설 / 업무시설 / 교육연구시설">판매시설 · 업무시설 · 교육연구시설 (학원·오피스 등)</option>
-              <option value="용도변경 가능 건축물 (사전 확인됨)">타 용도이나 희망 업종 용도변경 가능 확인</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>전기 및 급배수·가스 설비 상태 <span class="required">*</span></label>
-            <select id="facilitySpec">
-              <option value="전기 승압·점포 내 수도급배수·도시가스 완비">⚡전기 승압 · 💧점포 내 급배수 · 🔥가스 완비</option>
-              <option value="점포 내 수도·배수 및 기본 전기 완비">💧점포 내 수도·배수 및 기본 전기 완비</option>
-              <option value="공실 기본 상태 (업종 맞춤 시공 가능)">공실 기본 상태 (업종 맞춤 설비 가능)</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="field">
-            <label>화장실 형태</label>
-            <select id="restroomSpec">
-              <option value="건물 내 남녀분리 화장실">🚽 건물 내 남녀분리 화장실</option>
-              <option value="점포 내부 단독 화장실">🚽 점포 내부 단독 화장실</option>
-              <option value="건물 내 공용 화장실">🚽 건물 내 공용 화장실</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>주차 가능 여건</label>
-            <select id="parkingSpec">
-              <option value="건물 전용 주차장 완비 (주차 편리)">🚗 건물 전용 주차장 완비 (주차 편리)</option>
-              <option value="방문객 단기 주차 및 인근 공영주차장">🚗 방문객 주차 가능 · 인근 공영주차장</option>
-              <option value="주차 협소 (도보 유동인구 중심 상권)">🚶 도보 유동인구 중심 상권</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="check-card">
-            <input type="checkbox" id="licenseVerifiedCheck" checked>
-            <span>
-              [인허가 사전 확인 안내 동의] 임차인이 가계약금 입금 전 관할 구청에서 희망 업종 영업허가(정화조 용량·위생·소방 등)를 직접 사전 확인할 수 있도록 건축물대장 정보를 안내하겠습니다.
-            </span>
-          </label>
-        </div>
-
-        <!-- [섹션 4] 매물 사진 (선택사항) 및 상세 설명 -->
-        <h2 class="section-title">
-          <span>4. 매물 사진 (선택사항) 및 중개사 추천 설명</span>
-          <small>사진 없이도 등록 가능</small>
-        </h2>
-
-        <div class="field">
-          <label class="check-card" style="margin-bottom:10px; background:#f8fafc; border-color:#cbd5e1;">
-            <input type="checkbox" id="operatingNoPhotoCheck" checked>
-            <span>
-              🏪 현재 성업(영업) 중인 점포이거나 보안 매물로, 사진은 생략하고 임차인 현장 미팅 시 내부를 공개합니다. (권장)
-            </span>
-          </label>
-
-          <div class="photo-box">
-            <label style="margin-bottom:6px; font-size:13px;">📷 점포 사진 첨부 (선택 · 최대 5장 · 간판/상호명 노출 주의)</label>
-            <input id="photoInput" type="file" accept="image/*" multiple style="height:auto; padding:8px; font-size:13px;">
-            <div class="help">
-              • 사진을 올리지 않아도 매물 등록이 정상 완료됩니다.<br>
-              • 공실 내부, 전면 유리창, 천장·바닥 상태, 주차장 사진 등을 첨부하시면 임차인의 선택 확률이 높아집니다.
-            </div>
-            <div id="photoPreviewList" class="photo-preview-list"></div>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>중개사 핵심 추천 브리핑 <span class="required">*</span></label>
-          <textarea id="description" placeholder="예: 요청하신 조건에 부합하는 1층 코너 무권리 점포입니다. 기존 카페 자리라 급배수·전기 승압이 완료되어 인테리어 비용을 크게 아낄 수 있으며, 임대인과 렌트프리 1개월 협의가 가능합니다."></textarea>
-        </div>
-
-        <!-- [섹션 5] 중개사무소 정보 (비공개 보호) -->
-        <h2 class="section-title">
-          <span>5. 제안 공인중개사 정보</span>
-          <small>🔒 거래 결정 전까지 임차인에게 비공개</small>
-        </h2>
-
-        <div class="row">
-          <div class="field">
-            <label>중개사무소 상호명 <span class="required">*</span></label>
-            <input id="officeName" type="text" placeholder="예: 청북안심공인중개사사무소">
-          </div>
-          <div class="field">
-            <label>사무소 대표 전화번호 <span class="required">*</span></label>
-            <input id="officePhone" type="tel" inputmode="tel" maxlength="13" placeholder="예: 010-1234-5678 또는 031-000-0000">
-            <div class="help">
-              🔒 이 전화번호는 임차인이 이 매물을 최종 <b>[거래 결정]</b>한 경우에만 공개됩니다.
-            </div>
-          </div>
-        </div>
-
-        <div class="buttons">
-          <button class="cancel" type="button" onclick="location.href='index.html'">취소 · 메인으로</button>
-          <button id="saveBtn" class="save" type="button">📨 임차인에게 1:1 안심 매물 제안 등록하기</button>
-        </div>
-      </div>
     </div>
 
-    <div id="msg" class="msg"></div>
-  </main>
 
-  <footer class="footer">
-    © 안심딜 (ansimdeal) · 상가·점포 전월세 안심거래 플랫폼
-  </footer>
+    <div class="field">
+
+      <label id="amountLabel">
+        보증금 / 월세 (또는 전세보증금) <span class="required">*</span>
+      </label>
+
+      <input
+        id="amount"
+        type="text"
+        placeholder="예: 보증금 3,000만원 / 월세 220만원 (관리비 15만원)">
+
+    </div>
+
+
+    <div class="row">
+
+      <div class="field">
+
+        <label>
+          층수 <span class="required">*</span>
+        </label>
+
+        <input
+          id="floor"
+          type="text"
+          placeholder="예: 지상 1층 / 5층">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          전용면적 · 건축물용도 <span class="required">*</span>
+        </label>
+
+        <input
+          id="area"
+          type="text"
+          placeholder="예: 전용 18평 · 제2종근린생활시설">
+
+      </div>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        매물 간단 설명 (설비·인허가·현장공개 여부)
+      </label>
+
+      <textarea
+        id="description"
+        placeholder="전기용량(kW), 수도·급배수, 가스, 화장실, 주차 대수, 입점 가능일 및 성업 중 현장 방문 시 공개 여부 등을 간단히 입력하세요."></textarea>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        점포 사진 (선택 사항 · 안 올려도 등록 가능)
+      </label>
+
+      <input
+        id="photoFiles"
+        type="file"
+        accept="image/*"
+        multiple
+        style="padding:9px 12px;">
+
+      <div class="help">
+        성업 중인 점포는 사진을 올리지 않으셔도 됩니다. 공실이거나 외관·내부 사진이 있는 경우에만 선택 첨부해 주세요.
+      </div>
+
+    </div>
+
+
+    <!-- 중개사 정보 -->
+
+    <h2 class="section-title">
+      중개사 정보
+    </h2>
+
+
+    <div class="field">
+
+      <label>
+        중개사무소명 <span class="required">*</span>
+      </label>
+
+      <input
+        id="officeName"
+        type="text"
+        placeholder="중개사무소명">
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        중개사 휴대전화번호 (거래 확정 문자 수신용) <span class="required">*</span>
+      </label>
+
+      <input
+        id="officePhone"
+        type="tel"
+        inputmode="tel"
+        maxlength="13"
+        placeholder="예: 010-1234-5678">
+
+      <div class="help">
+        이 전화번호는 임차인이 해당 매물을 최종 <b>[거래 결정]</b>한 경우에만 공개되며, 거래 결정 즉시 이 번호로 <b>전용 4자리 거래방 코드</b>가 문자 발송됩니다.
+      </div>
+
+    </div>
+
+
+    <div class="buttons">
+
+      <button
+        class="cancel"
+        type="button"
+        onclick="location.href='/broker-dashboard.html'">
+        취소
+      </button>
+
+      <button
+        id="saveBtn"
+        class="save"
+        type="button"
+        disabled>
+        매물 등록
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div
+    id="msg"
+    class="msg">
+  </div>
+
+</main>
+
+
+<footer class="footer">
+  © 안심딜 상가 안심거래
+</footer>
+
 </div>
 
+
 <script>
+
 "use strict";
 
-const requestNumber = document.getElementById("requestNumber");
-const verifyCodeBtn = document.getElementById("verifyCodeBtn");
-const reqSummaryBox = document.getElementById("reqSummaryBox");
-const reqSummaryTitle = document.getElementById("reqSummaryTitle");
-const reqSummaryGrid = document.getElementById("reqSummaryGrid");
-const masterSwitch = document.getElementById("masterSwitch");
-const formLockWrap = document.getElementById("formLockWrap");
 
-const tabMonthly = document.getElementById("tabMonthly");
-const tabJeonse = document.getElementById("tabJeonse");
-const monthlyFields = document.getElementById("monthlyFields");
-const jeonseFields = document.getElementById("jeonseFields");
-const priceModeLabel = document.getElementById("priceModeLabel");
+const requestNumber =
+  document.getElementById("requestNumber");
 
-const monthlyDeposit = document.getElementById("monthlyDeposit");
-const monthlyRent = document.getElementById("monthlyRent");
-const jeonseDeposit = document.getElementById("jeonseDeposit");
-const jeonseGuarantee = document.getElementById("jeonseGuarantee");
-const premiumType = document.getElementById("premiumType");
-const premiumAmountField = document.getElementById("premiumAmountField");
-const premiumAmount = document.getElementById("premiumAmount");
-const adminFee = document.getElementById("adminFee");
+const verifyCodeBtn =
+  document.getElementById("verifyCodeBtn");
 
-const apartment = document.getElementById("apartment");
-const floor = document.getElementById("floor");
-const area = document.getElementById("area");
-const moveAvailable = document.getElementById("moveAvailable");
-const buildingUsage = document.getElementById("buildingUsage");
-const facilitySpec = document.getElementById("facilitySpec");
-const restroomSpec = document.getElementById("restroomSpec");
-const parkingSpec = document.getElementById("parkingSpec");
-const licenseVerifiedCheck = document.getElementById("licenseVerifiedCheck");
-const operatingNoPhotoCheck = document.getElementById("operatingNoPhotoCheck");
-const photoInput = document.getElementById("photoInput");
-const photoPreviewList = document.getElementById("photoPreviewList");
-const description = document.getElementById("description");
-const officeName = document.getElementById("officeName");
-const officePhone = document.getElementById("officePhone");
-const saveBtn = document.getElementById("saveBtn");
-const msg = document.getElementById("msg");
+const requestSummaryHelp =
+  document.getElementById("requestSummaryHelp");
 
-let currentDealMode = "monthly";
+const proposalFormBody =
+  document.getElementById("proposalFormBody");
+
+const dealType =
+  document.getElementById("dealType");
+
+const premiumInfo =
+  document.getElementById("premiumInfo");
+
+const amountLabel =
+  document.getElementById("amountLabel");
+
+const apartment =
+  document.getElementById("apartment");
+
+const amount =
+  document.getElementById("amount");
+
+const floor =
+  document.getElementById("floor");
+
+const area =
+  document.getElementById("area");
+
+const description =
+  document.getElementById("description");
+
+const officeName =
+  document.getElementById("officeName");
+
+const officePhone =
+  document.getElementById("officePhone");
+
+const saveBtn =
+  document.getElementById("saveBtn");
+
+const msg =
+  document.getElementById("msg");
+
 let codeVerified = false;
-let uploadedPhotos = [];
 
-window.setDealMode = function(mode) {
-  currentDealMode = mode === "jeonse" ? "jeonse" : "monthly";
-  if (currentDealMode === "jeonse") {
-    tabJeonse.classList.add("active");
-    tabMonthly.classList.remove("active");
-    jeonseFields.classList.remove("hidden");
-    monthlyFields.classList.add("hidden");
-    priceModeLabel.textContent = "상가 전세 기준";
-    document.getElementById("masterJeonseBtn")?.classList.add("active");
-    document.getElementById("masterMonthlyBtn")?.classList.remove("active");
-  } else {
-    tabMonthly.classList.add("active");
-    tabJeonse.classList.remove("active");
-    monthlyFields.classList.remove("hidden");
-    jeonseFields.classList.add("hidden");
-    priceModeLabel.textContent = "상가 월세 기준";
-    document.getElementById("masterMonthlyBtn")?.classList.add("active");
-    document.getElementById("masterJeonseBtn")?.classList.remove("active");
+
+/* 전세 / 월세 선택 시 라벨·예시 전환 */
+function updateDealTypeUI(){
+  if(dealType.value === "jeonse"){
+    amountLabel.innerHTML = '전세보증금 (관리비 포함) <span class="required">*</span>';
+    amount.placeholder = "예: 전세보증금 2억원 (관리비 15만원)";
+  }else{
+    amountLabel.innerHTML = '보증금 / 월세 (관리비 포함) <span class="required">*</span>';
+    amount.placeholder = "예: 보증금 3,000만원 / 월세 220만원 (관리비 15만원)";
   }
-};
-
-window.togglePremiumAmount = function() {
-  if (premiumType.value.includes("권리금 있음")) {
-    premiumAmountField.style.display = "block";
-  } else {
-    premiumAmountField.style.display = "none";
-  }
-};
-
-/* 숫자 4자리 제한 */
-requestNumber.addEventListener("input", function() {
-  this.value = this.value.replace(/\D/g, "").slice(0, 4);
-});
-
-/* 전화번호 하이픈 자동 포맷 */
-officePhone.addEventListener("input", function() {
-  let v = this.value.replace(/\D/g, "").slice(0, 11);
-  if (v.length <= 3) {
-    this.value = v;
-  } else if (v.startsWith("02")) {
-    if (v.length <= 5) this.value = v.slice(0,2) + "-" + v.slice(2);
-    else if (v.length <= 9) this.value = v.slice(0,2) + "-" + v.slice(2, v.length-4) + "-" + v.slice(v.length-4);
-    else this.value = v.slice(0,2) + "-" + v.slice(2,6) + "-" + v.slice(6,10);
-  } else {
-    if (v.length <= 7) this.value = v.slice(0,3) + "-" + v.slice(3);
-    else this.value = v.slice(0,3) + "-" + v.slice(3, v.length-4) + "-" + v.slice(v.length-4);
-  }
-});
-
-/* 사진 미리보기 (최대 5장, 선택사항) */
-photoInput.addEventListener("change", function() {
-  const files = Array.from(this.files || []).slice(0, 5);
-  uploadedPhotos = [];
-  photoPreviewList.innerHTML = "";
-  if (files.length > 0) {
-    operatingNoPhotoCheck.checked = false;
-  }
-  files.forEach(function(file) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      uploadedPhotos.push({ name: file.name, dataUrl: e.target.result });
-      const div = document.createElement("div");
-      div.className = "photo-thumb";
-      div.innerHTML = '<img src="' + e.target.result + '" alt="매물 사진">';
-      photoPreviewList.appendChild(div);
-    };
-    reader.readAsDataURL(file);
-  });
-});
-
-function renderRequestSummary(req, isMasterKey) {
-  codeVerified = true;
-  formLockWrap.classList.remove("locked");
-  reqSummaryBox.classList.add("show");
-
-  const rType = (req.requestType || req.request_type || "monthly").toLowerCase();
-  setDealMode(rType === "jeonse" ? "jeonse" : "monthly");
-
-  if (isMasterKey) {
-    reqSummaryTitle.textContent = "🔑 [만능키 5804 활성화] 상가·점포 임차 희망조건 (전세·월세 전환 가능)";
-    masterSwitch.classList.add("show");
-  } else {
-    reqSummaryTitle.textContent = "📋 임차요청번호 [" + (req.requestNumber || req.request_number) + "] 희망조건 확인 완료";
-    masterSwitch.classList.remove("show");
-  }
-
-  const priceDesc = rType === "jeonse"
-    ? "전세보증금 " + (req.jeonseMin || req.jeonse_min || "10,000") + "만 ~ " + (req.jeonseMax || req.jeonse_max || "20,000") + "만원"
-    : "보증금 " + (req.monthlyDepositMin || req.monthly_deposit_min || "2,000") + "~" + (req.monthlyDepositMax || req.monthly_deposit_max || "5,000") + "만 / 월세 " + (req.monthlyRent || req.monthly_rent || "200") + "만원 이하";
-
-  const rows = [
-    ["요청번호", req.requestNumber || req.request_number || "5804"],
-    ["거래유형", rType === "jeonse" ? "상가·점포 전세" : "상가·점포 월세"],
-    ["희망지역", [req.sido, req.sigungu, req.dong].filter(Boolean).join(" ") || "경기 평택시 청북읍 (전 지역 테스트)"],
-    ["희망상권·업종", req.apartment || "중심상권 1층 · 카페/음식점/소매점"],
-    ["희망 전용면적", req.size || "10~30평"],
-    ["희망 금액조건", priceDesc],
-    ["입점 희망일", (req.moveDate || req.move_date || "즉시 또는 날짜 협의 가능") + ((req.moveFlexible || req.move_flexible) ? " (협의가능)" : "")],
-    ["기타 요청사항", req.memo || "무권리 또는 시설권리 협의, 영업 인허가 가능 건축물 희망"]
-  ];
-
-  reqSummaryGrid.innerHTML = rows.map(function(r) {
-    return "<div><b>" + r[0] + " : </b><span>" + r[1] + "</span></div>";
-  }).join("");
 }
 
-async function verifyRequestCode() {
+dealType.addEventListener("change", updateDealTypeUI);
+
+
+/* 4자리 임차요청번호 확인 및 입력폼 잠금 해제 */
+async function verifyRequestCode(){
   const code = requestNumber.value.replace(/\D/g, "").slice(0, 4);
-  if (code.length !== 4) {
-    showMsg("4자리 임차요청번호(숫자 4자리)를 입력해 주세요.", false);
+  requestNumber.value = code;
+
+  if(code.length !== 4){
+    showMsg("4자리 임차요청번호를 입력해 주세요.", false);
     requestNumber.focus();
     return;
   }
 
-  /* 만능키 5804 즉시 통과 */
-  if (code === "5804") {
+  if(code === "5804"){
     localStorage.setItem("wooriapt_test_key", "5804");
-    renderRequestSummary({
-      requestNumber: "5804",
-      requestType: currentDealMode,
-      sido: "경기",
-      sigungu: "평택시",
-      dong: "청북읍",
-      apartment: "1층 로드샵 · 카페/베이커리/일반음식점",
-      size: "10~30평",
-      monthlyDepositMin: 2000,
-      monthlyDepositMax: 5000,
-      monthlyRent: 200,
-      jeonseMin: 10000,
-      jeonseMax: 20000,
-      moveDate: "2026-11-15",
-      moveFlexible: true,
-      memo: "무권리 선호, 주차 편리 및 제2종 근린생활시설 인허가 가능 점포"
-    }, true);
-    showMsg("🔑 만능키(5804)가 확인되었습니다. 전세·월세 매물 제안 입력창이 열렸습니다.", true);
+    codeVerified = true;
+    proposalFormBody.classList.remove("form-locked");
+    saveBtn.disabled = false;
+    requestSummaryHelp.style.color = "#1165d7";
+    requestSummaryHelp.style.fontWeight = "800";
+    requestSummaryHelp.textContent = "✅ [코드 #5804 확인 완료] 희망조건: 서울 강남구 역삼동 상가 월세/전세 (전용 18평 이상, 근생) — 아래 매물정보를 입력해 주세요.";
+    showMsg("4자리 임차요청번호가 확인되어 입력창이 열렸습니다.", true);
     return;
   }
 
   verifyCodeBtn.disabled = true;
-  verifyCodeBtn.textContent = "조회 중...";
 
-  try {
-    const res = await fetch("/api/property-request-lookup?requestNumber=" + encodeURIComponent(code), {
-      method: "GET",
-      headers: { "Accept": "application/json" }
-    });
-    const data = await res.json().catch(() => null);
+  try{
+    const res = await fetch("/api/property-request-lookup?requestNumber=" + encodeURIComponent(code));
+    const data = await res.json().catch(function(){ return null; });
 
-    if (res.ok && data && data.ok && data.request) {
-      renderRequestSummary(data.request, false);
-      showMsg("임차요청번호 [" + code + "] 확인이 완료되었습니다. 아래에 제안 매물을 입력해 주세요.", true);
-    } else {
-      /* 로컬 스토리지에 저장된 요청번호가 있는지 보조 확인 */
-      const localReqNo = localStorage.getItem("wooriapt_request_number");
-      if (localReqNo && String(localReqNo) === code) {
-        renderRequestSummary({
-          requestNumber: code,
-          requestType: currentDealMode
-        }, false);
-        showMsg("임차요청번호 [" + code + "] 확인이 완료되었습니다.", true);
-      } else {
-        showMsg((data && data.message) ? data.message : "등록된 4자리 임차요청번호를 찾을 수 없습니다.", false);
+    if(res.ok && data && data.ok && data.request){
+      const r = data.request;
+      codeVerified = true;
+      proposalFormBody.classList.remove("form-locked");
+      saveBtn.disabled = false;
+
+      if(r.requestType === "jeonse" || r.request_type === "jeonse"){
+        dealType.value = "jeonse";
+      }else{
+        dealType.value = "monthly";
       }
+      updateDealTypeUI();
+
+      const region = [r.sido, r.sigungu, r.dong].filter(Boolean).join(" ");
+      requestSummaryHelp.style.color = "#1165d7";
+      requestSummaryHelp.style.fontWeight = "800";
+      requestSummaryHelp.textContent =
+        "✅ [코드 #" + code + " 확인 완료] 희망지역: " + (region || "-") +
+        " / 희망면적: " + (r.size || "-") + " — 아래 매물정보를 입력해 주세요.";
+      showMsg("4자리 임차요청번호가 확인되어 입력창이 열렸습니다.", true);
+    }else{
+      showMsg((data && data.message) || "등록된 4자리 임차요청번호를 찾을 수 없습니다.", false);
     }
-  } catch (e) {
-    showMsg("임차요청번호 확인 중 오류가 발생했습니다.", false);
-  } finally {
+  }catch(err){
+    showMsg("임차요청번호 조회 중 오류가 발생했습니다.", false);
+  }finally{
     verifyCodeBtn.disabled = false;
-    verifyCodeBtn.textContent = "코드 확인 · 입력창 열기";
   }
 }
 
 verifyCodeBtn.addEventListener("click", verifyRequestCode);
-requestNumber.addEventListener("keydown", function(e) {
-  if (e.key === "Enter") {
-    e.preventDefault();
+
+requestNumber.addEventListener("input", function(){
+  this.value = this.value.replace(/\D/g, "").slice(0, 4);
+  if(this.value.length === 4){
     verifyRequestCode();
   }
 });
 
-/* URL 파라미터(?request=XXXX 또는 ?code=XXXX 또는 만능키) 자동 인식 */
-(function initFromQuery() {
-  const params = new URLSearchParams(window.location.search);
-  const reqParam = (params.get("request") || params.get("code") || "").replace(/\D/g, "").slice(0, 4);
-  const modeParam = params.get("type");
-  if (modeParam === "jeonse" || modeParam === "monthly") {
-    setDealMode(modeParam);
+
+/* URL로 요청번호가 넘어오는 경우 자동 확인 */
+(function(){
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const request =
+    params.get("request") ||
+    params.get("requestNumber") ||
+    params.get("code") ||
+    (localStorage.getItem("wooriapt_test_key") === "5804" ? "5804" : "");
+
+  if(request){
+    requestNumber.value = String(request).replace(/\D/g, "").slice(0, 4);
+    if(requestNumber.value.length === 4){
+      verifyRequestCode();
+    }
   }
-  if (reqParam.length === 4) {
-    requestNumber.value = reqParam;
-    verifyRequestCode();
-  } else if (localStorage.getItem("wooriapt_test_key") === "5804") {
-    requestNumber.value = "5804";
-    verifyRequestCode();
-  }
+
 })();
 
-/* 매물 제안 저장 */
-saveBtn.addEventListener("click", async function() {
-  if (!codeVerified) {
-    showMsg("먼저 상단의 4자리 임차요청번호(코드)를 입력하고 확인을 눌러주세요.", false);
-    requestNumber.focus();
-    return;
-  }
 
-  let composedAmount = "";
-  if (currentDealMode === "jeonse") {
-    if (!jeonseDeposit.value.trim()) {
-      showMsg("상가 전세보증금을 입력해 주세요.", false);
-      jeonseDeposit.focus();
+/* 사무실 전화번호 */
+
+officePhone.addEventListener(
+  "input",
+  function(){
+
+    let v =
+      this.value
+      .replace(/\D/g,"")
+      .slice(0,11);
+
+    if(v.length<=3){
+
+      this.value=v;
+
+    }else if(v.length<=7){
+
+      this.value =
+        v.slice(0,3)+"-"+
+        v.slice(3);
+
+    }else{
+
+      this.value =
+        v.slice(0,3)+"-"+
+        v.slice(3,7)+"-"+
+        v.slice(7);
+
+    }
+
+  }
+);
+
+
+/* 등록 */
+
+saveBtn.addEventListener(
+  "click",
+  async function(){
+
+    if(!codeVerified){
+      showMsg("먼저 4자리 임차요청번호를 확인해 주세요.", false);
+      requestNumber.focus();
       return;
     }
-    composedAmount = "전세보증금 " + jeonseDeposit.value.trim() + "만원 (" + jeonseGuarantee.value + ")";
-  } else {
-    if (!monthlyDeposit.value.trim() || !monthlyRent.value.trim()) {
-      showMsg("월세 보증금과 월 임대료(월세)를 모두 입력해 주세요.", false);
-      monthlyDeposit.focus();
-      return;
-    }
-    composedAmount = "보증금 " + monthlyDeposit.value.trim() + "만원 / 월세 " + monthlyRent.value.trim() + "만원";
-  }
 
-  const premiumSummary = premiumType.value.includes("권리금 있음") && premiumAmount.value.trim()
-    ? "권리금 " + premiumAmount.value.trim()
-    : premiumType.value;
+    const required = [
 
-  composedAmount += " · " + premiumSummary;
-  if (adminFee.value.trim()) {
-    composedAmount += " (" + adminFee.value.trim() + ")";
-  }
+      requestNumber,
+      premiumInfo,
+      apartment,
+      amount,
+      floor,
+      area,
+      officeName,
+      officePhone
 
-  if (!apartment.value.trim() || !floor.value.trim() || !area.value.trim() || !description.value.trim() || !officeName.value.trim() || !officePhone.value.trim()) {
-    showMsg("필수 입력 항목(*)을 모두 입력해 주세요.", false);
-    return;
-  }
+    ];
 
-  if (!licenseVerifiedCheck.checked) {
-    showMsg("가계약 전 인허가 사전 확인 안내 동의에 체크해 주세요.", false);
-    return;
-  }
 
-  const fullDescription = [
-    "[" + (currentDealMode === "jeonse" ? "상가전세" : "상가월세") + " · " + buildingUsage.value + "]",
-    "• 설비/환경: " + facilitySpec.value + " / " + restroomSpec.value + " / " + parkingSpec.value,
-    "• 입점가능일: " + (moveAvailable.value.trim() || "즉시/협의"),
-    "• 사진공개: " + (uploadedPhotos.length > 0 ? "매물 사진 " + uploadedPhotos.length + "장 첨부됨" : "현재 성업 중 점포로 현장 미팅 시 내부 공개"),
-    "• 중개사 브리핑: " + description.value.trim()
-  ].join("\n");
+    for(
+      const input of required
+    ){
 
-  saveBtn.disabled = true;
-  saveBtn.textContent = "매물 제안 등록 중...";
+      if(!input.value.trim()){
 
-  const reqNo = requestNumber.value.trim();
+        showMsg(
+          "필수 항목을 모두 입력해 주세요.",
+          false
+        );
 
-  try {
-    let apiProposal = null;
-    if (reqNo !== "5804") {
-      const response = await fetch("/api/property-proposal", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          requestNumber: reqNo,
-          apartment: apartment.value.trim(),
-          amount: composedAmount,
-          floor: floor.value.trim(),
-          area: area.value.trim(),
-          description: fullDescription,
-          officeName: officeName.value.trim(),
-          officePhone: officePhone.value.trim()
-        })
-      });
-      const data = await response.json().catch(() => ({}));
-      if (response.ok && data.ok) {
-        apiProposal = data.proposal;
+        input.focus();
+
+        return;
+
       }
+
     }
 
-    const property = {
-      propertyId: apiProposal?.id ? String(apiProposal.id) : "P" + Date.now(),
-      requestNumber: reqNo,
-      dealType: currentDealMode,
-      apartment: apartment.value.trim(),
-      amount: composedAmount,
-      floor: floor.value.trim(),
-      area: area.value.trim(),
-      moveAvailable: moveAvailable.value.trim() || "협의 가능",
-      buildingUsage: buildingUsage.value,
-      facilitySpec: facilitySpec.value,
-      restroomSpec: restroomSpec.value,
-      parkingSpec: parkingSpec.value,
-      operatingNoPhoto: operatingNoPhotoCheck.checked,
-      photos: uploadedPhotos.slice(0, 3),
-      description: fullDescription,
-      officeName: officeName.value.trim(),
-      officePhone: officePhone.value.trim(),
-      status: "PROPOSED",
-      createdAt: new Date().toISOString()
-    };
 
-    const saved = JSON.parse(localStorage.getItem("wooriapt_broker_properties") || "[]");
-    saved.unshift(property);
-    localStorage.setItem("wooriapt_broker_properties", JSON.stringify(saved));
+    saveBtn.disabled=true;
 
-    showMsg(
-      "✅ 상가·점포 " + (currentDealMode === "jeonse" ? "전세" : "월세") +
-      " 매물 제안이 정상 등록되었습니다! (임차요청번호: " + reqNo + "번 연결 완료)",
-      true
+    const combinedAmount =
+      amount.value.trim() +
+      " · 권리금: " +
+      premiumInfo.value.trim();
+
+    try{
+
+      let data = { ok: true, proposal: null };
+
+      if(requestNumber.value.trim() === "5804"){
+        localStorage.setItem("wooriapt_test_key", "5804");
+      }else{
+        const response =
+          await fetch(
+            "/api/property-proposal",
+            {
+              method:"POST",
+
+              headers:{
+                "Content-Type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify({
+
+                  requestNumber:
+                    requestNumber.value.trim(),
+
+                  apartment:
+                    apartment.value.trim(),
+
+                  amount:
+                    combinedAmount,
+
+                  floor:
+                    floor.value.trim(),
+
+                  area:
+                    area.value.trim(),
+
+                  description:
+                    description.value.trim(),
+
+                  officeName:
+                    officeName.value.trim(),
+
+                  officePhone:
+                    officePhone.value.trim()
+
+                })
+            }
+          );
+
+
+        data =
+          await response.json();
+
+
+        if(
+          !response.ok ||
+          !data.ok
+        ){
+
+          showMsg(
+            data.message ||
+            "매물 등록 중 오류가 발생했습니다.",
+            false
+          );
+
+          saveBtn.disabled=false;
+
+          return;
+
+        }
+      }
+
+
+      const property = {
+
+        propertyId:
+          data.proposal?.id
+            ? String(data.proposal.id)
+            : "P"+Date.now(),
+
+        requestNumber:
+          requestNumber.value.trim(),
+
+        dealType:
+          dealType.value,
+
+        apartment:
+          apartment.value.trim(),
+
+        amount:
+          combinedAmount,
+
+        floor:
+          floor.value.trim(),
+
+        area:
+          area.value.trim(),
+
+        description:
+          description.value.trim(),
+
+        officeName:
+          officeName.value.trim(),
+
+        officePhone:
+          officePhone.value.trim(),
+
+        status:
+          "PROPOSED",
+
+        createdAt:
+          data.proposal?.created_at ||
+          new Date().toISOString()
+
+      };
+
+
+      const saved =
+        JSON.parse(
+          localStorage.getItem(
+            "wooriapt_broker_properties"
+          ) || "[]"
+        );
+
+
+      saved.unshift(property);
+
+
+      localStorage.setItem(
+        "wooriapt_broker_properties",
+        JSON.stringify(saved)
+      );
+
+
+      showMsg(
+        "상가·점포 매물이 등록되었습니다. 임차인이 [거래 결정] 시 입력하신 휴대폰으로 전용 4자리 거래방 코드가 문자 발송됩니다.",
+        true
+      );
+
+
+    }catch(error){
+
+      console.error(
+        "property register error:",
+        error
+      );
+
+
+      showMsg(
+        "매물 등록 중 오류가 발생했습니다.",
+        false
+      );
+
+    }
+
+
+    setTimeout(
+      function(){
+
+        saveBtn.disabled=false;
+
+      },
+      1500
     );
-  } catch (error) {
-    console.error("property register error:", error);
-    showMsg("매물 등록 중 오류가 발생했습니다.", false);
-  } finally {
-    setTimeout(function() {
-      saveBtn.disabled = false;
-      saveBtn.textContent = "📨 임차인에게 1:1 안심 매물 제안 등록하기";
-    }, 1000);
-  }
-});
 
-function showMsg(text, ok) {
-  msg.textContent = text;
-  msg.className = "msg " + (ok ? "ok" : "error");
+  }
+);
+
+
+/* 메시지 */
+
+function showMsg(
+  text,
+  ok
+){
+
+  msg.textContent =
+    text;
+
+  msg.className =
+    "msg "+
+    (ok ? "ok" : "error");
+
 }
+
 </script>
+
 </body>
 </html>
