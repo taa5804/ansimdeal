@@ -732,6 +732,7 @@ button, input {
 .broker-actions {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .broker-btn {
@@ -741,16 +742,94 @@ button, input {
   font-weight: 800;
   cursor: pointer;
   border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.guide-btn {
+  border: 1px solid #bfd5ea;
+  background: #fff;
+  color: #24577e;
 }
 
 .signup-btn {
+  border: 1px solid #1165d7;
   background: #1165d7;
   color: #fff;
 }
 
 .login-btn {
+  border: 1px solid #173f67;
   background: #173f67;
   color: #fff;
+}
+
+/* 햄버거 메뉴 (우리아파트 안심거래 원본 그대로) */
+.mobile-menu-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(15, 23, 42, .38);
+}
+.mobile-menu-backdrop.open {
+  display: block;
+}
+.mobile-menu-panel {
+  position: fixed;
+  top: 0;
+  right: -340px;
+  width: min(330px, 88vw);
+  height: 100vh;
+  z-index: 1001;
+  padding: 82px 20px 28px;
+  background: #fff;
+  box-shadow: -12px 0 30px rgba(15, 23, 42, .18);
+  transition: right .25s ease;
+  overflow-y: auto;
+}
+.mobile-menu-panel.open {
+  right: 0;
+}
+.mobile-menu-title {
+  margin: 0 0 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 900;
+}
+.mobile-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.mobile-menu-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 54px;
+  padding: 13px 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+  color: #172033;
+  font-size: 16px;
+  font-weight: 800;
+}
+.mobile-menu-list a.primary {
+  border-color: #1165d7;
+  background: #eef6ff;
+  color: #0b58bd;
+}
+.mobile-menu-divider {
+  height: 1px;
+  margin: 10px 0;
+  background: #e5e7eb;
 }
 
 /* 푸터 (.footer) */
@@ -913,20 +992,49 @@ button, input {
   
   <!-- 1. HEADER (상가·점포 안심딜 - 우리아파트 안심거래 원본 동일) -->
   <header class="header">
-    <div class="logo">
+    <a class="logo" href="previous_ansimdeal.html">
       <span class="logo-mark">🏪</span>
       <div>
         <strong>안심딜 (ansimdeal)</strong>
         <span>상가 · 점포 안심거래</span>
       </div>
-    </div>
+    </a>
     <div class="top-actions">
-      <span class="install-label">📱 앱 다운로드</span>
-      <div class="menu">
+      <span id="installBtn" class="install-label" style="cursor:pointer;">📱 앱 다운로드</span>
+      <button id="menuBtn" class="menu" type="button" aria-label="메뉴 열기" aria-expanded="false">
         <span></span><span></span><span></span>
-      </div>
+      </button>
     </div>
   </header>
+
+  <div id="menuBackdrop" class="mobile-menu-backdrop"></div>
+
+  <nav id="mobileMenu" class="mobile-menu-panel" aria-hidden="true">
+    <div class="mobile-menu-title">메뉴</div>
+    <div class="mobile-menu-list">
+      <a class="primary" href="request.html?type=jeonse">
+        <span>🔑 상가·점포 전세 구하기</span>
+        <span>›</span>
+      </a>
+      <a class="primary" href="request.html?type=monthly">
+        <span>🏪 상가·점포 월세 구하기</span>
+        <span>›</span>
+      </a>
+      <div class="mobile-menu-divider"></div>
+      <a href="broker-guide.html">
+        <span>안심거래 이용안내</span>
+        <span>›</span>
+      </a>
+      <a href="broker-signup.html">
+        <span>공인중개사 회원가입</span>
+        <span>›</span>
+      </a>
+      <a href="broker-login.html">
+        <span>공인중개사 로그인</span>
+        <span>›</span>
+      </a>
+    </div>
+  </nav>
 
   <!-- 2. HERO (상가·점포 전월세 임차) -->
   <section class="hero">
@@ -1153,21 +1261,29 @@ button, input {
           <div class="vat" id="calcSaved">부가세 포함 · 약 113만원 절약!</div>
         </div>
       </div>
+      <button id="paymentBtn" type="button" onclick="goPayment()" style="width:100%; height:52px; margin-top:12px; border:0; border-radius:11px; background:#1c9b74; color:#fff; font-size:16px; font-weight:900; cursor:pointer;">플랫폼 서비스 이용료 납부하기 ›</button>
     </div>
   </div>
 
   <!-- 9. 공인중개사 파트너 배너 (.broker - 우리아파트 안심거래 원본 그대로 사용) -->
   <div class="broker">
     <div class="broker-left">
-      <span class="person">🤝</span>
+      <div class="person">👨🏻‍💼</div>
       <div>
-        <h2>공인중개사님이신가요?</h2>
-        <p>안심딜에서 검증된 임차 고객에게 매물을 직접 제안해 보세요.</p>
+        <h2>공인중개사로 활동하시나요?</h2>
+        <p>안심딜의 공인중개사가 되어 더 많은 고객과 만나세요.</p>
       </div>
     </div>
     <div class="broker-actions">
-      <a class="broker-btn signup-btn" href="broker-signup.html">중개사 파트너 가입</a>
-      <a class="broker-btn login-btn" href="broker-login.html">중개사 로그인</a>
+      <a class="broker-btn guide-btn" href="broker-guide.html">
+        안심거래<br>이용안내 ›
+      </a>
+      <a class="broker-btn signup-btn" href="broker-signup.html">
+        공인중개사<br>회원가입 ›
+      </a>
+      <a class="broker-btn login-btn" href="broker-login.html">
+        공인중개사<br>로그인 ›
+      </a>
     </div>
   </div>
 
@@ -1183,8 +1299,54 @@ button, input {
 </div>
 
 <script>
+  // 햄버거 메뉴 및 앱 설치 (우리아파트 안심거래 원본 그대로)
+  (function(){
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const menuBackdrop = document.getElementById("menuBackdrop");
+    const installBtn = document.getElementById("installBtn");
+
+    function openMenu(){
+      if(!mobileMenu || !menuBackdrop) return;
+      mobileMenu.classList.add("open");
+      menuBackdrop.classList.add("open");
+      document.body.classList.add("menu-open");
+      if(menuBtn) menuBtn.setAttribute("aria-expanded", "true");
+      mobileMenu.setAttribute("aria-hidden", "false");
+    }
+    function closeMenu(){
+      if(!mobileMenu || !menuBackdrop) return;
+      mobileMenu.classList.remove("open");
+      menuBackdrop.classList.remove("open");
+      document.body.classList.remove("menu-open");
+      if(menuBtn) menuBtn.setAttribute("aria-expanded", "false");
+      mobileMenu.setAttribute("aria-hidden", "true");
+    }
+    if(menuBtn){
+      menuBtn.addEventListener("click", function(){
+        if(mobileMenu.classList.contains("open")) closeMenu();
+        else openMenu();
+      });
+    }
+    if(menuBackdrop){
+      menuBackdrop.addEventListener("click", closeMenu);
+    }
+    if(installBtn){
+      installBtn.addEventListener("click", function(){
+        alert("브라우저 메뉴에서 ‘앱 설치’ 또는 ‘홈 화면에 추가’를 선택해 주세요.");
+      });
+    }
+  })();
+
   // 계산기 로직
   let currentTab = 'monthly';
+  let lastCalculatedPlatformBase = 1035000;
+
+  function goPayment() {
+    localStorage.setItem("wooriapt_service_fee", String(lastCalculatedPlatformBase));
+    localStorage.setItem("wooriapt_service_type", currentTab);
+    location.href = "service-fee-payment.html";
+  }
 
   function switchCalcTab(type) {
     currentTab = type;
@@ -1236,6 +1398,7 @@ button, input {
     const ansimBase = Math.round(normalBase * 0.5);
     const ansimWithVat = Math.round(ansimBase * 1.1);
     const saved = normalWithVat - ansimWithVat;
+    lastCalculatedPlatformBase = ansimBase;
 
     document.getElementById('calcNormal').textContent = normalWithVat.toLocaleString('ko-KR') + '원';
     document.getElementById('calcAnsim').textContent = ansimWithVat.toLocaleString('ko-KR') + '원';
