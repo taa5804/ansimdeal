@@ -991,6 +991,26 @@ export default async function handler(req, res) {
 
 
     /*
+      오전 9시 ~ 오후 9시 (09:00 ~ 21:00 KST) 발송 시간 제한 확인
+    */
+    const kstHour =
+      new Date(
+        Date.now() + 9 * 60 * 60 * 1000
+      ).getUTCHours();
+
+    if (
+      kstHour < 9 ||
+      kstHour >= 21
+    ) {
+      return res.status(400).json({
+        ok: false,
+        message:
+          "발송 가능 시간은 오전 9시부터 오후 9시까지(09:00~21:00)입니다. 밤이나 새벽 시간대에는 1·2·3차 요청이 비활성화됩니다."
+      });
+    }
+
+
+    /*
       1차 / 2차 / 3차만 허용
     */
 
@@ -1073,6 +1093,29 @@ export default async function handler(req, res) {
         message:
           "이전 요청이 완료된 후 실행해 주세요."
       });
+    }
+
+
+    /*
+      2차·3차 요청은 이전 요청 후 3시간 경과 여부 확인
+    */
+    if (
+      round > 1 &&
+      request.next_ars_at
+    ) {
+      const nextAllowedTime =
+        new Date(request.next_ars_at).getTime();
+
+      if (
+        Number.isFinite(nextAllowedTime) &&
+        Date.now() < nextAllowedTime
+      ) {
+        return res.status(409).json({
+          ok: false,
+          message:
+            round + "차 요청은 이전 요청 완료 후 3시간 후에 활성화됩니다."
+        });
+      }
     }
 
 
@@ -1354,7 +1397,7 @@ export default async function handler(req, res) {
       const nextArsAt =
         new Date(
           Date.now() +
-          2 *
+          3 *
           60 *
           60 *
           1000
