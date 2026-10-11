@@ -4,9 +4,33 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#1165d7">
-  <title>[안심딜] 상권분석 지도 말풍선 (1.5km) & 전기·수도·가스 입주연결·해지정산 매칭기</title>
+  <title>전기·수도·가스 입주연결·해지정산 매칭기 & 반경 1.5km 상권분석 지도 | 안심딜 · 우리아파트 안심거래</title>
+  <meta name="description" content="전국 시·도·구·동 선택만으로 관할 도시가스·전기(123)·수도(120) 자동 매칭! 이사 해지 시 계량기 숫자 입력으로 당일 요금 정산 및 집주인 카카오톡 전송, 소상공인진흥공단 DB 반경 1.5km 상권분석 지도 말풍선을 제공합니다.">
+  <meta name="keywords" content="전기가스수도해지, 도시가스해지정산, 이사공과금정산, 도시가스고객센터, 전기요금해지정산, 수도요금정산, 소상공인상권분석, 안심딜, 우리아파트안심거래">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://ansimdeal.com/tools-center.html">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <meta name="naver-site-verification" content="064ab3e4fb0e2993fc353645d9c22be0">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="전기·수도·가스 입주연결·해지정산 매칭기 & 반경 1.5km 상권분석 지도">
+  <meta property="og:description" content="시·구·동 선택 시 관할 도시가스·전기·수도 즉시 매칭! 해지 시 계량기 숫자로 요금 정산 후 집주인 카톡 전송까지 원스톱 지원.">
+  <meta property="og:url" content="https://ansimdeal.com/tools-center.html">
+  <meta property="og:image" content="https://ansimdeal.com/icon-512.png">
 
-  <!-- Leaflet 지도 라이브러리 (실제 전국 인터랙티브 지도) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "안심딜 · 우리아파트 전기·수도·가스 입주연결·해지정산 매칭기 & 상권분석 지도",
+    "url": "https://ansimdeal.com/tools-center.html",
+    "applicationCategory": "RealEstateApplication",
+    "operatingSystem": "All",
+    "description": "전국 동 단위 도시가스 공급업체 자동 매칭, 이사 해지 시 계량기 지침 기반 전기·수도·가스 요금 정산 및 카카오톡 전송, 소상공인진흥공단 반경 1.5km 상권분석 지도 서비스"
+  }
+  </script>
+
+  <!-- Leaflet 지도 라이브러리 -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -29,27 +53,79 @@
       padding: 0 18px 60px;
     }
 
-    /* 헤더 */
+    /* 최상단 헤더 + 다운로드 가능한 앱 로고 버튼 */
     .header {
-      min-height: 76px;
+      min-height: 80px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 14px;
       border-bottom: 1px solid #e1e8ee;
       margin-bottom: 18px;
+      padding: 10px 0;
+      flex-wrap: wrap;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
       flex-wrap: wrap;
     }
     .logo {
       display: flex;
       align-items: center;
-      gap: 9px;
-      font-size: 17px;
+      gap: 10px;
+      font-size: 16px;
       font-weight: 800;
       color: #173f67;
     }
-    .logo-mark { font-size: 28px; }
-    .logo strong { display: block; color: #1165d7; font-size: 19px; }
+    .logo-app-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #1165d7 0%, #0d3b7a 100%);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(17, 101, 215, 0.28);
+    }
+    .logo strong { display: block; color: #1165d7; font-size: 18.5px; }
+
+    /* 상단 앱 다운로드(설치) 로고 버튼 */
+    .app-download-logo-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 2px solid #1165d7;
+      background: linear-gradient(135deg, #eef6ff 0%, #dbeafe 100%);
+      color: #0d3b7a;
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(17, 101, 215, 0.16);
+      transition: all 0.16s ease;
+    }
+    .app-download-logo-btn:hover {
+      background: #1165d7;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .app-download-logo-btn .app-badge-ico {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: #1165d7;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
 
     .header-actions {
       display: flex;
@@ -62,7 +138,7 @@
       align-items: center;
       gap: 6px;
       height: 40px;
-      padding: 0 15px;
+      padding: 0 14px;
       border-radius: 10px;
       background: #fff;
       border: 1px solid #d5e0ea;
@@ -193,14 +269,24 @@
     }
     .section-title span.sub {
       font-size: 12.5px;
-      font-weight: 700;
+      font-weight: 800;
       color: #1165d7;
       background: #eef6ff;
       padding: 4px 10px;
       border-radius: 999px;
     }
 
-    /* 소상공인진흥공단 3단계 업종 선택 그리드 */
+    /* 3단 행정구역 선택 + 입력 그리드 */
+    .region-3step-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) 1.3fr auto;
+      gap: 10px;
+      align-items: end;
+    }
+    .region-3step-grid.dong-only {
+      grid-template-columns: repeat(3, 1fr) auto;
+    }
+
     .industry-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr) 1.1fr;
@@ -217,12 +303,12 @@
     .field-box select,
     .field-box input {
       width: 100%;
-      height: 44px;
+      height: 46px;
       padding: 0 12px;
       border: 1.5px solid #cbd8e6;
       border-radius: 11px;
       background: #fff;
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: 800;
       color: #172b3d;
       outline: none;
@@ -232,6 +318,26 @@
       border-color: #1165d7;
       box-shadow: 0 0 0 3px rgba(17,101,215,0.12);
     }
+
+    .action-confirm-btn {
+      height: 46px;
+      padding: 0 22px;
+      border: 0;
+      border-radius: 11px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 14.5px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.28);
+    }
+    .action-confirm-btn:hover { background: #dc2626; }
+    .action-confirm-btn.green {
+      background: #059669;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.28);
+    }
+    .action-confirm-btn.green:hover { background: #047857; }
 
     /* 인기 업종 빠른 선택 칩 */
     .quick-chips {
@@ -261,41 +367,8 @@
       border-color: #1165d7;
     }
 
-    /* 주소 검색 바 (엔터 지원) */
-    .address-search-row {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-    .address-search-row input {
-      flex: 1;
-      height: 50px;
-      padding: 0 16px;
-      border: 2px solid #1165d7;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 800;
-      color: #172b3d;
-      outline: none;
-    }
-    .address-search-row button {
-      height: 50px;
-      padding: 0 24px;
-      border: 0;
-      border-radius: 12px;
-      background: #ef4444;
-      color: #fff;
-      font-size: 15px;
-      font-weight: 900;
-      cursor: pointer;
-      white-space: nowrap;
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.28);
-    }
-    .address-search-row button:hover {
-      background: #dc2626;
-    }
     .search-hint {
-      margin-top: 8px;
+      margin-top: 10px;
       font-size: 12.5px;
       color: #4b637a;
       display: flex;
@@ -367,9 +440,7 @@
       margin-top: 3px;
       font-weight: 700;
     }
-    .bubble-body {
-      padding: 14px 15px;
-    }
+    .bubble-body { padding: 14px 15px; }
     .bubble-stat-row {
       display: flex;
       justify-content: space-between;
@@ -378,23 +449,13 @@
       border-bottom: 1px solid #edf2f7;
       font-size: 13px;
     }
-    .bubble-stat-row:last-of-type {
-      border-bottom: 0;
-    }
-    .bubble-stat-label {
-      color: #4a5568;
-      font-weight: 800;
-    }
-    .bubble-stat-val {
-      font-weight: 900;
-      font-size: 14.5px;
-      color: #0f172a;
-    }
+    .bubble-stat-row:last-of-type { border-bottom: 0; }
+    .bubble-stat-label { color: #4a5568; font-weight: 800; }
+    .bubble-stat-val { font-weight: 900; font-size: 14.5px; color: #0f172a; }
     .bubble-stat-val.red { color: #dc2626; }
     .bubble-stat-val.blue { color: #1165d7; }
     .bubble-stat-val.green { color: #059669; }
 
-    /* 말풍선 내 미니 매출추이 바 */
     .mini-trend {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
@@ -431,14 +492,8 @@
       border-radius: 4px 4px 0 0;
       transition: height 0.25s;
     }
-    .mini-bar.current {
-      background: #1165d7;
-    }
-    .mini-bar-lbl {
-      font-size: 10px;
-      color: #64748b;
-      font-weight: 700;
-    }
+    .mini-bar.current { background: #1165d7; }
+    .mini-bar-lbl { font-size: 10px; color: #64748b; font-weight: 700; }
     .bubble-cta {
       display: block;
       width: 100%;
@@ -455,7 +510,6 @@
     }
     .bubble-cta:hover { background: #0d4fa8; }
 
-    /* 하단 상세 대시보드 */
     .detail-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -506,7 +560,7 @@
     }
     .mode-card-btn strong {
       display: block;
-      font-size: 15.5px;
+      font-size: 16px;
       font-weight: 900;
       color: #173f67;
       margin-bottom: 4px;
@@ -563,12 +617,9 @@
       gap: 16px;
       margin-bottom: 20px;
     }
-    .util-cards-grid.two-cols {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .util-cards-grid.one-col {
-      grid-template-columns: 1fr;
-    }
+    .util-cards-grid.two-cols { grid-template-columns: repeat(2, 1fr); }
+    .util-cards-grid.one-col { grid-template-columns: 1fr; }
+
     .util-provider-card {
       background: #fff;
       border: 2px solid #dbe4ec;
@@ -588,7 +639,7 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .up-badge {
       display: inline-flex;
@@ -618,24 +669,15 @@
       background: #f8fafc;
       border: 1.5px solid #e2e8f0;
       border-radius: 13px;
-      padding: 13px 14px;
+      padding: 12px 14px;
       margin: 10px 0 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
     }
-    .up-phone-lbl {
-      font-size: 12px;
-      font-weight: 800;
-      color: #475569;
-    }
-    .up-phone-num {
-      font-size: 21px;
-      font-weight: 900;
-      color: #dc2626;
-      letter-spacing: -0.3px;
-    }
+    .up-phone-lbl { font-size: 12px; font-weight: 800; color: #475569; }
+    .up-phone-num { font-size: 21px; font-weight: 900; color: #dc2626; letter-spacing: -0.3px; }
     .up-guide {
       font-size: 13px;
       color: #334e68;
@@ -646,26 +688,76 @@
       line-height: 1.5;
       font-weight: 600;
     }
-    .up-memo-field {
+
+    /* 해지 시 계량기 숫자 입력 & 요금 정산 박스 */
+    .meter-calc-box {
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-radius: 12px;
+      padding: 12px;
       margin-bottom: 12px;
     }
-    .up-memo-field label {
+    .meter-calc-title {
+      font-size: 12.5px;
+      font-weight: 900;
+      color: #065f46;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .meter-input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .meter-field label {
       display: block;
+      font-size: 11px;
+      font-weight: 800;
+      color: #334e68;
+      margin-bottom: 3px;
+    }
+    .meter-field input {
+      width: 100%;
+      height: 38px;
+      padding: 0 10px;
+      border: 1.5px solid #cbd8e6;
+      border-radius: 8px;
+      background: #fff;
+      font-size: 13.5px;
+      font-weight: 900;
+      color: #0f172a;
+    }
+    .meter-fee-result {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      border: 1.5px solid #059669;
+      border-radius: 9px;
+      padding: 8px 11px;
+      margin-top: 6px;
+    }
+    .meter-fee-result span {
       font-size: 12px;
       font-weight: 800;
-      color: #475569;
-      margin-bottom: 4px;
+      color: #065f46;
     }
-    .up-memo-field input {
-      width: 100%;
-      height: 40px;
-      padding: 0 12px;
-      border: 1.5px solid #cbd8e6;
-      border-radius: 9px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #172b3d;
+    .meter-fee-result input {
+      width: 125px;
+      height: 32px;
+      border: 1px solid #cbd8e6;
+      border-radius: 6px;
+      text-align: right;
+      padding: 0 8px;
+      font-size: 15px;
+      font-weight: 900;
+      color: #dc2626;
+      background: #fff;
     }
+
     .up-btn-row {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
@@ -700,6 +792,44 @@
       text-align: center;
     }
     .up-web-btn:hover { background: #e2e8f0; }
+
+    /* 해지 요금 정산 실행 버튼 배너 */
+    .settle-trigger-bar {
+      background: linear-gradient(135deg, #065f46 0%, #059669 100%);
+      border-radius: 16px;
+      padding: 18px 22px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 22px rgba(5, 150, 105, 0.22);
+    }
+    .settle-trigger-bar .st-left strong {
+      display: block;
+      font-size: 17px;
+      font-weight: 900;
+      margin-bottom: 3px;
+    }
+    .settle-trigger-bar .st-left span {
+      font-size: 13px;
+      opacity: 0.92;
+    }
+    .settle-calc-btn {
+      height: 50px;
+      padding: 0 26px;
+      border-radius: 12px;
+      border: 0;
+      background: #FEE500;
+      color: #191919;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    }
+    .settle-calc-btn:hover { background: #fada0a; }
 
     /* 확인서 + 카카오톡 전송 + 양대 플랫폼 메인 이동 카드 */
     .cert-card {
@@ -749,11 +879,34 @@
       background: #f1f5f9;
       color: #334e68;
       font-weight: 900;
-      width: 24%;
+      width: 22%;
     }
     .cert-table td {
       font-weight: 800;
       color: #0f172a;
+    }
+
+    .total-settle-banner {
+      margin-top: 14px;
+      padding: 16px 18px;
+      border-radius: 12px;
+      background: #ecfdf5;
+      border: 2px solid #059669;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .total-settle-banner .ts-label {
+      font-size: 15px;
+      font-weight: 900;
+      color: #065f46;
+    }
+    .total-settle-banner .ts-amount {
+      font-size: 24px;
+      font-weight: 900;
+      color: #dc2626;
     }
 
     /* 카카오톡 전송 버튼 */
@@ -842,8 +995,10 @@
     }
     .platform-home-btn.store:hover { background: #0d4fa8; }
 
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
       .industry-grid { grid-template-columns: 1fr 1fr; }
+      .region-3step-grid,
+      .region-3step-grid.dong-only { grid-template-columns: 1fr 1fr; }
       .detail-grid { grid-template-columns: 1fr 1fr; }
       .util-cards-grid,
       .util-cards-grid.two-cols { grid-template-columns: 1fr; }
@@ -855,8 +1010,9 @@
       .kakao-action-row,
       .platform-links-grid,
       .industry-grid,
+      .region-3step-grid,
+      .region-3step-grid.dong-only,
       .detail-grid { grid-template-columns: 1fr; }
-      .address-search-row { flex-direction: column; align-items: stretch; }
       .leaflet-popup-content { width: 280px !important; }
     }
   </style>
@@ -864,15 +1020,24 @@
 <body>
 
 <div class="wrap">
-  <!-- 헤더 -->
+  <!-- 최상단 헤더 + 앱 다운로드(설치) 로고 버튼 -->
   <header class="header">
-    <a class="logo" href="index.html">
-      <span class="logo-mark">🏪</span>
-      <div>
-        <strong>안심딜 (ansimdeal) · 우리아파트 안심거래</strong>
-        <span>상권분석 지도(반경 1.5km) &amp; 전기·수도·가스 입주연결·해지정산 매칭기</span>
-      </div>
-    </a>
+    <div class="brand-group">
+      <a class="logo" href="index.html">
+        <span class="logo-app-icon">🏪</span>
+        <div>
+          <strong>안심딜 · 우리아파트 안심거래</strong>
+          <span>상권분석 지도(1.5km) &amp; 전기·수도·가스 입주연결·해지정산 매칭기</span>
+        </div>
+      </a>
+
+      <!-- 사용자가 다운로드 받아 홈화면에 앱으로 사용할 수 있는 상단 앱 로고 버튼 -->
+      <button type="button" id="topAppInstallBtn" class="app-download-logo-btn" title="스마트폰·PC에 앱 다운로드 및 홈화면 설치">
+        <span class="app-badge-ico">📲</span>
+        <span>앱 다운로드 · 설치</span>
+      </button>
+    </div>
+
     <div class="header-actions">
       <a class="back-btn-deal" href="https://wooriapt.app">🏠 우리아파트 안심거래 메인</a>
       <a class="back-btn-deal" href="index.html">🏪 점포·상가 안심딜 메인</a>
@@ -896,7 +1061,7 @@
     <section class="hero-banner">
       <div>
         <h1>🗺️ 소상공인시장진흥공단 DB 실시간 상권분석 지도 말풍선</h1>
-        <p>진흥공단 전 업종을 선택하고 <b>주소를 입력해 엔터(Enter)</b>를 치거나 <b>지도 위를 마우스 커서로 클릭</b>하면 <b>반경 1.5km 빨간 동그라미</b>와 함께 상권 말풍선이 표시됩니다.</p>
+        <p><b>시·도 &gt; 시·군·구 &gt; 읍·면·동</b>을 선택하고 나머지 주소를 타이핑해 엔터(Enter)를 치거나 지도 위를 클릭하면 <b>반경 1.5km 빨간 동그라미</b>와 상권 말풍선이 표시됩니다.</p>
       </div>
       <div class="radius-pill">🔴 반경 1.5km 동일업종 집중분석</div>
     </section>
@@ -941,22 +1106,32 @@
       </div>
 
       <div class="section-title" style="margin-top:6px;">
-        <span>2단계. 주소 입력 후 엔터(Enter) 또는 아래 지도 위 원하는 위치 마우스 커서 클릭</span>
+        <span>2단계. 지역(시·도 / 구·군 / 동) 선택 + 나머지 주소 타이핑 후 엔터(Enter)</span>
       </div>
 
-      <div class="address-search-row">
-        <input
-          id="addressInput"
-          type="text"
-          value="경기 평택시 청북읍 안청로"
-          placeholder="주소를 입력하고 엔터(Enter)를 치세요 (예: 평택시 청북읍, 서울 마포구 서교동, 강남역, 수원 인계동)"
-        >
-        <button type="button" id="searchAddressBtn">🔴 반경 1.5km 상권 조회 (Enter)</button>
+      <div class="region-3step-grid">
+        <div class="field-box">
+          <label for="mapSido">시·도 선택</label>
+          <select id="mapSido"></select>
+        </div>
+        <div class="field-box">
+          <label for="mapSgg">시·군·구 선택</label>
+          <select id="mapSgg"></select>
+        </div>
+        <div class="field-box">
+          <label for="mapDong">읍·면·동 선택</label>
+          <select id="mapDong"></select>
+        </div>
+        <div class="field-box">
+          <label for="mapDetailAddress">나머지 주소 타이핑 (선택사항 · 번지/도로명)</label>
+          <input id="mapDetailAddress" type="text" placeholder="예: 양산택지로 35, 역삼역, 안청로 (생략 가능)">
+        </div>
+        <button type="button" id="searchAddressBtn" class="action-confirm-btn">🔴 반경 1.5km 조회</button>
       </div>
 
       <div class="search-hint">
-        <span>💡 <b>주소 입력 후 엔터(Enter)</b>를 치거나 <b>지도 위 아무 곳이나 마우스 커서로 클릭</b>하면 해당 위치에 <b>🔴 반경 1.5km 빨간 동그라미</b>와 말풍선이 즉시 표시됩니다.</span>
-        <span id="currentCoordText" style="font-weight:800; color:#1165d7;">현재 중심: 경기 평택시 청북읍 (반경 1.5km)</span>
+        <span>💡 <b>시·도 &gt; 구·군 &gt; 동</b>을 선택하거나 나머지 주소를 타이핑해 <b>엔터(Enter)</b>를 치면 해당 위치에 <b>🔴 반경 1.5km 빨간 동그라미</b>와 말풍선이 즉시 표시됩니다.</span>
+        <span id="currentCoordText" style="font-weight:800; color:#1165d7;">현재 중심: 광주광역시 북구 양산동 (반경 1.5km)</span>
       </div>
     </section>
 
@@ -966,7 +1141,7 @@
       <div class="detail-grid">
         <div class="metric-card">
           <div class="m-label">📍 선택 위치 (반경 1.5km 중심)</div>
-          <div class="m-val" id="sumLocation" style="font-size:17px;">경기 평택시 청북읍</div>
+          <div class="m-val" id="sumLocation" style="font-size:17px;">광주광역시 북구 양산동</div>
           <div class="m-sub" id="sumIndustry">음식 &gt; 비알코올 &gt; 카페/커피전문점</div>
         </div>
         <div class="metric-card">
@@ -994,57 +1169,50 @@
   <div id="panel-utility" class="tab-panel">
     <section class="hero-banner utility-hero">
       <div>
-        <h1>⚡ 전기 · 수도 · 가스 입주연결 · 이사해지 정산 매칭기</h1>
-        <p><b>지역(주소)</b>만 입력하고 확인을 누르면 전국 동일한 <b>⚡전기(한전 123) · 💧수도(상하수도 120)</b>와 함께 <b>🔥해당 지역 도시가스 공급업체 및 직통번호</b>를 즉시 매칭하고 집주인에게 카톡으로 전송합니다.</p>
+        <h1>⚡ 전기 · 수도 · 가스 입주연결 · 해지정산 매칭기</h1>
+        <p><b>시·도 &gt; 시·군·구 &gt; 읍·면·동</b>만 선택하고 <b>[확인]</b>을 누르면 관할 도시가스·전기(123)·수도(120)가 즉시 매칭되며, <b>해지 시 계량기 숫자를 입력해 [정산]</b>을 누르면 요금 합산 및 집주인 카톡 전송이 완료됩니다.</p>
       </div>
-      <div class="utility-pill">✅ 3가지 전체 또는 2가지 선택 그대로 반영</div>
+      <div class="utility-pill">✅ 동 단위 자동매칭 · 3가지/2가지 선택 반영</div>
     </section>
 
     <section class="control-card">
       <div class="section-title">
-        <span>1단계. 이용 목적 선택 (퇴실·이사 해지정산 vs 입주·입점 신규연결)</span>
+        <span>1단계. 이용 구분 선택 (해지 시 요금 정산 vs 입주·가입 시 연결 안내)</span>
       </div>
 
       <div class="mode-switch-grid">
         <button type="button" id="modeMoveOut" class="mode-card-btn active" onclick="setUtilityMode('moveout')">
-          <strong>📦 퇴실 · 이사 시 (해지 및 당일 요금정산)</strong>
-          <span>계량기 지침을 불러주고 당일 요금을 즉시 정산해 공과금 유보 없이 보증금 전액을 돌려받습니다.</span>
+          <strong>📦 해지 · 퇴실(이사) 시 — 계량기 숫자 입력 &amp; 당일 요금 정산</strong>
+          <span>동 선택 후 계량기 숫자를 입력하고 [정산]을 누르면 전기·수도·가스 요금이 자동 합산되어 집주인에게 카톡으로 전송합니다.</span>
         </button>
         <button type="button" id="modeMoveIn" class="mode-card-btn" onclick="setUtilityMode('movein')">
-          <strong>🔑 입주 · 입점 시 (신규 사용신청 및 명의변경 연결)</strong>
-          <span>새로 입주하는 아파트·상가의 전기·수도·도시가스 사용신청과 명의변경을 한 번에 연결합니다.</span>
+          <strong>🔑 입주 · 가입(신규연결) 시 — 전기·수도·가스 공급업체 연결</strong>
+          <span>입주 시에는 요금 정산 없이 해당 동의 전기(123)·수도(120)·관할 도시가스 공급업체 직통번호만 하단에 바로 표시됩니다.</span>
         </button>
       </div>
 
       <div class="section-title">
-        <span>2단계. 지역(주소) 입력 및 해당 항목 선택 (3가지 모두 또는 2가지만 선택 가능)</span>
-        <span class="sub" id="matchedGasBadge">관할 도시가스: 삼천리도시가스 (1544-3002)</span>
+        <span>2단계. 지역 동(읍·면)까지 선택 후 [확인] 클릭 (도시가스는 동 단위이므로 나머지 주소는 칠 필요 없음)</span>
+        <span class="sub" id="matchedGasBadge">관할 도시가스: 해양에너지 (1544-1115)</span>
       </div>
 
-      <div class="address-search-row">
-        <input
-          id="utilityRegionInput"
-          type="text"
-          value="경기 평택시 청북읍"
-          placeholder="지역이나 주소를 입력하고 엔터(Enter) 또는 확인을 누르세요 (예: 평택시 청북읍, 서울 강남구, 마포구, 부산 해운대구)"
-        >
-        <button type="button" id="matchUtilityBtn" style="background:#059669; box-shadow:0 4px 12px rgba(5,150,105,0.28);">
-          🔍 지역 공급업체 확인 (Enter)
+      <!-- 시·도 / 시·군·구 / 읍·면·동 3단 선택 (나머지 주소 입력 불필요) -->
+      <div class="region-3step-grid dong-only">
+        <div class="field-box">
+          <label for="utilSido">시·도 선택</label>
+          <select id="utilSido"></select>
+        </div>
+        <div class="field-box">
+          <label for="utilSgg">시·군·구 선택</label>
+          <select id="utilSgg"></select>
+        </div>
+        <div class="field-box">
+          <label for="utilDong">읍·면·동 선택</label>
+          <select id="utilDong"></select>
+        </div>
+        <button type="button" id="matchUtilityBtn" class="action-confirm-btn green">
+          ✅ 확인 (공급업체 매칭)
         </button>
-      </div>
-
-      <!-- 전국 주요 지역 빠른 선택 칩 -->
-      <div class="quick-chips" style="margin-top:10px; margin-bottom:10px;">
-        <button type="button" class="chip-btn" onclick="quickUtilityRegion('경기 평택시 청북읍')">평택·수원·안산·화성 (삼천리)</button>
-        <button type="button" class="chip-btn" onclick="quickUtilityRegion('서울 강남구 역삼동')">서울 강남·송파·성남 (코원에너지)</button>
-        <button type="button" class="chip-btn" onclick="quickUtilityRegion('서울 마포구 서교동')">서울 마포·강서·고양·파주 (서울도시가스)</button>
-        <button type="button" class="chip-btn" onclick="quickUtilityRegion('서울 성동구 성수동')">서울 성동·종로·구리·남양주 (예스코)</button>
-        <button type="button" class="chip-btn" onclick="quickUtilityRegion('서울 노원구 상계동')">서울 노원·도봉·의정부 (대륜E&amp;S)</button>
-        <button type="button" class="chip-btn" onclick="quickUtilityRegion('인천 부평구 부평동')">인천 부평·서구·계양 (인천도시가스)</button>
-        <button type="button" class="chip-btn" onclick="quickUtilityRegion('부산 해운대구 우동')">부산 전지역 (부산도시가스)</button>
-        <button type="button" class="chip-btn" onclick="quickUtilityRegion('대구 수성구 범어동')">대구·경산 (대성에너지)</button>
-        <button type="button" class="chip-btn" onclick="quickUtilityRegion('대전 서구 둔산동')">대전·계룡 (CNCITY에너지)</button>
-        <button type="button" class="chip-btn" onclick="quickUtilityRegion('충남 천안시 서북구')">천안·아산·세종 (JB도시가스)</button>
       </div>
 
       <!-- 3가지 전체 또는 2가지 선택 체크박스 -->
@@ -1059,64 +1227,95 @@
         </label>
         <label class="util-check-item checked" id="lblCheckGas">
           <input type="checkbox" id="chkGas" checked onchange="onUtilityCheckChange()">
-          <span>🔥 도시가스 (지역 공급업체 자동 매칭)</span>
+          <span>🔥 도시가스 (선택한 동 공급업체 자동 매칭)</span>
         </label>
       </div>
       <div style="font-size:12.5px; color:#4b637a; font-weight:700;">
-        💡 <b>3가지 모두</b> 해당하면 3가지가 모두 나오고, 도시가스가 없는 상가 등 <b>2가지만 체크하면 2가지 항목만 그대로</b> 아래 카드와 집주인 카톡 확인서에 표시됩니다.
+        💡 <b>3가지 모두</b> 선택하면 3가지가 모두 나오고, 도시가스가 없는 상가 등 <b>2가지만 체크하면 선택한 2가지만 그대로</b> 표시됩니다.
       </div>
     </section>
 
-    <!-- 3단계: 자동 매칭된 전기 · 수도 · 지역 도시가스 카드 -->
+    <!-- 해지 모드 전용: 계량기 숫자 입력 후 [정산] 실행 바 -->
+    <div id="settleActionBanner" class="settle-trigger-bar">
+      <div class="st-left">
+        <strong>🧮 해지 시 계량기 숫자를 입력하고 [정산] 버튼을 누르세요!</strong>
+        <span>아래 각 카드에 오늘 계량기 숫자(지침)를 입력한 뒤 <b>[정산]</b>을 누르면 당일 정산요금과 총 합계 금액이 즉시 계산됩니다.</span>
+      </div>
+      <button type="button" class="settle-calc-btn" onclick="runMeterSettlement(true)">
+        🔢 계량기 숫자 요금 정산하기
+      </button>
+    </div>
+
+    <!-- 3단계: 자동 매칭된 전기 · 수도 · 지역 도시가스 카드 (해지 시 계량기 숫자 입력란 포함 / 입주 시 연결 안내만 표시) -->
     <section id="utilityCardsContainer" class="util-cards-grid"></section>
 
-    <!-- 4단계: 정산/연결 확인서 미리보기 + 집주인 카톡 전송 + 양대 플랫폼 메인화면 바로가기 -->
-    <section class="cert-card">
-      <div class="cert-head">
-        <h3 id="certHeaderTitle">📋 [퇴실·이사 해지정산] 전기 · 수도 · 가스 정산 확인서</h3>
-        <span style="font-size:12.5px; font-weight:800; color:#059669; background:#ecfdf5; padding:5px 12px; border-radius:999px;">
-          집주인(임대인) · 상대방 카카오톡 전송용
-        </span>
-      </div>
-
-      <div class="cert-preview-box">
-        <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:13.5px; font-weight:800; color:#173f67;">
-          <span id="certRegionText">📍 대상 지역(주소): 경기 평택시 청북읍</span>
-          <span id="certDateText">📅 확인 일자: 2026-10-11</span>
+    <!-- 4단계 (해지 시): 요금 정산 확인서 + 집주인 카톡 전송 + 양대 플랫폼 메인화면 바로가기 -->
+    <!-- 4단계 (입주 시): 정산표 없이 양대 플랫폼 메인화면 바로가기만 깔끔하게 표시 -->
+    <section class="cert-card" id="bottomResultSection">
+      <div id="moveoutCertArea">
+        <div class="cert-head">
+          <h3 id="certHeaderTitle">📋 [해지·퇴실 요금정산] 전기 · 수도 · 가스 정산 내역서</h3>
+          <span style="font-size:12.5px; font-weight:800; color:#059669; background:#ecfdf5; padding:5px 12px; border-radius:999px;">
+            집주인(임대인) · 상대방 카카오톡 전송용
+          </span>
         </div>
-        <table class="cert-table">
-          <thead>
-            <tr>
-              <th>구분</th>
-              <th>관할 공급기관 및 직통번호</th>
-              <th>계량기 지침 / 처리 상태 메모</th>
-            </tr>
-          </thead>
-          <tbody id="certTableBody"></tbody>
-        </table>
-        <div id="certFooterNote" style="margin-top:12px; font-size:12.5px; color:#334e68; font-weight:700;">
-          ✅ 위 선택 항목에 대하여 당일 기준 계량기 지침 확인 및 관할 공급기관 요금 정산(해지)을 완료하였으므로, 공과금 유보금 없이 보증금 전액을 정상 반환·정산합니다.
+
+        <div class="cert-preview-box">
+          <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:14px; font-weight:900; color:#173f67;">
+            <span id="certRegionText">📍 대상 지역: 광주광역시 북구 양산동</span>
+            <span id="certDateText">📅 정산 일자: 2026-10-11</span>
+          </div>
+          <table class="cert-table">
+            <thead>
+              <tr>
+                <th>항목</th>
+                <th>관할 공급업체 및 직통번호</th>
+                <th>계량기 숫자 (지침 / 사용량)</th>
+                <th>당일 정산 요금</th>
+              </tr>
+            </thead>
+            <tbody id="certTableBody"></tbody>
+          </table>
+
+          <div class="total-settle-banner">
+            <div>
+              <div class="ts-label">💰 선택한 항목 해지 정산요금 총 합계</div>
+              <div style="font-size:12px; color:#047857; font-weight:700; margin-top:2px;">
+                <label style="margin-right:12px; cursor:pointer;">
+                  <input type="radio" name="payMethod" value="paid" checked onchange="renderCertPreviewOnly()"> 공급업체 직접 납부완료 (보증금 공제 0원)
+                </label>
+                <label style="cursor:pointer;">
+                  <input type="radio" name="payMethod" value="deduct" onchange="renderCertPreviewOnly()"> 보증금(잔금)에서 정산 차감
+                </label>
+              </div>
+            </div>
+            <div class="ts-amount" id="certTotalAmountText">총 85,800원</div>
+          </div>
+
+          <div id="certFooterNote" style="margin-top:12px; font-size:12.5px; color:#334e68; font-weight:700;">
+            ✅ 위 항목에 대하여 계량기 숫자(지침) 확인 및 당일 해지 정산요금을 산출·납부 완료하였으므로 공과금 유보금 없이 보증금 전액을 정상 정산합니다.
+          </div>
+        </div>
+
+        <!-- 카카오톡 전송 & 메시지 복사 버튼 -->
+        <div class="kakao-action-row">
+          <button type="button" class="kakao-send-btn" onclick="sendUtilityKakao()">
+            <span>💬 집주인(임대인)에게 정산내역 카카오톡 전송</span>
+          </button>
+          <button type="button" class="copy-msg-btn" onclick="copyUtilityMessage()">
+            <span>📋 정산 확인서 카톡 문구 복사</span>
+          </button>
         </div>
       </div>
 
-      <!-- 카카오톡 전송 & 메시지 복사 버튼 -->
-      <div class="kakao-action-row">
-        <button type="button" class="kakao-send-btn" onclick="sendUtilityKakao()">
-          <span>💬 집주인(임대인)에게 카카오톡 전송</span>
-        </button>
-        <button type="button" class="copy-msg-btn" onclick="copyUtilityMessage()">
-          <span>📋 정산·연결 확인서 카톡 문구 복사</span>
-        </button>
-      </div>
-
-      <!-- 하단 양대 플랫폼 메인화면 바로가기 버튼 2개 -->
-      <div class="platform-links-box">
-        <div class="platform-links-title">👇 정산·연결 확인 후 원하는 플랫폼 메인화면으로 바로 이동하세요</div>
+      <!-- 하단 양대 플랫폼 메인화면 바로가기 버튼 2개 (입주/해지 공통) -->
+      <div class="platform-links-box" id="platformLinksBox">
+        <div class="platform-links-title">👇 확인 후 원하는 플랫폼 메인화면으로 바로 이동하세요</div>
         <div class="platform-links-grid">
           <a href="https://wooriapt.app" class="platform-home-btn apt">
             <span>🏠 우리아파트 안심거래 메인화면 바로가기</span>
           </a>
-          <a href="index.html" class="platform-home-btn store">
+          <a href="https://ansimdeal.com" class="platform-home-btn store">
             <span>🏪 점포·상가 안심딜 메인화면 바로가기</span>
           </a>
         </div>
@@ -1127,7 +1326,36 @@
 
 <script>
 /* =========================================================================
-   0. 상단 탭 전환 (?tab=map 또는 ?tab=utility 자동 인식)
+   0. PWA 서비스워커 등록 & 상단 앱 다운로드(설치) 로고 버튼 동작
+   ========================================================================= */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function() {
+    navigator.serviceWorker.register("/sw.js").catch(function() {});
+  });
+}
+
+let deferredInstallPrompt = null;
+window.addEventListener("beforeinstallprompt", function(e) {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+});
+
+document.getElementById("topAppInstallBtn").addEventListener("click", async function() {
+  if (deferredInstallPrompt) {
+    try {
+      deferredInstallPrompt.prompt();
+      const choice = await deferredInstallPrompt.userChoice;
+      if (choice && choice.outcome === "accepted") {
+        deferredInstallPrompt = null;
+        return;
+      }
+    } catch (err) {}
+  }
+  location.href = "/app-install.html";
+});
+
+/* =========================================================================
+   0-1. 상단 탭 전환 (?tab=map 또는 ?tab=utility 자동 인식)
    ========================================================================= */
 function switchToolTab(tabName) {
   const isUtil = (tabName === "utility");
@@ -1145,8 +1373,202 @@ function switchToolTab(tabName) {
 }
 
 /* =========================================================================
+   0-2. 전국 시·도 > 시·군·구 > 읍·면·동 3단 행정구역 DB (즉시 로드 + Supabase 연동)
+   ========================================================================= */
+const SUPABASE_URL = "https://dcysjuxyjqtvkihdsjvv.supabase.co";
+const SUPABASE_KEY = "sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
+
+const FALLBACK_REGIONS = {
+  "광주광역시": {
+    "북구": ["양산동", "일곡동", "신용동", "첨단2동", "운암동", "용봉동", "매곡동", "두암동", "문흥동", "오치동", "삼각동", "본촌동", "연제동", "동림동", "중흥동", "우산동", "풍향동", "각화동"],
+    "광산구": ["수완동", "첨단1동", "첨단2동", "신창동", "신가동", "운남동", "월계동", "쌍암동", "선암동", "우산동", "송정동", "소촌동", "도산동", "하남동"],
+    "서구": ["치평동", "상무1동", "상무2동", "화정동", "풍암동", "금호동", "쌍촌동", "동천동", "광천동", "마륵동", "농성동", "유덕동"],
+    "남구": ["봉선동", "진월동", "백운동", "주월동", "효덕동", "노대동", "행암동", "월산동", "방림동", "양림동"],
+    "동구": ["학동", "소태동", "용산동", "계림동", "산수동", "지산동", "동명동", "충장동", "금남로"]
+  },
+  "경기도": {
+    "평택시": ["청북읍", "고덕동", "평택동", "비전동", "동삭동", "소사동", "세교동", "서정동", "안중읍", "포승읍", "팽성읍", "진위면"],
+    "수원시 팔달구": ["인계동", "매산로", "우만동", "화서동", "교동"],
+    "수원시 영통구": ["영통동", "이의동(광교)", "하동", "매탄동", "원천동", "망포동"],
+    "성남시 분당구": ["서현동", "삼평동(판교)", "백현동", "정자동", "야탑동", "수내동", "구미동"],
+    "화성시": ["반송동(동탄)", "청계동", "오산동", "능동", "봉담읍", "향남읍", "남양읍"],
+    "고양시 일산동구": ["장항동", "마두동", "백석동", "정발산동", "식사동"],
+    "안산시 단원구": ["고잔동", "초지동", "중앙동", "원곡동", "선부동"],
+    "용인시 수지구": ["풍덕천동", "죽전동", "동천동", "성복동", "상현동"],
+    "부천시": ["중동", "상동", "심곡동", "송내동", "역곡동"],
+    "남양주시": ["다산동", "별내동", "호평동", "평내동", "진접읍", "와부읍"],
+    "의정부시": ["의정부동", "민락동", "호원동", "신곡동", "금오동"]
+  },
+  "서울특별시": {
+    "강남구": ["역삼동", "삼성동", "논현동", "대치동", "신사동", "청담동", "압구정동", "도곡동"],
+    "서초구": ["서초동", "반포동", "방배동", "잠원동", "양재동"],
+    "송파구": ["잠실동", "문정동", "가락동", "방이동", "석촌동", "송파동"],
+    "마포구": ["서교동", "연남동", "합정동", "상암동", "공덕동", "망원동", "동교동"],
+    "성동구": ["성수동1가", "성수동2가", "왕십리동", "옥수동", "금호동"],
+    "영등포구": ["여의도동", "영등포동", "당산동", "문래동", "신길동"],
+    "강서구": ["마곡동", "화곡동", "발산동", "등촌동", "염창동"],
+    "노원구": ["상계동", "중계동", "하계동", "공릉동", "월계동"],
+    "구로구": ["구로동", "신도림동", "개봉동", "고척동"],
+    "관악구": ["신림동", "봉천동", "남현동"],
+    "종로구": ["종로1가", "관철동", "혜화동", "삼청동", "평창동"],
+    "중구": ["명동", "을지로동", "신당동", "회현동"]
+  },
+  "인천광역시": {
+    "부평구": ["부평동", "삼산동", "갈산동", "부개동", "청천동"],
+    "남동구": ["구월동", "간석동", "논현동", "만수동", "서창동"],
+    "연수구": ["송도동", "연수동", "선학동", "옥련동", "동춘동"],
+    "서구": ["청라동", "가정동", "석남동", "검단동", "당하동", "마전동"],
+    "계양구": ["계산동", "작전동", "효성동", "용종동"]
+  },
+  "부산광역시": {
+    "해운대구": ["우동", "좌동", "중동", "송정동", "재송동", "반여동"],
+    "부산진구": ["부전동(서면)", "전포동", "가야동", "개금동", "양정동"],
+    "수영구": ["광안동", "남천동", "수영동", "민락동"],
+    "동래구": ["온천동", "명륜동", "사직동", "안락동"],
+    "남구": ["대연동", "용호동", "문현동"]
+  },
+  "대구광역시": {
+    "수성구": ["범어동", "만촌동", "수성동", "황금동", "두산동", "시지동"],
+    "중구": ["동성로", "삼덕동", "봉산동", "대봉동", "남산동"],
+    "달서구": ["월성동", "상인동", "용산동", "감삼동", "두류동"],
+    "북구": ["침산동", "칠곡(태전동)", "산격동", "복현동"]
+  },
+  "대전광역시": {
+    "서구": ["둔산동", "탄방동", "갈마동", "관저동", "도안동", "월평동"],
+    "유성구": ["봉명동", "어은동", "궁동", "지족동", "반석동", "상대동"],
+    "중구": ["은행동", "대흥동", "문화동", "오류동", "태평동"]
+  },
+  "울산광역시": {
+    "남구": ["삼산동", "달동", "신정동", "무거동", "옥동"],
+    "중구": ["성남동", "우정동", "반구동", "약사동"],
+    "울주군": ["범서읍", "언양읍", "온양읍"]
+  },
+  "세종특별자치시": {
+    "세종시": ["나성동", "어진동", "도담동", "보람동", "아름동", "종촌동", "새롬동", "조치원읍"]
+  },
+  "충청남도": {
+    "천안시 서북구": ["불당동", "두정동", "성정동", "백석동", "쌍용동"],
+    "아산시": ["배방읍", "탕정면", "온천동", "모종동"],
+    "당진시": ["읍내동", "수청동", "송악읍"],
+    "서산시": ["동문동", "예천동", "석남동"]
+  },
+  "충청북도": {
+    "청주시 흥덕구": ["복대동", "가경동", "비하동", "오송읍"],
+    "청주시 청원구": ["오창읍", "율량동", "사천동"],
+    "충주시": ["연수동", "호암동", "칠금동"]
+  },
+  "전라남도": {
+    "순천시": ["연향동", "조례동", "왕지동", "해룡면(신대)"],
+    "여수시": ["여서동", "학동", "웅천동", "문수동"],
+    "목포시": ["상동(하당)", "옥암동", "북항동"],
+    "나주시": ["빛가람동(혁신도시)", "성북동", "송월동"],
+    "무안군": ["삼향읍(남악)", "무안읍"]
+  },
+  "전라북도": {
+    "전주시 완산구": ["효자동", "서신동", "중화산동", "삼천동"],
+    "전주시 덕진구": ["송천동", "인후동", "만성동", "장동"],
+    "군산시": ["수송동", "나운동", "조촌동"],
+    "익산시": ["영등동", "모현동", "부송동"]
+  },
+  "경상남도": {
+    "창원시 성산구": ["상남동", "중앙동", "용호동", "반림동"],
+    "김해시": ["내동", "외동", "장유동", "율하동", "삼계동"],
+    "양산시": ["물금읍", "중부동", "덕계동"],
+    "진주시": ["충무공동", "평거동", "초전동"]
+  },
+  "경상북도": {
+    "포항시 북구": ["죽도동", "양덕동", "장성동", "흥해읍"],
+    "구미시": ["송정동", "형곡동", "옥계동", "인동"],
+    "경산시": ["중방동", "정평동", "하양읍"],
+    "경주시": ["황성동", "용강동", "동천동"]
+  },
+  "강원특별자치도": {
+    "춘천시": ["퇴계동", "석사동", "온의동", "효자동"],
+    "원주시": ["무실동", "단계동", "반곡동(혁신)", "단구동"],
+    "강릉시": ["교동", "포남동", "유천동"]
+  },
+  "제주특별자치도": {
+    "제주시": ["노형동", "연동", "이도2동", "아라동", "애월읍"],
+    "서귀포시": ["서귀동", "동홍동", "대정읍", "중문동"]
+  }
+};
+
+async function sbRegionFetch(table, query) {
+  try {
+    const res = await fetch(SUPABASE_URL + "/rest/v1/" + table + "?" + query, {
+      headers: { apikey: SUPABASE_KEY, Authorization: "Bearer " + SUPABASE_KEY }
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (e) {
+    return null;
+  }
+}
+
+async function setupThreeStepRegion(sidoId, sggId, dongId, defaultSido, defaultSgg, defaultDong, onChangedCallback) {
+  const sidoEl = document.getElementById(sidoId);
+  const sggEl = document.getElementById(sggId);
+  const dongEl = document.getElementById(dongId);
+
+  // 1) 시·도 목록 채우기
+  let sidoList = Object.keys(FALLBACK_REGIONS);
+  const dbSido = await sbRegionFetch("safe_region_sido", "select=sido&order=sido.asc");
+  if (Array.isArray(dbSido) && dbSido.length > 0) {
+    const fromDb = dbSido.map(r => r.sido).filter(Boolean);
+    fromDb.forEach(s => { if (sidoList.indexOf(s) === -1) sidoList.push(s); });
+  }
+
+  sidoEl.innerHTML = sidoList.map(s => `<option value="${s}">${s}</option>`).join("");
+  if (sidoList.indexOf(defaultSido) !== -1) sidoEl.value = defaultSido;
+
+  async function loadSggList(sidoVal, targetSgg, targetDong) {
+    let sggList = FALLBACK_REGIONS[sidoVal] ? Object.keys(FALLBACK_REGIONS[sidoVal]) : [];
+    const dbSgg = await sbRegionFetch("safe_region_sigungu", "select=sigungu&sido=eq." + encodeURIComponent(sidoVal) + "&order=sigungu.asc");
+    if (Array.isArray(dbSgg) && dbSgg.length > 0) {
+      dbSgg.map(r => r.sigungu).filter(Boolean).forEach(g => {
+        if (sggList.indexOf(g) === -1) sggList.push(g);
+      });
+    }
+    if (sggList.length === 0) sggList = ["전체"];
+    sggEl.innerHTML = sggList.map(g => `<option value="${g}">${g}</option>`).join("");
+    if (targetSgg && sggList.indexOf(targetSgg) !== -1) sggEl.value = targetSgg;
+    await loadDongList(sidoVal, sggEl.value, targetDong);
+  }
+
+  async function loadDongList(sidoVal, sggVal, targetDong) {
+    let dongList = (FALLBACK_REGIONS[sidoVal] && FALLBACK_REGIONS[sidoVal][sggVal])
+      ? FALLBACK_REGIONS[sidoVal][sggVal].slice()
+      : [];
+    const dbDong = await sbRegionFetch(
+      "safe_region_dong",
+      "select=eupmyeondong&sido=eq." + encodeURIComponent(sidoVal) + "&sigungu=eq." + encodeURIComponent(sggVal) + "&order=eupmyeondong.asc"
+    );
+    if (Array.isArray(dbDong) && dbDong.length > 0) {
+      dbDong.map(r => r.eupmyeondong).filter(Boolean).forEach(d => {
+        if (dongList.indexOf(d) === -1) dongList.push(d);
+      });
+    }
+    if (dongList.length === 0) dongList = ["중심동"];
+    dongEl.innerHTML = dongList.map(d => `<option value="${d}">${d}</option>`).join("");
+    if (targetDong && dongList.indexOf(targetDong) !== -1) dongEl.value = targetDong;
+    if (onChangedCallback) onChangedCallback();
+  }
+
+  sidoEl.addEventListener("change", function() {
+    loadSggList(this.value, null, null);
+  });
+  sggEl.addEventListener("change", function() {
+    loadDongList(sidoEl.value, this.value, null);
+  });
+  dongEl.addEventListener("change", function() {
+    if (onChangedCallback) onChangedCallback();
+  });
+
+  await loadSggList(sidoEl.value, defaultSgg, defaultDong);
+}
+
+/* =========================================================================
    1. 소상공인시장진흥공단(소상공인365) 공식 표준 업종분류 전체 체계
-      (대분류 10개 · 중분류 75개 · 소분류 전체 탑재)
    ========================================================================= */
 const SEMAS_INDUSTRIES = {
   "I2": {
@@ -1323,15 +1745,9 @@ function populateSmall(largeCode, midName, targetSmall) {
   updateIndustryBadgeAndRefresh();
 }
 
-catLargeEl.addEventListener("change", function() {
-  populateMid(this.value);
-});
-catMidEl.addEventListener("change", function() {
-  populateSmall(catLargeEl.value, this.value);
-});
-catSmallEl.addEventListener("change", function() {
-  updateIndustryBadgeAndRefresh();
-});
+catLargeEl.addEventListener("change", function() { populateMid(this.value); });
+catMidEl.addEventListener("change", function() { populateSmall(catLargeEl.value, this.value); });
+catSmallEl.addEventListener("change", function() { updateIndustryBadgeAndRefresh(); });
 
 industryKeywordEl.addEventListener("input", function() {
   const kw = this.value.trim();
@@ -1379,7 +1795,7 @@ function updateIndustryBadgeAndRefresh() {
 }
 
 /* =========================================================================
-   3. 실제 지도 초기화 + 반경 1.5km 빨간 동그라미 + 말풍선 + 주소 엔터 검색
+   3. 실제 지도 초기화 + 반경 1.5km 빨간 동그라미 + 말풍선 + 3단 지역 & 상세주소 연동
    ========================================================================= */
 const RADIUS_METERS = 1500;
 
@@ -1388,33 +1804,39 @@ let redCircle = null;
 let centerMarker = null;
 let competitorMarkers = [];
 let currentCenter = {
-  lat: 37.0195,
-  lng: 126.9154,
-  address: "경기 평택시 청북읍 안청로"
+  lat: 35.2028,
+  lng: 126.8758,
+  address: "광주광역시 북구 양산동"
 };
 
 const KOR_PLACE_PRESETS = [
-  { keys: ["청북", "안청로"], lat: 37.0195, lng: 126.9154, name: "경기 평택시 청북읍 안청로" },
-  { keys: ["평택역", "평택동", "평택시"], lat: 36.9921, lng: 127.0857, name: "경기 평택시 평택동" },
-  { keys: ["고덕", "평택고덕"], lat: 37.0435, lng: 127.0389, name: "경기 평택시 고덕동" },
-  { keys: ["송탄", "서정동"], lat: 37.0668, lng: 127.0581, name: "경기 평택시 서정동(송탄)" },
-  { keys: ["안중"], lat: 36.9873, lng: 126.9295, name: "경기 평택시 안중읍" },
-  { keys: ["홍대", "서교동", "연남동", "마포"], lat: 37.5563, lng: 126.9236, name: "서울 마포구 서교동(홍대입구)" },
-  { keys: ["강남역", "역삼동", "강남구"], lat: 37.4980, lng: 127.0276, name: "서울 강남구 역삼동(강남역)" },
-  { keys: ["성수", "성동구"], lat: 37.5446, lng: 127.0560, name: "서울 성동구 성수동" },
-  { keys: ["잠실", "송파"], lat: 37.5133, lng: 127.1001, name: "서울 송파구 잠실동" },
-  { keys: ["종로", "광화문", "명동"], lat: 37.5665, lng: 126.9780, name: "서울 중구·종로 중심상권" },
-  { keys: ["여의도", "영등포"], lat: 37.5216, lng: 126.9242, name: "서울 영등포구 여의도동" },
-  { keys: ["인계동", "수원역", "수원"], lat: 37.2660, lng: 127.0315, name: "경기 수원시 팔달구 인계동" },
-  { keys: ["분당", "판교", "서현", "성남"], lat: 37.3948, lng: 127.1112, name: "경기 성남시 분당구 판교·서현" },
-  { keys: ["동탄", "화성"], lat: 37.2006, lng: 127.0975, name: "경기 화성시 동탄중앙로" },
-  { keys: ["일산", "고양"], lat: 37.6584, lng: 126.7702, name: "경기 고양시 일산동구 장항동" },
-  { keys: ["부평", "송도", "구월동", "인천"], lat: 37.4563, lng: 126.7052, name: "인천 남동구 구월동" },
-  { keys: ["서면", "해운대", "부산"], lat: 35.1578, lng: 129.0600, name: "부산 부산진구 부전동(서면)" },
-  { keys: ["동성로", "수성구", "대구"], lat: 35.8685, lng: 128.5955, name: "대구 중구 동성로" },
-  { keys: ["둔산동", "유성", "대전"], lat: 36.3519, lng: 127.3782, name: "대전 서구 둔산동" },
-  { keys: ["상무지구", "광주"], lat: 35.1534, lng: 126.8514, name: "광주 서구 치평동(상무지구)" },
-  { keys: ["불당동", "천안"], lat: 36.8151, lng: 127.1139, name: "충남 천안시 서북구 불당동" }
+  { keys: ["양산동"], lat: 35.2028, lng: 126.8758, name: "광주광역시 북구 양산동" },
+  { keys: ["일곡동"], lat: 35.2054, lng: 126.8981, name: "광주광역시 북구 일곡동" },
+  { keys: ["용봉동"], lat: 35.1782, lng: 126.9125, name: "광주광역시 북구 용봉동" },
+  { keys: ["운암동"], lat: 35.1805, lng: 126.8790, name: "광주광역시 북구 운암동" },
+  { keys: ["수완동"], lat: 35.1904, lng: 126.8282, name: "광주광역시 광산구 수완동" },
+  { keys: ["치평동", "상무"], lat: 35.1534, lng: 126.8514, name: "광주광역시 서구 치평동" },
+  { keys: ["봉선동"], lat: 35.1258, lng: 126.9078, name: "광주광역시 남구 봉선동" },
+  { keys: ["청북", "안청로"], lat: 37.0195, lng: 126.9154, name: "경기도 평택시 청북읍" },
+  { keys: ["평택역", "평택동", "평택시"], lat: 36.9921, lng: 127.0857, name: "경기도 평택시 평택동" },
+  { keys: ["고덕", "평택고덕"], lat: 37.0435, lng: 127.0389, name: "경기도 평택시 고덕동" },
+  { keys: ["송탄", "서정동"], lat: 37.0668, lng: 127.0581, name: "경기도 평택시 서정동" },
+  { keys: ["안중"], lat: 36.9873, lng: 126.9295, name: "경기도 평택시 안중읍" },
+  { keys: ["홍대", "서교동", "연남동", "마포"], lat: 37.5563, lng: 126.9236, name: "서울특별시 마포구 서교동" },
+  { keys: ["강남역", "역삼동", "강남구"], lat: 37.4980, lng: 127.0276, name: "서울특별시 강남구 역삼동" },
+  { keys: ["성수", "성동구"], lat: 37.5446, lng: 127.0560, name: "서울특별시 성동구 성수동" },
+  { keys: ["잠실", "송파"], lat: 37.5133, lng: 127.1001, name: "서울특별시 송파구 잠실동" },
+  { keys: ["종로", "광화문", "명동"], lat: 37.5665, lng: 126.9780, name: "서울특별시 중구 명동" },
+  { keys: ["여의도", "영등포"], lat: 37.5216, lng: 126.9242, name: "서울특별시 영등포구 여의도동" },
+  { keys: ["인계동", "수원역", "수원"], lat: 37.2660, lng: 127.0315, name: "경기도 수원시 팔달구 인계동" },
+  { keys: ["분당", "판교", "서현", "성남"], lat: 37.3948, lng: 127.1112, name: "경기도 성남시 분당구 서현동" },
+  { keys: ["동탄", "반송동", "화성"], lat: 37.2006, lng: 127.0975, name: "경기도 화성시 반송동(동탄)" },
+  { keys: ["일산", "장항동", "고양"], lat: 37.6584, lng: 126.7702, name: "경기도 고양시 일산동구 장항동" },
+  { keys: ["부평", "구월동", "인천"], lat: 37.4563, lng: 126.7052, name: "인천광역시 부평구 부평동" },
+  { keys: ["서면", "부전동", "해운대", "우동", "부산"], lat: 35.1578, lng: 129.0600, name: "부산광역시 해운대구 우동" },
+  { keys: ["동성로", "범어동", "수성구", "대구"], lat: 35.8685, lng: 128.5955, name: "대구광역시 수성구 범어동" },
+  { keys: ["둔산동", "봉명동", "대전"], lat: 36.3519, lng: 127.3782, name: "대전광역시 서구 둔산동" },
+  { keys: ["불당동", "천안"], lat: 36.8151, lng: 127.1139, name: "충청남도 천안시 서북구 불당동" }
 ];
 
 function computeRadiusMetrics(lat, lng, address, ind) {
@@ -1422,11 +1844,9 @@ function computeRadiusMetrics(lat, lng, address, ind) {
   const indSeed = ind.small.charCodeAt(0) + (ind.mid.charCodeAt(0) || 17);
   const spec = SEMAS_INDUSTRIES[ind.largeCode] || SEMAS_INDUSTRIES["I2"];
 
-  let densityFactor = 1.0;
-  if (/서울|강남|홍대|서교|역삼|성수|잠실|명동|여의도|서면|동성로|인계|분당|판교|동탄/.test(address)) {
-    densityFactor = 1.75;
-  } else if (/시\s|구\s/.test(address)) {
-    densityFactor = 1.25;
+  let densityFactor = 1.15;
+  if (/서울|강남|홍대|서교|역삼|성수|잠실|명동|여의도|서면|동성로|인계|분당|판교|동탄|상무|수완|양산동/.test(address)) {
+    densityFactor = 1.65;
   }
 
   const dailyPop = Math.round((18500 + (seed % 19000)) * densityFactor / 10) * 10;
@@ -1455,10 +1875,10 @@ function computeRadiusMetrics(lat, lng, address, ind) {
   const fullInd = ind.full;
   if (/주점|호프|포차|이자카야|와인|막걸리|노래|PC방|당구|볼링/.test(fullInd)) {
     peakTime = (seed % 2 === 0) ? "19~24시 야간 집중" : "20~01시 심야 집중";
-    mainAge = /홍대|서교|성수|건대|신촌|대학/.test(address) ? "20대·30대 초반 중심" : "20·30대 및 40대 모임 중심";
+    mainAge = /홍대|서교|성수|건대|신촌|용봉/.test(address) ? "20대·30대 초반 중심" : "20·30대 및 40대 모임 중심";
   } else if (/카페|커피|베이커리|제과|디저트|브런치|아이스크림|주스/.test(fullInd)) {
     peakTime = (seed % 2 === 0) ? "11~16시 점심·오후 집중" : "12~17시 오후 피크";
-    mainAge = /강남|역삼|여의도|판교|종로|광화문/.test(address) ? "20·30대 오피스 직장인 중심" : "20·30대 여성 및 30·40대 중심";
+    mainAge = /강남|역삼|여의도|판교|종로|치평/.test(address) ? "20·30대 오피스 직장인 중심" : "20·30대 여성 및 30·40대 중심";
   } else if (/학원|교습|독서실|스터디|문구|서점|키즈/.test(fullInd)) {
     peakTime = (seed % 2 === 0) ? "15~21시 하교·방과후 집중" : "14~20시 오후·저녁 집중";
     mainAge = "10대 학생 · 30·40대 학부모 중심";
@@ -1478,22 +1898,11 @@ function computeRadiusMetrics(lat, lng, address, ind) {
     peakTime = "17~23시 저녁·야식 피크";
     mainAge = "10·20대 및 30·40대 가족 중심";
   } else {
-    const timePool = [
-      "11~14시 점심 · 18~21시 저녁",
-      "10~15시 주간 · 17~20시 저녁",
-      "12~15시 낮 · 18~22시 야간"
-    ];
-    const agePool = [
-      "30·40대 직장인·거주민 중심",
-      "20·30대 청년·직장인 중심",
-      "40·50대 자영업·중장년 중심",
-      "30·50대 가족·상주인구 중심"
-    ];
+    const timePool = ["11~14시 점심 · 18~21시 저녁", "10~15시 주간 · 17~20시 저녁", "12~15시 낮 · 18~22시 야간"];
+    const agePool = ["30·40대 직장인·거주민 중심", "20·30대 청년·직장인 중심", "40·50대 자영업·중장년 중심", "30·50대 가족·상주인구 중심"];
     peakTime = timePool[(seed + indSeed) % timePool.length];
     mainAge = agePool[(seed * 3 + indSeed) % agePool.length];
   }
-
-  const popSubText = "주력 시간: " + peakTime + " (" + mainAge + ")";
 
   return {
     dailyPop,
@@ -1506,7 +1915,7 @@ function computeRadiusMetrics(lat, lng, address, ind) {
     densityStatus,
     peakTime,
     mainAge,
-    popSubText
+    popSubText: "주력 시간: " + peakTime + " (" + mainAge + ")"
   };
 }
 
@@ -1515,7 +1924,7 @@ function renderRadiusAndBubble(lat, lng, address, moveView) {
   const ind = getCurrentIndustryText();
   const m = computeRadiusMetrics(lat, lng, address, ind);
 
-  if (moveView) {
+  if (moveView && map) {
     map.setView([lat, lng], 14, { animate: true });
   }
 
@@ -1600,7 +2009,7 @@ function renderRadiusAndBubble(lat, lng, address, moveView) {
           </div>
           <div class="mini-bars">${barsHtml}</div>
         </div>
-        <button type="button" class="bubble-cta" onclick="goRequestWithArea()">
+        <button type="button" class="bubble-cta" onclick="location.href='index.html'">
           🏪 안심딜 메인화면으로 이동 ›
         </button>
       </div>
@@ -1620,52 +2029,46 @@ function renderRadiusAndBubble(lat, lng, address, moveView) {
   document.getElementById("sumSalesSub").textContent = "최근 6개월 매출추이: " + m.trendSign;
 }
 
-window.goRequestWithArea = function() {
-  location.href = "index.html";
-};
+async function searchMapByThreeStepAndDetail() {
+  const sido = document.getElementById("mapSido").value || "광주광역시";
+  const sgg = document.getElementById("mapSgg").value || "북구";
+  const dong = document.getElementById("mapDong").value || "양산동";
+  const detail = (document.getElementById("mapDetailAddress").value || "").trim();
 
-async function searchByAddressInput() {
-  const inputEl = document.getElementById("addressInput");
-  const query = inputEl.value.trim();
-  if (!query) {
-    alert("조회할 지역이나 주소를 입력해 주세요.");
-    inputEl.focus();
-    return;
-  }
+  const fullQuery = [sido, sgg, dong, detail].filter(Boolean).join(" ");
 
   for (let i = 0; i < KOR_PLACE_PRESETS.length; i++) {
     const p = KOR_PLACE_PRESETS[i];
     for (let j = 0; j < p.keys.length; j++) {
-      if (query.indexOf(p.keys[j]) !== -1) {
-        renderRadiusAndBubble(p.lat, p.lng, query, true);
+      if (!detail && fullQuery.indexOf(p.keys[j]) !== -1) {
+        renderRadiusAndBubble(p.lat, p.lng, fullQuery, true);
         return;
       }
     }
   }
 
   try {
-    const url = "https://nominatim.openstreetmap.org/search?format=json&countrycodes=kr&limit=1&q=" + encodeURIComponent(query);
+    const url = "https://nominatim.openstreetmap.org/search?format=json&countrycodes=kr&limit=1&q=" + encodeURIComponent(fullQuery);
     const res = await fetch(url, { headers: { "Accept-Language": "ko" } });
     const list = await res.json();
     if (Array.isArray(list) && list.length > 0) {
-      const item = list[0];
-      renderRadiusAndBubble(parseFloat(item.lat), parseFloat(item.lon), query, true);
+      renderRadiusAndBubble(parseFloat(list[0].lat), parseFloat(list[0].lon), fullQuery, true);
       return;
     }
   } catch (e) {}
 
   try {
-    const shortQuery = query.split(/\s+/).slice(0, 2).join(" ");
-    const url2 = "https://nominatim.openstreetmap.org/search?format=json&countrycodes=kr&limit=1&q=" + encodeURIComponent(shortQuery);
+    const dongQuery = [sido, sgg, dong].filter(Boolean).join(" ");
+    const url2 = "https://nominatim.openstreetmap.org/search?format=json&countrycodes=kr&limit=1&q=" + encodeURIComponent(dongQuery);
     const res2 = await fetch(url2, { headers: { "Accept-Language": "ko" } });
     const list2 = await res2.json();
     if (Array.isArray(list2) && list2.length > 0) {
-      renderRadiusAndBubble(parseFloat(list2[0].lat), parseFloat(list2[0].lon), query, true);
+      renderRadiusAndBubble(parseFloat(list2[0].lat), parseFloat(list2[0].lon), fullQuery, true);
       return;
     }
   } catch (e) {}
 
-  renderRadiusAndBubble(currentCenter.lat, currentCenter.lng, query, true);
+  renderRadiusAndBubble(currentCenter.lat, currentCenter.lng, fullQuery, true);
 }
 
 async function onMapCursorClick(e) {
@@ -1689,39 +2092,43 @@ async function onMapCursorClick(e) {
       ].filter(Boolean);
       const dedup = [];
       parts.forEach(p => { if (dedup.indexOf(p) === -1) dedup.push(p); });
-      if (dedup.length > 0) {
-        addrName = dedup.join(" ");
-      }
+      if (dedup.length > 0) addrName = dedup.join(" ");
     }
   } catch (err) {}
 
-  document.getElementById("addressInput").value = addrName;
   renderRadiusAndBubble(lat, lng, addrName, true);
 }
 
 /* =========================================================================
-   4. [탭 2] 전국 지역별 도시가스 공급업체 자동 매칭 사전 & 정산·연결 매칭기
+   4. [탭 2] 동 단위 도시가스 자동 매칭 + 해지 시 계량기 숫자 요금 정산기
    ========================================================================= */
 const CITY_GAS_PROVIDERS = [
   {
-    keys: ["평택", "청북", "안중", "고덕", "송탄", "수원", "안산", "화성", "동탄", "부천", "시흥", "안양", "광명", "군포", "의왕", "오산", "용인", "안성", "이천", "여주", "과천", "연수구", "남동구", "미추홀", "중구", "동구", "옹진"],
+    keys: ["광주", "북구", "양산동", "일곡동", "광산구", "수완동", "치평동", "상무", "봉선동", "나주", "화순", "담양", "장성", "영광", "함평", "해남"],
+    name: "해양에너지",
+    phone: "1544-1115",
+    areaDesc: "광주광역시 전 지역(북구 양산동 등) 및 전남 나주·화순·담양권",
+    url: "https://www.hyenergy.co.kr"
+  },
+  {
+    keys: ["평택", "청북", "안중", "고덕", "송탄", "수원", "안산", "화성", "동탄", "부천", "시흥", "안양", "광명", "군포", "의왕", "오산", "용인", "안성", "이천", "여주", "과천", "연수구", "남동구", "미추홀"],
     name: "삼천리도시가스",
     phone: "1544-3002",
     areaDesc: "경기 남부(평택·수원·화성·안산·용인·부천 등) 및 인천 남부권",
     url: "https://www.samchully.co.kr"
   },
   {
-    keys: ["강남", "역삼", "선릉", "삼성동", "서초", "반포", "송파", "잠실", "강동", "천호", "성남", "분당", "판교", "하남", "광주", "이천", "여주"],
+    keys: ["강남", "역삼", "선릉", "삼성동", "서초", "반포", "송파", "잠실", "강동", "천호", "성남", "분당", "판교", "하남"],
     name: "코원에너지서비스 (SK E&S)",
     phone: "1599-3366",
-    areaDesc: "서울 강남·서초·송파·강동 및 경기 성남·분당·하남·광주권",
+    areaDesc: "서울 강남·서초·송파·강동 및 경기 성남·분당·하남권",
     url: "https://www.skens.com/koone"
   },
   {
     keys: ["마포", "서교", "홍대", "연남", "강서", "마곡", "양천", "목동", "영등포", "여의도", "관악", "신림", "동작", "사당", "은평", "서대문", "신촌", "용산", "종로", "고양", "일산", "파주", "김포"],
     name: "서울도시가스",
     phone: "1588-5788",
-    areaDesc: "서울 서부·중부(마포·강서·영등포·관악·은평·용산) 및 고양·파주·김포권",
+    areaDesc: "서울 서부·중부(마포·강서·영등포·관악·은평) 및 고양·파주·김포권",
     url: "https://www.seoulgas.co.kr"
   },
   {
@@ -1753,14 +2160,14 @@ const CITY_GAS_PROVIDERS = [
     url: "https://www.icgas.co.kr"
   },
   {
-    keys: ["부산", "해운대", "서면", "부산진", "동래", "수영", "남구", "북구", "사하", "금정", "연제", "기장", "사상", "강서구"],
+    keys: ["부산", "해운대", "서면", "부산진", "동래", "수영", "사하", "금정", "연제", "기장", "사상"],
     name: "부산도시가스 (SK E&S)",
     phone: "1544-0009",
     areaDesc: "부산광역시 전 지역",
     url: "https://www.skens.com/busan"
   },
   {
-    keys: ["대구", "수성", "동성로", "달서", "북구", "동구", "달성", "경산", "칠곡", "고령", "성주"],
+    keys: ["대구", "수성", "동성로", "달서", "달성", "경산", "칠곡"],
     name: "대성에너지",
     phone: "1577-1119",
     areaDesc: "대구광역시 전 지역 및 경북 경산·칠곡권",
@@ -1772,13 +2179,6 @@ const CITY_GAS_PROVIDERS = [
     phone: "1666-0009",
     areaDesc: "대전광역시 전 지역 및 충남 계룡시",
     url: "https://www.cncityenergy.com"
-  },
-  {
-    keys: ["광주", "상무", "치평", "첨단", "광산", "나주", "화순", "담양", "장성", "영광", "함평", "해남"],
-    name: "해양에너지",
-    phone: "1544-1115",
-    areaDesc: "광주광역시 전 지역 및 전남 나주·화순·담양권",
-    url: "https://www.hyenergy.co.kr"
   },
   {
     keys: ["울산", "삼산", "양산"],
@@ -1802,7 +2202,7 @@ const CITY_GAS_PROVIDERS = [
     url: "https://www.shgas.co.kr"
   },
   {
-    keys: ["청주", "오창", "오송", "제천", "단양", "증평", "진천", "음성", "괴산", "보은", "옥천", "영동"],
+    keys: ["청주", "오창", "오송", "제천", "단양", "증평", "진천", "음성"],
     name: "충청에너지서비스 (SK E&S)",
     phone: "1599-3131",
     areaDesc: "충북 청주시 · 진천 · 음성 · 제천 등 충북권",
@@ -1830,21 +2230,21 @@ const CITY_GAS_PROVIDERS = [
     url: "https://www.chambit.co.kr"
   },
   {
-    keys: ["강릉", "동해", "삼척", "속초", "고성", "양양"],
+    keys: ["강릉", "동해", "삼척", "속초"],
     name: "참빛영동·속초도시가스",
     phone: "1899-9100",
     areaDesc: "강원 강릉 · 속초 · 동해 · 삼척권",
     url: "https://www.chambit.co.kr"
   },
   {
-    keys: ["전주", "완주", "남원", "정읍", "김제", "순창", "고창", "무주"],
+    keys: ["전주", "완산", "덕진", "익산", "완주", "남원", "정읍", "김제"],
     name: "전북에너지서비스 / 전북도시가스",
     phone: "1899-8114",
     areaDesc: "전북 전주 · 완주 · 정읍 · 익산 · 남원권",
     url: "https://www.jbcitygas.co.kr"
   },
   {
-    keys: ["군산", "부안", "임실", "진안"],
+    keys: ["군산", "부안"],
     name: "군산도시가스",
     phone: "063-440-7700",
     areaDesc: "전북 군산시 · 부안군 권역",
@@ -1858,14 +2258,14 @@ const CITY_GAS_PROVIDERS = [
     url: "https://www.skens.com/jeonnam"
   },
   {
-    keys: ["목포", "무안", "남악", "영암", "강진", "장흥"],
+    keys: ["목포", "무안", "남악", "영암", "강진"],
     name: "목포도시가스",
     phone: "1899-6390",
     areaDesc: "전남 목포 · 무안 · 영암 · 강진권",
     url: "http://www.mpcitygas.co.kr"
   },
   {
-    keys: ["창원", "마산", "진해", "김해", "장유", "거제", "통영", "밀양", "고성", "함안", "창녕"],
+    keys: ["창원", "성산", "마산", "진해", "김해", "장유", "거제", "통영", "밀양"],
     name: "경남에너지",
     phone: "055-260-4000",
     areaDesc: "경남 창원 · 김해 · 거제 · 통영 · 밀양권",
@@ -1879,14 +2279,14 @@ const CITY_GAS_PROVIDERS = [
     url: "http://www.gse.co.kr"
   },
   {
-    keys: ["구미", "김천", "포항", "안동", "영주", "상주", "문경", "예천", "울진"],
+    keys: ["구미", "김천", "포항", "안동", "영주", "상주", "문경"],
     name: "영남에너지서비스 (구미·포항)",
     phone: "1599-4477",
     areaDesc: "경북 구미 · 포항 · 김천 · 안동 · 상주권",
     url: "https://www.skens.com/yeongnam-gumi"
   },
   {
-    keys: ["경주", "영천", "청도", "봉화"],
+    keys: ["경주", "영천", "청도"],
     name: "서라벌도시가스",
     phone: "1544-5916",
     areaDesc: "경북 경주시 · 영천시 권역",
@@ -1902,11 +2302,20 @@ const CITY_GAS_PROVIDERS = [
 ];
 
 let currentUtilityMode = "moveout"; // 'moveout' | 'movein'
-let utilityMemos = {
-  elec: "계량기 지침 확인 · 당일 요금 정산 완료",
-  water: "수도 지침 확인 · 분리 정산 완료",
-  gas: "관할 도시가스 철거·정산 완료"
+
+// 해지 시 계량기 지침 상태 (현재 계량기 숫자 / 전월 지침 / 산출 정산요금)
+const meterState = {
+  elec:  { prev: 14310, curr: 14520, unit: "kWh", rate: 165, baseFee: 7650, fee: 42300 },
+  water: { prev: 828,   curr: 842,   unit: "m³",  rate: 920, baseFee: 1720, fee: 14600 },
+  gas:   { prev: 3102,  curr: 3128,  unit: "m³",  rate: 1030, baseFee: 2120, fee: 28900 }
 };
+
+function getSelectedUtilityRegionText() {
+  const sido = document.getElementById("utilSido").value || "광주광역시";
+  const sgg = document.getElementById("utilSgg").value || "북구";
+  const dong = document.getElementById("utilDong").value || "양산동";
+  return [sido, sgg, dong].filter(Boolean).join(" ");
+}
 
 function matchCityGasByRegion(regionText) {
   const q = (regionText || "").trim();
@@ -1918,38 +2327,77 @@ function matchCityGasByRegion(regionText) {
       }
     }
   }
-  // 기본값 (전국 대표 권역: 삼천리도시가스 + 지역명 표시)
   return {
-    name: "삼천리도시가스 (지역 관할 도시가스 고객센터)",
-    phone: "1544-3002",
-    areaDesc: (q || "입력 지역") + " 관할 도시가스 공급망",
+    name: "해양에너지 / 관할 도시가스 고객센터",
+    phone: "1544-1115",
+    areaDesc: (q || "선택 지역") + " 관할 도시가스 공급망",
     url: "http://www.citygas.or.kr"
   };
 }
 
-window.setUtilityMode = function(mode) {
-  currentUtilityMode = mode;
-  document.getElementById("modeMoveOut").classList.toggle("active", mode === "moveout");
-  document.getElementById("modeMoveIn").classList.toggle("active", mode === "movein");
+// 계량기 숫자(지침)로부터 당일 정산요금 계산
+function calcFeeFromMeter(key) {
+  const st = meterState[key];
+  const currNum = Number(st.curr) || 0;
+  const prevNum = Number(st.prev) || 0;
+  let usage = 0;
 
-  if (mode === "moveout") {
-    utilityMemos = {
-      elec: "계량기 지침 확인 · 당일 전기요금 정산 완료",
-      water: "수도 지침 확인 · 당일 상하수도 분리정산 완료",
-      gas: "도시가스 마감조치 및 당일 가스요금 정산 완료"
-    };
-  } else {
-    utilityMemos = {
-      elec: "입주 계량기 지침 확인 · 한전 명의변경 완료",
-      water: "입주 수도 지침 신고 · 수용가 명의변경 완료",
-      gas: "관할 도시가스 입주 연결 예약 및 사용계약 완료"
-    };
+  if (prevNum > 0 && currNum >= prevNum) {
+    usage = currNum - prevNum;
+  } else if (currNum > 0) {
+    // 오늘 계량기 숫자만 입력한 경우: 당월 일할 사용분 자동 산출
+    if (key === "elec") usage = Math.max(45, (currNum % 260) + 60);
+    else if (key === "water") usage = Math.max(6, (currNum % 22) + 5);
+    else usage = Math.max(8, (currNum % 32) + 8);
   }
-  renderUtilityMatcher();
+
+  const rawFee = Math.round((st.baseFee + usage * st.rate) / 100) * 100;
+  st.fee = rawFee;
+  st.usage = usage;
+  return rawFee;
+}
+
+window.onMeterNumberInput = function(key, field, val) {
+  const num = Number(String(val).replace(/[^0-9.]/g, "")) || 0;
+  meterState[key][field] = num;
+  if (field === "curr" || field === "prev") {
+    calcFeeFromMeter(key);
+    const feeInput = document.getElementById("feeInput_" + key);
+    if (feeInput) feeInput.value = meterState[key].fee.toLocaleString();
+  }
+  renderCertPreviewOnly();
 };
 
-window.quickUtilityRegion = function(regionName) {
-  document.getElementById("utilityRegionInput").value = regionName;
+window.onDirectFeeInput = function(key, val) {
+  const num = Number(String(val).replace(/[^0-9]/g, "")) || 0;
+  meterState[key].fee = num;
+  renderCertPreviewOnly();
+};
+
+window.runMeterSettlement = function(showAlert) {
+  ["elec", "water", "gas"].forEach(function(k) {
+    const currEl = document.getElementById("currInput_" + k);
+    const prevEl = document.getElementById("prevInput_" + k);
+    if (currEl) meterState[k].curr = Number(String(currEl.value).replace(/[^0-9.]/g, "")) || 0;
+    if (prevEl) meterState[k].prev = Number(String(prevEl.value).replace(/[^0-9.]/g, "")) || 0;
+    calcFeeFromMeter(k);
+  });
+  renderUtilityMatcher();
+  if (showAlert) {
+    document.getElementById("bottomResultSection").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+};
+
+window.setUtilityMode = function(mode) {
+  currentUtilityMode = mode;
+  const isMoveOut = (mode === "moveout");
+  document.getElementById("modeMoveOut").classList.toggle("active", isMoveOut);
+  document.getElementById("modeMoveIn").classList.toggle("active", !isMoveOut);
+
+  // 입주(가입) 시에는 정산 배너 및 하단 해지 요금 정산표를 숨기고 공급업체 연결 카드만 표시!
+  document.getElementById("settleActionBanner").style.display = isMoveOut ? "flex" : "none";
+  document.getElementById("moveoutCertArea").style.display = isMoveOut ? "block" : "none";
+
   renderUtilityMatcher();
 };
 
@@ -1970,11 +2418,6 @@ window.onUtilityCheckChange = function() {
   renderUtilityMatcher();
 };
 
-window.updateUtilityMemo = function(key, val) {
-  utilityMemos[key] = val;
-  renderCertPreviewOnly();
-};
-
 function getSelectedUtilityItems(regionText, gasInfo) {
   const isMoveOut = (currentUtilityMode === "moveout");
   const items = [];
@@ -1990,11 +2433,11 @@ function getSelectedUtilityItems(regionText, gasInfo) {
       phone: "123",
       telHref: "tel:123",
       guide: isMoveOut
-        ? "퇴실·이사 당일 계량기 현재 숫자(지침)를 확인해 123에 전화하면 당일까지의 전기요금을 즉시 계산해 가상계좌·카드로 바로 정산할 수 있습니다."
-        : "입주·입점 시 계량기 지침을 확인해 123에 전화하면 신규 입주자(임차인) 명의변경 및 자동이체 신청이 즉시 완료됩니다.",
+        ? "퇴실·이사 당일 계량기 숫자를 확인해 입력하거나 123에 전화하면 당일까지의 전기요금을 즉시 정산할 수 있습니다."
+        : "입주·입점 시 한전 123으로 전화해 신규 사용자 명의변경 및 자동이체를 연결하세요.",
       webLabel: "🌐 한전ON 바로가기",
       webUrl: "https://online.kepco.co.kr",
-      memo: utilityMemos.elec
+      state: meterState.elec
     });
   }
 
@@ -2009,11 +2452,11 @@ function getSelectedUtilityItems(regionText, gasInfo) {
       phone: "120",
       telHref: "tel:120",
       guide: isMoveOut
-        ? "수도 계량기 지침(m³)을 확인해 120(관할 상하수도사업소)에 전화하면 이사·퇴실일까지의 상·하수도 요금을 즉시 분리 정산해 납부할 수 있습니다."
-        : "입주 시 수도 계량기 지침을 120(관할 상하수도사업소)에 신고하면 이전 사용자 요금과 분리되어 입주일 이후 사용분부터 부과됩니다.",
+        ? "수도 계량기 숫자(m³)를 확인해 입력하거나 120에 전화하면 이사 당일까지의 상·하수도 요금을 즉시 분리 정산합니다."
+        : "입주 시 120(관할 상하수도사업소)에 입주 계량기 지침을 신고해 이전 세입자 요금과 분리하세요.",
       webLabel: "🌐 정부24 수도민원",
       webUrl: "https://www.gov.kr",
-      memo: utilityMemos.water
+      state: meterState.water
     });
   }
 
@@ -2021,18 +2464,18 @@ function getSelectedUtilityItems(regionText, gasInfo) {
     items.push({
       key: "gas",
       cls: "gas",
-      badge: "🔥 지역 도시가스 (자동 매칭)",
+      badge: "🔥 지역 도시가스 (동 단위 자동 매칭)",
       title: gasInfo.name,
       sub: gasInfo.areaDesc,
       phoneLabel: "관할 도시가스 고객센터",
       phone: gasInfo.phone,
       telHref: "tel:" + gasInfo.phone.replace(/[^0-9]/g, ""),
       guide: isMoveOut
-        ? "입력하신 [" + regionText + "] 관할 도시가스(" + gasInfo.name + ") 고객센터(" + gasInfo.phone + ")로 전화해 철거(마감) 및 계량기 지침 정산을 진행하세요."
-        : "입력하신 [" + regionText + "] 관할 도시가스(" + gasInfo.name + ") 고객센터(" + gasInfo.phone + ")로 전화해 입주 가스 연결(안전점검) 및 명의변경을 신청하세요.",
+        ? "[" + regionText + "] 관할 도시가스(" + gasInfo.name + " " + gasInfo.phone + ")로 전화해 마감조치 및 계량기 숫자 요금 정산을 진행하세요."
+        : "[" + regionText + "] 관할 도시가스(" + gasInfo.name + " " + gasInfo.phone + ")로 전화해 입주 가스 연결 및 사용계약 명의변경을 신청하세요.",
       webLabel: "🌐 도시가스 홈페이지",
       webUrl: gasInfo.url,
-      memo: utilityMemos.gas
+      state: meterState.gas
     });
   }
 
@@ -2040,12 +2483,12 @@ function getSelectedUtilityItems(regionText, gasInfo) {
 }
 
 function renderUtilityMatcher() {
-  const regionInput = document.getElementById("utilityRegionInput");
-  const regionText = (regionInput.value || "").trim() || "경기 평택시 청북읍";
+  const regionText = getSelectedUtilityRegionText();
   const gasInfo = matchCityGasByRegion(regionText);
+  const isMoveOut = (currentUtilityMode === "moveout");
 
   document.getElementById("matchedGasBadge").textContent =
-    "관할 도시가스: " + gasInfo.name + " (" + gasInfo.phone + ")";
+    "[" + regionText + "] 관할 도시가스: " + gasInfo.name + " (" + gasInfo.phone + ")";
 
   const items = getSelectedUtilityItems(regionText, gasInfo);
   const container = document.getElementById("utilityCardsContainer");
@@ -2055,6 +2498,50 @@ function renderUtilityMatcher() {
   else if (items.length === 1) container.classList.add("one-col");
 
   container.innerHTML = items.map(function(item) {
+    const st = item.state;
+    const meterSectionHtml = isMoveOut ? `
+      <div class="meter-calc-box">
+        <div class="meter-calc-title">
+          <span>🔢 계량기 숫자 입력 (${st.unit})</span>
+          <span style="font-size:11px; color:#047857;">[정산] 클릭 시 자동계산</span>
+        </div>
+        <div class="meter-input-grid">
+          <div class="meter-field">
+            <label>오늘 계량기 숫자 (현재 지침)</label>
+            <input
+              id="currInput_${item.key}"
+              type="number"
+              value="${st.curr}"
+              placeholder="현재 계량기 숫자"
+              oninput="onMeterNumberInput('${item.key}', 'curr', this.value)"
+            >
+          </div>
+          <div class="meter-field">
+            <label>전월 지침 (선택 · 몰라도 됨)</label>
+            <input
+              id="prevInput_${item.key}"
+              type="number"
+              value="${st.prev}"
+              placeholder="전월 지침(선택)"
+              oninput="onMeterNumberInput('${item.key}', 'prev', this.value)"
+            >
+          </div>
+        </div>
+        <div class="meter-fee-result">
+          <span>💰 당일 정산 요금 (원)</span>
+          <div style="display:flex; align-items:center; gap:4px;">
+            <input
+              id="feeInput_${item.key}"
+              type="text"
+              value="${st.fee.toLocaleString()}"
+              oninput="onDirectFeeInput('${item.key}', this.value)"
+            >
+            <strong style="font-size:13px; color:#0f172a;">원</strong>
+          </div>
+        </div>
+      </div>
+    ` : "";
+
     return `
       <div class="util-provider-card ${item.cls}">
         <div>
@@ -2073,14 +2560,7 @@ function renderUtilityMatcher() {
         </div>
 
         <div>
-          <div class="up-memo-field">
-            <label>✍️ 확인서 기재 내용 (계량기 지침 · 정산금액 등 수정 가능)</label>
-            <input
-              type="text"
-              value="${item.memo.replace(/"/g, '&quot;')}"
-              oninput="updateUtilityMemo('${item.key}', this.value)"
-            >
-          </div>
+          ${meterSectionHtml}
           <div class="up-btn-row">
             <a class="up-call-btn" href="${item.telHref}">📞 ${item.phone} 전화걸기</a>
             <a class="up-web-btn" href="${item.webUrl}" target="_blank" rel="noopener">${item.webLabel}</a>
@@ -2090,68 +2570,87 @@ function renderUtilityMatcher() {
     `;
   }).join("");
 
-  renderCertPreviewOnly();
+  if (isMoveOut) {
+    renderCertPreviewOnly();
+  }
 }
 
 function renderCertPreviewOnly() {
-  const regionText = (document.getElementById("utilityRegionInput").value || "").trim() || "경기 평택시 청북읍";
+  const regionText = getSelectedUtilityRegionText();
   const gasInfo = matchCityGasByRegion(regionText);
   const items = getSelectedUtilityItems(regionText, gasInfo);
-  const isMoveOut = (currentUtilityMode === "moveout");
 
   const todayStr = new Date().toISOString().slice(0, 10);
-  document.getElementById("certHeaderTitle").textContent = isMoveOut
-    ? "📋 [퇴실·이사 해지정산] 전기 · 수도 · 가스 정산 확인서 (" + items.length + "개 항목)"
-    : "📋 [입주·입점 신규연결] 전기 · 수도 · 가스 연결 확인서 (" + items.length + "개 항목)";
+  document.getElementById("certHeaderTitle").textContent =
+    "📋 [해지·퇴실 요금정산] 전기 · 수도 · 가스 정산 내역서 (" + items.length + "개 항목)";
 
-  document.getElementById("certRegionText").textContent = "📍 대상 지역(주소): " + regionText;
-  document.getElementById("certDateText").textContent = "📅 확인 일자: " + todayStr;
+  document.getElementById("certRegionText").textContent = "📍 대상 지역(동): " + regionText;
+  document.getElementById("certDateText").textContent = "📅 정산 일자: " + todayStr;
 
+  let totalFee = 0;
   const tbody = document.getElementById("certTableBody");
   tbody.innerHTML = items.map(function(item) {
+    const st = item.state;
+    totalFee += (Number(st.fee) || 0);
+    const usageTxt = (st.prev > 0 && st.curr >= st.prev)
+      ? ("현재 지침 " + st.curr.toLocaleString() + " (전월 " + st.prev.toLocaleString() + " / 사용 " + (st.curr - st.prev) + st.unit + ")")
+      : ("현재 계량기 숫자: " + st.curr.toLocaleString() + " " + st.unit);
+
     return `
       <tr>
         <th>${item.badge.split(" (")[0]}</th>
         <td>${item.title} <span style="color:#dc2626; font-weight:900;">(${item.phone})</span></td>
-        <td>${item.memo}</td>
+        <td>${usageTxt}</td>
+        <td style="color:#dc2626; font-weight:900;">${(Number(st.fee) || 0).toLocaleString()}원</td>
       </tr>
     `;
   }).join("");
 
-  document.getElementById("certFooterNote").textContent = isMoveOut
-    ? "✅ 위 선택한 " + items.length + "개 항목에 대하여 당일 기준 계량기 지침 확인 및 관할 공급기관 요금 정산(해지)을 완료하였으므로, 공과금 유보금 없이 보증금 전액을 정상 반환·정산합니다."
-    : "✅ 위 선택한 " + items.length + "개 항목에 대하여 입주일 기준 계량기 지침 확인 및 관할 공급기관 사용신청(명의변경·연결)을 완료하였습니다.";
+  document.getElementById("certTotalAmountText").textContent = "총 " + totalFee.toLocaleString() + "원";
+
+  const payMethodRadio = document.querySelector('input[name="payMethod"]:checked');
+  const isPaidDirect = !payMethodRadio || payMethodRadio.value === "paid";
+
+  document.getElementById("certFooterNote").textContent = isPaidDirect
+    ? "✅ 위 선택한 " + items.length + "개 항목의 계량기 숫자로 산출된 총 정산요금(" + totalFee.toLocaleString() + "원)을 각 공급업체에 직접 납부 완료하였으므로, 공과금 유보금(차감) 없이 보증금 전액을 정상 반환·정산합니다."
+    : "✅ 위 선택한 " + items.length + "개 항목의 계량기 숫자로 산출된 총 정산요금(" + totalFee.toLocaleString() + "원)을 보증금(잔금) 정산 시 차감·반영하여 정산을 완료합니다.";
 }
 
 function buildKakaoShareText() {
-  const regionText = (document.getElementById("utilityRegionInput").value || "").trim() || "경기 평택시 청북읍";
+  const regionText = getSelectedUtilityRegionText();
   const gasInfo = matchCityGasByRegion(regionText);
   const items = getSelectedUtilityItems(regionText, gasInfo);
-  const isMoveOut = (currentUtilityMode === "moveout");
   const todayStr = new Date().toISOString().slice(0, 10);
 
-  const headerTitle = isMoveOut
-    ? "[전기·수도·가스 퇴실 해지·정산 완료 확인서]"
-    : "[전기·수도·가스 입주 연결·명의변경 확인서]";
-
+  let totalFee = 0;
   const lines = [
-    "📋 " + headerTitle,
-    "• 대상 지역(주소): " + regionText,
-    "• 확인 일자: " + todayStr,
-    "• 적용 항목 (" + items.length + "종):"
+    "📋 [전기·수도·가스 해지 요금 정산 확인서]",
+    "• 대상 지역(동): " + regionText,
+    "• 정산 일자: " + todayStr,
+    "• 정산 항목 (" + items.length + "종):"
   ];
 
   items.forEach(function(it, idx) {
+    const st = it.state;
+    const fee = Number(st.fee) || 0;
+    totalFee += fee;
     const shortName = it.badge.split(" (")[0];
-    lines.push("  " + (idx + 1) + ". " + shortName + " - " + it.title + " (" + it.phone + ") : " + it.memo);
+    lines.push(
+      "  " + (idx + 1) + ". " + shortName + " (" + it.title + " " + it.phone + ") | 계량기 숫자: " +
+      st.curr.toLocaleString() + st.unit + " ➔ 정산요금: " + fee.toLocaleString() + "원"
+    );
   });
 
+  const payMethodRadio = document.querySelector('input[name="payMethod"]:checked');
+  const isPaidDirect = !payMethodRadio || payMethodRadio.value === "paid";
+
   lines.push("");
-  if (isMoveOut) {
-    lines.push("✅ 위 항목에 대한 당일 계량기 지침 확인 및 요금 정산이 완료되었습니다. 공과금 유보금 없이 보증금(잔금) 정상 정산을 요청드립니다.");
-  } else {
-    lines.push("✅ 위 항목에 대한 입주 계량기 지침 확인 및 사용신청(명의변경)이 완료되었습니다.");
-  }
+  lines.push("💰 총 해지 정산 합계 금액: " + totalFee.toLocaleString() + "원");
+  lines.push(
+    isPaidDirect
+      ? "✅ 정산 방식: 공급업체 직접 납부 완료 (보증금 차감 0원 / 유보금 없이 보증금 정상 반환 요청)"
+      : "✅ 정산 방식: 보증금(잔금)에서 총 " + totalFee.toLocaleString() + "원 정산 차감 합의"
+  );
   lines.push("");
   lines.push("🏠 우리아파트 안심거래: https://wooriapt.app");
   lines.push("🏪 점포·상가 안심딜: https://ansimdeal.com");
@@ -2164,7 +2663,7 @@ window.sendUtilityKakao = async function() {
   if (navigator.share) {
     try {
       await navigator.share({
-        title: "전기·수도·가스 정산·연결 확인서",
+        title: "전기·수도·가스 해지 요금 정산 확인서",
         text: msg
       });
       return;
@@ -2172,9 +2671,9 @@ window.sendUtilityKakao = async function() {
   }
   try {
     await navigator.clipboard.writeText(msg);
-    alert("💬 집주인(임대인) 전송용 카카오톡 메시지가 복사되었습니다!\n\n카카오톡 대화창에 붙여넣기(Ctrl+V)하여 바로 전송하세요.\n\n---\n" + msg);
+    alert("💬 집주인(임대인) 전송용 카카오톡 정산 내역서가 복사되었습니다!\n\n카카오톡 대화창에 붙여넣기(Ctrl+V)하여 바로 전송하세요.\n\n---\n" + msg);
   } catch (e) {
-    prompt("아래 정산·연결 확인서 문구를 복사해 카카오톡으로 전송하세요:", msg);
+    prompt("아래 정산 확인서 문구를 복사해 카카오톡으로 전송하세요:", msg);
   }
 };
 
@@ -2182,7 +2681,7 @@ window.copyUtilityMessage = async function() {
   const msg = buildKakaoShareText();
   try {
     await navigator.clipboard.writeText(msg);
-    alert("📋 정산·연결 확인서 문구가 클립보드에 복사되었습니다.\n카카오톡이나 문자메시지에 바로 붙여넣기 하실 수 있습니다.");
+    alert("📋 정산 확인서 문구가 클립보드에 복사되었습니다.\n카카오톡이나 문자메시지에 바로 붙여넣기 하실 수 있습니다.");
   } catch (e) {
     prompt("아래 문구를 복사해 사용하세요:", msg);
   }
@@ -2191,7 +2690,7 @@ window.copyUtilityMessage = async function() {
 /* =========================================================================
    5. 페이지 로드 초기화
    ========================================================================= */
-window.addEventListener("DOMContentLoaded", function() {
+window.addEventListener("DOMContentLoaded", async function() {
   initIndustrySelects();
 
   map = L.map("realMap", {
@@ -2206,28 +2705,34 @@ window.addEventListener("DOMContentLoaded", function() {
 
   window.mapReady = true;
 
-  renderRadiusAndBubble(currentCenter.lat, currentCenter.lng, currentCenter.address, true);
+  // 탭 1 (상권분석 지도): 시·도 > 시·군·구 > 읍·면·동 (기본: 광주광역시 > 북구 > 양산동)
+  await setupThreeStepRegion("mapSido", "mapSgg", "mapDong", "광주광역시", "북구", "양산동", function() {
+    searchMapByThreeStepAndDetail();
+  });
+
+  // 탭 2 (전기·수도·가스 매칭기): 시·도 > 시·군·구 > 읍·면·동 (기본: 광주광역시 > 북구 > 양산동)
+  await setupThreeStepRegion("utilSido", "utilSgg", "utilDong", "광주광역시", "북구", "양산동", function() {
+    renderUtilityMatcher();
+  });
+
   map.on("click", onMapCursorClick);
 
-  const addressInput = document.getElementById("addressInput");
-  addressInput.addEventListener("keydown", function(e) {
+  const mapDetailInput = document.getElementById("mapDetailAddress");
+  mapDetailInput.addEventListener("keydown", function(e) {
     if (e.key === "Enter") {
       e.preventDefault();
-      searchByAddressInput();
+      searchMapByThreeStepAndDetail();
     }
   });
-  document.getElementById("searchAddressBtn").addEventListener("click", searchByAddressInput);
+  document.getElementById("searchAddressBtn").addEventListener("click", searchMapByThreeStepAndDetail);
 
-  // 탭 2 (전기·수도·가스 매칭기) 초기화 및 엔터 이벤트
-  renderUtilityMatcher();
-  const utilRegionInput = document.getElementById("utilityRegionInput");
-  utilRegionInput.addEventListener("keydown", function(e) {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      renderUtilityMatcher();
-    }
+  document.getElementById("matchUtilityBtn").addEventListener("click", function() {
+    renderUtilityMatcher();
   });
-  document.getElementById("matchUtilityBtn").addEventListener("click", renderUtilityMatcher);
+
+  // 초기 계량기 요금 계산 및 렌더링
+  ["elec", "water", "gas"].forEach(calcFeeFromMeter);
+  renderUtilityMatcher();
 
   // URL 파라미터(?tab=utility 또는 ?tab=map)에 따라 자동 탭 전환
   const params = new URLSearchParams(window.location.search);

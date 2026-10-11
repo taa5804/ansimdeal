@@ -9,30 +9,38 @@ module.exports = async function handler(req, res) {
     return res.status(405).send("Method Not Allowed");
   }
 
-  const reqHost = (req && req.headers && req.headers.host && req.headers.host.includes("wooriapt.app"))
-    ? req.headers.host
-    : "wooriapt.app";
+  const rawHost = (req && req.headers && req.headers.host) ? String(req.headers.host) : "";
+  const reqHost = rawHost.includes("ansimdeal.com")
+    ? "www.ansimdeal.com"
+    : (rawHost.includes("wooriapt.app") ? rawHost : "wooriapt.app");
   const SITE_ORIGIN = "https://" + reqHost;
 
   if (req.query && req.query.mode === "pages") {
     const pagesPaths = [
-      { path: "/price", priority: "1.0", changefreq: "daily" },
-      { path: "/aura", priority: "1.0", changefreq: "daily" },
-      { path: "/pension", priority: "0.95", changefreq: "daily" },
-      { path: "/check", priority: "1.0", changefreq: "daily" },
       { path: "/", priority: "1.0", changefreq: "daily" },
+      { path: "/tools-center.html", priority: "1.0", changefreq: "daily" },
+      { path: "/tools-center.html?tab=utility", priority: "1.0", changefreq: "daily" },
+      { path: "/tools-center.html?tab=map", priority: "1.0", changefreq: "daily" },
+      { path: "/utility", priority: "1.0", changefreq: "daily" },
       { path: "/apt", priority: "1.0", changefreq: "daily" },
-      { path: "/mart", priority: "0.95", changefreq: "daily" },
+      { path: "/map", priority: "0.95", changefreq: "daily" },
+      { path: "/check", priority: "1.0", changefreq: "daily" },
+      { path: "/request.html?type=monthly", priority: "0.95", changefreq: "daily" },
+      { path: "/request.html?type=jeonse", priority: "0.95", changefreq: "daily" },
+      { path: "/price", priority: "0.95", changefreq: "daily" },
+      { path: "/aura", priority: "0.95", changefreq: "daily" },
+      { path: "/pension", priority: "0.9", changefreq: "daily" },
+      { path: "/mart", priority: "0.9", changefreq: "daily" },
       { path: "/broker-signup", priority: "0.9", changefreq: "weekly" },
       { path: "/broker-guide", priority: "0.9", changefreq: "weekly" },
-      { path: "/app-install", priority: "0.85", changefreq: "monthly" },
-      { path: "/broker-landing.html", priority: "0.8", changefreq: "weekly" },
-      { path: "/mart-landing.html", priority: "0.8", changefreq: "weekly" },
-      { path: "/map", priority: "0.8", changefreq: "weekly" }
+      { path: "/app-install", priority: "0.9", changefreq: "monthly" },
+      { path: "/broker-landing.html", priority: "0.85", changefreq: "weekly" },
+      { path: "/mart-landing.html", priority: "0.85", changefreq: "weekly" }
     ];
     let urlItems = "";
     for (const item of pagesPaths) {
-      urlItems += "  <url><loc>" + SITE_ORIGIN + item.path + "</loc><lastmod>2026-10-10</lastmod><changefreq>" + item.changefreq + "</changefreq><priority>" + item.priority + "</priority></url>\n";
+      const escapedLoc = (SITE_ORIGIN + item.path).replace(/&/g, "&amp;");
+      urlItems += "  <url><loc>" + escapedLoc + "</loc><lastmod>2026-10-11</lastmod><changefreq>" + item.changefreq + "</changefreq><priority>" + item.priority + "</priority></url>\n";
     }
     res.setHeader("Content-Type", "application/xml; charset=utf-8");
     res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400");

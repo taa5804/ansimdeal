@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.ansimdeal.com/</loc><priority>1.0</priority></url>
-  <url><loc>https://www.ansimdeal.com/request.html?type=monthly</loc><priority>0.9</priority></url>
-  <url><loc>https://www.ansimdeal.com/request.html?type=jeonse</loc><priority>0.9</priority></url>
-  <url><loc>https://www.ansimdeal.com/apt-monthly.html</loc><priority>0.8</priority></url>
-  <url><loc>https://www.ansimdeal.com/apt-jeonse.html</loc><priority>0.8</priority></url>
-  <url><loc>https://www.ansimdeal.com/promise-detail.html</loc><priority>0.8</priority></url>
-  <url><loc>https://www.ansimdeal.com/broker-guide.html</loc><priority>0.8</priority></url>
+  <url><loc>https://www.ansimdeal.com/</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/tools-center.html</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/tools-center.html?tab=utility</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/tools-center.html?tab=map</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/utility</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/apt</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/map</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/check</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/request.html?type=monthly</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/request.html?type=jeonse</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/apt-monthly.html</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/apt-jeonse.html</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/promise-detail.html</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/broker-guide.html</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/broker-landing.html</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.ansimdeal.com/app-install.html</loc><lastmod>2026-10-11</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
 </urlset>

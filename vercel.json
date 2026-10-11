@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/utility",
+      "destination": "/tools-center.html"
+    },
+    {
+      "source": "/tools",
+      "destination": "/tools-center.html"
+    },
+    {
       "source": "/mart-sales",
       "destination": "/mart-sales.html"
     },
@@ -107,6 +115,10 @@
     {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
+    },
+    {
+      "source": "/pages-sitemap.xml",
+      "destination": "/api/sitemap?mode=pages"
     }
   ],
   "headers": [

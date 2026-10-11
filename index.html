@@ -1074,7 +1074,10 @@ button, input {
       </div>
     </a>
     <div class="top-actions">
-      <span id="installBtn" class="install-label" style="cursor:pointer;">📱 앱 다운로드</span>
+      <button id="installBtn" type="button" style="display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:999px;border:2px solid #1165d7;background:linear-gradient(135deg,#eef6ff 0%,#dbeafe 100%);color:#0d3b7a;font-size:13.5px;font-weight:900;cursor:pointer;box-shadow:0 4px 12px rgba(17,101,215,0.15);">
+        <span style="width:24px;height:24px;border-radius:7px;background:#1165d7;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;">📲</span>
+        <span>앱 다운로드 · 설치</span>
+      </button>
       <button id="menuBtn" class="menu" type="button" aria-label="메뉴 열기" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -1092,6 +1095,14 @@ button, input {
       </a>
       <a class="primary" href="request.html?type=monthly">
         <span>🏪 상가·점포 월세 구하기</span>
+        <span>›</span>
+      </a>
+      <a class="primary" href="tools-center.html?tab=map">
+        <span>🗺️ 반경 1.5km 상권분석 지도</span>
+        <span>›</span>
+      </a>
+      <a class="primary" href="tools-center.html?tab=utility">
+        <span>⚡ 전기·수도·가스 입주연결·해지정산</span>
         <span>›</span>
       </a>
       <div class="mobile-menu-divider"></div>
@@ -1147,7 +1158,7 @@ button, input {
       <div class="quick-tool-ico">🗺️</div>
       <div class="quick-tool-text">
         <strong>소상공인진흥공단 DB 상권분석 지도 말풍선</strong>
-        <span>반경 1.5km 전 업종 유동인구 · 경쟁점포수 · 매출추이 확인</span>
+        <span>시·구·동 선택 · 반경 1.5km 전 업종 유동인구·경쟁점포·매출추이</span>
       </div>
     </div>
 
@@ -1156,7 +1167,7 @@ button, input {
       <div class="quick-tool-ico">⚡</div>
       <div class="quick-tool-text">
         <strong>전기 · 수도 · 가스 입주연결 · 해지정산 매칭기</strong>
-        <span>지역 입력 시 도시가스·전기·수도 자동 매칭 및 집주인 카톡 전송</span>
+        <span>동 선택 시 관할 도시가스 매칭 · 해지 시 계량기 숫자 요금정산·카톡 전송</span>
       </div>
     </div>
   </div>
