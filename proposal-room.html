@@ -618,6 +618,9 @@ textarea:focus{
         임대인의 중개보수는 법정 상한 범위 내에서
         공인중개사가 직접 수령합니다.
 
+        <br>
+        <strong>🔒 임차인(매수자)의 연락처는 공개되지 않으며, 임차인(매수자)이 직접 알려주기 전까지는 절대 공개되지 않습니다.</strong>
+
       </div>
 
 
@@ -1088,7 +1091,10 @@ new URLSearchParams(
 
 const code =
 String(
-  params.get("code") || ""
+  params.get("code") ||
+  params.get("request") ||
+  params.get("test") ||
+  ""
 ).trim();
 
 const requestCode =
