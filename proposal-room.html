@@ -1,0 +1,1801 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1165d7">
+
+<title>매물 제안 등록 | 안심딜 상가·점포 안심거래</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#f3f7fb;
+  color:#172b3d;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans KR",
+    Arial,
+    sans-serif;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+.wrap{
+  width:100%;
+  max-width:860px;
+  margin:0 auto;
+  padding:22px 14px 60px;
+}
+
+
+/* ================================
+   상단
+================================ */
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.brand{
+  color:#1165d7;
+  font-size:18px;
+  font-weight:900;
+}
+
+.step{
+  margin-top:5px;
+  color:#647789;
+  font-size:14px;
+  font-weight:800;
+}
+
+.home-link{
+  color:#547086;
+  font-size:14px;
+  font-weight:800;
+  text-decoration:none;
+}
+
+
+/* ================================
+   카드
+================================ */
+
+.card{
+  background:#fff;
+  border:1px solid #dbe5ee;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 8px 25px rgba(30,61,87,.07);
+}
+
+.head{
+  padding:24px 22px;
+  background:linear-gradient(
+    135deg,
+    #1165d7 0%,
+    #2786ed 100%
+  );
+  color:#fff;
+}
+
+.head h1{
+  margin:0 0 8px;
+  font-size:27px;
+  line-height:1.35;
+}
+
+.head p{
+  margin:0;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.body{
+  padding:22px;
+}
+
+
+/* ================================
+   요청번호
+================================ */
+
+.request-box{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+  padding:15px 17px;
+  border:1px solid #cfe1f5;
+  border-radius:12px;
+  background:#f2f8ff;
+}
+
+.request-label{
+  color:#536a7d;
+  font-size:13px;
+  font-weight:800;
+}
+
+.request-code{
+  margin-top:3px;
+  color:#1165d7;
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.agree-complete{
+  flex:none;
+  padding:7px 10px;
+  border-radius:20px;
+  background:#eaf8ef;
+  color:#248044;
+  font-size:12px;
+  font-weight:900;
+}
+
+
+/* ================================
+   안내
+================================ */
+
+.guide{
+  margin-bottom:22px;
+  padding:16px;
+  border:1px solid #f0d59d;
+  border-radius:12px;
+  background:#fff8e9;
+  color:#594b32;
+  font-size:14px;
+  line-height:1.75;
+}
+
+.guide strong{
+  color:#9a5c00;
+}
+
+
+/* ================================
+   거래유형
+================================ */
+
+.section-title{
+  margin:26px 0 11px;
+  color:#203a51;
+  font-size:18px;
+  font-weight:900;
+}
+
+.section-title:first-of-type{
+  margin-top:0;
+}
+
+.type-tabs{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.type-btn{
+  height:49px;
+  border:1px solid #c8d6e2;
+  border-radius:10px;
+  background:#fff;
+  color:#37526a;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.type-btn.active{
+  border-color:#1165d7;
+  background:#1165d7;
+  color:#fff;
+  box-shadow:0 5px 13px rgba(17,101,215,.18);
+}
+
+
+/* ================================
+   입력폼
+================================ */
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.field{
+  min-width:0;
+}
+
+.field.full{
+  grid-column:1 / -1;
+}
+
+label.title{
+  display:block;
+  margin-bottom:7px;
+  color:#334b60;
+  font-size:14px;
+  font-weight:900;
+}
+
+.req{
+  color:#e23939;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="number"],
+select,
+textarea{
+  width:100%;
+  border:1px solid #c6d3df;
+  border-radius:9px;
+  background:#fff;
+  color:#172b3d;
+  outline:none;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="number"],
+select{
+  height:48px;
+  padding:0 13px;
+}
+
+textarea{
+  min-height:110px;
+  padding:12px 13px;
+  resize:vertical;
+  line-height:1.6;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:#1165d7;
+  box-shadow:0 0 0 3px rgba(17,101,215,.08);
+}
+
+.money-wrap{
+  position:relative;
+}
+
+.money-wrap input{
+  padding-right:45px;
+}
+
+.unit{
+  position:absolute;
+  top:50%;
+  right:14px;
+  transform:translateY(-50%);
+  color:#6a7e90;
+  font-size:13px;
+  font-weight:800;
+}
+
+
+/* ================================
+   주소
+================================ */
+
+.address-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+
+/* ================================
+   매물정보
+================================ */
+
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+
+/* ================================
+   사진
+================================ */
+
+.file-box{
+  padding:14px;
+  border:1px dashed #aebfce;
+  border-radius:11px;
+  background:#fafcfe;
+}
+
+.file-box input{
+  width:100%;
+}
+
+.file-help{
+  margin-top:7px;
+  color:#718394;
+  font-size:12px;
+  line-height:1.6;
+}
+
+
+/* ================================
+   확인사항
+================================ */
+
+.confirm-box{
+  margin-top:24px;
+  padding:16px;
+  border:1px solid #d7e1ea;
+  border-radius:12px;
+  background:#f8fafc;
+}
+
+.check-row{
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  color:#344c60;
+  font-size:14px;
+  line-height:1.65;
+  cursor:pointer;
+}
+
+.check-row input{
+  width:19px;
+  height:19px;
+  flex:none;
+  margin:2px 0 0;
+  accent-color:#1165d7;
+}
+
+
+/* ================================
+   버튼
+================================ */
+
+.actions{
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  gap:10px;
+  margin-top:22px;
+}
+
+.btn{
+  height:52px;
+  border:0;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.btn-back{
+  background:#edf2f6;
+  color:#40586d;
+}
+
+.btn-submit{
+  background:linear-gradient(
+    135deg,
+    #1165d7,
+    #267fe5
+  );
+  color:#fff;
+  box-shadow:0 6px 15px rgba(17,101,215,.18);
+}
+
+
+/* ================================
+   메시지
+================================ */
+
+.message{
+  display:none;
+  margin-top:18px;
+  padding:15px;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:800;
+  line-height:1.65;
+}
+
+.message.error{
+  display:block;
+  border:1px solid #f1c6c6;
+  background:#fff1f1;
+  color:#b12424;
+}
+
+.message.ok{
+  display:block;
+  border:1px solid #b9dfc5;
+  background:#edf9f1;
+  color:#267b43;
+}
+
+
+/* ================================
+   등록완료
+================================ */
+
+.complete-box{
+  display:none;
+  margin-top:20px;
+  padding:22px;
+  border:1px solid #bcdcc8;
+  border-radius:14px;
+  background:#f0faf3;
+  text-align:center;
+}
+
+.complete-box h2{
+  margin:0 0 9px;
+  color:#267b43;
+  font-size:21px;
+}
+
+.complete-box p{
+  margin:0;
+  color:#496454;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.complete-id{
+  display:inline-block;
+  margin-top:13px;
+  padding:8px 14px;
+  border-radius:20px;
+  background:#fff;
+  color:#1165d7;
+  font-size:14px;
+  font-weight:900;
+}
+
+
+/* ================================
+   모바일
+================================ */
+
+@media(max-width:650px){
+
+  .wrap{
+    padding:14px 10px 40px;
+  }
+
+  .top{
+    align-items:flex-start;
+  }
+
+  .card{
+    border-radius:14px;
+  }
+
+  .head{
+    padding:20px 17px;
+  }
+
+  .head h1{
+    font-size:23px;
+  }
+
+  .body{
+    padding:17px;
+  }
+
+  .grid,
+  .address-row,
+  .info-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .request-box{
+    align-items:flex-start;
+  }
+
+  .actions{
+    grid-template-columns:1fr;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <div class="top">
+
+    <div>
+      <div class="brand">
+        안심딜 상가·점포 안심거래
+      </div>
+
+      <div class="step">
+        공인중개사 임대 등록 · 매물 제안방
+      </div>
+    </div>
+
+    <a
+      href="/"
+      class="home-link"
+    >
+      메인화면
+    </a>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="head">
+
+      <h1>
+        매물 제안 등록
+      </h1>
+
+      <p>
+        임차 희망조건에 맞는 상가·점포 매물을 등록해 주세요.
+      </p>
+
+    </div>
+
+
+    <div class="body">
+
+
+      <div class="request-box">
+
+        <div>
+
+          <div class="request-label">
+            임차 요청번호
+          </div>
+
+          <div
+            class="request-code"
+            id="requestCode"
+          >
+            -
+          </div>
+
+        </div>
+
+        <div class="agree-complete">
+          ✓ 요청번호 확인완료
+        </div>
+
+      </div>
+
+
+      <div class="guide">
+
+        <strong>
+          공인중개사 안내
+        </strong>
+        <br>
+
+        임차인에게는 공인중개사 중개보수를
+        청구할 수 없습니다.
+
+        <br>
+
+        임대인의 중개보수는 법정 상한 범위 내에서
+        공인중개사가 직접 수령합니다.
+
+      </div>
+
+
+
+      <form id="proposalForm">
+
+
+        <div class="section-title">
+          거래유형
+        </div>
+
+
+        <div class="type-tabs">
+
+          <button
+            type="button"
+            class="type-btn active"
+            data-type="jeonse"
+          >
+            전세
+          </button>
+
+          <button
+            type="button"
+            class="type-btn"
+            data-type="monthly"
+          >
+            월세
+          </button>
+
+        </div>
+
+
+
+        <div class="section-title">
+          매물 위치
+        </div>
+
+
+        <div class="grid">
+
+          <div class="field">
+
+            <label class="title">
+              시·도
+              <span class="req">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="sido"
+              placeholder="예: 서울특별시"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label class="title">
+              시·군·구
+              <span class="req">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="sigungu"
+              placeholder="예: 강남구"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label class="title">
+              읍·면·동
+              <span class="req">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="dong"
+              placeholder="예: 역삼동"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label class="title">
+              상가·점포명
+              <span class="req">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="apartment"
+              placeholder="상가·점포명 또는 건물명을 입력하세요"
+              required
+            >
+
+          </div>
+
+
+          <div class="field full">
+
+            <label class="title">
+              동·호수
+            </label>
+
+            <div class="address-row">
+
+              <input
+                type="text"
+                id="building"
+                placeholder="동"
+              >
+
+              <input
+                type="text"
+                id="unitNo"
+                placeholder="호"
+              >
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="section-title">
+          거래금액
+        </div>
+
+
+        <div
+          id="priceArea"
+        ></div>
+
+
+
+        <div class="section-title">
+          매물 기본정보
+        </div>
+
+
+        <div class="info-grid">
+
+          <div class="field">
+
+            <label class="title">
+              전용면적
+            </label>
+
+            <div class="money-wrap">
+
+              <input
+                type="number"
+                id="area"
+                min="0"
+                step="0.01"
+                placeholder="전용면적"
+              >
+
+              <span class="unit">
+                ㎡
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label class="title">
+              해당층
+            </label>
+
+            <input
+              type="text"
+              id="floor"
+              placeholder="예: 1층"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label class="title">
+              총층
+            </label>
+
+            <input
+              type="text"
+              id="totalFloor"
+              placeholder="예: 5층"
+            >
+
+          </div>
+
+        </div>
+
+
+
+        <div class="section-title">
+          입주 가능일
+        </div>
+
+
+        <div class="grid">
+
+          <div class="field full">
+
+            <input
+              type="text"
+              id="moveDate"
+              placeholder="예: 즉시입주 / 2026년 10월 1일 / 협의"
+            >
+
+          </div>
+
+        </div>
+
+
+
+        <div class="section-title">
+          임대인·중개사 연락처
+        </div>
+
+
+        <div class="grid">
+
+          <div class="field">
+
+            <label class="title">
+              성명(상호)
+            </label>
+
+            <input
+              type="text"
+              id="ownerName"
+              placeholder="성명 또는 중개사무소명"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label class="title">
+              휴대전화번호
+            </label>
+
+            <input
+              type="tel"
+              id="ownerPhone"
+              inputmode="numeric"
+              placeholder="01012345678"
+              maxlength="11"
+            >
+
+          </div>
+
+        </div>
+
+
+
+        <div class="section-title">
+          매물 설명
+        </div>
+
+
+        <div class="field full">
+
+          <textarea
+            id="description"
+            placeholder="매물의 특징, 상태, 입주조건 등을 입력하세요."
+          ></textarea>
+
+        </div>
+
+
+
+        <div class="section-title">
+          매물 사진
+        </div>
+
+
+        <div class="file-box">
+
+          <input
+            type="file"
+            id="photos"
+            accept="image/*"
+            multiple
+          >
+
+          <div class="file-help">
+            매물 확인에 필요한 사진을 첨부할 수 있습니다.
+          </div>
+
+        </div>
+
+
+
+        <div class="section-title">
+          기타 파일첨부
+        </div>
+
+
+        <div class="grid">
+
+          <div class="file-box">
+
+            <input
+              type="file"
+              id="file1"
+            >
+
+            <div class="file-help">
+              기타 파일 1
+            </div>
+
+          </div>
+
+
+          <div class="file-box">
+
+            <input
+              type="file"
+              id="file2"
+            >
+
+            <div class="file-help">
+              기타 파일 2
+            </div>
+
+          </div>
+
+
+          <div class="file-box">
+
+            <input
+              type="file"
+              id="file3"
+            >
+
+            <div class="file-help">
+              기타 파일 3
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="confirm-box">
+
+          <label class="check-row">
+
+            <input
+              type="checkbox"
+              id="finalCheck"
+            >
+
+            <span>
+              등록한 매물정보가 사실과 다름이 없으며,
+              임차 희망자에게 정확한 정보를 제공하는 것에 동의합니다.
+            </span>
+
+          </label>
+
+        </div>
+
+
+
+        <div class="actions">
+
+          <button
+            type="button"
+            class="btn btn-back"
+            id="backBtn"
+          >
+            이전
+          </button>
+
+
+          <button
+            type="submit"
+            class="btn btn-submit"
+          >
+            매물 제안 등록
+          </button>
+
+        </div>
+
+
+        <div
+          class="message"
+          id="message"
+        ></div>
+
+      </form>
+
+
+
+      <div
+        class="complete-box"
+        id="completeBox"
+      >
+
+        <h2>
+          ✓ 매물 제안이 등록되었습니다.
+        </h2>
+
+        <p>
+          임차 희망자가 제안된 매물을 확인하고 선택할 때까지
+          이 단계에서 대기합니다.
+          <br>
+          매물이 선택되어 거래가 결정된 후에만
+          거래진행실이 생성됩니다.
+        </p>
+
+        <div
+          class="complete-id"
+          id="proposalId"
+        ></div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<script>
+(function(){
+
+"use strict";
+
+
+/* =====================================
+   요청번호
+===================================== */
+
+const params =
+new URLSearchParams(
+  location.search
+);
+
+const code =
+String(
+  params.get("code") || ""
+).trim();
+
+const requestCode =
+document.getElementById(
+  "requestCode"
+);
+
+const message =
+document.getElementById(
+  "message"
+);
+
+
+if(!code){
+
+  requestCode.textContent =
+  "요청번호 없음";
+
+  message.className =
+  "message error";
+
+  message.textContent =
+  "임차 요청번호가 없습니다.";
+
+  return;
+}
+
+
+requestCode.textContent =
+code;
+
+
+
+/* =====================================
+   거래유형
+===================================== */
+
+let transactionType =
+"jeonse";
+
+
+const priceArea =
+document.getElementById(
+  "priceArea"
+);
+
+
+const typeButtons =
+document.querySelectorAll(
+  ".type-btn"
+);
+
+
+
+function moneyInputHTML(
+  id,
+  label,
+  placeholder
+){
+
+  return `
+    <div class="field full">
+
+      <label class="title">
+        ${label}
+        <span class="req">*</span>
+      </label>
+
+      <div class="money-wrap">
+
+        <input
+          type="text"
+          class="money-input"
+          id="${id}"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="${placeholder}"
+          required
+        >
+
+        <span class="unit">
+          원
+        </span>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+
+function renderPrice(){
+
+  if(
+    transactionType === "jeonse"
+  ){
+
+    priceArea.innerHTML = `
+      <div class="grid">
+        ${moneyInputHTML(
+          "jeonsePrice",
+          "전세보증금",
+          "전세보증금 입력"
+        )}
+      </div>
+    `;
+
+  }
+
+
+  if(
+    transactionType === "monthly"
+  ){
+
+    priceArea.innerHTML = `
+
+      <div class="grid">
+
+        <div class="field">
+
+          <label class="title">
+            보증금
+            <span class="req">*</span>
+          </label>
+
+          <div class="money-wrap">
+
+            <input
+              type="text"
+              class="money-input"
+              id="monthlyDeposit"
+              inputmode="numeric"
+              autocomplete="off"
+              placeholder="보증금 입력"
+              required
+            >
+
+            <span class="unit">
+              원
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="field">
+
+          <label class="title">
+            월세
+            <span class="req">*</span>
+          </label>
+
+          <div class="money-wrap">
+
+            <input
+              type="text"
+              class="money-input"
+              id="monthlyRent"
+              inputmode="numeric"
+              autocomplete="off"
+              placeholder="월세 입력"
+              required
+            >
+
+            <span class="unit">
+              원
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+    `;
+
+  }
+
+
+  bindMoneyInputs();
+
+}
+
+
+
+typeButtons.forEach(
+  function(btn){
+
+    btn.addEventListener(
+      "click",
+      function(){
+
+        transactionType =
+        this.dataset.type;
+
+
+        typeButtons.forEach(
+          function(item){
+
+            item.classList.toggle(
+              "active",
+              item.dataset.type === transactionType
+            );
+
+          }
+        );
+
+
+        renderPrice();
+
+      }
+    );
+
+  }
+);
+
+
+
+/* =====================================
+   금액 쉼표
+===================================== */
+
+function bindMoneyInputs(){
+
+  document
+  .querySelectorAll(
+    ".money-input"
+  )
+  .forEach(
+    function(input){
+
+      input.addEventListener(
+        "input",
+        function(){
+
+          const number =
+          this.value.replace(
+            /[^0-9]/g,
+            ""
+          );
+
+
+          if(!number){
+
+            this.value = "";
+            return;
+          }
+
+
+          this.value =
+          Number(number)
+          .toLocaleString();
+
+        }
+      );
+
+    }
+  );
+
+}
+
+
+
+function getMoney(id){
+
+  const element =
+  document.getElementById(id);
+
+
+  if(!element){
+    return 0;
+  }
+
+
+  return Number(
+    String(
+      element.value || ""
+    )
+    .replace(/,/g,"")
+    .replace(/[^0-9]/g,"")
+  );
+
+}
+
+
+
+/* =====================================
+   휴대전화 숫자만
+===================================== */
+
+const ownerPhone =
+document.getElementById(
+  "ownerPhone"
+);
+
+
+ownerPhone.addEventListener(
+  "input",
+  function(){
+
+    this.value =
+    this.value
+    .replace(/\D/g,"")
+    .slice(0,11);
+
+  }
+);
+
+
+
+/* =====================================
+   이전 버튼
+===================================== */
+
+document
+.getElementById(
+  "backBtn"
+)
+.addEventListener(
+  "click",
+  function(){
+
+    location.href = "/";
+
+  }
+);
+
+
+
+/* =====================================
+   등록
+===================================== */
+
+document
+.getElementById(
+  "proposalForm"
+)
+.addEventListener(
+  "submit",
+  function(e){
+
+    e.preventDefault();
+
+
+    message.className =
+    "message";
+
+    message.textContent =
+    "";
+
+
+    const sido =
+    document
+    .getElementById("sido")
+    .value
+    .trim();
+
+
+    const sigungu =
+    document
+    .getElementById("sigungu")
+    .value
+    .trim();
+
+
+    const dong =
+    document
+    .getElementById("dong")
+    .value
+    .trim();
+
+
+    const apartment =
+    document
+    .getElementById("apartment")
+    .value
+    .trim();
+
+
+    if(
+      !sido ||
+      !sigungu ||
+      !dong ||
+      !apartment
+    ){
+
+      message.className =
+      "message error";
+
+      message.textContent =
+      "매물 위치의 필수항목을 입력해 주세요.";
+
+      return;
+    }
+
+
+
+    let price = 0;
+    let deposit = 0;
+    let monthly = 0;
+    let priceDisplay = "";
+
+
+
+    if(
+      transactionType === "jeonse"
+    ){
+
+      deposit =
+      getMoney(
+        "jeonsePrice"
+      );
+
+
+      if(!deposit){
+
+        message.className =
+        "message error";
+
+        message.textContent =
+        "전세보증금을 입력해 주세요.";
+
+        return;
+      }
+
+      priceDisplay = "전세보증금 " + deposit.toLocaleString() + "원";
+
+    }
+
+
+
+    if(
+      transactionType === "monthly"
+    ){
+
+      deposit =
+      getMoney(
+        "monthlyDeposit"
+      );
+
+
+      monthly =
+      getMoney(
+        "monthlyRent"
+      );
+
+
+      if(
+        !deposit &&
+        !monthly
+      ){
+
+        message.className =
+        "message error";
+
+        message.textContent =
+        "월세 보증금과 월세를 입력해 주세요.";
+
+        return;
+      }
+
+      priceDisplay = "보증금 " + deposit.toLocaleString() + "원 / 월세 " + monthly.toLocaleString() + "원";
+
+    }
+
+
+
+    const finalCheck =
+    document.getElementById(
+      "finalCheck"
+    );
+
+
+    if(
+      !finalCheck.checked
+    ){
+
+      message.className =
+      "message error";
+
+      message.textContent =
+      "매물정보 확인에 동의해 주세요.";
+
+      return;
+    }
+
+
+
+    const proposalNo =
+    "P" +
+    Date.now()
+    .toString()
+    .slice(-8);
+
+    const buildingVal =
+    document.getElementById("building").value.trim();
+
+    const unitNoVal =
+    document.getElementById("unitNo").value.trim();
+
+    const fullAddress =
+    [sido, sigungu, dong, apartment, buildingVal, unitNoVal].filter(Boolean).join(" ");
+
+
+    const proposalData = {
+
+      id: proposalNo,
+
+      proposalNo:
+      proposalNo,
+
+      requestCode:
+      code,
+
+      transactionType:
+      transactionType,
+
+      address:{
+        sido:
+        sido,
+
+        sigungu:
+        sigungu,
+
+        dong:
+        dong,
+
+        apartment:
+        apartment,
+
+        building:
+        buildingVal,
+
+        unitNo:
+        unitNoVal
+      },
+
+      propertyName: apartment,
+      propertyAddress: fullAddress,
+      proposedPrice: priceDisplay,
+
+      price:
+      price,
+
+      deposit:
+      deposit,
+
+      monthlyRent:
+      monthly,
+
+      area:
+      document
+      .getElementById("area")
+      .value,
+
+      floor:
+      document
+      .getElementById("floor")
+      .value
+      .trim(),
+
+      totalFloor:
+      document
+      .getElementById("totalFloor")
+      .value
+      .trim(),
+
+      moveDate:
+      document
+      .getElementById("moveDate")
+      .value
+      .trim(),
+
+      ownerName:
+      document
+      .getElementById("ownerName")
+      .value
+      .trim(),
+
+      ownerPhone:
+      document
+      .getElementById("ownerPhone")
+      .value
+      .trim(),
+
+      officeName:
+      document
+      .getElementById("ownerName")
+      .value
+      .trim(),
+
+      officePhone:
+      document
+      .getElementById("ownerPhone")
+      .value
+      .trim(),
+
+      description:
+      document
+      .getElementById("description")
+      .value
+      .trim(),
+
+      note:
+      document
+      .getElementById("description")
+      .value
+      .trim(),
+
+      status:
+      "PROPOSED",
+
+      selected:
+      false,
+
+      createdAt:
+      new Date()
+      .toISOString()
+
+    };
+
+
+
+    const storageKey =
+    "proposals_" + code;
+
+
+    let proposals = [];
+
+
+    try{
+
+      proposals =
+      JSON.parse(
+        localStorage.getItem(
+          storageKey
+        ) || "[]"
+      );
+
+    }catch(error){
+
+      proposals = [];
+
+    }
+
+
+    proposals.push(
+      proposalData
+    );
+
+
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify(
+        proposals
+      )
+    );
+
+    try{
+      const allProposals = JSON.parse(localStorage.getItem("wooriapt_proposals") || "[]");
+      allProposals.unshift(proposalData);
+      localStorage.setItem("wooriapt_proposals", JSON.stringify(allProposals));
+    }catch(e){}
+
+
+
+    message.className =
+    "message ok";
+
+    message.textContent =
+    "매물 제안이 정상적으로 등록되었습니다.";
+
+
+
+    document
+    .getElementById(
+      "completeBox"
+    )
+    .style.display =
+    "block";
+
+
+    document
+    .getElementById(
+      "proposalId"
+    )
+    .textContent =
+    "제안번호 " +
+    proposalNo;
+
+
+
+    document
+    .getElementById(
+      "completeBox"
+    )
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+  }
+);
+
+
+
+renderPrice();
+
+})();
+</script>
+
+</body>
+</html>
