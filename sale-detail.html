@@ -547,7 +547,7 @@ html,body{
   <!-- 상단 고정 1분 스크롤 타이머 & 진행률 -->
   <div class="sticky-scroll-bar">
     <div class="sticky-top-row">
-      <a href="/presale.html" class="back-btn">‹ 분양 메인화면</a>
+      <a id="detailBackBtn" href="/presale.html" class="back-btn">‹ 분양 메인화면</a>
       <div class="timer-pill">⏱️ 스크롤 열람 <b id="viewTime">00:00</b> / 01:00</div>
     </div>
     <div class="progress-track">
@@ -558,17 +558,17 @@ html,body{
   <div class="apt-track">
 
     <!-- PAGE 01 -->
-    <section class="apt-page cover" data-page="0">
+    <section id="coverSection" class="apt-page cover" data-page="0">
       <div class="shade"></div>
-      <div class="page-no">01 / 08</div>
+      <div class="page-no" id="roomPageBadge">01 / 08</div>
 
       <div class="cover-copy">
-        <span class="eyebrow">PREMIUM RESIDENCE</span>
-        <h1>단지명을 입력해 주세요</h1>
-        <p>일상이 예술이 되는 새로운 주거의 시작<br><strong style="color:#fde047;">아래로 1분(60초)간 천천히 스크롤하시면 카카오톡으로 3,000원 모바일 바코드카드가 지급됩니다.</strong></p>
+        <span class="eyebrow" id="coverEyebrow">PREMIUM RESIDENCE</span>
+        <h1 id="coverTitle">양산택지지구 프리미엄 명작</h1>
+        <p id="coverDesc">일상이 예술이 되는 새로운 주거의 시작<br><strong style="color:#fde047;">아래로 1분(60초)간 천천히 스크롤하시면 카카오톡으로 3,000원 모바일 바코드카드가 지급됩니다.</strong></p>
       </div>
 
-      <div class="cover-logo">THE FIRST LIFE</div>
+      <div class="cover-logo" id="coverLogo">THE FIRST LIFE</div>
     </section>
 
     <!-- PAGE 02 -->
@@ -790,8 +790,8 @@ html,body{
           📅 방문예약 신청
         </button>
 
-        <a href="tel:0212345678">
-          📞 상담전화 02-1234-5678
+        <a id="contactPhoneLink" href="tel:0629524150">
+          📞 상담전화 062-952-4150
         </a>
       </div>
     </section>
@@ -823,19 +823,100 @@ html,body{
     var rewardGuideTxt = document.getElementById("rewardGuideTxt");
     var visitBtn = document.getElementById("visitBtn");
 
+    var params = new URLSearchParams(window.location.search);
+    var roomCode = (params.get("room") || params.get("code") || "").trim().toUpperCase();
+    if (!roomCode) {
+      try {
+        roomCode = (localStorage.getItem("activePresaleRoomCode") || "ROOM-001").toUpperCase();
+      } catch (e) {
+        roomCode = "ROOM-001";
+      }
+    }
+
+    var currentRoom = {
+      project_code: roomCode || "ROOM-001",
+      project_name: "양산택지지구 프리미엄 명작",
+      contact_phone: "062-952-4150",
+      catalog_data: {
+        channelType: "daangn",
+        companyName: "양산택지지구 분양사업단",
+        targetDong: "우리동네",
+        rewardAmount: 3000,
+        partnerName: "카카오톡 모바일 바코드카드 (현금사용)"
+      }
+    };
+
+    var backBtn = document.getElementById("detailBackBtn");
+    if (backBtn && roomCode) {
+      backBtn.href = "/presale.html?room=" + encodeURIComponent(roomCode);
+    }
+
+    function applyRoomUI(room) {
+      if (!room) return;
+      currentRoom = room;
+      var c = room.catalog_data || {};
+      var isMart = c.channelType === "mart";
+      var reward = Number(c.rewardAmount || 3000).toLocaleString("ko-KR");
+
+      var pageBadge = document.getElementById("roomPageBadge");
+      if (pageBadge) pageBadge.textContent = "01 / 08 · #" + (room.project_code || "ROOM-001");
+
+      var eyebrowEl = document.getElementById("coverEyebrow");
+      if (eyebrowEl) eyebrowEl.textContent = (c.targetDong || room.area || "PREMIUM") + " · " + (isMart ? "MART SPECIAL" : "DAANGN BIZ TARGET");
+
+      var titleEl = document.getElementById("coverTitle");
+      if (titleEl) titleEl.textContent = room.project_name || "프리미엄 분양단지";
+
+      var descEl = document.getElementById("coverDesc");
+      if (descEl) {
+        descEl.innerHTML = (c.coverDescription || "일상이 예술이 되는 새로운 주거의 시작") +
+          '<br><strong style="color:#fde047;">아래로 1분(60초)간 천천히 스크롤하시면 ' +
+          (isMart ? (c.partnerName || "지정 마트") + " " + reward + "원 전자쿠폰이" : "카카오톡으로 " + reward + "원 모바일 바코드카드가") +
+          ' 즉시 지급됩니다.</strong>';
+      }
+
+      var logoEl = document.getElementById("coverLogo");
+      if (logoEl) logoEl.textContent = c.companyName || "PREMIUM HOUSING";
+
+      var coverSection = document.getElementById("coverSection");
+      if (coverSection && c.coverImageUrl) {
+        coverSection.style.backgroundImage = 'linear-gradient(180deg,rgba(4,20,36,.08),rgba(4,20,36,.2)), url("' + c.coverImageUrl + '")';
+      }
+
+      var phoneLink = document.getElementById("contactPhoneLink");
+      if (phoneLink && room.contact_phone) {
+        phoneLink.href = "tel:" + String(room.contact_phone).replace(/[^0-9]/g, "");
+        phoneLink.textContent = "📞 상담전화 " + room.contact_phone;
+      }
+
+      checkReward();
+    }
+
+    (async function fetchRoomConfig() {
+      try {
+        var apiOrigin = window.location.hostname.includes("wooriaptcd.com") ? "" : "https://wooriaptcd.com";
+        var res = await fetch(apiOrigin + "/api/sale-save?code=" + encodeURIComponent(roomCode));
+        var data = await res.json();
+        if (res.ok && data.ok && data.room) {
+          applyRoomUI(data.room);
+          return;
+        }
+      } catch (e) {}
+
+      try {
+        var saved = JSON.parse(localStorage.getItem("wooriapt_replicated_rooms_v1") || "[]");
+        var found = saved.find(function(x) { return String(x.project_code || "").toUpperCase() === roomCode; });
+        if (found) applyRoomUI(found);
+      } catch (e) {}
+    })();
+
     var activeSeconds = 0;
     var requiredSeconds = 60;
     var lastActivity = Date.now();
     var idleLimit = 15000;
-    var maxScrollReached = false;
 
     function markActivity(){
       lastActivity = Date.now();
-      var scrollBottom = window.innerHeight + window.scrollY;
-      var docHeight = document.documentElement.scrollHeight;
-      if (scrollBottom >= docHeight * 0.45) {
-        maxScrollReached = true;
-      }
     }
 
     function formatTime(seconds){
@@ -848,17 +929,29 @@ html,body{
       var pct = Math.min(100, Math.round((activeSeconds / requiredSeconds) * 100));
       if (progressFill) progressFill.style.width = pct + "%";
 
+      var c = (currentRoom && currentRoom.catalog_data) || {};
+      var isMart = c.channelType === "mart";
+      var reward = Number(c.rewardAmount || 3000).toLocaleString("ko-KR");
       var enoughTime = activeSeconds >= requiredSeconds;
       rewardBtn.disabled = !enoughTime;
 
       if (rewardBtn.disabled) {
         var remain = Math.max(0, requiredSeconds - activeSeconds);
-        rewardBtn.innerHTML = "⏱️ 1분 스크롤 열람 중 · " + remain + "초 후 3,000원 바코드카드 받기";
+        if (rewardGuideTxt) {
+          rewardGuideTxt.innerHTML = isMart
+            ? "분양정보를 스크롤하며 <strong>1분(60초)</strong>을 채우시면 <strong>" + (c.partnerName || "마트") + " " + reward + "원 전자쿠폰</strong>이 지급됩니다!"
+            : "분양정보를 스크롤하며 <strong>1분(60초)</strong>을 채우시면 <strong>" + reward + "원 모바일 바코드카드</strong>가 카카오톡으로 지급됩니다!";
+        }
+        rewardBtn.innerHTML = "⏱️ 1분 스크롤 열람 중 · " + remain + "초 후 " + reward + "원 " + (isMart ? "전자쿠폰" : "바코드카드") + " 받기";
       } else {
         if (rewardGuideTxt) {
-          rewardGuideTxt.innerHTML = "🎉 <strong>1분 스크롤 완료!</strong> 아래 버튼을 눌러 <strong>카카오톡으로 3,000원 모바일 바코드카드</strong>를 받으세요!";
+          rewardGuideTxt.innerHTML = isMart
+            ? "🎉 <strong>1분 스크롤 완료!</strong> 아래 버튼을 눌러 <strong>" + (c.partnerName || "마트") + " " + reward + "원 전자쿠폰</strong>을 받으세요!"
+            : "🎉 <strong>1분 스크롤 완료!</strong> 아래 버튼을 눌러 <strong>카카오톡으로 " + reward + "원 모바일 바코드카드</strong>를 받으세요!";
         }
-        rewardBtn.innerHTML = "💬 카카오톡으로 3,000원 모바일 바코드카드 즉시 받기 ›";
+        rewardBtn.innerHTML = isMart
+          ? "🛒 " + (c.partnerName || "지정 마트") + " " + reward + "원 전자쿠폰 즉시 받기 ›"
+          : "💬 카카오톡으로 " + reward + "원 모바일 바코드카드 즉시 받기 ›";
       }
     }
 
@@ -879,18 +972,23 @@ html,body{
 
     if (visitBtn) {
       visitBtn.addEventListener("click", function(){
-        alert("방문예약 신청이 접수되었습니다. 담당 상담사가 곧 안내해 드립니다.");
+        alert("[" + (currentRoom.project_name || "분양단지") + "] 방문예약 신청이 접수되었습니다. 담당 상담사가 곧 안내해 드립니다.");
       });
     }
 
-    rewardBtn.addEventListener("click", function(){
+    rewardBtn.addEventListener("click", async function(){
       if (rewardBtn.disabled) return;
+
+      var c = (currentRoom && currentRoom.catalog_data) || {};
+      var isMart = c.channelType === "mart";
+      var reward = Number(c.rewardAmount || 3000);
 
       var now = new Date();
       function pad(v){ return String(v).padStart(2, "0"); }
 
+      var prefix = isMart ? "MART-" : "KAKAO-";
       var couponNo =
-        "APT-" +
+        prefix +
         now.getFullYear() +
         pad(now.getMonth() + 1) +
         pad(now.getDate()) +
@@ -901,6 +999,11 @@ html,body{
       expires.setDate(expires.getDate() + 30);
 
       var couponData = {
+        roomCode: currentRoom.project_code || roomCode || "ROOM-001",
+        projectName: currentRoom.project_name || "우리 아파트 분양",
+        companyName: c.companyName || "",
+        channelType: isMart ? "mart" : "daangn",
+        partnerName: c.partnerName || (isMart ? "지정 마트 전자쿠폰" : "카카오톡 모바일 바코드카드"),
         couponNo: couponNo,
         issuedAt:
           now.getFullYear() + "-" +
@@ -912,8 +1015,8 @@ html,body{
           expires.getFullYear() + "-" +
           pad(expires.getMonth() + 1) + "-" +
           pad(expires.getDate()),
-        status: "사용 가능 (현금 동일 결제)",
-        point: 3000
+        status: isMart ? "사용 가능 (지정 마트 계산대 스캔)" : "사용 가능 (현금 동일 결제)",
+        point: reward
       };
 
       try {
@@ -921,13 +1024,30 @@ html,body{
       } catch(e) {}
 
       rewardBtn.disabled = true;
-      rewardBtn.textContent = "모바일 바코드카드 발급 완료 · 이동 중...";
+      rewardBtn.textContent = (isMart ? "전자쿠폰" : "모바일 바코드카드") + " 발급 완료 · 이동 중...";
+
+      try {
+        var apiOrigin = window.location.hostname.includes("wooriaptcd.com") ? "" : "https://wooriaptcd.com";
+        await fetch(apiOrigin + "/api/sale-save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "issue_barcode",
+            project_code: couponData.roomCode,
+            coupon_no: couponData.couponNo
+          })
+        });
+      } catch(e) {}
 
       var query =
-        "?code=" + encodeURIComponent(couponData.couponNo) +
+        "?room=" + encodeURIComponent(couponData.roomCode) +
+        "&mode=" + encodeURIComponent(couponData.channelType) +
+        "&code=" + encodeURIComponent(couponData.couponNo) +
         "&issued=" + encodeURIComponent(couponData.issuedAt) +
         "&expires=" + encodeURIComponent(couponData.expiresAt) +
-        "&point=3000";
+        "&point=" + encodeURIComponent(couponData.point) +
+        "&apt=" + encodeURIComponent(couponData.projectName) +
+        "&partner=" + encodeURIComponent(couponData.partnerName);
 
       window.location.href = "/sale-coupon.html" + query;
     });

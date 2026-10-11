@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#102f42">
+<title>본사 관리자 (wooriaptcd.com) | 당근비즈 분양사 매칭 · 방 복제 설정</title>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%}
+
+body{
+  min-height:100vh;
+  background:#eef7fb;
+  color:#172b3d;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif;
+}
+
+.wrap{
+  width:100%;
+  max-width:1280px;
+  margin:0 auto;
+  padding:14px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+  padding:18px 22px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#0f293a 0%,#163d54 100%);
+  color:#fff;
+}
+
+.brand small{
+  display:block;
+  margin-bottom:5px;
+  color:#f0c15a;
+  font-weight:800;
+}
+
+.brand h1{
+  margin:0 0 5px;
+  font-size:clamp(22px,4vw,27px);
+}
+
+.brand p{
+  margin:0;
+  color:#d8e5eb;
+  font-size:13px;
+}
+
+.brand-links{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.brand-links a{
+  padding:9px 14px;
+  border-radius:9px;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.28);
+  color:#fff;
+  font-size:13px;
+  font-weight:800;
+  text-decoration:none;
+}
+
+.card{
+  padding:18px;
+  border:1px solid #dfe6eb;
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 6px 20px rgba(0,0,0,.04);
+}
+
+#loginArea{
+  display:none;
+  max-width:520px;
+  margin:40px auto 0;
+}
+
+.field{margin-bottom:12px}
+
+label{
+  display:block;
+  margin-bottom:6px;
+  color:#526676;
+  font-size:13px;
+  font-weight:800;
+}
+
+input{
+  width:100%;
+  height:46px;
+  padding:0 12px;
+  border:1px solid #cbd5dc;
+  border-radius:8px;
+  font-size:15px;
+}
+
+button{
+  min-height:46px;
+  border:0;
+  border-radius:8px;
+  background:#102f42;
+  color:#fff;
+  font-size:14px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+#loginArea button{
+  width:100%;
+}
+
+.demo{
+  margin-top:15px;
+  padding:14px;
+  border-radius:10px;
+  background:#fff7df;
+  color:#604d20;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.msg{
+  min-height:22px;
+  margin-top:10px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.msg.error{color:#c4473d}
+.msg.ok{color:#17804b}
+
+#adminArea{
+  display:block;
+}
+
+.topbar{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
+.tabs{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  flex:1;
+}
+
+.tab{
+  width:100%;
+  background:#e8eef2;
+  color:#314555;
+  padding:0 10px;
+}
+
+.tab.active{
+  background:#102f42;
+  color:#fff;
+  box-shadow:0 4px 12px rgba(16,47,66,.2);
+}
+
+.logout{
+  flex:none;
+  padding:0 16px;
+  background:#dfe6eb;
+  color:#314555;
+}
+
+.frame-wrap{
+  overflow:hidden;
+  border:1px solid #dfe6eb;
+  border-radius:12px;
+  background:#fff;
+}
+
+#contentFrame{
+  display:block;
+  width:100%;
+  height:calc(100vh - 180px);
+  min-height:760px;
+  border:0;
+  background:#fff;
+}
+
+@media(max-width:780px){
+  .wrap{padding:8px}
+
+  .topbar{
+    align-items:stretch;
+    flex-direction:column;
+  }
+
+  .tabs{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .logout{
+    width:100%;
+  }
+
+  #contentFrame{
+    height:calc(100vh - 260px);
+    min-height:680px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <div class="brand">
+    <div>
+      <small>WOORIAPTCD.COM · HEAD OFFICE ADMIN</small>
+      <h1>본사 관리자 (당근비즈 분양사 매칭 · 전용 방 복제)</h1>
+      <p>당근비즈(모바일 바코드카드) · 마트(전자쿠폰) 분리 설정 / 분양사별 방 자동 복제 / 충전금·정산 관리</p>
+    </div>
+    <div class="brand-links">
+      <a href="/index.html">🏠 분양 메인화면</a>
+      <a href="/admin.html">🏢 분양사 개별 관리자</a>
+    </div>
+  </div>
+
+  <div id="loginArea" class="card">
+    <h2>본사 관리자 로그인</h2>
+
+    <form id="loginForm">
+
+      <div class="field">
+        <label for="adminId">아이디</label>
+        <input
+          id="adminId"
+          type="text"
+          value="hqadmin"
+          autocomplete="username"
+        >
+      </div>
+
+      <div class="field">
+        <label for="adminPw">비밀번호</label>
+        <input
+          id="adminPw"
+          type="password"
+          value="1234"
+          autocomplete="current-password"
+        >
+      </div>
+
+      <button type="submit">
+        로그인
+      </button>
+
+      <div id="msg" class="msg"></div>
+    </form>
+
+    <div class="demo">
+      <strong>본사 관리자 로그인 계정</strong><br>
+      아이디 : <b>hqadmin</b> (또는 <b>admin</b>)<br>
+      비밀번호 : <b>1234</b>
+    </div>
+  </div>
+
+
+  <div id="adminArea">
+
+    <div class="topbar">
+
+      <div class="tabs">
+
+        <button
+          type="button"
+          class="tab active"
+          data-src="/room-manager.html">
+          🥕 분양사 매칭 · 방 복제 설정
+        </button>
+
+        <button
+          type="button"
+          class="tab"
+          data-src="/charge-management.html">
+          💰 충전금 관리
+        </button>
+
+        <button
+          type="button"
+          class="tab"
+          data-src="/point-settlement.html">
+          📊 바코드·포인트 정산관리
+        </button>
+
+        <button
+          type="button"
+          class="tab"
+          data-src="/system-settings.html">
+          ⚙️ 시스템 설정
+        </button>
+
+      </div>
+
+      <button
+        type="button"
+        id="logoutBtn"
+        class="logout">
+        로그아웃
+      </button>
+
+    </div>
+
+
+    <div class="frame-wrap">
+
+      <iframe
+        id="contentFrame"
+        src="/room-manager.html"
+        title="본사 관리자 내용">
+      </iframe>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+(function(){
+"use strict";
+
+var loginArea=document.getElementById("loginArea");
+var adminArea=document.getElementById("adminArea");
+var form=document.getElementById("loginForm");
+var adminId=document.getElementById("adminId");
+var adminPw=document.getElementById("adminPw");
+var msg=document.getElementById("msg");
+var logoutBtn=document.getElementById("logoutBtn");
+var frame=document.getElementById("contentFrame");
+var tabs=Array.prototype.slice.call(document.querySelectorAll(".tab"));
+
+function showAdmin(){
+  loginArea.style.display="none";
+  adminArea.style.display="block";
+}
+
+function showLogin(){
+  adminArea.style.display="none";
+  loginArea.style.display="block";
+}
+
+function openTab(btn){
+  tabs.forEach(function(x){
+    x.classList.remove("active");
+  });
+  btn.classList.add("active");
+  frame.src=btn.getAttribute("data-src");
+}
+
+tabs.forEach(function(btn){
+  btn.addEventListener("click",function(){
+    openTab(btn);
+  });
+});
+
+form.addEventListener("submit",function(e){
+  e.preventDefault();
+  msg.className="msg";
+  var idVal = adminId.value.trim();
+  var pwVal = adminPw.value.trim();
+
+  if((idVal==="hqadmin" || idVal==="admin") && pwVal==="1234"){
+    try{
+      sessionStorage.setItem("presaleHeadAdminLogin","1");
+    }catch(err){}
+    msg.textContent="로그인되었습니다.";
+    msg.classList.add("ok");
+    frame.src="/room-manager.html";
+    tabs.forEach(function(x){ x.classList.remove("active"); });
+    tabs[0].classList.add("active");
+    showAdmin();
+    return;
+  }
+
+  msg.textContent="아이디 또는 비밀번호가 맞지 않습니다.";
+  msg.classList.add("error");
+});
+
+logoutBtn.addEventListener("click",function(){
+  try{
+    sessionStorage.removeItem("presaleHeadAdminLogin");
+  }catch(e){}
+  showLogin();
+});
+
+})();
+</script>
+
+</body>
+</html>

@@ -2178,6 +2178,14 @@ li a:hover {
       <button onclick="mShareLink()" style="width:100%; background:#fee500; color:#191919; border:none; border-radius:12px; padding:12px; font-size:14px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
         <span>💬</span> <span>카카오톡 / 지인에게 이 시세표 1초 공유하기</span>
       </button>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+        <a href="/price.html" style="background:linear-gradient(135deg,#0f172a 0%,#1d4ed8 100%); color:#ffffff; text-decoration:none; border-radius:12px; padding:12px 10px; font-size:13px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 4px 12px rgba(29,78,216,0.22);">
+          <span>📉</span> <span>오늘의 시세 매칭기</span>
+        </a>
+        <a href="/presale.html" style="background:linear-gradient(135deg,#dc2626 0%,#ea580c 100%); color:#ffffff; text-decoration:none; border-radius:12px; padding:12px 10px; font-size:13px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 4px 12px rgba(220,38,38,0.22);">
+          <span>🎁</span> <span>분양정보 3,000원 지급</span>
+        </a>
+      </div>
       <a href="/tools-center.html?tab=utility" style="width:100%; background:linear-gradient(135deg,#059669 0%,#047857 100%); color:#ffffff; text-decoration:none; border-radius:12px; padding:12px; font-size:13.5px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 12px rgba(5,150,105,0.22);">
         <span>⚡</span> <span>전기 · 수도 · 가스 입주연결 · 해지정산 매칭기 바로가기 ›</span>
       </a>
@@ -3335,6 +3343,10 @@ ${html(description)}
 매수 아파트 등록하기
 </a>
 
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+  <a href="/price.html" style="display:block;padding:13px 10px;border-radius:12px;background:#0f172a;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">📉 오늘의 시세 매칭기</a>
+  <a href="/presale.html" style="display:block;padding:13px 10px;border-radius:12px;background:#dc2626;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">🎁 분양정보 3,000원 지급</a>
+</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
   <a href="/tools-center.html?tab=utility" style="display:block;padding:13px 10px;border-radius:12px;background:#059669;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">⚡ 전기·수도·가스 입주·해지 정산기</a>
   <a href="/tools-center.html?tab=map" style="display:block;padding:13px 10px;border-radius:12px;background:#1e3a8a;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">🗺️ 반경 1.5km 상권분석 지도</a>

@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#102f42">
+<title>당근비즈 분양사 매칭 · 전용 방 복제 관리 | 본사 관리자</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%;background:#f3f6f9;color:#172b3d;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}
+.wrap{max-width:1220px;margin:0 auto;padding:18px 14px 60px}
+
+.hero{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding:22px 24px;border-radius:16px;
+  background:linear-gradient(135deg,#0f293a 0%,#1a4560 100%);
+  color:#fff;margin-bottom:16px;box-shadow:0 10px 26px rgba(15,41,58,.15);
+}
+.hero small{display:block;color:#fbbf24;font-weight:900;font-size:12px;letter-spacing:1.2px;margin-bottom:4px}
+.hero h2{margin:0 0 6px;font-size:23px;font-weight:900}
+.hero p{margin:0;color:#d1e3ee;font-size:13.5px;line-height:1.5}
+.hero-actions{display:flex;gap:8px;flex-wrap:wrap}
+.hero-btn{
+  padding:11px 16px;border-radius:10px;border:0;font-weight:900;font-size:13.5px;cursor:pointer;
+  background:#f59e0b;color:#0f293a;text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+}
+.hero-btn.sub{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.28)}
+
+.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.stat-card{
+  background:#fff;border:1px solid #dde5ed;border-radius:14px;padding:16px;
+  box-shadow:0 4px 12px rgba(15,23,42,.04);
+}
+.stat-card span{display:block;font-size:12.5px;font-weight:800;color:#64748b;margin-bottom:6px}
+.stat-card strong{display:block;font-size:22px;font-weight:900;color:#0f293a}
+.stat-card small{display:block;margin-top:4px;font-size:11.5px;color:#059669;font-weight:700}
+
+.panel{
+  background:#fff;border:1px solid #dde5ed;border-radius:16px;padding:22px;
+  margin-bottom:20px;box-shadow:0 6px 18px rgba(15,23,42,.04);
+}
+.panel-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  padding-bottom:14px;margin-bottom:18px;border-bottom:1px solid #e9eef3;
+}
+.panel-head h3{margin:0;font-size:18px;font-weight:900;color:#0f293a}
+.panel-head p{margin:4px 0 0;font-size:13px;color:#64748b}
+
+/* 채널 분리 스위치 (당근비즈 모바일 바코드카드 vs 마트 전자쿠폰) */
+.channel-switch{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.channel-option{
+  position:relative;display:flex;align-items:flex-start;gap:12px;padding:16px;
+  border:2px solid #dbe3eb;border-radius:14px;background:#f8fafc;cursor:pointer;transition:.18s;
+}
+.channel-option.active.daangn{border-color:#ff6f0f;background:#fff7ed;box-shadow:0 6px 18px rgba(255,111,15,.12)}
+.channel-option.active.mart{border-color:#059669;background:#ecfdf5;box-shadow:0 6px 18px rgba(5,150,105,.12)}
+.channel-option input{margin-top:3px;transform:scale(1.25)}
+.channel-option strong{display:block;font-size:15px;font-weight:900;margin-bottom:4px}
+.channel-option span{display:block;font-size:12.5px;color:#475569;line-height:1.45}
+.channel-badge{
+  display:inline-block;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:900;margin-bottom:5px;
+}
+.badge-daangn{background:#ff6f0f;color:#fff}
+.badge-mart{background:#059669;color:#fff}
+
+.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.field{min-width:0}
+.field.span2{grid-column:span 2}
+.field.full{grid-column:1 / -1}
+.field label{display:block;margin-bottom:6px;font-size:12.5px;font-weight:800;color:#334155}
+.field input,.field select,.field textarea{
+  width:100%;height:44px;padding:0 12px;border:1.5px solid #cbd5e1;border-radius:10px;
+  background:#fff;color:#0f172a;font-size:14px;outline:none;
+}
+.field textarea{height:76px;padding:10px 12px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#0f293a;box-shadow:0 0 0 3px rgba(15,41,58,.08)}
+
+.code-row{display:flex;gap:8px}
+.code-row input{font-weight:900;color:#1d4ed8;letter-spacing:.5px}
+.code-btn{
+  flex:none;padding:0 12px;border-radius:10px;border:1.5px solid #93c5fd;
+  background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:900;cursor:pointer;
+}
+
+.quick-qty{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.quick-qty button{
+  padding:5px 10px;border-radius:7px;border:1px solid #cbd5e1;background:#f8fafc;
+  color:#334155;font-size:11.5px;font-weight:800;cursor:pointer;
+}
+.quick-qty button:hover{background:#e2e8f0}
+
+.form-actions{
+  display:flex;justify-content:flex-end;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid #e9eef3;flex-wrap:wrap;
+}
+.btn-primary{
+  min-height:48px;padding:0 24px;border:0;border-radius:12px;
+  background:linear-gradient(135deg,#ff6f0f 0%,#ea580c 100%);
+  color:#fff;font-size:15px;font-weight:900;cursor:pointer;
+  box-shadow:0 8px 20px rgba(234,88,12,.25);
+}
+.btn-secondary{
+  min-height:48px;padding:0 18px;border:1px solid #cbd5e1;border-radius:12px;
+  background:#f8fafc;color:#334155;font-size:14px;font-weight:800;cursor:pointer;
+}
+
+/* 복제된 방 카드 리스트 */
+.room-list{display:grid;gap:16px}
+.room-card{
+  border:2px solid #dfe7ef;border-radius:18px;background:#fff;overflow:hidden;
+  box-shadow:0 6px 20px rgba(15,23,42,.05);transition:.18s;
+}
+.room-card.daangn-card{border-color:#fed7aa}
+.room-card.mart-card{border-color:#a7f3d0}
+
+.room-top{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  padding:16px 20px;background:#f8fafc;border-bottom:1px solid #e9eef3;
+}
+.room-card.daangn-card .room-top{background:linear-gradient(90deg,#fff7ed 0%,#ffffff 100%)}
+.room-card.mart-card .room-top{background:linear-gradient(90deg,#ecfdf5 0%,#ffffff 100%)}
+
+.room-title-area{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.room-code-pill{
+  padding:5px 11px;border-radius:8px;background:#0f293a;color:#fbbf24;
+  font-size:13px;font-weight:900;letter-spacing:.5px;
+}
+.room-name{font-size:18px;font-weight:900;color:#0f172a;margin:0}
+.room-company{font-size:13px;font-weight:700;color:#475569}
+
+.room-body{padding:18px 20px}
+.room-meta{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px;
+}
+.meta-box{padding:12px;border-radius:11px;background:#f8fafc;border:1px solid #e2e8f0}
+.meta-box span{display:block;font-size:11.5px;color:#64748b;font-weight:700;margin-bottom:4px}
+.meta-box strong{display:block;font-size:14.5px;color:#0f172a;font-weight:900}
+
+/* 복제된 방 전용 링크 박스 */
+.links-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.link-box{
+  padding:14px;border-radius:13px;border:1.5px solid #e2e8f0;background:#fcfdfe;
+  display:flex;flex-direction:column;justify-content:space-between;gap:10px;
+}
+.link-box.primary-link{border-color:#fdba74;background:#fffaf5}
+.link-box-head strong{display:block;font-size:13.5px;font-weight:900;color:#0f293a;margin-bottom:3px}
+.link-box-head span{display:block;font-size:11.5px;color:#64748b;line-height:1.4}
+.url-preview{
+  padding:8px 10px;border-radius:8px;background:#f1f5f9;color:#1e3a8a;
+  font-size:11.5px;font-weight:700;word-break:break-all;font-family:monospace;
+}
+.link-btns{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.link-btns button,.link-btns a{
+  height:36px;border-radius:8px;border:0;font-size:12px;font-weight:800;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;text-decoration:none;
+}
+.btn-copy{background:#0f293a;color:#fff}
+.btn-open{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe !important}
+
+.room-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  padding-top:12px;border-top:1px dashed #e2e8f0;
+}
+.room-foot-left{font-size:12.5px;color:#475569;font-weight:700}
+.room-foot-btns{display:flex;gap:8px;flex-wrap:wrap}
+.room-foot-btns button{
+  height:36px;padding:0 13px;border-radius:8px;border:1px solid #cbd5e1;
+  background:#fff;color:#334155;font-size:12.5px;font-weight:800;cursor:pointer;
+}
+.room-foot-btns button.clone-btn{background:#ecfdf5;color:#047857;border-color:#6ee7b7}
+.room-foot-btns button.edit-btn{background:#eff6ff;color:#1d4ed8;border-color:#93c5fd}
+.room-foot-btns button.del-btn{background:#fef2f2;color:#b91c1c;border-color:#fecaca}
+
+.toast{
+  position:fixed;right:20px;bottom:20px;z-index:9999;display:none;
+  padding:14px 20px;border-radius:12px;background:#0f293a;color:#fff;
+  font-size:14px;font-weight:800;box-shadow:0 12px 30px rgba(0,0,0,.28);
+}
+.toast.show{display:block}
+
+@media(max-width:960px){
+  .summary{grid-template-columns:repeat(2,1fr)}
+  .form-grid{grid-template-columns:1fr 1fr}
+  .field.span2{grid-column:auto}
+  .room-meta{grid-template-columns:repeat(2,1fr)}
+  .links-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .channel-switch{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .summary{grid-template-columns:1fr 1fr}
+  .form-actions button{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div>
+      <small>WOORIAPTCD.COM · ROOM REPLICATION SYSTEM</small>
+      <h2>🥕 당근비즈 분양사 매칭 · 전용 방 자동 복제 관리</h2>
+      <p>분양사가 매칭될 때마다 독립된 [오늘의 시세 매칭기 방 ➔ 분양 1분 스크롤 방 ➔ 카카오톡 모바일 바코드카드 지급방]이 통째로 복제됩니다.</p>
+    </div>
+    <div class="hero-actions">
+      <button type="button" class="hero-btn" id="newRoomQuickBtn">➕ 새 분양사 방 초기화</button>
+      <a href="/index.html" target="_blank" class="hero-btn sub">🏠 분양 메인화면 열기 ↗</a>
+      <a href="/price.html" target="_blank" class="hero-btn sub">📉 기본 매칭기 열기 ↗</a>
+    </div>
+  </div>
+
+  <!-- 요약 현황 -->
+  <div class="summary">
+    <div class="stat-card">
+      <span>총 복제 운영 중인 방</span>
+      <strong id="statTotalRooms">0개 방</strong>
+      <small>분양사별 독립 URL 자동 부여</small>
+    </div>
+    <div class="stat-card">
+      <span>🥕 당근비즈 방 (모바일 바코드카드)</span>
+      <strong id="statDaangnRooms" style="color:#ea580c">0개 방</strong>
+      <small>카카오톡 3,000원 바코드카드 지급</small>
+    </div>
+    <div class="stat-card">
+      <span>🛒 마트 연동 방 (전자쿠폰 분리)</span>
+      <strong id="statMartRooms" style="color:#059669">0개 방</strong>
+      <small>가맹 마트 전용 전자쿠폰 지급</small>
+    </div>
+    <div class="stat-card">
+      <span>바코드카드 잔여 / 총 발행수량</span>
+      <strong id="statRemainQty">0 / 0장</strong>
+      <small id="statBudgetText">총 충전 예산 0원</small>
+    </div>
+  </div>
+
+  <!-- 분양사 매칭 등록 & 방 복제 설정 폼 -->
+  <section class="panel" id="formPanel">
+    <div class="panel-head">
+      <div>
+        <h3 id="formTitle">✨ 새 분양사 매칭 등록 · 전용 방 복제 생성</h3>
+        <p>당근마켓(모바일 바코드카드)과 마트(전자쿠폰)를 분리하여 설정하며, 저장 즉시 해당 분양사 전용 방이 새로 복제됩니다.</p>
+      </div>
+      <button type="button" class="code-btn" id="autoCodeBtn">🔄 새 방 번호 자동생성</button>
+    </div>
+
+    <!-- 채널 분리 선택 -->
+    <div class="channel-switch">
+      <label class="channel-option active daangn" id="optDaangn">
+        <input type="radio" name="channelType" value="daangn" checked>
+        <div>
+          <span class="channel-badge badge-daangn">당근비즈 전용 (마트 없이 즉시 실행)</span>
+          <strong>🥕 당근마켓 · 오늘의 시세 매칭기 방 (모바일 바코드카드)</strong>
+          <span>오늘의 시세 매칭기를 당근비즈 타겟 동에 등록 ➔ 1분 스크롤 완료 시 고객 <b>카카오톡으로 3,000원 모바일 바코드카드(현금성)</b> 즉시 지급</span>
+        </div>
+      </label>
+
+      <label class="channel-option mart" id="optMart">
+        <input type="radio" name="channelType" value="mart">
+        <div>
+          <span class="channel-badge badge-mart">마트 플랫폼 전용 (가맹 마트 분리)</span>
+          <strong>🛒 동네 마트 플랫폼 연동 방 (마트 전자쿠폰)</strong>
+          <span>연계 지정 마트 고객 대상 ➔ 1분 스크롤 완료 시 해당 마트 계산대에서 사용하는 <b>마트 전용 전자쿠폰</b> 지급</span>
+        </div>
+      </label>
+    </div>
+
+    <div class="form-grid">
+      <div class="field">
+        <label>복제 방 고유코드 (자동생성/직접입력) *</label>
+        <div class="code-row">
+          <input id="roomCode" type="text" placeholder="예: ROOM-001">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>분양사명 (시행사·시공사·대행사) *</label>
+        <input id="companyName" type="text" placeholder="예: 현대건설 · GS건설">
+      </div>
+
+      <div class="field">
+        <label>분양 단지명 (현장명) *</label>
+        <input id="projectName" type="text" placeholder="예: 힐스테이트 더 퍼스트">
+      </div>
+
+      <div class="field">
+        <label>시/도 분류 *</label>
+        <select id="sidoSelect">
+          <option value="seoul">서울특별시</option>
+          <option value="gyeonggi">경기도</option>
+          <option value="incheon">인천광역시</option>
+          <option value="jg" selected>전남광주통합특별시</option>
+          <option value="busan">부산광역시</option>
+          <option value="daegu">대구광역시</option>
+          <option value="daejeon">대전광역시</option>
+          <option value="ulsan">울산광역시</option>
+          <option value="sejong">세종특별자치시</option>
+          <option value="gangwon">강원특별자치도</option>
+          <option value="chungbuk">충청북도</option>
+          <option value="chungnam">충청남도</option>
+          <option value="jeonbuk">전북특별자치도</option>
+          <option value="gyeongbuk">경상북도</option>
+          <option value="gyeongnam">경상남도</option>
+          <option value="jeju">제주특별자치도</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label id="targetDongLabel">🥕 당근비즈 타겟 동네 (행정동·법정동) *</label>
+        <input id="targetDong" type="text" placeholder="예: 광주 광산구 양산동·연제동">
+      </div>
+
+      <div class="field">
+        <label>분양 상태</label>
+        <select id="saleStatus">
+          <option value="분양 중" selected>분양 중</option>
+          <option value="분양 예정">분양 예정</option>
+          <option value="분양 종료">분양 종료</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>총 세대수</label>
+        <input id="households" type="text" placeholder="예: 1,520세대" value="1,520세대">
+      </div>
+
+      <div class="field">
+        <label>주요 평형</label>
+        <input id="types" type="text" placeholder="예: 59 · 84A · 84B" value="84A · 84B">
+      </div>
+
+      <div class="field">
+        <label>입주 예정일</label>
+        <input id="moveInDate" type="text" placeholder="예: 2029년 3월" value="2029년 3월">
+      </div>
+
+      <div class="field">
+        <label>분양 상담 전화번호 *</label>
+        <input id="contactPhone" type="tel" placeholder="예: 062-952-4150" value="062-952-4150">
+      </div>
+
+      <div class="field span2">
+        <label>모델하우스(견본주택) 주소</label>
+        <input id="modelhouseAddress" type="text" placeholder="예: 광주광역시 광산구 하남산단8번로 176" value="광주광역시 광산구 하남산단8번로 176">
+      </div>
+
+      <!-- 보상 및 충전 수량 설정 -->
+      <div class="field">
+        <label id="rewardAmountLabel">🎁 1분 스크롤 지급 금액 (원)</label>
+        <input id="rewardAmount" type="number" step="500" min="1000" value="3000">
+      </div>
+
+      <div class="field">
+        <label>선불 충전 발행 수량 (장)</label>
+        <input id="issueQty" type="number" step="50" min="10" value="500">
+        <div class="quick-qty">
+          <button type="button" data-qty="100">100장 (30만)</button>
+          <button type="button" data-qty="300">300장 (90만)</button>
+          <button type="button" data-qty="500">500장 (150만)</button>
+          <button type="button" data-qty="1000">1,000장 (300만)</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label id="partnerMartLabel">발급처 표기 (당근 바코드카드 / 마트명)</label>
+        <input id="partnerName" type="text" value="카카오톡 모바일 바코드카드 (현금사용)">
+      </div>
+
+      <div class="field">
+        <label>대표 조감도 이미지 URL (선택)</label>
+        <input id="coverImageUrl" type="text" placeholder="비워두면 고급 기본 아파트 조감도 적용">
+      </div>
+
+      <div class="field">
+        <label>분양사 개별 관리자 ID</label>
+        <input id="roomAdminId" type="text" placeholder="예: room001">
+      </div>
+
+      <div class="field">
+        <label>분양사 개별 관리자 비밀번호</label>
+        <input id="roomAdminPw" type="text" value="1234">
+      </div>
+
+      <div class="field full">
+        <label>대표 홍보 문구 (매칭기 하단 & 분양 메인 표시)</label>
+        <textarea id="coverDescription" placeholder="예: 1분 스크롤 확인 시 카카오톡 3,000원 모바일 바코드카드 즉시 지급! 중도금 무이자 · 프리미엄 대단지">1분 스크롤 확인 시 카카오톡 3,000원 모바일 바코드카드 즉시 지급! 일상이 작품이 되는 프리미엄 주거 명작</textarea>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" id="resetFormBtn">입력 초기화</button>
+      <button type="button" class="btn-primary" id="saveRoomBtn">🚀 분양사 매칭 저장 및 새로운 방 즉시 복제</button>
+    </div>
+  </section>
+
+  <!-- 복제된 방 목록 -->
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <h3>📂 등록된 분양사별 복제 방 목록 (실시간 운영 중)</h3>
+        <p>각 분양사마다 독립된 [오늘의 시세 매칭기 방]과 [분양 1분 스크롤 방]이 복제되어 있습니다. 당근비즈 광고에 ①번 매칭기 주소를 등록하세요.</p>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input id="searchKw" type="search" placeholder="방코드·분양사·단지명·동네 검색" style="height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px">
+        <button type="button" class="code-btn" id="refreshListBtn" style="height:38px">🔄 새로고침</button>
+      </div>
+    </div>
+
+    <div id="roomList" class="room-list"></div>
+  </section>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var STORAGE_KEY = "wooriapt_replicated_rooms_v1";
+  var rooms = [];
+
+  var DEFAULT_IMAGES = [
+    "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=85",
+    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85",
+    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=85"
+  ];
+
+  function $(id){ return document.getElementById(id); }
+
+  function showToast(msg){
+    var t = $("toast");
+    if(!t) return;
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(function(){ t.classList.remove("show"); }, 2600);
+  }
+
+  function escapeHtml(s){
+    var d = document.createElement("div");
+    d.textContent = s == null ? "" : String(s);
+    return d.innerHTML;
+  }
+
+  function getSelectedChannel(){
+    var r = document.querySelector('input[name="channelType"]:checked');
+    return r ? r.value : "daangn";
+  }
+
+  function updateChannelUI(){
+    var ch = getSelectedChannel();
+    var optD = $("optDaangn");
+    var optM = $("optMart");
+    if(ch === "daangn"){
+      optD.classList.add("active");
+      optM.classList.remove("active");
+      $("targetDongLabel").textContent = "🥕 당근비즈 타겟 동네 (행정동·법정동) *";
+      $("rewardAmountLabel").textContent = "🎁 1분 스크롤 모바일 바코드카드 금액 (원)";
+      if($("partnerName").value.indexOf("마트") > -1 || !$("partnerName").value){
+        $("partnerName").value = "카카오톡 모바일 바코드카드 (현금사용)";
+      }
+    } else {
+      optM.classList.add("active");
+      optD.classList.remove("active");
+      $("targetDongLabel").textContent = "🛒 연계 마트 소재 지역 (동네) *";
+      $("rewardAmountLabel").textContent = "🛒 1분 스크롤 마트 전자쿠폰 금액 (원)";
+      if($("partnerName").value.indexOf("카카오톡") > -1 || !$("partnerName").value){
+        $("partnerName").value = "에너젠마트 (마트 전용 전자쿠폰)";
+      }
+    }
+  }
+
+  document.querySelectorAll('input[name="channelType"]').forEach(function(radio){
+    radio.addEventListener("change", updateChannelUI);
+  });
+
+  function generateNextCode(){
+    var maxNum = 0;
+    rooms.forEach(function(r){
+      var m = String(r.project_code || "").match(/^ROOM-(\d+)$/i);
+      if(m){
+        var n = parseInt(m[1], 10);
+        if(n > maxNum) maxNum = n;
+      }
+    });
+    var next = String(maxNum + 1).padStart(3, "0");
+    $("roomCode").value = "ROOM-" + next;
+    $("roomAdminId").value = "room" + next;
+    return "ROOM-" + next;
+  }
+
+  document.querySelectorAll("[data-qty]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      $("issueQty").value = btn.getAttribute("data-qty");
+    });
+  });
+
+  $("autoCodeBtn").addEventListener("click", function(){
+    var code = generateNextCode();
+    showToast("새 복제 방 코드(" + code + ")가 생성되었습니다.");
+  });
+
+  $("newRoomQuickBtn").addEventListener("click", function(){
+    resetForm();
+    window.scrollTo({ top: $("formPanel").offsetTop - 20, behavior: "smooth" });
+  });
+
+  function resetForm(){
+    generateNextCode();
+    document.querySelector('input[name="channelType"][value="daangn"]').checked = true;
+    updateChannelUI();
+    $("companyName").value = "";
+    $("projectName").value = "";
+    $("targetDong").value = "";
+    $("saleStatus").value = "분양 중";
+    $("households").value = "1,200세대";
+    $("types").value = "59 · 84A · 84B";
+    $("moveInDate").value = "2029년 3월";
+    $("contactPhone").value = "1588-0000";
+    $("modelhouseAddress").value = "";
+    $("rewardAmount").value = "3000";
+    $("issueQty").value = "500";
+    $("coverImageUrl").value = "";
+    $("coverDescription").value = "1분 스크롤 확인 시 카카오톡 3,000원 모바일 바코드카드 즉시 지급! 일상이 작품이 되는 프리미엄 주거 명작";
+    $("formTitle").textContent = "✨ 새 분양사 매칭 등록 · 전용 방 복제 생성";
+  }
+
+  $("resetFormBtn").addEventListener("click", resetForm);
+
+  function getDefaultSeedRooms(){
+    return [
+      {
+        project_code: "ROOM-001",
+        project_name: "양산택지지구 프리미엄 명작",
+        sale_status: "분양 중",
+        area: "광주 광산구 양산동·연제동",
+        move_in_date: "2029년 3월",
+        contact_phone: "062-952-4150",
+        modelhouse_address: "광주광역시 광산구 하남산단8번로 176",
+        is_active: true,
+        updated_at: new Date().toISOString(),
+        catalog_data: {
+          channelType: "daangn",
+          companyName: "양산택지지구 분양사업단",
+          sido: "jg",
+          targetDong: "광주 광산구 양산동·연제동",
+          households: "1,520세대",
+          types: "84A · 84B",
+          rewardAmount: 3000,
+          issueQty: 500,
+          issuedCount: 12,
+          partnerName: "카카오톡 모바일 바코드카드 (현금사용)",
+          adminId: "room001",
+          adminPw: "1234",
+          coverImageUrl: DEFAULT_IMAGES[0],
+          coverEyebrow: "DAANGN BIZ TARGET PRESALE",
+          coverTitle: "양산택지지구 프리미엄 명작",
+          coverDescription: "1분 스크롤 확인 시 카카오톡 3,000원 모바일 바코드카드 즉시 지급! 직주근접·명품학군 프리미엄 대단지"
+        }
+      },
+      {
+        project_code: "ROOM-002",
+        project_name: "더 퍼스트 센트럴파크 리버뷰",
+        sale_status: "분양 중",
+        area: "서울 강남구 역삼동·대치동",
+        move_in_date: "2029년 8월",
+        contact_phone: "02-1588-3000",
+        modelhouse_address: "서울특별시 강남구 역삼동 모델하우스",
+        is_active: true,
+        updated_at: new Date().toISOString(),
+        catalog_data: {
+          channelType: "daangn",
+          companyName: "메이저 건설 컨소시엄",
+          sido: "seoul",
+          targetDong: "서울 강남구 역삼동·대치동",
+          households: "1,840세대",
+          types: "59 · 84A · 84B · 101",
+          rewardAmount: 3000,
+          issueQty: 1000,
+          issuedCount: 45,
+          partnerName: "카카오톡 모바일 바코드카드 (현금사용)",
+          adminId: "room002",
+          adminPw: "1234",
+          coverImageUrl: DEFAULT_IMAGES[1],
+          coverEyebrow: "PREMIUM RESIDENCE",
+          coverTitle: "더 퍼스트 센트럴파크 리버뷰",
+          coverDescription: "당근마켓 동네 주민 특별 혜택! 1분 스크롤 시 3,000원 카카오톡 모바일 바코드카드 즉시 지급"
+        }
+      },
+      {
+        project_code: "ROOM-003",
+        project_name: "양산택지지구 (에너젠마트 전용관)",
+        sale_status: "분양 중",
+        area: "광주 광산구 하남산단·양산동",
+        move_in_date: "2029년 3월",
+        contact_phone: "062-952-4150",
+        modelhouse_address: "광주광역시 광산구 하남산단8번로 176",
+        is_active: true,
+        updated_at: new Date().toISOString(),
+        catalog_data: {
+          channelType: "mart",
+          companyName: "양산택지지구 × 에너젠마트",
+          sido: "jg",
+          targetDong: "광주 광산구 하남산단·양산동",
+          households: "1,520세대",
+          types: "84A · 84B",
+          rewardAmount: 5000,
+          issueQty: 300,
+          issuedCount: 8,
+          partnerName: "에너젠마트 전자쿠폰",
+          adminId: "room003",
+          adminPw: "1234",
+          coverImageUrl: DEFAULT_IMAGES[2],
+          coverEyebrow: "MART PARTNER SPECIAL",
+          coverTitle: "양산택지지구 (에너젠마트 전용관)",
+          coverDescription: "에너젠마트 고객 전용! 1분 스크롤 확인 시 마트 계산대에서 즉시 쓰는 전자쿠폰 지급"
+        }
+      }
+    ];
+  }
+
+  function syncLocalRooms(list){
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      localStorage.setItem("woori_presale_list", JSON.stringify(list));
+    } catch(e){}
+  }
+
+  async function loadRooms(){
+    try {
+      var res = await fetch("/api/sale-save");
+      var data = await res.json();
+      if(res.ok && data.ok && Array.isArray(data.rooms) && data.rooms.length > 0){
+        rooms = data.rooms;
+        syncLocalRooms(rooms);
+        renderRooms();
+        return;
+      }
+    } catch(e){}
+
+    try {
+      var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if(Array.isArray(saved) && saved.length > 0){
+        rooms = saved;
+        renderRooms();
+        return;
+      }
+    } catch(e){}
+
+    /* 초기 기본 복제 방 3개 세팅 및 서버 동기화 */
+    rooms = getDefaultSeedRooms();
+    syncLocalRooms(rooms);
+    renderRooms();
+
+    for(var i=0; i<rooms.length; i++){
+      try {
+        await fetch("/api/sale-save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Admin-Key": "1234" },
+          body: JSON.stringify(rooms[i])
+        });
+      } catch(e){}
+    }
+  }
+
+  function updateSummary(){
+    var total = rooms.length;
+    var daangnCnt = 0;
+    var martCnt = 0;
+    var totalQty = 0;
+    var remainQty = 0;
+    var totalBudget = 0;
+
+    rooms.forEach(function(r){
+      var c = r.catalog_data || {};
+      var ch = c.channelType || "daangn";
+      if(ch === "mart") martCnt++;
+      else daangnCnt++;
+
+      var q = Number(c.issueQty || 500);
+      var used = Number(c.issuedCount || 0);
+      var rw = Number(c.rewardAmount || 3000);
+      totalQty += q;
+      remainQty += Math.max(0, q - used);
+      totalBudget += q * rw;
+    });
+
+    $("statTotalRooms").textContent = total + "개 방";
+    $("statDaangnRooms").textContent = daangnCnt + "개 방";
+    $("statMartRooms").textContent = martCnt + "개 방";
+    $("statRemainQty").textContent = remainQty.toLocaleString("ko-KR") + " / " + totalQty.toLocaleString("ko-KR") + "장";
+    $("statBudgetText").textContent = "총 설정 예산 " + totalBudget.toLocaleString("ko-KR") + "원";
+  }
+
+  function renderRooms(){
+    updateSummary();
+    if(!$("roomCode").value){
+      generateNextCode();
+    }
+
+    var kw = ($("searchKw").value || "").trim().toLowerCase();
+    var filtered = rooms.filter(function(r){
+      if(!kw) return true;
+      var c = r.catalog_data || {};
+      var hay = [
+        r.project_code,
+        r.project_name,
+        r.area,
+        c.companyName,
+        c.targetDong,
+        c.partnerName
+      ].join(" ").toLowerCase();
+      return hay.indexOf(kw) > -1;
+    });
+
+    var container = $("roomList");
+    if(filtered.length === 0){
+      container.innerHTML = '<div style="padding:40px;text-align:center;color:#64748b;font-weight:700;">조건에 맞는 복제된 분양사 방이 없습니다. 상단에서 새 분양사를 매칭해 주세요.</div>';
+      return;
+    }
+
+    var origin = window.location.origin || "https://wooriaptcd.com";
+
+    container.innerHTML = filtered.map(function(r, idx){
+      var c = r.catalog_data || {};
+      var code = r.project_code || ("ROOM-00" + (idx + 1));
+      var ch = c.channelType || "daangn";
+      var isDaangn = ch !== "mart";
+
+      var issueQty = Number(c.issueQty || 500);
+      var issuedCount = Number(c.issuedCount || 0);
+      var remainCount = Math.max(0, issueQty - issuedCount);
+      var rewardAmount = Number(c.rewardAmount || 3000);
+      var remainBudget = remainCount * rewardAmount;
+
+      var matcherUrl = origin + "/price.html?room=" + encodeURIComponent(code);
+      var presaleUrl = origin + "/sale-detail.html?room=" + encodeURIComponent(code);
+      var adminUrl = origin + "/sale-admin.html?room=" + encodeURIComponent(code);
+
+      return `
+        <article class="room-card ${isDaangn ? 'daangn-card' : 'mart-card'}">
+          <div class="room-top">
+            <div class="room-title-area">
+              <span class="room-code-pill">방 #${escapeHtml(code)}</span>
+              <span class="channel-badge ${isDaangn ? 'badge-daangn' : 'badge-mart'}" style="margin:0">
+                ${isDaangn ? '🥕 당근비즈 전용 · 카카오톡 모바일 바코드카드' : '🛒 마트 플랫폼 연동 · 마트 전자쿠폰'}
+              </span>
+              <h4 class="room-name">${escapeHtml(r.project_name || '분양 단지')}</h4>
+              <span class="room-company">| ${escapeHtml(c.companyName || '분양사')}</span>
+            </div>
+            <div style="font-size:12.5px;font-weight:800;color:${r.sale_status === '분양 종료' ? '#dc2626' : '#059669'}">
+              ● ${escapeHtml(r.sale_status || '분양 중')}
+            </div>
+          </div>
+
+          <div class="room-body">
+            <div class="room-meta">
+              <div class="meta-box">
+                <span>${isDaangn ? '🥕 당근비즈 타겟 동네' : '🛒 연계 마트 지역'}</span>
+                <strong>${escapeHtml(c.targetDong || r.area || '-')}</strong>
+              </div>
+              <div class="meta-box">
+                <span>🎁 1분 스크롤 보상 (${isDaangn ? '모바일 바코드카드' : '전자쿠폰'})</span>
+                <strong style="color:${isDaangn ? '#ea580c' : '#059669'}">${rewardAmount.toLocaleString('ko-KR')}원권 (${escapeHtml(c.partnerName || '')})</strong>
+              </div>
+              <div class="meta-box">
+                <span>📊 잔여 수량 / 총 발행수량</span>
+                <strong>잔여 ${remainCount.toLocaleString('ko-KR')}장 <small style="color:#64748b;font-weight:700">/ ${issueQty.toLocaleString('ko-KR')}장 (발급 ${issuedCount}건)</small></strong>
+              </div>
+              <div class="meta-box">
+                <span>💰 잔여 예산 / 상담전화</span>
+                <strong>${remainBudget.toLocaleString('ko-KR')}원 <small style="color:#64748b;font-weight:700">(${escapeHtml(r.contact_phone || '-')})</small></strong>
+              </div>
+            </div>
+
+            <!-- 복제된 3대 전용 방 링크 -->
+            <div class="links-grid">
+              <div class="link-box primary-link">
+                <div class="link-box-head">
+                  <strong>① 당근비즈 등록용 [오늘의 시세 매칭기 방]</strong>
+                  <span>우측 상단 앱설치 + 매칭기 하단에 <b>[${escapeHtml(r.project_name)}]</b> 3,000원 지급 버튼이 자동 장착된 전용 방</span>
+                </div>
+                <div class="url-preview">${escapeHtml(matcherUrl)}</div>
+                <div class="link-btns">
+                  <button type="button" class="btn-copy" data-copy="${escapeHtml(matcherUrl)}">📋 당근 등록주소 복사</button>
+                  <a href="${escapeHtml(matcherUrl)}" target="_blank" class="btn-open">🔍 매칭기 방 열기 ↗</a>
+                </div>
+              </div>
+
+              <div class="link-box">
+                <div class="link-box-head">
+                  <strong>② 이 분양사 전용 [1분 스크롤 카탈로그 방]</strong>
+                  <span>60초 스크롤 완료 시 <b>${isDaangn ? '카카오톡 모바일 바코드카드' : '마트 전자쿠폰'}</b>가 즉시 발급되는 전용 방</span>
+                </div>
+                <div class="url-preview">${escapeHtml(presaleUrl)}</div>
+                <div class="link-btns">
+                  <button type="button" class="btn-copy" data-copy="${escapeHtml(presaleUrl)}">📋 분양방 주소 복사</button>
+                  <a href="${escapeHtml(presaleUrl)}" target="_blank" class="btn-open">🔍 1분 스크롤 방 열기 ↗</a>
+                </div>
+              </div>
+
+              <div class="link-box">
+                <div class="link-box-head">
+                  <strong>③ 이 분양사 전용 [카탈로그 편집 · 관리자 방]</strong>
+                  <span>개별 계정(ID: <b>${escapeHtml(c.adminId || code.toLowerCase())}</b> / PW: <b>${escapeHtml(c.adminPw || '1234')}</b>)으로 이 방만 독립 관리</span>
+                </div>
+                <div class="url-preview">${escapeHtml(adminUrl)}</div>
+                <div class="link-btns">
+                  <button type="button" class="btn-copy" data-copy="${escapeHtml(adminUrl)}">📋 관리자 주소 복사</button>
+                  <a href="${escapeHtml(adminUrl)}" target="_blank" class="btn-open">✏️ 카탈로그 상세 편집 ↗</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="room-foot">
+              <div class="room-foot-left">
+                세대수: <b>${escapeHtml(c.households || '-')}</b> · 평형: <b>${escapeHtml(c.types || '-')}</b> · 입주: <b>${escapeHtml(r.move_in_date || '-')}</b>
+              </div>
+              <div class="room-foot-btns">
+                <button type="button" class="clone-btn" data-action="clone" data-code="${escapeHtml(code)}">📑 이 방을 복제해서 새 분양사 방 만들기</button>
+                <button type="button" class="edit-btn" data-action="edit" data-code="${escapeHtml(code)}">⚙️ 방 설정·수량 수정</button>
+                <button type="button" class="del-btn" data-action="delete" data-code="${escapeHtml(code)}">🗑️ 방 삭제</button>
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join("");
+  }
+
+  async function saveAndReplicateRoom(){
+    var code = ($("roomCode").value || "").trim().toUpperCase();
+    var company = ($("companyName").value || "").trim();
+    var name = ($("projectName").value || "").trim();
+    var dong = ($("targetDong").value || "").trim();
+
+    if(!code){
+      alert("복제할 방 고유코드(예: ROOM-001)를 입력해 주세요.");
+      $("roomCode").focus();
+      return;
+    }
+    if(!company){
+      alert("분양사명을 입력해 주세요.");
+      $("companyName").focus();
+      return;
+    }
+    if(!name){
+      alert("분양 단지명(현장명)을 입력해 주세요.");
+      $("projectName").focus();
+      return;
+    }
+    if(!dong){
+      alert("당근비즈 타겟 동네(또는 지역)를 입력해 주세요.");
+      $("targetDong").focus();
+      return;
+    }
+
+    var existingIdx = rooms.findIndex(function(x){ return x.project_code === code; });
+    var prevCatalog = existingIdx > -1 ? (rooms[existingIdx].catalog_data || {}) : {};
+
+    var ch = getSelectedChannel();
+    var imgUrl = ($("coverImageUrl").value || "").trim() || prevCatalog.coverImageUrl || DEFAULT_IMAGES[rooms.length % DEFAULT_IMAGES.length];
+
+    var roomObj = {
+      project_code: code,
+      project_name: name,
+      sale_status: $("saleStatus").value,
+      area: dong,
+      move_in_date: ($("moveInDate").value || "").trim(),
+      contact_phone: ($("contactPhone").value || "").trim(),
+      modelhouse_address: ($("modelhouseAddress").value || "").trim(),
+      is_active: true,
+      updated_at: new Date().toISOString(),
+      catalog_data: Object.assign({}, prevCatalog, {
+        channelType: ch,
+        companyName: company,
+        sido: $("sidoSelect").value,
+        targetDong: dong,
+        households: ($("households").value || "").trim(),
+        types: ($("types").value || "").trim(),
+        rewardAmount: Number($("rewardAmount").value || 3000),
+        issueQty: Number($("issueQty").value || 500),
+        issuedCount: Number(prevCatalog.issuedCount || 0),
+        partnerName: ($("partnerName").value || "").trim(),
+        adminId: ($("roomAdminId").value || code.toLowerCase()).trim(),
+        adminPw: ($("roomAdminPw").value || "1234").trim(),
+        coverImageUrl: imgUrl,
+        coverEyebrow: ch === "daangn" ? "DAANGN BIZ TARGET PRESALE" : "MART PARTNER SPECIAL",
+        coverTitle: name,
+        coverDescription: ($("coverDescription").value || "").trim()
+      })
+    };
+
+    var btn = $("saveRoomBtn");
+    btn.disabled = true;
+    btn.textContent = "방 복제 · 저장 중...";
+
+    try {
+      await fetch("/api/sale-save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Admin-Key": "1234" },
+        body: JSON.stringify(roomObj)
+      });
+    } catch(e){}
+
+    if(existingIdx > -1){
+      rooms[existingIdx] = roomObj;
+      showToast("✅ [" + code + " " + name + "] 방 설정이 수정 저장되었습니다!");
+    } else {
+      rooms.unshift(roomObj);
+      showToast("🎉 새로운 방 [" + code + " " + name + "] 복제 생성이 완료되었습니다!");
+    }
+
+    syncLocalRooms(rooms);
+    renderRooms();
+    resetForm();
+
+    btn.disabled = false;
+    btn.textContent = "🚀 분양사 매칭 저장 및 새로운 방 즉시 복제";
+  }
+
+  $("saveRoomBtn").addEventListener("click", saveAndReplicateRoom);
+
+  $("roomList").addEventListener("click", async function(e){
+    var copyBtn = e.target.closest("[data-copy]");
+    if(copyBtn){
+      var url = copyBtn.getAttribute("data-copy");
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url).then(function(){
+          showToast("📋 전용 방 주소가 복사되었습니다! 당근비즈 광고에 바로 붙여넣으세요.");
+        });
+      } else {
+        prompt("아래 전용 방 주소를 복사하세요:", url);
+      }
+      return;
+    }
+
+    var actionBtn = e.target.closest("[data-action]");
+    if(!actionBtn) return;
+
+    var action = actionBtn.getAttribute("data-action");
+    var code = actionBtn.getAttribute("data-code");
+    var room = rooms.find(function(x){ return x.project_code === code; });
+    if(!room) return;
+    var c = room.catalog_data || {};
+
+    if(action === "edit"){
+      $("roomCode").value = room.project_code;
+      var ch = c.channelType || "daangn";
+      var radio = document.querySelector('input[name="channelType"][value="' + ch + '"]');
+      if(radio) radio.checked = true;
+      updateChannelUI();
+
+      $("companyName").value = c.companyName || "";
+      $("projectName").value = room.project_name || "";
+      $("sidoSelect").value = c.sido || "jg";
+      $("targetDong").value = c.targetDong || room.area || "";
+      $("saleStatus").value = room.sale_status || "분양 중";
+      $("households").value = c.households || "";
+      $("types").value = c.types || "";
+      $("moveInDate").value = room.move_in_date || "";
+      $("contactPhone").value = room.contact_phone || "";
+      $("modelhouseAddress").value = room.modelhouse_address || "";
+      $("rewardAmount").value = c.rewardAmount || 3000;
+      $("issueQty").value = c.issueQty || 500;
+      $("partnerName").value = c.partnerName || "";
+      $("coverImageUrl").value = c.coverImageUrl || "";
+      $("roomAdminId").value = c.adminId || "";
+      $("roomAdminPw").value = c.adminPw || "1234";
+      $("coverDescription").value = c.coverDescription || "";
+      $("formTitle").textContent = "⚙️ [" + room.project_code + " - " + room.project_name + "] 방 설정 수정";
+      window.scrollTo({ top: $("formPanel").offsetTop - 20, behavior: "smooth" });
+      showToast("상단 입력폼에 [" + room.project_code + "] 방 정보를 불러왔습니다.");
+      return;
+    }
+
+    if(action === "clone"){
+      var newCode = generateNextCode();
+      var chClone = c.channelType || "daangn";
+      var radioClone = document.querySelector('input[name="channelType"][value="' + chClone + '"]');
+      if(radioClone) radioClone.checked = true;
+      updateChannelUI();
+
+      $("companyName").value = c.companyName || "";
+      $("projectName").value = (room.project_name || "") + " (새 매칭방)";
+      $("sidoSelect").value = c.sido || "jg";
+      $("targetDong").value = c.targetDong || room.area || "";
+      $("saleStatus").value = room.sale_status || "분양 중";
+      $("households").value = c.households || "";
+      $("types").value = c.types || "";
+      $("moveInDate").value = room.move_in_date || "";
+      $("contactPhone").value = room.contact_phone || "";
+      $("modelhouseAddress").value = room.modelhouse_address || "";
+      $("rewardAmount").value = c.rewardAmount || 3000;
+      $("issueQty").value = c.issueQty || 500;
+      $("partnerName").value = c.partnerName || "";
+      $("coverImageUrl").value = c.coverImageUrl || "";
+      $("coverDescription").value = c.coverDescription || "";
+      $("formTitle").textContent = "📑 [" + room.project_code + "] 기반 ➔ 새 방 [" + newCode + "] 복제 생성";
+      window.scrollTo({ top: $("formPanel").offsetTop - 20, behavior: "smooth" });
+      showToast("기존 방 설정을 [" + newCode + "]에 복제했습니다. 분양사/동네만 바꾸고 저장하세요!");
+      return;
+    }
+
+    if(action === "delete"){
+      if(!confirm("정말 [" + room.project_code + " - " + room.project_name + "] 방을 삭제하시겠습니까?")) return;
+      rooms = rooms.filter(function(x){ return x.project_code !== code; });
+      syncLocalRooms(rooms);
+      renderRooms();
+      try {
+        await fetch("/api/sale-save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Admin-Key": "1234" },
+          body: JSON.stringify({ action: "delete", project_code: code })
+        });
+      } catch(err){}
+      showToast("🗑️ [" + code + "] 방이 삭제되었습니다.");
+    }
+  });
+
+  $("searchKw").addEventListener("input", renderRooms);
+  $("refreshListBtn").addEventListener("click", loadRooms);
+
+  loadRooms();
+})();
+</script>
+</body>
+</html>

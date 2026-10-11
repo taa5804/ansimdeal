@@ -240,21 +240,21 @@ a.btn.emerald{
   <div class="card">
 
     <div class="head">
-      <span class="badge">💬 카카오톡 모바일 바코드카드 지급 완료</span>
-      <h1>🎁 3,000원 모바일 바코드카드</h1>
-      <p class="desc">분양 정보 1분(60초) 스크롤 열람이 완료되어<br><strong>현금과 똑같이 사용할 수 있는 모바일 바코드카드</strong>가 발급되었습니다.</p>
+      <span class="badge" id="couponTopBadge">💬 카카오톡 모바일 바코드카드 지급 완료</span>
+      <h1 id="couponMainTitle">🎁 3,000원 모바일 바코드카드</h1>
+      <p class="desc" id="couponMainDesc">분양 정보 1분(60초) 스크롤 열람이 완료되어<br><strong>현금과 똑같이 사용할 수 있는 모바일 바코드카드</strong>가 발급되었습니다.</p>
     </div>
 
     <div id="couponBox" class="coupon">
-      <div class="coupon-top">
-        <span class="amount-pill">💳 3,000원권 · 현금 동일 사용</span>
-        <small>모바일 바코드카드 번호</small>
+      <div class="coupon-top" id="couponTopHeader">
+        <span class="amount-pill" id="couponAmountPill">💳 3,000원권 · 현금 동일 사용</span>
+        <small id="couponNoLabel">모바일 바코드카드 번호</small>
         <strong id="couponNo">-</strong>
       </div>
 
       <div class="barcode-area">
         <svg id="barcode"></svg>
-        <div class="barcode-sub">✓ 결제 시 위 바코드를 제시하시면 현금(3,000원)처럼 즉시 결제됩니다</div>
+        <div class="barcode-sub" id="barcodeSubTxt">✓ 결제 시 위 바코드를 제시하시면 현금(3,000원)처럼 즉시 결제됩니다</div>
       </div>
 
       <div class="info">
@@ -271,7 +271,7 @@ a.btn.emerald{
           <strong id="status" class="status">-</strong>
         </div>
         <div>
-          <span>카드 금액</span>
+          <span id="pointLabel">카드 금액</span>
           <strong id="point" style="color:#dc2626;">-</strong>
         </div>
       </div>
@@ -285,25 +285,25 @@ a.btn.emerald{
     <!-- 고객이 카카오톡으로 모바일 바코드카드를 받는 핵심 버튼 -->
     <button type="button" id="kakaoSendBtn" class="kakao-receive-btn" onclick="sendBarcodeToKakao()">
       <span>💬</span>
-      <span>내 카카오톡으로 모바일 바코드카드 받기 (보관·사용)</span>
+      <span id="kakaoSendBtnTxt">내 카카오톡으로 모바일 바코드카드 받기 (보관·사용)</span>
     </button>
 
-    <div class="use-guide">
+    <div class="use-guide" id="useGuideBox">
       <strong>💳 현금처럼 사용하는 모바일 바코드카드 안내</strong>
       위 <b>[내 카카오톡으로 모바일 바코드카드 받기]</b> 버튼을 눌러 카카오톡에 보관해 두신 뒤,<br>
       결제 시 카카오톡에서 이 바코드 화면을 열어 스캐너로 찍으면 <b>현금 3,000원과 동일하게 즉시 결제·차감</b>됩니다.
     </div>
 
     <div class="notice">
-      • 본 모바일 바코드카드는 아파트 분양 홍보 리워드로 지급된 정식 바코드카드입니다.<br>
-      • 카카오톡으로 전송해 두시면 언제든 링크를 눌러 바코드를 다시 불러와 현금처럼 사용하실 수 있습니다.
+      • 본 모바일 바코드카드(또는 전자쿠폰)는 아파트 분양 홍보 1분 스크롤 리워드로 지급된 정식 바코드입니다.<br>
+      • 카카오톡으로 전송해 두시면 언제든 링크를 눌러 바코드를 다시 불러와 사용하실 수 있습니다.
     </div>
 
     <div class="actions">
-      <a class="btn emerald" href="/price.html">📊 오늘의 시세 매칭기로 돌아가기 ›</a>
+      <a id="returnMatcherBtn" class="btn emerald" href="/price.html">📊 오늘의 시세 매칭기로 돌아가기 ›</a>
       <a class="btn" href="https://www.wooriapt.app/">🏠 우리아파트 안심거래 (중개수수료 50%) 메인화면 ›</a>
       <a class="btn secondary" href="https://www.ansimdeal.com/">🏪 점포·상가 안심딜 (상가 수수료 50%) 메인화면 ›</a>
-      <a class="btn" style="background:#e2e8f0; color:#334155;" href="/presale.html">🏢 분양 메인화면 목록으로 ›</a>
+      <a id="returnPresaleBtn" class="btn" style="background:#e2e8f0; color:#334155;" href="/presale.html">🏢 분양 메인화면 목록으로 ›</a>
     </div>
 
   </div>
@@ -320,19 +320,27 @@ var currentCouponData = null;
   var kakaoBtn = document.getElementById("kakaoSendBtn");
 
   var params = new URLSearchParams(window.location.search);
+  var urlRoom = (params.get("room") || "").trim().toUpperCase();
+  var urlMode = params.get("mode") || "";
   var urlCode = params.get("code");
   var urlIssued = params.get("issued");
   var urlExpires = params.get("expires");
   var urlPoint = params.get("point");
+  var urlApt = params.get("apt") || "";
+  var urlPartner = params.get("partner") || "";
 
   var data = null;
 
   if (urlCode) {
     data = {
+      roomCode: urlRoom || "ROOM-001",
+      channelType: urlMode || "daangn",
+      projectName: urlApt || "우리 아파트 분양",
+      partnerName: urlPartner || "",
       couponNo: urlCode,
       issuedAt: urlIssued || "발급 완료",
       expiresAt: urlExpires || "발급일로부터 30일",
-      status: "사용 가능 (현금 동일 결제)",
+      status: urlMode === "mart" ? "사용 가능 (지정 마트 계산대 스캔)" : "사용 가능 (현금 동일 결제)",
       point: Number(urlPoint || 3000)
     };
     try {
@@ -344,6 +352,14 @@ var currentCouponData = null;
     } catch(e) {}
   }
 
+  if (urlRoom || (data && data.roomCode)) {
+    var rCode = urlRoom || data.roomCode;
+    var rmBtn = document.getElementById("returnMatcherBtn");
+    var rpBtn = document.getElementById("returnPresaleBtn");
+    if (rmBtn) rmBtn.href = "/price.html?room=" + encodeURIComponent(rCode);
+    if (rpBtn) rpBtn.href = "/presale.html?room=" + encodeURIComponent(rCode);
+  }
+
   if (!data || !data.couponNo) {
     couponBox.style.display = "none";
     if (kakaoBtn) kakaoBtn.style.display = "none";
@@ -352,12 +368,35 @@ var currentCouponData = null;
   }
 
   currentCouponData = data;
+  var isMart = data.channelType === "mart";
+  var rewardStr = Number(data.point || 3000).toLocaleString("ko-KR");
+
+  if (isMart) {
+    document.getElementById("couponTopBadge").textContent = "🛒 마트 전용 전자쿠폰 발급 완료 (#" + (data.roomCode || "ROOM") + ")";
+    document.getElementById("couponMainTitle").textContent = "🛒 " + (data.partnerName || "지정 마트") + " " + rewardStr + "원 전자쿠폰";
+    document.getElementById("couponMainDesc").innerHTML = "[" + (data.projectName || "분양단지") + "] 1분 스크롤 열람이 완료되어<br><strong>지정 마트 계산대에서 즉시 사용하는 전자쿠폰</strong>이 발급되었습니다.";
+    document.getElementById("couponAmountPill").textContent = "🛒 " + rewardStr + "원권 · 마트 전용 전자쿠폰";
+    document.getElementById("couponNoLabel").textContent = "마트 전자쿠폰 번호";
+    document.getElementById("barcodeSubTxt").textContent = "✓ 마트 계산대에서 직원에게 위 바코드를 보여주시면 즉시 할인 적용됩니다";
+    document.getElementById("pointLabel").textContent = "쿠폰 금액";
+    document.getElementById("point").textContent = rewardStr + "원 (마트 할인권)";
+    document.getElementById("kakaoSendBtnTxt").textContent = "내 카카오톡·문자로 마트 전자쿠폰 보관하기";
+    document.getElementById("useGuideBox").innerHTML =
+      "<strong>🛒 마트에서 사용하는 방법</strong>" +
+      "위 바코드를 지정 마트 계산대 직원에게 보여주세요. 직원이 권총형 스캐너로 바코드를 읽으면 즉시 쿠폰 사용처리가 진행됩니다.";
+  } else {
+    document.getElementById("couponTopBadge").textContent = "💬 카카오톡 모바일 바코드카드 지급 완료 (#" + (data.roomCode || "ROOM-001") + ")";
+    document.getElementById("couponMainTitle").textContent = "🎁 " + rewardStr + "원 모바일 바코드카드";
+    document.getElementById("couponMainDesc").innerHTML = "[" + (data.projectName || "우리 아파트 분양") + "] 1분(60초) 스크롤 열람이 완료되어<br><strong>현금과 똑같이 사용할 수 있는 모바일 바코드카드</strong>가 발급되었습니다.";
+    document.getElementById("couponAmountPill").textContent = "💳 " + rewardStr + "원권 · 현금 동일 사용";
+    document.getElementById("barcodeSubTxt").textContent = "✓ 결제 시 위 바코드를 제시하시면 현금(" + rewardStr + "원)처럼 즉시 결제됩니다";
+    document.getElementById("point").textContent = rewardStr + "원 (현금 동일)";
+  }
 
   document.getElementById("couponNo").textContent = data.couponNo || "-";
   document.getElementById("issuedAt").textContent = data.issuedAt || "-";
   document.getElementById("expiresAt").textContent = data.expiresAt || "-";
   document.getElementById("status").textContent = data.status || "사용 가능 (현금 동일 결제)";
-  document.getElementById("point").textContent = Number(data.point || 3000).toLocaleString("ko-KR") + "원 (현금 동일)";
 
   if (window.JsBarcode) {
     JsBarcode("#barcode", data.couponNo, {
@@ -373,20 +412,30 @@ var currentCouponData = null;
 function sendBarcodeToKakao() {
   if (!currentCouponData || !currentCouponData.couponNo) return;
 
+  var isMart = currentCouponData.channelType === "mart";
+  var rewardStr = Number(currentCouponData.point || 3000).toLocaleString("ko-KR");
+
   var shareUrl =
     window.location.origin +
-    "/sale-coupon.html?code=" + encodeURIComponent(currentCouponData.couponNo) +
+    "/sale-coupon.html?room=" + encodeURIComponent(currentCouponData.roomCode || "ROOM-001") +
+    "&mode=" + encodeURIComponent(currentCouponData.channelType || "daangn") +
+    "&code=" + encodeURIComponent(currentCouponData.couponNo) +
     "&issued=" + encodeURIComponent(currentCouponData.issuedAt || "") +
     "&expires=" + encodeURIComponent(currentCouponData.expiresAt || "") +
-    "&point=" + encodeURIComponent(currentCouponData.point || 3000);
+    "&point=" + encodeURIComponent(currentCouponData.point || 3000) +
+    "&apt=" + encodeURIComponent(currentCouponData.projectName || "") +
+    "&partner=" + encodeURIComponent(currentCouponData.partnerName || "");
 
-  var shareTitle = "🎁 [3,000원 모바일 바코드카드 도착] 현금처럼 바로 사용하세요!";
+  var shareTitle = isMart
+    ? "🛒 [" + rewardStr + "원 마트 전자쿠폰 도착] 마트 계산대에서 바코드를 제시하세요!"
+    : "🎁 [" + rewardStr + "원 모바일 바코드카드 도착] 현금처럼 바로 사용하세요!";
+
   var shareText =
-    "🎉 아파트 분양정보 1분 스크롤 리워드!\n" +
-    "💳 모바일 바코드카드: 3,000원권 (현금 동일 사용)\n" +
-    "🔢 카드번호: " + currentCouponData.couponNo + "\n" +
+    "🎉 [" + (currentCouponData.projectName || "아파트 분양") + "] 1분 스크롤 리워드!\n" +
+    "💳 구분: " + (isMart ? (currentCouponData.partnerName || "마트 전자쿠폰") : rewardStr + "원 모바일 바코드카드 (현금 동일 사용)") + "\n" +
+    "🔢 바코드번호: " + currentCouponData.couponNo + "\n" +
     "📅 유효기간: " + (currentCouponData.expiresAt || "-") + "\n\n" +
-    "아래 링크를 누르면 언제든 모바일 바코드가 열려 현금처럼 결제하실 수 있습니다 👇";
+    "아래 링크를 누르면 언제든 모바일 바코드가 열려 즉시 사용하실 수 있습니다 👇";
 
   if (navigator.share) {
     navigator.share({
@@ -398,10 +447,10 @@ function sendBarcodeToKakao() {
     var fullMsg = shareTitle + "\n\n" + shareText + "\n" + shareUrl;
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(fullMsg).then(function(){
-        alert("💬 [카카오톡 전송용 모바일 바코드카드 복사 완료!]\n\n카카오톡 '나에게 보내기' 또는 대화방에 붙여넣기 하시면 바코드카드를 언제든 열어 현금처럼 사용하실 수 있습니다.");
+        alert("💬 [카카오톡 전송용 바코드카드 복사 완료!]\n\n카카오톡 '나에게 보내기' 또는 대화방에 붙여넣기 하시면 바코드카드를 언제든 열어 현금처럼 사용하실 수 있습니다.");
       });
     } else {
-      prompt("아래 모바일 바코드카드 링크를 복사하여 카카오톡에 보관하세요:", shareUrl);
+      prompt("아래 바코드카드 링크를 복사하여 카카오톡에 보관하세요:", shareUrl);
     }
   }
 }

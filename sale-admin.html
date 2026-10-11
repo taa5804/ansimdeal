@@ -4,54 +4,42 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#102536">
-<title>분양 등록·수정 | 우리아파트 분양 플랫폼</title>
-<meta name="description" content="분양 등록·수정 | 우리아파트 분양 플랫폼 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+<title>분양사 방별 카탈로그 등록·수정 | 우리아파트 분양 플랫폼</title>
 <style>
 #saleAdmin, #saleAdmin *{box-sizing:border-box}
 #saleAdmin.sale-admin{
   --navy:#102536; --gold:#b8914f; --line:#dfe4e8;
-  width:100%; max-width:1180px; min-height:100vh; margin:auto; padding:26px;
+  width:100%; max-width:1180px; min-height:100vh; margin:auto; padding:24px;
   background:#f3f5f7; color:#17212b; font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;
 }
 #saleAdmin button, #saleAdmin input, #saleAdmin select, #saleAdmin textarea{font:inherit}
 #saleAdmin .admin-head{
-  display:flex; align-items:center; justify-content:space-between; gap:20px; padding:27px;
+  display:flex; align-items:center; justify-content:space-between; gap:20px; padding:24px 26px;
   border-radius:18px; background:linear-gradient(135deg,#102536,#17384f); color:#fff;
-  box-shadow:0 15px 35px rgba(15,36,52,.17);
+  box-shadow:0 15px 35px rgba(15,36,52,.17); flex-wrap:wrap;
 }
-#saleAdmin .admin-head small{display:block; margin-bottom:7px; color:#d3b16e; font-weight:800; letter-spacing:1.7px;}
-#saleAdmin .admin-head h1{margin:0 0 8px; font-size:29px;}
+#saleAdmin .admin-head small{display:block; margin-bottom:6px; color:#f0c15a; font-weight:800; letter-spacing:1.5px;}
+#saleAdmin .admin-head h1{margin:0 0 6px; font-size:26px;}
 #saleAdmin .admin-head p{margin:0; color:#cbd5dc; font-size:13px;}
 #saleAdmin .admin-head button, #saleAdmin .save-page{
   min-height:45px; padding:0 18px; border:0; border-radius:9px; background:var(--gold);
-  color:#102536; font-weight:800; cursor:pointer;
+  color:#102536; font-weight:900; cursor:pointer;
+}
+#saleAdmin .room-selector-bar{
+  margin-top:16px; padding:16px 20px; border-radius:14px; background:#fff; border:2px solid #cbd5e1;
+  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
 }
 #saleAdmin .basic-card, #saleAdmin .editor-panel{
-  margin-top:20px; padding:24px; border:1px solid var(--line); border-radius:16px; background:#fff;
+  margin-top:18px; padding:22px; border:1px solid var(--line); border-radius:16px; background:#fff;
 }
-#saleAdmin .basic-card h2{margin:0 0 18px; font-size:19px;}
-#saleAdmin .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:15px;}
-#saleAdmin label span{display:block; margin-bottom:7px; color:#52606c; font-size:12px; font-weight:700;}
+#saleAdmin .basic-card h2{margin:0 0 16px; font-size:18px;}
+#saleAdmin .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+#saleAdmin label span{display:block; margin-bottom:6px; color:#52606c; font-size:12px; font-weight:800;}
 #saleAdmin input, #saleAdmin select, #saleAdmin textarea{
   width:100%; border:1px solid #d8dee3; border-radius:9px; outline:0; background:#fff;
 }
 #saleAdmin input, #saleAdmin select{height:44px; padding:0 13px;}
 #saleAdmin textarea{padding:12px; resize:vertical;}
-#saleAdmin .page-tabs{
-  display:flex; gap:8px; margin:20px 0; padding:10px; overflow-x:auto;
-  border:1px solid var(--line); border-radius:14px; background:#fff;
-}
-#saleAdmin .page-tabs button{
-  flex:0 0 auto; min-height:40px; padding:0 16px; border:0; border-radius:9px;
-  background:#eef1f3; color:#53606b; font-size:12px; font-weight:700; cursor:pointer;
-}
-#saleAdmin .page-tabs button.active{background:var(--navy); color:#fff;}
-#saleAdmin .editor-panel{display:none; margin-top:0;}
-#saleAdmin .editor-panel.active{display:block;}
-#saleAdmin .panel-head{
-  display:flex; align-items:center; justify-content:space-between; gap:15px; margin-bottom:22px;
-  padding-bottom:17px; border-bottom:1px solid #e8ecef;
-}
 #saleAdmin .save-message{
   position:fixed; right:24px; bottom:24px; z-index:9999; display:none; padding:16px 24px;
   border-radius:12px; background:#102536; border:2px solid #b8914f; color:#fff; font-weight:bold;
@@ -67,48 +55,61 @@
 <div id="saleAdmin" class="sale-admin">
   <header class="admin-head">
     <div>
-      <small>CATALOG MANAGER</small>
-      <h1>분양 등록·수정</h1>
-      <p>기본정보와 카탈로그 1~4페이지를 관리합니다. (에너젠마트 연계 시스템 탑재)</p>
+      <small id="roomBadgeTop">ROOM CATALOG MANAGER</small>
+      <h1 id="headRoomTitle">분양사 전용 방 등록·수정</h1>
+      <p>당근비즈(카카오톡 모바일 바코드카드) 및 마트(전자쿠폰) 방의 상세 정보를 관리합니다.</p>
     </div>
-    <button id="saveAllBtn" type="button">전체 저장 (즉시 반영)</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="/head-admin.html" style="display:inline-flex;align-items:center;padding:0 16px;height:45px;border-radius:9px;background:rgba(255,255,255,.15);color:#fff;text-decoration:none;font-weight:800;font-size:13px">⚙️ 본사관리자 방 복제 화면</a>
+      <button id="saveAllBtn" type="button">💾 현재 방 저장 (즉시 반영)</button>
+    </div>
   </header>
 
+  <div class="room-selector-bar">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex:1">
+      <strong style="font-size:14px;color:#102536">📂 편집할 복제 방 선택:</strong>
+      <select id="roomSelector" style="max-width:360px;font-weight:800;color:#1d4ed8"></select>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a id="previewMatcherBtn" href="/price.html?room=ROOM-001" target="_blank" style="padding:10px 14px;border-radius:8px;background:#fff7ed;border:1px solid #fdba74;color:#c2410c;font-size:12.5px;font-weight:800;text-decoration:none">🔍 당근 매칭기 방 보기 ↗</a>
+      <a id="previewDetailBtn" href="/sale-detail.html?room=ROOM-001" target="_blank" style="padding:10px 14px;border-radius:8px;background:#eff6ff;border:1px solid #93c5fd;color:#1d4ed8;font-size:12.5px;font-weight:800;text-decoration:none">🔍 1분 스크롤 방 보기 ↗</a>
+    </div>
+  </div>
+
   <section class="basic-card">
-    <h2>분양 기본정보</h2>
+    <h2>분양사 전용 방 기본정보 & 보상 분리 설정</h2>
     <div class="form-grid">
-      <label><span>단지명</span><input id="projectName" type="text" value="양산택지지구"></label>
+      <label><span>복제 방 고유코드</span><input id="projectCode" type="text" value="ROOM-001" style="font-weight:900;color:#1d4ed8"></label>
+      <label><span>채널·보상 구분 (당근 vs 마트 분리)</span>
+        <select id="channelType" style="font-weight:800">
+          <option value="daangn">🥕 당근비즈 전용 (카카오톡 모바일 바코드카드 지급)</option>
+          <option value="mart">🛒 마트 플랫폼 연동 (지정 마트 전자쿠폰 지급)</option>
+        </select>
+      </label>
+      <label><span>분양사명 (시공사·시행사)</span><input id="companyName" type="text" value="양산택지지구 분양사업단"></label>
+      <label><span>분양 단지명 (현장명)</span><input id="projectName" type="text" value="양산택지지구 프리미엄 명작"></label>
+      <label><span>타겟 동네 (당근비즈 동네 / 마트 지역)</span><input id="projectArea" type="text" value="광주 광산구 양산동·연제동"></label>
       <label><span>분양 상태</span><select id="saleStatus"><option selected>분양 중</option><option>분양 예정</option><option>분양 종료</option></select></label>
-      <label><span>지역</span><input id="projectArea" type="text" value="광주광역시 광산구 하남산단8번로176"></label>
+      <label><span>총 세대수</span><input id="households" type="text" value="1,520세대"></label>
+      <label><span>주요 평형</span><input id="types" type="text" value="84A · 84B"></label>
       <label><span>입주 예정</span><input id="moveInDate" type="text" value="2029년 3월"></label>
       <label><span>상담 전화번호</span><input id="contactPhone" type="tel" value="062-952-4150"></label>
-      <label><span>모델하우스 주소</span><input id="modelhouseAddress" type="text" value="광주광역시 광산구 하남산단8번로176"></label>
-      
-      <!-- 에너젠마트 5,000원 쿠폰 연동 필드 -->
-      <label style="border: 2px solid #b8914f; padding: 10px; border-radius: 10px; background: #fffdf8;">
-        <span style="color:#b8914f; font-weight:800;">🛒 연계 지정 마트 (발행처)</span>
-        <input id="martName" type="text" value="에너젠마트" style="font-weight:800; color:#102536;">
+      <label style="grid-column:1/-1"><span>모델하우스 주소</span><input id="modelhouseAddress" type="text" value="광주광역시 광산구 하남산단8번로 176"></label>
+
+      <label style="border: 2px solid #b8914f; padding: 12px; border-radius: 10px; background: #fffdf8;">
+        <span style="color:#b8914f; font-weight:800;">🎁 1분 스크롤 보상 금액 (원)</span>
+        <input id="rewardAmount" type="number" step="500" value="3000" style="font-weight:800; color:#102536;">
       </label>
-      <label style="border: 2px solid #b8914f; padding: 10px; border-radius: 10px; background: #fffdf8;">
-        <span style="color:#b8914f; font-weight:800;">🎁 1분 정독 지급 쿠폰</span>
-        <input id="couponAmount" type="text" value="5,000원 장보기 할인권" style="font-weight:800; color:#102536;">
+      <label style="border: 2px solid #b8914f; padding: 12px; border-radius: 10px; background: #fffdf8;">
+        <span style="color:#b8914f; font-weight:800;">💳 발행처 표기 (카카오톡 바코드카드 / 마트명)</span>
+        <input id="partnerName" type="text" value="카카오톡 모바일 바코드카드 (현금사용)" style="font-weight:800; color:#102536;">
       </label>
+
+      <label><span>선불 충전 발행 수량 (장)</span><input id="issueQty" type="number" value="500"></label>
+      <label><span>대표 조감도 이미지 URL</span><input id="coverImageUrl" type="text" placeholder="이미지 주소"></label>
+      <label style="grid-column:1/-1"><span>대표 홍보 문구 (매칭기 & 분양 표지 노출)</span><textarea id="coverDescription" rows="3">1분 스크롤 확인 시 카카오톡 3,000원 모바일 바코드카드 즉시 지급! 직주근접·명품학군 프리미엄 대단지</textarea></label>
     </div>
   </section>
-
-  <nav class="page-tabs">
-    <button class="active" type="button" data-page="1">1 표지</button>
-    <button type="button" data-page="2">2 입지</button>
-    <button type="button" data-page="3">3 프리미엄</button>
-    <button type="button" data-page="4">4 단지</button>
-  </nav>
-
-  <main>
-    <section class="editor-panel active" data-panel="1">
-      <div class="panel-head"><div><small>PAGE 01</small><h2>표지 페이지</h2></div><button class="save-page" type="button">이 페이지 저장</button></div>
-      <div class="basic-card"><p><b>단지명:</b> 양산택지지구</p><p><b>대표 문구:</b> 에너젠마트 5,000원 장보기 쿠폰 증정! 일상이 작품이 되는 주거 명작</p></div>
-    </section>
-  </main>
 
   <div id="saveMessage" class="save-message"></div>
 </div>
@@ -116,52 +117,135 @@
 <script>
 (function(){
   "use strict";
+  var STORAGE_KEY = "wooriapt_replicated_rooms_v1";
+  var rooms = [];
+
   function $(s){ return document.querySelector(s); }
   function showMessage(text){
     var box = $("#saveMessage");
     if(!box) return;
     box.textContent = text;
     box.classList.add("show");
-    setTimeout(function(){ box.classList.remove("show"); }, 2500);
+    setTimeout(function(){ box.classList.remove("show"); }, 2600);
   }
 
-  function executeRealSave(){
-    var project = {
-      id: "yangsan_enerzen",
-      projectName: $("#projectName") ? $("#projectName").value : "양산택지지구",
-      saleStatus: $("#saleStatus") ? $("#saleStatus").value : "분양 중",
-      projectArea: $("#projectArea") ? $("#projectArea").value : "광주광역시 광산구 하남산단8번로176",
-      moveInDate: $("#moveInDate") ? $("#moveInDate").value : "2029년 3월",
-      contactPhone: $("#contactPhone") ? $("#contactPhone").value : "062-952-4150",
-      modelhouseAddress: $("#modelhouseAddress") ? $("#modelhouseAddress").value : "광주광역시 광산구 하남산단8번로176",
-      martName: $("#martName") ? $("#martName").value : "에너젠마트",
-      couponAmount: $("#couponAmount") ? $("#couponAmount").value : "5,000원 장보기 할인권",
-      sido: "광주",
-      coverTitle: "양산택지지구",
-      coverEyebrow: "PREMIUM RESIDENCE",
-      coverDescription: "에너젠마트 5,000원 장보기 쿠폰 증정! 일상이 작품이 되는 주거 명작",
-      updatedAt: new Date().toISOString()
+  function populateForm(room){
+    if(!room) return;
+    var c = room.catalog_data || {};
+    var code = room.project_code || "ROOM-001";
+    $("#projectCode").value = code;
+    $("#channelType").value = c.channelType || "daangn";
+    $("#companyName").value = c.companyName || "";
+    $("#projectName").value = room.project_name || "";
+    $("#projectArea").value = c.targetDong || room.area || "";
+    $("#saleStatus").value = room.sale_status || "분양 중";
+    $("#households").value = c.households || "1,520세대";
+    $("#types").value = c.types || "84A · 84B";
+    $("#moveInDate").value = room.move_in_date || "2029년 3월";
+    $("#contactPhone").value = room.contact_phone || "";
+    $("#modelhouseAddress").value = room.modelhouse_address || "";
+    $("#rewardAmount").value = c.rewardAmount || 3000;
+    $("#partnerName").value = c.partnerName || "카카오톡 모바일 바코드카드 (현금사용)";
+    $("#issueQty").value = c.issueQty || 500;
+    $("#coverImageUrl").value = c.coverImageUrl || "";
+    $("#coverDescription").value = c.coverDescription || "";
+
+    $("#roomBadgeTop").textContent = "ROOM #" + code + " · " + (c.channelType === "mart" ? "MART COUPON" : "DAANGN BARCODE CARD");
+    $("#headRoomTitle").textContent = "[" + code + "] " + (room.project_name || "분양 등록·수정");
+    $("#previewMatcherBtn").href = "/price.html?room=" + encodeURIComponent(code);
+    $("#previewDetailBtn").href = "/sale-detail.html?room=" + encodeURIComponent(code);
+  }
+
+  async function init(){
+    var params = new URLSearchParams(window.location.search);
+    var requestedCode = (params.get("room") || params.get("code") || "").trim().toUpperCase();
+
+    try {
+      var res = await fetch("/api/sale-save");
+      var data = await res.json();
+      if(res.ok && data.ok && Array.isArray(data.rooms) && data.rooms.length > 0){
+        rooms = data.rooms;
+      }
+    } catch(e){}
+
+    if(rooms.length === 0){
+      try {
+        rooms = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      } catch(e){}
+    }
+
+    var sel = $("#roomSelector");
+    if(sel && rooms.length > 0){
+      sel.innerHTML = rooms.map(function(r){
+        var c = r.catalog_data || {};
+        var tag = c.channelType === "mart" ? "🛒마트" : "🥕당근";
+        return '<option value="' + r.project_code + '">[' + r.project_code + ' · ' + tag + '] ' + (r.project_name || '') + '</option>';
+      }).join("");
+
+      var target = rooms.find(function(r){ return r.project_code === requestedCode; }) || rooms[0];
+      sel.value = target.project_code;
+      populateForm(target);
+
+      sel.onchange = function(){
+        var found = rooms.find(function(r){ return r.project_code === sel.value; });
+        if(found) populateForm(found);
+      };
+    }
+  }
+
+  async function executeRealSave(){
+    var code = ($("#projectCode").value || "ROOM-001").trim().toUpperCase();
+    var existing = rooms.find(function(r){ return r.project_code === code; });
+    var prevCatalog = existing ? (existing.catalog_data || {}) : {};
+
+    var roomObj = {
+      project_code: code,
+      project_name: $("#projectName").value.trim() || "양산택지지구",
+      sale_status: $("#saleStatus").value,
+      area: $("#projectArea").value.trim(),
+      move_in_date: $("#moveInDate").value.trim(),
+      contact_phone: $("#contactPhone").value.trim(),
+      modelhouse_address: $("#modelhouseAddress").value.trim(),
+      is_active: true,
+      updated_at: new Date().toISOString(),
+      catalog_data: Object.assign({}, prevCatalog, {
+        channelType: $("#channelType").value,
+        companyName: $("#companyName").value.trim(),
+        targetDong: $("#projectArea").value.trim(),
+        households: $("#households").value.trim(),
+        types: $("#types").value.trim(),
+        rewardAmount: Number($("#rewardAmount").value || 3000),
+        partnerName: $("#partnerName").value.trim(),
+        issueQty: Number($("#issueQty").value || 500),
+        coverImageUrl: $("#coverImageUrl").value.trim(),
+        coverDescription: $("#coverDescription").value.trim()
+      })
     };
 
     try {
-      localStorage.setItem("presale_apt_data", JSON.stringify(project));
-      localStorage.setItem("woori_presale_list", JSON.stringify([project]));
-      localStorage.setItem("presaleList", JSON.stringify([project]));
-      localStorage.setItem("catalogData", JSON.stringify(project));
-      if(window.parent && window.parent.localStorage){
-        window.parent.localStorage.setItem("presale_apt_data", JSON.stringify(project));
-        window.parent.localStorage.setItem("woori_presale_list", JSON.stringify([project]));
-      }
-    } catch(e) {}
+      await fetch("/api/sale-save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Admin-Key": "1234" },
+        body: JSON.stringify(roomObj)
+      });
+    } catch(e){}
 
-    showMessage("🎉 [양산택지지구 - 에너젠마트 5,000원 쿠폰] 저장이 완료되었습니다!");
-    alert("🎉 [양산택지지구 - 에너젠마트 5,000원 쿠폰 연계 완료!]\n\n실제 저장이 완료되었습니다. 메인 화면(wooriaptcd.com)에서 확인하실 수 있습니다.");
+    var idx = rooms.findIndex(function(r){ return r.project_code === code; });
+    if(idx > -1) rooms[idx] = roomObj;
+    else rooms.unshift(roomObj);
+
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(rooms));
+    } catch(e){}
+
+    populateForm(roomObj);
+    showMessage("🎉 [" + code + " - " + roomObj.project_name + "] 전용 방 설정이 저장되었습니다!");
   }
 
   var btn = $("#saveAllBtn");
   if(btn) btn.onclick = executeRealSave;
-  var pBtn = document.querySelector(".save-page");
-  if(pBtn) pBtn.onclick = executeRealSave;
+
+  init();
 })();
 </script>
 </body>

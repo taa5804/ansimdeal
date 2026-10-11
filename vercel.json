@@ -1,6 +1,18 @@
 {
   "rewrites": [
     {
+      "source": "/sale-admin",
+      "destination": "/sale-admin.html"
+    },
+    {
+      "source": "/head-admin",
+      "destination": "/head-admin.html"
+    },
+    {
+      "source": "/room-manager",
+      "destination": "/room-manager.html"
+    },
+    {
       "source": "/sale-coupon",
       "destination": "/sale-coupon.html"
     },

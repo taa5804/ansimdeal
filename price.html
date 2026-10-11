@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="[오늘의 시세 매칭기] 1주일 시세 급락 TOP 3 & 아파트 분양 3,000원 바코드카드 지급">
 <meta property="og:description" content="우리 동네 오늘의 시세 1초 확인! 하단 아파트 분양정보 1분 스크롤 열람 시 카카오톡으로 3,000원 모바일 바코드카드 즉시 지급 (현금처럼 사용)">
-<meta property="og:url" content="https://ansimdeal.com/price">
+<meta property="og:url" content="https://wooriapt.app/price">
 
 <!-- Web App Manifest & Mobile PWA -->
 <link rel="manifest" href="/manifest.webmanifest">
@@ -31,8 +31,8 @@
   "description": "농림축산식품부 aT 공공데이터 기반 주요 50대 농·축·수산물 1주일 등락폭 실시간 매칭 및 아파트 분양 1분 스크롤 3,000원 모바일 바코드카드 카카오톡 지급, 우리아파트 안심거래·안심딜 연동",
   "provider": {
     "@type": "Organization",
-    "name": "점포·상가 안심딜 · 우리아파트 안심거래",
-    "url": "https://www.ansimdeal.com"
+    "name": "우리아파트 안심거래 · 안심딜",
+    "url": "https://www.wooriapt.app"
   }
 }
 </script>
@@ -172,23 +172,23 @@
       </div>
 
       <div class="space-y-3">
-        <!-- ① 🎁 아파트 분양정보 3,000원 모바일 바코드카드 지급 (클릭 시 분양 메인화면으로 이동) -->
-        <a href="/presale.html" class="presale-glow w-full p-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white border-2 border-amber-300 flex items-center justify-between transition group shadow-lg">
+        <!-- ① 🎁 아파트 분양정보 3,000원 모바일 바코드카드 지급 (클릭 시 분양 메인화면/해당 복제방으로 이동) -->
+        <a id="presaleRoomBtn" href="/presale.html" class="presale-glow w-full p-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white border-2 border-amber-300 flex items-center justify-between transition group shadow-lg">
           <div class="flex items-center gap-3.5 min-w-0">
             <span class="w-12 h-12 shrink-0 rounded-2xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center text-2xl font-black shadow-inner">🎁</span>
             <div class="min-w-0">
-              <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-950/80 text-amber-300 text-[10px] font-black mb-1">
+              <div id="presaleRoomBadge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-950/80 text-amber-300 text-[10px] font-black mb-1">
                 <span>💬 카카오톡 즉시 수령</span> · <span>현금처럼 즉시 사용</span>
               </div>
-              <div class="text-sm sm:text-base font-black text-white leading-snug">
+              <div id="presaleRoomTitle" class="text-sm sm:text-base font-black text-white leading-snug">
                 아파트 분양정보 <span class="text-yellow-200 underline decoration-2">3,000원 지급</span>
               </div>
-              <div class="text-[11.5px] text-amber-100 font-bold mt-0.5 leading-tight">
+              <div id="presaleRoomSub" class="text-[11.5px] text-amber-100 font-bold mt-0.5 leading-tight">
                 분양 메인화면 진입 ➔ 1분 스크롤 시 모바일 바코드카드 카톡 발송!
               </div>
             </div>
           </div>
-          <span class="shrink-0 ml-2 px-3 py-2 rounded-xl bg-slate-950 text-amber-300 font-black text-xs sm:text-sm shadow">분양 메인 ➔</span>
+          <span id="presaleRoomCta" class="shrink-0 ml-2 px-3 py-2 rounded-xl bg-slate-950 text-amber-300 font-black text-xs sm:text-sm shadow">분양 메인 ➔</span>
         </a>
 
         <!-- ② 🏠 우리아파트 안심거래 메인화면 바로가기 -->
@@ -466,6 +466,64 @@
         alert('카카오톡 또는 문자 메시지 창에 링크가 복사되었습니다!');
       }
     }
+
+    // 당근비즈 분양사별 복제 방(?room=ROOM-001) 연동
+    (async function initReplicatedRoomBinding() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const roomCode = (params.get('room') || params.get('code') || '').trim().toUpperCase();
+        const btn = document.getElementById('presaleRoomBtn');
+        if (!btn) return;
+
+        if (roomCode) {
+          btn.href = '/presale.html?room=' + encodeURIComponent(roomCode);
+          try {
+            localStorage.setItem('activePresaleRoomCode', roomCode);
+          } catch (e) {}
+
+          let room = null;
+          try {
+            const r1 = await fetch('https://wooriaptcd.com/api/sale-save?code=' + encodeURIComponent(roomCode));
+            const d1 = await r1.json();
+            if (d1 && d1.room) room = d1.room;
+          } catch (e) {}
+
+          if (!room) {
+            try {
+              const savedList = JSON.parse(localStorage.getItem('wooriapt_replicated_rooms_v1') || '[]');
+              room = savedList.find(x => x.project_code === roomCode) || null;
+            } catch (e) {}
+          }
+
+          if (room) {
+            const c = room.catalog_data || {};
+            const isMart = c.channelType === 'mart';
+            const reward = Number(c.rewardAmount || 3000).toLocaleString('ko-KR');
+            const badgeEl = document.getElementById('presaleRoomBadge');
+            const titleEl = document.getElementById('presaleRoomTitle');
+            const subEl = document.getElementById('presaleRoomSub');
+            const ctaEl = document.getElementById('presaleRoomCta');
+
+            if (badgeEl) {
+              badgeEl.innerHTML = isMart
+                ? '<span>🛒 ' + (c.partnerName || '지정 마트') + '</span> · <span>마트 전자쿠폰 지급</span>'
+                : '<span>🥕 ' + (c.targetDong || room.area || '우리동네') + ' 전용</span> · <span>💬 카카오톡 즉시 수령</span>';
+            }
+            if (titleEl) {
+              titleEl.innerHTML = '[' + (room.project_name || '아파트 분양') + '] <span class="text-yellow-200 underline decoration-2">' + reward + '원 지급</span>';
+            }
+            if (subEl) {
+              subEl.textContent = isMart
+                ? '분양 메인화면 진입 ➔ 1분 스크롤 시 마트 전자쿠폰 즉시 발급!'
+                : '분양 메인화면 진입 ➔ 1분 스크롤 시 카카오톡 모바일 바코드카드(현금 동일) 즉시 발송!';
+            }
+            if (ctaEl) {
+              ctaEl.textContent = '전용 분양방 ➔';
+            }
+          }
+        }
+      } catch (err) {}
+    })();
   </script>
 
 </body>
