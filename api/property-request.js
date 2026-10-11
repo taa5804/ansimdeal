@@ -594,82 +594,11 @@ export default async function handler(req, res) {
 
 
     /*
-      1차 회원 공인중개사 알림 자동 시작
-      ars-batch의 round 1은 회원만 처리
+      법적 준수(자동 요청 금지 및 야간 발송 제한):
+      등록 시 자동으로 1차 알림을 발송하지 않으며,
+      임차인(매수자)이 [나의 제안] 화면에서 오전 9시~오후 9시 사이에
+      직접 [1차 요청] 버튼을 눌렀을 때만 발송됩니다.
     */
-
-    try {
-
-      const protocol =
-        req.headers[
-          "x-forwarded-proto"
-        ] || "https";
-
-
-      const host =
-        req.headers.host;
-
-
-      if (host) {
-
-        const arsUrl =
-          `${protocol}://${host}` +
-          `/api/ars-batch`;
-
-
-        const arsResponse =
-          await fetch(
-            arsUrl,
-            {
-              method:
-                "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              body:
-                JSON.stringify({
-                  requestNumber:
-                    requestNumber,
-
-                  round:
-                    1
-                })
-            }
-          );
-
-
-        const arsData =
-          await arsResponse
-            .json()
-            .catch(
-              () => null
-            );
-
-
-        if (
-          !arsResponse.ok
-        ) {
-
-          console.error(
-            "first member notification failed:",
-            arsData
-          );
-        }
-      }
-
-    } catch (
-      notificationError
-    ) {
-
-      console.error(
-        "first member notification error:",
-        notificationError
-      );
-    }
-
 
     return res.status(200).json({
 
