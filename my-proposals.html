@@ -696,11 +696,36 @@ let thirdRequestDone = false;
         ) || "[]"
       );
 
+    const byCode =
+      JSON.parse(
+        localStorage.getItem(
+          "proposals_" + (testMode ? "5804" : requestNumber)
+        ) || "[]"
+      );
+
+    const combined = all.concat(byCode).map(function(item){
+      return {
+        propertyId: item.propertyId || item.proposalNo || item.id,
+        requestNumber: item.requestNumber || item.requestCode || "",
+        dealType: item.dealType || item.transactionType || "monthly",
+        apartment: item.apartment || item.propertyAddress || (item.address ? [item.address.sido, item.address.sigungu, item.address.dong, item.address.apartment].filter(Boolean).join(" ") : ""),
+        amount: item.amount || item.proposedPrice || "",
+        floor: item.floor || "-",
+        area: item.area || "-",
+        description: item.description || item.note || "",
+        officeName: item.officeName || item.ownerName || "",
+        officePhone: item.officePhone || item.ownerPhone || "",
+        ownerName: item.ownerName || item.officeName || "",
+        ownerPhone: item.ownerPhone || item.officePhone || "",
+        status: item.status || "PROPOSED"
+      };
+    });
+
 
     localList =
       testMode
-      ? all
-      : all.filter(
+      ? combined
+      : combined.filter(
           function(item){
 
             return String(
@@ -903,8 +928,7 @@ function render(){
 
 
             <div class="broker-hidden">
-              🔒 거래 결정 전에는
-              중개사무소명과 전화번호가 공개되지 않습니다.
+              🔒 등록 시 임대인·중개사 연락처는 노출되지 않습니다. (매수·임차인이 매물을 최종 선택하였을 때만 매수·임차인에게만 공개됩니다)
             </div>
 
           </div>
@@ -1414,13 +1438,14 @@ decisionBtn.addEventListener(
           "broker-visible";
 
         old.innerHTML =
-          "중개사무소명: "+
+          "✓ 매수·임차인 선택 완료 (선택하신 분께만 공개)<br>"+
+          "임대인·중개사 성명(상호): "+
           escapeHtml(
-            property.officeName
+            property.officeName || property.ownerName || "-"
           )+
-          "<br>전화번호: "+
+          "<br>연락처: "+
           escapeHtml(
-            property.officePhone
+            property.officePhone || property.ownerPhone || "-"
           )+
           "<br>거래번호: "+
           escapeHtml(
