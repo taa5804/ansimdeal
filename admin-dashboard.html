@@ -1453,6 +1453,45 @@ async function loadDashboardData(){
       state.requests = Array.isArray(data.requests) ? data.requests : [];
       state.proposals = Array.isArray(data.proposals) ? data.proposals : [];
       state.transactions = Array.isArray(data.transactions) ? data.transactions : [];
+    }else{
+      const sbUrl = "https://dcysjuxyjqtvkihdsjvv.supabase.co/rest/v1";
+      const sbKey = "sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
+      const sbHeaders = { apikey: sbKey, Authorization: "Bearer " + sbKey };
+      const [reqR, propR, brkR] = await Promise.all([
+        fetch(sbUrl + "/property_requests?select=*&order=id.desc&limit=200", { headers: sbHeaders }).catch(() => null),
+        fetch(sbUrl + "/property_proposals?select=*&order=id.desc&limit=200", { headers: sbHeaders }).catch(() => null),
+        fetch(sbUrl + "/safe_brokers?select=*&order=id.desc&limit=200", { headers: sbHeaders }).catch(() => null)
+      ]);
+      if(reqR && reqR.ok) state.requests = await reqR.json().catch(() => []);
+      if(brkR && brkR.ok) state.brokers = await brkR.json().catch(() => []);
+      if(propR && propR.ok){
+        const rawProps = await propR.json().catch(() => []);
+        state.proposals = [];
+        state.transactions = [];
+        (Array.isArray(rawProps) ? rawProps : []).forEach(function(r){
+          const text = String(r.description || "");
+          const m = text.match(/\[TRADE_ROOM_CODE:(\d{4})\|TX:([A-Z0-9_-]+)(?:\|TYPE:([a-z]+))?(?:\|PAID:([YN]))?\]/);
+          const item = {
+            id: r.id,
+            requestNumber: r.request_number,
+            apartment: r.apartment,
+            amount: r.amount,
+            floor: r.floor,
+            area: r.area,
+            description: text.replace(/\n?\[TRADE_ROOM_CODE:[^\]]+\]/g, "").trim(),
+            officeName: r.office_name,
+            officePhone: r.office_phone,
+            status: r.status || "OPEN",
+            tradeRoomCode: m ? m[1] : null,
+            transactionNumber: m ? m[2] : null,
+            tradeType: m ? (m[3] || "monthly") : "monthly",
+            feePaid: m ? m[4] === "Y" : false,
+            createdAt: r.created_at
+          };
+          state.proposals.push(item);
+          if(m && m[1]) state.transactions.push(item);
+        });
+      }
     }
   }catch(err){
     console.warn("admin load error:", err);
@@ -1469,6 +1508,21 @@ function isLocalPaid(code, txNo){
 }
 
 function mergeLocalTransactions(){
+  if(state.brokers.length === 0){
+    const savedBrokerSt = JSON.parse(localStorage.getItem("wooriapt_admin_broker_5804") || "{}");
+    state.brokers.push({
+      id: "master-5804",
+      office_name: "강남안심 공인중개사사무소",
+      representative_name: "홍길동 (마스터키 회원)",
+      phone: "010-5804-1234",
+      office_registration_no: "11680-2024-05804",
+      email: "ansim@ansimdeal.com",
+      registration_status: savedBrokerSt.registration_status || "ACTIVE",
+      membership_status: savedBrokerSt.membership_status || "ACTIVE",
+      created_at: new Date().toISOString()
+    });
+  }
+
   const byCode = new Map();
   state.transactions.forEach(function(t){
     const code = String(t.tradeRoomCode || "");
