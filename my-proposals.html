@@ -253,7 +253,7 @@ h1{
 
 .additional-request-buttons{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(3,1fr);
   gap:8px;
   margin-top:11px;
 }
@@ -276,6 +276,28 @@ h1{
   cursor:not-allowed;
 }
 
+.request-time-notice{
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:9px;
+  background:#eef5fc;
+  border:1px solid #cfe0f0;
+  color:#2b4c65;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.request-time-status{
+  margin-top:8px;
+  font-size:12px;
+  font-weight:800;
+  color:#1165d7;
+}
+
+.request-time-status.off{
+  color:#c62828;
+}
+
 .action-area{
   margin-top:18px;
   padding-top:16px;
@@ -287,6 +309,32 @@ h1{
   color:#486173;
   font-size:13px;
   font-weight:800;
+  line-height:1.5;
+}
+
+.action-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.trade-request-btn{
+  width:100%;
+  height:52px;
+  border:2px solid #1165d7;
+  border-radius:12px;
+  background:#fff;
+  color:#1165d7;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.trade-request-btn:disabled{
+  border-color:#ccd7e0;
+  background:#eef2f6;
+  color:#8b9aa6;
+  cursor:not-allowed;
 }
 
 .decision-btn{
@@ -429,24 +477,32 @@ h1{
   <div id="propertyList"></div>
 
 
-  <!-- 추가 요청 -->
+  <!-- 1차 · 2차 · 3차 매물 요청 -->
 
   <div class="additional-request-area">
 
     <div class="additional-request-title">
-      추가 매물 요청
+      매물 요청 발송 (1차 · 2차 · 3차)
     </div>
 
     <div class="additional-request-help">
-      더 많은 상가 매물을 확인하려면 임차인이 직접 추가 요청을 눌러주세요.
+      자동 발송으로 인한 법적 문제를 방지하기 위해 임차인(매수자)이 직접 버튼을 눌러 매물 요청을 발송합니다.
     </div>
 
     <div class="additional-request-buttons">
 
       <button
-        id="secondRequestBtn"
+        id="firstRequestBtn"
         class="additional-request-btn"
         type="button">
+        1차 요청
+      </button>
+
+      <button
+        id="secondRequestBtn"
+        class="additional-request-btn"
+        type="button"
+        disabled>
         2차 요청
       </button>
 
@@ -460,26 +516,45 @@ h1{
 
     </div>
 
+    <div id="requestTimeStatus" class="request-time-status"></div>
+
+    <div class="request-time-notice">
+      ※ <b>발송 시간 안내:</b> 매물 요청 발송은 <b>오전 9시부터 오후 9시까지(09:00~21:00)만 가능</b>하며, 밤이나 새벽 시간대(오후 9시~오전 9시)에는 <b>1차·2차·3차 요청 버튼이 모두 비활성화</b>됩니다.<br>
+      ※ <b>2차·3차 활성화 안내:</b> <b>2차 요청</b>은 1차 요청 후 <b>3시간 후에 활성화</b>되며, <b>3차 요청</b>은 2차 요청 후 <b>3시간 후에 활성화</b>됩니다.
+    </div>
+
   </div>
 
 
-  <!-- 결정 -->
+  <!-- 거래 요청 / 거래 결정 (2개 버튼) -->
 
   <div class="action-area">
 
     <div
       id="selectedInfo"
       class="selected-info">
-      매물을 선택해 주세요.
+      매물을 선택해 주세요. (2개·3개 등 여러 매물을 모두 선택하여 [거래 요청] 시 선택된 중개사의 부동산명과 연락처가 공개됩니다)
     </div>
 
-    <button
-      id="decisionBtn"
-      class="decision-btn"
-      type="button"
-      disabled>
-      거래 결정
-    </button>
+    <div class="action-buttons">
+
+      <button
+        id="tradeRequestBtn"
+        class="trade-request-btn"
+        type="button"
+        disabled>
+        거래 요청
+      </button>
+
+      <button
+        id="decisionBtn"
+        class="decision-btn"
+        type="button"
+        disabled>
+        거래 결정
+      </button>
+
+    </div>
 
   </div>
 
@@ -492,12 +567,12 @@ h1{
 
   <div class="notice">
 
-    <b>[거래 결정 및 진행절차 안내]</b><br>
-    1. 등록된 여러 상가 매물을 비교한 후 최종적으로 거래할 매물 1건을 선택하고 <b>거래 결정</b>을 눌러주세요.<br>
-    2. 임대인·중개사 연락처는 등록 시 노출되지 않으며, <b>임차인(매수자)이 매물을 최종 선택(거래 결정)하였을 때만 임차인(매수자)에게만 공개</b>됩니다.<br>
-    3. <b>거래 결정</b>을 누르면 <b>전용 4자리 거래방 코드(진행번호)</b>가 생성되어 <b>선택된 담당 중개사에게만 문자로 자동 전송</b>됩니다.<br>
-    4. 이후 메인화면 <b>[거래 진행 상황 확인]</b>에 발급된 4자리 거래방 코드를 입력하면 임차인·임대인·선택된 중개사만 전용 거래진행실에 입장할 수 있습니다.<br>
-    5. <b>임차인(매수자)의 연락처는 거래 결정 후에도 중개사·임대인에게 공개되지 않으며, 임차인(매수자)이 직접 알려주기 전까지는 절대 공개되지 않습니다.</b>
+    <b>[거래 요청 · 거래 결정 및 진행절차 안내]</b><br>
+    1. <b>[1·2·3차 매물 요청]</b> 자동 요청 시 법적 문제가 있을 수 있으므로 임차인(매수자)이 직접 버튼을 눌러 요청하며, <b>오전 9시부터 오후 9시까지(09:00~21:00)만 활성화</b>됩니다. (밤·새벽 시간대에는 1·2·3차 버튼 모두 비활성화 / 2차·3차 요청은 이전 요청 후 <b>3시간 후</b> 활성화)<br>
+    2. <b>[거래 요청 - 다중 선택 가능]</b> 임차인(매수자)이 가능한 많은 매물을 보고 결정할 수 있도록, 매물을 <b>2개든 3개든 원하는 만큼 모두 체크</b>한 후 <b>거래 요청</b>을 누르면 <b>선택된 모든 중개사의 부동산명과 연락처가 즉시 공개</b>됩니다.<br>
+    3. <b>[거래 결정 - 최종 1건 계약]</b> 여러 매물을 확인·비교한 후 최종 계약할 매물 1건을 선택하고 <b>거래 결정</b>을 누르면 <b>전용 4자리 거래방 코드(진행번호)</b>가 생성되어 선택된 담당 중개사에게 문자로 전송됩니다.<br>
+    4. 임대인·중개사 연락처는 등록 시 노출되지 않으며, <b>임차인(매수자)이 매물을 선택(거래 요청 또는 거래 결정)하였을 때만 임차인(매수자)에게만 공개</b>됩니다.<br>
+    5. <b>임차인(매수자)의 연락처는 거래 요청·거래 결정 후에도 중개사·임대인에게 공개되지 않으며, 임차인(매수자)이 직접 알려주기 전까지는 절대 공개되지 않습니다.</b>
 
   </div>
 
@@ -515,6 +590,7 @@ h1{
 
 "use strict";
 
+const THREE_HOURS_MS = 3 * 60 * 60 * 1000;
 
 const requestNumberEl =
   document.getElementById(
@@ -536,6 +612,11 @@ const selectedInfo =
     "selectedInfo"
   );
 
+const tradeRequestBtn =
+  document.getElementById(
+    "tradeRequestBtn"
+  );
+
 const decisionBtn =
   document.getElementById(
     "decisionBtn"
@@ -546,6 +627,10 @@ const msg =
     "msg"
   );
 
+const firstRequestBtn =
+  document.getElementById(
+    "firstRequestBtn"
+  );
 
 const secondRequestBtn =
   document.getElementById(
@@ -557,6 +642,11 @@ const thirdRequestBtn =
     "thirdRequestBtn"
   );
 
+const requestTimeStatus =
+  document.getElementById(
+    "requestTimeStatus"
+  );
+
 
 let requestNumber = "";
 
@@ -566,9 +656,36 @@ let properties = [];
 
 let selectedId = null;
 
+let firstRequestDone = false;
+
 let secondRequestDone = false;
 
 let thirdRequestDone = false;
+
+let firstRequestTime = 0;
+
+let secondRequestTime = 0;
+
+let revealedMap = {};
+
+
+/*
+  오전 9시 ~ 오후 9시(09:00 ~ 21:00) 발송 가능 시간 확인
+*/
+function isOperatingHours(){
+  const now = new Date();
+  const hour = now.getHours();
+  return hour >= 9 && hour < 21;
+}
+
+function formatRemainTime(ms){
+  const totalMin = Math.max(1, Math.ceil(ms / 60000));
+  const h = Math.floor(totalMin / 60);
+  const m = totalMin % 60;
+  if(h > 0 && m > 0) return h + "시간 " + m + "분";
+  if(h > 0) return h + "시간";
+  return m + "분";
+}
 
 
 /*
@@ -621,51 +738,151 @@ let thirdRequestDone = false;
 
   }
 
+  const key = testMode ? "5804" : requestNumber;
+  if(key){
+    try{
+      revealedMap = JSON.parse(localStorage.getItem("wooriapt_revealed_brokers_" + key) || "{}") || {};
+    }catch(e){
+      revealedMap = {};
+    }
+  }
+
 })();
 
 
 /*
-  2차·3차 요청 버튼 상태
+  1차·2차·3차 요청 버튼 상태 (오전 9시~오후 9시 제한 및 3시간 간격 적용)
 */
 
-(function restoreAdditionalRequestState(){
+function updateRequestButtonsState(){
 
   if(!requestNumber && !testMode){
 
-    secondRequestBtn.disabled=true;
-    thirdRequestBtn.disabled=true;
+    firstRequestBtn.disabled = true;
+    secondRequestBtn.disabled = true;
+    thirdRequestBtn.disabled = true;
+    requestTimeStatus.textContent = "임차요청번호가 확인되면 요청 버튼이 활성화됩니다.";
+    requestTimeStatus.className = "request-time-status";
 
     return;
   }
-
 
   const key =
     testMode
     ? "5804"
     : requestNumber;
 
+  firstRequestDone =
+    localStorage.getItem(
+      "wooriapt_ars_round_1_" + key
+    ) === "done";
 
   secondRequestDone =
     localStorage.getItem(
-      "wooriapt_ars_round_2_"+key
+      "wooriapt_ars_round_2_" + key
     ) === "done";
-
 
   thirdRequestDone =
     localStorage.getItem(
-      "wooriapt_ars_round_3_"+key
+      "wooriapt_ars_round_3_" + key
     ) === "done";
 
+  firstRequestTime =
+    Number(
+      localStorage.getItem(
+        "wooriapt_ars_round_1_time_" + key
+      ) || 0
+    );
+
+  secondRequestTime =
+    Number(
+      localStorage.getItem(
+        "wooriapt_ars_round_2_time_" + key
+      ) || 0
+    );
+
+  const daytime = isOperatingHours();
+  const now = Date.now();
+
+  firstRequestBtn.textContent =
+    firstRequestDone ? "1차 요청 완료" : "1차 요청";
+
+  secondRequestBtn.textContent =
+    secondRequestDone ? "2차 요청 완료" : "2차 요청";
+
+  thirdRequestBtn.textContent =
+    thirdRequestDone ? "3차 요청 완료" : "3차 요청";
+
+  /* 밤·새벽 (오후 9시 ~ 오전 9시)에는 1·2·3차 버튼 모두 비활성화 */
+  if(!daytime){
+    firstRequestBtn.disabled = true;
+    secondRequestBtn.disabled = true;
+    thirdRequestBtn.disabled = true;
+    requestTimeStatus.textContent =
+      "⛔ 현재는 발송 제한 시간(오후 9시~오전 9시)입니다. 오전 9시부터 오후 9시까지만 1·2·3차 요청 버튼이 활성화됩니다.";
+    requestTimeStatus.className = "request-time-status off";
+    return;
+  }
+
+  /* 오전 9시 ~ 오후 9시 주간 시간대 */
+  firstRequestBtn.disabled = firstRequestDone;
+
+  const remainForSecond =
+    firstRequestDone && !secondRequestDone
+      ? (firstRequestTime + THREE_HOURS_MS) - now
+      : 0;
+
+  const remainForThird =
+    secondRequestDone && !thirdRequestDone
+      ? (secondRequestTime + THREE_HOURS_MS) - now
+      : 0;
 
   secondRequestBtn.disabled =
-    secondRequestDone;
-
+    !firstRequestDone ||
+    secondRequestDone ||
+    remainForSecond > 0;
 
   thirdRequestBtn.disabled =
     !secondRequestDone ||
-    thirdRequestDone;
+    thirdRequestDone ||
+    remainForThird > 0;
 
-})();
+  if(!firstRequestDone){
+    requestTimeStatus.textContent =
+      "✓ 현재 발송 가능 시간(오전 9시~오후 9시)입니다. [1차 요청] 버튼을 눌러 매물 요청을 발송해 주세요.";
+    requestTimeStatus.className = "request-time-status";
+  }else if(!secondRequestDone){
+    if(remainForSecond > 0){
+      secondRequestBtn.textContent = "2차 요청 (" + formatRemainTime(remainForSecond) + " 후)";
+      requestTimeStatus.textContent =
+        "⏳ 1차 요청 완료 · 2차 요청 버튼은 1차 요청 3시간 후(" + formatRemainTime(remainForSecond) + " 뒤)에 활성화됩니다.";
+      requestTimeStatus.className = "request-time-status";
+    }else{
+      requestTimeStatus.textContent =
+        "✓ 1차 요청 후 3시간이 경과하여 [2차 요청] 버튼이 활성화되었습니다.";
+      requestTimeStatus.className = "request-time-status";
+    }
+  }else if(!thirdRequestDone){
+    if(remainForThird > 0){
+      thirdRequestBtn.textContent = "3차 요청 (" + formatRemainTime(remainForThird) + " 후)";
+      requestTimeStatus.textContent =
+        "⏳ 2차 요청 완료 · 3차 요청 버튼은 2차 요청 3시간 후(" + formatRemainTime(remainForThird) + " 뒤)에 활성화됩니다.";
+      requestTimeStatus.className = "request-time-status";
+    }else{
+      requestTimeStatus.textContent =
+        "✓ 2차 요청 후 3시간이 경과하여 [3차 요청] 버튼이 활성화되었습니다.";
+      requestTimeStatus.className = "request-time-status";
+    }
+  }else{
+    requestTimeStatus.textContent =
+      "✓ 1차·2차·3차 매물 요청이 모두 완료되었습니다.";
+    requestTimeStatus.className = "request-time-status";
+  }
+
+}
+
+updateRequestButtonsState();
+setInterval(updateRequestButtonsState, 30000);
 
 
 /*
@@ -760,6 +977,7 @@ let thirdRequestDone = false;
         if(data.requestNumber && !requestNumber){
           requestNumber = String(data.requestNumber);
           requestNumberEl.textContent = requestNumber;
+          updateRequestButtonsState();
         }
         if(Array.isArray(data.proposals)){
           serverList = data.proposals;
@@ -804,6 +1022,19 @@ let thirdRequestDone = false;
         officeName: "테헤란로파트너스 공인중개사사무소",
         officePhone: "010-5804-5678",
         status: "PROPOSED"
+      },
+      {
+        propertyId: "prop-5804-3",
+        requestNumber: "5804",
+        dealType: "monthly",
+        apartment: "[상가 월세] 역삼초 사거리 메인상권 지상 1층 무권리 점포",
+        amount: "보증금 2,500만원 / 월세 190만원 · 권리금: 무권리(0원)",
+        floor: "지상 1층 / 4층",
+        area: "전용 19평 · 제1종근생",
+        description: "공실 상태로 즉시 입점 및 인테리어 공사 가능, 전면 통유리 시공 완료.",
+        officeName: "역삼퍼스트 공인중개사사무소",
+        officePhone: "010-5804-9012",
+        status: "PROPOSED"
       }
     ];
   }
@@ -812,6 +1043,27 @@ let thirdRequestDone = false;
   render();
 
 })();
+
+
+function renderBrokerBoxHtml(property){
+  const isRevealed = Boolean(revealedMap[String(property.propertyId)]);
+  if(isRevealed){
+    const office = escapeHtml(property.officeName || property.ownerName || "-");
+    const phone = escapeHtml(property.officePhone || property.ownerPhone || "-");
+    return `
+      <div class="broker-visible" data-broker-box="${escapeHtml(property.propertyId)}">
+        ✓ 거래 요청 매물 (임차인·매수자에게만 공개)<br>
+        부동산명(중개사무소): <b>${office}</b><br>
+        중개사 연락처: <b><a href="tel:${phone}" style="color:#1e6b37;text-decoration:underline;">${phone}</a></b>
+      </div>
+    `;
+  }
+  return `
+    <div class="broker-hidden" data-broker-box="${escapeHtml(property.propertyId)}">
+      🔒 등록 시 임대인·중개사 연락처는 노출되지 않습니다. (매물을 1개·2개·3개 등 원하는 만큼 체크 후 <b>[거래 요청]</b>을 누르시면 선택된 중개사의 부동산명과 연락처가 모두 공개됩니다)
+    </div>
+  `;
+}
 
 
 function render(){
@@ -834,6 +1086,7 @@ function render(){
       </div>
     `;
 
+    tradeRequestBtn.disabled=true;
     decisionBtn.disabled=true;
 
     return;
@@ -928,9 +1181,7 @@ function render(){
             }
 
 
-            <div class="broker-hidden">
-              🔒 등록 시 임대인·중개사 연락처는 노출되지 않습니다. (매수·임차인이 매물을 최종 선택하였을 때만 매수·임차인에게만 공개됩니다)
-            </div>
+            ${renderBrokerBoxHtml(property)}
 
           </div>
 
@@ -950,11 +1201,9 @@ function render(){
         function(){
 
           /*
-            여러 건을 비교하기 위해
-            체크는 여러 개 가능하게 합니다.
-
-            단, 최종 거래 결정은
-            반드시 1건만 가능하게 합니다.
+            매수자(임차인)는 가능한 많은 매물을 보고 결정하므로
+            2개든 3개든 여러 개 전부 체크하여 [거래 요청]으로
+            모든 선택 매물의 부동산명과 연락처를 공개받을 수 있습니다.
           */
 
           if(this.checked){
@@ -1000,13 +1249,18 @@ function updateSelection(){
     selectedId=null;
 
     selectedInfo.textContent =
-      "매물을 선택해 주세요.";
+      "매물을 선택해 주세요. (2개·3개 등 여러 매물을 모두 선택하여 [거래 요청] 시 선택된 중개사의 부동산명과 연락처가 공개됩니다)";
 
+    tradeRequestBtn.disabled=true;
     decisionBtn.disabled=true;
 
     return;
 
   }
+
+
+  /* 1건 이상(1개, 2개, 3개 등 몇 개든) 선택 시 [거래 요청] 활성화 */
+  tradeRequestBtn.disabled=false;
 
 
   if(checked.length===1){
@@ -1015,7 +1269,7 @@ function updateSelection(){
       checked[0].dataset.id;
 
     selectedInfo.textContent =
-      "선택한 매물 1건을 거래 결정할 수 있습니다.";
+      "현재 1건을 선택했습니다. [거래 요청]을 누르면 중개사 부동산명·연락처가 공개되며, 최종 계약 시 [거래 결정]을 눌러주세요.";
 
     decisionBtn.disabled=false;
 
@@ -1025,16 +1279,19 @@ function updateSelection(){
 
 
   /*
-    여러 건 체크는 비교용으로 허용.
-    거래 결정 시에는 1건만 선택하도록 안내합니다.
+    2개, 3개 등 여러 건 체크 시:
+    [거래 요청]을 누르면 선택된 모든 매물의 중개사 부동산명과 연락처가 전부 공개됨!
+    최종 [거래 결정]은 매물 확인 후 1건을 선택해 진행.
   */
 
   selectedId=null;
 
   selectedInfo.textContent =
-    "현재 "+
-    checked.length+
-    "건을 선택했습니다. 거래 결정은 1건만 가능합니다.";
+    "현재 " +
+    checked.length +
+    "건의 매물을 선택했습니다. [거래 요청]을 누르면 선택한 " +
+    checked.length +
+    "건 모든 중개사의 부동산명과 연락처가 전부 공개됩니다. (최종 [거래 결정]은 매물 확인 후 1건 선택)";
 
   decisionBtn.disabled=true;
 
@@ -1042,10 +1299,87 @@ function updateSelection(){
 
 
 /*
-  2차·3차 추가 요청
+  [거래 요청] 버튼 클릭:
+  선택한 매물이 1개든 2개든 3개든 전부 해당 중개사의 부동산명과 연락처를 공개!
+*/
+
+tradeRequestBtn.addEventListener(
+  "click",
+  function(){
+
+    const checked =
+      Array.from(
+        document.querySelectorAll(
+          ".check:checked"
+        )
+      );
+
+    if(checked.length === 0){
+      showMsg(
+        "거래 요청할 매물을 1개 이상 선택해 주세요. (2개·3개 등 여러 개 동시 선택 가능)",
+        false
+      );
+      return;
+    }
+
+    const key = testMode ? "5804" : requestNumber;
+    const revealedList = [];
+
+    checked.forEach(function(chk){
+      const id = String(chk.dataset.id || "");
+      const prop = properties.find(function(item){
+        return String(item.propertyId) === id;
+      });
+      if(prop){
+        revealedMap[id] = true;
+        revealedList.push(
+          (prop.officeName || prop.ownerName || "중개사무소") +
+          " (" + (prop.officePhone || prop.ownerPhone || "-") + ")"
+        );
+        const propertyBox = chk.closest(".property");
+        if(propertyBox){
+          const brokerBox = propertyBox.querySelector("[data-broker-box]");
+          if(brokerBox){
+            brokerBox.outerHTML = renderBrokerBoxHtml(prop);
+          }
+        }
+      }
+    });
+
+    if(key){
+      try{
+        localStorage.setItem(
+          "wooriapt_revealed_brokers_" + key,
+          JSON.stringify(revealedMap)
+        );
+      }catch(e){}
+    }
+
+    showMsg(
+      "선택하신 " + checked.length + "건 매물의 거래 요청이 완료되어 중개사 부동산명과 연락처가 모두 공개되었습니다: " +
+      revealedList.join(" / ") +
+      " — 매물을 모두 확인하신 후 최종 계약할 매물 1건을 선택해 [거래 결정]을 눌러주세요.",
+      true
+    );
+
+  }
+);
+
+
+/*
+  1차·2차·3차 매물 요청 (수동 발송 + 오전 9시~오후 9시 제한 + 3시간 간격)
 */
 
 async function runAdditionalRequest(round){
+
+  if(!isOperatingHours()){
+    showMsg(
+      "발송 가능 시간은 오전 9시부터 오후 9시까지(09:00~21:00)입니다. 밤이나 새벽 시간대에는 요청 발송이 제한됩니다.",
+      false
+    );
+    updateRequestButtonsState();
+    return false;
+  }
 
   const targetRequestNumber =
     testMode
@@ -1061,6 +1395,10 @@ async function runAdditionalRequest(round){
     );
 
     return false;
+  }
+
+  if(testMode){
+    return true;
   }
 
 
@@ -1095,7 +1433,7 @@ async function runAdditionalRequest(round){
     throw new Error(
       data && data.message
       ? data.message
-      : "추가 요청 처리 중 오류가 발생했습니다."
+      : round + "차 요청 처리 중 오류가 발생했습니다."
     );
   }
 
@@ -1104,14 +1442,85 @@ async function runAdditionalRequest(round){
 }
 
 
+firstRequestBtn.addEventListener(
+  "click",
+  async function(){
+
+    if(firstRequestDone || !isOperatingHours()){
+      updateRequestButtonsState();
+      return;
+    }
+
+    firstRequestBtn.disabled = true;
+
+    try{
+
+      const ok =
+        await runAdditionalRequest(1);
+
+      if(!ok){
+        updateRequestButtonsState();
+        return;
+      }
+
+      const key =
+        testMode
+        ? "5804"
+        : requestNumber;
+
+      const now = Date.now();
+      firstRequestDone = true;
+      firstRequestTime = now;
+
+      localStorage.setItem(
+        "wooriapt_ars_round_1_" + key,
+        "done"
+      );
+      localStorage.setItem(
+        "wooriapt_ars_round_1_time_" + key,
+        String(now)
+      );
+
+      updateRequestButtonsState();
+
+      showMsg(
+        "1차 매물 요청이 발송 완료되었습니다. (2차 요청 버튼은 3시간 후에 활성화됩니다)",
+        true
+      );
+
+    }catch(error){
+
+      updateRequestButtonsState();
+
+      showMsg(
+        error.message ||
+        "1차 요청 처리 중 오류가 발생했습니다.",
+        false
+      );
+
+    }
+
+  }
+);
+
+
 secondRequestBtn.addEventListener(
   "click",
   async function(){
 
-    if(secondRequestDone){
+    if(!firstRequestDone || secondRequestDone || !isOperatingHours()){
+      updateRequestButtonsState();
       return;
     }
 
+    if(Date.now() - firstRequestTime < THREE_HOURS_MS){
+      updateRequestButtonsState();
+      showMsg(
+        "2차 요청은 1차 요청 후 3시간이 지나야 활성화됩니다.",
+        false
+      );
+      return;
+    }
 
     secondRequestBtn.disabled=true;
 
@@ -1123,7 +1532,7 @@ secondRequestBtn.addEventListener(
 
 
       if(!ok){
-        secondRequestBtn.disabled=false;
+        updateRequestButtonsState();
         return;
       }
 
@@ -1133,27 +1542,32 @@ secondRequestBtn.addEventListener(
         ? "5804"
         : requestNumber;
 
-
+      const now = Date.now();
       secondRequestDone=true;
+      secondRequestTime=now;
 
 
       localStorage.setItem(
         "wooriapt_ars_round_2_"+key,
         "done"
       );
+      localStorage.setItem(
+        "wooriapt_ars_round_2_time_"+key,
+        String(now)
+      );
 
 
-      thirdRequestBtn.disabled=false;
+      updateRequestButtonsState();
 
 
       showMsg(
-        "2차 요청이 완료되었습니다.",
+        "2차 매물 요청이 발송 완료되었습니다. (3차 요청 버튼은 3시간 후에 활성화됩니다)",
         true
       );
 
     }catch(error){
 
-      secondRequestBtn.disabled=false;
+      updateRequestButtonsState();
 
       showMsg(
         error.message ||
@@ -1173,8 +1587,19 @@ thirdRequestBtn.addEventListener(
 
     if(
       !secondRequestDone ||
-      thirdRequestDone
+      thirdRequestDone ||
+      !isOperatingHours()
     ){
+      updateRequestButtonsState();
+      return;
+    }
+
+    if(Date.now() - secondRequestTime < THREE_HOURS_MS){
+      updateRequestButtonsState();
+      showMsg(
+        "3차 요청은 2차 요청 후 3시간이 지나야 활성화됩니다.",
+        false
+      );
       return;
     }
 
@@ -1186,7 +1611,7 @@ thirdRequestBtn.addEventListener(
         await runAdditionalRequest(3);
 
       if(!ok){
-        thirdRequestBtn.disabled=false;
+        updateRequestButtonsState();
         return;
       }
 
@@ -1195,21 +1620,28 @@ thirdRequestBtn.addEventListener(
         ? "5804"
         : requestNumber;
 
+      const now = Date.now();
       thirdRequestDone=true;
 
       localStorage.setItem(
         "wooriapt_ars_round_3_"+key,
         "done"
       );
+      localStorage.setItem(
+        "wooriapt_ars_round_3_time_"+key,
+        String(now)
+      );
+
+      updateRequestButtonsState();
 
       showMsg(
-        "3차 요청이 완료되었습니다.",
+        "3차 매물 요청이 발송 완료되었습니다.",
         true
       );
 
     }catch(error){
 
-      thirdRequestBtn.disabled=false;
+      updateRequestButtonsState();
 
       showMsg(
         error.message ||
@@ -1234,7 +1666,7 @@ decisionBtn.addEventListener(
     if(!selectedId){
 
       showMsg(
-        "거래 결정할 매물 1건만 선택해 주세요.",
+        "여러 매물의 중개사 연락처 확인은 [거래 요청] 버튼을 눌러주시고, 최종 [거래 결정]은 계약할 매물 1건만 선택해 주세요.",
         false
       );
 
@@ -1429,7 +1861,7 @@ decisionBtn.addEventListener(
 
       const old =
         propertyBox.querySelector(
-          ".broker-hidden"
+          "[data-broker-box]"
         );
 
 
@@ -1439,16 +1871,16 @@ decisionBtn.addEventListener(
           "broker-visible";
 
         old.innerHTML =
-          "✓ 매수·임차인 선택 완료 (선택하신 분께만 공개)<br>"+
-          "임대인·중개사 성명(상호): "+
+          "✓ 최종 거래 결정 완료 (임차인·매수자에게만 공개)<br>"+
+          "부동산명(중개사무소): <b>"+
           escapeHtml(
             property.officeName || property.ownerName || "-"
           )+
-          "<br>연락처: "+
+          "</b><br>중개사 연락처: <b>"+
           escapeHtml(
             property.officePhone || property.ownerPhone || "-"
           )+
-          "<br>거래번호: "+
+          "</b><br>거래번호: "+
           escapeHtml(
             transactionNumber
           )+
