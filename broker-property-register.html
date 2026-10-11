@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1165d7">
 
-<title>매물 등록 | 안심딜 상가 안심거래</title>
-<meta name="description" content="매물 등록 | 안심딜 상가 안심거래 - 상가·점포 전세·월세 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+<title>공인중개사 임대 등록 | 안심딜 상가 안심거래</title>
+<meta name="description" content="공인중개사 임대 등록 | 안심딜 상가 안심거래 - 상가·점포 전세·월세 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
 
 <style>
 *{box-sizing:border-box}
@@ -181,12 +181,6 @@ input[readonly]{
   gap:10px;
 }
 
-.code-row{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:8px;
-}
-
 .buttons{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -212,17 +206,6 @@ button{
   border:1px solid #1165d7;
   background:#1165d7;
   color:#fff;
-}
-
-.save:disabled{
-  background:#b7c4d0;
-  border-color:#b7c4d0;
-  cursor:not-allowed;
-}
-
-.form-locked{
-  opacity:.48;
-  pointer-events:none;
 }
 
 .msg{
@@ -287,7 +270,7 @@ button{
 <header class="header">
 
   <a class="brand" href="/">
-    🏢 안심딜 <strong>상가 안심거래</strong>
+    🏪 안심딜 <strong>상가 안심거래</strong>
   </a>
 
   <a
@@ -306,21 +289,19 @@ button{
   </span>
 
   <h1>
-    상가·점포 매물 등록 (전세·월세)
+    공인중개사 임대 등록
   </h1>
 
   <p class="desc">
-    문자로 전달받은 4자리 임차요청번호를 입력하면 해당 전세·월세 요청에 맞는 매물을 등록할 수 있습니다.
+    임차요청번호를 기준으로 해당 요청에 맞는 상가·점포 임대 매물을 등록합니다.
   </p>
 
 
   <div class="notice">
 
-    <b>[중개사 매물 등록 주의사항 및 진행절차]</b><br>
-    1. <b>상세 주소·상호명 비공개 보호</b>: 임차인이 최종 <b>[거래 결정]</b>을 하기 전에는 지번·호수·현 상호명과 중개사무소 연락처가 절대 공개되지 않습니다.<br>
-    2. <b>점포 사진은 선택 사항 (무사진 가능)</b>: 현재 성업 중인 점포 보호를 위해 사진 없이도 등록할 수 있습니다.<br>
-    3. <b>인허가·설비 기재</b>: 가계약 전 건축물대장 용도(근생 여부)와 전기·수도·가스·화장실·주차 여부를 설명란에 기재해 주세요.<br>
-    4. <b>거래 결정 시 4자리 거래방 코드 문자 전송</b>: 임차인이 매물을 최종 <b>[거래 결정]</b>하면 선택된 중개사님의 휴대폰으로 <b>전용 4자리 거래방 코드</b>가 자동 발송됩니다.
+    임차요청번호가 등록된 요청에만 매물을 연결할 수 있습니다.<br>
+    거래 전에는 등본·건축물대장·계약서·사진 등의 서류를 등록하지 않습니다.<br>
+    임차인이 최종 선택하기 전에는 중개사무소명과 연락처가 공개되지 않습니다.
 
   </div>
 
@@ -335,228 +316,158 @@ button{
   <div class="field">
 
     <label>
-      4자리 임차요청번호 <span class="required">*</span>
+      임차요청번호 <span class="required">*</span>
     </label>
 
-    <div class="code-row">
-      <input
-        id="requestNumber"
-        type="text"
-        inputmode="numeric"
-        maxlength="4"
-        placeholder="4자리 임차요청번호 입력">
+    <input
+      id="requestNumber"
+      type="text"
+      maxlength="30"
+      placeholder="임차요청번호를 입력하세요">
 
-      <button
-        id="verifyCodeBtn"
-        class="save"
-        type="button"
-        style="padding:0 16px; white-space:nowrap;">
-        코드 확인
-      </button>
-    </div>
-
-    <div id="requestSummaryHelp" class="help">
-      문자로 받은 4자리 임차요청번호를 입력하고 [코드 확인]을 누르면 아래 입력창이 열립니다.
+    <div class="help">
+      임차인이 등록한 4자리 임차요청번호를 입력하세요.
     </div>
 
   </div>
 
 
-  <!-- 매물정보 (4자리 코드 확인 후 활성화) -->
-  <div id="proposalFormBody" class="form-locked">
+  <!-- 매물정보 -->
 
-    <h2 class="section-title">
-      상가·점포 매물정보
-    </h2>
+  <h2 class="section-title">
+    매물정보
+  </h2>
 
 
-    <div class="row">
+  <div class="field">
 
-      <div class="field">
+    <label>
+      상가·점포명 (위치·상권) <span class="required">*</span>
+    </label>
 
-        <label>
-          거래유형 (전세 / 월세) <span class="required">*</span>
-        </label>
+    <input
+      id="apartment"
+      type="text"
+      placeholder="예: 역삼역 인근 대로변 1층 상가 (상세번지·상호명 제외)">
 
-        <select id="dealType">
-          <option value="monthly">상가 월세</option>
-          <option value="jeonse">상가 전세</option>
-        </select>
+  </div>
 
-      </div>
 
-      <div class="field">
+  <div class="field">
 
-        <label>
-          권리금 유무 및 금액 <span class="required">*</span>
-        </label>
+    <label>
+      임대금액 (보증금·월세·전세·권리금) <span class="required">*</span>
+    </label>
 
-        <input
-          id="premiumInfo"
-          type="text"
-          placeholder="예: 무권리 / 또는 권리금 2,000만원(협의)">
+    <input
+      id="amount"
+      type="text"
+      placeholder="예: 보증금 3,000만원 / 월세 200만원 (무권리)">
 
-      </div>
+  </div>
 
-    </div>
 
+  <div class="row">
 
     <div class="field">
 
       <label>
-        상가·점포 위치 및 형태 (상세번지·상호명 제외) <span class="required">*</span>
+        층수 <span class="required">*</span>
       </label>
 
       <input
-        id="apartment"
+        id="floor"
         type="text"
-        placeholder="예: 역삼역 도보 3분 대로변 1층 코너 점포">
-
-      <div class="help">
-        직거래 방지를 위해 상세 지번·호수 및 현재 간판 상호명은 적지 마세요.
-      </div>
+        placeholder="예: 지상 1층">
 
     </div>
 
 
     <div class="field">
 
-      <label id="amountLabel">
-        보증금 / 월세 (또는 전세보증금) <span class="required">*</span>
+      <label>
+        면적 <span class="required">*</span>
       </label>
 
       <input
-        id="amount"
+        id="area"
         type="text"
-        placeholder="예: 보증금 3,000만원 / 월세 220만원 (관리비 15만원)">
+        placeholder="예: 전용 18평 (약 60㎡)">
 
     </div>
 
-
-    <div class="row">
-
-      <div class="field">
-
-        <label>
-          층수 <span class="required">*</span>
-        </label>
-
-        <input
-          id="floor"
-          type="text"
-          placeholder="예: 지상 1층 / 5층">
-
-      </div>
+  </div>
 
 
-      <div class="field">
+  <div class="field">
 
-        <label>
-          전용면적 · 건축물용도 <span class="required">*</span>
-        </label>
+    <label>
+      매물 간단 설명
+    </label>
 
-        <input
-          id="area"
-          type="text"
-          placeholder="예: 전용 18평 · 제2종근린생활시설">
+    <textarea
+      id="description"
+      placeholder="임차인이 요청한 조건에 맞는 매물의 간단한 정보(건축물 용도, 전기·수도·화장실·주차, 입점 가능일 등)를 입력하세요."></textarea>
 
-      </div>
+  </div>
 
+
+  <!-- 중개사 정보 -->
+
+  <h2 class="section-title">
+    중개사 정보
+  </h2>
+
+
+  <div class="field">
+
+    <label>
+      중개사무소명 <span class="required">*</span>
+    </label>
+
+    <input
+      id="officeName"
+      type="text"
+      placeholder="중개사무소명">
+
+  </div>
+
+
+  <div class="field">
+
+    <label>
+      사무소 전화번호 <span class="required">*</span>
+    </label>
+
+    <input
+      id="officePhone"
+      type="tel"
+      inputmode="tel"
+      maxlength="13"
+      placeholder="사무소 전화번호">
+
+    <div class="help">
+      이 전화번호는 임차인이 해당 매물을 최종 선택한 경우에만 공개됩니다.
     </div>
 
-
-    <div class="field">
-
-      <label>
-        매물 간단 설명 (설비·인허가·현장공개 여부)
-      </label>
-
-      <textarea
-        id="description"
-        placeholder="전기용량(kW), 수도·급배수, 가스, 화장실, 주차 대수, 입점 가능일 및 성업 중 현장 방문 시 공개 여부 등을 간단히 입력하세요."></textarea>
-
-    </div>
+  </div>
 
 
-    <div class="field">
+  <div class="buttons">
 
-      <label>
-        점포 사진 (선택 사항 · 안 올려도 등록 가능)
-      </label>
+    <button
+      class="cancel"
+      type="button"
+      onclick="location.href='/broker-dashboard.html'">
+      취소
+    </button>
 
-      <input
-        id="photoFiles"
-        type="file"
-        accept="image/*"
-        multiple
-        style="padding:9px 12px;">
-
-      <div class="help">
-        성업 중인 점포는 사진을 올리지 않으셔도 됩니다. 공실이거나 외관·내부 사진이 있는 경우에만 선택 첨부해 주세요.
-      </div>
-
-    </div>
-
-
-    <!-- 중개사 정보 -->
-
-    <h2 class="section-title">
-      중개사 정보
-    </h2>
-
-
-    <div class="field">
-
-      <label>
-        중개사무소명 <span class="required">*</span>
-      </label>
-
-      <input
-        id="officeName"
-        type="text"
-        placeholder="중개사무소명">
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        중개사 휴대전화번호 (거래 확정 문자 수신용) <span class="required">*</span>
-      </label>
-
-      <input
-        id="officePhone"
-        type="tel"
-        inputmode="tel"
-        maxlength="13"
-        placeholder="예: 010-1234-5678">
-
-      <div class="help">
-        이 전화번호는 임차인이 해당 매물을 최종 <b>[거래 결정]</b>한 경우에만 공개되며, 거래 결정 즉시 이 번호로 <b>전용 4자리 거래방 코드</b>가 문자 발송됩니다.
-      </div>
-
-    </div>
-
-
-    <div class="buttons">
-
-      <button
-        class="cancel"
-        type="button"
-        onclick="location.href='/broker-dashboard.html'">
-        취소
-      </button>
-
-      <button
-        id="saveBtn"
-        class="save"
-        type="button"
-        disabled>
-        매물 등록
-      </button>
-
-    </div>
+    <button
+      id="saveBtn"
+      class="save"
+      type="button">
+      매물 등록
+    </button>
 
   </div>
 
@@ -583,24 +494,6 @@ button{
 
 const requestNumber =
   document.getElementById("requestNumber");
-
-const verifyCodeBtn =
-  document.getElementById("verifyCodeBtn");
-
-const requestSummaryHelp =
-  document.getElementById("requestSummaryHelp");
-
-const proposalFormBody =
-  document.getElementById("proposalFormBody");
-
-const dealType =
-  document.getElementById("dealType");
-
-const premiumInfo =
-  document.getElementById("premiumInfo");
-
-const amountLabel =
-  document.getElementById("amountLabel");
 
 const apartment =
   document.getElementById("apartment");
@@ -629,93 +522,9 @@ const saveBtn =
 const msg =
   document.getElementById("msg");
 
-let codeVerified = false;
 
+/* URL로 임차요청번호가 넘어오는 경우 */
 
-/* 전세 / 월세 선택 시 라벨·예시 전환 */
-function updateDealTypeUI(){
-  if(dealType.value === "jeonse"){
-    amountLabel.innerHTML = '전세보증금 (관리비 포함) <span class="required">*</span>';
-    amount.placeholder = "예: 전세보증금 2억원 (관리비 15만원)";
-  }else{
-    amountLabel.innerHTML = '보증금 / 월세 (관리비 포함) <span class="required">*</span>';
-    amount.placeholder = "예: 보증금 3,000만원 / 월세 220만원 (관리비 15만원)";
-  }
-}
-
-dealType.addEventListener("change", updateDealTypeUI);
-
-
-/* 4자리 임차요청번호 확인 및 입력폼 잠금 해제 */
-async function verifyRequestCode(){
-  const code = requestNumber.value.replace(/\D/g, "").slice(0, 4);
-  requestNumber.value = code;
-
-  if(code.length !== 4){
-    showMsg("4자리 임차요청번호를 입력해 주세요.", false);
-    requestNumber.focus();
-    return;
-  }
-
-  if(code === "5804"){
-    localStorage.setItem("wooriapt_test_key", "5804");
-    codeVerified = true;
-    proposalFormBody.classList.remove("form-locked");
-    saveBtn.disabled = false;
-    requestSummaryHelp.style.color = "#1165d7";
-    requestSummaryHelp.style.fontWeight = "800";
-    requestSummaryHelp.textContent = "✅ [코드 #5804 확인 완료] 희망조건: 서울 강남구 역삼동 상가 월세/전세 (전용 18평 이상, 근생) — 아래 매물정보를 입력해 주세요.";
-    showMsg("4자리 임차요청번호가 확인되어 입력창이 열렸습니다.", true);
-    return;
-  }
-
-  verifyCodeBtn.disabled = true;
-
-  try{
-    const res = await fetch("/api/property-request-lookup?requestNumber=" + encodeURIComponent(code));
-    const data = await res.json().catch(function(){ return null; });
-
-    if(res.ok && data && data.ok && data.request){
-      const r = data.request;
-      codeVerified = true;
-      proposalFormBody.classList.remove("form-locked");
-      saveBtn.disabled = false;
-
-      if(r.requestType === "jeonse" || r.request_type === "jeonse"){
-        dealType.value = "jeonse";
-      }else{
-        dealType.value = "monthly";
-      }
-      updateDealTypeUI();
-
-      const region = [r.sido, r.sigungu, r.dong].filter(Boolean).join(" ");
-      requestSummaryHelp.style.color = "#1165d7";
-      requestSummaryHelp.style.fontWeight = "800";
-      requestSummaryHelp.textContent =
-        "✅ [코드 #" + code + " 확인 완료] 희망지역: " + (region || "-") +
-        " / 희망면적: " + (r.size || "-") + " — 아래 매물정보를 입력해 주세요.";
-      showMsg("4자리 임차요청번호가 확인되어 입력창이 열렸습니다.", true);
-    }else{
-      showMsg((data && data.message) || "등록된 4자리 임차요청번호를 찾을 수 없습니다.", false);
-    }
-  }catch(err){
-    showMsg("임차요청번호 조회 중 오류가 발생했습니다.", false);
-  }finally{
-    verifyCodeBtn.disabled = false;
-  }
-}
-
-verifyCodeBtn.addEventListener("click", verifyRequestCode);
-
-requestNumber.addEventListener("input", function(){
-  this.value = this.value.replace(/\D/g, "").slice(0, 4);
-  if(this.value.length === 4){
-    verifyRequestCode();
-  }
-});
-
-
-/* URL로 요청번호가 넘어오는 경우 자동 확인 */
 (function(){
 
   const params =
@@ -726,14 +535,13 @@ requestNumber.addEventListener("input", function(){
   const request =
     params.get("request") ||
     params.get("requestNumber") ||
-    params.get("code") ||
-    (localStorage.getItem("wooriapt_test_key") === "5804" ? "5804" : "");
+    params.get("code");
 
   if(request){
-    requestNumber.value = String(request).replace(/\D/g, "").slice(0, 4);
-    if(requestNumber.value.length === 4){
-      verifyRequestCode();
-    }
+
+    requestNumber.value =
+      request;
+
   }
 
 })();
@@ -779,16 +587,9 @@ saveBtn.addEventListener(
   "click",
   async function(){
 
-    if(!codeVerified){
-      showMsg("먼저 4자리 임차요청번호를 확인해 주세요.", false);
-      requestNumber.focus();
-      return;
-    }
-
     const required = [
 
       requestNumber,
-      premiumInfo,
       apartment,
       amount,
       floor,
@@ -821,10 +622,6 @@ saveBtn.addEventListener(
 
     saveBtn.disabled=true;
 
-    const combinedAmount =
-      amount.value.trim() +
-      " · 권리금: " +
-      premiumInfo.value.trim();
 
     try{
 
@@ -854,7 +651,7 @@ saveBtn.addEventListener(
                     apartment.value.trim(),
 
                   amount:
-                    combinedAmount,
+                    amount.value.trim(),
 
                   floor:
                     floor.value.trim(),
@@ -909,14 +706,11 @@ saveBtn.addEventListener(
         requestNumber:
           requestNumber.value.trim(),
 
-        dealType:
-          dealType.value,
-
         apartment:
           apartment.value.trim(),
 
         amount:
-          combinedAmount,
+          amount.value.trim(),
 
         floor:
           floor.value.trim(),
@@ -951,7 +745,7 @@ saveBtn.addEventListener(
         );
 
 
-      saved.unshift(property);
+      saved.push(property);
 
 
       localStorage.setItem(
@@ -961,7 +755,7 @@ saveBtn.addEventListener(
 
 
       showMsg(
-        "상가·점포 매물이 등록되었습니다. 임차인이 [거래 결정] 시 입력하신 휴대폰으로 전용 4자리 거래방 코드가 문자 발송됩니다.",
+        "매물이 등록되었습니다. 해당 임차요청번호에 연결되었습니다.",
         true
       );
 
@@ -1006,8 +800,9 @@ function showMsg(
     text;
 
   msg.className =
-    "msg "+
-    (ok ? "ok" : "error");
+    "msg " + (
+      ok ? "ok" : "error"
+    );
 
 }
 
