@@ -1708,21 +1708,7 @@ button, input {
 
     if(requestNumber === "5804"){
       localStorage.setItem("wooriapt_test_key", "5804");
-      renderRequest({
-        request_number: "5804",
-        request_type: "monthly",
-        sido: "서울특별시",
-        sigungu: "강남구",
-        dong: "역삼동",
-        apartment: "역삼역 인근 대로변 1층 상가 (카페·일반음식점)",
-        size: "전용 18평 이상",
-        monthly_deposit_min: 30000000,
-        monthly_deposit_max: 50000000,
-        monthly_rent: 2000000,
-        move_date: "2026-11-15",
-        move_flexible: true,
-        memo: "무권리 선호, 제2종 근린생활시설 인허가 가능 점포 희망"
-      });
+      location.href = "/broker-agreement.html?code=" + encodeURIComponent(requestNumber);
       return;
     }
 
@@ -1743,7 +1729,7 @@ button, input {
         throw new Error(data && data.message ? data.message : "임차요청번호를 확인해 주세요.");
       }
 
-      renderRequest(data.request);
+      location.href = "/broker-agreement.html?code=" + encodeURIComponent(requestNumber);
     }catch(error){
       requestResult.classList.remove("open");
       currentRequestNumber = "";
@@ -1760,19 +1746,6 @@ button, input {
       e.preventDefault();
       lookupRequest();
     }
-  });
-
-  requestRegisterBtn.addEventListener("click", function(){
-    if(!currentRequestNumber) return;
-    location.href = "/broker-agreement.html?code=" + encodeURIComponent(currentRequestNumber);
-  });
-
-  requestExitBtn.addEventListener("click", function(){
-    currentRequestNumber = "";
-    requestNumberInput.value = "";
-    requestResultGrid.innerHTML = "";
-    requestResult.classList.remove("open");
-    requestNumberInput.focus();
   });
 </script>
 
