@@ -11,6 +11,12 @@
   <meta property="og:description" content="상가·점포 전세 및 월세 임차부터 표준 가계약서 작성, 간편 일반 전자계약까지 서비스 이용료 50%에 계약하세요!">
   <link rel="canonical" href="https://www.ansimdeal.com/">
   <meta property="og:url" content="https://www.ansimdeal.com/">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="안심딜">
 
   <style>
 /* =========================================
@@ -1467,9 +1473,63 @@ button, input {
     if(menuBackdrop){
       menuBackdrop.addEventListener("click", closeMenu);
     }
+    let deferredPrompt = null;
+    function isAndroidNonChrome(){
+      const ua = navigator.userAgent || "";
+      if(!/android/i.test(ua)) return false;
+      const isSamsungOrInApp = /(samsungbrowser|kakaotalk|naver|daum|line\/|instagram|fbav|fban|;\s*wv\)|\bGSA\/)/i.test(ua);
+      const isRealChrome = /chrome\//i.test(ua) && !isSamsungOrInApp && !/edga|edg\/|opr\/|opera|whale/i.test(ua);
+      return !isRealChrome;
+    }
+
+    window.addEventListener("beforeinstallprompt", function(e){
+      e.preventDefault();
+      if(!isAndroidNonChrome()){
+        deferredPrompt = e;
+      }
+    });
+
+    if("serviceWorker" in navigator){
+      window.addEventListener("load", function(){
+        navigator.serviceWorker.register("/sw.js").catch(function(){});
+      });
+    }
+
+    async function handleAppInstallClick(){
+      if(isAndroidNonChrome()){
+        location.href =
+          "intent://" +
+          location.host +
+          "/app-install?from=chrome#Intent;scheme=" +
+          location.protocol.replace(":","") +
+          ";package=com.android.chrome;S.browser_fallback_url=" +
+          encodeURIComponent(location.origin + "/app-install") +
+          ";end";
+        return;
+      }
+      if(deferredPrompt){
+        try{
+          deferredPrompt.prompt();
+          const choice = await deferredPrompt.userChoice;
+          if(choice && choice.outcome === "accepted"){
+            deferredPrompt = null;
+            return;
+          }
+        }catch(err){}
+      }
+      location.href = "/app-install";
+    }
+
     if(installBtn){
-      installBtn.addEventListener("click", function(){
-        alert("브라우저 메뉴에서 ‘앱 설치’ 또는 ‘홈 화면에 추가’를 선택해 주세요.");
+      installBtn.addEventListener("click", handleAppInstallClick);
+    }
+    const installWrap = document.querySelector(".install-wrap");
+    if(installWrap){
+      installWrap.style.cursor = "pointer";
+      installWrap.addEventListener("click", function(e){
+        if(e.target !== installBtn && (!installBtn || !installBtn.contains(e.target))){
+          handleAppInstallClick();
+        }
       });
     }
   })();

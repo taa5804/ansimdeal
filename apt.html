@@ -7,6 +7,11 @@
   <meta name="description" content="전남광주통합특별시 국토교통부 실거래가를 1초 만에 자동 매칭! 중개사 표준요율의 절반(50% 절약) 및 HUG 안심보증금까지 실시간 분석합니다.">
   <link rel="canonical" href="https://wooriapt.app/apt">
   <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="안심거래">
   <meta name="theme-color" content="#1165d7">
   <meta property="og:type" content="website">
   <meta property="og:title" content="[국토부 실거래] 전남광주통합특별시 안심거래 매칭기 (수수료 50% 절약)">
@@ -623,14 +628,35 @@
   }
 
   let aptDeferredPrompt = null;
+  function isAptAndroidNonChrome() {
+    const ua = navigator.userAgent || "";
+    if (!/android/i.test(ua)) return false;
+    const isSamsungOrInApp = /(samsungbrowser|kakaotalk|naver|daum|line\/|instagram|fbav|fban|;\s*wv\)|\bGSA\/)/i.test(ua);
+    const isRealChrome = /chrome\//i.test(ua) && !isSamsungOrInApp && !/edga|edg\/|opr\/|opera|whale/i.test(ua);
+    return !isRealChrome;
+  }
+
   window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
-    aptDeferredPrompt = e;
+    if (!isAptAndroidNonChrome()) {
+      aptDeferredPrompt = e;
+    }
   });
 
   const aptInstallBtn = document.getElementById("aptInstallBtn");
   if (aptInstallBtn) {
     aptInstallBtn.addEventListener("click", async () => {
+      if (isAptAndroidNonChrome()) {
+        location.href =
+          "intent://" +
+          location.host +
+          "/app-install?from=chrome#Intent;scheme=" +
+          location.protocol.replace(":", "") +
+          ";package=com.android.chrome;S.browser_fallback_url=" +
+          encodeURIComponent(location.origin + "/app-install") +
+          ";end";
+        return;
+      }
       if (aptDeferredPrompt) {
         try {
           aptDeferredPrompt.prompt();

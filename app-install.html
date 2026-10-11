@@ -2,11 +2,16 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#1165d7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="안심거래">
   <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
   <title>우리아파트 안심거래 앱 설치</title>
-<meta name="description" content="우리아파트 안심거래 앱 설치 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+  <meta name="description" content="우리아파트 안심거래 공식 웹앱(PWA) 설치 안내 - 안드로이드 및 아이폰 홈 화면에 안전하게 설치하세요.">
 
   <style>
     *{box-sizing:border-box}
@@ -37,12 +42,12 @@
     .card{
       display:none;
       width:100%;
-      max-width:430px;
+      max-width:440px;
       padding:28px 22px;
       border:1px solid #d8e3ee;
-      border-radius:18px;
+      border-radius:20px;
       background:#fff;
-      box-shadow:0 10px 30px rgba(15,23,42,.08);
+      box-shadow:0 12px 32px rgba(15,23,42,.09);
       text-align:center;
     }
 
@@ -51,41 +56,59 @@
     }
 
     .mark{
-      width:82px;
-      height:82px;
-      margin:0 auto 16px;
+      width:78px;
+      height:78px;
+      margin:0 auto 14px;
       display:flex;
       align-items:center;
       justify-content:center;
       border-radius:22px;
-      background:#eaf3ff;
-      font-size:42px;
+      background:linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      border:1.5px solid #bfdbfe;
+      font-size:38px;
+      box-shadow:0 4px 12px rgba(17,101,215,0.12);
     }
 
-    h1{
-      margin:0 0 12px;
+    .safe-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      padding:5px 12px;
+      margin-bottom:10px;
+      border-radius:999px;
+      background:#ecfdf5;
+      border:1px solid #a7f3d0;
+      color:#047857;
+      font-size:12px;
+      font-weight:800;
+    }
+
+    h1, h2{
+      margin:0 0 10px;
       color:#12394d;
-      font-size:25px;
-      line-height:1.4;
+      font-size:23px;
+      font-weight:900;
+      line-height:1.35;
       word-break:keep-all;
     }
 
     p{
       margin:0;
       color:#64748b;
-      font-size:15px;
-      line-height:1.75;
+      font-size:14.5px;
+      line-height:1.7;
       word-break:keep-all;
     }
 
     .guide{
-      margin:18px 0;
-      padding:18px 15px;
-      border-radius:13px;
+      margin:16px 0;
+      padding:16px 15px;
+      border-radius:14px;
       background:#f3f7fb;
+      border:1px solid #e2e8f0;
       color:#334155;
-      font-size:15px;
-      line-height:1.8;
+      font-size:14.5px;
+      line-height:1.75;
       word-break:keep-all;
     }
 
@@ -98,29 +121,47 @@
       min-height:54px;
       padding:13px 16px;
       border:0;
-      border-radius:11px;
+      border-radius:12px;
       background:#1165d7;
       color:#fff;
-      font-size:17px;
-      font-weight:800;
+      font-size:16.5px;
+      font-weight:900;
       cursor:pointer;
+      box-shadow:0 4px 14px rgba(17,101,215,0.22);
+      transition:transform .15s ease, background .15s ease;
+    }
+
+    button:active{
+      transform:scale(0.99);
     }
 
     button:disabled{
       background:#cbd5e1;
       color:#64748b;
+      box-shadow:none;
       cursor:not-allowed;
     }
 
     .secondary{
       margin-top:10px;
       background:#475569;
+      box-shadow:none;
+    }
+
+    .outline-btn{
+      margin-top:10px;
+      background:#ffffff;
+      color:#1e293b;
+      border:1.5px solid #cbd5e1;
+      box-shadow:none;
+      font-size:14.5px;
+      min-height:48px;
     }
 
     .status{
-      min-height:24px;
-      margin-top:15px;
-      font-size:14px;
+      min-height:22px;
+      margin-top:14px;
+      font-size:13.5px;
       font-weight:700;
       line-height:1.6;
       word-break:keep-all;
@@ -130,42 +171,111 @@
     .error{color:#dc2626}
     .waiting{color:#1d4ed8}
 
-    .iphone-steps{
-      margin:18px 0;
-      padding:18px 16px;
+    .step-list{
+      margin:16px 0;
+      padding:16px;
       border-radius:14px;
-      background:#f3f7fb;
+      background:#f8fafc;
+      border:1px solid #e2e8f0;
       color:#334155;
       text-align:left;
-      font-size:15px;
-      line-height:1.85;
+      font-size:14.5px;
+      line-height:1.75;
       word-break:keep-all;
     }
 
-    .iphone-steps b{
-      color:#172b3d;
+    .step-item{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      padding:10px 0;
+      border-bottom:1px dashed #e2e8f0;
+    }
+
+    .step-item:last-child{
+      border-bottom:0;
+      padding-bottom:0;
+    }
+
+    .step-item:first-child{
+      padding-top:0;
+    }
+
+    .step-num{
+      flex:0 0 24px;
+      height:24px;
+      border-radius:50%;
+      background:#1165d7;
+      color:#fff;
+      font-size:12px;
+      font-weight:900;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-top:2px;
+    }
+
+    .step-body{
+      flex:1;
+      font-size:14px;
+      color:#1e293b;
+      line-height:1.6;
+    }
+
+    .step-body b{
+      color:#0f172a;
+      font-weight:900;
+    }
+
+    .step-body em{
+      font-style:normal;
+      color:#1165d7;
+      font-weight:900;
     }
 
     .share-symbol{
-      display:flex;
-      width:56px;
-      height:56px;
-      margin:12px auto;
+      display:inline-flex;
+      padding:2px 8px;
+      margin:0 2px;
       align-items:center;
       justify-content:center;
-      border:2px solid #94a3b8;
+      border:1.5px solid #93c5fd;
+      border-radius:7px;
+      background:#eff6ff;
+      color:#1d4ed8;
+      font-size:13px;
+      font-weight:900;
+    }
+
+    .protect-notice{
+      margin-top:16px;
+      padding:14px;
       border-radius:13px;
-      background:#fff;
-      font-size:31px;
+      background:#fffbeb;
+      border:1px solid #fde68a;
+      text-align:left;
+      color:#92400e;
+      font-size:12.5px;
+      line-height:1.65;
+      word-break:keep-all;
+    }
+
+    .protect-notice strong{
+      display:block;
+      margin-bottom:4px;
+      color:#78350f;
+      font-size:13px;
+      font-weight:900;
     }
 
     .done{
-      margin:18px 0;
+      margin:16px 0;
       padding:16px;
-      border-radius:12px;
+      border-radius:13px;
       background:#ecfdf5;
+      border:1px solid #a7f3d0;
       color:#166534;
-      font-size:15px;
+      font-size:14.5px;
       font-weight:800;
       line-height:1.7;
       word-break:keep-all;
@@ -175,90 +285,163 @@
 
 <body>
 
+  <!-- 1. 로딩 카드 -->
   <section id="loadingCard" class="card active">
     <div class="mark">🏠</div>
+    <div class="safe-badge">🛡️ 공식 인증 웹앱 (보안 검증 완료)</div>
     <h1>우리아파트 안심거래</h1>
-    <p>앱 설치 환경을 확인하고 있습니다.</p>
+    <p>스마트폰 기종에 맞는 안전 설치 화면을 준비하고 있습니다.</p>
   </section>
 
+  <!-- 2. 안드로이드 Chrome 즉시 설치 카드 -->
   <section id="androidCard" class="card">
     <div class="mark">🏠</div>
-    <h2>안심거래 앱 설치</h2>
+    <div class="safe-badge">🛡️ Google Chrome 공식 웹앱</div>
+    <h2>우리아파트 안심거래 앱 설치</h2>
 
     <div class="guide">
-      <strong>아래 버튼을 눌러 앱을 설치하세요.</strong><br><br>
-      설치가 완료되면 휴대전화 홈 화면에서<br>
-      우리아파트 안심거래를 바로 이용할 수 있습니다.
+      <strong>아래 버튼을 누르면 1초 만에 설치됩니다.</strong><br>
+      별도의 APK 파일 다운로드 없이 공식 웹앱으로<br>
+      홈 화면에 안전하게 추가됩니다.
     </div>
 
-    <button id="installButton" type="button" disabled>
-      앱 설치 준비 중...
+    <button id="installButton" type="button">
+      📲 우리아파트 안심거래 앱 설치
     </button>
 
     <button id="retryButton" class="secondary" type="button" style="display:none">
-      다시 확인하기
+      설치창 다시 띄우기
     </button>
 
+    <div id="androidManualSteps" class="step-list" style="display:none; margin-top:14px;">
+      <div style="font-size:13px; font-weight:900; color:#1165d7; margin-bottom:8px;">
+        💡 자동 설치창이 뜨지 않을 때 (수동 2초 설치)
+      </div>
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body">브라우저 오른쪽 위 <b>메뉴 버튼 [⋮]</b>을 누르세요.</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body"><em>[앱 설치]</em> 또는 <em>[홈 화면에 추가]</em>를 누르면 즉시 설치됩니다.</div>
+      </div>
+    </div>
+
     <div id="androidStatus" class="status waiting">
-      앱 설치를 준비하고 있습니다.
+      버튼을 눌러 홈 화면에 앱을 설치해 주세요.
     </div>
+
+    <button id="androidGoHomeBtn" class="outline-btn" type="button">
+      홈 화면으로 돌아가기
+    </button>
   </section>
 
-  <section id="iphoneCard" class="card">
-    <div class="mark">🏠</div>
-    <h2>아이폰 앱 설치</h2>
-
-    <div class="iphone-steps">
-      <b>1. Safari 아래의 공유 버튼을 누르세요.</b>
-
-      <div class="share-symbol">□↑</div>
-
-      <b>2. “홈 화면에 추가”를 누르세요.</b><br><br>
-
-      <b>3. 오른쪽 위 “추가”를 누르세요.</b>
-    </div>
-
-    <div class="done">
-      홈 화면에 생성된<br>
-      <strong>우리아파트 안심거래</strong> 아이콘을 눌러 이용하세요.
-    </div>
-  </section>
-
+  <!-- 3. 안드로이드 삼성인터넷 / 인앱브라우저 -> Chrome 안전 전환 카드 -->
   <section id="browserCard" class="card">
     <div class="mark">🏠</div>
-    <h2>기본 브라우저에서 열어 주세요</h2>
+    <div class="safe-badge">🛡️ 보안 경고 없는 Chrome 안전 설치</div>
+    <h2 id="browserTitle">Chrome에서 안전하게 설치하세요</h2>
 
     <div id="browserGuide" class="guide">
-      앱 설치를 위해 Chrome 또는 Safari에서 열어 주세요.
+      갤럭시 <strong>삼성 인터넷</strong>이나 <strong>메시지·카카오톡 브라우저</strong>에서는 구형 웹앱 변환 방식으로 인해 보안 알림창이 뜰 수 있습니다.<br><br>
+      아래 버튼을 눌러 <strong>Google Chrome(크롬)</strong>으로 열면 <strong>보안 경고 없이 1초 만에 공식 설치</strong>됩니다!
     </div>
 
     <button id="openBrowserButton" type="button">
-      Chrome에서 계속하기
+      🚀 Chrome(크롬)에서 1초 안전 설치하기
     </button>
+
+    <button id="samsungDirectButton" class="outline-btn" type="button" style="display:none;">
+      현재 브라우저(삼성 인터넷)에서 바로 설치하기
+    </button>
+
+    <div class="protect-notice">
+      <strong>📌 혹시 "안전하지 않은 앱 차단됨" 창이 떴나요?</strong>
+      삼성 인터넷 브라우저의 구형 웹앱 패키징 기능 때문에 안드로이드에서 띄우는 단순 버전 안내입니다.<br>
+      • <b>권장</b>: 위 <b>[Chrome에서 1초 안전 설치하기]</b> 버튼을 누르면 경고 없이 바로 설치됩니다.<br>
+      • <b>바로 설치 시</b>: 알림창 중간의 <b>[세부정보 더보기 ∨]</b> → <b>[무시하고 설치]</b>를 누르시면 100% 안전하게 설치됩니다.
+    </div>
 
     <div id="browserStatus" class="status"></div>
   </section>
 
-  <section id="installedCard" class="card">
+  <!-- 4. 아이폰 (iOS Safari / Chrome) 설치 가이드 카드 -->
+  <section id="iphoneCard" class="card">
     <div class="mark">🏠</div>
-    <h2>앱이 설치되어 있습니다</h2>
+    <div class="safe-badge">🍎 iPhone · iPad 공식 홈 화면 앱</div>
+    <h2>아이폰(iPhone) 앱 설치</h2>
 
-    <div class="done">
-      휴대전화 홈 화면에서<br>
-      우리아파트 안심거래 앱을 이용하세요.
+    <p style="margin-bottom:12px;">
+      아이폰은 Apple 보안 정책에 따라 앱스토어 거치지 않고<br>
+      <strong>아래 3단계(5초)</strong>로 홈 화면에 공식 설치됩니다.
+    </p>
+
+    <!-- 아이폰 인앱 브라우저(카카오톡/네이버 등)일 때 표시 -->
+    <div id="iphoneInAppBox" class="protect-notice" style="display:none; margin-bottom:14px; background:#eff6ff; border-color:#93c5fd; color:#1e3a8a;">
+      <strong style="color:#1d4ed8;">📢 카카오톡·문자로 접속하셨나요?</strong>
+      1. 화면 오른쪽 아래(또는 위)의 <b>[⋯]</b> 또는 <b>[공유 □↑]</b> 버튼을 누르세요.<br>
+      2. <b>[Safari로 열기]</b>(또는 <b>[기본 브라우저로 열기]</b>)를 누른 뒤 아래 순서대로 추가해 주세요.
+      <button id="copyUrlBtn" type="button" class="outline-btn" style="margin-top:8px; min-height:40px; font-size:13px; border-color:#60a5fa; color:#1d4ed8; font-weight:800;">
+        📋 주소 복사하기 (Safari 주소창에 붙여넣기)
+      </button>
     </div>
 
-    <button id="goHomeButton" type="button">
-      안심거래 시작하기
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body" id="iphoneStep1Text">
+          Safari 화면 <b>맨 아래 가운데</b>(또는 상단 주소창 옆)의 <b>공유 버튼</b> <span class="share-symbol">□↑</span> 을 누르세요.
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          메뉴를 아래로 살짝 내려 <em>[홈 화면에 추가 ➕]</em>를 누르세요.
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          오른쪽 위 <em>[추가]</em>를 누르면 아이폰 바탕화면에 <b>안심거래</b> 앱 아이콘이 생깁니다!
+        </div>
+      </div>
+    </div>
+
+    <div class="done">
+      설치 후 아이폰 홈 화면에 생성된<br>
+      <strong>🏠 안심거래</strong> 앱 아이콘을 터치해 바로 이용하세요.
+    </div>
+
+    <button id="iphoneGoHomeBtn" class="outline-btn" type="button">
+      홈 화면으로 돌아가기
     </button>
   </section>
 
-  <section id="completeCard" class="card">
+  <!-- 5. 이미 설치됨 카드 -->
+  <section id="installedCard" class="card">
     <div class="mark">🏠</div>
-    <h2>앱 설치 완료</h2>
+    <div class="safe-badge">✅ 설치 완료</div>
+    <h2>앱이 이미 설치되어 있습니다</h2>
 
     <div class="done">
-      우리아파트 안심거래 앱 설치가 완료되었습니다.
+      스마트폰 홈 화면에서<br>
+      <strong>우리아파트 안심거래</strong> 앱을 바로 이용하실 수 있습니다.
+    </div>
+
+    <button id="goHomeButton" type="button">
+      안심거래 바로 시작하기
+    </button>
+  </section>
+
+  <!-- 6. 방금 설치 완료 카드 -->
+  <section id="completeCard" class="card">
+    <div class="mark">🏠</div>
+    <div class="safe-badge">🎉 설치 완료</div>
+    <h2>앱 설치가 완료되었습니다!</h2>
+
+    <div class="done">
+      이제 스마트폰 홈 화면의 <strong>안심거래</strong> 아이콘을 눌러<br>
+      언제든 1초 만에 접속하실 수 있습니다.
     </div>
 
     <button id="completeButton" type="button">
@@ -266,13 +449,9 @@
     </button>
   </section>
 
-
   <script>
   (function(){
     "use strict";
-
-    const BUILD_VERSION =
-      "20260831-SAFE-INSTALL-01";
 
     let deferredInstallPrompt = null;
 
@@ -285,158 +464,117 @@
       complete: document.getElementById("completeCard")
     };
 
-    const installButton =
-      document.getElementById("installButton");
+    const installButton = document.getElementById("installButton");
+    const retryButton = document.getElementById("retryButton");
+    const androidManualSteps = document.getElementById("androidManualSteps");
+    const androidStatus = document.getElementById("androidStatus");
+    const androidGoHomeBtn = document.getElementById("androidGoHomeBtn");
 
-    const retryButton =
-      document.getElementById("retryButton");
+    const browserTitle = document.getElementById("browserTitle");
+    const browserGuide = document.getElementById("browserGuide");
+    const openBrowserButton = document.getElementById("openBrowserButton");
+    const samsungDirectButton = document.getElementById("samsungDirectButton");
+    const browserStatus = document.getElementById("browserStatus");
 
-    const androidStatus =
-      document.getElementById("androidStatus");
+    const iphoneInAppBox = document.getElementById("iphoneInAppBox");
+    const iphoneStep1Text = document.getElementById("iphoneStep1Text");
+    const copyUrlBtn = document.getElementById("copyUrlBtn");
+    const iphoneGoHomeBtn = document.getElementById("iphoneGoHomeBtn");
 
-    const browserGuide =
-      document.getElementById("browserGuide");
-
-    const openBrowserButton =
-      document.getElementById("openBrowserButton");
-
-    const browserStatus =
-      document.getElementById("browserStatus");
-
-    const goHomeButton =
-      document.getElementById("goHomeButton");
-
-    const completeButton =
-      document.getElementById("completeButton");
-
+    const goHomeButton = document.getElementById("goHomeButton");
+    const completeButton = document.getElementById("completeButton");
 
     function showCard(name){
       Object.values(cards).forEach(function(card){
-        card.classList.remove("active");
+        if (card) card.classList.remove("active");
       });
-
-      cards[name].classList.add("active");
+      if (cards[name]) {
+        cards[name].classList.add("active");
+      }
       window.scrollTo(0,0);
     }
 
-
-    function setStatus(element,message,type){
+    function setStatus(element, message, type){
+      if (!element) return;
       element.textContent = message || "";
       element.className = "status";
-
       if(type){
         element.classList.add(type);
       }
     }
 
-
     function isInstalledApp(){
       return (
-        window.matchMedia(
-          "(display-mode: standalone)"
-        ).matches ||
+        window.matchMedia("(display-mode: standalone)").matches ||
         window.navigator.standalone === true
       );
     }
 
-
     function getBrowserInfo(){
       const ua = navigator.userAgent || "";
 
-      const ios =
-        /iphone|ipad|ipod/i.test(ua);
+      const ios = /iphone|ipad|ipod/i.test(ua) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-      const android =
-        /android/i.test(ua);
-
-      const samsung =
-        /samsungbrowser/i.test(ua);
-
-      const googleApp =
-        /\bGSA\//i.test(ua);
-
-      const androidWebView =
-        /;\s*wv\)/i.test(ua);
+      const android = /android/i.test(ua);
+      const samsung = /samsungbrowser/i.test(ua);
+      const kakao = /kakaotalk/i.test(ua);
+      const googleApp = /\bGSA\//i.test(ua);
+      const androidWebView = /;\s*wv\)/i.test(ua);
 
       const knownInApp =
-        /(kakaotalk|naver\(inapp|naverapp|line\/|instagram|fbav|fban)/i
-          .test(ua);
+        /(kakaotalk|naver\(inapp|naverapp|daumapps|line\/|instagram|fbav|fban|everytimeApp|band\/)/i.test(ua);
 
-      const iosInApp =
-        ios &&
-        (
-          !/safari/i.test(ua) ||
-          /crios|fxios|edgios|kakaotalk|naver|instagram|fbav|fban/i
-            .test(ua)
-        );
+      const iosChrome = ios && /crios/i.test(ua);
+      const iosSafari = ios && /safari/i.test(ua) && !iosChrome && !knownInApp && !/fxios|edgios/i.test(ua);
+      const iosInApp = ios && !iosSafari && !iosChrome;
 
-      const inApp =
-        googleApp ||
-        androidWebView ||
-        knownInApp ||
-        iosInApp;
+      const inApp = googleApp || androidWebView || knownInApp || iosInApp;
 
       const chrome =
         android &&
         /chrome\//i.test(ua) &&
         !samsung &&
         !inApp &&
-        !/edga|edg\/|opr\/|opera/i.test(ua);
-
-      const safari =
-        ios &&
-        /safari/i.test(ua) &&
-        !/crios|fxios|edgios/i.test(ua);
+        !/edga|edg\/|opr\/|opera|whale/i.test(ua);
 
       return {
-        ios,
-        android,
-        samsung,
-        chrome,
-        safari,
-        inApp
+        ios: ios,
+        android: android,
+        samsung: samsung,
+        kakao: kakao,
+        chrome: chrome,
+        iosChrome: iosChrome,
+        safari: iosSafari,
+        inApp: inApp
       };
     }
 
-
     async function prepareServiceWorker(){
       if(!("serviceWorker" in navigator)){
-        throw new Error(
-          "이 브라우저에서는 앱 설치를 지원하지 않습니다."
-        );
+        return null;
       }
-
-      let registration =
-        await navigator.serviceWorker.getRegistration("/");
-
-      if(!registration){
-        registration =
-          await navigator.serviceWorker.register(
-            "/firebase-messaging-sw.js?v=" + BUILD_VERSION,
-            {
-              scope:"/",
-              updateViaCache:"none"
-            }
-          );
-      }else{
-        try{
-          await registration.update();
-        }catch(error){
-          console.warn(error);
+      try{
+        let registration = await navigator.serviceWorker.getRegistration("/");
+        if(!registration){
+          registration = await navigator.serviceWorker.register("/sw.js", {
+            scope: "/",
+            updateViaCache: "none"
+          });
         }
+        await navigator.serviceWorker.ready;
+        return registration;
+      }catch(error){
+        console.warn("ServiceWorker registration notice:", error);
+        return null;
       }
-
-      await navigator.serviceWorker.ready;
-
-      return registration;
     }
 
-
     function openCurrentPageInChrome(){
-      const current =
-        new URL(location.href);
+      const current = new URL(location.href);
+      current.searchParams.set("from", "chrome");
 
-      location.href =
+      const intentUrl =
         "intent://" +
         current.host +
         current.pathname +
@@ -448,303 +586,227 @@
         "S.browser_fallback_url=" +
         encodeURIComponent(current.href) +
         ";end";
-    }
 
+      location.href = intentUrl;
+    }
 
     function enableInstallButton(){
       installButton.disabled = false;
-      installButton.textContent =
-        "우리아파트 안심거래 앱 설치";
-
-      retryButton.style.display = "none";
-
+      installButton.textContent = "📲 우리아파트 안심거래 앱 설치";
       setStatus(
         androidStatus,
-        "앱 설치 준비가 완료되었습니다.",
+        "앱 설치 준비가 완료되었습니다. 위 파란색 버튼을 눌러 주세요.",
         "success"
       );
     }
 
-
-    function waitForPrompt(){
-      let count = 0;
-
-      const timer =
-        setInterval(function(){
-
-          if(deferredInstallPrompt){
-            clearInterval(timer);
-            enableInstallButton();
-            return;
-          }
-
-          count += 1;
-
-          if(count >= 20){
-            clearInterval(timer);
-
-            installButton.disabled = false;
-            installButton.textContent =
-              "우리아파트 안심거래 앱 설치";
-
-            retryButton.style.display =
-              "block";
-
-            setStatus(
-              androidStatus,
-              "설치창이 자동으로 준비되지 않으면 Chrome 오른쪽 위 메뉴에서 ‘앱 설치’를 선택해 주세요.",
-              "waiting"
-            );
-          }
-
-        },500);
-    }
-
-
-    window.addEventListener(
-      "beforeinstallprompt",
-      function(event){
-        event.preventDefault();
-
-        deferredInstallPrompt = event;
-
-        if(
-          cards.android.classList.contains(
-            "active"
-          )
-        ){
-          enableInstallButton();
-        }
+    window.addEventListener("beforeinstallprompt", function(event){
+      event.preventDefault();
+      deferredInstallPrompt = event;
+      if(cards.android.classList.contains("active")){
+        enableInstallButton();
       }
-    );
+    });
 
+    window.addEventListener("appinstalled", function(){
+      deferredInstallPrompt = null;
+      showCard("complete");
+    });
 
-    window.addEventListener(
-      "appinstalled",
-      function(){
-        deferredInstallPrompt = null;
-        showCard("complete");
+    installButton.addEventListener("click", async function(){
+      if(isInstalledApp()){
+        location.replace("/");
+        return;
       }
-    );
 
+      const browser = getBrowserInfo();
 
-    installButton.addEventListener(
-      "click",
-      async function(){
+      // 만약 삼성 인터넷이나 인앱 브라우저에서 이 버튼을 눌렀고 prompt가 없다면 Chrome으로 유도
+      if(browser.android && !browser.chrome && !deferredInstallPrompt){
+        openCurrentPageInChrome();
+        return;
+      }
 
-        if(isInstalledApp()){
-          showCard("installed");
-          return;
+      installButton.disabled = true;
+      installButton.textContent = "설치창 여는 중...";
+      setStatus(
+        androidStatus,
+        "화면에 표시되는 [설치] 버튼을 눌러 주세요.",
+        "waiting"
+      );
+
+      try{
+        await prepareServiceWorker();
+
+        for(let i = 0; i < 12 && !deferredInstallPrompt; i++){
+          await new Promise(function(resolve){ setTimeout(resolve, 150); });
         }
 
-        installButton.disabled = true;
-        installButton.textContent =
-          "설치창 여는 중...";
-
-        setStatus(
-          androidStatus,
-          "표시되는 설치 창에서 ‘설치’를 눌러 주세요.",
-          "waiting"
-        );
-
-        try{
-          await prepareServiceWorker();
-
-          for(
-            let i=0;
-            i<20 && !deferredInstallPrompt;
-            i++
-          ){
-            await new Promise(function(resolve){
-              setTimeout(resolve,150);
-            });
-          }
-
-          if(!deferredInstallPrompt){
-            installButton.disabled = false;
-            installButton.textContent =
-              "우리아파트 안심거래 앱 설치";
-
-            retryButton.style.display =
-              "block";
-
-            setStatus(
-              androidStatus,
-              "Chrome 오른쪽 위 메뉴에서 ‘앱 설치’를 선택해 주세요.",
-              "waiting"
-            );
-
-            return;
-          }
-
-          const promptEvent =
-            deferredInstallPrompt;
-
-          deferredInstallPrompt = null;
-
-          await promptEvent.prompt();
-
-          const result =
-            await promptEvent.userChoice;
-
-          if(result.outcome !== "accepted"){
-            installButton.disabled = false;
-            installButton.textContent =
-              "우리아파트 안심거래 앱 설치";
-
-            setStatus(
-              androidStatus,
-              "앱 설치가 취소되었습니다. 다시 눌러 주세요.",
-              "error"
-            );
-
-            return;
-          }
-
+        if(!deferredInstallPrompt){
+          installButton.disabled = false;
+          installButton.textContent = "📲 우리아파트 안심거래 앱 설치";
+          androidManualSteps.style.display = "block";
           setStatus(
             androidStatus,
-            "앱을 설치하고 있습니다.",
+            "이미 설치되어 있거나 자동 설치창이 제한된 상태입니다. 아래 1·2번 안내에 따라 메뉴 [⋮] → [앱 설치]를 눌러 주세요.",
             "waiting"
           );
+          return;
+        }
 
-        }catch(error){
+        const promptEvent = deferredInstallPrompt;
+        deferredInstallPrompt = null;
+
+        await promptEvent.prompt();
+        const result = await promptEvent.userChoice;
+
+        if(result && result.outcome !== "accepted"){
           installButton.disabled = false;
-          installButton.textContent =
-            "우리아파트 안심거래 앱 설치";
-
+          installButton.textContent = "📲 우리아파트 안심거래 앱 설치";
           setStatus(
             androidStatus,
-            error.message ||
-            "앱 설치를 시작하지 못했습니다.",
+            "설치가 취소되었습니다. 다시 버튼을 눌러 [설치]를 선택해 주세요.",
             "error"
           );
+          return;
         }
-      }
-    );
-
-
-    retryButton.addEventListener(
-      "click",
-      async function(){
-
-        retryButton.style.display = "none";
-
-        installButton.disabled = true;
-        installButton.textContent =
-          "앱 설치 준비 중...";
 
         setStatus(
           androidStatus,
-          "앱 설치를 다시 확인하고 있습니다.",
+          "홈 화면에 앱을 설치하고 있습니다...",
           "waiting"
         );
-
-        try{
-          await prepareServiceWorker();
-        }catch(error){
-          console.warn(error);
-        }
-
-        waitForPrompt();
-      }
-    );
-
-
-    openBrowserButton.addEventListener(
-      "click",
-      function(){
-
-        const browser =
-          getBrowserInfo();
-
-        if(browser.android){
-          openCurrentPageInChrome();
-          return;
-        }
-
+      }catch(error){
+        installButton.disabled = false;
+        installButton.textContent = "📲 우리아파트 안심거래 앱 설치";
+        androidManualSteps.style.display = "block";
         setStatus(
-          browserStatus,
-          "Safari의 공유 메뉴에서 ‘Safari에서 열기’를 선택해 주세요.",
+          androidStatus,
+          "브라우저 오른쪽 위 메뉴 [⋮]에서 [앱 설치] 또는 [홈 화면에 추가]를 선택해 주세요.",
           "waiting"
         );
       }
-    );
+    });
 
+    if(retryButton){
+      retryButton.addEventListener("click", function(){
+        installButton.click();
+      });
+    }
 
-    goHomeButton.addEventListener(
-      "click",
-      function(){
-        location.href = "/";
+    openBrowserButton.addEventListener("click", function(){
+      const browser = getBrowserInfo();
+      if(browser.android){
+        openCurrentPageInChrome();
+        return;
       }
-    );
+      setStatus(
+        browserStatus,
+        "화면 우측 하단 [⋯] 또는 공유 메뉴에서 [Safari로 열기]를 선택해 주세요.",
+        "waiting"
+      );
+    });
 
-
-    completeButton.addEventListener(
-      "click",
-      function(){
-        location.href = "/";
-      }
-    );
-
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      async function(){
-
-        if(isInstalledApp()){
-          showCard("installed");
-          return;
-        }
-
-        const browser =
-          getBrowserInfo();
-
-        if(browser.inApp){
-          browserGuide.innerHTML =
-            browser.ios
-              ? "아이폰에서는 Safari로 열어야 홈 화면에 앱을 추가할 수 있습니다."
-              : "안드로이드에서는 Chrome으로 열어야 앱을 설치할 수 있습니다.";
-
-          openBrowserButton.textContent =
-            browser.ios
-              ? "Safari에서 계속하기"
-              : "Chrome에서 계속하기";
-
-          showCard("browser");
-          return;
-        }
-
-        if(browser.ios){
-          showCard("iphone");
-          return;
-        }
-
+    if(samsungDirectButton){
+      samsungDirectButton.addEventListener("click", function(){
         showCard("android");
-
-        try{
-          await prepareServiceWorker();
-        }catch(error){
-          setStatus(
-            androidStatus,
-            error.message ||
-            "앱 설치 준비에 실패했습니다.",
-            "error"
-          );
-
-          retryButton.style.display =
-            "block";
-
-          return;
-        }
-
         if(deferredInstallPrompt){
           enableInstallButton();
-          return;
+        } else {
+          androidManualSteps.style.display = "block";
+          setStatus(
+            androidStatus,
+            "하단 메뉴 [≡] → [현재 페이지 추가] → [홈 화면]을 선택하시면 보안 경고 없이 바로가기 아이콘이 추가됩니다.",
+            "waiting"
+          );
         }
+      });
+    }
 
-        waitForPrompt();
+    if(copyUrlBtn){
+      copyUrlBtn.addEventListener("click", async function(){
+        const targetUrl = location.origin + "/app-install";
+        try{
+          await navigator.clipboard.writeText(targetUrl);
+          copyUrlBtn.textContent = "✅ 복사 완료! Safari를 열어 붙여넣기 하세요";
+        }catch(e){
+          const ta = document.createElement("textarea");
+          ta.value = targetUrl;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          copyUrlBtn.textContent = "✅ 복사 완료! Safari를 열어 붙여넣기 하세요";
+        }
+      });
+    }
+
+    [goHomeButton, completeButton, androidGoHomeBtn, iphoneGoHomeBtn].forEach(function(btn){
+      if(btn){
+        btn.addEventListener("click", function(){
+          location.href = "/";
+        });
       }
-    );
+    });
+
+    document.addEventListener("DOMContentLoaded", async function(){
+      // 홈 화면에 설치된 아이콘으로 실행한 경우 즉시 메인 홈(/)으로 이동
+      if(isInstalledApp()){
+        location.replace("/");
+        return;
+      }
+
+      await prepareServiceWorker();
+
+      const browser = getBrowserInfo();
+
+      // 1. 아이폰 / 아이패드 (iOS)
+      if(browser.ios){
+        if(browser.inApp){
+          iphoneInAppBox.style.display = "block";
+        }
+        if(browser.iosChrome){
+          iphoneStep1Text.innerHTML =
+            'Chrome 화면 <b>오른쪽 위 주소창 옆</b>의 <b>공유 버튼</b> <span class="share-symbol">□↑</span> 을 누르세요.';
+        }
+        showCard("iphone");
+        return;
+      }
+
+      // 2. 안드로이드: 삼성 인터넷 또는 인앱 브라우저(카카오톡, 문자, 네이버 등)인 경우
+      //    Google Play 프로텍트("안전하지 않은 앱 차단됨") 오작동 방지를 위해
+      //    자동으로 Google Chrome 외부 브라우저를 호출하고 안내 카드를 표시합니다.
+      if(browser.android && !browser.chrome){
+        if(browser.samsung){
+          samsungDirectButton.style.display = "block";
+        }
+        showCard("browser");
+
+        // 자동 Chrome 전환 시도 (이미 재시도된 경우가 아닐 때)
+        const params = new URLSearchParams(location.search);
+        if(params.get("from") !== "chrome"){
+          setTimeout(function(){
+            openCurrentPageInChrome();
+          }, 250);
+        }
+        return;
+      }
+
+      // 3. 안드로이드 Chrome 또는 데스크톱
+      showCard("android");
+
+      if(deferredInstallPrompt){
+        enableInstallButton();
+      } else {
+        setTimeout(function(){
+          if(deferredInstallPrompt){
+            enableInstallButton();
+          } else {
+            androidManualSteps.style.display = "block";
+          }
+        }, 1200);
+      }
+    });
 
   })();
   </script>

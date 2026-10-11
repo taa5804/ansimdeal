@@ -2700,14 +2700,35 @@ li a:hover {
   }
 
   let mDeferredPrompt = null;
+  function isMAndroidNonChrome() {
+    const ua = navigator.userAgent || "";
+    if (!/android/i.test(ua)) return false;
+    const isSamsungOrInApp = /(samsungbrowser|kakaotalk|naver|daum|line\/|instagram|fbav|fban|;\s*wv\)|\bGSA\/)/i.test(ua);
+    const isRealChrome = /chrome\//i.test(ua) && !isSamsungOrInApp && !/edga|edg\/|opr\/|opera|whale/i.test(ua);
+    return !isRealChrome;
+  }
+
   window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
-    mDeferredPrompt = e;
+    if (!isMAndroidNonChrome()) {
+      mDeferredPrompt = e;
+    }
   });
 
   const mInstallBtn = document.getElementById("mInstallBtn");
   if (mInstallBtn) {
     mInstallBtn.addEventListener("click", async () => {
+      if (isMAndroidNonChrome()) {
+        location.href =
+          "intent://" +
+          location.host +
+          "/app-install?from=chrome#Intent;scheme=" +
+          location.protocol.replace(":", "") +
+          ";package=com.android.chrome;S.browser_fallback_url=" +
+          encodeURIComponent(location.origin + "/app-install") +
+          ";end";
+        return;
+      }
       if (mDeferredPrompt) {
         try {
           mDeferredPrompt.prompt();

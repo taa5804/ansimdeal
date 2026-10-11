@@ -29,6 +29,10 @@
       "destination": "https://wooriaptcd.com/api/sale-save"
     },
     {
+      "source": "/app-install",
+      "destination": "/app-install.html"
+    },
+    {
       "source": "/utility",
       "destination": "/tools-center.html"
     },
