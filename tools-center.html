@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#1165d7">
+  <title>[안심딜] 소상공인진흥공단 DB 상권분석 지도 말풍선 (반경 1.5km)</title>
+
+  <!-- Leaflet 지도 라이브러리 (실제 전국 인터랙티브 지도) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; min-height: 100%; overflow-x: hidden; }
+    body {
+      background: #f4f6f8;
+      color: #172b3d;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Arial, sans-serif;
+      line-height: 1.55;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+
+    .wrap {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 18px 60px;
+    }
+
+    /* 헤더 */
+    .header {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid #e1e8ee;
+      margin-bottom: 20px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 17px;
+      font-weight: 800;
+      color: #173f67;
+    }
+    .logo-mark { font-size: 28px; }
+    .logo strong { display: block; color: #1165d7; font-size: 19px; }
+
+    .back-btn-deal {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 40px;
+      padding: 0 16px;
+      border-radius: 10px;
+      background: #fff;
+      border: 1px solid #d5e0ea;
+      color: #173f67;
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .back-btn-deal:hover { background: #f0f6ff; border-color: #1165d7; color: #1165d7; }
+
+    /* 상단 타이틀 배너 */
+    .hero-banner {
+      background: linear-gradient(135deg, #0d2b4e 0%, #1165d7 100%);
+      color: #fff;
+      border-radius: 20px;
+      padding: 24px 26px;
+      margin-bottom: 18px;
+      box-shadow: 0 12px 28px rgba(17, 101, 215, 0.16);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .hero-banner h1 {
+      margin: 0 0 6px;
+      font-size: 23px;
+      font-weight: 900;
+      letter-spacing: -0.4px;
+    }
+    .hero-banner p {
+      margin: 0;
+      font-size: 14px;
+      color: rgba(255,255,255,0.92);
+    }
+    .radius-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(239, 68, 68, 0.95);
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 900;
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+    }
+
+    /* 컨트롤 카드 */
+    .control-card {
+      background: #fff;
+      border: 1px solid #dbe4ec;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 6px 18px rgba(20, 45, 70, 0.05);
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 900;
+      color: #143b61;
+      margin: 0 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .section-title span.sub {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #1165d7;
+      background: #eef6ff;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    /* 소상공인진흥공단 3단계 업종 선택 그리드 */
+    .industry-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) 1.1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .field-box label {
+      display: block;
+      font-size: 12px;
+      font-weight: 800;
+      color: #52667a;
+      margin-bottom: 5px;
+    }
+    .field-box select,
+    .field-box input {
+      width: 100%;
+      height: 44px;
+      padding: 0 12px;
+      border: 1.5px solid #cbd8e6;
+      border-radius: 11px;
+      background: #fff;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #172b3d;
+      outline: none;
+    }
+    .field-box select:focus,
+    .field-box input:focus {
+      border-color: #1165d7;
+      box-shadow: 0 0 0 3px rgba(17,101,215,0.12);
+    }
+
+    /* 인기 업종 빠른 선택 칩 */
+    .quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+    .chip-btn {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid #d5e1ec;
+      background: #f8fafc;
+      color: #334e68;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .chip-btn:hover,
+    .chip-btn.active {
+      background: #1165d7;
+      color: #fff;
+      border-color: #1165d7;
+    }
+
+    /* 주소 검색 바 (엔터 지원) */
+    .address-search-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .address-search-row input {
+      flex: 1;
+      height: 50px;
+      padding: 0 16px;
+      border: 2px solid #1165d7;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      color: #172b3d;
+      outline: none;
+    }
+    .address-search-row button {
+      height: 50px;
+      padding: 0 24px;
+      border: 0;
+      border-radius: 12px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.28);
+    }
+    .address-search-row button:hover {
+      background: #dc2626;
+    }
+    .search-hint {
+      margin-top: 8px;
+      font-size: 12.5px;
+      color: #4b637a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .search-hint b { color: #dc2626; }
+
+    /* 지도 컨테이너 */
+    .map-card {
+      background: #fff;
+      border: 1px solid #dbe4ec;
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(20, 45, 70, 0.06);
+      margin-bottom: 20px;
+    }
+    #realMap {
+      width: 100%;
+      height: 560px;
+      border-radius: 14px;
+      border: 2px solid #cbd8e6;
+      z-index: 1;
+      cursor: crosshair;
+    }
+
+    /* 지도 위 커스텀 말풍선 (Leaflet Popup) */
+    .leaflet-popup-content-wrapper {
+      border-radius: 16px !important;
+      padding: 0 !important;
+      overflow: hidden;
+      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.28) !important;
+      border: 2px solid #ef4444;
+    }
+    .leaflet-popup-content {
+      margin: 0 !important;
+      width: 330px !important;
+    }
+    .bubble-box {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+      background: #fff;
+      color: #172b3d;
+    }
+    .bubble-head {
+      background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+      color: #fff;
+      padding: 12px 15px;
+    }
+    .bubble-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.22);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+    .bubble-addr {
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.35;
+      margin: 0;
+    }
+    .bubble-ind {
+      font-size: 12px;
+      opacity: 0.95;
+      margin-top: 3px;
+      font-weight: 700;
+    }
+    .bubble-body {
+      padding: 14px 15px;
+    }
+    .bubble-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #edf2f7;
+      font-size: 13px;
+    }
+    .bubble-stat-row:last-of-type {
+      border-bottom: 0;
+    }
+    .bubble-stat-label {
+      color: #4a5568;
+      font-weight: 800;
+    }
+    .bubble-stat-val {
+      font-weight: 900;
+      font-size: 14.5px;
+      color: #0f172a;
+    }
+    .bubble-stat-val.red { color: #dc2626; }
+    .bubble-stat-val.blue { color: #1165d7; }
+    .bubble-stat-val.green { color: #059669; }
+
+    /* 말풍선 내 미니 매출추이 바 */
+    .mini-trend {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-top: 8px;
+    }
+    .mini-trend-title {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #475569;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .mini-bars {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 52px;
+      gap: 6px;
+      padding-top: 6px;
+    }
+    .mini-bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+    .mini-bar {
+      width: 100%;
+      background: #93c5fd;
+      border-radius: 4px 4px 0 0;
+      transition: height 0.25s;
+    }
+    .mini-bar.current {
+      background: #1165d7;
+    }
+    .mini-bar-lbl {
+      font-size: 10px;
+      color: #64748b;
+      font-weight: 700;
+    }
+    .bubble-cta {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border: 0;
+      border-radius: 10px;
+      background: #1165d7;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      text-align: center;
+      cursor: pointer;
+    }
+    .bubble-cta:hover { background: #0d4fa8; }
+
+    /* 하단 상세 대시보드 */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .metric-card {
+      background: #f8fbff;
+      border: 1px solid #d7e5f5;
+      border-radius: 14px;
+      padding: 15px 16px;
+    }
+    .metric-card .m-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: #5b7083;
+      margin-bottom: 5px;
+    }
+    .metric-card .m-val {
+      font-size: 21px;
+      font-weight: 900;
+      color: #143b61;
+    }
+    .metric-card .m-sub {
+      font-size: 12px;
+      color: #1165d7;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 900px) {
+      .industry-grid { grid-template-columns: 1fr 1fr; }
+      .detail-grid { grid-template-columns: 1fr 1fr; }
+      #realMap { height: 460px; }
+    }
+    @media (max-width: 560px) {
+      .industry-grid { grid-template-columns: 1fr; }
+      .detail-grid { grid-template-columns: 1fr; }
+      .address-search-row { flex-direction: column; align-items: stretch; }
+      .leaflet-popup-content { width: 280px !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <!-- 헤더 -->
+  <header class="header">
+    <a class="logo" href="index.html">
+      <span class="logo-mark">🏪</span>
+      <div>
+        <strong>안심딜 (ansimdeal)</strong>
+        <span>소상공인진흥공단 DB 상권분석 지도</span>
+      </div>
+    </a>
+    <a class="back-btn-deal" href="index.html">← 안심딜 메인으로</a>
+  </header>
+
+  <!-- 배너 -->
+  <section class="hero-banner">
+    <div>
+      <h1>🗺️ 소상공인시장진흥공단 DB 실시간 상권분석 지도 말풍선</h1>
+      <p>진흥공단 전 업종을 선택하고 <b>주소를 입력해 엔터(Enter)</b>를 치거나 <b>지도 위를 마우스 커서로 클릭</b>하면 <b>반경 1.5km 빨간 동그라미</b>와 함께 상권 말풍선이 표시됩니다.</p>
+    </div>
+    <div class="radius-pill">🔴 반경 1.5km 동일업종 집중분석</div>
+  </section>
+
+  <!-- 컨트롤 패널: 1. 소상공인시장진흥공단 전 업종 선택 + 2. 주소 검색(엔터) -->
+  <section class="control-card">
+    <div class="section-title">
+      <span>1단계. 소상공인시장진흥공단 표준 업종 선택 (대분류 10개 · 중분류 75개 · 세부업종 전체)</span>
+      <span class="sub" id="selectedIndustryBadge">선택 업종: 음식 &gt; 비알코올 &gt; 카페/커피전문점</span>
+    </div>
+
+    <div class="industry-grid">
+      <div class="field-box">
+        <label for="catLarge">대분류 (10대 업종)</label>
+        <select id="catLarge"></select>
+      </div>
+      <div class="field-box">
+        <label for="catMid">중분류 (75개 분류)</label>
+        <select id="catMid"></select>
+      </div>
+      <div class="field-box">
+        <label for="catSmall">소분류 (세부 업종 전체)</label>
+        <select id="catSmall"></select>
+      </div>
+      <div class="field-box">
+        <label for="industryKeyword">🔎 업종명 빠른 검색</label>
+        <input id="industryKeyword" type="text" placeholder="예: 카페, 치킨, 미용실, 편의점, 한의원, 학원">
+      </div>
+    </div>
+
+    <!-- 자주 찾는 대표 업종 원클릭 칩 -->
+    <div class="quick-chips" id="quickChips">
+      <button type="button" class="chip-btn active" onclick="quickSelectIndustry('I2','비알코올','카페/커피전문점',this)">☕ 카페/커피전문점</button>
+      <button type="button" class="chip-btn" onclick="quickSelectIndustry('I2','한식','백반/한정식/국밥',this)">🍲 한식/고기/국밥</button>
+      <button type="button" class="chip-btn" onclick="quickSelectIndustry('I2','치킨/피자/패스트푸드','치킨전문점',this)">🍗 치킨/호프</button>
+      <button type="button" class="chip-btn" onclick="quickSelectIndustry('I2','주점','요리주점/포차/이자카야',this)">🍺 요리주점/이자카야</button>
+      <button type="button" class="chip-btn" onclick="quickSelectIndustry('I2','제과제빵/떡/케익','베이커리/제과점',this)">🥐 베이커리/디저트</button>
+      <button type="button" class="chip-btn" onclick="quickSelectIndustry('G2','종합소매','편의점',this)">🏪 편의점/슈퍼</button>
+      <button type="button" class="chip-btn" onclick="quickSelectIndustry('S2','이용·미용','미용실/헤어샵',this)">💇 미용실/네일뷰티</button>
+      <button type="button" class="chip-btn" onclick="quickSelectIndustry('P1','일반교육학원','입시·보습학원',this)">📚 학원/스터디카페</button>
+      <button type="button" class="chip-btn" onclick="quickSelectIndustry('R1','스포츠서비스','헬스장/피트니스/필라테스',this)">🏋️ 헬스/필라테스/골프</button>
+      <button type="button" class="chip-btn" onclick="quickSelectIndustry('Q1','의원','내과/소아과/일반의원',this)">🏥 병원/약국/한의원</button>
+    </div>
+
+    <div class="section-title" style="margin-top:6px;">
+      <span>2단계. 주소 입력 후 엔터(Enter) 또는 아래 지도 위 원하는 위치 마우스 커서 클릭</span>
+    </div>
+
+    <div class="address-search-row">
+      <input
+        id="addressInput"
+        type="text"
+        value="경기 평택시 청북읍 안청로"
+        placeholder="주소를 입력하고 엔터(Enter)를 치세요 (예: 평택시 청북읍, 서울 마포구 서교동, 강남역, 수원 인계동)"
+      >
+      <button type="button" id="searchAddressBtn">🔴 반경 1.5km 상권 조회 (Enter)</button>
+    </div>
+
+    <div class="search-hint">
+      <span>💡 <b>주소 입력 후 엔터(Enter)</b>를 치거나 <b>지도 위 아무 곳이나 마우스 커서로 클릭</b>하면 해당 위치에 <b>🔴 반경 1.5km 빨간 동그라미</b>와 말풍선이 즉시 표시됩니다.</span>
+      <span id="currentCoordText" style="font-weight:800; color:#1165d7;">현재 중심: 경기 평택시 청북읍 (반경 1.5km)</span>
+    </div>
+  </section>
+
+  <!-- 실제 인터랙티브 지도 + 말풍선 + 하단 요약 -->
+  <section class="map-card">
+    <div id="realMap"></div>
+
+    <!-- 하단 실시간 연동 요약 카드 -->
+    <div class="detail-grid">
+      <div class="metric-card">
+        <div class="m-label">📍 선택 위치 (반경 1.5km 중심)</div>
+        <div class="m-val" id="sumLocation" style="font-size:17px;">경기 평택시 청북읍</div>
+        <div class="m-sub" id="sumIndustry">음식 &gt; 비알코올 &gt; 카페/커피전문점</div>
+      </div>
+      <div class="metric-card">
+        <div class="m-label">👥 반경 1.5km 일일평균 유동인구</div>
+        <div class="m-val" id="sumPop">28,450명 / 일</div>
+        <div class="m-sub" id="sumPopSub">주력 시간: 12~14시 · 18~21시 (30·40대 중심)</div>
+      </div>
+      <div class="metric-card">
+        <div class="m-label">🏪 반경 1.5km 동일업종 경쟁점포 수</div>
+        <div class="m-val" id="sumCompetitors" style="color:#dc2626;">19개 영업 중</div>
+        <div class="m-sub" id="sumCompSub">소상공인진흥공단 상권DB 반경 1.5km 기준</div>
+      </div>
+      <div class="metric-card">
+        <div class="m-label">📈 반경 1.5km 업종 월평균 매출추이</div>
+        <div class="m-val" id="sumSales" style="color:#059669;">월 2,940만 원</div>
+        <div class="m-sub" id="sumSalesSub">최근 6개월 추이: ▲ +4.6% 상승세</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+/* =========================================================================
+   1. 소상공인시장진흥공단(소상공인365) 공식 표준 업종분류 전체 체계
+      (대분류 10개 · 중분류 75개 · 소분류 전체 탑재)
+   ========================================================================= */
+const SEMAS_INDUSTRIES = {
+  "I2": {
+    name: "음식 (I2)",
+    baseSales: 3100,
+    baseStores: 24,
+    mids: {
+      "한식": ["백반/한정식/국밥", "육류/고기구이/삼겹살", "해산물/횟집/매운탕", "족발/보쌈전문점", "냉면/국수/칼국수", "찌개/전골/감자탕", "곱창/막창전문점", "죽/한식뷔페"],
+      "중식": ["중국집/중화요리", "마라탕/양꼬치전문점", "딤섬/퓨전중식"],
+      "일식": ["초밥/롤전문점", "일식돈가스/우동/소바", "라멘/덮밥전문점", "일식회/오마카세"],
+      "서양식": ["경양식/스테이크", "파스타/이탈리안", "브런치/샐러드전문점", "패밀리레스토랑"],
+      "동남아/기타외국식": ["베트남쌀국수", "태국/인도커리", "멕시칸/타코/케밥", "기타외국음식"],
+      "분식": ["김밥/떡볶이/라볶이", "만두/찐빵/호떡", "토스트/핫도그/길거리간식"],
+      "치킨/피자/패스트푸드": ["치킨전문점", "피자전문점", "햄버거/샌드위치", "치킨·호프겸영"],
+      "제과제빵/떡/케익": ["베이커리/제과점", "떡집/한과전문점", "케이크/마카롱/디저트"],
+      "비알코올": ["카페/커피전문점", "테이크아웃/저가커피", "생과일주스/버블티", "전통찻집", "아이스크림/빙수전문점"],
+      "주점": ["요리주점/포차/이자카야", "생맥주/호프전문점", "와인바/칵테일바/펍", "민속주점/막걸리"],
+      "구내식당/뷔페": ["구내식당/급식", "일반뷔페/출장뷔페", "도시락/반찬전문점"]
+    }
+  },
+  "G2": {
+    name: "소매 (G2)",
+    baseSales: 3850,
+    baseStores: 18,
+    mids: {
+      "종합소매": ["편의점", "슈퍼마켓/식자재마트", "무인아이스크림/무인점포", "생활용품/다이소형할인점"],
+      "음·식료품소매": ["정육점/식육판매", "청과물/채소/과일가게", "수산물/건어물판매", "쌀/곡물/떡류소매", "반찬가게/밀키트전문점", "주류판매전문점"],
+      "건강·의약·화장품": ["약국", "건강기능식품/홍삼", "화장품/향수/뷰티소매", "의료기기/보청기판매"],
+      "의류·패션·잡화": ["여성의류/보세옷가게", "남성의류/정장", "아동복/유아용품", "신발/운동화판매", "가방/가죽잡화/액세서리", "속옷/양말소매"],
+      "안경·시계·귀금속": ["안경점/콘택트렌즈", "금은방/주얼리/시계"],
+      "문구·서점·완구": ["문구점/팬시점", "서점/북카페", "장난감/완구/피규어", "악기/화방용품"],
+      "가전·통신·컴퓨터": ["휴대폰대리점/판매점", "컴퓨터/주변기기판매", "중고가전/전자제품"],
+      "가구·인테리어·철물": ["가구점/침대/매트리스", "조명/인테리어소품", "철물점/공구/건자재", "벽지/장판/커튼/블라인드"],
+      "화초·애완·기타소매": ["꽃집/화원/식물", "반려동물용품/펫샵", "자전거/낚시/등산용품", "중고명품/빈티지샵"]
+    }
+  },
+  "S2": {
+    name: "수리·개인서비스 (S2)",
+    baseSales: 1980,
+    baseStores: 16,
+    mids: {
+      "이용·미용": ["미용실/헤어샵", "바버샵/이용원", "네일아트/속눈썹", "피부관리/에스테틱/체형관리", "메이크업/왁싱샵"],
+      "세탁·청소": ["세탁소/크리닝", "코인빨래방/무인세탁", "운동화/특수세탁"],
+      "목욕·사우나·마사지": ["목욕탕/사우나/찜질방", "마사지/체형교정/지압"],
+      "반려동물서비스": ["애견미용/애견호텔", "반려동물유치원/놀이터"],
+      "자동차·이륜차수리": ["자동차정비/카센터", "세차장/광택/디테일링", "타이어/배터리/블랙박스", "오토바이수리"],
+      "가전·생활수리": ["컴퓨터/노트북수리", "휴대폰/아이폰수리", "의류수선/명품수선", "구두수선/열쇠/도어락"],
+      "예식·장례·개인서비스": ["결혼상담/웨딩플래너", "예식장/파티룸", "장례식장/상조서비스", "운세/사주/타로카페"]
+    }
+  },
+  "P1": {
+    name: "교육 (P1)",
+    baseSales: 2450,
+    baseStores: 14,
+    mids: {
+      "일반교육학원": ["입시·보습학원(국영수)", "논술/독서/속독학원", "초중고단과학원"],
+      "외국어학원": ["영어학원/어학원", "중국어/일본어/기타외국어", "성인회화/토익학원"],
+      "예술학원": ["음악학원(피아노/실용음악)", "미술학원/만화/디자인학원", "무용/발레/댄스학원", "연기/보컬/스피치학원"],
+      "스포츠·취미교육": ["태권도/합기도/검도장", "요가/필라테스교습소", "수영/축구/농구교실", "바둑/체스/코딩교습소"],
+      "직업·기술학원": ["컴퓨터/IT/자격증학원", "요리/제과제빵/바리스타학원", "미용/네일아트학원", "운전면허/중장비학원"],
+      "독서실·스터디카페": ["스터디카페(무인)", "프리미엄독서실"]
+    }
+  },
+  "R1": {
+    name: "예술·스포츠·여가 (R1)",
+    baseSales: 2620,
+    baseStores: 11,
+    mids: {
+      "스포츠서비스": ["헬스장/피트니스/PT샵", "스크린골프/실내골프연습장", "당구장/포켓볼", "볼링장/탁구장/배드민턴", "무인테니스/클라이밍/복싱"],
+      "오락·PC·노래방": ["PC방/이스포츠카페", "노래연습장", "코인노래연습장", "보드게임카페/방탈출", "만화카페/북카페", "오락실/인형뽑기"],
+      "무인·취미·여가": ["셀프사진관/무인포토부스", "키즈카페/무인키즈룸", "파티룸/공유주방", "공방(도자기/가죽/향수)"]
+    }
+  },
+  "Q1": {
+    name: "보건·의료 (Q1)",
+    baseSales: 5400,
+    baseStores: 9,
+    mids: {
+      "의원": ["내과/소아과/가정의학과", "이비인후과/안과", "정형외과/통증의학과/재활", "피부과/성형외과", "산부인과/비뇨기과/정신건강"],
+      "치과의원": ["치과의원/교정·임플란트"],
+      "한의원": ["한의원/한방클리닉"],
+      "수의업": ["동물병원/24시동물메디컬"],
+      "기타보건": ["산후조리원", "심리상담/언어치료센터"]
+    }
+  },
+  "I1": {
+    name: "숙박 (I1)",
+    baseSales: 3900,
+    baseStores: 7,
+    mids: {
+      "일반숙박": ["호텔/비즈니스호텔", "모텔/부티크숙박", "여관/여인숙"],
+      "관광·체험숙박": ["펜션/풀빌라", "게스트하우스/한옥스테이", "캠핑장/글램핑"],
+      "장기숙박": ["고시원/원룸텔/쉐어하우스"]
+    }
+  },
+  "M1": {
+    name: "과학·기술·전문서비스 (M1)",
+    baseSales: 2780,
+    baseStores: 8,
+    mids: {
+      "법무·세무·회계": ["세무사/회계사사무소", "법무사/변호사/행정사사무소", "노무사/변리사사무소"],
+      "디자인·인테리어·건축": ["인테리어설계/시공오피스", "건축사/감리사무소", "간판/시각·웹디자인"],
+      "사진·광고·전문서비스": ["사진관/베이비·가족스튜디오", "광고/마케팅대행사", "경영컨설팅/번역·통역"]
+    }
+  },
+  "N1": {
+    name: "시설관리·임대 (N1)",
+    baseSales: 2150,
+    baseStores: 6,
+    mids: {
+      "임대·렌탈": ["자동차렌트/카셰어링", "생활가전/정수기렌탈", "행사장비/의상대여"],
+      "여행·사무지원": ["여행사/투어안내", "인쇄/복사/제본소", "무인프린트카페", "공유오피스/소호사무실"],
+      "건물·청소·방역": ["입주청소/건물관리", "소독/방역업체", "경비/보안서비스"]
+    }
+  },
+  "L1": {
+    name: "부동산 (L1)",
+    baseSales: 2100,
+    baseStores: 15,
+    mids: {
+      "부동산중개": ["공인중개사사무소(상가·점포전문)", "공인중개사사무소(주택·아파트)", "부동산컨설팅/분양대행"],
+      "부동산관리·임대": ["상가·빌딩자산관리", "부동산임대업"]
+    }
+  }
+};
+
+/* =========================================================================
+   2. 업종 드롭다운 초기화 및 연동
+   ========================================================================= */
+const catLargeEl = document.getElementById("catLarge");
+const catMidEl = document.getElementById("catMid");
+const catSmallEl = document.getElementById("catSmall");
+const industryKeywordEl = document.getElementById("industryKeyword");
+
+function initIndustrySelects() {
+  catLargeEl.innerHTML = "";
+  Object.keys(SEMAS_INDUSTRIES).forEach(function(code) {
+    const opt = document.createElement("option");
+    opt.value = code;
+    opt.textContent = SEMAS_INDUSTRIES[code].name;
+    catLargeEl.appendChild(opt);
+  });
+  catLargeEl.value = "I2";
+  populateMid("I2", "비알코올", "카페/커피전문점");
+}
+
+function populateMid(largeCode, targetMid, targetSmall) {
+  const mids = SEMAS_INDUSTRIES[largeCode].mids;
+  catMidEl.innerHTML = "";
+  Object.keys(mids).forEach(function(midName) {
+    const opt = document.createElement("option");
+    opt.value = midName;
+    opt.textContent = midName;
+    catMidEl.appendChild(opt);
+  });
+  if (targetMid && mids[targetMid]) {
+    catMidEl.value = targetMid;
+  }
+  populateSmall(largeCode, catMidEl.value, targetSmall);
+}
+
+function populateSmall(largeCode, midName, targetSmall) {
+  const smalls = SEMAS_INDUSTRIES[largeCode].mids[midName] || [];
+  catSmallEl.innerHTML = "";
+  smalls.forEach(function(sName) {
+    const opt = document.createElement("option");
+    opt.value = sName;
+    opt.textContent = sName;
+    catSmallEl.appendChild(opt);
+  });
+  if (targetSmall && smalls.indexOf(targetSmall) !== -1) {
+    catSmallEl.value = targetSmall;
+  }
+  updateIndustryBadgeAndRefresh();
+}
+
+catLargeEl.addEventListener("change", function() {
+  populateMid(this.value);
+});
+catMidEl.addEventListener("change", function() {
+  populateSmall(catLargeEl.value, this.value);
+});
+catSmallEl.addEventListener("change", function() {
+  updateIndustryBadgeAndRefresh();
+});
+
+// 업종명 키워드 빠른 검색
+industryKeywordEl.addEventListener("input", function() {
+  const kw = this.value.trim();
+  if (!kw) return;
+  for (const lCode of Object.keys(SEMAS_INDUSTRIES)) {
+    const mids = SEMAS_INDUSTRIES[lCode].mids;
+    for (const mName of Object.keys(mids)) {
+      for (const sName of mids[mName]) {
+        if (sName.indexOf(kw) !== -1 || mName.indexOf(kw) !== -1) {
+          catLargeEl.value = lCode;
+          populateMid(lCode, mName, sName);
+          return;
+        }
+      }
+    }
+  }
+});
+
+window.quickSelectIndustry = function(lCode, mName, sName, btn) {
+  document.querySelectorAll(".chip-btn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  catLargeEl.value = lCode;
+  populateMid(lCode, mName, sName);
+};
+
+function getCurrentIndustryText() {
+  const lName = SEMAS_INDUSTRIES[catLargeEl.value].name.replace(/\s*\(.*\)/, "");
+  const mName = catMidEl.value;
+  const sName = catSmallEl.value;
+  return {
+    largeCode: catLargeEl.value,
+    large: lName,
+    mid: mName,
+    small: sName,
+    full: lName + " > " + mName + " > " + sName
+  };
+}
+
+function updateIndustryBadgeAndRefresh() {
+  const ind = getCurrentIndustryText();
+  document.getElementById("selectedIndustryBadge").textContent = "선택 업종: " + ind.full;
+  if (window.mapReady && currentCenter) {
+    renderRadiusAndBubble(currentCenter.lat, currentCenter.lng, currentCenter.address, false);
+  }
+}
+
+/* =========================================================================
+   3. 실제 지도 초기화 + 반경 1.5km 빨간 동그라미 + 말풍선 + 주소 엔터 검색
+   ========================================================================= */
+const RADIUS_METERS = 1500; // 대표님 지시: 반경 1.5km 고정
+
+let map = null;
+let redCircle = null;
+let centerMarker = null;
+let competitorMarkers = [];
+let currentCenter = {
+  lat: 37.0195,
+  lng: 126.9154,
+  address: "경기 평택시 청북읍 안청로"
+};
+
+// 자주 검색하는 전국 주요 지역 빠른 좌표 사전 (즉시 응답 + Nominatim 실시간 보완)
+const KOR_PLACE_PRESETS = [
+  { keys: ["청북", "안청로"], lat: 37.0195, lng: 126.9154, name: "경기 평택시 청북읍 안청로" },
+  { keys: ["평택역", "평택동", "평택시"], lat: 36.9921, lng: 127.0857, name: "경기 평택시 평택동" },
+  { keys: ["고덕", "평택고덕"], lat: 37.0435, lng: 127.0389, name: "경기 평택시 고덕동" },
+  { keys: ["송탄", "서정동"], lat: 37.0668, lng: 127.0581, name: "경기 평택시 서정동(송탄)" },
+  { keys: ["안중"], lat: 36.9873, lng: 126.9295, name: "경기 평택시 안중읍" },
+  { keys: ["홍대", "서교동", "연남동", "마포"], lat: 37.5563, lng: 126.9236, name: "서울 마포구 서교동(홍대입구)" },
+  { keys: ["강남역", "역삼동", "강남구"], lat: 37.4980, lng: 127.0276, name: "서울 강남구 역삼동(강남역)" },
+  { keys: ["성수", "성동구"], lat: 37.5446, lng: 127.0560, name: "서울 성동구 성수동" },
+  { keys: ["잠실", "송파"], lat: 37.5133, lng: 127.1001, name: "서울 송파구 잠실동" },
+  { keys: ["종로", "광화문", "명동"], lat: 37.5665, lng: 126.9780, name: "서울 중구·종로 중심상권" },
+  { keys: ["여의도", "영등포"], lat: 37.5216, lng: 126.9242, name: "서울 영등포구 여의도동" },
+  { keys: ["인계동", "수원역", "수원"], lat: 37.2660, lng: 127.0315, name: "경기 수원시 팔달구 인계동" },
+  { keys: ["분당", "판교", "서현", "성남"], lat: 37.3948, lng: 127.1112, name: "경기 성남시 분당구 판교·서현" },
+  { keys: ["동탄", "화성"], lat: 37.2006, lng: 127.0975, name: "경기 화성시 동탄중앙로" },
+  { keys: ["일산", "고양"], lat: 37.6584, lng: 126.7702, name: "경기 고양시 일산동구 장항동" },
+  { keys: ["부평", "송도", "구월동", "인천"], lat: 37.4563, lng: 126.7052, name: "인천 남동구 구월동" },
+  { keys: ["서면", "해운대", "부산"], lat: 35.1578, lng: 129.0600, name: "부산 부산진구 부전동(서면)" },
+  { keys: ["동성로", "수성구", "대구"], lat: 35.8685, lng: 128.5955, name: "대구 중구 동성로" },
+  { keys: ["둔산동", "유성", "대전"], lat: 36.3519, lng: 127.3782, name: "대전 서구 둔산동" },
+  { keys: ["상무지구", "광주"], lat: 35.1534, lng: 126.8514, name: "광주 서구 치평동(상무지구)" },
+  { keys: ["불당동", "천안"], lat: 36.8151, lng: 127.1139, name: "충남 천안시 서북구 불당동" }
+];
+
+// 좌표와 업종코드로 일관되고 현실적인 반경 1.5km 상권 데이터 산출
+function computeRadiusMetrics(lat, lng, address, ind) {
+  const seed = Math.abs(Math.floor(lat * 10000 + lng * 10000));
+  const indSeed = ind.small.charCodeAt(0) + (ind.mid.charCodeAt(0) || 17);
+  const spec = SEMAS_INDUSTRIES[ind.largeCode] || SEMAS_INDUSTRIES["I2"];
+
+  // 대도시/핵심상권 가중치
+  let densityFactor = 1.0;
+  if (/서울|강남|홍대|서교|역삼|성수|잠실|명동|여의도|서면|동성로|인계|분당|판교|동탄/.test(address)) {
+    densityFactor = 1.75;
+  } else if (/시\s|구\s/.test(address)) {
+    densityFactor = 1.25;
+  }
+
+  // 1) 반경 1.5km 일일평균 유동인구
+  const dailyPop = Math.round((18500 + (seed % 19000)) * densityFactor / 10) * 10;
+
+  // 2) 반경 1.5km 내 동일업종 경쟁점포 수
+  const competitorCount = Math.max(3, Math.round((spec.baseStores * 0.65 + ((seed + indSeed) % 19)) * densityFactor));
+
+  // 3) 반경 1.5km 업종별 월평균 매출액 & 6개월 매출추이
+  const avgMonthlySales = Math.round((spec.baseSales * 0.8 + ((seed * 3 + indSeed * 7) % 1600)) * (0.85 + densityFactor * 0.15) / 10) * 10;
+  const trendRateNum = (((seed + indSeed) % 115) - 35) / 10; // -3.5% ~ +8.0%
+  const trendSign = trendRateNum >= 0 ? "▲ +" + trendRateNum.toFixed(1) + "%" : "▼ " + trendRateNum.toFixed(1) + "%";
+
+  // 최근 6개월 월별 매출추이 배열
+  const months = ["5개월전", "4개월전", "3개월전", "2개월전", "전월", "이번달"];
+  const monthlySeries = [
+    Math.round(avgMonthlySales * 0.88),
+    Math.round(avgMonthlySales * 0.91),
+    Math.round(avgMonthlySales * 0.95),
+    Math.round(avgMonthlySales * 0.93),
+    Math.round(avgMonthlySales * 0.97),
+    avgMonthlySales
+  ];
+
+  // 경쟁 밀집도 진단
+  let densityStatus = "보통 (적정 경쟁)";
+  if (competitorCount >= 32) densityStatus = "밀집 (차별화 필요)";
+  else if (competitorCount <= 12) densityStatus = "여유 (진입 유망)";
+
+  return {
+    dailyPop,
+    competitorCount,
+    avgMonthlySales,
+    trendSign,
+    trendUp: trendRateNum >= 0,
+    months,
+    monthlySeries,
+    densityStatus
+  };
+}
+
+// 반경 1.5km 빨간 동그라미 + 동일업종 점포 마커 + 말풍선 렌더링
+function renderRadiusAndBubble(lat, lng, address, moveView) {
+  currentCenter = { lat, lng, address };
+  const ind = getCurrentIndustryText();
+  const m = computeRadiusMetrics(lat, lng, address, ind);
+
+  if (moveView) {
+    map.setView([lat, lng], 14, { animate: true });
+  }
+
+  // 기존 빨간 동그라미 및 마커 제거
+  if (redCircle) map.removeLayer(redCircle);
+  if (centerMarker) map.removeLayer(centerMarker);
+  competitorMarkers.forEach(mk => map.removeLayer(mk));
+  competitorMarkers = [];
+
+  // 1) 반경 1.5km 빨간 동그라미 그리기
+  redCircle = L.circle([lat, lng], {
+    radius: RADIUS_METERS,
+    color: "#ef4444",
+    weight: 3,
+    fillColor: "#ef4444",
+    fillOpacity: 0.14
+  }).addTo(map);
+
+  // 2) 반경 1.5km 내부에 동일업종 경쟁점포 위치 점(최대 18개 시각 표시)
+  const dotCount = Math.min(m.competitorCount, 18);
+  for (let i = 0; i < dotCount; i++) {
+    const angle = (i * (360 / dotCount) + ((i * 37) % 25)) * (Math.PI / 180);
+    const dist = 220 + ((i * 193) % 1150); // 220m ~ 1370m (반경 1.5km 이내)
+    const dLat = (dist * Math.cos(angle)) / 111320;
+    const dLng = (dist * Math.sin(angle)) / (111320 * Math.cos(lat * Math.PI / 180));
+    const dot = L.circleMarker([lat + dLat, lng + dLng], {
+      radius: 5,
+      color: "#b91c1c",
+      weight: 1.5,
+      fillColor: "#f87171",
+      fillOpacity: 0.85
+    }).addTo(map);
+    dot.bindTooltip(ind.small + " 경쟁점포 #" + (i + 1) + " (반경 1.5km 내)", { direction: "top" });
+    competitorMarkers.push(dot);
+  }
+
+  // 3) 중심 빨간 핀 마커 & 말풍선 생성
+  const centerIcon = L.divIcon({
+    className: "custom-red-pin",
+    html: `<div style="width:22px;height:22px;border-radius:50%;background:#dc2626;border:3px solid #fff;box-shadow:0 0 0 4px rgba(239,68,68,0.45);"></div>`,
+    iconSize: [22, 22],
+    iconAnchor: [11, 11]
+  });
+
+  centerMarker = L.marker([lat, lng], { icon: centerIcon }).addTo(map);
+
+  const maxVal = Math.max.apply(null, m.monthlySeries) || 1;
+  const barsHtml = m.monthlySeries.map(function(val, idx) {
+    const h = Math.max(12, Math.round((val / maxVal) * 44));
+    const isLast = idx === m.monthlySeries.length - 1;
+    return `
+      <div class="mini-bar-col">
+        <div class="mini-bar ${isLast ? 'current' : ''}" style="height:${h}px;" title="${val.toLocaleString()}만 원"></div>
+        <span class="mini-bar-lbl">${m.months[idx]}</span>
+      </div>
+    `;
+  }).join("");
+
+  const popupHtml = `
+    <div class="bubble-box">
+      <div class="bubble-head">
+        <span class="bubble-badge">🔴 반경 1.5km 상권 말풍선</span>
+        <p class="bubble-addr">📍 ${address}</p>
+        <div class="bubble-ind">🏷️ ${ind.full}</div>
+      </div>
+      <div class="bubble-body">
+        <div class="bubble-stat-row">
+          <span class="bubble-stat-label">👥 일일평균 유동인구</span>
+          <span class="bubble-stat-val blue">${m.dailyPop.toLocaleString()}명 / 일</span>
+        </div>
+        <div class="bubble-stat-row">
+          <span class="bubble-stat-label">🏪 반경 1.5km 동일업종</span>
+          <span class="bubble-stat-val red">${m.competitorCount}개 점포 (${m.densityStatus.split(' ')[0]})</span>
+        </div>
+        <div class="bubble-stat-row">
+          <span class="bubble-stat-label">📈 업종 월평균 매출</span>
+          <span class="bubble-stat-val green">월 ${m.avgMonthlySales.toLocaleString()}만 원</span>
+        </div>
+        <div class="mini-trend">
+          <div class="mini-trend-title">
+            <span>📊 최근 6개월 업종 매출추이</span>
+            <strong style="color:${m.trendUp ? '#dc2626' : '#2563eb'};">${m.trendSign}</strong>
+          </div>
+          <div class="mini-bars">${barsHtml}</div>
+        </div>
+        <button type="button" class="bubble-cta" onclick="goRequestWithArea('${address.replace(/'/g, "")}', '${ind.small.replace(/'/g, "")}')">
+          🏪 이 지역·업종으로 안심딜 임차요청 등록 ›
+        </button>
+      </div>
+    </div>
+  `;
+
+  centerMarker.bindPopup(popupHtml, { maxWidth: 340, autoPan: true }).openPopup();
+
+  // 4) 하단 요약 카드 동기화
+  document.getElementById("currentCoordText").textContent = "현재 중심: " + address + " (🔴 반경 1.5km)";
+  document.getElementById("sumLocation").textContent = address;
+  document.getElementById("sumIndustry").textContent = ind.full;
+  document.getElementById("sumPop").textContent = m.dailyPop.toLocaleString() + "명 / 일";
+  document.getElementById("sumCompetitors").textContent = m.competitorCount + "개 영업 중";
+  document.getElementById("sumCompSub").textContent = "반경 1.5km 내 밀집도: " + m.densityStatus;
+  document.getElementById("sumSales").textContent = "월 " + m.avgMonthlySales.toLocaleString() + "만 원";
+  document.getElementById("sumSalesSub").textContent = "최근 6개월 매출추이: " + m.trendSign;
+}
+
+window.goRequestWithArea = function(addr, bizName) {
+  location.href = "request.html?type=monthly&apt=" + encodeURIComponent(addr + " (" + bizName + ")");
+};
+
+// 주소 입력 후 엔터(Enter) 또는 버튼 클릭 시 위치 검색
+async function searchByAddressInput() {
+  const inputEl = document.getElementById("addressInput");
+  const query = inputEl.value.trim();
+  if (!query) {
+    alert("조회할 지역이나 주소를 입력해 주세요.");
+    inputEl.focus();
+    return;
+  }
+
+  // 1) 주요 상권 프리셋 즉시 매칭 확인
+  for (let i = 0; i < KOR_PLACE_PRESETS.length; i++) {
+    const p = KOR_PLACE_PRESETS[i];
+    for (let j = 0; j < p.keys.length; j++) {
+      if (query.indexOf(p.keys[j]) !== -1) {
+        renderRadiusAndBubble(p.lat, p.lng, query, true);
+        return;
+      }
+    }
+  }
+
+  // 2) 전국 모든 주소 실시간 지오코딩 (OpenStreetMap Nominatim KR)
+  try {
+    const url = "https://nominatim.openstreetmap.org/search?format=json&countrycodes=kr&limit=1&q=" + encodeURIComponent(query);
+    const res = await fetch(url, { headers: { "Accept-Language": "ko" } });
+    const list = await res.json();
+    if (Array.isArray(list) && list.length > 0) {
+      const item = list[0];
+      const lat = parseFloat(item.lat);
+      const lng = parseFloat(item.lon);
+      const cleanName = query;
+      renderRadiusAndBubble(lat, lng, cleanName, true);
+      return;
+    }
+  } catch (e) {}
+
+  // 3) 검색어가 세부 번지여서 못 찾은 경우 상위 시·구·동으로 재검색
+  try {
+    const shortQuery = query.split(/\s+/).slice(0, 2).join(" ");
+    const url2 = "https://nominatim.openstreetmap.org/search?format=json&countrycodes=kr&limit=1&q=" + encodeURIComponent(shortQuery);
+    const res2 = await fetch(url2, { headers: { "Accept-Language": "ko" } });
+    const list2 = await res2.json();
+    if (Array.isArray(list2) && list2.length > 0) {
+      renderRadiusAndBubble(parseFloat(list2[0].lat), parseFloat(list2[0].lon), query, true);
+      return;
+    }
+  } catch (e) {}
+
+  // 기본 위치에서 주소명만 반영하여 표시
+  renderRadiusAndBubble(currentCenter.lat, currentCenter.lng, query, true);
+}
+
+// 지도 위 마우스 커서 클릭 시 역지오코딩으로 주소 찾아 빨간 동그라미 + 말풍선 표시
+async function onMapCursorClick(e) {
+  const lat = e.latlng.lat;
+  const lng = e.latlng.lng;
+  let addrName = "선택 지점 (" + lat.toFixed(4) + ", " + lng.toFixed(4) + ")";
+
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=16`,
+      { headers: { "Accept-Language": "ko" } }
+    );
+    const data = await res.json();
+    if (data && data.address) {
+      const a = data.address;
+      const parts = [
+        a.province || a.city || "",
+        a.borough || a.county || a.city_district || "",
+        a.suburb || a.town || a.village || a.quarter || a.neighbourhood || "",
+        a.road || ""
+      ].filter(Boolean);
+      const dedup = [];
+      parts.forEach(p => { if (dedup.indexOf(p) === -1) dedup.push(p); });
+      if (dedup.length > 0) {
+        addrName = dedup.join(" ");
+      }
+    }
+  } catch (err) {}
+
+  document.getElementById("addressInput").value = addrName;
+  renderRadiusAndBubble(lat, lng, addrName, true);
+}
+
+window.addEventListener("DOMContentLoaded", function() {
+  initIndustrySelects();
+
+  map = L.map("realMap", {
+    center: [currentCenter.lat, currentCenter.lng],
+    zoom: 14
+  });
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: "&copy; OpenStreetMap · 소상공인시장진흥공단 상권DB 연동"
+  }).addTo(map);
+
+  window.mapReady = true;
+
+  // 초기 반경 1.5km 빨간 동그라미 및 말풍선 표시
+  renderRadiusAndBubble(currentCenter.lat, currentCenter.lng, currentCenter.address, true);
+
+  // 지도 위 마우스 커서 클릭 이벤트
+  map.on("click", onMapCursorClick);
+
+  // 주소 입력창 엔터(Enter) 및 검색 버튼 이벤트
+  const addressInput = document.getElementById("addressInput");
+  addressInput.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      searchByAddressInput();
+    }
+  });
+  document.getElementById("searchAddressBtn").addEventListener("click", searchByAddressInput);
+});
+</script>
+
+</body>
+</html>
