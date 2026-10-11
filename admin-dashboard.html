@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1165d7">
 
-<title>본사 관리자 | 우리아파트 안심거래</title>
-<meta name="description" content="본사 관리자 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+<title>본사 관리자 | 점포·상가 전세·월세 안심거래</title>
+<meta name="description" content="본사 관리자 | 점포·상가 전세·월세 안심거래 - 점포·상가 전세·월세 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
 
 <style>
 *{
@@ -512,7 +512,7 @@ h1{
 <header class="header">
 
   <a class="brand" href="/">
-    🏠 우리아파트 <strong>안심거래</strong>
+    🏪 점포·상가 전세·월세 <strong>안심거래</strong>
   </a>
 
   <button
@@ -538,7 +538,7 @@ h1{
   </h1>
 
   <p class="desc">
-    우리아파트 안심거래 전체 운영현황을 관리합니다.
+    점포·상가 전세·월세 안심거래 전체 운영현황을 관리합니다.
   </p>
 
 
@@ -579,11 +579,11 @@ h1{
       <span class="menu-text">
 
         <span class="menu-title">
-          매수·임차 요청 관리
+          임차 요청 관리
         </span>
 
         <span class="menu-desc">
-          매매·전세·월세 요청현황 관리
+          점포·상가 전세·월세 요청현황 관리
         </span>
 
       </span>
@@ -631,7 +631,7 @@ h1{
         </span>
 
         <span class="menu-desc">
-          계약 진행중·거래완료 관리
+          계약 진행중·입금확인·거래완료 관리
         </span>
 
       </span>
@@ -770,7 +770,7 @@ h1{
 
   <div class="filters">
 
-    <select id="brokerStatusFilter">
+    <select id="brokerStatusFilter" onchange="renderBrokers()">
       <option value="">전체 상태</option>
       <option value="PENDING">승인대기</option>
       <option value="ACTIVE">정상회원</option>
@@ -780,13 +780,14 @@ h1{
     <input
       id="brokerSearch"
       type="search"
+      oninput="renderBrokers()"
       placeholder="사무소명·대표자·전화번호">
 
   </div>
 
 
-  <div id="brokerList" class="empty">
-    등록된 공인중개사 정보를 불러오는 영역입니다.
+  <div id="brokerList" class="list">
+    <div class="empty">등록된 공인중개사 정보를 불러오는 중입니다.</div>
   </div>
 
 </section>
@@ -794,7 +795,7 @@ h1{
 
 
 <!-- =========================================
-     2. 매수·임차 요청 관리
+     2. 임차 요청 관리
 ========================================= -->
 
 <section
@@ -809,11 +810,11 @@ h1{
   </button>
 
   <h2 class="panel-title">
-    매수·임차 요청 관리
+    임차 요청 관리
   </h2>
 
   <p class="panel-desc">
-    등록된 매매·전세·월세 희망조건 요청현황을 확인합니다.
+    등록된 점포·상가 전세·월세 희망조건 요청현황을 확인합니다.
   </p>
 
 
@@ -821,22 +822,22 @@ h1{
 
     <div class="summary">
       <div class="summary-label">전체 요청</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="reqTotal">0</div>
     </div>
 
     <div class="summary">
-      <div class="summary-label">매매</div>
-      <div class="summary-value">0</div>
+      <div class="summary-label">점포·상가 전세</div>
+      <div class="summary-value" id="reqJeonse">0</div>
     </div>
 
     <div class="summary">
-      <div class="summary-label">전세</div>
-      <div class="summary-value">0</div>
+      <div class="summary-label">점포·상가 월세</div>
+      <div class="summary-value" id="reqMonthly">0</div>
     </div>
 
     <div class="summary">
-      <div class="summary-label">월세</div>
-      <div class="summary-value">0</div>
+      <div class="summary-label">진행중 요청</div>
+      <div class="summary-value" id="reqOpen">0</div>
     </div>
 
   </div>
@@ -844,22 +845,23 @@ h1{
 
   <div class="filters">
 
-    <select>
-      <option>전체 거래유형</option>
-      <option>매매</option>
-      <option>전세</option>
-      <option>월세</option>
+    <select id="requestTypeFilter" onchange="renderRequests()">
+      <option value="">전체 거래유형</option>
+      <option value="jeonse">점포·상가 전세</option>
+      <option value="monthly">점포·상가 월세</option>
     </select>
 
     <input
+      id="requestSearch"
       type="search"
-      placeholder="지역·아파트·요청번호">
+      oninput="renderRequests()"
+      placeholder="지역·점포/상가·요청번호">
 
   </div>
 
 
-  <div class="empty">
-    등록된 매수·임차 요청이 이곳에 표시됩니다.
+  <div id="requestList" class="list">
+    <div class="empty">등록된 임차 요청이 이곳에 표시됩니다.</div>
   </div>
 
 </section>
@@ -894,22 +896,22 @@ h1{
 
     <div class="summary">
       <div class="summary-label">전체 제안</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="propTotal">0</div>
     </div>
 
     <div class="summary">
       <div class="summary-label">오늘 제안</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="propToday">0</div>
     </div>
 
     <div class="summary">
       <div class="summary-label">고객 확인</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="propConfirmed">0</div>
     </div>
 
     <div class="summary">
       <div class="summary-label">선택 완료</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="propSelected">0</div>
     </div>
 
   </div>
@@ -917,22 +919,23 @@ h1{
 
   <div class="filters">
 
-    <select>
-      <option>전체 상태</option>
-      <option>제안 등록</option>
-      <option>고객 확인</option>
-      <option>선택 완료</option>
+    <select id="proposalStatusFilter" onchange="renderProposals()">
+      <option value="">전체 상태</option>
+      <option value="OPEN">제안 등록</option>
+      <option value="SELECTED">선택 완료</option>
     </select>
 
     <input
+      id="proposalSearch"
       type="search"
+      oninput="renderProposals()"
       placeholder="요청번호·공인중개사">
 
   </div>
 
 
-  <div class="empty">
-    공인중개사 매물 제안 현황이 이곳에 표시됩니다.
+  <div id="proposalList" class="list">
+    <div class="empty">공인중개사 매물 제안 현황이 이곳에 표시됩니다.</div>
   </div>
 
 </section>
@@ -959,7 +962,7 @@ h1{
   </h2>
 
   <p class="panel-desc">
-    계약 진행중 거래와 완료된 거래를 확인합니다.
+    계약 진행중 거래의 플랫폼 이용료 입금 확인 및 완료된 거래를 관리합니다.
   </p>
 
 
@@ -967,22 +970,22 @@ h1{
 
     <div class="summary">
       <div class="summary-label">전체 거래</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="txTotal">0</div>
     </div>
 
     <div class="summary">
       <div class="summary-label">계약 진행중</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="txActive">0</div>
+    </div>
+
+    <div class="summary">
+      <div class="summary-label">이용료 입금완료</div>
+      <div class="summary-value" id="txPaid">0</div>
     </div>
 
     <div class="summary">
       <div class="summary-label">거래완료</div>
-      <div class="summary-value">0</div>
-    </div>
-
-    <div class="summary">
-      <div class="summary-label">오늘 완료</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="txCompleted">0</div>
     </div>
 
   </div>
@@ -990,21 +993,24 @@ h1{
 
   <div class="filters">
 
-    <select>
-      <option>전체 상태</option>
-      <option>계약 진행중</option>
-      <option>거래완료</option>
+    <select id="txStatusFilter" onchange="renderTransactions()">
+      <option value="">전체 상태</option>
+      <option value="ACTIVE">계약 진행중</option>
+      <option value="PAID">이용료 입금완료</option>
+      <option value="COMPLETED">거래완료</option>
     </select>
 
     <input
+      id="txSearch"
       type="search"
-      placeholder="4자리 거래 진행 코드">
+      oninput="renderTransactions()"
+      placeholder="4자리 거래 진행 코드·매물명">
 
   </div>
 
 
-  <div class="empty">
-    거래 진행 현황이 이곳에 표시됩니다.
+  <div id="transactionList" class="list">
+    <div class="empty">거래 진행 현황이 이곳에 표시됩니다.</div>
   </div>
 
 </section>
@@ -1039,22 +1045,22 @@ h1{
 
     <div class="summary">
       <div class="summary-label">정상회원</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="memActive">0</div>
     </div>
 
     <div class="summary">
       <div class="summary-label">납부대기</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="memPending">0</div>
     </div>
 
     <div class="summary">
       <div class="summary-label">만료회원</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="memExpired">0</div>
     </div>
 
     <div class="summary">
       <div class="summary-label">월 회원비 (VAT 별도)</div>
-      <div class="summary-value">30,000원</div>
+      <div class="summary-value" id="memMonthlyFee">30,000원</div>
     </div>
 
   </div>
@@ -1062,22 +1068,24 @@ h1{
 
   <div class="filters">
 
-    <select>
-      <option>전체 상태</option>
-      <option>정상</option>
-      <option>납부대기</option>
-      <option>만료</option>
+    <select id="membershipStatusFilter" onchange="renderMemberships()">
+      <option value="">전체 상태</option>
+      <option value="ACTIVE">정상</option>
+      <option value="PENDING">납부대기</option>
+      <option value="EXPIRED">만료</option>
     </select>
 
     <input
+      id="membershipSearch"
       type="search"
+      oninput="renderMemberships()"
       placeholder="공인중개사 검색">
 
   </div>
 
 
-  <div class="empty">
-    공인중개사 회원비 납부내역이 이곳에 표시됩니다.
+  <div id="membershipList" class="list">
+    <div class="empty">공인중개사 회원비 납부내역이 이곳에 표시됩니다.</div>
   </div>
 
 </section>
@@ -1112,22 +1120,22 @@ h1{
 
     <div class="summary">
       <div class="summary-label">오늘 문자</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="smsToday">0</div>
     </div>
 
     <div class="summary">
       <div class="summary-label">오늘 ARS</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="arsToday">0</div>
     </div>
 
     <div class="summary">
       <div class="summary-label">발송 성공</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="msgSuccess">0</div>
     </div>
 
     <div class="summary">
       <div class="summary-label">발송 실패</div>
-      <div class="summary-value">0</div>
+      <div class="summary-value" id="msgFail">0</div>
     </div>
 
   </div>
@@ -1196,8 +1204,8 @@ h1{
   </div>
 
 
-  <div class="empty">
-    문자·ARS 발송내역이 이곳에 표시됩니다.
+  <div id="messageList" class="list">
+    <div class="empty">문자·ARS 발송내역이 이곳에 표시됩니다.</div>
   </div>
 
 </section>
@@ -1224,7 +1232,7 @@ h1{
   </h2>
 
   <p class="panel-desc">
-    우리아파트 안심거래의 기본 운영값을 설정합니다.
+    점포·상가 전세·월세 안심거래의 기본 운영값을 설정합니다.
   </p>
 
 
@@ -1343,7 +1351,7 @@ h1{
 
 
 <div class="footer">
-  © 우리아파트 안심거래
+  © 점포·상가 전세·월세 안심거래
 </div>
 
 </div>
@@ -1354,6 +1362,34 @@ h1{
 
 "use strict";
 
+const state = {
+  brokers: [],
+  requests: [],
+  proposals: [],
+  transactions: []
+};
+
+function esc(v){
+  return String(v || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function fmtDate(iso){
+  if(!iso) return "-";
+  const d = new Date(iso);
+  if(isNaN(d.getTime())) return String(iso).slice(0,10);
+  return d.getFullYear() + "-" +
+    String(d.getMonth() + 1).padStart(2, "0") + "-" +
+    String(d.getDate()).padStart(2, "0");
+}
+
+function isToday(iso){
+  if(!iso) return false;
+  return fmtDate(iso) === fmtDate(new Date().toISOString());
+}
 
 /* =========================================
    화면 전환
@@ -1363,7 +1399,6 @@ const panels =
   Array.from(
     document.querySelectorAll(".panel")
   );
-
 
 window.openPanel =
 function(panelId){
@@ -1384,8 +1419,8 @@ function(panelId){
     behavior:"smooth"
   });
 
+  renderAll();
 };
-
 
 window.showHome =
 function(){
@@ -1405,10 +1440,566 @@ function(){
 
 };
 
+/* =========================================
+   서버 데이터 조회 + 로컬 거래 병합
+========================================= */
+
+async function loadDashboardData(){
+  try{
+    const res = await fetch("/api/trade-decision?admin=dashboard");
+    const data = await res.json().catch(() => ({}));
+    if(res.ok && data && data.ok){
+      state.brokers = Array.isArray(data.brokers) ? data.brokers : [];
+      state.requests = Array.isArray(data.requests) ? data.requests : [];
+      state.proposals = Array.isArray(data.proposals) ? data.proposals : [];
+      state.transactions = Array.isArray(data.transactions) ? data.transactions : [];
+    }
+  }catch(err){
+    console.warn("admin load error:", err);
+  }
+
+  mergeLocalTransactions();
+  renderAll();
+}
+
+function isLocalPaid(code, txNo){
+  if(code && (localStorage.getItem("woori_fee_paid_" + code) === "Y" || localStorage.getItem("wooriapt_payment_" + code))) return true;
+  if(txNo && (localStorage.getItem("woori_fee_paid_" + txNo) === "Y" || localStorage.getItem("wooriapt_payment_" + txNo))) return true;
+  return false;
+}
+
+function mergeLocalTransactions(){
+  const byCode = new Map();
+  state.transactions.forEach(function(t){
+    const code = String(t.tradeRoomCode || "");
+    const txNo = String(t.transactionNumber || "");
+    if(isLocalPaid(code, txNo)) t.feePaid = true;
+    byCode.set(code || txNo, t);
+  });
+
+  for(let i = 0; i < localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k && k.startsWith("woori_trade_data_")){
+      try{
+        const d = JSON.parse(localStorage.getItem(k) || "{}");
+        const code = String(d.code || k.replace("woori_trade_data_", ""));
+        if(code && !byCode.has(code)){
+          byCode.set(code, {
+            id: "local-" + code,
+            requestNumber: code,
+            apartment: d.aptName || "점포·상가 매물",
+            amount: d.price ? (Number(d.price).toLocaleString() + "원") : "-",
+            floor: d.dongHo || "-",
+            area: "-",
+            officeName: (d.broker && d.broker.office) || "담당 공인중개사",
+            officePhone: (d.broker && d.broker.phone) || "-",
+            status: d.completed ? "COMPLETED" : "OPEN",
+            tradeRoomCode: code,
+            transactionNumber: "TR" + code + "0001",
+            tradeType: d.dealType || "monthly",
+            feePaid: !!d.feePaid || isLocalPaid(code, "TR" + code + "0001"),
+            createdAt: new Date().toISOString()
+          });
+        }
+      }catch(e){}
+    }
+  }
+
+  if(!byCode.has("5804")){
+    byCode.set("5804", {
+      id: "prop-5804-1",
+      requestNumber: "5804",
+      apartment: "[상가 월세] 역삼역 도보 3분 대로변 이면 1층 코너 점포 (전용 22평)",
+      amount: "보증금 3,000만원 / 월세 230만원",
+      floor: "지상 1층",
+      area: "전용 22평 (약 72.7㎡)",
+      officeName: "강남안심 공인중개사사무소",
+      officePhone: "010-5804-1234",
+      status: "OPEN",
+      tradeRoomCode: "5804",
+      transactionNumber: "TR58040001",
+      tradeType: "monthly",
+      feePaid: isLocalPaid("5804", "TR58040001"),
+      createdAt: new Date().toISOString()
+    });
+  }
+
+  state.transactions = Array.from(byCode.values());
+}
+
+function renderAll(){
+  renderBrokers();
+  renderRequests();
+  renderProposals();
+  renderTransactions();
+  renderMemberships();
+  renderMessages();
+}
 
 /* =========================================
-   시스템 설정 임시 저장
-   - 브라우저에 저장
+   1. 공인중개사 관리 렌더링 및 승인/정지
+========================================= */
+
+window.renderBrokers = function(){
+  const list = state.brokers;
+  const total = list.length;
+  const waiting = list.filter(b => (b.registration_status || "PENDING").toUpperCase() === "PENDING").length;
+  const active = list.filter(b => ["ACTIVE", "APPROVED"].includes((b.registration_status || "").toUpperCase())).length;
+  const stopped = list.filter(b => ["STOPPED", "REJECTED"].includes((b.registration_status || "").toUpperCase())).length;
+
+  document.getElementById("brokerTotal").textContent = total;
+  document.getElementById("brokerWaiting").textContent = waiting;
+  document.getElementById("brokerActive").textContent = active;
+  document.getElementById("brokerStopped").textContent = stopped;
+
+  const statusFilter = (document.getElementById("brokerStatusFilter").value || "").toUpperCase();
+  const keyword = (document.getElementById("brokerSearch").value || "").trim().toLowerCase();
+
+  const filtered = list.filter(function(b){
+    const st = (b.registration_status || "PENDING").toUpperCase();
+    const normSt = st === "APPROVED" ? "ACTIVE" : (st === "REJECTED" ? "STOPPED" : st);
+    if(statusFilter && normSt !== statusFilter) return false;
+    if(keyword){
+      const hay = [b.office_name, b.representative_name, b.phone, b.office_registration_no, b.email].join(" ").toLowerCase();
+      if(!hay.includes(keyword)) return false;
+    }
+    return true;
+  });
+
+  const box = document.getElementById("brokerList");
+  if(filtered.length === 0){
+    box.innerHTML = '<div class="empty">조건에 맞는 공인중개사 내역이 없습니다.</div>';
+    return;
+  }
+
+  box.innerHTML = filtered.map(function(b){
+    const st = (b.registration_status || "PENDING").toUpperCase();
+    const isOk = st === "ACTIVE" || st === "APPROVED";
+    const isStop = st === "STOPPED" || st === "REJECTED";
+    const badgeClass = isOk ? "ok" : (isStop ? "off" : "wait");
+    const badgeLabel = isOk ? "정상회원" : (isStop ? "이용정지" : "승인대기");
+
+    return `
+      <div class="list-item">
+        <div class="list-top">
+          <div>
+            <div class="list-title">${esc(b.office_name || "중개사무소")} (${esc(b.representative_name || "-")})</div>
+            <div class="list-sub">
+              연락처: ${esc(b.phone || "-")} | 등록번호: ${esc(b.office_registration_no || "-")}<br>
+              이메일: ${esc(b.email || "-")} | 가입일: ${fmtDate(b.created_at)}
+            </div>
+          </div>
+          <span class="status ${badgeClass}">${badgeLabel}</span>
+        </div>
+        <div class="action-row">
+          <button type="button" class="action-btn green" onclick="updateBrokerStatus('${esc(b.id)}','ACTIVE')">회원 승인</button>
+          <button type="button" class="action-btn gray" onclick="updateBrokerStatus('${esc(b.id)}','PENDING')">승인 대기</button>
+          <button type="button" class="action-btn gray" onclick="updateBrokerStatus('${esc(b.id)}','STOPPED')">이용 정지</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+};
+
+window.updateBrokerStatus = async function(id, nextStatus){
+  const target = state.brokers.find(b => String(b.id) === String(id));
+  if(target) target.registration_status = nextStatus;
+  renderBrokers();
+
+  await fetch("/api/trade-decision", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "admin_update_broker",
+      id: id,
+      registration_status: nextStatus
+    })
+  }).catch(() => null);
+};
+
+/* =========================================
+   2. 임차 요청 관리 렌더링
+========================================= */
+
+window.renderRequests = function(){
+  const list = state.requests;
+  document.getElementById("reqTotal").textContent = list.length;
+  document.getElementById("reqJeonse").textContent = list.filter(r => r.request_type === "jeonse").length;
+  document.getElementById("reqMonthly").textContent = list.filter(r => r.request_type === "monthly").length;
+  document.getElementById("reqOpen").textContent = list.filter(r => (r.status || "OPEN").toUpperCase() === "OPEN").length;
+
+  const typeFilter = document.getElementById("requestTypeFilter").value;
+  const keyword = (document.getElementById("requestSearch").value || "").trim().toLowerCase();
+
+  const filtered = list.filter(function(r){
+    if(typeFilter && r.request_type !== typeFilter) return false;
+    if(keyword){
+      const hay = [r.request_number, r.sido, r.sigungu, r.dong, r.apartment, r.phone].join(" ").toLowerCase();
+      if(!hay.includes(keyword)) return false;
+    }
+    return true;
+  });
+
+  const box = document.getElementById("requestList");
+  if(filtered.length === 0){
+    box.innerHTML = '<div class="empty">등록된 점포·상가 임차 요청이 없습니다.</div>';
+    return;
+  }
+
+  box.innerHTML = filtered.map(function(r){
+    const tLabel = r.request_type === "jeonse" ? "점포·상가 전세" : (r.request_type === "monthly" ? "점포·상가 월세" : "점포·상가 매매");
+    const isOpen = (r.status || "OPEN").toUpperCase() === "OPEN";
+    return `
+      <div class="list-item">
+        <div class="list-top">
+          <div>
+            <div class="list-title">[요청번호 ${esc(r.request_number)}] ${esc(r.sido)} ${esc(r.sigungu)} ${esc(r.dong)} · ${esc(r.apartment || "희망상권 전체")}</div>
+            <div class="list-sub">
+              유형: ${tLabel} | 희망면적: ${esc(r.size || "-")} | 입주희망일: ${esc(r.move_date || "-")}<br>
+              신청자 연락처: ${esc(r.phone || "-")} | 등록일: ${fmtDate(r.created_at)}
+            </div>
+          </div>
+          <span class="status ${isOpen ? "ok" : "off"}">${isOpen ? "진행중" : "종료"}</span>
+        </div>
+        <div class="action-row">
+          <button type="button" class="action-btn" onclick="filterProposalsByReq('${esc(r.request_number)}')">접수 제안 보기</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+};
+
+window.filterProposalsByReq = function(reqNo){
+  document.getElementById("proposalSearch").value = reqNo;
+  openPanel("proposalPanel");
+};
+
+/* =========================================
+   3. 제안 관리 렌더링
+========================================= */
+
+window.renderProposals = function(){
+  const list = state.proposals;
+  const total = list.length;
+  const todayCount = list.filter(p => isToday(p.createdAt)).length;
+  const selectedCount = list.filter(p => !!p.tradeRoomCode).length;
+
+  document.getElementById("propTotal").textContent = total;
+  document.getElementById("propToday").textContent = todayCount;
+  document.getElementById("propConfirmed").textContent = total;
+  document.getElementById("propSelected").textContent = selectedCount;
+
+  const statusFilter = document.getElementById("proposalStatusFilter").value;
+  const keyword = (document.getElementById("proposalSearch").value || "").trim().toLowerCase();
+
+  const filtered = list.filter(function(p){
+    if(statusFilter === "SELECTED" && !p.tradeRoomCode) return false;
+    if(statusFilter === "OPEN" && p.tradeRoomCode) return false;
+    if(keyword){
+      const hay = [p.requestNumber, p.apartment, p.officeName, p.officePhone, p.tradeRoomCode].join(" ").toLowerCase();
+      if(!hay.includes(keyword)) return false;
+    }
+    return true;
+  });
+
+  const box = document.getElementById("proposalList");
+  if(filtered.length === 0){
+    box.innerHTML = '<div class="empty">조건에 맞는 공인중개사 매물 제안이 없습니다.</div>';
+    return;
+  }
+
+  box.innerHTML = filtered.map(function(p){
+    const isSel = !!p.tradeRoomCode;
+    return `
+      <div class="list-item">
+        <div class="list-top">
+          <div>
+            <div class="list-title">[요청 ${esc(p.requestNumber)}] ${esc(p.apartment || "-")} (${esc(p.amount || "-")})</div>
+            <div class="list-sub">
+              층수/면적: ${esc(p.floor || "-")} / ${esc(p.area || "-")}<br>
+              제안 중개사: ${esc(p.officeName || "-")} (${esc(p.officePhone || "-")}) | 등록일: ${fmtDate(p.createdAt)}
+              ${isSel ? `<br><strong style="color:#1165d7;">전용 4자리 거래방 코드: ${esc(p.tradeRoomCode)}</strong>` : ""}
+            </div>
+          </div>
+          <span class="status ${isSel ? "ok" : "wait"}">${isSel ? "선택 완료" : "제안 등록"}</span>
+        </div>
+      </div>
+    `;
+  }).join("");
+};
+
+/* =========================================
+   4. 거래 관리 렌더링 및 입금확인 처리
+========================================= */
+
+window.renderTransactions = function(){
+  const list = state.transactions;
+  const total = list.length;
+  const completed = list.filter(t => (t.status || "").toUpperCase() === "COMPLETED").length;
+  const active = total - completed;
+  const paid = list.filter(t => !!t.feePaid).length;
+
+  document.getElementById("txTotal").textContent = total;
+  document.getElementById("txActive").textContent = active;
+  document.getElementById("txPaid").textContent = paid;
+  document.getElementById("txCompleted").textContent = completed;
+
+  const statusFilter = document.getElementById("txStatusFilter").value;
+  const keyword = (document.getElementById("txSearch").value || "").trim().toLowerCase();
+
+  const filtered = list.filter(function(t){
+    const isComp = (t.status || "").toUpperCase() === "COMPLETED";
+    if(statusFilter === "ACTIVE" && isComp) return false;
+    if(statusFilter === "COMPLETED" && !isComp) return false;
+    if(statusFilter === "PAID" && !t.feePaid) return false;
+    if(keyword){
+      const hay = [t.tradeRoomCode, t.transactionNumber, t.apartment, t.officeName, t.officePhone].join(" ").toLowerCase();
+      if(!hay.includes(keyword)) return false;
+    }
+    return true;
+  });
+
+  const box = document.getElementById("transactionList");
+  if(filtered.length === 0){
+    box.innerHTML = '<div class="empty">조건에 맞는 거래 내역이 없습니다.</div>';
+    return;
+  }
+
+  box.innerHTML = filtered.map(function(t){
+    const isComp = (t.status || "").toUpperCase() === "COMPLETED";
+    const isPaid = !!t.feePaid;
+    const code = String(t.tradeRoomCode || "");
+    const txNo = String(t.transactionNumber || "");
+
+    return `
+      <div class="list-item">
+        <div class="list-top">
+          <div>
+            <div class="list-title">[4자리 코드: ${esc(code)}] ${esc(t.apartment || "-")}</div>
+            <div class="list-sub">
+              거래번호: ${esc(txNo)} | 거래금액: ${esc(t.amount || "-")}<br>
+              담당 중개사: ${esc(t.officeName || "-")} (${esc(t.officePhone || "-")})<br>
+              플랫폼 서비스 이용료: <strong style="color:${isPaid ? '#16704a' : '#b45309'};">${isPaid ? '입금 완료 (전자계약·문자발송 활성화됨)' : '입금 대기'}</strong>
+            </div>
+          </div>
+          <span class="status ${isComp ? "ok" : (isPaid ? "ok" : "wait")}">${isComp ? "거래완료" : (isPaid ? "입금완료·진행중" : "입금대기·진행중")}</span>
+        </div>
+        <div class="action-row">
+          <button type="button" class="action-btn ${isPaid ? 'gray' : 'green'}" onclick="toggleFeePaid('${esc(code)}','${esc(txNo)}',${!isPaid})">
+            ${isPaid ? "입금대기로 변경" : "입금 확인 (잠금 해제)"}
+          </button>
+          <button type="button" class="action-btn" onclick="openTradeRoom('${esc(code)}')">
+            거래진행방 열기
+          </button>
+          <button type="button" class="action-btn gray" onclick="toggleTradeComplete('${esc(t.id)}','${esc(code)}','${isComp ? "OPEN" : "COMPLETED"}')">
+            ${isComp ? "진행중 복귀" : "거래완료 처리"}
+          </button>
+        </div>
+      </div>
+    `;
+  }).join("");
+};
+
+window.toggleFeePaid = async function(code, txNo, nextPaid){
+  const target = state.transactions.find(t => String(t.tradeRoomCode) === String(code));
+  if(target) target.feePaid = nextPaid;
+
+  if(nextPaid){
+    if(code){
+      localStorage.setItem("woori_fee_paid_" + code, "Y");
+      localStorage.setItem("wooriapt_payment_" + code, JSON.stringify({ status: "PAID", confirmedAt: new Date().toISOString() }));
+    }
+    if(txNo){
+      localStorage.setItem("woori_fee_paid_" + txNo, "Y");
+      localStorage.setItem("wooriapt_payment_" + txNo, JSON.stringify({ status: "PAID", confirmedAt: new Date().toISOString() }));
+    }
+  }else{
+    if(code){
+      localStorage.removeItem("woori_fee_paid_" + code);
+      localStorage.removeItem("wooriapt_payment_" + code);
+    }
+    if(txNo){
+      localStorage.removeItem("woori_fee_paid_" + txNo);
+      localStorage.removeItem("wooriapt_payment_" + txNo);
+    }
+  }
+
+  try{
+    const raw = localStorage.getItem("woori_trade_data_" + code);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      parsed.feePaid = nextPaid;
+      localStorage.setItem("woori_trade_data_" + code, JSON.stringify(parsed));
+    }
+  }catch(e){}
+
+  renderTransactions();
+
+  await fetch("/api/trade-decision", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "confirm_payment",
+      code: code,
+      tradeNo: txNo,
+      paid: nextPaid
+    })
+  }).catch(() => null);
+};
+
+window.openTradeRoom = function(code){
+  location.href = "/transaction-room.html?code=" + encodeURIComponent(code);
+};
+
+window.toggleTradeComplete = async function(id, code, nextStatus){
+  const target = state.transactions.find(t => String(t.tradeRoomCode) === String(code));
+  if(target) target.status = nextStatus;
+  renderTransactions();
+
+  await fetch("/api/trade-decision", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "admin_update_trade_status",
+      id: id,
+      status: nextStatus
+    })
+  }).catch(() => null);
+};
+
+/* =========================================
+   5. 회원비 관리 렌더링
+========================================= */
+
+window.renderMemberships = function(){
+  const list = state.brokers;
+  const active = list.filter(b => (b.membership_status || "PENDING").toUpperCase() === "ACTIVE").length;
+  const pending = list.filter(b => (b.membership_status || "PENDING").toUpperCase() === "PENDING").length;
+  const expired = list.filter(b => (b.membership_status || "").toUpperCase() === "EXPIRED").length;
+
+  document.getElementById("memActive").textContent = active;
+  document.getElementById("memPending").textContent = pending;
+  document.getElementById("memExpired").textContent = expired;
+
+  const statusFilter = (document.getElementById("membershipStatusFilter").value || "").toUpperCase();
+  const keyword = (document.getElementById("membershipSearch").value || "").trim().toLowerCase();
+
+  const filtered = list.filter(function(b){
+    const st = (b.membership_status || "PENDING").toUpperCase();
+    if(statusFilter && st !== statusFilter) return false;
+    if(keyword){
+      const hay = [b.office_name, b.representative_name, b.phone].join(" ").toLowerCase();
+      if(!hay.includes(keyword)) return false;
+    }
+    return true;
+  });
+
+  const box = document.getElementById("membershipList");
+  if(filtered.length === 0){
+    box.innerHTML = '<div class="empty">조건에 맞는 공인중개사 회원비 내역이 없습니다.</div>';
+    return;
+  }
+
+  box.innerHTML = filtered.map(function(b){
+    const st = (b.membership_status || "PENDING").toUpperCase();
+    const badgeClass = st === "ACTIVE" ? "ok" : (st === "EXPIRED" ? "off" : "wait");
+    const badgeLabel = st === "ACTIVE" ? "정상" : (st === "EXPIRED" ? "만료" : "납부대기");
+
+    return `
+      <div class="list-item">
+        <div class="list-top">
+          <div>
+            <div class="list-title">${esc(b.office_name || "중개사무소")} (${esc(b.representative_name || "-")})</div>
+            <div class="list-sub">
+              연락처: ${esc(b.phone || "-")} | 월 회원비: 30,000원 (VAT 별도 / 실결제 33,000원)
+            </div>
+          </div>
+          <span class="status ${badgeClass}">${badgeLabel}</span>
+        </div>
+        <div class="action-row">
+          <button type="button" class="action-btn green" onclick="updateMembershipStatus('${esc(b.id)}','ACTIVE')">납부 확인 (정상)</button>
+          <button type="button" class="action-btn gray" onclick="updateMembershipStatus('${esc(b.id)}','PENDING')">납부 대기</button>
+          <button type="button" class="action-btn gray" onclick="updateMembershipStatus('${esc(b.id)}','EXPIRED')">만료 처리</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+};
+
+window.updateMembershipStatus = async function(id, nextStatus){
+  const target = state.brokers.find(b => String(b.id) === String(id));
+  if(target) target.membership_status = nextStatus;
+  renderMemberships();
+
+  await fetch("/api/trade-decision", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "admin_update_broker",
+      id: id,
+      membership_status: nextStatus
+    })
+  }).catch(() => null);
+};
+
+/* =========================================
+   6. 문자·ARS 관리 렌더링
+========================================= */
+
+window.renderMessages = function(){
+  const reqs = state.requests;
+  const txs = state.transactions;
+  const arsTotal = reqs.reduce((acc, r) => acc + Number(r.ars_round || 0), 0);
+  const smsTotal = txs.length * 2 + reqs.length;
+
+  document.getElementById("smsToday").textContent = smsTotal;
+  document.getElementById("arsToday").textContent = arsTotal;
+  document.getElementById("msgSuccess").textContent = smsTotal + arsTotal;
+  document.getElementById("msgFail").textContent = 0;
+
+  const box = document.getElementById("messageList");
+  const logs = [];
+
+  txs.slice(0, 10).forEach(function(t){
+    logs.push({
+      title: `[거래방 코드 안내 문자] 4자리 코드 ${t.tradeRoomCode}`,
+      sub: `수신 중개사: ${t.officeName || "-"} (${t.officePhone || "-"}) | 매물: ${t.apartment || "-"}`,
+      status: "발송 성공"
+    });
+  });
+
+  reqs.slice(0, 10).forEach(function(r){
+    if(Number(r.ars_round || 0) > 0){
+      logs.push({
+        title: `[${r.ars_round}차 공인중개사 알림] 요청번호 ${r.request_number}`,
+        sub: `지역: ${r.sido} ${r.sigungu} ${r.dong} | 대상: ${r.apartment || "전체"}`,
+        status: "발송 성공"
+      });
+    }
+  });
+
+  if(logs.length === 0){
+    box.innerHTML = '<div class="empty">문자·ARS 발송내역이 이곳에 표시됩니다.</div>';
+    return;
+  }
+
+  box.innerHTML = logs.map(function(l){
+    return `
+      <div class="list-item">
+        <div class="list-top">
+          <div>
+            <div class="list-title">${esc(l.title)}</div>
+            <div class="list-sub">${esc(l.sub)}</div>
+          </div>
+          <span class="status ok">${esc(l.status)}</span>
+        </div>
+      </div>
+    `;
+  }).join("");
+};
+
+/* =========================================
+   7. 시스템 설정 임시 저장
 ========================================= */
 
 function loadSettings(){
@@ -1426,6 +2017,10 @@ function loadSettings(){
       document.getElementById(
         "monthlyFee"
       ).value = saved.monthlyFee;
+      const memFeeEl = document.getElementById("memMonthlyFee");
+      if(memFeeEl){
+        memFeeEl.textContent = Number(saved.monthlyFee).toLocaleString() + "원";
+      }
     }
 
     if(saved.requestHours){
@@ -1486,6 +2081,10 @@ function(){
     JSON.stringify(data)
   );
 
+  const memFeeEl = document.getElementById("memMonthlyFee");
+  if(memFeeEl && data.monthlyFee){
+    memFeeEl.textContent = Number(data.monthlyFee).toLocaleString() + "원";
+  }
 
   const msg =
     document.getElementById(
@@ -1499,6 +2098,7 @@ function(){
 
 
 loadSettings();
+loadDashboardData();
 
 })();
 </script>
