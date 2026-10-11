@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1165d7">
+<title>3,000원 모바일 바코드카드 | 카카오톡 수신 및 현금 동일 사용</title>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%}
+body{
+  background:#f1f5f9;
+  color:#0f172a;
+  font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Segoe UI","Noto Sans KR",Arial,sans-serif;
+  overflow-x:hidden;
+}
+.wrap{
+  width:100%;
+  max-width:540px;
+  margin:0 auto;
+  padding:clamp(14px,4vw,24px) clamp(10px,3vw,14px) 50px;
+}
+.card{
+  width:100%;
+  background:#fff;
+  border:1px solid #e2e8f0;
+  border-radius:22px;
+  padding:clamp(18px,4vw,24px);
+  box-shadow:0 10px 30px rgba(15,23,42,.08);
+}
+.head{
+  margin-bottom:16px;
+  text-align:center;
+}
+.head .badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  margin-bottom:8px;
+  padding:6px 12px;
+  border-radius:999px;
+  background:#fef3c7;
+  border:1px solid #fcd34d;
+  color:#92400e;
+  font-size:12px;
+  font-weight:900;
+}
+h1{
+  margin:0 0 6px;
+  font-size:clamp(21px,5vw,26px);
+  font-weight:900;
+  color:#0f172a;
+}
+.desc{
+  margin:0;
+  color:#475569;
+  font-size:13.5px;
+  line-height:1.55;
+  word-break:keep-all;
+}
+.coupon{
+  overflow:hidden;
+  border:2px solid #1165d7;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 6px 20px rgba(17,101,215,.12);
+}
+.coupon-top{
+  padding:20px 16px;
+  background:linear-gradient(135deg,#1d4ed8 0%,#1e3a8a 100%);
+  color:#fff;
+  text-align:center;
+}
+.coupon-top .amount-pill{
+  display:inline-block;
+  padding:4px 12px;
+  border-radius:999px;
+  background:#FEE500;
+  color:#191919;
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+.coupon-top small{
+  display:block;
+  margin-bottom:4px;
+  opacity:.88;
+  font-size:12px;
+}
+.coupon-top strong{
+  display:block;
+  font-size:clamp(20px,5.5vw,26px);
+  letter-spacing:.5px;
+  overflow-wrap:anywhere;
+}
+.barcode-area{
+  padding:20px 12px 14px;
+  background:#fff;
+  text-align:center;
+}
+.barcode-area svg{
+  width:100%;
+  max-width:400px;
+  height:auto;
+}
+.barcode-sub{
+  font-size:12px;
+  font-weight:800;
+  color:#059669;
+  margin-top:4px;
+}
+.info{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:#e2e8f0;
+  border-top:1px solid #e2e8f0;
+}
+.info div{
+  min-width:0;
+  padding:13px 14px;
+  background:#fff;
+}
+.info span{
+  display:block;
+  margin-bottom:4px;
+  color:#64748b;
+  font-size:11.5px;
+  font-weight:700;
+}
+.info strong{
+  display:block;
+  font-size:14px;
+  font-weight:900;
+  overflow-wrap:anywhere;
+}
+.status{
+  color:#059669;
+}
+
+/* 카카오톡으로 모바일 바코드카드 받기 버튼 */
+.kakao-receive-btn{
+  width:100%;
+  margin-top:14px;
+  padding:16px 14px;
+  border:2px solid #f59e0b;
+  border-radius:14px;
+  background:#FEE500;
+  color:#191919;
+  font-size:15.5px;
+  font-weight:900;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  box-shadow:0 6px 18px rgba(254,229,0,.45);
+  transition:transform .15s;
+}
+.kakao-receive-btn:active{
+  transform:scale(.98);
+}
+
+.use-guide{
+  margin:14px 0 0;
+  padding:15px;
+  border-radius:14px;
+  background:#eff6ff;
+  border:1px solid #bfdbfe;
+  color:#1e3a8a;
+  font-size:13px;
+  line-height:1.6;
+  text-align:center;
+  word-break:keep-all;
+}
+.use-guide strong{
+  display:block;
+  margin-bottom:5px;
+  font-size:14.5px;
+  font-weight:900;
+}
+.notice{
+  margin-top:12px;
+  padding:13px;
+  border-radius:12px;
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  color:#475569;
+  font-size:12.5px;
+  line-height:1.6;
+  word-break:keep-all;
+}
+.empty{
+  display:none;
+  padding:32px 15px;
+  border:1px dashed #cbd5e1;
+  border-radius:14px;
+  color:#64748b;
+  text-align:center;
+  line-height:1.7;
+}
+.actions{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:9px;
+  margin-top:16px;
+}
+button,a.btn{
+  min-height:48px;
+  border:0;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#1165d7;
+  color:#fff;
+  font:inherit;
+  font-size:14px;
+  font-weight:800;
+  text-decoration:none;
+  cursor:pointer;
+}
+a.btn.secondary{
+  background:#0f172a;
+  color:#fff;
+}
+a.btn.emerald{
+  background:#059669;
+  color:#fff;
+}
+@media(max-width:520px){
+  .info{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="card">
+
+    <div class="head">
+      <span class="badge">💬 카카오톡 모바일 바코드카드 지급 완료</span>
+      <h1>🎁 3,000원 모바일 바코드카드</h1>
+      <p class="desc">분양 정보 1분(60초) 스크롤 열람이 완료되어<br><strong>현금과 똑같이 사용할 수 있는 모바일 바코드카드</strong>가 발급되었습니다.</p>
+    </div>
+
+    <div id="couponBox" class="coupon">
+      <div class="coupon-top">
+        <span class="amount-pill">💳 3,000원권 · 현금 동일 사용</span>
+        <small>모바일 바코드카드 번호</small>
+        <strong id="couponNo">-</strong>
+      </div>
+
+      <div class="barcode-area">
+        <svg id="barcode"></svg>
+        <div class="barcode-sub">✓ 결제 시 위 바코드를 제시하시면 현금(3,000원)처럼 즉시 결제됩니다</div>
+      </div>
+
+      <div class="info">
+        <div>
+          <span>발급일시</span>
+          <strong id="issuedAt">-</strong>
+        </div>
+        <div>
+          <span>유효기간</span>
+          <strong id="expiresAt">-</strong>
+        </div>
+        <div>
+          <span>사용상태</span>
+          <strong id="status" class="status">-</strong>
+        </div>
+        <div>
+          <span>카드 금액</span>
+          <strong id="point" style="color:#dc2626;">-</strong>
+        </div>
+      </div>
+    </div>
+
+    <div id="empty" class="empty">
+      아직 발급된 모바일 바코드카드가 없습니다.<br>
+      분양 메인화면에서 분양 정보를 1분(60초)간 스크롤 열람하시면 3,000원 모바일 바코드카드가 즉시 발급됩니다.
+    </div>
+
+    <!-- 고객이 카카오톡으로 모바일 바코드카드를 받는 핵심 버튼 -->
+    <button type="button" id="kakaoSendBtn" class="kakao-receive-btn" onclick="sendBarcodeToKakao()">
+      <span>💬</span>
+      <span>내 카카오톡으로 모바일 바코드카드 받기 (보관·사용)</span>
+    </button>
+
+    <div class="use-guide">
+      <strong>💳 현금처럼 사용하는 모바일 바코드카드 안내</strong>
+      위 <b>[내 카카오톡으로 모바일 바코드카드 받기]</b> 버튼을 눌러 카카오톡에 보관해 두신 뒤,<br>
+      결제 시 카카오톡에서 이 바코드 화면을 열어 스캐너로 찍으면 <b>현금 3,000원과 동일하게 즉시 결제·차감</b>됩니다.
+    </div>
+
+    <div class="notice">
+      • 본 모바일 바코드카드는 아파트 분양 홍보 리워드로 지급된 정식 바코드카드입니다.<br>
+      • 카카오톡으로 전송해 두시면 언제든 링크를 눌러 바코드를 다시 불러와 현금처럼 사용하실 수 있습니다.
+    </div>
+
+    <div class="actions">
+      <a class="btn emerald" href="/price.html">📊 오늘의 시세 매칭기로 돌아가기 ›</a>
+      <a class="btn" href="https://www.wooriapt.app/">🏠 우리아파트 안심거래 (중개수수료 50%) 메인화면 ›</a>
+      <a class="btn secondary" href="https://www.ansimdeal.com/">🏪 점포·상가 안심딜 (상가 수수료 50%) 메인화면 ›</a>
+      <a class="btn" style="background:#e2e8f0; color:#334155;" href="/presale.html">🏢 분양 메인화면 목록으로 ›</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+var currentCouponData = null;
+
+(function(){
+  "use strict";
+
+  var couponBox = document.getElementById("couponBox");
+  var empty = document.getElementById("empty");
+  var kakaoBtn = document.getElementById("kakaoSendBtn");
+
+  var params = new URLSearchParams(window.location.search);
+  var urlCode = params.get("code");
+  var urlIssued = params.get("issued");
+  var urlExpires = params.get("expires");
+  var urlPoint = params.get("point");
+
+  var data = null;
+
+  if (urlCode) {
+    data = {
+      couponNo: urlCode,
+      issuedAt: urlIssued || "발급 완료",
+      expiresAt: urlExpires || "발급일로부터 30일",
+      status: "사용 가능 (현금 동일 결제)",
+      point: Number(urlPoint || 3000)
+    };
+    try {
+      localStorage.setItem("presaleIssuedCoupon", JSON.stringify(data));
+    } catch(e) {}
+  } else {
+    try {
+      data = JSON.parse(localStorage.getItem("presaleIssuedCoupon") || "null");
+    } catch(e) {}
+  }
+
+  if (!data || !data.couponNo) {
+    couponBox.style.display = "none";
+    if (kakaoBtn) kakaoBtn.style.display = "none";
+    empty.style.display = "block";
+    return;
+  }
+
+  currentCouponData = data;
+
+  document.getElementById("couponNo").textContent = data.couponNo || "-";
+  document.getElementById("issuedAt").textContent = data.issuedAt || "-";
+  document.getElementById("expiresAt").textContent = data.expiresAt || "-";
+  document.getElementById("status").textContent = data.status || "사용 가능 (현금 동일 결제)";
+  document.getElementById("point").textContent = Number(data.point || 3000).toLocaleString("ko-KR") + "원 (현금 동일)";
+
+  if (window.JsBarcode) {
+    JsBarcode("#barcode", data.couponNo, {
+      format: "CODE128",
+      displayValue: true,
+      fontSize: 16,
+      height: 76,
+      margin: 8
+    });
+  }
+})();
+
+function sendBarcodeToKakao() {
+  if (!currentCouponData || !currentCouponData.couponNo) return;
+
+  var shareUrl =
+    window.location.origin +
+    "/sale-coupon.html?code=" + encodeURIComponent(currentCouponData.couponNo) +
+    "&issued=" + encodeURIComponent(currentCouponData.issuedAt || "") +
+    "&expires=" + encodeURIComponent(currentCouponData.expiresAt || "") +
+    "&point=" + encodeURIComponent(currentCouponData.point || 3000);
+
+  var shareTitle = "🎁 [3,000원 모바일 바코드카드 도착] 현금처럼 바로 사용하세요!";
+  var shareText =
+    "🎉 아파트 분양정보 1분 스크롤 리워드!\n" +
+    "💳 모바일 바코드카드: 3,000원권 (현금 동일 사용)\n" +
+    "🔢 카드번호: " + currentCouponData.couponNo + "\n" +
+    "📅 유효기간: " + (currentCouponData.expiresAt || "-") + "\n\n" +
+    "아래 링크를 누르면 언제든 모바일 바코드가 열려 현금처럼 결제하실 수 있습니다 👇";
+
+  if (navigator.share) {
+    navigator.share({
+      title: shareTitle,
+      text: shareText,
+      url: shareUrl
+    }).catch(function(){});
+  } else {
+    var fullMsg = shareTitle + "\n\n" + shareText + "\n" + shareUrl;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(fullMsg).then(function(){
+        alert("💬 [카카오톡 전송용 모바일 바코드카드 복사 완료!]\n\n카카오톡 '나에게 보내기' 또는 대화방에 붙여넣기 하시면 바코드카드를 언제든 열어 현금처럼 사용하실 수 있습니다.");
+      });
+    } else {
+      prompt("아래 모바일 바코드카드 링크를 복사하여 카카오톡에 보관하세요:", shareUrl);
+    }
+  }
+}
+</script>
+
+</body>
+</html>

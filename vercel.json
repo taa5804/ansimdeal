@@ -1,6 +1,18 @@
 {
   "rewrites": [
     {
+      "source": "/sale-coupon",
+      "destination": "/sale-coupon.html"
+    },
+    {
+      "source": "/sale-detail",
+      "destination": "/sale-detail.html"
+    },
+    {
+      "source": "/presale",
+      "destination": "/presale.html"
+    },
+    {
       "source": "/utility",
       "destination": "/tools-center.html"
     },

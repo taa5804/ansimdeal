@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123c52">
+<title>우리 아파트 분양 메인화면 | 1분 스크롤 시 3,000원 모바일 바코드카드 카카오톡 지급</title>
+<meta name="description" content="관심 지역의 아파트 분양 정보를 1분간 스크롤하여 확인하시면 현금처럼 즉시 사용할 수 있는 3,000원 모바일 바코드카드를 카카오톡으로 즉시 지급해 드립니다.">
+<link rel="manifest" href="/manifest.webmanifest">
+<style>
+#saleMain,
+#saleMain *{
+  box-sizing:border-box;
+}
+
+#saleMain.sale-main{
+  width:min(100%,760px);
+  max-width:760px;
+  margin:0 auto;
+  padding:16px 14px 50px;
+  background:#eef8fc;
+  color:#14212b;
+  font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Segoe UI",Roboto,Arial,sans-serif;
+}
+
+#saleMain .top-util-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+#saleMain .util-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 13px;
+  border-radius:12px;
+  background:#ffffff;
+  border:1.5px solid #cbd5e1;
+  color:#123c52;
+  font-size:12.5px;
+  font-weight:800;
+  text-decoration:none;
+  box-shadow:0 2px 6px rgba(18,60,82,.06);
+}
+
+#saleMain .install-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 14px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#059669,#047857);
+  border:0;
+  color:#ffffff;
+  font-size:12.5px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(5,150,105,.25);
+}
+
+#saleMain .main-head{
+  padding:28px 22px;
+  background:linear-gradient(135deg,#123c52 0%,#0d2b3b 100%);
+  border-radius:20px;
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+}
+
+#saleMain .eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  margin-bottom:8px;
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(214,173,85,.18);
+  border:1px solid rgba(214,173,85,.45);
+  color:#f0c568;
+  font-size:11.5px;
+  font-weight:800;
+  letter-spacing:0.5px;
+}
+
+#saleMain .main-head h1{
+  margin:0 0 8px;
+  font-size:clamp(24px,4.2vw,28px);
+  font-weight:900;
+}
+
+#saleMain .main-head p{
+  margin:0;
+  font-size:14px;
+  line-height:1.6;
+  color:#d8e8ef;
+}
+
+#saleMain .filter-box{
+  display:flex;
+  gap:7px;
+  margin:16px 0;
+  padding:10px;
+  background:#fff;
+  border-radius:15px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+}
+
+#saleMain .filter{
+  flex:none;
+  padding:10px 15px;
+  border:0;
+  border-radius:10px;
+  background:#edf3f6;
+  color:#50606b;
+  font-weight:700;
+  cursor:pointer;
+}
+
+#saleMain .filter.active{
+  background:#123c52;
+  color:#fff;
+}
+
+#saleMain .project-list{
+  display:grid;
+  gap:18px;
+}
+
+#saleMain .project-card{
+  overflow:hidden;
+  background:#fff;
+  border-radius:20px;
+  box-shadow:0 8px 24px rgba(25,55,70,.09);
+}
+
+#saleMain .project-image{
+  position:relative;
+  height:clamp(240px,43vw,330px);
+  background:#8fb4c3;
+  overflow:hidden;
+}
+
+#saleMain .image-one{
+  background:linear-gradient(150deg,#a9d1dc,#527b8d);
+}
+
+#saleMain .image-two{
+  background:linear-gradient(150deg,#b4d7ca,#547f73);
+}
+
+#saleMain .image-shade{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,.05),
+    rgba(0,0,0,.05) 45%,
+    rgba(0,0,0,.68)
+  );
+}
+
+#saleMain .card-top{
+  position:absolute;
+  top:18px;
+  left:18px;
+  right:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+#saleMain .status,
+#saleMain .area{
+  padding:7px 11px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:800;
+}
+
+#saleMain .status{
+  background:#ee9d19;
+  color:#fff;
+}
+
+#saleMain .status.upcoming{
+  background:#d5ad59;
+  color:#162532;
+}
+
+#saleMain .area{
+  background:rgba(18,60,82,.88);
+  color:#fff;
+}
+
+#saleMain .project-title{
+  position:absolute;
+  left:20px;
+  right:20px;
+  bottom:22px;
+  color:#fff;
+}
+
+#saleMain .project-title small{
+  color:#f0c568;
+  font-weight:800;
+  letter-spacing:1.4px;
+}
+
+#saleMain .project-title h2{
+  margin:8px 0 5px;
+  font-size:clamp(22px,4vw,26px);
+}
+
+#saleMain .project-title p{
+  margin:0;
+  font-size:14px;
+}
+
+#saleMain .project-info{
+  padding:18px;
+}
+
+#saleMain .info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+#saleMain .info-grid div{
+  padding:14px;
+  background:#f1f8fb;
+  border-radius:13px;
+}
+
+#saleMain .info-grid span{
+  display:block;
+  margin-bottom:6px;
+  color:#71818b;
+  font-size:12px;
+}
+
+#saleMain .info-grid strong{
+  font-size:15px;
+}
+
+#saleMain .benefit{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-top:12px;
+  padding:14px;
+  background:#fffbeb;
+  border:1.5px solid #fcd34d;
+  border-radius:13px;
+  font-size:13px;
+  font-weight:700;
+}
+
+#saleMain .benefit strong{
+  color:#b45309;
+  font-weight:900;
+}
+
+#saleMain .detail-btn{
+  width:100%;
+  margin-top:12px;
+  padding:16px;
+  border:0;
+  border-radius:13px;
+  background:linear-gradient(135deg,#0f766e,#118984);
+  color:#fff;
+  font-size:15px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 6px 16px rgba(17,137,132,.25);
+}
+
+#saleMain .detail-btn.disabled{
+  background:#bbc6ca;
+  box-shadow:none;
+  cursor:default;
+}
+
+#saleMain .guide-box{
+  margin-top:22px;
+  padding:20px;
+  background:#fff;
+  border-radius:18px;
+}
+
+#saleMain .guide-box h3{
+  margin:0 0 15px;
+  font-size:19px;
+}
+
+#saleMain .guide-list{
+  display:grid;
+  gap:9px;
+}
+
+#saleMain .guide-list div{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px;
+  background:#f1f8fb;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:600;
+}
+
+#saleMain .guide-list b{
+  color:#118984;
+  font-weight:900;
+}
+
+#saleMain .area-empty{
+  display:none;
+  margin:14px 0 18px;
+  padding:28px 16px;
+  border:1px solid #dfe5ea;
+  border-radius:14px;
+  background:#fff;
+  color:#71808d;
+  font-size:14px;
+  font-weight:700;
+  text-align:center;
+  line-height:1.6;
+  word-break:keep-all;
+}
+
+#saleMain .platform-cross-box{
+  margin-top:20px;
+  padding:18px;
+  background:#0f172a;
+  border-radius:18px;
+  color:#fff;
+  display:grid;
+  gap:10px;
+}
+
+#saleMain .cross-btn{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 16px;
+  border-radius:13px;
+  text-decoration:none;
+  color:#fff;
+  font-size:13.5px;
+  font-weight:800;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.08);
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+body{
+  overflow-x:hidden;
+  background:#eef8fc;
+}
+button,input,select,textarea{
+  font:inherit;
+}
+
+@media(max-width:640px){
+  #saleMain.sale-main{
+    padding:12px 10px 35px;
+  }
+  #saleMain .main-head{
+    padding:22px 18px;
+    border-radius:16px;
+  }
+  #saleMain .project-card{
+    border-radius:16px;
+  }
+  #saleMain .project-info{
+    padding:14px;
+  }
+  #saleMain .info-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+  }
+  #saleMain .info-grid div{
+    min-width:0;
+    padding:12px 10px;
+  }
+  #saleMain .info-grid strong,
+  #saleMain .benefit span,
+  #saleMain .benefit strong{
+    overflow-wrap:anywhere;
+    word-break:keep-all;
+  }
+  #saleMain .benefit{
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+  #saleMain .detail-btn{
+    min-height:50px;
+  }
+}
+
+@media(max-width:380px){
+  #saleMain.sale-main{
+    padding-left:8px;
+    padding-right:8px;
+  }
+  #saleMain .main-head{
+    padding:20px 15px;
+  }
+  #saleMain .info-grid{
+    grid-template-columns:1fr;
+  }
+  #saleMain .project-title{
+    left:16px;
+    right:16px;
+    bottom:18px;
+  }
+}
+</style>
+</head>
+<body>
+<div id="saleMain" class="sale-main">
+
+  <div class="top-util-bar">
+    <a href="/price.html" class="util-link">
+      <span>📊</span>
+      <span>오늘의 시세 매칭기</span>
+    </a>
+    <button type="button" class="install-pill" onclick="installPresaleApp()">
+      <span>📲</span>
+      <span>앱설치</span>
+    </button>
+  </div>
+
+  <header class="main-head">
+    <span class="eyebrow">🎁 1분 스크롤 시 3,000원 모바일 바코드카드 카카오톡 지급</span>
+    <h1>우리 아파트 분양 메인화면</h1>
+    <p>관심 지역의 분양 정보를 1분(60초)간 스크롤하며 확인하시면,<br>현금처럼 바로 쓰는 <strong style="color:#fde68a;">3,000원 모바일 바코드카드</strong>를 카카오톡으로 즉시 보내드립니다.</p>
+  </header>
+
+  <section class="filter-box">
+    <button type="button" class="filter active" data-area="all">전체</button>
+    <button type="button" class="filter" data-area="jg">전남광주통합특별시</button>
+    <button type="button" class="filter" data-area="seoul">서울특별시</button>
+    <button type="button" class="filter" data-area="gyeonggi">경기도</button>
+    <button type="button" class="filter" data-area="incheon">인천광역시</button>
+    <button type="button" class="filter" data-area="busan">부산광역시</button>
+    <button type="button" class="filter" data-area="daegu">대구광역시</button>
+    <button type="button" class="filter" data-area="daejeon">대전광역시</button>
+    <button type="button" class="filter" data-area="ulsan">울산광역시</button>
+    <button type="button" class="filter" data-area="sejong">세종특별자치시</button>
+    <button type="button" class="filter" data-area="gangwon">강원특별자치도</button>
+    <button type="button" class="filter" data-area="chungbuk">충청북도</button>
+    <button type="button" class="filter" data-area="chungnam">충청남도</button>
+    <button type="button" class="filter" data-area="jeonbuk">전북특별자치도</button>
+    <button type="button" class="filter" data-area="gyeongbuk">경상북도</button>
+    <button type="button" class="filter" data-area="gyeongnam">경상남도</button>
+    <button type="button" class="filter" data-area="jeju">제주특별자치도</button>
+  </section>
+
+  <section class="project-list">
+
+    <article class="project-card" data-area="jg">
+      <div class="project-image image-one">
+        <div class="image-shade"></div>
+
+        <div class="card-top">
+          <span class="status">분양 중</span>
+          <span class="area">💬 1분 스크롤 · 3,000원 바코드카드</span>
+        </div>
+
+        <div class="project-title">
+          <small>PREMIUM RESIDENCE</small>
+          <h2>단지명을 입력해 주세요</h2>
+          <p>1분 스크롤 열람 시 카카오톡으로 3,000원 모바일 바코드카드 즉시 지급</p>
+        </div>
+      </div>
+
+      <div class="project-info">
+        <div class="info-grid">
+          <div>
+            <span>총 세대수</span>
+            <strong>1,520세대</strong>
+          </div>
+
+          <div>
+            <span>입주 예정</span>
+            <strong>2030년 1월</strong>
+          </div>
+
+          <div>
+            <span>주요 평형</span>
+            <strong>84A · 84B</strong>
+          </div>
+
+          <div>
+            <span>분양 상태</span>
+            <strong>분양 중</strong>
+          </div>
+        </div>
+
+        <div class="benefit">
+          <span>⏱️ 분양 카탈로그 1분(60초) 스크롤 열람 시</span>
+          <strong>🎁 3,000원 모바일 바코드카드 카톡 지급</strong>
+        </div>
+
+        <button type="button"
+                class="detail-btn"
+                data-link="/sale-detail.html">
+          📖 분양 정보 1분 스크롤하고 3,000원 바코드카드 받기 ›
+        </button>
+      </div>
+    </article>
+
+    <article class="project-card" data-area="jg">
+      <div class="project-image image-two">
+        <div class="image-shade"></div>
+
+        <div class="card-top">
+          <span class="status upcoming">분양 예정</span>
+          <span class="area">오픈 예정</span>
+        </div>
+
+        <div class="project-title">
+          <small>NEW LIFESTYLE</small>
+          <h2>새로운 분양단지</h2>
+        </div>
+      </div>
+
+      <div class="project-info">
+        <div class="info-grid">
+          <div>
+            <span>총 세대수</span>
+            <strong>980세대</strong>
+          </div>
+
+          <div>
+            <span>입주 예정</span>
+            <strong>2030년 6월</strong>
+          </div>
+
+          <div>
+            <span>주요 평형</span>
+            <strong>74 · 84 · 101</strong>
+          </div>
+
+          <div>
+            <span>분양 상태</span>
+            <strong>분양 예정</strong>
+          </div>
+        </div>
+
+        <div class="benefit">
+          <span>카탈로그 공개 후 1분 스크롤 시</span>
+          <strong>3,000원 모바일 바코드카드 카톡 지급</strong>
+        </div>
+
+        <button type="button"
+                class="detail-btn disabled"
+                disabled>
+          공개 예정
+        </button>
+      </div>
+    </article>
+
+  </section>
+
+  <div id="areaEmpty" class="area-empty">
+    현재 선택한 지역에 등록된 분양단지가 없습니다.
+  </div>
+
+  <section class="guide-box">
+    <h3>🎁 3,000원 모바일 바코드카드 수령 방법</h3>
+
+    <div class="guide-list">
+      <div>
+        <b>01</b>
+        <span>관심 있는 우리 동네 분양단지를 선택합니다.</span>
+      </div>
+
+      <div>
+        <b>02</b>
+        <span>분양 상세 정보(모바일 카탈로그)를 1분(60초) 동안 스크롤하며 확인합니다.</span>
+      </div>
+
+      <div>
+        <b>03</b>
+        <span>1분 스크롤 완료 즉시 카카오톡으로 3,000원 모바일 바코드카드를 받아 현금처럼 사용합니다.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 하단 플랫폼 연동 바로가기 -->
+  <section class="platform-cross-box">
+    <div style="font-size:13px; font-weight:900; color:#fcd34d;">🔗 함께 이용하면 좋은 우리동네 안심 플랫폼</div>
+    <a href="/price.html" class="cross-btn">
+      <span>📊 오늘의 시세 매칭기 (농·축·수산 1주일 급락 TOP 3)</span>
+      <span style="color:#34d399;">바로가기 ›</span>
+    </a>
+    <a href="https://www.wooriapt.app/" class="cross-btn">
+      <span>🏠 우리아파트 안심거래 (아파트 중개수수료 50% 절감)</span>
+      <span style="color:#60a5fa;">바로가기 ›</span>
+    </a>
+    <a href="https://www.ansimdeal.com/" class="cross-btn">
+      <span>🏪 점포·상가 안심딜 (상가 수수료 50% · 직거래)</span>
+      <span style="color:#fbbf24;">바로가기 ›</span>
+    </a>
+  </section>
+
+</div>
+
+<script>
+let deferredPresalePrompt = null;
+window.addEventListener("beforeinstallprompt", function(e) {
+  e.preventDefault();
+  deferredPresalePrompt = e;
+});
+
+function installPresaleApp() {
+  if (deferredPresalePrompt) {
+    deferredPresalePrompt.prompt();
+    deferredPresalePrompt.userChoice.then(function() {
+      deferredPresalePrompt = null;
+    });
+  } else {
+    location.href = "/app-install.html";
+  }
+}
+
+(function () {
+
+  function initSaleMain() {
+    var root = document.getElementById("saleMain");
+    if (!root) return;
+
+    root.onclick = function(e) {
+
+      var target = e.target;
+
+      while (target && target !== root) {
+
+        if (target.classList &&
+            target.classList.contains("filter")) {
+
+          var filters = root.querySelectorAll(".filter");
+          var cards = root.querySelectorAll(".project-card");
+          var area = target.getAttribute("data-area");
+
+          for (var i = 0; i < filters.length; i++) {
+            filters[i].classList.remove("active");
+          }
+
+          target.classList.add("active");
+
+          var visibleCount = 0;
+
+          for (var j = 0; j < cards.length; j++) {
+
+            var cardArea =
+              cards[j].getAttribute("data-area");
+
+            if (area === "all" || cardArea === area) {
+              cards[j].style.display = "block";
+              visibleCount++;
+            } else {
+              cards[j].style.display = "none";
+            }
+          }
+
+          var emptyBox = root.querySelector("#areaEmpty");
+
+          if (emptyBox) {
+            if (visibleCount === 0) {
+              var label = target.textContent.trim();
+              emptyBox.textContent =
+                "현재 " + label + "에 등록된 분양단지가 없습니다.";
+              emptyBox.style.display = "block";
+            } else {
+              emptyBox.style.display = "none";
+            }
+          }
+
+          return;
+        }
+
+        if (target.classList &&
+            target.classList.contains("detail-btn") &&
+            target.getAttribute("data-link")) {
+
+          var link =
+            target.getAttribute("data-link");
+
+          if (link) {
+            window.location.href = link;
+          }
+
+          return;
+        }
+
+        target = target.parentElement;
+      }
+    };
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initSaleMain
+    );
+  } else {
+    initSaleMain();
+  }
+
+})();
+</script>
+</body>
+</html>
