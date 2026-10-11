@@ -521,10 +521,15 @@ const params =
   );
 
 
+const roomCodeParam =
+  params.get("code") ||
+  params.get("trade") ||
+  localStorage.getItem("wooriapt_trade_room_code") ||
+  "";
+
 let tradeNo =
-  params.get(
-    "trade"
-  );
+  params.get("trade") ||
+  params.get("code");
 
 
 if(!tradeNo){
@@ -788,6 +793,28 @@ function unlockContract(){
     )
   );
 
+  if(tradeNo){
+    localStorage.setItem("woori_fee_paid_" + tradeNo, "true");
+  }
+  if(roomCodeParam){
+    localStorage.setItem("woori_fee_paid_" + roomCodeParam, "true");
+    localStorage.setItem(
+      "wooriapt_payment_" + roomCodeParam,
+      JSON.stringify(record)
+    );
+  }
+
+  fetch("/api/trade-decision", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "confirm_payment",
+      code: roomCodeParam || tradeNo,
+      tradeNo: tradeNo,
+      payer: payer.value.trim()
+    })
+  }).catch(function(){});
+
 
   status.textContent =
     "입금 확인 완료 — 전자계약 진행 가능";
@@ -967,6 +994,13 @@ contractBtn
 
       }
 
+
+      if(roomCodeParam){
+        location.href =
+          "/transaction-room.html?code=" +
+          encodeURIComponent(roomCodeParam);
+        return;
+      }
 
       location.href =
         "/electronic-contract.html?trade=" +

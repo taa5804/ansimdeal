@@ -203,6 +203,37 @@ export default async function handler(req, res) {
     ========================================================= */
     if (req.method === "POST") {
       const body = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
+
+      if (body.action === "confirm_payment") {
+        const payCode = clean(body.code || body.tradeNo).replace(/\D/g, "").slice(0, 4);
+        const rawTradeNo = clean(body.tradeNo || body.code);
+        let searchFilter = "";
+        if (payCode && payCode.length === 4) {
+          searchFilter = `description=ilike.*${encodeURIComponent(`[TRADE_ROOM_CODE:${payCode}|`)}*`;
+        } else if (rawTradeNo) {
+          searchFilter = `description=ilike.*${encodeURIComponent(`|TX:${rawTradeNo}`)}*`;
+        }
+        if (searchFilter) {
+          const findUrl = `${SUPABASE_URL}/rest/v1/property_proposals?${searchFilter}&select=id,description&order=id.desc&limit=1`;
+          const findRes = await fetch(findUrl, { method: "GET", headers }).catch(() => null);
+          if (findRes && findRes.ok) {
+            const rows = await findRes.json().catch(() => []);
+            if (Array.isArray(rows) && rows.length > 0) {
+              const r = rows[0];
+              const meta = parseTradeMeta(r.description);
+              if (meta) {
+                const updatedDesc = `${meta.cleanDescription}\n[TRADE_ROOM_CODE:${meta.tradeRoomCode}|TX:${meta.transactionNumber}|TYPE:${meta.tradeType}|PAID:Y]`.trim();
+                await fetch(`${SUPABASE_URL}/rest/v1/property_proposals?id=eq.${encodeURIComponent(r.id)}`, {
+                  method: "PATCH",
+                  headers: { ...headers, Prefer: "return=representation" },
+                  body: JSON.stringify({ description: updatedDesc })
+                }).catch(() => null);
+              }
+            }
+          }
+        }
+        return res.status(200).json({ ok: true, feePaid: true });
+      }
       const propertyId = clean(body.propertyId);
       const requestNumber = clean(body.requestNumber).replace(/\D/g, "").slice(0, 4);
       const isTest = body.testMode === true || requestNumber === "5804";

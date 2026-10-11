@@ -749,8 +749,8 @@ select{
     <span id="brokerDocState" class="state wait">확인중</span>
   </div>
 
-  <div class="notice">
-    1단계에서 등록한 중개사무소 등록증과 보증보험 · 공제증서를 자동으로 불러옵니다.
+  <div class="notice" id="brokerDocNotice">
+    회원 공인중개사는 등록된 중개사무소 등록증과 보증보험 · 공제증서가 자동 생성되며, 비회원 공인중개사는 [파일 선택]으로 직접 등록합니다.
   </div>
 
   <div class="auto-doc-list">
@@ -758,40 +758,62 @@ select{
     <div class="auto-doc">
 
       <div>
-        <div class="auto-doc-title">중개사무소 등록증</div>
+        <div class="auto-doc-title">중개사무소 등록증<span class="req">*</span></div>
         <div id="registrationFileName" class="auto-doc-name">
           불러오는 중
         </div>
       </div>
 
-      <span class="auto-badge">자동입력 완료</span>
+      <span id="regAutoBadge" class="auto-badge">자동입력 완료</span>
 
-      <button
-        type="button"
-        class="view-btn"
-        onclick="viewBrokerDocument('registration')">
-        보기
-      </button>
+      <div style="display:flex; gap:6px; align-items:center;">
+        <label id="regFileLabel" class="file-label" style="display:none; min-height:34px; padding:0 11px;">
+          파일 선택
+          <input
+            type="file"
+            id="brokerRegInput"
+            accept=".jpg,.jpeg,.png,.pdf">
+        </label>
+
+        <button
+          type="button"
+          id="viewRegBtn"
+          class="view-btn"
+          onclick="viewBrokerDocument('registration')">
+          보기
+        </button>
+      </div>
 
     </div>
 
     <div class="auto-doc">
 
       <div>
-        <div class="auto-doc-title">보증보험 · 공제증서</div>
+        <div class="auto-doc-title">보증보험 · 공제증서<span class="req">*</span></div>
         <div id="guaranteeFileName" class="auto-doc-name">
           불러오는 중
         </div>
       </div>
 
-      <span class="auto-badge">자동입력 완료</span>
+      <span id="guarAutoBadge" class="auto-badge">자동입력 완료</span>
 
-      <button
-        type="button"
-        class="view-btn"
-        onclick="viewBrokerDocument('guarantee')">
-        보기
-      </button>
+      <div style="display:flex; gap:6px; align-items:center;">
+        <label id="guarFileLabel" class="file-label" style="display:none; min-height:34px; padding:0 11px;">
+          파일 선택
+          <input
+            type="file"
+            id="brokerGuarInput"
+            accept=".jpg,.jpeg,.png,.pdf">
+        </label>
+
+        <button
+          type="button"
+          id="viewGuarBtn"
+          class="view-btn"
+          onclick="viewBrokerDocument('guarantee')">
+          보기
+        </button>
+      </div>
 
     </div>
 
@@ -1115,6 +1137,7 @@ select{
 
   <div class="card-head">
     <div class="card-title">⑤ 플랫폼 서비스 이용료</div>
+    <span id="feeCardState" class="state wait">입금대기</span>
   </div>
 
   <div class="fee-box">
@@ -1122,6 +1145,15 @@ select{
     <div id="feeStatus" class="fee-status">
       입금 대기
     </div>
+
+    <button
+      id="feeCheckBtn"
+      type="button"
+      class="view-btn"
+      style="min-height:46px; padding:0 16px; background:#12394d; color:#fff; border-color:#12394d; border-radius:10px; font-size:13px;"
+      onclick="goFeePaymentPage()">
+      입금 확인하기
+    </button>
 
   </div>
 
@@ -1307,64 +1339,223 @@ const documents = [
 ];
 
 
-/* BROKER */
+/* BROKER (회원 자동생성 / 비회원 파일선택) */
 
-function loadBrokerData(){
+let isMemberBroker = false;
+let memberOfficeName = "";
+let serverFeePaid = false;
+let currentTradeNo = "";
 
-  if(!step1Data){
+const brokerDocs = {
+  registration: null,
+  guarantee: null
+};
 
-    $("registrationFileName").textContent = "등록자료 없음";
-    $("guaranteeFileName").textContent = "등록자료 없음";
+function checkLocalMemberSession(){
+  const memberId =
+    sessionStorage.getItem("broker_member_id") ||
+    localStorage.getItem("broker_member_id") ||
+    "";
+  const officeName =
+    sessionStorage.getItem("broker_office_name") ||
+    localStorage.getItem("broker_office_name") ||
+    "";
+  const brokerPhone =
+    sessionStorage.getItem("broker_phone") ||
+    localStorage.getItem("broker_phone") ||
+    "";
 
-    $("brokerDocState").textContent = "자료없음";
-    return;
-  }
-
-  $("registrationFileName").textContent =
-    step1Data.registrationFileName ||
-    step1Data.registrationFile ||
-    "중개사무소 등록증";
-
-  $("guaranteeFileName").textContent =
-    step1Data.guaranteeFileName ||
-    step1Data.guaranteeFile ||
-    "보증보험 · 공제증서";
-
-  $("brokerDocState").textContent = "자동입력 완료";
-  $("brokerDocState").className = "state ok";
-
-  if(step1Data.mobile){
-    $("brokerSignPhone").value = step1Data.mobile;
+  if(memberId){
+    isMemberBroker = true;
+    memberOfficeName = officeName || "회원 공인중개사";
+    if(brokerPhone && !$("brokerSignPhone").value){
+      $("brokerSignPhone").value = brokerPhone.replace(/\D/g, "");
+    }
   }
 }
 
+function hasStep1AutoDocs(){
+  return !!(
+    step1Data &&
+    (
+      step1Data.isMember ||
+      step1Data.registrationFileName ||
+      step1Data.registrationFile ||
+      step1Data.guaranteeFileName ||
+      step1Data.guaranteeFile
+    )
+  );
+}
 
-window.viewBrokerDocument = function(type){
+function brokerDocsComplete(){
+  if(isMemberBroker || hasStep1AutoDocs()){
+    return true;
+  }
+  return !!(brokerDocs.registration && brokerDocs.guarantee);
+}
 
-  if(!step1Data){
-    showError("등록자료가 없습니다.");
+function syncGuaranteeToDoc7(){
+  if(isMemberBroker || hasStep1AutoDocs()){
+    const gName =
+      (step1Data && (step1Data.guaranteeFileName || step1Data.guaranteeFile)) ||
+      ((memberOfficeName ? memberOfficeName + " " : "") + "보증보험 · 공제증서 (회원 자동생성)");
+    documents[7] = {
+      name: gName,
+      type: "application/pdf",
+      url: (step1Data && (step1Data.guaranteeFileUrl || step1Data.guaranteeUrl)) || ""
+    };
+    if($("docName7")) $("docName7").textContent = gName;
+    if($("docStatus7")){
+      $("docStatus7").textContent = "자동생성 완료";
+      $("docStatus7").className = "doc-status ok";
+    }
+    if($("viewDoc7")) $("viewDoc7").disabled = !documents[7].url;
+  }else if(brokerDocs.guarantee){
+    documents[7] = {
+      name: brokerDocs.guarantee.name,
+      type: brokerDocs.guarantee.type,
+      url: brokerDocs.guarantee.url || ""
+    };
+    if($("docName7")) $("docName7").textContent = brokerDocs.guarantee.name;
+    if($("docStatus7")){
+      $("docStatus7").textContent = "등록완료";
+      $("docStatus7").className = "doc-status ok";
+    }
+    if($("viewDoc7")) $("viewDoc7").disabled = !brokerDocs.guarantee.url;
+  }
+}
+
+function loadBrokerData(){
+  checkLocalMemberSession();
+
+  if(isMemberBroker || hasStep1AutoDocs()){
+    const regName =
+      (step1Data && (step1Data.registrationFileName || step1Data.registrationFile)) ||
+      ((memberOfficeName ? memberOfficeName + " " : "") + "중개사무소 등록증 (회원 자동생성)");
+    const guarName =
+      (step1Data && (step1Data.guaranteeFileName || step1Data.guaranteeFile)) ||
+      ((memberOfficeName ? memberOfficeName + " " : "") + "보증보험 · 공제증서 (회원 자동생성)");
+
+    $("registrationFileName").textContent = regName;
+    $("guaranteeFileName").textContent = guarName;
+
+    $("regAutoBadge").textContent = "자동생성 완료";
+    $("regAutoBadge").className = "auto-badge";
+    $("regAutoBadge").removeAttribute("style");
+
+    $("guarAutoBadge").textContent = "자동생성 완료";
+    $("guarAutoBadge").className = "auto-badge";
+    $("guarAutoBadge").removeAttribute("style");
+
+    $("regFileLabel").style.display = "none";
+    $("guarFileLabel").style.display = "none";
+
+    $("brokerDocState").textContent = "자동생성 완료";
+    $("brokerDocState").className = "state ok";
+
+    if(step1Data && step1Data.mobile && !$("brokerSignPhone").value){
+      $("brokerSignPhone").value = step1Data.mobile;
+    }
+
+    syncGuaranteeToDoc7();
     return;
   }
 
-  let url = "";
+  // 비회원 공인중개사: 파일선택 버튼 표시
+  $("regFileLabel").style.display = "inline-flex";
+  $("guarFileLabel").style.display = "inline-flex";
 
-  if(type === "registration"){
-    url =
-      step1Data.registrationFileUrl ||
-      step1Data.registrationUrl ||
-      "";
+  if(brokerDocs.registration){
+    $("registrationFileName").textContent = brokerDocs.registration.name;
+    $("regAutoBadge").textContent = "등록완료";
+    $("regAutoBadge").className = "auto-badge";
+    $("regAutoBadge").removeAttribute("style");
+    $("viewRegBtn").disabled = !brokerDocs.registration.url;
+  }else{
+    $("registrationFileName").textContent = "선택된 파일 없음 (비회원 파일 선택)";
+    $("regAutoBadge").textContent = "미등록";
+    $("regAutoBadge").className = "auto-badge";
+    $("regAutoBadge").style.background = "#fff5dc";
+    $("regAutoBadge").style.color = "#946300";
+    $("viewRegBtn").disabled = true;
   }
 
-  if(type === "guarantee"){
-    url =
-      step1Data.guaranteeFileUrl ||
-      step1Data.guaranteeUrl ||
-      "";
+  if(brokerDocs.guarantee){
+    $("guaranteeFileName").textContent = brokerDocs.guarantee.name;
+    $("guarAutoBadge").textContent = "등록완료";
+    $("guarAutoBadge").className = "auto-badge";
+    $("guarAutoBadge").removeAttribute("style");
+    $("viewGuarBtn").disabled = !brokerDocs.guarantee.url;
+    syncGuaranteeToDoc7();
+  }else{
+    $("guaranteeFileName").textContent = "선택된 파일 없음 (비회원 파일 선택)";
+    $("guarAutoBadge").textContent = "미등록";
+    $("guarAutoBadge").className = "auto-badge";
+    $("guarAutoBadge").style.background = "#fff5dc";
+    $("guarAutoBadge").style.color = "#946300";
+    $("viewGuarBtn").disabled = true;
   }
 
-  if(url){
-    window.open(url,"_blank");
+  if(brokerDocsComplete()){
+    $("brokerDocState").textContent = "등록완료";
+    $("brokerDocState").className = "state ok";
+  }else{
+    $("brokerDocState").textContent = "비회원 파일선택";
+    $("brokerDocState").className = "state wait";
   }
+}
+
+["brokerRegInput", "brokerGuarInput"].forEach(function(inputId){
+  const el = $(inputId);
+  if(!el) return;
+  el.addEventListener("change", function(){
+    if(!this.files || !this.files.length) return;
+    const file = this.files[0];
+    const allowed = ["image/jpeg", "image/png", "application/pdf"];
+    if(!allowed.includes(file.type)){
+      showError("JPG, JPEG, PNG, PDF 파일만 등록할 수 있습니다.");
+      this.value = "";
+      return;
+    }
+    const key = inputId === "brokerRegInput" ? "registration" : "guarantee";
+    brokerDocs[key] = {
+      name: file.name,
+      type: file.type,
+      url: URL.createObjectURL(file)
+    };
+    loadBrokerData();
+    updateStatus();
+    saveProgress(false);
+  });
+});
+
+window.viewBrokerDocument = function(type){
+  if(type === "registration" && brokerDocs.registration && brokerDocs.registration.url){
+    window.open(brokerDocs.registration.url, "_blank");
+    return;
+  }
+  if(type === "guarantee" && brokerDocs.guarantee && brokerDocs.guarantee.url){
+    window.open(brokerDocs.guarantee.url, "_blank");
+    return;
+  }
+  if(step1Data){
+    let url = "";
+    if(type === "registration"){
+      url = step1Data.registrationFileUrl || step1Data.registrationUrl || "";
+    }
+    if(type === "guarantee"){
+      url = step1Data.guaranteeFileUrl || step1Data.guaranteeUrl || "";
+    }
+    if(url){
+      window.open(url, "_blank");
+      return;
+    }
+  }
+  if(isMemberBroker){
+    showOk((memberOfficeName || "회원 공인중개사") + "의 회원가입 시 검증·등록된 서류입니다.");
+    return;
+  }
+  showError("등록된 파일을 확인할 수 없습니다. 파일을 먼저 선택해 주세요.");
 };
 
 
@@ -1492,23 +1683,50 @@ window.viewDocument = function(index){
 
 function requiredDocumentsComplete(){
 
-  return !!documents[0] && !!documents[1] && !!documents[7];
+  return !!documents[0] && !!documents[1] && (!!documents[7] || brokerDocsComplete());
 
 }
 
 
 /* PLATFORM FEE */
 
-function feePaid(){
-
-  return (
-    localStorage.getItem(
-      "woori_fee_paid_" + roomCode
-    ) === "true"
-  );
-
+function checkPaymentRecord(key){
+  if(!key) return false;
+  try{
+    const raw = localStorage.getItem("wooriapt_payment_" + key);
+    if(!raw) return false;
+    const parsed = JSON.parse(raw);
+    return !!(parsed && parsed.payment_status === "입금확인");
+  }catch(e){
+    return false;
+  }
 }
 
+function feePaid(){
+  if(serverFeePaid) return true;
+  if(localStorage.getItem("woori_fee_paid_" + roomCode) === "true") return true;
+  if(currentTradeNo && localStorage.getItem("woori_fee_paid_" + currentTradeNo) === "true") return true;
+  if(checkPaymentRecord(roomCode)) return true;
+  if(currentTradeNo && checkPaymentRecord(currentTradeNo)) return true;
+  const curTrade = localStorage.getItem("wooriapt_current_trade");
+  if(curTrade && checkPaymentRecord(curTrade) && (!roomCode || roomCode === "5804")) return true;
+  return false;
+}
+
+window.goFeePaymentPage = function(){
+  saveProgress(false);
+  const tType = $("tradeType").value || "sale";
+  localStorage.setItem("wooriapt_service_type", tType);
+  if(roomCode){
+    localStorage.setItem("wooriapt_trade_room_code", roomCode);
+    localStorage.setItem("wooriapt_current_trade", currentTradeNo || roomCode);
+  }
+  location.href =
+    "/service-fee-payment.html?code=" +
+    encodeURIComponent(roomCode || "") +
+    "&trade=" +
+    encodeURIComponent(currentTradeNo || roomCode || "");
+};
 
 function updateFeeStatus(){
 
@@ -1516,11 +1734,25 @@ function updateFeeStatus(){
 
     $("feeStatus").textContent = "입금 완료";
     $("feeStatus").className = "fee-status ok";
+    if($("feeCardState")){
+      $("feeCardState").textContent = "입금완료";
+      $("feeCardState").className = "state ok";
+    }
+    if($("feeCheckBtn")){
+      $("feeCheckBtn").style.display = "none";
+    }
 
   }else{
 
     $("feeStatus").textContent = "입금 대기";
     $("feeStatus").className = "fee-status";
+    if($("feeCardState")){
+      $("feeCardState").textContent = "입금대기";
+      $("feeCardState").className = "state wait";
+    }
+    if($("feeCheckBtn")){
+      $("feeCheckBtn").style.display = "inline-flex";
+    }
 
   }
 
@@ -1941,6 +2173,15 @@ window.saveProgress = function(showMessage){
 
       }),
 
+    brokerDocs: {
+      registration: brokerDocs.registration
+        ? { name: brokerDocs.registration.name, type: brokerDocs.registration.type }
+        : null,
+      guarantee: brokerDocs.guarantee
+        ? { name: brokerDocs.guarantee.name, type: brokerDocs.guarantee.type }
+        : null
+    },
+
     savedAt:new Date().toISOString()
 
   };
@@ -2081,11 +2322,53 @@ window.addEventListener("storage",function(event){
 });
 
 
+async function syncServerTradeState(){
+  if(!roomCode || roomCode === "----") return;
+  try{
+    const res = await fetch("/api/trade-decision?code=" + encodeURIComponent(roomCode));
+    if(!res.ok) return;
+    const data = await res.json();
+    if(!data || !data.ok || !data.trade) return;
+    const t = data.trade;
+    if(t.tradeNumber) currentTradeNo = t.tradeNumber;
+    if(t.tradeType && !$("tradeType").value){
+      $("tradeType").value = t.tradeType;
+    }
+    if(t.apartment && !$("apartmentName").value){
+      $("apartmentName").value = t.apartment;
+    }
+    if(t.brokerPhone && !$("brokerSignPhone").value){
+      $("brokerSignPhone").value = String(t.brokerPhone).replace(/\D/g, "");
+    }
+    if(t.isMemberBroker){
+      isMemberBroker = true;
+      memberOfficeName = t.brokerOffice || t.brokerName || "회원 공인중개사";
+    }
+    if(t.feePaid){
+      serverFeePaid = true;
+      localStorage.setItem("woori_fee_paid_" + roomCode, "true");
+    }
+    loadBrokerData();
+    updateStatus();
+  }catch(e){}
+}
+
 /* START */
 
-loadBrokerData();
 loadProgress();
+if((function(){
+  try{
+    const saved = JSON.parse(localStorage.getItem("woori_trade_room_" + roomCode));
+    if(saved && saved.brokerDocs){
+      if(saved.brokerDocs.registration) brokerDocs.registration = { name: saved.brokerDocs.registration.name, type: saved.brokerDocs.registration.type, url: "" };
+      if(saved.brokerDocs.guarantee) brokerDocs.guarantee = { name: saved.brokerDocs.guarantee.name, type: saved.brokerDocs.guarantee.type, url: "" };
+    }
+  }catch(e){}
+  return false;
+})()){}
+loadBrokerData();
 updateStatus();
+syncServerTradeState();
 
 })();
 </script>
