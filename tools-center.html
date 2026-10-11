@@ -967,8 +967,8 @@ function renderRadiusAndBubble(lat, lng, address, moveView) {
           </div>
           <div class="mini-bars">${barsHtml}</div>
         </div>
-        <button type="button" class="bubble-cta" onclick="goRequestWithArea('${address.replace(/'/g, "")}', '${ind.small.replace(/'/g, "")}')">
-          🏪 이 지역·업종으로 안심딜 임차요청 등록 ›
+        <button type="button" class="bubble-cta" onclick="goRequestWithArea()">
+          🏪 안심딜 메인화면으로 이동 ›
         </button>
       </div>
     </div>
@@ -987,8 +987,8 @@ function renderRadiusAndBubble(lat, lng, address, moveView) {
   document.getElementById("sumSalesSub").textContent = "최근 6개월 매출추이: " + m.trendSign;
 }
 
-window.goRequestWithArea = function(addr, bizName) {
-  location.href = "request.html?type=monthly&apt=" + encodeURIComponent(addr + " (" + bizName + ")");
+window.goRequestWithArea = function() {
+  location.href = "index.html";
 };
 
 // 주소 입력 후 엔터(Enter) 또는 버튼 클릭 시 위치 검색
