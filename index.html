@@ -367,7 +367,7 @@ button, input {
   background: #2f8c68;
 }
 
-/* 매수/임차요청번호 조회 패널 */
+/* 공인중개사 임대 등록 패널 */
 .request-lookup {
   width: 100%;
   margin-top: 12px;
@@ -388,6 +388,76 @@ button, input {
 
 .request-lookup .return-access-row button {
   background: #b7791f;
+}
+
+.request-result {
+  display: none;
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid #e1e8ee;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.request-result.open {
+  display: block;
+}
+
+.request-result-title {
+  margin: 0 0 10px;
+  color: #173f67;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.request-result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px 14px;
+}
+
+.request-result-item {
+  min-width: 0;
+  color: #43596a;
+  font-size: 11px;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.request-result-item b {
+  color: #172b3d;
+}
+
+.request-result-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.request-result-actions button {
+  flex: 1 1 0;
+  min-height: 42px;
+  border: 0;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+#requestRegisterBtn {
+  background: #1165d7;
+  color: #fff;
+}
+
+#requestExitBtn {
+  background: #e9eef3;
+  color: #334155;
+}
+
+@media(max-width: 600px) {
+  .request-result-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* 진행 절차 */
@@ -1116,23 +1186,71 @@ button, input {
     </div>
   </div>
 
-  <!-- 5. 공인중개사 임차요청번호 조회 패널 (우리아파트 안심거래 원본 그대로 사용) -->
-  <div class="request-lookup">
-    <div class="return-access-title">공인중개사 임차요청번호 조회</div>
-    <div class="return-access-desc">고객이 등록한 상가 전월세 임차 희망 조건을 조회하여 최적 매물을 제안합니다.</div>
+  <!-- 5. 공인중개사 임대 등록 패널 (우리아파트 안심거래 원본 그대로 사용) -->
+  <section class="request-lookup">
+
+    <h2 class="return-access-title">
+      공인중개사 임대 등록
+    </h2>
+
+    <p class="return-access-desc">
+      공인중개사는 임차요청번호로 희망조건을 확인하세요.
+    </p>
+
     <div class="return-access-row">
-      <input id="requestNumberInput" type="text" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="4자리 임차요청번호 입력">
-      <button id="requestNumberBtn" type="button">조회</button>
+
+      <input
+        id="requestNumberInput"
+        type="text"
+        inputmode="numeric"
+        autocomplete="off"
+        maxlength="4"
+        placeholder="4자리 임차요청번호"
+        aria-label="4자리 임차요청번호"
+      >
+
+      <button
+        id="requestNumberBtn"
+        type="button"
+      >
+        확인
+      </button>
+
     </div>
-    <div id="requestResult" class="request-result" style="display:none; margin-top:14px; padding:14px; border:1px solid #e1e8ee; border-radius:12px; background:#f8fafc;">
-      <h3 style="margin:0 0 10px; color:#173f67; font-size:15px; font-weight:900;">임차 희망조건</h3>
-      <div id="requestResultGrid" style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px 14px; font-size:12px; color:#43596a;"></div>
-      <div style="display:flex; gap:8px; margin-top:14px;">
-        <button id="requestRegisterBtn" type="button" style="flex:1; min-height:42px; border:0; border-radius:9px; background:#1165d7; color:#fff; font-size:12px; font-weight:900; cursor:pointer;">매물 등록</button>
-        <button id="requestExitBtn" type="button" style="flex:1; min-height:42px; border:0; border-radius:9px; background:#e9eef3; color:#334155; font-size:12px; font-weight:900; cursor:pointer;">나가기</button>
+
+    <div
+      id="requestResult"
+      class="request-result"
+    >
+
+      <h3 class="request-result-title">
+        임차 희망조건
+      </h3>
+
+      <div
+        id="requestResultGrid"
+        class="request-result-grid"
+      ></div>
+
+      <div class="request-result-actions">
+        <button
+          id="requestRegisterBtn"
+          type="button"
+        >
+          매물 등록
+        </button>
+
+        <button
+          id="requestExitBtn"
+          type="button"
+        >
+          나가기
+        </button>
       </div>
+
     </div>
-  </div>
+
+  </section>
 
   <!-- 6. 진행 절차 5단계 -->
   <div class="title">진행 절차</div>
@@ -1503,6 +1621,7 @@ button, input {
     });
   }
 
+  /* 공인중개사 임대 등록 (임차요청번호 조회) */
   const requestNumberInput = document.getElementById("requestNumberInput");
   const requestNumberBtn = document.getElementById("requestNumberBtn");
   const requestResult = document.getElementById("requestResult");
@@ -1511,89 +1630,150 @@ button, input {
   const requestExitBtn = document.getElementById("requestExitBtn");
   let currentRequestNumber = "";
 
-  if(requestNumberInput && requestNumberBtn){
-    requestNumberInput.addEventListener("input", function(){
-      this.value = normalizeAccessValue(this.value).slice(0,4);
-    });
-    requestNumberBtn.addEventListener("click", async function(){
-      const requestNumber = normalizeAccessValue(requestNumberInput.value);
-      if(requestNumber.length !== 4){
-        alert("4자리 임차요청번호를 입력해 주세요.");
-        requestNumberInput.focus();
-        return;
-      }
-      if(requestNumber === "5804"){
-        localStorage.setItem("wooriapt_test_key", "5804");
-        requestResultGrid.innerHTML = "";
-        const masterItems = [
-          ["요청번호", "5804 (🔑 만능키 전체 확인 모드)"],
-          ["거래유형", "상가·점포 전세 및 월세 (제안방에서 전환 가능)"],
-          ["희망지역", "경기 평택시 청북읍 (전국 상권 테스트)"],
-          ["희망상권/업종", "1층 로드샵 · 카페/베이커리/일반음식점"],
-          ["희망면적", "10~30평"],
-          ["희망조건", "보증금 2,000~5,000만 / 월세 200만 (전세 1~2억)"],
-          ["입점희망일", "즉시 또는 날짜 협의 가능"],
-          ["기타조건", "무권리 선호, 제2종 근생 영업 인허가 가능 건축물"]
-        ];
-        masterItems.forEach(function(pair){
-          const div = document.createElement("div");
-          div.innerHTML = "<b>" + pair[0] + " : </b><span>" + pair[1] + "</span>";
-          requestResultGrid.appendChild(div);
-        });
-        currentRequestNumber = "5804";
-        requestResult.style.display = "block";
-        return;
-      }
-      requestNumberBtn.disabled = true;
-      try{
-        const response = await fetch("/api/property-request-lookup?requestNumber=" + encodeURIComponent(requestNumber), {
-          method:"GET",
-          headers:{"Accept":"application/json"}
-        });
-        const data = await response.json();
-        if(!response.ok || !data || data.ok !== true || !data.request){
-          throw new Error(data && data.message ? data.message : "임차요청번호를 확인해 주세요.");
-        }
-        const req = data.request;
-        const rNum = req.requestNumber || req.request_number || requestNumber;
-        const rType = req.requestType || req.request_type || "monthly";
-        requestResultGrid.innerHTML = "";
-        const items = [
-          ["요청번호", rNum],
-          ["거래유형", rType === "jeonse" ? "상가 전세" : rType === "monthly" ? "상가 월세" : "상가 매매"],
-          ["희망지역", [req.sido, req.sigungu, req.dong].filter(Boolean).join(" ")],
-          ["희망상권/업종", req.apartment || "미지정"],
-          ["희망면적", req.size || "-"],
-          ["입점희망일", req.moveDate || req.move_date || "-"],
-          ["기타조건", req.memo || "없음"]
-        ];
-        items.forEach(function(pair){
-          const div = document.createElement("div");
-          div.innerHTML = "<b>" + pair[0] + " : </b><span>" + (pair[1] || "-") + "</span>";
-          requestResultGrid.appendChild(div);
-        });
-        currentRequestNumber = String(rNum);
-        requestResult.style.display = "block";
-      }catch(error){
-        requestResult.style.display = "none";
-        currentRequestNumber = "";
-        alert(error && error.message ? error.message : "임차요청번호를 확인해 주세요.");
-      }finally{
-        requestNumberBtn.disabled = false;
-      }
-    });
-    requestRegisterBtn.addEventListener("click", function(){
-      if(!currentRequestNumber) return;
-      location.href = "broker-property-register.html?request=" + encodeURIComponent(currentRequestNumber);
-    });
-    requestExitBtn.addEventListener("click", function(){
-      currentRequestNumber = "";
-      requestNumberInput.value = "";
-      requestResultGrid.innerHTML = "";
-      requestResult.style.display = "none";
-      requestNumberInput.focus();
-    });
+  requestNumberInput.addEventListener("input", function(){
+    this.value = normalizeAccessValue(this.value).slice(0,4);
+  });
+
+  function requestTypeLabel(type){
+    if(type === "sale") return "상가 매매";
+    if(type === "jeonse") return "상가 전세";
+    if(type === "monthly") return "상가 월세";
+    return type || "-";
   }
+
+  function moneyLabel(value){
+    const n = Number(value);
+    if(!Number.isFinite(n) || n <= 0) return "-";
+    return n.toLocaleString("ko-KR") + "원";
+  }
+
+  function addRequestItem(label, value){
+    const div = document.createElement("div");
+    div.className = "request-result-item";
+
+    const b = document.createElement("b");
+    b.textContent = label + " : ";
+
+    const span = document.createElement("span");
+    span.textContent = value || "-";
+
+    div.appendChild(b);
+    div.appendChild(span);
+    requestResultGrid.appendChild(div);
+  }
+
+  function renderRequest(data){
+    requestResultGrid.innerHTML = "";
+
+    const reqNum = data.request_number || data.requestNumber || "";
+    const reqType = data.request_type || data.requestType || "";
+
+    addRequestItem("임차요청번호", reqNum);
+    addRequestItem("거래유형", requestTypeLabel(reqType));
+    addRequestItem("지역", [data.sido, data.sigungu, data.dong].filter(Boolean).join(" "));
+    addRequestItem("상가·점포 조건", data.apartment || "미지정");
+    addRequestItem("희망면적", data.size || "-");
+
+    if(reqType === "jeonse"){
+      addRequestItem(
+        "희망보증금",
+        moneyLabel(data.jeonse_min ?? data.jeonseMin) + " ~ " + moneyLabel(data.jeonse_max ?? data.jeonseMax)
+      );
+    }
+
+    if(reqType === "monthly"){
+      addRequestItem(
+        "희망보증금",
+        moneyLabel(data.monthly_deposit_min ?? data.monthlyDepositMin) + " ~ " + moneyLabel(data.monthly_deposit_max ?? data.monthlyDepositMax)
+      );
+      addRequestItem("희망월세", moneyLabel(data.monthly_rent ?? data.monthlyRent));
+    }
+
+    addRequestItem("입점희망일", data.move_date || data.moveDate || "-");
+    addRequestItem("입점일 조정", (data.move_flexible ?? data.moveFlexible) ? "협의 가능" : "지정일");
+    addRequestItem("기타조건", data.memo || "없음");
+
+    currentRequestNumber = String(reqNum);
+    requestResult.classList.add("open");
+  }
+
+  async function lookupRequest(){
+    const requestNumber = normalizeAccessValue(requestNumberInput.value);
+
+    if(requestNumber.length !== 4){
+      alert("4자리 임차요청번호를 입력해 주세요.");
+      requestNumberInput.focus();
+      return;
+    }
+
+    if(requestNumber === "5804"){
+      localStorage.setItem("wooriapt_test_key", "5804");
+      renderRequest({
+        request_number: "5804",
+        request_type: "monthly",
+        sido: "서울특별시",
+        sigungu: "강남구",
+        dong: "역삼동",
+        apartment: "역삼역 인근 대로변 1층 상가 (카페·일반음식점)",
+        size: "전용 18평 이상",
+        monthly_deposit_min: 30000000,
+        monthly_deposit_max: 50000000,
+        monthly_rent: 2000000,
+        move_date: "2026-11-15",
+        move_flexible: true,
+        memo: "무권리 선호, 제2종 근린생활시설 인허가 가능 점포 희망"
+      });
+      return;
+    }
+
+    requestNumberBtn.disabled = true;
+
+    try{
+      const response = await fetch(
+        "/api/property-request-lookup?requestNumber=" + encodeURIComponent(requestNumber),
+        {
+          method: "GET",
+          headers: { "Accept": "application/json" }
+        }
+      );
+
+      const data = await response.json();
+
+      if(!response.ok || !data || data.ok !== true || !data.request){
+        throw new Error(data && data.message ? data.message : "임차요청번호를 확인해 주세요.");
+      }
+
+      renderRequest(data.request);
+    }catch(error){
+      requestResult.classList.remove("open");
+      currentRequestNumber = "";
+      alert(error && error.message ? error.message : "임차요청번호를 확인해 주세요.");
+    }finally{
+      requestNumberBtn.disabled = false;
+    }
+  }
+
+  requestNumberBtn.addEventListener("click", lookupRequest);
+
+  requestNumberInput.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){
+      e.preventDefault();
+      lookupRequest();
+    }
+  });
+
+  requestRegisterBtn.addEventListener("click", function(){
+    if(!currentRequestNumber) return;
+    location.href = "/broker-agreement.html?code=" + encodeURIComponent(currentRequestNumber);
+  });
+
+  requestExitBtn.addEventListener("click", function(){
+    currentRequestNumber = "";
+    requestNumberInput.value = "";
+    requestResultGrid.innerHTML = "";
+    requestResult.classList.remove("open");
+    requestNumberInput.focus();
+  });
 </script>
 
 </body>
