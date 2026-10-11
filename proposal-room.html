@@ -856,6 +856,10 @@ textarea:focus{
           임대인·중개사 연락처
         </div>
 
+        <div class="file-help" style="margin:-4px 0 10px; color:#1165d7; font-weight:800;">
+          🔒 등록 시 연락처는 절대 노출되지 않으며, 임차인(매수자)이 매물을 최종 선택(거래 결정)하였을 때만 임차인(매수자)에게만 공개됩니다.
+        </div>
+
 
         <div class="grid">
 
@@ -1627,6 +1631,12 @@ document
       propertyAddress: fullAddress,
       proposedPrice: priceDisplay,
 
+      propertyId: proposalNo,
+      requestNumber: code,
+      dealType: transactionType,
+      apartment: [sido, sigungu, dong, apartment].filter(Boolean).join(" "),
+      amount: priceDisplay,
+
       price:
       price,
 
@@ -1639,13 +1649,15 @@ document
       area:
       document
       .getElementById("area")
-      .value,
+      .value
+      ? document.getElementById("area").value + "㎡"
+      : "-",
 
       floor:
-      document
-      .getElementById("floor")
-      .value
-      .trim(),
+      [
+        document.getElementById("floor").value.trim(),
+        document.getElementById("totalFloor").value.trim()
+      ].filter(Boolean).join(" / ") || "-",
 
       totalFloor:
       document
@@ -1682,6 +1694,8 @@ document
       .getElementById("ownerPhone")
       .value
       .trim(),
+
+      contactHiddenUntilSelected: true,
 
       description:
       document
@@ -1750,13 +1764,19 @@ document
       localStorage.setItem("wooriapt_proposals", JSON.stringify(allProposals));
     }catch(e){}
 
+    try{
+      const brokerProps = JSON.parse(localStorage.getItem("wooriapt_broker_properties") || "[]");
+      brokerProps.unshift(proposalData);
+      localStorage.setItem("wooriapt_broker_properties", JSON.stringify(brokerProps));
+    }catch(e){}
+
 
 
     message.className =
     "message ok";
 
     message.textContent =
-    "매물 제안이 정상적으로 등록되었습니다.";
+    "매물 제안이 정상적으로 등록되었습니다. (임대인·중개사 연락처는 비공개로 보호되며, 임차인이 매물을 최종 선택했을 때 임차인에게만 공개됩니다.)";
 
 
 
