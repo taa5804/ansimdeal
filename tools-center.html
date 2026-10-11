@@ -863,6 +863,53 @@ function computeRadiusMetrics(lat, lng, address, ind) {
   if (competitorCount >= 32) densityStatus = "밀집 (차별화 필요)";
   else if (competitorCount <= 12) densityStatus = "여유 (진입 유망)";
 
+  // 4) 업종 + 지역 특성에 따른 주력 시간대 및 주력 연령층 동적 산출
+  let peakTime = "12~14시 · 18~21시";
+  let mainAge = "30·40대 직장인·거주민 중심";
+
+  const fullInd = ind.full;
+  if (/주점|호프|포차|이자카야|와인|막걸리|노래|PC방|당구|볼링/.test(fullInd)) {
+    peakTime = (seed % 2 === 0) ? "19~24시 야간 집중" : "20~01시 심야 집중";
+    mainAge = /홍대|서교|성수|건대|신촌|대학/.test(address) ? "20대·30대 초반 중심" : "20·30대 및 40대 모임 중심";
+  } else if (/카페|커피|베이커리|제과|디저트|브런치|아이스크림|주스/.test(fullInd)) {
+    peakTime = (seed % 2 === 0) ? "11~16시 점심·오후 집중" : "12~17시 오후 피크";
+    mainAge = /강남|역삼|여의도|판교|종로|광화문/.test(address) ? "20·30대 오피스 직장인 중심" : "20·30대 여성 및 30·40대 중심";
+  } else if (/학원|교습|독서실|스터디|문구|서점|키즈/.test(fullInd)) {
+    peakTime = (seed % 2 === 0) ? "15~21시 하교·방과후 집중" : "14~20시 오후·저녁 집중";
+    mainAge = "10대 학생 · 30·40대 학부모 중심";
+  } else if (/의원|병원|치과|한의원|약국|건강|안경|의료/.test(fullInd)) {
+    peakTime = (seed % 2 === 0) ? "09~13시 오전 · 14~18시 오후" : "10~17시 주간 집중";
+    mainAge = /한의원|정형|약국|건강/.test(fullInd) ? "40·60대 중장년층 중심" : "30·50대 가족·거주민 중심";
+  } else if (/편의점|슈퍼|무인|세탁|빨래|청과|정육|반찬/.test(fullInd)) {
+    peakTime = (seed % 2 === 0) ? "08~10시 출근 · 18~23시 퇴근·야간" : "16~22시 저녁 생활시간 집중";
+    mainAge = (seed % 3 === 0) ? "20·30대 1인가구 중심" : "30·50대 주부·거주민 중심";
+  } else if (/미용|헤어|네일|피부|바버|화장품|의류|패션/.test(fullInd)) {
+    peakTime = (seed % 2 === 0) ? "11~19시 오후·주말 집중" : "13~20시 오후·퇴근시간 집중";
+    mainAge = "20·40대 여성·직장인 중심";
+  } else if (/헬스|피트니스|골프|필라테스|요가/.test(fullInd)) {
+    peakTime = (seed % 2 === 0) ? "07~09시 오전 · 18~23시 퇴근후" : "18~22시 저녁 집중";
+    mainAge = /골프/.test(fullInd) ? "30·50대 직장인·자영업 중심" : "20·40대 자기관리층 중심";
+  } else if (/치킨|피자|분식|패스트푸드/.test(fullInd)) {
+    peakTime = "17~23시 저녁·야식 피크";
+    mainAge = "10·20대 및 30·40대 가족 중심";
+  } else {
+    const timePool = [
+      "11~14시 점심 · 18~21시 저녁",
+      "10~15시 주간 · 17~20시 저녁",
+      "12~15시 낮 · 18~22시 야간"
+    ];
+    const agePool = [
+      "30·40대 직장인·거주민 중심",
+      "20·30대 청년·직장인 중심",
+      "40·50대 자영업·중장년 중심",
+      "30·50대 가족·상주인구 중심"
+    ];
+    peakTime = timePool[(seed + indSeed) % timePool.length];
+    mainAge = agePool[(seed * 3 + indSeed) % agePool.length];
+  }
+
+  const popSubText = "주력 시간: " + peakTime + " (" + mainAge + ")";
+
   return {
     dailyPop,
     competitorCount,
@@ -871,7 +918,10 @@ function computeRadiusMetrics(lat, lng, address, ind) {
     trendUp: trendRateNum >= 0,
     months,
     monthlySeries,
-    densityStatus
+    densityStatus,
+    peakTime,
+    mainAge,
+    popSubText
   };
 }
 
@@ -948,9 +998,12 @@ function renderRadiusAndBubble(lat, lng, address, moveView) {
         <div class="bubble-ind">🏷️ ${ind.full}</div>
       </div>
       <div class="bubble-body">
-        <div class="bubble-stat-row">
-          <span class="bubble-stat-label">👥 일일평균 유동인구</span>
-          <span class="bubble-stat-val blue">${m.dailyPop.toLocaleString()}명 / 일</span>
+        <div class="bubble-stat-row" style="flex-direction:column; align-items:flex-start; gap:3px;">
+          <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+            <span class="bubble-stat-label">👥 일일평균 유동인구</span>
+            <span class="bubble-stat-val blue">${m.dailyPop.toLocaleString()}명 / 일</span>
+          </div>
+          <div style="font-size:11.5px; color:#1165d7; font-weight:700;">⏰ ${m.peakTime} · ${m.mainAge}</div>
         </div>
         <div class="bubble-stat-row">
           <span class="bubble-stat-label">🏪 반경 1.5km 동일업종</span>
@@ -976,11 +1029,12 @@ function renderRadiusAndBubble(lat, lng, address, moveView) {
 
   centerMarker.bindPopup(popupHtml, { maxWidth: 340, autoPan: true }).openPopup();
 
-  // 4) 하단 요약 카드 동기화
+  // 4) 하단 요약 카드 동기화 (주력 시간대 및 주력 연령층 포함)
   document.getElementById("currentCoordText").textContent = "현재 중심: " + address + " (🔴 반경 1.5km)";
   document.getElementById("sumLocation").textContent = address;
   document.getElementById("sumIndustry").textContent = ind.full;
   document.getElementById("sumPop").textContent = m.dailyPop.toLocaleString() + "명 / 일";
+  document.getElementById("sumPopSub").textContent = m.popSubText;
   document.getElementById("sumCompetitors").textContent = m.competitorCount + "개 영업 중";
   document.getElementById("sumCompSub").textContent = "반경 1.5km 내 밀집도: " + m.densityStatus;
   document.getElementById("sumSales").textContent = "월 " + m.avgMonthlySales.toLocaleString() + "만 원";
