@@ -1139,6 +1139,10 @@ select{
     <span id="feeCardState" class="state wait">입금대기</span>
   </div>
 
+  <div class="notice" id="feeNotice">
+    플랫폼 서비스 이용료 입금 확인이 완료되면 <b>[입금 완료]</b>로 자동 전환되며, 전자서명 단계가 열립니다.
+  </div>
+
   <div class="fee-box">
 
     <div id="feeStatus" class="fee-status">
@@ -1149,7 +1153,7 @@ select{
       id="feeCheckBtn"
       type="button"
       class="view-btn"
-      style="min-height:46px; padding:0 16px; background:#12394d; color:#fff; border-color:#12394d; border-radius:10px; font-size:13px;"
+      style="min-height:46px; padding:0 16px; display:inline-flex; align-items:center; justify-content:center; background:#12394d; color:#fff; border-color:#12394d; border-radius:10px; font-size:13px;"
       onclick="goFeePaymentPage()">
       입금 확인하기
     </button>
@@ -1166,6 +1170,10 @@ select{
   <div class="card-head">
     <div class="card-title">⑥ 전자계약서</div>
     <span id="contractState" class="state wait">작성대기</span>
+  </div>
+
+  <div class="notice" id="contractNotice">
+    ※ <b>① 거래 기본정보 입력 · ② 거래 당사자 본인확인 · ③·④ 필수서류 등록</b>이 모두 완료되면 <b>[전자계약서 작성]</b> 버튼이 활성화됩니다.
   </div>
 
   <div class="contract-box">
@@ -1190,6 +1198,10 @@ select{
   <div class="card-head">
     <div class="card-title">⑦ 전자서명 현황</div>
     <span id="allSignState" class="state wait">비활성</span>
+  </div>
+
+  <div class="notice" id="signNotice">
+    ※ <b>⑤ 플랫폼 서비스 이용료 [입금 완료]</b> 및 <b>⑥ [전자계약서 작성] 완료</b>가 모두 확인되어야 각 당사자의 전자서명 <b>[문자 발송]</b> 버튼이 활성화됩니다.
   </div>
 
   <div class="sign-grid">
