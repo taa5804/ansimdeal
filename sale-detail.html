@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071a2c">
-<title>분양 상세 카탈로그 (1분 스크롤 시 3,000원 모바일 바코드카드 지급) | 우리 아파트 분양</title>
+<title>분양 상세 | 우리 아파트 분양</title>
 <style>
 #aptCatalog,
 #aptCatalog *{box-sizing:border-box}
@@ -27,13 +27,13 @@ html,body{
   width:min(100%,460px);
   max-width:460px;
   margin:0 auto;
-  padding-bottom:130px;
+  padding-bottom:30px;
   background:#0b1d2d;
   color:#fff;
   box-shadow:0 18px 55px rgba(0,0,0,.32);
 }
 
-/* 상단 고정 스크롤 진행 헤더 */
+/* 상단 고정 열람 안내 헤더 (상단에만 노출) */
 .sticky-scroll-bar{
   position:sticky;
   top:0;
@@ -60,17 +60,17 @@ html,body{
   background:rgba(255,255,255,.12);
 }
 .timer-pill{
-  font-size:12.5px;
-  font-weight:900;
+  font-size:12px;
+  font-weight:800;
   color:#fde68a;
-  background:rgba(245,158,11,.2);
+  background:rgba(245,158,11,.18);
   border:1px solid rgba(251,191,36,.45);
   padding:5px 11px;
   border-radius:999px;
 }
 .progress-track{
   width:100%;
-  height:6px;
+  height:5px;
   background:rgba(255,255,255,.15);
   border-radius:999px;
   overflow:hidden;
@@ -78,11 +78,11 @@ html,body{
 .progress-fill{
   width:0%;
   height:100%;
-  background:linear-gradient(90deg,#f59e0b,#fde047);
+  background:linear-gradient(90deg,#c8a35f,#fde047);
   transition:width .3s ease;
 }
 
-/* 8페이지 수직 스크롤 카탈로그 */
+/* 8페이지 카탈로그 */
 #aptCatalog .apt-track{
   display:flex;
   flex-direction:column;
@@ -477,7 +477,8 @@ html,body{
 }
 
 #aptCatalog .contact-actions button,
-#aptCatalog .contact-actions a{
+#aptCatalog .contact-actions a,
+#aptCatalog #rewardBtn{
   min-height:48px;
   border:1px solid var(--gold);
   background:rgba(4,20,36,.75);
@@ -492,63 +493,30 @@ html,body{
   cursor:pointer;
 }
 
-/* 하단 고정 모바일 바코드카드 카카오톡 발급 바 */
-.fixed-bottom-reward{
-  position:fixed;
-  left:50%;
-  transform:translateX(-50%);
-  bottom:0;
-  width:min(100%,460px);
-  z-index:60;
-  padding:12px 16px 16px;
-  background:rgba(7,26,44,.96);
-  border-top:1.5px solid rgba(251,191,36,.55);
-  backdrop-filter:blur(10px);
-  box-shadow:0 -8px 25px rgba(0,0,0,.35);
-}
-.reward-guide-txt{
-  font-size:11.5px;
-  color:#e2e8f0;
-  text-align:center;
-  margin-bottom:8px;
-  font-weight:700;
-}
-.reward-guide-txt strong{
-  color:#fde047;
-}
-#rewardBtn{
+#aptCatalog #rewardBtn{
+  position:relative;
+  z-index:2;
   width:100%;
-  min-height:52px;
-  border:0;
-  border-radius:14px;
-  background:#FEE500;
-  color:#191919;
-  font-size:15px;
-  font-weight:900;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  box-shadow:0 6px 18px rgba(254,229,0,.3);
-  transition:all .2s;
+  margin-top:10px;
+  background:var(--gold);
+  color:#07192b;
+  font-weight:800;
 }
-#rewardBtn:disabled{
-  background:#334155;
-  color:#94a3b8;
-  box-shadow:none;
-  cursor:not-allowed;
+
+#aptCatalog #rewardBtn:disabled{
+  opacity:.55;
+  cursor:default;
 }
 </style>
 </head>
 <body>
 <div id="aptCatalog" class="apt-catalog">
 
-  <!-- 상단 고정 1분 스크롤 타이머 & 진행률 -->
+  <!-- 상단에만 열람 시간 및 본사관리자 설정 혜택 노출 -->
   <div class="sticky-scroll-bar">
     <div class="sticky-top-row">
-      <a id="detailBackBtn" href="/presale.html" class="back-btn">‹ 분양 메인화면</a>
-      <div class="timer-pill">⏱️ 스크롤 열람 <b id="viewTime">00:00</b> / 01:00</div>
+      <a id="detailBackBtn" href="/index.html" class="back-btn">‹ 분양 목록</a>
+      <div class="timer-pill" id="topRewardPill">유효조회 <b id="viewTime">00:00</b> / 01:00</div>
     </div>
     <div class="progress-track">
       <div id="scrollProgressFill" class="progress-fill"></div>
@@ -564,8 +532,8 @@ html,body{
 
       <div class="cover-copy">
         <span class="eyebrow" id="coverEyebrow">PREMIUM RESIDENCE</span>
-        <h1 id="coverTitle">양산택지지구 프리미엄 명작</h1>
-        <p id="coverDesc">일상이 예술이 되는 새로운 주거의 시작<br><strong style="color:#fde047;">아래로 1분(60초)간 천천히 스크롤하시면 카카오톡으로 3,000원 모바일 바코드카드가 지급됩니다.</strong></p>
+        <h1 id="coverTitle">단지명을 입력해 주세요</h1>
+        <p id="coverDesc">일상이 작품이 되는 새로운 주거의 시작</p>
       </div>
 
       <div class="cover-logo" id="coverLogo">THE FIRST LIFE</div>
@@ -578,7 +546,7 @@ html,body{
       <div class="section-title">
         <span>LOCATION</span>
         <h2>모든 가치가 하나로 모이는<br>완벽한 입지</h2>
-        <p>교통·교육·생활·자연의 가치를 누리는 특별한 자리</p>
+        <p>교통·교육·생활·자연을 가까이 누리는 특별한 자리</p>
       </div>
 
       <div class="location-photo">
@@ -592,7 +560,7 @@ html,body{
         </div>
         <div>
           <b>교육환경</b>
-          <span>학교와 교육시설의 가치</span>
+          <span>학교와 교육시설을 가까이</span>
         </div>
         <div>
           <b>생활환경</b>
@@ -610,7 +578,7 @@ html,body{
       <div class="page-no">03 / 08</div>
 
       <div class="premium-photo">
-        <div class="image-label">대표 외관 이미지</div>
+        <div class="image-label">대표 실내 이미지</div>
       </div>
 
       <div class="premium-copy">
@@ -620,7 +588,7 @@ html,body{
         <ul>
           <li>
             <b>원스톱 라이프</b>
-            <small>생활에 필요한 모든 것을 가까이</small>
+            <small>생활에 필요한 모든 것을 가깝게</small>
           </li>
           <li>
             <b>브랜드 프리미엄</b>
@@ -631,7 +599,7 @@ html,body{
             <small>공간 활용을 높인 평면</small>
           </li>
           <li>
-            <b>대형 커뮤니티</b>
+            <b>특화 커뮤니티</b>
             <small>입주민을 위한 다양한 시설</small>
           </li>
           <li>
@@ -662,7 +630,7 @@ html,body{
       <div class="feature-grid">
         <div>
           <b>쾌적한 조경</b>
-          <span>자연을 담은 단지</span>
+          <span>자연을 품은 단지</span>
         </div>
         <div>
           <b>보행 중심</b>
@@ -787,25 +755,19 @@ html,body{
 
       <div class="contact-actions">
         <button type="button" id="visitBtn">
-          📅 방문예약 신청
+          방문예약 신청
         </button>
 
-        <a id="contactPhoneLink" href="tel:0629524150">
-          📞 상담전화 062-952-4150
+        <a id="contactPhoneLink" href="tel:0215880001">
+          상담전화 02-1588-0001
         </a>
       </div>
+
+      <button type="button" id="rewardBtn" disabled>
+        카탈로그 확인 후 혜택 받기
+      </button>
     </section>
 
-  </div>
-
-  <!-- 하단 고정 모바일 바코드카드 카카오톡 수령 바 -->
-  <div class="fixed-bottom-reward">
-    <div id="rewardGuideTxt" class="reward-guide-txt">
-      분양정보를 스크롤하며 <strong>1분(60초)</strong>을 채우시면 <strong>3,000원 모바일 바코드카드</strong>가 카카오톡으로 지급됩니다!
-    </div>
-    <button type="button" id="rewardBtn" disabled>
-      ⏱️ 1분 스크롤 열람 중 · 60초 후 카카오톡 바코드카드 받기
-    </button>
   </div>
 
 </div>
@@ -817,10 +779,9 @@ html,body{
     var root = document.getElementById("aptCatalog");
     if (!root) return;
 
-    var viewTime = document.getElementById("viewTime");
     var progressFill = document.getElementById("scrollProgressFill");
+    var topRewardPill = document.getElementById("topRewardPill");
     var rewardBtn = document.getElementById("rewardBtn");
-    var rewardGuideTxt = document.getElementById("rewardGuideTxt");
     var visitBtn = document.getElementById("visitBtn");
 
     var params = new URLSearchParams(window.location.search);
@@ -835,48 +796,47 @@ html,body{
 
     var currentRoom = {
       project_code: roomCode || "ROOM-001",
-      project_name: "양산택지지구 프리미엄 명작",
-      contact_phone: "062-952-4150",
+      project_name: "더 퍼스트 센트럴파크",
+      contact_phone: "02-1588-0001",
       catalog_data: {
         channelType: "daangn",
-        companyName: "양산택지지구 분양사업단",
-        targetDong: "우리동네",
+        companyName: "더 퍼스트 분양사업단",
         rewardAmount: 3000,
-        partnerName: "카카오톡 모바일 바코드카드 (현금사용)"
+        partnerName: "모바일 바코드카드"
       }
     };
 
     var backBtn = document.getElementById("detailBackBtn");
     if (backBtn && roomCode) {
-      backBtn.href = "/presale.html?room=" + encodeURIComponent(roomCode);
+      backBtn.href = "/index.html?room=" + encodeURIComponent(roomCode);
+    }
+
+    function sanitizeSubtitle(desc) {
+      var s = String(desc || "").trim();
+      if (!s || s.indexOf("바코드카드") !== -1 || s.indexOf("전자쿠폰") !== -1 || s.indexOf("쿠폰") !== -1) {
+        return "일상이 작품이 되는 새로운 주거의 시작";
+      }
+      return s;
     }
 
     function applyRoomUI(room) {
       if (!room) return;
       currentRoom = room;
       var c = room.catalog_data || {};
-      var isMart = c.channelType === "mart";
-      var reward = Number(c.rewardAmount || 3000).toLocaleString("ko-KR");
-
-      var pageBadge = document.getElementById("roomPageBadge");
-      if (pageBadge) pageBadge.textContent = "01 / 08 · #" + (room.project_code || "ROOM-001");
 
       var eyebrowEl = document.getElementById("coverEyebrow");
-      if (eyebrowEl) eyebrowEl.textContent = (c.targetDong || room.area || "PREMIUM") + " · " + (isMart ? "MART SPECIAL" : "DAANGN BIZ TARGET");
+      if (eyebrowEl) eyebrowEl.textContent = c.coverEyebrow || "PREMIUM RESIDENCE";
 
       var titleEl = document.getElementById("coverTitle");
-      if (titleEl) titleEl.textContent = room.project_name || "프리미엄 분양단지";
+      if (titleEl) titleEl.textContent = room.project_name || "단지명을 입력해 주세요";
 
       var descEl = document.getElementById("coverDesc");
       if (descEl) {
-        descEl.innerHTML = (c.coverDescription || "일상이 예술이 되는 새로운 주거의 시작") +
-          '<br><strong style="color:#fde047;">아래로 1분(60초)간 천천히 스크롤하시면 ' +
-          (isMart ? (c.partnerName || "지정 마트") + " " + reward + "원 전자쿠폰이" : "카카오톡으로 " + reward + "원 모바일 바코드카드가") +
-          ' 즉시 지급됩니다.</strong>';
+        descEl.textContent = sanitizeSubtitle(c.coverDescription);
       }
 
       var logoEl = document.getElementById("coverLogo");
-      if (logoEl) logoEl.textContent = c.companyName || "PREMIUM HOUSING";
+      if (logoEl) logoEl.textContent = c.companyName || "THE FIRST LIFE";
 
       var coverSection = document.getElementById("coverSection");
       if (coverSection && c.coverImageUrl) {
@@ -886,7 +846,7 @@ html,body{
       var phoneLink = document.getElementById("contactPhoneLink");
       if (phoneLink && room.contact_phone) {
         phoneLink.href = "tel:" + String(room.contact_phone).replace(/[^0-9]/g, "");
-        phoneLink.textContent = "📞 상담전화 " + room.contact_phone;
+        phoneLink.textContent = "상담전화 " + room.contact_phone;
       }
 
       checkReward();
@@ -904,7 +864,7 @@ html,body{
       } catch (e) {}
 
       try {
-        var saved = JSON.parse(localStorage.getItem("wooriapt_replicated_rooms_v1") || "[]");
+        var saved = JSON.parse(localStorage.getItem("wooriapt_replicated_rooms_v2") || "[]");
         var found = saved.find(function(x) { return String(x.project_code || "").toUpperCase() === roomCode; });
         if (found) applyRoomUI(found);
       } catch (e) {}
@@ -929,29 +889,30 @@ html,body{
       var pct = Math.min(100, Math.round((activeSeconds / requiredSeconds) * 100));
       if (progressFill) progressFill.style.width = pct + "%";
 
+      var sysSettings = null;
+      try {
+        sysSettings = JSON.parse(localStorage.getItem("presaleSystemSettings") || "null");
+      } catch (e) {}
+
       var c = (currentRoom && currentRoom.catalog_data) || {};
       var isMart = c.channelType === "mart";
-      var reward = Number(c.rewardAmount || 3000).toLocaleString("ko-KR");
+      var rewardNum = Number(c.rewardAmount || (sysSettings && sysSettings.pointAmount) || 3000);
+      var reward = rewardNum.toLocaleString("ko-KR") + "원";
+      var rewardTypeLabel = isMart ? "전자쿠폰" : "모바일 바코드카드";
       var enoughTime = activeSeconds >= requiredSeconds;
+
+      if (topRewardPill) {
+        topRewardPill.innerHTML =
+          reward + " " + rewardTypeLabel + " · 유효조회 <b id='viewTime'>" + formatTime(activeSeconds) + "</b> / 01:00";
+      }
+
       rewardBtn.disabled = !enoughTime;
 
       if (rewardBtn.disabled) {
         var remain = Math.max(0, requiredSeconds - activeSeconds);
-        if (rewardGuideTxt) {
-          rewardGuideTxt.innerHTML = isMart
-            ? "분양정보를 스크롤하며 <strong>1분(60초)</strong>을 채우시면 <strong>" + (c.partnerName || "마트") + " " + reward + "원 전자쿠폰</strong>이 지급됩니다!"
-            : "분양정보를 스크롤하며 <strong>1분(60초)</strong>을 채우시면 <strong>" + reward + "원 모바일 바코드카드</strong>가 카카오톡으로 지급됩니다!";
-        }
-        rewardBtn.innerHTML = "⏱️ 1분 스크롤 열람 중 · " + remain + "초 후 " + reward + "원 " + (isMart ? "전자쿠폰" : "바코드카드") + " 받기";
+        rewardBtn.textContent = "8페이지 확인 · " + remain + "초 후 " + reward + " " + rewardTypeLabel + " 받기";
       } else {
-        if (rewardGuideTxt) {
-          rewardGuideTxt.innerHTML = isMart
-            ? "🎉 <strong>1분 스크롤 완료!</strong> 아래 버튼을 눌러 <strong>" + (c.partnerName || "마트") + " " + reward + "원 전자쿠폰</strong>을 받으세요!"
-            : "🎉 <strong>1분 스크롤 완료!</strong> 아래 버튼을 눌러 <strong>카카오톡으로 " + reward + "원 모바일 바코드카드</strong>를 받으세요!";
-        }
-        rewardBtn.innerHTML = isMart
-          ? "🛒 " + (c.partnerName || "지정 마트") + " " + reward + "원 전자쿠폰 즉시 받기 ›"
-          : "💬 카카오톡으로 " + reward + "원 모바일 바코드카드 즉시 받기 ›";
+        rewardBtn.textContent = reward + " " + rewardTypeLabel + " 받기";
       }
     }
 
@@ -965,28 +926,33 @@ html,body{
 
       if (isVisible && isActive) {
         activeSeconds += 1;
-        if (viewTime) viewTime.textContent = formatTime(activeSeconds);
         checkReward();
       }
     }, 1000);
 
     if (visitBtn) {
       visitBtn.addEventListener("click", function(){
-        alert("[" + (currentRoom.project_name || "분양단지") + "] 방문예약 신청이 접수되었습니다. 담당 상담사가 곧 안내해 드립니다.");
+        alert("[" + (currentRoom.project_name || "분양단지") + "] 방문예약 신청이 접수되었습니다.");
       });
     }
 
     rewardBtn.addEventListener("click", async function(){
       if (rewardBtn.disabled) return;
 
+      var sysSettings = null;
+      try {
+        sysSettings = JSON.parse(localStorage.getItem("presaleSystemSettings") || "null");
+      } catch (e) {}
+
       var c = (currentRoom && currentRoom.catalog_data) || {};
       var isMart = c.channelType === "mart";
-      var reward = Number(c.rewardAmount || 3000);
+      var reward = Number(c.rewardAmount || (sysSettings && sysSettings.pointAmount) || 3000);
+      var rewardTypeLabel = isMart ? "전자쿠폰" : "모바일 바코드카드";
 
       var now = new Date();
       function pad(v){ return String(v).padStart(2, "0"); }
 
-      var prefix = isMart ? "MART-" : "KAKAO-";
+      var prefix = isMart ? "MART-" : "CARD-";
       var couponNo =
         prefix +
         now.getFullYear() +
@@ -1003,7 +969,7 @@ html,body{
         projectName: currentRoom.project_name || "우리 아파트 분양",
         companyName: c.companyName || "",
         channelType: isMart ? "mart" : "daangn",
-        partnerName: c.partnerName || (isMart ? "지정 마트 전자쿠폰" : "카카오톡 모바일 바코드카드"),
+        partnerName: c.partnerName || rewardTypeLabel,
         couponNo: couponNo,
         issuedAt:
           now.getFullYear() + "-" +
@@ -1015,7 +981,7 @@ html,body{
           expires.getFullYear() + "-" +
           pad(expires.getMonth() + 1) + "-" +
           pad(expires.getDate()),
-        status: isMart ? "사용 가능 (지정 마트 계산대 스캔)" : "사용 가능 (현금 동일 결제)",
+        status: "사용 가능",
         point: reward
       };
 
@@ -1024,7 +990,7 @@ html,body{
       } catch(e) {}
 
       rewardBtn.disabled = true;
-      rewardBtn.textContent = (isMart ? "전자쿠폰" : "모바일 바코드카드") + " 발급 완료 · 이동 중...";
+      rewardBtn.textContent = rewardTypeLabel + " 발급 완료";
 
       try {
         var apiOrigin = window.location.hostname.includes("wooriaptcd.com") ? "" : "https://wooriaptcd.com";

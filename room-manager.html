@@ -285,10 +285,9 @@ button,input,select,textarea{font:inherit}
       <div class="field">
         <label>시/도 분류 *</label>
         <select id="sidoSelect">
-          <option value="seoul">서울특별시</option>
+          <option value="seoul" selected>서울특별시</option>
           <option value="gyeonggi">경기도</option>
           <option value="incheon">인천광역시</option>
-          <option value="jg" selected>전남광주통합특별시</option>
           <option value="busan">부산광역시</option>
           <option value="daegu">대구광역시</option>
           <option value="daejeon">대전광역시</option>
@@ -298,6 +297,7 @@ button,input,select,textarea{font:inherit}
           <option value="chungbuk">충청북도</option>
           <option value="chungnam">충청남도</option>
           <option value="jeonbuk">전북특별자치도</option>
+          <option value="jg">전남광주통합특별시</option>
           <option value="gyeongbuk">경상북도</option>
           <option value="gyeongnam">경상남도</option>
           <option value="jeju">제주특별자치도</option>
@@ -306,7 +306,7 @@ button,input,select,textarea{font:inherit}
 
       <div class="field">
         <label id="targetDongLabel">🥕 당근비즈 타겟 동네 (행정동·법정동) *</label>
-        <input id="targetDong" type="text" placeholder="예: 광주 광산구 양산동·연제동">
+        <input id="targetDong" type="text" placeholder="예: 서울 강남구 역삼동·대치동">
       </div>
 
       <div class="field">
@@ -330,39 +330,39 @@ button,input,select,textarea{font:inherit}
 
       <div class="field">
         <label>입주 예정일</label>
-        <input id="moveInDate" type="text" placeholder="예: 2029년 3월" value="2029년 3월">
+        <input id="moveInDate" type="text" placeholder="예: 2029년 8월" value="2029년 8월">
       </div>
 
       <div class="field">
         <label>분양 상담 전화번호 *</label>
-        <input id="contactPhone" type="tel" placeholder="예: 062-952-4150" value="062-952-4150">
+        <input id="contactPhone" type="tel" placeholder="예: 02-1588-0001" value="02-1588-0001">
       </div>
 
       <div class="field span2">
         <label>모델하우스(견본주택) 주소</label>
-        <input id="modelhouseAddress" type="text" placeholder="예: 광주광역시 광산구 하남산단8번로 176" value="광주광역시 광산구 하남산단8번로 176">
+        <input id="modelhouseAddress" type="text" placeholder="예: 서울특별시 강남구 역삼동 모델하우스" value="서울특별시 강남구 역삼동 모델하우스">
       </div>
 
       <!-- 보상 및 충전 수량 설정 -->
       <div class="field">
-        <label id="rewardAmountLabel">🎁 1분 스크롤 지급 금액 (원)</label>
-        <input id="rewardAmount" type="number" step="500" min="1000" value="3000">
+        <label id="rewardAmountLabel">🎁 지급 금액 설정 (원)</label>
+        <input id="rewardAmount" type="number" step="500" min="500" value="3000">
       </div>
 
       <div class="field">
         <label>선불 충전 발행 수량 (장)</label>
         <input id="issueQty" type="number" step="50" min="10" value="500">
         <div class="quick-qty">
-          <button type="button" data-qty="100">100장 (30만)</button>
-          <button type="button" data-qty="300">300장 (90만)</button>
-          <button type="button" data-qty="500">500장 (150만)</button>
-          <button type="button" data-qty="1000">1,000장 (300만)</button>
+          <button type="button" data-qty="100">100장</button>
+          <button type="button" data-qty="300">300장</button>
+          <button type="button" data-qty="500">500장</button>
+          <button type="button" data-qty="1000">1,000장</button>
         </div>
       </div>
 
       <div class="field">
-        <label id="partnerMartLabel">발급처 표기 (당근 바코드카드 / 마트명)</label>
-        <input id="partnerName" type="text" value="카카오톡 모바일 바코드카드 (현금사용)">
+        <label id="partnerMartLabel">발급처 표기 (당근 모바일 바코드카드 / 마트 전자쿠폰)</label>
+        <input id="partnerName" type="text" value="모바일 바코드카드">
       </div>
 
       <div class="field">
@@ -381,8 +381,8 @@ button,input,select,textarea{font:inherit}
       </div>
 
       <div class="field full">
-        <label>대표 홍보 문구 (매칭기 하단 & 분양 메인 표시)</label>
-        <textarea id="coverDescription" placeholder="예: 1분 스크롤 확인 시 카카오톡 3,000원 모바일 바코드카드 즉시 지급! 중도금 무이자 · 프리미엄 대단지">1분 스크롤 확인 시 카카오톡 3,000원 모바일 바코드카드 즉시 지급! 일상이 작품이 되는 프리미엄 주거 명작</textarea>
+        <label>단지 소개 문구</label>
+        <textarea id="coverDescription" placeholder="예: 일상이 작품이 되는 새로운 주거의 시작">일상이 작품이 되는 새로운 주거의 시작</textarea>
       </div>
     </div>
 
@@ -416,12 +416,12 @@ button,input,select,textarea{font:inherit}
 (function(){
   "use strict";
 
-  var STORAGE_KEY = "wooriapt_replicated_rooms_v1";
+  var STORAGE_KEY = "wooriapt_replicated_rooms_v2";
   var rooms = [];
 
   var DEFAULT_IMAGES = [
-    "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=85",
     "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85",
+    "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=85",
     "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=85"
   ];
 
@@ -454,17 +454,17 @@ button,input,select,textarea{font:inherit}
       optD.classList.add("active");
       optM.classList.remove("active");
       $("targetDongLabel").textContent = "🥕 당근비즈 타겟 동네 (행정동·법정동) *";
-      $("rewardAmountLabel").textContent = "🎁 1분 스크롤 모바일 바코드카드 금액 (원)";
-      if($("partnerName").value.indexOf("마트") > -1 || !$("partnerName").value){
-        $("partnerName").value = "카카오톡 모바일 바코드카드 (현금사용)";
+      $("rewardAmountLabel").textContent = "🎁 모바일 바코드카드 지급 금액 (원)";
+      if($("partnerName").value.indexOf("마트") > -1 || $("partnerName").value.indexOf("전자쿠폰") > -1 || !$("partnerName").value){
+        $("partnerName").value = "모바일 바코드카드";
       }
     } else {
       optM.classList.add("active");
       optD.classList.remove("active");
       $("targetDongLabel").textContent = "🛒 연계 마트 소재 지역 (동네) *";
-      $("rewardAmountLabel").textContent = "🛒 1분 스크롤 마트 전자쿠폰 금액 (원)";
-      if($("partnerName").value.indexOf("카카오톡") > -1 || !$("partnerName").value){
-        $("partnerName").value = "에너젠마트 (마트 전용 전자쿠폰)";
+      $("rewardAmountLabel").textContent = "🛒 마트 전자쿠폰 지급 금액 (원)";
+      if($("partnerName").value.indexOf("바코드카드") > -1 || !$("partnerName").value){
+        $("partnerName").value = "전자쿠폰";
       }
     }
   }
@@ -508,19 +508,20 @@ button,input,select,textarea{font:inherit}
     generateNextCode();
     document.querySelector('input[name="channelType"][value="daangn"]').checked = true;
     updateChannelUI();
+    $("sidoSelect").value = "seoul";
     $("companyName").value = "";
     $("projectName").value = "";
     $("targetDong").value = "";
     $("saleStatus").value = "분양 중";
-    $("households").value = "1,200세대";
-    $("types").value = "59 · 84A · 84B";
-    $("moveInDate").value = "2029년 3월";
-    $("contactPhone").value = "1588-0000";
+    $("households").value = "1,520세대";
+    $("types").value = "84A · 84B";
+    $("moveInDate").value = "2029년 8월";
+    $("contactPhone").value = "02-1588-0001";
     $("modelhouseAddress").value = "";
     $("rewardAmount").value = "3000";
     $("issueQty").value = "500";
     $("coverImageUrl").value = "";
-    $("coverDescription").value = "1분 스크롤 확인 시 카카오톡 3,000원 모바일 바코드카드 즉시 지급! 일상이 작품이 되는 프리미엄 주거 명작";
+    $("coverDescription").value = "일상이 작품이 되는 새로운 주거의 시작";
     $("formTitle").textContent = "✨ 새 분양사 매칭 등록 · 전용 방 복제 생성";
   }
 
@@ -530,67 +531,67 @@ button,input,select,textarea{font:inherit}
     return [
       {
         project_code: "ROOM-001",
-        project_name: "양산택지지구 프리미엄 명작",
+        project_name: "더 퍼스트 센트럴파크",
         sale_status: "분양 중",
-        area: "광주 광산구 양산동·연제동",
-        move_in_date: "2029년 3월",
-        contact_phone: "062-952-4150",
-        modelhouse_address: "광주광역시 광산구 하남산단8번로 176",
-        is_active: true,
-        updated_at: new Date().toISOString(),
-        catalog_data: {
-          channelType: "daangn",
-          companyName: "양산택지지구 분양사업단",
-          sido: "jg",
-          targetDong: "광주 광산구 양산동·연제동",
-          households: "1,520세대",
-          types: "84A · 84B",
-          rewardAmount: 3000,
-          issueQty: 500,
-          issuedCount: 12,
-          partnerName: "카카오톡 모바일 바코드카드 (현금사용)",
-          adminId: "room001",
-          adminPw: "1234",
-          coverImageUrl: DEFAULT_IMAGES[0],
-          coverEyebrow: "DAANGN BIZ TARGET PRESALE",
-          coverTitle: "양산택지지구 프리미엄 명작",
-          coverDescription: "1분 스크롤 확인 시 카카오톡 3,000원 모바일 바코드카드 즉시 지급! 직주근접·명품학군 프리미엄 대단지"
-        }
-      },
-      {
-        project_code: "ROOM-002",
-        project_name: "더 퍼스트 센트럴파크 리버뷰",
-        sale_status: "분양 중",
-        area: "서울 강남구 역삼동·대치동",
+        area: "서울특별시 강남구 역삼동",
         move_in_date: "2029년 8월",
-        contact_phone: "02-1588-3000",
+        contact_phone: "02-1588-0001",
         modelhouse_address: "서울특별시 강남구 역삼동 모델하우스",
         is_active: true,
         updated_at: new Date().toISOString(),
         catalog_data: {
           channelType: "daangn",
-          companyName: "메이저 건설 컨소시엄",
+          companyName: "더 퍼스트 분양사업단",
           sido: "seoul",
-          targetDong: "서울 강남구 역삼동·대치동",
-          households: "1,840세대",
-          types: "59 · 84A · 84B · 101",
+          targetDong: "서울특별시 강남구 역삼동·대치동",
+          households: "1,520세대",
+          types: "84A · 84B",
           rewardAmount: 3000,
-          issueQty: 1000,
-          issuedCount: 45,
-          partnerName: "카카오톡 모바일 바코드카드 (현금사용)",
+          issueQty: 500,
+          issuedCount: 0,
+          partnerName: "모바일 바코드카드",
+          adminId: "room001",
+          adminPw: "1234",
+          coverImageUrl: DEFAULT_IMAGES[0],
+          coverEyebrow: "PREMIUM RESIDENCE",
+          coverTitle: "더 퍼스트 센트럴파크",
+          coverDescription: "일상이 작품이 되는 새로운 주거의 시작"
+        }
+      },
+      {
+        project_code: "ROOM-002",
+        project_name: "판교 레이크뷰 프레스티지",
+        sale_status: "분양 중",
+        area: "경기도 성남시 분당구",
+        move_in_date: "2030년 1월",
+        contact_phone: "031-1588-0002",
+        modelhouse_address: "경기도 성남시 분당구 판교역로 모델하우스",
+        is_active: true,
+        updated_at: new Date().toISOString(),
+        catalog_data: {
+          channelType: "daangn",
+          companyName: "레이크뷰 분양본부",
+          sido: "gyeonggi",
+          targetDong: "경기도 성남시 분당구 판교동·백현동",
+          households: "1,180세대",
+          types: "74 · 84 · 101",
+          rewardAmount: 3000,
+          issueQty: 500,
+          issuedCount: 0,
+          partnerName: "모바일 바코드카드",
           adminId: "room002",
           adminPw: "1234",
           coverImageUrl: DEFAULT_IMAGES[1],
-          coverEyebrow: "PREMIUM RESIDENCE",
-          coverTitle: "더 퍼스트 센트럴파크 리버뷰",
-          coverDescription: "당근마켓 동네 주민 특별 혜택! 1분 스크롤 시 3,000원 카카오톡 모바일 바코드카드 즉시 지급"
+          coverEyebrow: "NEW LIFESTYLE",
+          coverTitle: "판교 레이크뷰 프레스티지",
+          coverDescription: "교통·교육·생활·자연을 가까이 누리는 특별한 자리"
         }
       },
       {
         project_code: "ROOM-003",
-        project_name: "양산택지지구 (에너젠마트 전용관)",
+        project_name: "양산택지지구 프리미엄 대단지",
         sale_status: "분양 중",
-        area: "광주 광산구 하남산단·양산동",
+        area: "광주광역시 광산구 하남산단8번로 176",
         move_in_date: "2029년 3월",
         contact_phone: "062-952-4150",
         modelhouse_address: "광주광역시 광산구 하남산단8번로 176",
@@ -598,21 +599,21 @@ button,input,select,textarea{font:inherit}
         updated_at: new Date().toISOString(),
         catalog_data: {
           channelType: "mart",
-          companyName: "양산택지지구 × 에너젠마트",
+          companyName: "양산택지지구 분양사업단",
           sido: "jg",
-          targetDong: "광주 광산구 하남산단·양산동",
+          targetDong: "광주 광산구 양산동·하남동",
           households: "1,520세대",
           types: "84A · 84B",
           rewardAmount: 5000,
           issueQty: 300,
-          issuedCount: 8,
-          partnerName: "에너젠마트 전자쿠폰",
+          issuedCount: 0,
+          partnerName: "에너젠마트",
           adminId: "room003",
           adminPw: "1234",
           coverImageUrl: DEFAULT_IMAGES[2],
-          coverEyebrow: "MART PARTNER SPECIAL",
-          coverTitle: "양산택지지구 (에너젠마트 전용관)",
-          coverDescription: "에너젠마트 고객 전용! 1분 스크롤 확인 시 마트 계산대에서 즉시 쓰는 전자쿠폰 지급"
+          coverEyebrow: "PREMIUM RESIDENCE",
+          coverTitle: "양산택지지구 프리미엄 대단지",
+          coverDescription: "자연과 건축이 어우러진 프리미엄 대단지"
         }
       }
     ];

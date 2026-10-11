@@ -4,107 +4,59 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#123c52">
-<title>우리 아파트 분양 메인화면 | 1분 스크롤 시 3,000원 모바일 바코드카드 카카오톡 지급</title>
-<meta name="description" content="관심 지역의 아파트 분양 정보를 1분간 스크롤하여 확인하시면 현금처럼 즉시 사용할 수 있는 3,000원 모바일 바코드카드를 카카오톡으로 즉시 지급해 드립니다.">
-<link rel="manifest" href="/manifest.webmanifest">
+<title>우리 아파트 분양</title>
 <style>
 #saleMain,
 #saleMain *{
   box-sizing:border-box;
 }
 
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+}
+body{
+  overflow-x:hidden;
+  background:#eef8fc;
+}
+button,input,select,textarea{
+  font:inherit;
+}
+
 #saleMain.sale-main{
   width:min(100%,760px);
   max-width:760px;
   margin:0 auto;
-  padding:16px 14px 50px;
+  padding:22px 14px 50px;
   background:#eef8fc;
   color:#14212b;
-  font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Segoe UI",Roboto,Arial,sans-serif;
-}
-
-#saleMain .top-util-bar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:12px;
-}
-
-#saleMain .util-link{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:8px 13px;
-  border-radius:12px;
-  background:#ffffff;
-  border:1.5px solid #cbd5e1;
-  color:#123c52;
-  font-size:12.5px;
-  font-weight:800;
-  text-decoration:none;
-  box-shadow:0 2px 6px rgba(18,60,82,.06);
-}
-
-#saleMain .hq-admin-link{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  padding:8px 13px;
-  border-radius:12px;
-  background:#102f42;
-  border:1.5px solid #f0c15a;
-  color:#fde68a;
-  font-size:12.5px;
-  font-weight:900;
-  text-decoration:none;
-  box-shadow:0 3px 10px rgba(16,47,66,.18);
-}
-
-#saleMain .install-pill{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:8px 14px;
-  border-radius:12px;
-  background:linear-gradient(135deg,#059669,#047857);
-  border:0;
-  color:#ffffff;
-  font-size:12.5px;
-  font-weight:900;
-  cursor:pointer;
-  box-shadow:0 4px 10px rgba(5,150,105,.25);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
 
 #saleMain .main-head{
-  padding:26px 22px;
-  background:linear-gradient(135deg,#123c52 0%,#0d2b3b 100%);
+  padding:28px 22px;
+  background:#123c52;
   border-radius:20px;
   color:#fff;
-  position:relative;
-  overflow:hidden;
 }
 
 #saleMain .eyebrow{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
+  display:inline-block;
   margin-bottom:8px;
-  padding:4px 10px;
+  padding:5px 11px;
   border-radius:999px;
   background:rgba(214,173,85,.18);
   border:1px solid rgba(214,173,85,.45);
   color:#f0c568;
-  font-size:11.5px;
+  font-size:12px;
   font-weight:800;
-  letter-spacing:0.5px;
+  letter-spacing:.5px;
 }
 
 #saleMain .main-head h1{
   margin:0 0 8px;
-  font-size:clamp(23px,4.2vw,28px);
-  font-weight:900;
+  font-size:clamp(24px,4.2vw,28px);
 }
 
 #saleMain .main-head p{
@@ -112,33 +64,6 @@
   font-size:14px;
   line-height:1.6;
   color:#d8e8ef;
-}
-
-#saleMain .room-banner{
-  display:none;
-  margin:14px 0 0;
-  padding:13px 16px;
-  border-radius:14px;
-  background:linear-gradient(90deg,#fff7ed,#ffedd5);
-  border:1.5px solid #fdba74;
-  color:#9a3412;
-  font-size:13px;
-  font-weight:800;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-#saleMain .room-banner button{
-  padding:6px 11px;
-  border-radius:8px;
-  border:1px solid #fb923c;
-  background:#fff;
-  color:#c2410c;
-  font-size:12px;
-  font-weight:800;
-  cursor:pointer;
 }
 
 #saleMain .filter-box{
@@ -179,18 +104,12 @@
   background:#fff;
   border-radius:20px;
   box-shadow:0 8px 24px rgba(25,55,70,.09);
-  border:2px solid transparent;
-}
-
-#saleMain .project-card.matched-room{
-  border-color:#f59e0b;
-  box-shadow:0 12px 30px rgba(245,158,11,.18);
 }
 
 #saleMain .project-image{
   position:relative;
-  height:clamp(240px,43vw,320px);
-  background:#1e3a52 center/cover no-repeat;
+  height:clamp(240px,43vw,330px);
+  background:linear-gradient(150deg,#a9d1dc,#527b8d) center/cover no-repeat;
   overflow:hidden;
 }
 
@@ -199,33 +118,27 @@
   inset:0;
   background:linear-gradient(
     to bottom,
-    rgba(0,0,0,.12),
-    rgba(0,0,0,.18) 40%,
-    rgba(0,0,0,.78)
+    rgba(0,0,0,.05),
+    rgba(0,0,0,.05) 45%,
+    rgba(0,0,0,.68)
   );
 }
 
 #saleMain .card-top{
   position:absolute;
-  top:16px;
-  left:16px;
-  right:16px;
+  top:18px;
+  left:18px;
+  right:18px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
 }
 
-#saleMain .status,
-#saleMain .area{
+#saleMain .status{
   padding:7px 11px;
   border-radius:20px;
   font-size:12px;
   font-weight:800;
-}
-
-#saleMain .status{
   background:#ee9d19;
   color:#fff;
 }
@@ -235,46 +148,29 @@
   color:#162532;
 }
 
-#saleMain .area{
-  background:rgba(18,60,82,.9);
-  color:#fff;
-}
-
-#saleMain .area.daangn-badge{
-  background:#ea580c;
-  color:#fff;
-}
-
-#saleMain .area.mart-badge{
-  background:#059669;
-  color:#fff;
-}
-
 #saleMain .project-title{
   position:absolute;
   left:20px;
   right:20px;
-  bottom:20px;
+  bottom:22px;
   color:#fff;
 }
 
 #saleMain .project-title small{
   color:#f0c568;
   font-weight:800;
-  letter-spacing:1.2px;
-  font-size:11.5px;
+  letter-spacing:1.4px;
 }
 
 #saleMain .project-title h2{
-  margin:6px 0 5px;
-  font-size:clamp(21px,4vw,26px);
+  margin:8px 0 5px;
+  font-size:clamp(22px,4vw,26px);
 }
 
 #saleMain .project-title p{
   margin:0;
-  font-size:13.5px;
-  color:rgba(255,255,255,.92);
-  line-height:1.45;
+  font-size:14px;
+  color:rgba(255,255,255,.9);
 }
 
 #saleMain .project-info{
@@ -288,92 +184,38 @@
 }
 
 #saleMain .info-grid div{
-  padding:13px;
+  padding:14px;
   background:#f1f8fb;
   border-radius:13px;
 }
 
 #saleMain .info-grid span{
   display:block;
-  margin-bottom:5px;
+  margin-bottom:6px;
   color:#71818b;
   font-size:12px;
 }
 
 #saleMain .info-grid strong{
-  font-size:14.5px;
-}
-
-#saleMain .benefit{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-top:12px;
-  padding:14px;
-  background:#fffbeb;
-  border:1.5px solid #fcd34d;
-  border-radius:13px;
-  font-size:13px;
-  font-weight:700;
-  flex-wrap:wrap;
-}
-
-#saleMain .benefit strong{
-  color:#b45309;
-  font-weight:900;
+  font-size:15px;
 }
 
 #saleMain .detail-btn{
   width:100%;
-  margin-top:12px;
+  margin-top:14px;
   padding:16px;
   border:0;
   border-radius:13px;
-  background:linear-gradient(135deg,#0f766e,#118984);
+  background:#118984;
   color:#fff;
   font-size:15px;
-  font-weight:900;
+  font-weight:800;
   cursor:pointer;
-  box-shadow:0 6px 16px rgba(17,137,132,.25);
 }
 
-#saleMain .detail-btn.daangn-btn{
-  background:linear-gradient(135deg,#ea580c,#d97706);
-  box-shadow:0 6px 16px rgba(234,88,12,.25);
-}
-
-#saleMain .guide-box{
-  margin-top:22px;
-  padding:20px;
-  background:#fff;
-  border-radius:18px;
-}
-
-#saleMain .guide-box h3{
-  margin:0 0 15px;
-  font-size:19px;
-}
-
-#saleMain .guide-list{
-  display:grid;
-  gap:9px;
-}
-
-#saleMain .guide-list div{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:13px;
-  background:#f1f8fb;
-  border-radius:12px;
-  font-size:13px;
-  font-weight:600;
-}
-
-#saleMain .guide-list b{
-  color:#118984;
-  font-weight:900;
+#saleMain .detail-btn.disabled{
+  background:#bbc6ca;
+  cursor:default;
 }
 
 #saleMain .area-empty{
@@ -389,43 +231,6 @@
   text-align:center;
   line-height:1.6;
   word-break:keep-all;
-}
-
-#saleMain .platform-cross-box{
-  margin-top:20px;
-  padding:18px;
-  background:#0f172a;
-  border-radius:18px;
-  color:#fff;
-  display:grid;
-  gap:10px;
-}
-
-#saleMain .cross-btn{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:14px 16px;
-  border-radius:13px;
-  text-decoration:none;
-  color:#fff;
-  font-size:13.5px;
-  font-weight:800;
-  border:1px solid rgba(255,255,255,.15);
-  background:rgba(255,255,255,.08);
-}
-
-html,body{
-  margin:0;
-  width:100%;
-  min-height:100%;
-}
-body{
-  overflow-x:hidden;
-  background:#eef8fc;
-}
-button,input,select,textarea{
-  font:inherit;
 }
 
 @media(max-width:640px){
@@ -454,42 +259,25 @@ button,input,select,textarea{
     min-height:50px;
   }
 }
+
+@media(max-width:380px){
+  #saleMain .info-grid{
+    grid-template-columns:1fr;
+  }
+}
 </style>
 </head>
 <body>
 <div id="saleMain" class="sale-main">
 
-  <div class="top-util-bar">
-    <a id="topMatcherLink" href="/price.html" class="util-link">
-      <span>📊</span>
-      <span>오늘의 시세 매칭기</span>
-    </a>
-    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-      <a id="hqAdminTopBtn" href="/head-admin.html" class="hq-admin-link">
-        <span>⚙️</span>
-        <span>본사관리자 (방 복제·설정)</span>
-      </a>
-      <button type="button" class="install-pill" onclick="installPresaleApp()">
-        <span>📲</span>
-        <span>앱설치</span>
-      </button>
-    </div>
-  </div>
-
   <header class="main-head">
-    <span class="eyebrow" id="mainEyebrow">🎁 1분 스크롤 시 3,000원 모바일 바코드카드 카카오톡 지급</span>
-    <h1 id="mainHeaderTitle">우리 아파트 분양 메인화면</h1>
-    <p id="mainHeaderDesc">관심 지역의 분양 정보를 1분(60초)간 스크롤하며 확인하시면,<br>현금처럼 바로 쓰는 <strong style="color:#fde68a;">3,000원 모바일 바코드카드</strong>를 카카오톡으로 즉시 보내드립니다.</p>
+    <span class="eyebrow" id="mainEyebrow">PREMIUM HOUSING</span>
+    <h1 id="mainHeaderTitle">우리 아파트 분양</h1>
+    <p id="mainHeaderDesc">관심 지역의 분양 정보를 고급 모바일 카탈로그로 확인하세요.</p>
   </header>
-
-  <div id="roomBanner" class="room-banner">
-    <span id="roomBannerText">🥕 당근비즈 전용 분양방으로 접속하셨습니다.</span>
-    <button type="button" id="showAllRoomsBtn">전체 분양단지 보기</button>
-  </div>
 
   <section class="filter-box" id="filterBox">
     <button type="button" class="filter active" data-area="all">전체</button>
-    <button type="button" class="filter" data-area="jg">전남광주통합특별시</button>
     <button type="button" class="filter" data-area="seoul">서울특별시</button>
     <button type="button" class="filter" data-area="gyeonggi">경기도</button>
     <button type="button" class="filter" data-area="incheon">인천광역시</button>
@@ -502,93 +290,47 @@ button,input,select,textarea{
     <button type="button" class="filter" data-area="chungbuk">충청북도</button>
     <button type="button" class="filter" data-area="chungnam">충청남도</button>
     <button type="button" class="filter" data-area="jeonbuk">전북특별자치도</button>
+    <button type="button" class="filter" data-area="jg">전남광주통합특별시</button>
     <button type="button" class="filter" data-area="gyeongbuk">경상북도</button>
     <button type="button" class="filter" data-area="gyeongnam">경상남도</button>
     <button type="button" class="filter" data-area="jeju">제주특별자치도</button>
   </section>
 
-  <!-- 복제된 분양사 방 카드 리스트 -->
   <section class="project-list" id="projectList"></section>
 
   <div id="areaEmpty" class="area-empty">
     현재 선택한 지역에 등록된 분양단지가 없습니다.
   </div>
 
-  <section class="guide-box">
-    <h3>🎁 3,000원 모바일 바코드카드 수령 방법</h3>
-
-    <div class="guide-list">
-      <div>
-        <b>01</b>
-        <span>관심 있는 우리 동네 분양단지를 선택합니다.</span>
-      </div>
-
-      <div>
-        <b>02</b>
-        <span>분양 상세 정보(모바일 카탈로그)를 1분(60초) 동안 스크롤하며 확인합니다.</span>
-      </div>
-
-      <div>
-        <b>03</b>
-        <span>1분 스크롤 완료 즉시 카카오톡으로 3,000원 모바일 바코드카드(또는 마트 전자쿠폰)를 받아 현금처럼 사용합니다.</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- 하단 플랫폼 연동 바로가기 -->
-  <section class="platform-cross-box">
-    <div style="font-size:13px; font-weight:900; color:#fcd34d;">🔗 함께 이용하면 좋은 우리동네 안심 플랫폼</div>
-    <a id="bottomMatcherLink" href="/price.html" class="cross-btn">
-      <span>📊 오늘의 시세 매칭기 (농·축·수산 1주일 급락 TOP 3)</span>
-      <span style="color:#34d399;">바로가기 ›</span>
-    </a>
-    <a href="https://www.wooriapt.app/" class="cross-btn">
-      <span>🏠 우리아파트 안심거래 (아파트 중개수수료 50% 절감)</span>
-      <span style="color:#60a5fa;">바로가기 ›</span>
-    </a>
-    <a href="https://www.ansimdeal.com/" class="cross-btn">
-      <span>🏪 점포·상가 안심딜 (상가 수수료 50% · 직거래)</span>
-      <span style="color:#fbbf24;">바로가기 ›</span>
-    </a>
-    <div style="display:flex;gap:8px;margin-top:4px">
-      <a href="/head-admin.html" class="cross-btn" style="flex:1;background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.4)">
-        <span>⚙️ 본사관리자 (분양사 매칭·방 복제 설정)</span>
-        <span style="color:#fcd34d;">설정 ›</span>
-      </a>
-      <a href="/admin.html" class="cross-btn" style="flex:1">
-        <span>🏢 분양사 개별 관리자</span>
-        <span style="color:#93c5fd;">열기 ›</span>
-      </a>
-    </div>
-  </section>
-
 </div>
 
 <script>
-let deferredPresalePrompt = null;
-window.addEventListener("beforeinstallprompt", function(e) {
-  e.preventDefault();
-  deferredPresalePrompt = e;
-});
-
-function installPresaleApp() {
-  if (deferredPresalePrompt) {
-    deferredPresalePrompt.prompt();
-    deferredPresalePrompt.userChoice.then(function() {
-      deferredPresalePrompt = null;
-    });
-  } else {
-    location.href = "/app-install.html";
-  }
-}
-
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "wooriapt_replicated_rooms_v1";
+  var STORAGE_KEY = "wooriapt_replicated_rooms_v2";
   var allRooms = [];
   var activeRoomCode = "";
   var currentAreaFilter = "all";
+
+  var SIDO_ORDER = [
+    "seoul",
+    "gyeonggi",
+    "incheon",
+    "busan",
+    "daegu",
+    "daejeon",
+    "ulsan",
+    "sejong",
+    "gangwon",
+    "chungbuk",
+    "chungnam",
+    "jeonbuk",
+    "jg",
+    "gyeongbuk",
+    "gyeongnam",
+    "jeju"
+  ];
 
   function escapeHtml(s) {
     var d = document.createElement("div");
@@ -596,81 +338,126 @@ function installPresaleApp() {
     return d.innerHTML;
   }
 
+  function sortRoomsByStandardOrder(list) {
+    return (Array.isArray(list) ? list.slice() : []).sort(function(a, b) {
+      var sa = (a.catalog_data && a.catalog_data.sido) || "seoul";
+      var sb = (b.catalog_data && b.catalog_data.sido) || "seoul";
+      var ia = SIDO_ORDER.indexOf(sa);
+      var ib = SIDO_ORDER.indexOf(sb);
+      var oa = ia === -1 ? 999 : ia;
+      var ob = ib === -1 ? 999 : ib;
+      if (oa !== ob) return oa - ob;
+      return String(a.project_code || "").localeCompare(String(b.project_code || ""));
+    });
+  }
+
   function getDefaultRooms() {
     return [
       {
         project_code: "ROOM-001",
-        project_name: "양산택지지구 프리미엄 명작",
+        project_name: "더 퍼스트 센트럴파크",
         sale_status: "분양 중",
-        area: "광주 광산구 양산동·연제동",
-        move_in_date: "2029년 3월",
-        contact_phone: "062-952-4150",
-        modelhouse_address: "광주광역시 광산구 하남산단8번로 176",
+        area: "서울특별시 강남구 역삼동",
+        move_in_date: "2029년 8월",
+        contact_phone: "02-1588-0001",
+        modelhouse_address: "서울특별시 강남구 역삼동 모델하우스",
         catalog_data: {
           channelType: "daangn",
-          companyName: "양산택지지구 분양사업단",
-          sido: "jg",
-          targetDong: "광주 광산구 양산동·연제동",
+          companyName: "더 퍼스트 분양사업단",
+          sido: "seoul",
           households: "1,520세대",
           types: "84A · 84B",
           rewardAmount: 3000,
-          issueQty: 500,
-          issuedCount: 12,
-          partnerName: "카카오톡 모바일 바코드카드 (현금사용)",
-          coverImageUrl: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=85",
-          coverEyebrow: "DAANGN BIZ TARGET PRESALE",
-          coverDescription: "1분 스크롤 확인 시 카카오톡 3,000원 모바일 바코드카드 즉시 지급! 직주근접·명품학군 프리미엄 대단지"
+          coverEyebrow: "PREMIUM RESIDENCE",
+          coverDescription: "일상이 작품이 되는 새로운 주거의 시작"
         }
       },
       {
         project_code: "ROOM-002",
-        project_name: "더 퍼스트 센트럴파크 리버뷰",
+        project_name: "판교 레이크뷰 프레스티지",
         sale_status: "분양 중",
-        area: "서울 강남구 역삼동·대치동",
-        move_in_date: "2029년 8월",
-        contact_phone: "02-1588-3000",
-        modelhouse_address: "서울특별시 강남구 역삼동 모델하우스",
+        area: "경기도 성남시 분당구",
+        move_in_date: "2030년 1월",
+        contact_phone: "031-1588-0002",
+        modelhouse_address: "경기도 성남시 분당구 판교역로 모델하우스",
         catalog_data: {
           channelType: "daangn",
-          companyName: "메이저 건설 컨소시엄",
-          sido: "seoul",
-          targetDong: "서울 강남구 역삼동·대치동",
-          households: "1,840세대",
-          types: "59 · 84A · 84B · 101",
+          companyName: "레이크뷰 분양본부",
+          sido: "gyeonggi",
+          households: "1,180세대",
+          types: "74 · 84 · 101",
           rewardAmount: 3000,
-          issueQty: 1000,
-          issuedCount: 45,
-          partnerName: "카카오톡 모바일 바코드카드 (현금사용)",
-          coverImageUrl: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85",
-          coverEyebrow: "PREMIUM RESIDENCE",
-          coverDescription: "당근마켓 동네 주민 특별 혜택! 1분 스크롤 시 3,000원 카카오톡 모바일 바코드카드 즉시 지급"
+          coverEyebrow: "NEW LIFESTYLE",
+          coverDescription: "교통·교육·생활·자연을 가까이 누리는 특별한 자리"
         }
       },
       {
         project_code: "ROOM-003",
-        project_name: "양산택지지구 (에너젠마트 전용관)",
+        project_name: "양산택지지구 프리미엄 대단지",
         sale_status: "분양 중",
-        area: "광주 광산구 하남산단·양산동",
+        area: "광주광역시 광산구 하남산단8번로 176",
         move_in_date: "2029년 3월",
         contact_phone: "062-952-4150",
         modelhouse_address: "광주광역시 광산구 하남산단8번로 176",
         catalog_data: {
           channelType: "mart",
-          companyName: "양산택지지구 × 에너젠마트",
+          companyName: "양산택지지구 분양사업단",
           sido: "jg",
-          targetDong: "광주 광산구 하남산단·양산동",
           households: "1,520세대",
           types: "84A · 84B",
           rewardAmount: 5000,
-          issueQty: 300,
-          issuedCount: 8,
-          partnerName: "에너젠마트 전자쿠폰",
-          coverImageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=85",
-          coverEyebrow: "MART PARTNER SPECIAL",
-          coverDescription: "에너젠마트 고객 전용! 1분 스크롤 확인 시 마트 계산대에서 즉시 쓰는 전자쿠폰 지급"
+          partnerName: "에너젠마트",
+          coverEyebrow: "PREMIUM RESIDENCE",
+          coverDescription: "자연과 건축이 어우러진 프리미엄 대단지"
         }
       }
     ];
+  }
+
+  /* 상단 헤더에만 본사관리자 설정 금액 및 채널(모바일 바코드카드 vs 전자쿠폰) 노출 */
+  function updateTopHeader(displayRooms) {
+    var eyebrowEl = document.getElementById("mainEyebrow");
+    var descEl = document.getElementById("mainHeaderDesc");
+    if (!eyebrowEl || !descEl) return;
+
+    var targetRoom = null;
+    if (activeRoomCode) {
+      targetRoom = allRooms.find(function(r) {
+        return String(r.project_code || "").toUpperCase() === activeRoomCode;
+      });
+    }
+    if (!targetRoom && displayRooms && displayRooms.length > 0) {
+      /* 가장 최근에 본사관리자에서 수정한 방의 설정을 우선 반영 */
+      var sortedByUpdate = displayRooms.slice().sort(function(a, b) {
+        return String(b.updated_at || "").localeCompare(String(a.updated_at || ""));
+      });
+      targetRoom = sortedByUpdate[0] || displayRooms[0];
+    }
+
+    var sysSettings = null;
+    try {
+      sysSettings = JSON.parse(localStorage.getItem("presaleSystemSettings") || "null");
+    } catch (e) {}
+
+    var c = (targetRoom && targetRoom.catalog_data) ? targetRoom.catalog_data : {};
+    var rawAmount = Number(c.rewardAmount || (sysSettings && sysSettings.pointAmount) || 3000);
+    var amountFormatted = rawAmount.toLocaleString("ko-KR") + "원";
+    var isMart = c.channelType === "mart";
+    var rewardTypeLabel = isMart ? "전자쿠폰" : "모바일 바코드카드";
+
+    eyebrowEl.textContent = "카탈로그 확인 시 " + amountFormatted + " " + rewardTypeLabel + " 지급";
+    descEl.innerHTML =
+      "관심 지역의 분양 정보를 고급 모바일 카탈로그로 확인하세요. (유효 확인 완료 시 <strong>" +
+      escapeHtml(amountFormatted + " " + rewardTypeLabel) +
+      "</strong> 제공)";
+  }
+
+  function sanitizeSubtitle(desc) {
+    var s = String(desc || "").trim();
+    if (!s || s.indexOf("바코드카드") !== -1 || s.indexOf("전자쿠폰") !== -1 || s.indexOf("쿠폰") !== -1) {
+      return "일상이 작품이 되는 새로운 주거의 시작";
+    }
+    return s;
   }
 
   function renderProjectList() {
@@ -678,7 +465,7 @@ function installPresaleApp() {
     var emptyEl = document.getElementById("areaEmpty");
     if (!listEl) return;
 
-    var displayRooms = allRooms.slice();
+    var displayRooms = sortRoomsByStandardOrder(allRooms);
 
     if (activeRoomCode) {
       var matched = displayRooms.filter(function(r) {
@@ -690,9 +477,11 @@ function installPresaleApp() {
     } else if (currentAreaFilter !== "all") {
       displayRooms = displayRooms.filter(function(r) {
         var c = r.catalog_data || {};
-        return (c.sido || "jg") === currentAreaFilter;
+        return (c.sido || "seoul") === currentAreaFilter;
       });
     }
+
+    updateTopHeader(displayRooms);
 
     if (displayRooms.length === 0) {
       listEl.innerHTML = "";
@@ -702,30 +491,30 @@ function installPresaleApp() {
 
     if (emptyEl) emptyEl.style.display = "none";
 
-    listEl.innerHTML = displayRooms.map(function(r) {
+    listEl.innerHTML = displayRooms.map(function(r, idx) {
       var c = r.catalog_data || {};
       var code = r.project_code || "ROOM-001";
-      var isMart = c.channelType === "mart";
-      var reward = Number(c.rewardAmount || 3000).toLocaleString("ko-KR");
-      var imgUrl = c.coverImageUrl || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=85";
+      var imgUrl = c.coverImageUrl || "";
       var detailUrl = "/sale-detail.html?room=" + encodeURIComponent(code);
+      var statusText = r.sale_status || "분양 중";
+      var isUpcoming = statusText.indexOf("예정") !== -1;
+      var bgStyle = imgUrl
+        ? "background-image:url('" + escapeHtml(imgUrl) + "')"
+        : (idx % 2 === 1 ? "background:linear-gradient(150deg,#b4d7ca,#547f73)" : "");
 
       return `
-        <article class="project-card ${activeRoomCode === code ? 'matched-room' : ''}" data-area="${escapeHtml(c.sido || 'jg')}">
-          <div class="project-image" style="background-image:url('${escapeHtml(imgUrl)}')">
+        <article class="project-card" data-area="${escapeHtml(c.sido || 'seoul')}">
+          <div class="project-image" style="${bgStyle}">
             <div class="image-shade"></div>
 
             <div class="card-top">
-              <span class="status">${escapeHtml(r.sale_status || '분양 중')} · #${escapeHtml(code)}</span>
-              <span class="area ${isMart ? 'mart-badge' : 'daangn-badge'}">
-                ${isMart ? '🛒 마트 전용 전자쿠폰 ' + reward + '원' : '🥕 당근비즈 · 카톡 바코드카드 ' + reward + '원'}
-              </span>
+              <span class="status ${isUpcoming ? 'upcoming' : ''}">${escapeHtml(statusText)}</span>
             </div>
 
             <div class="project-title">
-              <small>${escapeHtml(c.targetDong || r.area || 'OUR NEIGHBORHOOD')} · ${escapeHtml(c.companyName || '')}</small>
-              <h2>${escapeHtml(r.project_name || '분양 단지')}</h2>
-              <p>${escapeHtml(c.coverDescription || '1분 스크롤 열람 시 3,000원 모바일 바코드카드 즉시 지급')}</p>
+              <small>${escapeHtml(c.coverEyebrow || 'PREMIUM RESIDENCE')}</small>
+              <h2>${escapeHtml(r.project_name || '단지명을 입력해 주세요')}</h2>
+              <p>${escapeHtml(sanitizeSubtitle(c.coverDescription))}</p>
             </div>
           </div>
 
@@ -738,7 +527,7 @@ function installPresaleApp() {
 
               <div>
                 <span>입주 예정</span>
-                <strong>${escapeHtml(r.move_in_date || '2029년 3월')}</strong>
+                <strong>${escapeHtml(r.move_in_date || '2030년 1월')}</strong>
               </div>
 
               <div>
@@ -747,20 +536,15 @@ function installPresaleApp() {
               </div>
 
               <div>
-                <span>상담 전화</span>
-                <strong>${escapeHtml(r.contact_phone || '1588-0000')}</strong>
+                <span>분양 상태</span>
+                <strong>${escapeHtml(statusText)}</strong>
               </div>
             </div>
 
-            <div class="benefit">
-              <span>⏱️ 분양 카탈로그 1분(60초) 스크롤 열람 시</span>
-              <strong>${isMart ? '🛒 ' + escapeHtml(c.partnerName || '지정 마트') + ' ' + reward + '원 전자쿠폰 지급' : '💬 카카오톡 ' + reward + '원 모바일 바코드카드 즉시 지급'}</strong>
-            </div>
-
             <button type="button"
-                    class="detail-btn ${isMart ? '' : 'daangn-btn'}"
+                    class="detail-btn"
                     data-link="${escapeHtml(detailUrl)}">
-              📖 분양 정보 1분 스크롤하고 ${reward}원 ${isMart ? '전자쿠폰' : '모바일 바코드카드'} 받기 ›
+              분양 카탈로그 보기
             </button>
           </div>
         </article>
@@ -775,19 +559,12 @@ function installPresaleApp() {
     var params = new URLSearchParams(window.location.search);
     activeRoomCode = (params.get("room") || params.get("code") || "").trim().toUpperCase();
 
-    if (activeRoomCode) {
-      var topMatcher = document.getElementById("topMatcherLink");
-      var bottomMatcher = document.getElementById("bottomMatcherLink");
-      if (topMatcher) topMatcher.href = "/price.html?room=" + encodeURIComponent(activeRoomCode);
-      if (bottomMatcher) bottomMatcher.href = "/price.html?room=" + encodeURIComponent(activeRoomCode);
-    }
-
     try {
       var apiOrigin = window.location.hostname.includes("wooriaptcd.com") ? "" : "https://wooriaptcd.com";
       var res = await fetch(apiOrigin + "/api/sale-save");
       var data = await res.json();
       if (res.ok && data.ok && Array.isArray(data.rooms) && data.rooms.length > 0) {
-        allRooms = data.rooms;
+        allRooms = sortRoomsByStandardOrder(data.rooms);
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(allRooms));
         } catch (e) {}
@@ -798,42 +575,13 @@ function installPresaleApp() {
       try {
         var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
         if (Array.isArray(saved) && saved.length > 0) {
-          allRooms = saved;
+          allRooms = sortRoomsByStandardOrder(saved);
         }
       } catch (e) {}
     }
 
     if (allRooms.length === 0) {
-      allRooms = getDefaultRooms();
-    }
-
-    if (activeRoomCode) {
-      var matchedRoom = allRooms.find(function(r) {
-        return String(r.project_code || "").toUpperCase() === activeRoomCode;
-      });
-      var banner = document.getElementById("roomBanner");
-      var bannerText = document.getElementById("roomBannerText");
-      var filterBox = document.getElementById("filterBox");
-      if (banner && matchedRoom) {
-        var c = matchedRoom.catalog_data || {};
-        var isMart = c.channelType === "mart";
-        banner.style.display = "flex";
-        bannerText.textContent = (isMart ? "🛒 [마트 연동 전용방 #" : "🥕 [당근비즈 전용방 #") +
-          activeRoomCode + "] " + matchedRoom.project_name + " (" + (c.targetDong || matchedRoom.area || "") + ")";
-        if (filterBox) filterBox.style.display = "none";
-      }
-    }
-
-    var showAllBtn = document.getElementById("showAllRoomsBtn");
-    if (showAllBtn) {
-      showAllBtn.onclick = function() {
-        activeRoomCode = "";
-        var banner = document.getElementById("roomBanner");
-        var filterBox = document.getElementById("filterBox");
-        if (banner) banner.style.display = "none";
-        if (filterBox) filterBox.style.display = "flex";
-        renderProjectList();
-      };
+      allRooms = sortRoomsByStandardOrder(getDefaultRooms());
     }
 
     renderProjectList();

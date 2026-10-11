@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#12394d">
+<title>시스템 설정 | 우리아파트 분양</title>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%}
+
+body{
+  background:#f5f7f9;
+  color:#172b3d;
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Segoe UI",Arial,sans-serif;
+  overflow-x:hidden;
+}
+
+#systemSettingsApp{
+  width:100%;
+  max-width:1000px;
+  margin:0 auto;
+  padding:clamp(10px,2.4vw,18px);
+}
+
+#systemSettingsApp .head{
+  margin-bottom:16px;
+}
+
+#systemSettingsApp .head h2{
+  margin:0 0 5px;
+  font-size:clamp(21px,3vw,24px);
+}
+
+#systemSettingsApp .head p{
+  margin:0;
+  color:#71808d;
+  font-size:13px;
+  line-height:1.5;
+}
+
+#systemSettingsApp .panel{
+  margin-bottom:14px;
+  overflow:hidden;
+  border:1px solid #dfe5ea;
+  border-radius:10px;
+  background:#fff;
+}
+
+#systemSettingsApp .panel-title{
+  padding:14px 15px;
+  border-bottom:1px solid #e4e9ed;
+  font-size:16px;
+  font-weight:800;
+}
+
+#systemSettingsApp .settings{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  padding:14px;
+}
+
+#systemSettingsApp .field{
+  min-width:0;
+}
+
+#systemSettingsApp .field.full{
+  grid-column:1 / -1;
+}
+
+#systemSettingsApp label{
+  display:block;
+  margin-bottom:6px;
+  color:#5e6f7c;
+  font-size:12px;
+  font-weight:700;
+}
+
+#systemSettingsApp input,
+#systemSettingsApp select,
+#systemSettingsApp textarea{
+  width:100%;
+  min-width:0;
+  border:1px solid #cad4dc;
+  border-radius:6px;
+  background:#fff;
+  color:#172b3d;
+  font:inherit;
+  font-size:13px;
+}
+
+#systemSettingsApp input,
+#systemSettingsApp select{
+  height:42px;
+  padding:0 10px;
+}
+
+#systemSettingsApp textarea{
+  min-height:86px;
+  padding:10px;
+  resize:vertical;
+}
+
+#systemSettingsApp .toggle-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:13px 14px;
+  border:1px solid #e2e7eb;
+  border-radius:8px;
+  background:#fafbfc;
+}
+
+#systemSettingsApp .toggle-copy strong{
+  display:block;
+  margin-bottom:4px;
+  font-size:13px;
+}
+
+#systemSettingsApp .toggle-copy span{
+  display:block;
+  color:#788792;
+  font-size:12px;
+  line-height:1.45;
+}
+
+#systemSettingsApp .switch{
+  position:relative;
+  flex:none;
+  width:46px;
+  height:26px;
+}
+
+#systemSettingsApp .switch input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+#systemSettingsApp .slider{
+  position:absolute;
+  inset:0;
+  border-radius:20px;
+  background:#c8d1d7;
+  cursor:pointer;
+  transition:.2s;
+}
+
+#systemSettingsApp .slider:before{
+  content:"";
+  position:absolute;
+  width:20px;
+  height:20px;
+  left:3px;
+  top:3px;
+  border-radius:50%;
+  background:#fff;
+  transition:.2s;
+  box-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+
+#systemSettingsApp .switch input:checked + .slider{
+  background:#12394d;
+}
+
+#systemSettingsApp .switch input:checked + .slider:before{
+  transform:translateX(20px);
+}
+
+#systemSettingsApp .actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  padding:14px;
+  border-top:1px solid #e5eaee;
+}
+
+#systemSettingsApp button{
+  min-height:42px;
+  padding:0 18px;
+  border:0;
+  border-radius:6px;
+  background:#12394d;
+  color:#fff;
+  font-size:13px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+#systemSettingsApp button.secondary{
+  background:#e9eef2;
+  color:#314555;
+}
+
+#systemSettingsApp .message{
+  display:none;
+  margin:0 14px 14px;
+  padding:11px 12px;
+  border-radius:7px;
+  background:#edf8f3;
+  color:#16734a;
+  font-size:13px;
+  font-weight:700;
+}
+
+@media(max-width:650px){
+  #systemSettingsApp{
+    padding:10px;
+  }
+
+  #systemSettingsApp .settings{
+    grid-template-columns:1fr;
+    padding:12px;
+  }
+
+  #systemSettingsApp .field.full{
+    grid-column:auto;
+  }
+
+  #systemSettingsApp .toggle-row{
+    align-items:flex-start;
+  }
+
+  #systemSettingsApp .actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  #systemSettingsApp button{
+    width:100%;
+    min-height:44px;
+  }
+}
+
+@media(max-width:380px){
+  #systemSettingsApp .actions{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="systemSettingsApp">
+
+  <div class="head">
+    <h2>시스템 설정</h2>
+    <p>분양 플랫폼의 기본 운영값과 포인트·쿠폰 정책을 설정합니다.</p>
+  </div>
+
+  <section class="panel">
+    <div class="panel-title">기본 운영 설정</div>
+
+    <div class="settings">
+
+      <div class="field">
+        <label for="pointAmount">유효조회 지급 포인트</label>
+        <input id="pointAmount" type="number" min="0" step="100" value="3000">
+      </div>
+
+      <div class="field">
+        <label for="requiredSeconds">유효조회 기준시간(초)</label>
+        <input id="requiredSeconds" type="number" min="1" value="60">
+      </div>
+
+      <div class="field">
+        <label for="catalogPages">필수 확인 페이지 수</label>
+        <input id="catalogPages" type="number" min="1" value="8">
+      </div>
+
+      <div class="field">
+        <label for="idleSeconds">무활동 정지시간(초)</label>
+        <input id="idleSeconds" type="number" min="1" value="10">
+      </div>
+
+      <div class="field">
+        <label for="couponDays">전자쿠폰 유효기간(일)</label>
+        <input id="couponDays" type="number" min="1" value="30">
+      </div>
+
+      <div class="field">
+        <label for="chargeUnit">충전금 차감 단위</label>
+        <select id="chargeUnit">
+          <option value="POINT">포인트 지급액 기준</option>
+          <option value="FIXED">고정금액 기준</option>
+        </select>
+      </div>
+
+      <div class="field full">
+        <label for="notice">운영 메모</label>
+        <textarea id="notice" placeholder="운영 관련 메모를 입력하세요."></textarea>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-title">기능 사용 설정</div>
+
+    <div class="settings">
+
+      <div class="toggle-row">
+        <div class="toggle-copy">
+          <strong>전자쿠폰 발급</strong>
+          <span>유효조회 조건 충족 시 전자쿠폰 발급을 허용합니다.</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="couponEnabled" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-copy">
+          <strong>포인트 지급</strong>
+          <span>유효조회 완료 고객에게 포인트를 지급합니다.</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="pointEnabled" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-copy">
+          <strong>충전금 자동 차감</strong>
+          <span>포인트 지급 시 분양사 충전금에서 자동 차감합니다.</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="autoCharge" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-copy">
+          <strong>방문예약 사용</strong>
+          <span>분양상세 화면의 방문예약 신청 기능을 사용합니다.</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="visitEnabled" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+    </div>
+
+    <div id="message" class="message">설정이 저장되었습니다.</div>
+
+    <div class="actions">
+      <button type="button" class="secondary" id="resetBtn">기본값 복원</button>
+      <button type="button" id="saveBtn">설정 저장</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var root=document.getElementById("systemSettingsApp");
+if(!root)return;
+
+function el(id){
+  return root.querySelector("#"+id);
+}
+
+var defaults={
+  pointAmount:3000,
+  requiredSeconds:60,
+  catalogPages:8,
+  idleSeconds:10,
+  couponDays:30,
+  chargeUnit:"POINT",
+  couponEnabled:true,
+  pointEnabled:true,
+  autoCharge:true,
+  visitEnabled:true,
+  notice:""
+};
+
+function apply(v){
+  el("pointAmount").value=v.pointAmount;
+  el("requiredSeconds").value=v.requiredSeconds;
+  el("catalogPages").value=v.catalogPages;
+  el("idleSeconds").value=v.idleSeconds;
+  el("couponDays").value=v.couponDays;
+  el("chargeUnit").value=v.chargeUnit;
+  el("couponEnabled").checked=!!v.couponEnabled;
+  el("pointEnabled").checked=!!v.pointEnabled;
+  el("autoCharge").checked=!!v.autoCharge;
+  el("visitEnabled").checked=!!v.visitEnabled;
+  el("notice").value=v.notice||"";
+}
+
+function collect(){
+  return {
+    pointAmount:Number(el("pointAmount").value||0),
+    requiredSeconds:Number(el("requiredSeconds").value||0),
+    catalogPages:Number(el("catalogPages").value||0),
+    idleSeconds:Number(el("idleSeconds").value||0),
+    couponDays:Number(el("couponDays").value||0),
+    chargeUnit:el("chargeUnit").value,
+    couponEnabled:el("couponEnabled").checked,
+    pointEnabled:el("pointEnabled").checked,
+    autoCharge:el("autoCharge").checked,
+    visitEnabled:el("visitEnabled").checked,
+    notice:el("notice").value.trim()
+  };
+}
+
+async function save(){
+  var data=collect();
+
+  try{
+    localStorage.setItem(
+      "presaleSystemSettings",
+      JSON.stringify(data)
+    );
+  }catch(e){}
+
+  try{
+    await fetch("/api/sale-save",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","X-Admin-Key":"1234"},
+      body:JSON.stringify({
+        action:"save_settings",
+        pointAmount:data.pointAmount
+      })
+    });
+  }catch(e){}
+
+  el("message").style.display="block";
+
+  setTimeout(function(){
+    el("message").style.display="none";
+  },1800);
+}
+
+function reset(){
+  apply(defaults);
+
+  try{
+    localStorage.removeItem("presaleSystemSettings");
+  }catch(e){}
+
+  el("message").textContent="기본값으로 복원되었습니다.";
+  el("message").style.display="block";
+
+  setTimeout(function(){
+    el("message").style.display="none";
+    el("message").textContent="설정이 저장되었습니다.";
+  },1800);
+}
+
+el("saveBtn").onclick=save;
+el("resetBtn").onclick=reset;
+
+var saved=null;
+
+try{
+  saved=JSON.parse(
+    localStorage.getItem("presaleSystemSettings")||"null"
+  );
+}catch(e){}
+
+apply(saved||defaults);
+
+})();
+</script>
+
+</body>
+</html>
