@@ -1708,7 +1708,7 @@ button, input {
 
     if(requestNumber === "5804"){
       localStorage.setItem("wooriapt_test_key", "5804");
-      location.href = "/broker-agreement.html?code=" + encodeURIComponent(requestNumber);
+      location.href = "/broker-property-register.html?request=" + encodeURIComponent(requestNumber);
       return;
     }
 
@@ -1729,7 +1729,7 @@ button, input {
         throw new Error(data && data.message ? data.message : "임차요청번호를 확인해 주세요.");
       }
 
-      location.href = "/broker-agreement.html?code=" + encodeURIComponent(requestNumber);
+      location.href = "/broker-property-register.html?request=" + encodeURIComponent(requestNumber);
     }catch(error){
       requestResult.classList.remove("open");
       currentRequestNumber = "";
