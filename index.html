@@ -1140,17 +1140,24 @@ button, input {
     </a>
   </div>
 
-  <!-- 3-1. 소상공인시장진흥공단 DB 기반 상권분석 지도 말풍선 바로가기 -->
-  <div class="quick-tools" style="grid-template-columns: 1fr;">
-    <div class="quick-tool-btn" onclick="location.href='tools-center.html'" style="justify-content:space-between;">
-      <div style="display:flex; align-items:center; gap:14px;">
-        <div class="quick-tool-ico">🗺️</div>
-        <div class="quick-tool-text">
-          <strong>소상공인진흥공단 DB 상권분석 지도 말풍선</strong>
-          <span>전 업종 선택 · 주소 검색 또는 지도 위 커서 클릭 시 일일평균 유동인구 · 동별 경쟁점포수 · 업종별 매출추이 즉시 확인</span>
-        </div>
+  <!-- 3-1. 추가 핵심 바로가기 2종 (상권분석 지도 말풍선 & 전기·수도·가스 입주연결·해지정산 매칭기) -->
+  <div class="quick-tools">
+    <!-- 버튼 1: 상권분석 지도 말풍선 -->
+    <div class="quick-tool-btn" onclick="location.href='tools-center.html?tab=map'">
+      <div class="quick-tool-ico">🗺️</div>
+      <div class="quick-tool-text">
+        <strong>소상공인진흥공단 DB 상권분석 지도 말풍선</strong>
+        <span>반경 1.5km 전 업종 유동인구 · 경쟁점포수 · 매출추이 확인</span>
       </div>
-      <span style="font-weight:900; color:#1165d7; font-size:14px; white-space:nowrap;">지도 열기 ›</span>
+    </div>
+
+    <!-- 버튼 2: 전기·수도·가스 입주연결·해지정산 매칭기 -->
+    <div class="quick-tool-btn meter" onclick="location.href='tools-center.html?tab=utility'">
+      <div class="quick-tool-ico">⚡</div>
+      <div class="quick-tool-text">
+        <strong>전기 · 수도 · 가스 입주연결 · 해지정산 매칭기</strong>
+        <span>지역 입력 시 도시가스·전기·수도 자동 매칭 및 집주인 카톡 전송</span>
+      </div>
     </div>
   </div>
 
