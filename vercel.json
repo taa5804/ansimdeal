@@ -25,6 +25,10 @@
       "destination": "/presale.html"
     },
     {
+      "source": "/api/sale-save",
+      "destination": "https://wooriaptcd.com/api/sale-save"
+    },
+    {
       "source": "/utility",
       "destination": "/tools-center.html"
     },
