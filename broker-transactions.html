@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1165d7">
 
-<title>거래 진행현황 | 우리아파트 안심거래</title>
-<meta name="description" content="거래 진행현황 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+<title>거래 진행현황 | 점포·상가 전세·월세 안심거래</title>
 
 <style>
 *{box-sizing:border-box}
@@ -299,16 +298,16 @@ input:focus{
 
     <a
       class="brand"
-      href="/broker-dashboard.html">
+      href="/">
 
-      🏠 우리아파트
+      🏪 점포·상가 전세·월세
       <strong>안심거래</strong>
 
     </a>
 
     <a
       class="back"
-      href="/broker-dashboard.html">
+      href="broker-dashboard.html">
 
       관리자 홈
 
@@ -335,26 +334,20 @@ input:focus{
   </section>
 
 
-  <!-- 매매 / 전세 / 월세 -->
+  <!-- 전세 / 월세 -->
 
   <div class="tabs">
 
     <button
       class="tab active"
-      data-type="sale">
-      매매
-    </button>
-
-    <button
-      class="tab"
       data-type="jeonse">
-      전세
+      점포·상가 전세
     </button>
 
     <button
       class="tab"
       data-type="monthly">
-      월세
+      점포·상가 월세
     </button>
 
   </div>
@@ -365,11 +358,11 @@ input:focus{
   <section class="card">
 
     <h2 id="roomTitle">
-      매매 거래
+      전세 거래
     </h2>
 
     <div class="guide" id="roomGuide">
-      매수자가 공인중개사의 제안을 선택하면
+      임차인이 공인중개사의 제안을 선택하면
       해당 거래가 이곳에 자동으로 생성됩니다.
     </div>
 
@@ -426,7 +419,7 @@ input:focus{
 
 
   <div class="footer">
-    © 우리아파트 안심거래
+    © 점포·상가 전세·월세 안심거래
   </div>
 
 </div>
@@ -557,8 +550,7 @@ $("openContractBtn")
     }
 
 
-    location.href =
-      "/electronic-contract.html" +
+    location.href="electronic-contract.html" +
       "?type=" +
       encodeURIComponent(
         currentType
