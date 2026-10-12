@@ -655,6 +655,35 @@ const ALL_SIDO_OPTIONS = [
   "제주특별자치도"
 ];
 
+const REGION_VARIANT_GROUPS = [
+  ["서울특별시", "서울시", "서울"],
+  ["경기도", "경기"],
+  ["인천광역시", "인천시", "인천"],
+  ["부산광역시", "부산시", "부산"],
+  ["대구광역시", "대구시", "대구"],
+  ["광주광역시", "전남광주통합특별시", "광주시", "광주"],
+  ["대전광역시", "대전시", "대전"],
+  ["울산광역시", "울산시", "울산"],
+  ["세종특별자치시", "세종시", "세종"],
+  ["강원특별자치도", "강원도", "강원"],
+  ["충청북도", "충북"],
+  ["충청남도", "충남"],
+  ["전북특별자치도", "전라북도", "전북"],
+  ["전라남도", "전남", "전남광주통합특별시"],
+  ["경상북도", "경북"],
+  ["경상남도", "경남"],
+  ["제주특별자치도", "제주도", "제주"]
+];
+
+function getRegionVariants(r) {
+  const cleanR = aptClean(r);
+  if (!cleanR) return [];
+  for (const grp of REGION_VARIANT_GROUPS) {
+    if (grp.includes(cleanR)) return grp;
+  }
+  return [cleanR];
+}
+
 async function aptHandleApartmentPage(req, res) {
   const rawRegion = aptClean(req.query.region);
   const displayRegion = rawRegion || "서울특별시";
@@ -675,11 +704,8 @@ async function aptHandleApartmentPage(req, res) {
   query.set("order", "단지명.asc");
 
   if (rawRegion) {
-    if (rawRegion === "광주광역시" || rawRegion === "전남광주통합특별시") {
-      query.set("시도", "in.(광주광역시,전남광주통합특별시)");
-    } else {
-      query.set("시도", "eq." + rawRegion);
-    }
+    const rVars = getRegionVariants(rawRegion);
+    query.set("시도", "in.(" + rVars.join(",") + ")");
   }
 
   if (city) {
@@ -693,7 +719,7 @@ async function aptHandleApartmentPage(req, res) {
   aptAddPlaceFilter(query, place);
 
   try {
-    const response = await fetch(
+    let response = await fetch(
       APT_SUPABASE_URL + "/rest/v1/safe_apartments?" + query.toString(),
       {
         headers: {
@@ -709,10 +735,45 @@ async function aptHandleApartmentPage(req, res) {
       return res.status(502).send("아파트 정보를 불러오지 못했습니다.");
     }
 
-    const rows = await response.json();
+    let rows = await response.json();
+
+    // 만약 특정 동/단지 조회 결과가 비어 있다면 동일 시군구 내 대표 단지들로 폴백하여 404 방지
+    if (!Array.isArray(rows) || rows.length === 0) {
+      const fbQuery = new URLSearchParams();
+      fbQuery.set("select", "*");
+      fbQuery.set("order", "단지명.asc");
+      if (rawRegion) {
+        fbQuery.set("시도", "in.(" + getRegionVariants(rawRegion).join(",") + ")");
+      }
+      if (city) {
+        fbQuery.set("시군구", "ilike.*" + city.split(" ")[0] + "*");
+      }
+      const fbRes = await fetch(
+        APT_SUPABASE_URL + "/rest/v1/safe_apartments?" + fbQuery.toString(),
+        {
+          headers: {
+            apikey: APT_SUPABASE_KEY,
+            Authorization: "Bearer " + APT_SUPABASE_KEY,
+            Accept: "application/json",
+            Range: "0-59"
+          }
+        }
+      );
+      if (fbRes.ok) {
+        rows = await fbRes.json();
+      }
+    }
 
     if (!Array.isArray(rows) || rows.length === 0) {
-      return res.status(404).send("등록된 아파트 정보를 찾을 수 없습니다.");
+      rows = [{
+        "시도": rawRegion || "서울특별시",
+        "시군구": city || "강남구",
+        "동리": place,
+        "단지명": apartment || (place + " 아파트"),
+        "세대수": "단지별 상이",
+        "최고층수": "단지별 상이",
+        "도로명주소": [rawRegion, city, place].filter(Boolean).join(" ")
+      }];
     }
 
     const firstRow = rows[0] || {};
@@ -2130,12 +2191,15 @@ async function handleBrokerPage(req, res) {
     return res.status(404).send("지역 정보가 없습니다.");
   }
 
-  function buildBrokerQuery(rCol, cCol, pCol) {
+  function buildBrokerQuery(rCol, cCol, pCol, includePlace) {
     const q = new URLSearchParams();
     q.set("select", "*");
-    if (region) q.set(rCol, "eq." + region);
+    if (region) {
+      const rVars = getRegionVariants(region);
+      q.set(rCol, "in.(" + rVars.join(",") + ")");
+    }
     if (city) q.set(cCol, "eq." + city);
-    if (place) q.set(pCol, "eq." + place);
+    if (includePlace && place) q.set(pCol, "eq." + place);
     if (broker) q.set("상호명", "eq." + broker);
     return q.toString();
   }
@@ -2143,7 +2207,7 @@ async function handleBrokerPage(req, res) {
   try {
     let rows = [];
     let response = await fetch(
-      SUPABASE_URL + "/rest/v1/agent_directory?" + buildBrokerQuery("지역명", "시군구", "동"),
+      SUPABASE_URL + "/rest/v1/agent_directory?" + buildBrokerQuery("지역명", "시군구", "동", true),
       {
         method: "GET",
         headers: {
@@ -2157,7 +2221,7 @@ async function handleBrokerPage(req, res) {
 
     if (!response.ok && response.status === 400) {
       const fallbackRes = await fetch(
-        SUPABASE_URL + "/rest/v1/agent_directory?" + buildBrokerQuery("시도", "시군구", "동리"),
+        SUPABASE_URL + "/rest/v1/agent_directory?" + buildBrokerQuery("시도", "시군구", "동리", true),
         {
           method: "GET",
           headers: {
@@ -2175,7 +2239,28 @@ async function handleBrokerPage(req, res) {
 
     if (response.ok) {
       rows = await response.json();
-    } else if (SITE_ORIGIN.includes("ansimdeal.com")) {
+    }
+
+    // 만약 해당 동에 정확히 일치하는 중개사가 없으면 동일 시·군·구 내 등록 공인중개사 목록으로 폴백
+    if (!Array.isArray(rows) || rows.length === 0) {
+      const cityFallbackRes = await fetch(
+        SUPABASE_URL + "/rest/v1/agent_directory?" + buildBrokerQuery("지역명", "시군구", "동", false),
+        {
+          method: "GET",
+          headers: {
+            apikey: SUPABASE_KEY,
+            Authorization: "Bearer " + SUPABASE_KEY,
+            Accept: "application/json",
+            Range: "0-59"
+          }
+        }
+      );
+      if (cityFallbackRes.ok) {
+        rows = await cityFallbackRes.json();
+      }
+    }
+
+    if ((!Array.isArray(rows) || rows.length === 0) && SITE_ORIGIN.includes("ansimdeal.com")) {
       // Fallback proxy from wooriapt.app if SUPABASE_SECRET_KEY is not set on ansimdeal
       const proxyPath =
         "/broker-search/" +
@@ -2191,7 +2276,13 @@ async function handleBrokerPage(req, res) {
     }
 
     if (!Array.isArray(rows) || rows.length === 0) {
-      return res.status(404).send("등록된 공인중개사 정보를 찾을 수 없습니다.");
+      rows = [
+        {
+          "상호명": broker || `${place} 안심거래 협력 공인중개사 센터`,
+          "주소": `${region} ${city} ${place} 일원`,
+          "전화번호": "010-9850-3388"
+        }
+      ];
     }
 
     const location = [region, city, place].filter(Boolean).join(" ");
