@@ -49,6 +49,10 @@
       "destination": "/broker-landing.html"
     },
     {
+      "source": "/mart-price",
+      "destination": "/mart-price.html"
+    },
+    {
       "source": "/utility",
       "destination": "/tools-center.html"
     },
@@ -59,10 +63,6 @@
     {
       "source": "/mart-sales",
       "destination": "/mart-sales.html"
-    },
-    {
-      "source": "/mart-price",
-      "destination": "/price.html"
     },
     {
       "source": "/today",

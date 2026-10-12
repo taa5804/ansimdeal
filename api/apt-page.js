@@ -2190,6 +2190,9 @@ li a:hover {
 
     <div class="m-bottom-action">
       <div class="m-footer-note">* 국토교통부 실거래가 공공데이터 기준 (선택 즉시 0.1초 실시간 자동 매칭)</div>
+      <div style="margin-top:8px; padding-top:8px; border-top:1px dashed #cbd5e1; text-align:center; font-size:11px; font-weight:800; color:#475569; line-height:1.45;">
+        🔒 본 플랫폼·매칭기 시스템은 <span style="color:#b45309;">특허(BM) 및 저작권 법적 보호 대상</span>이며, 경쟁업체 및 제3자의 무단 복제·모방·도용 시 민·형사상 법적 책임을 묻습니다.
+      </div>
     </div>
   </div>
   <!-- /안심거래 매칭기 -->
