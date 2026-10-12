@@ -772,8 +772,83 @@ html,body{
 
 </div>
 
+<!-- 60초 완료 후 카카오톡 연동 · 휴대폰 저장 모달 -->
+<div id="kakaoReceiveModal" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(4,20,36,0.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px;">
+  <div style="width:100%;max-width:420px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.45);font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;color:#111827;">
+    <div style="background:#FEE500;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;background:#3C1E1E;color:#FEE500;font-weight:900;font-size:17px;">TALK</span>
+        <div>
+          <div style="font-size:11.5px;font-weight:800;color:#3C1E1E;opacity:0.85;">60초 유효열람 완료 · 휴대폰 즉시 저장</div>
+          <div id="kakaoModalTitle" style="font-size:16px;font-weight:900;color:#191919;">카카오톡 모바일 바코드카드 받기</div>
+        </div>
+      </div>
+      <button type="button" id="kakaoModalClose" style="border:0;background:transparent;font-size:22px;font-weight:900;color:#3C1E1E;cursor:pointer;line-height:1;">×</button>
+    </div>
+
+    <div style="padding:20px;">
+      <p id="kakaoModalDesc" style="margin:0 0 14px;font-size:13.5px;color:#374151;line-height:1.55;word-break:keep-all;">
+        축하합니다! 8페이지 확인 및 60초 열람을 완료하셨습니다.<br>
+        <strong>휴대폰 카카오톡 연동 및 카드 보관</strong>을 위해 거주 동네와 휴대폰 번호를 입력해 주세요.
+      </p>
+
+      <div style="margin-bottom:12px;">
+        <label style="display:block;font-size:12.5px;font-weight:800;color:#1f2937;margin-bottom:5px;">📍 거주 동네 (유입 지역 확인)</label>
+        <input type="text" id="kakaoInputDong" placeholder="예: 양산동, 첨단동, 역삼동" style="width:100%;height:44px;padding:0 13px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14.5px;font-weight:700;color:#0f172a;background:#f8fafc;">
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <label style="display:block;font-size:12.5px;font-weight:800;color:#1f2937;margin-bottom:5px;">📱 카카오톡 수신 휴대폰 번호</label>
+        <input type="tel" id="kakaoInputPhone" maxlength="13" placeholder="010-0000-0000" style="width:100%;height:46px;padding:0 13px;border:2px solid #1165d7;border-radius:10px;font-size:16px;font-weight:800;color:#0f172a;">
+      </div>
+
+      <label style="display:flex;align-items:flex-start;gap:8px;padding:10px 12px;border-radius:10px;background:#f1f5f9;font-size:12px;color:#475569;line-height:1.45;cursor:pointer;margin-bottom:16px;">
+        <input type="checkbox" id="kakaoAgreeChk" checked style="margin-top:2px;width:16px;height:16px;accent-color:#1165d7;">
+        <span>카카오톡 모바일 바코드카드(전자쿠폰) 휴대폰 저장 및 우리동네 분양·마트 혜택 안내 수신에 동의합니다.</span>
+      </label>
+
+      <button type="button" id="kakaoConfirmBtn" style="width:100%;height:50px;border:0;border-radius:12px;background:#FEE500;color:#191919;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 14px rgba(254,229,0,0.45);">
+        💬 카카오톡으로 바코드카드 받고 휴대폰에 저장
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 방문예약 신청 모달 -->
+<div id="visitReserveModal" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(4,20,36,0.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px;">
+  <div style="width:100%;max-width:400px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.45);font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;color:#111827;">
+    <div style="background:#07192b;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;color:#fff;">
+      <strong style="font-size:16px;color:#d6b26e;">🏢 모델하우스 방문예약 신청</strong>
+      <button type="button" id="visitModalClose" style="border:0;background:transparent;font-size:22px;color:#fff;cursor:pointer;">×</button>
+    </div>
+    <div style="padding:20px;">
+      <div style="margin-bottom:10px;">
+        <label style="display:block;font-size:12.5px;font-weight:800;margin-bottom:4px;">거주 동네</label>
+        <input type="text" id="visitDong" placeholder="예: 양산동" style="width:100%;height:42px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;">
+      </div>
+      <div style="margin-bottom:10px;">
+        <label style="display:block;font-size:12.5px;font-weight:800;margin-bottom:4px;">연락처 (휴대폰 번호)</label>
+        <input type="tel" id="visitPhone" maxlength="13" placeholder="010-0000-0000" style="width:100%;height:42px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;">
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="display:block;font-size:12.5px;font-weight:800;margin-bottom:4px;">방문 희망일</label>
+        <input type="date" id="visitDate" style="width:100%;height:42px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;">
+      </div>
+      <button type="button" id="visitSubmitBtn" style="width:100%;height:46px;border:0;border-radius:10px;background:#d6b26e;color:#07192b;font-size:14.5px;font-weight:900;cursor:pointer;">방문예약 접수하기</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
+
+  function formatPhoneInput(val) {
+    var num = String(val || "").replace(/[^0-9]/g, "").slice(0, 11);
+    if (num.length < 4) return num;
+    if (num.length < 8) return num.slice(0, 3) + "-" + num.slice(3);
+    if (num.length === 10) return num.slice(0, 3) + "-" + num.slice(3, 6) + "-" + num.slice(6);
+    return num.slice(0, 3) + "-" + num.slice(3, 7) + "-" + num.slice(7);
+  }
 
   function initAptCatalog(){
     var root = document.getElementById("aptCatalog");
@@ -786,6 +861,7 @@ html,body{
 
     var params = new URLSearchParams(window.location.search);
     var roomCode = (params.get("room") || params.get("code") || "").trim().toUpperCase();
+    var urlDong = (params.get("dong") || params.get("area") || "").trim();
     if (!roomCode) {
       try {
         roomCode = (localStorage.getItem("activePresaleRoomCode") || "ROOM-001").toUpperCase();
@@ -798,9 +874,12 @@ html,body{
       project_code: roomCode || "ROOM-001",
       project_name: "더 퍼스트 센트럴파크",
       contact_phone: "02-1588-0001",
+      area: "서울특별시 강남구 역삼동",
       catalog_data: {
         channelType: "daangn",
         companyName: "더 퍼스트 분양사업단",
+        targetDong: "역삼동",
+        households: "1,520세대",
         rewardAmount: 3000,
         partnerName: "모바일 바코드카드"
       }
@@ -841,6 +920,14 @@ html,body{
       var coverSection = document.getElementById("coverSection");
       if (coverSection && c.coverImageUrl) {
         coverSection.style.backgroundImage = 'linear-gradient(180deg,rgba(4,20,36,.08),rgba(4,20,36,.2)), url("' + c.coverImageUrl + '")';
+      }
+
+      var unitCounts = root.querySelectorAll(".unit-head p");
+      if (unitCounts && unitCounts.length > 0) {
+        var hh = c.households || "1,520세대";
+        unitCounts.forEach(function(p) {
+          p.textContent = "단지 전체 " + hh + " 중 주력 타입";
+        });
       }
 
       var phoneLink = document.getElementById("contactPhoneLink");
@@ -910,9 +997,9 @@ html,body{
 
       if (rewardBtn.disabled) {
         var remain = Math.max(0, requiredSeconds - activeSeconds);
-        rewardBtn.textContent = "8페이지 확인 · " + remain + "초 후 " + reward + " " + rewardTypeLabel + " 받기";
+        rewardBtn.textContent = "8페이지 확인 · " + remain + "초 후 💬 카카오톡 " + reward + " " + rewardTypeLabel + " 받기";
       } else {
-        rewardBtn.textContent = reward + " " + rewardTypeLabel + " 받기";
+        rewardBtn.textContent = "💬 카카오톡으로 " + reward + " " + rewardTypeLabel + " 받기";
       }
     }
 
@@ -930,13 +1017,60 @@ html,body{
       }
     }, 1000);
 
-    if (visitBtn) {
+    /* 방문예약 신청 모달 연결 */
+    var visitModal = document.getElementById("visitReserveModal");
+    var visitPhoneInput = document.getElementById("visitPhone");
+    var visitDongInput = document.getElementById("visitDong");
+    if (visitPhoneInput) {
+      visitPhoneInput.addEventListener("input", function() {
+        this.value = formatPhoneInput(this.value);
+      });
+    }
+    if (visitBtn && visitModal) {
       visitBtn.addEventListener("click", function(){
-        alert("[" + (currentRoom.project_name || "분양단지") + "] 방문예약 신청이 접수되었습니다.");
+        var c = (currentRoom && currentRoom.catalog_data) || {};
+        if (visitDongInput && !visitDongInput.value) {
+          visitDongInput.value = urlDong || c.targetDong || currentRoom.area || "";
+        }
+        visitModal.style.display = "flex";
+      });
+    }
+    var visitClose = document.getElementById("visitModalClose");
+    if (visitClose && visitModal) {
+      visitClose.addEventListener("click", function(){ visitModal.style.display = "none"; });
+    }
+    var visitSubmit = document.getElementById("visitSubmitBtn");
+    if (visitSubmit && visitModal) {
+      visitSubmit.addEventListener("click", function(){
+        var ph = (visitPhoneInput && visitPhoneInput.value) || "";
+        if (ph.replace(/[^0-9]/g, "").length < 10) {
+          alert("방문예약 안내를 받으실 휴대폰 번호를 정확히 입력해 주세요.");
+          return;
+        }
+        visitModal.style.display = "none";
+        alert("[" + (currentRoom.project_name || "분양단지") + "] 모델하우스 방문예약 신청이 접수되었습니다. 담당 상담사가 연락드리겠습니다.");
       });
     }
 
-    rewardBtn.addEventListener("click", async function(){
+    /* 60초 완료 후 카카오톡 연동 모달 열기 */
+    var kakaoModal = document.getElementById("kakaoReceiveModal");
+    var kakaoInputDong = document.getElementById("kakaoInputDong");
+    var kakaoInputPhone = document.getElementById("kakaoInputPhone");
+    var kakaoConfirmBtn = document.getElementById("kakaoConfirmBtn");
+    var kakaoModalClose = document.getElementById("kakaoModalClose");
+
+    if (kakaoInputPhone) {
+      kakaoInputPhone.addEventListener("input", function() {
+        this.value = formatPhoneInput(this.value);
+      });
+    }
+    if (kakaoModalClose && kakaoModal) {
+      kakaoModalClose.addEventListener("click", function() {
+        kakaoModal.style.display = "none";
+      });
+    }
+
+    rewardBtn.addEventListener("click", function(){
       if (rewardBtn.disabled) return;
 
       var sysSettings = null;
@@ -947,76 +1081,167 @@ html,body{
       var c = (currentRoom && currentRoom.catalog_data) || {};
       var isMart = c.channelType === "mart";
       var reward = Number(c.rewardAmount || (sysSettings && sysSettings.pointAmount) || 3000);
+      var rewardFormatted = reward.toLocaleString("ko-KR") + "원";
       var rewardTypeLabel = isMart ? "전자쿠폰" : "모바일 바코드카드";
 
-      var now = new Date();
-      function pad(v){ return String(v).padStart(2, "0"); }
+      var titleEl = document.getElementById("kakaoModalTitle");
+      if (titleEl) titleEl.textContent = "카카오톡 " + rewardFormatted + " " + rewardTypeLabel + " 받기";
 
-      var prefix = isMart ? "MART-" : "CARD-";
-      var couponNo =
-        prefix +
-        now.getFullYear() +
-        pad(now.getMonth() + 1) +
-        pad(now.getDate()) +
-        "-" +
-        Math.random().toString(36).slice(2, 8).toUpperCase();
+      var descEl = document.getElementById("kakaoModalDesc");
+      if (descEl) {
+        descEl.innerHTML =
+          "8페이지 확인 및 60초 열람을 완료하셨습니다!<br>" +
+          "<strong>휴대폰 카카오톡으로 " + rewardFormatted + " " + rewardTypeLabel + "을(를) 전송·저장</strong>하기 위해 거주 동네와 휴대폰 번호를 입력해 주세요.";
+      }
 
-      var expires = new Date(now);
-      expires.setDate(expires.getDate() + 30);
+      if (kakaoConfirmBtn) {
+        kakaoConfirmBtn.textContent = "💬 카카오톡으로 " + rewardTypeLabel + " 받고 휴대폰에 저장";
+      }
 
-      var couponData = {
-        roomCode: currentRoom.project_code || roomCode || "ROOM-001",
-        projectName: currentRoom.project_name || "우리 아파트 분양",
-        companyName: c.companyName || "",
-        channelType: isMart ? "mart" : "daangn",
-        partnerName: c.partnerName || rewardTypeLabel,
-        couponNo: couponNo,
-        issuedAt:
+      if (kakaoInputDong && !kakaoInputDong.value) {
+        kakaoInputDong.value = urlDong || c.targetDong || c.targetRegion || currentRoom.area || "";
+      }
+
+      if (kakaoModal) {
+        kakaoModal.style.display = "flex";
+        setTimeout(function() {
+          if (kakaoInputPhone) kakaoInputPhone.focus();
+        }, 120);
+      }
+    });
+
+    if (kakaoConfirmBtn) {
+      kakaoConfirmBtn.addEventListener("click", async function() {
+        var rawDigits = String((kakaoInputPhone && kakaoInputPhone.value) || "").replace(/[^0-9]/g, "");
+        if (rawDigits.length < 10 || rawDigits.slice(0, 2) !== "01") {
+          alert("카카오톡으로 바코드카드를 받으실 본인 휴대폰 번호(010-XXXX-XXXX)를 정확히 입력해 주세요.");
+          if (kakaoInputPhone) kakaoInputPhone.focus();
+          return;
+        }
+        var formattedPhone = formatPhoneInput(rawDigits);
+        var userDong = String((kakaoInputDong && kakaoInputDong.value) || "").trim();
+        var c = (currentRoom && currentRoom.catalog_data) || {};
+        if (!userDong) {
+          userDong = urlDong || c.targetDong || c.targetRegion || currentRoom.area || "지역미지정";
+        }
+
+        var agreeChk = document.getElementById("kakaoAgreeChk");
+        if (agreeChk && !agreeChk.checked) {
+          alert("카카오톡 바코드카드 휴대폰 저장 및 혜택 수신에 동의해 주세요.");
+          return;
+        }
+
+        var sysSettings = null;
+        try {
+          sysSettings = JSON.parse(localStorage.getItem("presaleSystemSettings") || "null");
+        } catch (e) {}
+
+        var isMart = c.channelType === "mart";
+        var reward = Number(c.rewardAmount || (sysSettings && sysSettings.pointAmount) || 3000);
+        var rewardTypeLabel = isMart ? "전자쿠폰" : "모바일 바코드카드";
+
+        var now = new Date();
+        function pad(v){ return String(v).padStart(2, "0"); }
+
+        var prefix = isMart ? "MART-" : "CARD-";
+        var couponNo =
+          prefix +
+          now.getFullYear() +
+          pad(now.getMonth() + 1) +
+          pad(now.getDate()) +
+          "-" +
+          Math.random().toString(36).slice(2, 8).toUpperCase();
+
+        var expires = new Date(now);
+        expires.setDate(expires.getDate() + 30);
+
+        var issuedAtStr =
           now.getFullYear() + "-" +
           pad(now.getMonth() + 1) + "-" +
           pad(now.getDate()) + " " +
           pad(now.getHours()) + ":" +
-          pad(now.getMinutes()),
-        expiresAt:
+          pad(now.getMinutes());
+
+        var expiresAtStr =
           expires.getFullYear() + "-" +
           pad(expires.getMonth() + 1) + "-" +
-          pad(expires.getDate()),
-        status: "사용 가능",
-        point: reward
-      };
+          pad(expires.getDate());
 
-      try {
-        localStorage.setItem("presaleIssuedCoupon", JSON.stringify(couponData));
-      } catch(e) {}
+        var couponData = {
+          roomCode: currentRoom.project_code || roomCode || "ROOM-001",
+          projectName: currentRoom.project_name || "우리 아파트 분양",
+          companyName: c.companyName || "",
+          channelType: isMart ? "mart" : "daangn",
+          partnerName: c.partnerName || rewardTypeLabel,
+          couponNo: couponNo,
+          phone: formattedPhone,
+          dong: userDong,
+          issuedAt: issuedAtStr,
+          expiresAt: expiresAtStr,
+          status: "사용 가능",
+          point: reward
+        };
 
-      rewardBtn.disabled = true;
-      rewardBtn.textContent = rewardTypeLabel + " 발급 완료";
+        kakaoConfirmBtn.disabled = true;
+        kakaoConfirmBtn.textContent = "💬 카카오톡 연동 및 카드 발급 중...";
 
-      try {
-        var apiOrigin = window.location.hostname.includes("wooriaptcd.com") ? "" : "https://wooriaptcd.com";
-        await fetch(apiOrigin + "/api/sale-save", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "issue_barcode",
-            project_code: couponData.roomCode,
-            coupon_no: couponData.couponNo
-          })
-        });
-      } catch(e) {}
+        /* 본사 독점 로컬 DB 및 서버 DB 동시 저장 */
+        try {
+          var hqList = JSON.parse(localStorage.getItem("wooriapt_hq_exclusive_db_v1") || "[]");
+          hqList.unshift({
+            couponNo: couponData.couponNo,
+            dong: userDong,
+            rawPhone: formattedPhone,
+            maskedPhone: rawDigits.slice(0, 3) + "-****-" + rawDigits.slice(-4),
+            rewardAmount: reward,
+            channelType: couponData.channelType,
+            projectCode: couponData.roomCode,
+            projectName: couponData.projectName,
+            companyName: couponData.companyName,
+            issuedAt: issuedAtStr
+          });
+          localStorage.setItem("wooriapt_hq_exclusive_db_v1", JSON.stringify(hqList.slice(0, 1000)));
+        } catch(e) {}
 
-      var query =
-        "?room=" + encodeURIComponent(couponData.roomCode) +
-        "&mode=" + encodeURIComponent(couponData.channelType) +
-        "&code=" + encodeURIComponent(couponData.couponNo) +
-        "&issued=" + encodeURIComponent(couponData.issuedAt) +
-        "&expires=" + encodeURIComponent(couponData.expiresAt) +
-        "&point=" + encodeURIComponent(couponData.point) +
-        "&apt=" + encodeURIComponent(couponData.projectName) +
-        "&partner=" + encodeURIComponent(couponData.partnerName);
+        try {
+          var apiOrigin = window.location.hostname.includes("wooriaptcd.com") ? "" : "https://wooriaptcd.com";
+          var resp = await fetch(apiOrigin + "/api/sale-save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "issue_barcode",
+              project_code: couponData.roomCode,
+              coupon_no: couponData.couponNo,
+              phone: formattedPhone,
+              dong: userDong
+            })
+          });
+          var respJson = await resp.json().catch(function(){ return null; });
+          if (respJson && respJson.alreadyIssued && respJson.existingCoupon && respJson.existingCoupon.couponNo) {
+            couponData.couponNo = respJson.existingCoupon.couponNo;
+          }
+        } catch(e) {}
 
-      window.location.href = "/sale-coupon.html" + query;
-    });
+        try {
+          localStorage.setItem("presaleIssuedCoupon", JSON.stringify(couponData));
+        } catch(e) {}
+
+        var query =
+          "?room=" + encodeURIComponent(couponData.roomCode) +
+          "&mode=" + encodeURIComponent(couponData.channelType) +
+          "&code=" + encodeURIComponent(couponData.couponNo) +
+          "&issued=" + encodeURIComponent(couponData.issuedAt) +
+          "&expires=" + encodeURIComponent(couponData.expiresAt) +
+          "&point=" + encodeURIComponent(couponData.point) +
+          "&apt=" + encodeURIComponent(couponData.projectName) +
+          "&partner=" + encodeURIComponent(couponData.partnerName) +
+          "&phone=" + encodeURIComponent(formattedPhone) +
+          "&dong=" + encodeURIComponent(userDong) +
+          "&kakao=1";
+
+        window.location.href = "/sale-coupon.html" + query;
+      });
+    }
 
     checkReward();
   }

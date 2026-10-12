@@ -159,10 +159,13 @@ button.secondary,a.btn.secondary{
       <span class="badge" id="couponTopBadge">발급 완료</span>
       <h1 id="couponMainTitle">발급 확인</h1>
       <p class="desc" id="couponMainDesc">8페이지 전체 확인과 유효조회 60초를 완료한 고객에게 자동 발급됩니다.</p>
+      <div id="kakaoLinkedBanner" style="display:none;margin-top:10px;padding:10px 14px;border-radius:10px;background:#FEF9C3;border:1px solid #FDE047;color:#713F12;font-size:13px;font-weight:800;">
+        💬 카카오톡 연동 완료
+      </div>
     </div>
 
     <div id="couponBox" class="coupon">
-      <div class="coupon-top">
+      <div class="coupon-top" id="couponTopHeader">
         <small id="couponNoLabel">발급번호</small>
         <strong id="couponNo">-</strong>
       </div>
@@ -196,7 +199,15 @@ button.secondary,a.btn.secondary{
       분양 카탈로그 8페이지를 모두 확인하고 유효조회 60초를 끝까지 완료해 주세요.
     </div>
 
+    <div id="saveStatusMsg" style="display:none;margin-top:12px;padding:11px 14px;border-radius:10px;background:#DCFCE7;border:1px solid #86EFAC;color:#166534;font-size:13px;font-weight:800;text-align:center;"></div>
+
     <div class="actions">
+      <button type="button" id="kakaoShareBtn" style="background:#FEE500;color:#191919;min-height:50px;font-size:15px;box-shadow:0 4px 12px rgba(254,229,0,0.4);">
+        💬 내 카카오톡 채팅방으로 바코드카드 보내기 (영구보관)
+      </button>
+      <button type="button" id="savePhoneImgBtn" style="background:#10b981;color:#fff;min-height:50px;font-size:15px;">
+        📥 휴대폰 사진첩(갤러리)에 바코드카드 이미지 저장
+      </button>
       <a id="returnPresaleBtn" class="btn secondary" href="/index.html">분양목록으로</a>
     </div>
 
@@ -209,6 +220,8 @@ button.secondary,a.btn.secondary{
 
 var couponBox = document.getElementById("couponBox");
 var empty = document.getElementById("empty");
+var saveStatusMsg = document.getElementById("saveStatusMsg");
+var kakaoLinkedBanner = document.getElementById("kakaoLinkedBanner");
 
 var params = new URLSearchParams(window.location.search);
 var urlRoom = (params.get("room") || "").trim().toUpperCase();
@@ -217,23 +230,36 @@ var urlCode = params.get("code");
 var urlIssued = params.get("issued");
 var urlExpires = params.get("expires");
 var urlPoint = params.get("point");
+var urlPhone = params.get("phone") || "";
+var urlDong = params.get("dong") || "";
+var urlApt = params.get("apt") || "";
+var isAutoKakao = params.get("kakao") === "1";
 
 var data = null;
 
 if (urlCode) {
   data = {
     roomCode: urlRoom || "ROOM-001",
+    projectName: urlApt || "우리 아파트 분양",
     channelType: urlMode || "daangn",
     couponNo: urlCode,
+    phone: urlPhone,
+    dong: urlDong,
     issuedAt: urlIssued || "-",
     expiresAt: urlExpires || "-",
     status: "사용 가능",
-    point: Number(urlPoint || 0)
+    point: Number(urlPoint || 3000)
   };
 } else {
   try {
     data = JSON.parse(localStorage.getItem("presaleIssuedCoupon") || "null");
   } catch (e) {}
+}
+
+function showNotice(txt) {
+  if (!saveStatusMsg) return;
+  saveStatusMsg.textContent = txt;
+  saveStatusMsg.style.display = "block";
 }
 
 function renderCoupon(item) {
@@ -262,6 +288,21 @@ function renderCoupon(item) {
   document.getElementById("pointLabel").textContent = isMart ? "쿠폰 금액" : "카드 금액";
   document.getElementById("point").textContent = amountFormatted;
 
+  if (kakaoLinkedBanner && (item.phone || item.dong)) {
+    kakaoLinkedBanner.style.display = "block";
+    kakaoLinkedBanner.textContent =
+      "💬 카카오톡 수령 번호 연동 완료 : " + (item.phone || "-") + (item.dong ? " (" + item.dong + ")" : "");
+  }
+
+  var kakaoShareBtn = document.getElementById("kakaoShareBtn");
+  if (kakaoShareBtn) {
+    kakaoShareBtn.textContent = "💬 내 카카오톡 채팅방으로 " + rewardTypeLabel + " 보내기 (영구보관)";
+  }
+  var savePhoneImgBtn = document.getElementById("savePhoneImgBtn");
+  if (savePhoneImgBtn) {
+    savePhoneImgBtn.textContent = "📥 휴대폰 사진첩(갤러리)에 " + rewardTypeLabel + " 이미지 저장";
+  }
+
   if (item.roomCode) {
     document.getElementById("returnPresaleBtn").href = "/index.html?room=" + encodeURIComponent(item.roomCode);
   }
@@ -277,7 +318,138 @@ function renderCoupon(item) {
   }
 }
 
+/* 바코드카드 전체를 고해상도 PNG 이미지(Canvas)로 생성하여 휴대폰 갤러리/다운로드함에 저장 */
+function buildCardCanvas(callback) {
+  if (!data || !data.couponNo) return;
+  var isMart = data.channelType === "mart";
+  var rewardTypeLabel = isMart ? "마트 전자쿠폰" : "모바일 바코드카드";
+  var amountFormatted = Number(data.point || 3000).toLocaleString("ko-KR") + "원";
+
+  var canvas = document.createElement("canvas");
+  canvas.width = 800;
+  canvas.height = 560;
+  var ctx = canvas.getContext("2d");
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#1165d7";
+  ctx.fillRect(0, 0, canvas.width, 150);
+
+  ctx.fillStyle = "rgba(255,255,255,0.88)";
+  ctx.font = "bold 22px sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText((data.projectName || "우리 아파트 분양") + " · " + rewardTypeLabel, 400, 48);
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "bold 40px sans-serif";
+  ctx.fillText(data.couponNo, 400, 108);
+
+  var svgEl = document.getElementById("barcode");
+  var svgXml = new XMLSerializer().serializeToString(svgEl);
+  var svgBlob = new Blob([svgXml], { type: "image/svg+xml;charset=utf-8" });
+  var url = URL.createObjectURL(svgBlob);
+  var img = new Image();
+  img.onload = function() {
+    ctx.drawImage(img, 140, 175, 520, 145);
+    URL.revokeObjectURL(url);
+
+    ctx.strokeStyle = "#e2e8f0";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(40, 345, 720, 175);
+
+    ctx.textAlign = "left";
+    ctx.fillStyle = "#64748b";
+    ctx.font = "bold 18px sans-serif";
+    ctx.fillText("발급일시: " + (data.issuedAt || "-"), 70, 395);
+    ctx.fillText("유효기간: " + (data.expiresAt || "-"), 430, 395);
+
+    ctx.fillStyle = "#166534";
+    ctx.font = "bold 22px sans-serif";
+    ctx.fillText("사용상태: 사용 가능", 70, 455);
+
+    ctx.fillStyle = "#1165d7";
+    ctx.font = "bold 26px sans-serif";
+    ctx.fillText("금액: " + amountFormatted, 430, 455);
+
+    if (data.phone || data.dong) {
+      ctx.fillStyle = "#475569";
+      ctx.font = "bold 16px sans-serif";
+      ctx.fillText("수령번호: " + (data.phone || "-") + " (" + (data.dong || "-") + ")", 70, 498);
+    }
+
+    callback(canvas);
+  };
+  img.src = url;
+}
+
+function downloadCardPng(autoFlag) {
+  buildCardCanvas(function(canvas) {
+    canvas.toBlob(function(blob) {
+      if (!blob) return;
+      var dlUrl = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = dlUrl;
+      a.download = (data.channelType === "mart" ? "마트전자쿠폰_" : "모바일바코드카드_") + (data.couponNo || "CARD") + ".png";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function() { URL.revokeObjectURL(dlUrl); }, 2000);
+      showNotice(
+        autoFlag
+          ? "✅ 휴대폰(다운로드/갤러리)에 바코드카드 이미지가 자동 저장되었습니다! 아래 노란색 버튼을 누르면 카카오톡 채팅방에도 보관할 수 있습니다."
+          : "✅ 휴대폰 사진첩(다운로드 폴더)에 바코드카드 이미지 파일(.png)이 저장되었습니다!"
+      );
+    }, "image/png");
+  });
+}
+
+var savePhoneImgBtn = document.getElementById("savePhoneImgBtn");
+if (savePhoneImgBtn) {
+  savePhoneImgBtn.addEventListener("click", function() {
+    downloadCardPng(false);
+  });
+}
+
+var kakaoShareBtn = document.getElementById("kakaoShareBtn");
+if (kakaoShareBtn) {
+  kakaoShareBtn.addEventListener("click", function() {
+    if (!data || !data.couponNo) return;
+    var isMart = data.channelType === "mart";
+    var rewardTypeLabel = isMart ? "전자쿠폰" : "모바일 바코드카드";
+    var amountFormatted = Number(data.point || 3000).toLocaleString("ko-KR") + "원";
+    var cleanShareUrl = window.location.href.replace(/&kakao=1/g, "");
+    var shareTitle = "[" + (data.projectName || "우리 아파트 분양") + "] " + amountFormatted + " " + rewardTypeLabel;
+    var shareText =
+      "🎁 발급된 " + rewardTypeLabel + " (" + amountFormatted + ")\n" +
+      "• 카드번호: " + data.couponNo + "\n" +
+      "• 유효기간: " + (data.expiresAt || "-") + "\n" +
+      "아래 링크를 누르면 언제든 바코드를 다시 열 수 있습니다.";
+
+    if (navigator.share) {
+      navigator.share({
+        title: shareTitle,
+        text: shareText,
+        url: cleanShareUrl
+      }).then(function() {
+        showNotice("✅ 카카오톡/메시지로 바코드카드 보관이 완료되었습니다!");
+      }).catch(function() {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(shareTitle + "\n" + shareText + "\n👉 " + cleanShareUrl).then(function() {
+        showNotice("✅ 카카오톡 전송용 바코드카드 문구와 전용 링크가 복사되었습니다! 카카오톡 채팅방에 붙여넣기(Ctrl+V) 하시면 영구 보관됩니다.");
+      });
+    }
+  });
+}
+
 renderCoupon(data);
+
+/* 60초 후 카카오톡 수령 모달을 통해 넘어온 경우 자동으로 휴대폰에 바코드카드 이미지를 저장 */
+if (isAutoKakao && data && data.couponNo) {
+  setTimeout(function() {
+    downloadCardPng(true);
+  }, 600);
+}
 
 /* 본사관리자에서 수정한 최신 금액 및 채널(전자쿠폰 vs 모바일 바코드카드) 실시간 연동 */
 var targetRoomCode = (data && data.roomCode) || urlRoom || "ROOM-001";
