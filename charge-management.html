@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#12394d">
+<title>충전금 관리 | 우리아파트 분양</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%}
+body{
+  background:#f5f7f9;
+  color:#172b3d;
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Segoe UI",Arial,sans-serif;
+  overflow-x:hidden;
+}
+#chargeApp{
+  width:100%;
+  max-width:1200px;
+  margin:0 auto;
+  padding:clamp(10px,2.4vw,18px);
+}
+#chargeApp .head{margin-bottom:16px}
+#chargeApp .head h2{
+  margin:0 0 5px;
+  font-size:clamp(21px,3vw,24px);
+}
+#chargeApp .head p{
+  margin:0;
+  color:#71808d;
+  font-size:13px;
+  line-height:1.5;
+}
+#chargeApp .summary{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-bottom:14px;
+}
+#chargeApp .summary-box{
+  min-width:0;
+  padding:15px;
+  border:1px solid #dfe5ea;
+  border-radius:10px;
+  background:#fff;
+}
+#chargeApp .summary-box span{
+  display:block;
+  margin-bottom:7px;
+  color:#71808d;
+  font-size:12px;
+}
+#chargeApp .summary-box strong{
+  display:block;
+  font-size:clamp(18px,2.5vw,21px);
+  overflow-wrap:anywhere;
+}
+#chargeApp .panel{
+  margin-bottom:14px;
+  overflow:hidden;
+  border:1px solid #dfe5ea;
+  border-radius:10px;
+  background:#fff;
+}
+#chargeApp .panel-title{
+  padding:14px 15px;
+  border-bottom:1px solid #e4e9ed;
+  font-size:16px;
+  font-weight:800;
+}
+#chargeApp .form{
+  display:grid;
+  grid-template-columns:1fr 1.2fr 1.4fr 1fr 1fr;
+  gap:9px;
+  padding:12px;
+}
+#chargeApp .field{min-width:0}
+#chargeApp label{
+  display:block;
+  margin-bottom:6px;
+  color:#5e6f7c;
+  font-size:12px;
+  font-weight:700;
+}
+#chargeApp input,
+#chargeApp textarea,
+#chargeApp button{
+  width:100%;
+  min-width:0;
+  border:1px solid #cad4dc;
+  border-radius:6px;
+  background:#fff;
+  font:inherit;
+  font-size:13px;
+}
+#chargeApp input{
+  height:42px;
+  padding:0 10px;
+}
+#chargeApp textarea{
+  min-height:80px;
+  padding:10px;
+  resize:vertical;
+}
+#chargeApp .memo-field{
+  grid-column:1 / -1;
+}
+#chargeApp .actions{
+  grid-column:1 / -1;
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+}
+#chargeApp button{
+  width:auto;
+  min-height:42px;
+  padding:0 18px;
+  border:0;
+  background:#12394d;
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+}
+#chargeApp button.secondary{
+  background:#e9eef2;
+  color:#314555;
+}
+#chargeApp .filters{
+  display:grid;
+  grid-template-columns:1fr 1fr 1.6fr auto;
+  gap:8px;
+  padding:12px;
+}
+#chargeApp .table-tools{
+  padding:10px 12px;
+  border-top:1px solid #e5eaee;
+}
+#chargeApp .table-wrap{
+  width:100%;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+#chargeApp table{
+  width:100%;
+  min-width:980px;
+  border-collapse:collapse;
+}
+#chargeApp th{
+  padding:11px 7px;
+  border-bottom:1px solid #dfe5ea;
+  background:#f6f8fa;
+  color:#536575;
+  font-size:12px;
+  white-space:nowrap;
+}
+#chargeApp td{
+  padding:12px 7px;
+  border-bottom:1px solid #edf0f2;
+  font-size:12px;
+  text-align:center;
+  white-space:nowrap;
+}
+#chargeApp .amount{
+  color:#0a7659;
+  font-weight:800;
+}
+#chargeApp #empty{
+  padding:50px 10px;
+  color:#8b98a3;
+  text-align:center;
+  font-size:13px;
+}
+@media(max-width:900px){
+  #chargeApp .summary{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #chargeApp .form{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #chargeApp .filters{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #chargeApp .filters button{width:100%}
+}
+@media(max-width:560px){
+  #chargeApp{padding:10px}
+  #chargeApp .summary{grid-template-columns:1fr}
+  #chargeApp .form,
+  #chargeApp .filters{grid-template-columns:1fr}
+  #chargeApp .memo-field,
+  #chargeApp .actions{grid-column:auto}
+  #chargeApp .actions{display:grid;grid-template-columns:1fr 1fr}
+  #chargeApp button{width:100%;min-height:44px}
+}
+</style>
+</head>
+<body>
+
+<div id="chargeApp">
+
+  <div class="head">
+    <h2>충전금 관리</h2>
+    <p>분양현장별 충전금 등록 및 충전내역을 관리합니다.</p>
+  </div>
+
+  <div class="summary">
+    <div class="summary-box">
+      <span>등록 현장</span>
+      <strong id="s1">0곳</strong>
+    </div>
+    <div class="summary-box">
+      <span>총 충전금</span>
+      <strong id="s2">0원</strong>
+    </div>
+    <div class="summary-box">
+      <span>등록 건수</span>
+      <strong id="s3">0건</strong>
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="panel-title">충전금 등록</div>
+
+    <div class="form">
+      <div class="field">
+        <label for="siteCode">분양현장코드</label>
+        <input id="siteCode" type="text" placeholder="예: APT001">
+      </div>
+
+      <div class="field">
+        <label for="company">분양사명</label>
+        <input id="company" type="text" placeholder="분양사명">
+      </div>
+
+      <div class="field">
+        <label for="siteName">현장명</label>
+        <input id="siteName" type="text" placeholder="현장명">
+      </div>
+
+      <div class="field">
+        <label for="amount">금액</label>
+        <input id="amount" type="number" min="0" step="1000" placeholder="0">
+      </div>
+
+      <div class="field">
+        <label for="chargeDate">일자</label>
+        <input id="chargeDate" type="date">
+      </div>
+
+      <div class="field memo-field">
+        <label for="memo">메모</label>
+        <textarea id="memo" placeholder="메모를 입력하세요."></textarea>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="secondary" id="copyBtn">내용 복사</button>
+        <button type="button" id="saveBtn">충전금 등록</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-title">충전금 등록내역</div>
+
+    <div class="filters">
+      <input type="date" id="sd">
+      <input type="date" id="ed">
+      <input type="text" id="kw" placeholder="현장코드·분양사·현장명 검색">
+      <button type="button" id="searchBtn">조회</button>
+    </div>
+
+    <div class="table-tools">
+      총 <strong id="cnt">0</strong>건
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>일자</th>
+            <th>분양현장코드</th>
+            <th>분양사명</th>
+            <th>현장명</th>
+            <th>충전금액</th>
+            <th>메모</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+
+      <div id="empty">등록된 충전금 내역이 없습니다.</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var root=document.getElementById("chargeApp");
+if(!root)return;
+
+var D=[];
+
+function el(id){return root.querySelector("#"+id)}
+function n(v){return Number(v||0).toLocaleString("ko-KR")}
+
+function render(A){
+  var rows=el("rows");
+  rows.innerHTML="";
+
+  el("cnt").textContent=A.length;
+  el("empty").style.display=A.length?"none":"block";
+
+  var sites={};
+  var total=0;
+
+  D.forEach(function(x){
+    if(x.siteCode)sites[x.siteCode]=true;
+    total+=Number(x.amount||0);
+  });
+
+  el("s1").textContent=Object.keys(sites).length+"곳";
+  el("s2").textContent=n(total)+"원";
+  el("s3").textContent=D.length+"건";
+
+  A.forEach(function(x){
+    var tr=document.createElement("tr");
+    tr.innerHTML=
+      "<td>"+(x.date||"-")+"</td>"+
+      "<td>"+(x.siteCode||"-")+"</td>"+
+      "<td>"+(x.company||"-")+"</td>"+
+      "<td>"+(x.siteName||"-")+"</td>"+
+      "<td class='amount'>"+n(x.amount)+"원</td>"+
+      "<td>"+(x.memo||"-")+"</td>";
+    rows.appendChild(tr);
+  });
+}
+
+var allRooms=[];
+
+async function save(){
+  var data={
+    siteCode:el("siteCode").value.trim().toUpperCase(),
+    company:el("company").value.trim(),
+    siteName:el("siteName").value.trim(),
+    amount:Number(el("amount").value||0),
+    date:el("chargeDate").value,
+    memo:el("memo").value.trim()
+  };
+
+  if(!data.siteCode){
+    alert("분양현장코드를 입력해 주세요. (예: ROOM-001)");
+    el("siteCode").focus();
+    return;
+  }
+  if(!data.company){
+    alert("분양사명을 입력해 주세요.");
+    el("company").focus();
+    return;
+  }
+  if(!data.siteName){
+    alert("현장명을 입력해 주세요.");
+    el("siteName").focus();
+    return;
+  }
+  if(!data.amount){
+    alert("충전금액을 입력해 주세요.");
+    el("amount").focus();
+    return;
+  }
+  if(!data.date){
+    alert("일자를 선택해 주세요.");
+    el("chargeDate").focus();
+    return;
+  }
+
+  D.unshift(data);
+  try {
+    localStorage.setItem("wooriapt_charge_records_v1", JSON.stringify(D));
+  } catch(e){}
+
+  /* 해당 방(project_code)이 있으면 서버 예치금/발행수량에도 반영 */
+  try {
+    var existing = allRooms.find(function(r){ return String(r.project_code || "").toUpperCase() === data.siteCode; });
+    var prevC = existing ? (existing.catalog_data || {}) : {};
+    var unitReward = Number(prevC.rewardAmount || 3000);
+    var nextQty = Math.max(1, Math.floor(data.amount / unitReward));
+    await fetch("/api/sale-save", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Admin-Key": "1234" },
+      body: JSON.stringify({
+        project_code: data.siteCode,
+        project_name: data.siteName,
+        sale_status: existing ? existing.sale_status : "분양 중",
+        area: existing ? existing.area : "",
+        move_in_date: existing ? existing.move_in_date : "",
+        contact_phone: existing ? existing.contact_phone : "",
+        modelhouse_address: existing ? existing.modelhouse_address : "",
+        catalog_data: Object.assign({}, prevC, {
+          companyName: data.company,
+          chargeBudget: data.amount,
+          issueQty: nextQty
+        })
+      })
+    });
+  } catch(e){}
+
+  render(D);
+  alert("충전금이 등록 및 해당 분양사 방에 즉시 반영되었습니다.");
+
+  el("amount").value="";
+  el("memo").value="";
+}
+
+function search(){
+  var sd=el("sd").value;
+  var ed=el("ed").value;
+  var kw=el("kw").value.trim().toLowerCase();
+
+  var A=D.filter(function(x){
+    if(sd && x.date<sd)return false;
+    if(ed && x.date>ed)return false;
+
+    var text=(
+      (x.siteCode||"")+" "+
+      (x.company||"")+" "+
+      (x.siteName||"")
+    ).toLowerCase();
+
+    if(kw && !text.includes(kw))return false;
+    return true;
+  });
+
+  render(A);
+}
+
+function copyCurrent(){
+  var text=[
+    "분양현장코드: "+el("siteCode").value,
+    "분양사명: "+el("company").value,
+    "현장명: "+el("siteName").value,
+    "금액: "+el("amount").value,
+    "일자: "+el("chargeDate").value,
+    "메모: "+el("memo").value
+  ].join("\n");
+
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){
+      alert("입력 내용이 복사되었습니다.");
+    });
+  }else{
+    alert("이 브라우저에서는 자동 복사가 지원되지 않습니다.");
+  }
+}
+
+async function loadInitialCharges(){
+  var params = new URLSearchParams(window.location.search);
+  var roomFilter = (params.get("room") || params.get("code") || "").trim().toUpperCase();
+
+  try {
+    var res = await fetch("/api/sale-save");
+    var data = await res.json();
+    if(res.ok && data.ok && Array.isArray(data.rooms)){
+      allRooms = data.rooms;
+    }
+  } catch(e){}
+
+  if(allRooms.length === 0){
+    try {
+      allRooms = JSON.parse(localStorage.getItem("wooriapt_replicated_rooms_v2") || "[]");
+    } catch(e){}
+  }
+
+  var list = [];
+  allRooms.forEach(function(r){
+    var code = String(r.project_code || "ROOM-001").toUpperCase();
+    if(roomFilter && code !== roomFilter) return;
+    var c = r.catalog_data || {};
+    var reward = Number(c.rewardAmount || 3000);
+    var qty = Number(c.issueQty || 500);
+    var budget = Number(c.chargeBudget || (reward * qty));
+    var dStr = String(r.updated_at || new Date().toISOString()).slice(0, 10);
+    list.push({
+      date: dStr,
+      siteCode: code,
+      company: c.companyName || "-",
+      siteName: r.project_name || "-",
+      amount: budget,
+      memo: "단가 " + n(reward) + "원 × " + n(qty) + "장 (" + (c.channelType === "mart" ? "마트 전자쿠폰" : "당근 모바일 바코드카드") + ")"
+    });
+  });
+
+  if(roomFilter && allRooms.length > 0){
+    var matched = allRooms.find(function(r){ return String(r.project_code || "").toUpperCase() === roomFilter; });
+    if(matched){
+      var mc = matched.catalog_data || {};
+      el("siteCode").value = matched.project_code || roomFilter;
+      el("company").value = mc.companyName || "";
+      el("siteName").value = matched.project_name || "";
+    }
+  }
+
+  D = list;
+  search();
+}
+
+el("saveBtn").onclick=save;
+el("searchBtn").onclick=function(){ loadInitialCharges(); };
+el("copyBtn").onclick=copyCurrent;
+
+el("kw").addEventListener("keydown",function(e){
+  if(e.key==="Enter")search();
+});
+
+var today=new Date();
+var iso=today.toISOString().slice(0,10);
+el("chargeDate").value=iso;
+el("ed").value=iso;
+
+var firstDay = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+el("sd").value=firstDay.toISOString().slice(0,10);
+
+loadInitialCharges();
+
+})();
+</script>
+
+</body>
+</html>

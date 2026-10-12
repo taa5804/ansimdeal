@@ -129,10 +129,48 @@ html,body{
 #aptCatalog .cover{
   min-height:700px;
   background:
-    linear-gradient(180deg,rgba(4,20,36,.05),rgba(4,20,36,.15)),
-    url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85")
-    center/cover no-repeat;
+    radial-gradient(circle at 50% 25%, rgba(200,163,95,.18), transparent 65%),
+    linear-gradient(165deg,#061524 0%,#0d2740 52%,#05111e 100%);
+  background-size:cover;
+  background-position:center;
   color:#fff;
+}
+
+#aptCatalog .cover-frame-mark{
+  position:absolute;
+  z-index:2;
+  top:72px;
+  left:26px;
+  right:26px;
+  height:340px;
+  border:1px solid rgba(200,163,95,.38);
+  background:
+    linear-gradient(135deg, rgba(200,163,95,.07), rgba(7,26,44,.45)),
+    repeating-linear-gradient(0deg, rgba(200,163,95,.05) 0px, rgba(200,163,95,.05) 1px, transparent 1px, transparent 28px),
+    repeating-linear-gradient(90deg, rgba(200,163,95,.05) 0px, rgba(200,163,95,.05) 1px, transparent 1px, transparent 28px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+}
+
+#aptCatalog .cover-frame-mark small{
+  color:var(--gold);
+  font-family:Georgia,serif;
+  letter-spacing:3px;
+  font-size:11px;
+  margin-bottom:8px;
+}
+
+#aptCatalog .cover-frame-mark span{
+  color:rgba(255,255,255,.78);
+  font-size:12.5px;
+  font-weight:600;
+  padding:7px 14px;
+  border:1px solid rgba(200,163,95,.4);
+  background:rgba(4,16,28,.65);
 }
 
 #aptCatalog .cover-copy{
@@ -140,7 +178,7 @@ html,body{
   z-index:2;
   left:26px;
   right:26px;
-  bottom:110px;
+  bottom:105px;
 }
 
 #aptCatalog .eyebrow,
@@ -210,13 +248,41 @@ html,body{
 #aptCatalog .gallery>div{
   position:relative;
   overflow:hidden;
-  background:#d8dee2;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(200,163,95,.16), transparent 70%),
+    linear-gradient(145deg,#0b2136 0%,#13314c 55%,#091a2b 100%);
+  background-size:cover;
+  background-position:center;
+  border:1px solid rgba(200,163,95,.42);
+}
+
+#aptCatalog .location-photo::before,
+#aptCatalog .complex-photo::before,
+#aptCatalog .premium-photo::before,
+#aptCatalog .modelhouse::before,
+#aptCatalog .floorplan::before,
+#aptCatalog .gallery>div::before{
+  content:"ARCHITECTURAL CATALOG SPACE";
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-65%);
+  color:rgba(200,163,95,.55);
+  font-family:Georgia,serif;
+  font-size:10px;
+  letter-spacing:2.2px;
+  white-space:nowrap;
+  pointer-events:none;
+}
+
+#aptCatalog .has-custom-img::before{
+  display:none !important;
 }
 
 #aptCatalog .location-photo{
   height:250px;
-  margin:22px -24px 0;
-  background:url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1000&q=85") center/cover;
+  margin:22px 0 0;
+  border-radius:4px;
 }
 
 #aptCatalog .image-label{
@@ -225,10 +291,13 @@ html,body{
   right:14px;
   bottom:14px;
   padding:10px 12px;
-  border:1px solid rgba(255,255,255,.45);
-  background:rgba(6,24,40,.58);
-  color:#fff;
-  font-size:11px;
+  border:1px solid rgba(200,163,95,.55);
+  background:rgba(6,20,34,.76);
+  color:#f8f3e6;
+  font-size:11.5px;
+  font-weight:600;
+  letter-spacing:.3px;
+  text-align:center;
   backdrop-filter:blur(7px);
 }
 
@@ -271,7 +340,9 @@ html,body{
 
 #aptCatalog .premium-photo{
   min-height:660px;
-  background:url("https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=800&q=85") center/cover;
+  border-top:0;
+  border-bottom:0;
+  border-left:0;
 }
 
 #aptCatalog .premium-copy{padding:58px 18px 30px}
@@ -322,8 +393,8 @@ html,body{
 
 #aptCatalog .complex-photo{
   height:280px;
-  margin:22px -24px 0;
-  background:url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=85") center/cover;
+  margin:22px 0 0;
+  border-radius:4px;
 }
 
 #aptCatalog .feature-grid{
@@ -359,8 +430,8 @@ html,body{
 #aptCatalog .floorplan{
   height:280px;
   margin:20px 0 14px;
-  border:1px solid rgba(255,255,255,.18);
-  background:#edf0ed;
+  border:1px solid rgba(200,163,95,.45);
+  border-radius:4px;
 }
 
 #aptCatalog .unit-info{
@@ -407,48 +478,37 @@ html,body{
 #aptCatalog .gallery{
   display:grid;
   grid-template-columns:1fr 1fr;
-  grid-template-rows:170px 130px 130px;
-  gap:7px;
+  grid-template-rows:165px 135px 135px;
+  gap:8px;
   margin-top:22px;
 }
 
 #aptCatalog .gallery .wide{grid-column:1/3}
 
-#aptCatalog .gallery>div:nth-child(1){
-  background:url("https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=900&q=80") center/cover;
-}
-#aptCatalog .gallery>div:nth-child(2){
-  background:url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80") center/cover;
-}
-#aptCatalog .gallery>div:nth-child(3){
-  background:url("https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=600&q=80") center/cover;
-}
-#aptCatalog .gallery>div:nth-child(4){
-  background:url("https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=600&q=80") center/cover;
-}
-#aptCatalog .gallery>div:nth-child(5){
-  background:url("https://images.unsplash.com/photo-1560785496-3c9d27877182?auto=format&fit=crop&w=600&q=80") center/cover;
-}
-#aptCatalog .gallery>div:nth-child(6){
-  background:url("https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=600&q=80") center/cover;
+#aptCatalog .gallery>div{
+  border-radius:4px;
 }
 
 #aptCatalog .gallery span{
   position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  padding:8px;
-  background:linear-gradient(transparent,rgba(0,0,0,.78));
-  color:#fff;
-  font-size:11px;
+  left:10px;
+  right:10px;
+  bottom:10px;
+  padding:7px 10px;
+  border:1px solid rgba(200,163,95,.5);
+  background:rgba(6,20,34,.78);
+  color:#f8f3e6;
+  font-size:11.5px;
+  font-weight:600;
+  text-align:center;
 }
 
 #aptCatalog .contact{
   background:
-    linear-gradient(180deg,rgba(4,18,34,.08),rgba(3,15,29,.42)),
-    url("https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1000&q=85")
-    center/cover;
+    radial-gradient(circle at 50% 20%, rgba(200,163,95,.18), transparent 65%),
+    linear-gradient(165deg,#061524 0%,#0f2942 55%,#04101c 100%);
+  background-size:cover;
+  background-position:center;
   color:#fff;
 }
 
@@ -463,8 +523,8 @@ html,body{
   z-index:2;
   height:210px;
   margin-top:24px;
-  border:1px solid rgba(255,255,255,.35);
-  background:rgba(255,255,255,.14);
+  border:1px solid rgba(200,163,95,.5);
+  border-radius:4px;
 }
 
 #aptCatalog .contact-actions{
@@ -545,12 +605,12 @@ html,body{
 
       <div class="section-title">
         <span>LOCATION</span>
-        <h2>모든 가치가 하나로 모이는<br>완벽한 입지</h2>
-        <p>교통·교육·생활·자연을 가까이 누리는 특별한 자리</p>
+        <h2 id="locationHeadline">모든 가치가 하나로 모이는<br>완벽한 입지</h2>
+        <p id="locationSubdesc">교통·교육·생활·자연을 가까이 누리는 특별한 자리</p>
       </div>
 
-      <div class="location-photo">
-        <div class="image-label">입지 항공사진 또는 지도</div>
+      <div class="location-photo" id="locationPhotoBox">
+        <div class="image-label" id="locationPhotoLabel">입지 환경 · 광역 조감도</div>
       </div>
 
       <div class="info-list">
@@ -577,8 +637,8 @@ html,body{
     <section class="apt-page premium" data-page="2">
       <div class="page-no">03 / 08</div>
 
-      <div class="premium-photo">
-        <div class="image-label">대표 실내 이미지</div>
+      <div class="premium-photo" id="premiumPhotoBox">
+        <div class="image-label" id="premiumPhotoLabel">프리미엄 대표 이미지</div>
       </div>
 
       <div class="premium-copy">
@@ -623,8 +683,8 @@ html,body{
         <h2>자연과 건축이 어우러진<br>아름다운 단지</h2>
       </div>
 
-      <div class="complex-photo">
-        <div class="image-label">단지 조감도</div>
+      <div class="complex-photo" id="complexPhotoBox">
+        <div class="image-label" id="complexPhotoLabel">단지 배치도 · 투시도</div>
       </div>
 
       <div class="feature-grid">
@@ -653,26 +713,26 @@ html,body{
 
       <div class="unit-head">
         <span>UNIT PLAN 01</span>
-        <h2>84A <small>TYPE</small></h2>
-        <p>총 000세대</p>
+        <h2 id="unit1Title">84A <small>TYPE</small></h2>
+        <p id="unit1CountText">총 000세대</p>
       </div>
 
-      <div class="floorplan">
-        <div class="image-label">84A 평면도 이미지</div>
+      <div class="floorplan" id="unit1PhotoBox">
+        <div class="image-label" id="unit1PhotoLabel">평면도 01 (분양사 카탈로그 이미지)</div>
       </div>
 
       <div class="unit-info">
         <div>
           <b>전용면적</b>
-          <span>84.98㎡</span>
+          <span id="unit1Excl">84.98㎡</span>
         </div>
         <div>
           <b>공급면적</b>
-          <span>112.45㎡</span>
+          <span id="unit1Supp">112.45㎡</span>
         </div>
         <div>
           <b>계약면적</b>
-          <span>168.72㎡</span>
+          <span id="unit1Cont">168.72㎡</span>
         </div>
       </div>
 
@@ -689,26 +749,26 @@ html,body{
 
       <div class="unit-head">
         <span>UNIT PLAN 02</span>
-        <h2>84B <small>TYPE</small></h2>
-        <p>총 000세대</p>
+        <h2 id="unit2Title">84B <small>TYPE</small></h2>
+        <p id="unit2CountText">총 000세대</p>
       </div>
 
-      <div class="floorplan">
-        <div class="image-label">84B 평면도 이미지</div>
+      <div class="floorplan" id="unit2PhotoBox">
+        <div class="image-label" id="unit2PhotoLabel">평면도 02 (분양사 카탈로그 이미지)</div>
       </div>
 
       <div class="unit-info">
         <div>
           <b>전용면적</b>
-          <span>84.97㎡</span>
+          <span id="unit2Excl">84.97㎡</span>
         </div>
         <div>
           <b>공급면적</b>
-          <span>113.12㎡</span>
+          <span id="unit2Supp">113.12㎡</span>
         </div>
         <div>
           <b>계약면적</b>
-          <span>169.45㎡</span>
+          <span id="unit2Cont">169.45㎡</span>
         </div>
       </div>
 
@@ -728,30 +788,41 @@ html,body{
         <h2>일상을 특별하게 만드는<br>다양한 커뮤니티</h2>
       </div>
 
-      <div class="gallery">
-        <div class="wide"><span>클럽 라운지</span></div>
-        <div><span>피트니스</span></div>
-        <div><span>골프연습장</span></div>
-        <div><span>독서실</span></div>
-        <div><span>어린이집</span></div>
-        <div><span>게스트하우스</span></div>
+      <!-- 분양사에서 커뮤니티 통카탈로그 1장으로 올렸을 때 표시되는 영역 -->
+      <div id="communityFullBox" style="display:none;flex:1;min-height:360px;border-radius:20px;background-color:#0b2136;background-size:cover;background-position:center;border:1px solid rgba(200,163,95,0.4);box-shadow:0 16px 36px rgba(7,25,43,0.14);position:relative;overflow:hidden;">
+        <div class="image-label" id="communityFullLabel">커뮤니티 카탈로그</div>
+      </div>
+
+      <!-- 기본 6분할 고급 커뮤니티 갤러리 영역 (분양사가 개별 이미지 등록 가능) -->
+      <div class="gallery" id="communityGalleryGrid">
+        <div class="wide" id="commSlot1"><span id="commLabel1">클럽 라운지</span></div>
+        <div id="commSlot2"><span id="commLabel2">피트니스</span></div>
+        <div id="commSlot3"><span id="commLabel3">골프연습장</span></div>
+        <div id="commSlot4"><span id="commLabel4">독서실</span></div>
+        <div id="commSlot5"><span id="commLabel5">어린이집</span></div>
+        <div id="commSlot6"><span id="commLabel6">게스트하우스</span></div>
       </div>
     </section>
 
     <!-- PAGE 08 -->
-    <section class="apt-page contact" data-page="7">
+    <section id="contactSection" class="apt-page contact" data-page="7">
       <div class="shade"></div>
       <div class="page-no">08 / 08</div>
 
       <div class="contact-copy">
         <span>CONTACT</span>
         <h2>당신의 새로운 시작을<br>직접 만나보세요</h2>
-        <p>모델하우스 방문예약과 상담을 신청할 수 있습니다.</p>
+        <p id="contactSubText">모델하우스 방문예약과 상담을 신청할 수 있습니다.</p>
+        <p id="contactAddressText" style="margin-top:6px;font-size:12.5px;color:#e6c98a;font-weight:700;"></p>
       </div>
 
-      <div class="modelhouse">
-        <div class="image-label">모델하우스 대표 이미지</div>
+      <div class="modelhouse" id="modelhousePhotoBox">
+        <div class="image-label" id="modelhousePhotoLabel">모델하우스 · 홍보관 안내</div>
       </div>
+
+      <a id="homepageLinkBtn" href="#" target="_blank" rel="noopener" style="display:none;position:relative;z-index:2;width:100%;height:44px;margin-bottom:8px;border-radius:12px;border:1px solid rgba(214,178,110,0.65);background:rgba(7,25,43,0.75);color:#f3d999;font-size:13.5px;font-weight:800;text-decoration:none;align-items:center;justify-content:center;gap:6px;">
+        🌐 공식 분양 홈페이지 바로가기 ↗
+      </a>
 
       <div class="contact-actions">
         <button type="button" id="visitBtn">
@@ -875,6 +946,7 @@ html,body{
       project_name: "더 퍼스트 센트럴파크",
       contact_phone: "02-1588-0001",
       area: "서울특별시 강남구 역삼동",
+      modelhouse_address: "",
       catalog_data: {
         channelType: "daangn",
         companyName: "더 퍼스트 분양사업단",
@@ -898,11 +970,23 @@ html,body{
       return s;
     }
 
+    function setBoxBgImage(boxId, imgUrl) {
+      var el = document.getElementById(boxId);
+      if (!el) return;
+      var cleanUrl = String(imgUrl || "").trim();
+      if (cleanUrl) {
+        el.style.backgroundImage = 'url("' + cleanUrl + '")';
+        el.style.backgroundSize = "cover";
+        el.style.backgroundPosition = "center";
+      }
+    }
+
     function applyRoomUI(room) {
       if (!room) return;
       currentRoom = room;
       var c = room.catalog_data || {};
 
+      /* 01/08 표지 */
       var eyebrowEl = document.getElementById("coverEyebrow");
       if (eyebrowEl) eyebrowEl.textContent = c.coverEyebrow || "PREMIUM RESIDENCE";
 
@@ -919,15 +1003,93 @@ html,body{
 
       var coverSection = document.getElementById("coverSection");
       if (coverSection && c.coverImageUrl) {
-        coverSection.style.backgroundImage = 'linear-gradient(180deg,rgba(4,20,36,.08),rgba(4,20,36,.2)), url("' + c.coverImageUrl + '")';
+        coverSection.style.backgroundImage = 'linear-gradient(180deg,rgba(4,20,36,.12),rgba(4,20,36,.45)), url("' + c.coverImageUrl + '")';
+        coverSection.style.backgroundSize = "cover";
+        coverSection.style.backgroundPosition = "center";
       }
+
+      /* 02/08 입지환경 */
+      setBoxBgImage("locationPhotoBox", c.locationImageUrl);
+      if (c.locationLabel) {
+        var locLbl = document.getElementById("locationPhotoLabel");
+        if (locLbl) locLbl.textContent = c.locationLabel;
+      }
+
+      /* 03/08 프리미엄 6 */
+      setBoxBgImage("premiumPhotoBox", c.premiumImageUrl);
+      if (c.premiumLabel) {
+        var premLbl = document.getElementById("premiumPhotoLabel");
+        if (premLbl) premLbl.textContent = c.premiumLabel;
+      }
+
+      /* 04/08 단지설계 */
+      setBoxBgImage("complexPhotoBox", c.complexImageUrl);
+      if (c.complexLabel) {
+        var compLbl = document.getElementById("complexPhotoLabel");
+        if (compLbl) compLbl.textContent = c.complexLabel;
+      }
+
+      /* 05/08 & 06/08 평면안내 */
+      var hh = c.households || "1,520세대";
+      var u1Title = document.getElementById("unit1Title");
+      if (u1Title && c.unit1Type) u1Title.innerHTML = c.unit1Type + ' <small>TYPE</small>';
+      var u2Title = document.getElementById("unit2Title");
+      if (u2Title && c.unit2Type) u2Title.innerHTML = c.unit2Type + ' <small>TYPE</small>';
 
       var unitCounts = root.querySelectorAll(".unit-head p");
       if (unitCounts && unitCounts.length > 0) {
-        var hh = c.households || "1,520세대";
         unitCounts.forEach(function(p) {
           p.textContent = "단지 전체 " + hh + " 중 주력 타입";
         });
+      }
+      setBoxBgImage("unit1PhotoBox", c.unit1ImageUrl);
+      setBoxBgImage("unit2PhotoBox", c.unit2ImageUrl);
+
+      /* 07/08 다양한 커뮤니티 (통카탈로그 1장 또는 6분할 슬롯) */
+      var commFullBox = document.getElementById("communityFullBox");
+      var commGrid = document.getElementById("communityGalleryGrid");
+      if (c.commFullImageUrl && commFullBox && commGrid) {
+        commFullBox.style.display = "block";
+        commGrid.style.display = "none";
+        setBoxBgImage("communityFullBox", c.commFullImageUrl);
+      } else {
+        if (commFullBox) commFullBox.style.display = "none";
+        if (commGrid) commGrid.style.display = "grid";
+        for (var i = 1; i <= 6; i++) {
+          var slotImg = c["commImg" + i];
+          var slotLbl = c["commLabel" + i];
+          if (slotImg) {
+            var slotEl = document.getElementById("commSlot" + i);
+            if (slotEl) {
+              slotEl.style.backgroundImage = 'linear-gradient(180deg,rgba(4,20,36,.08),rgba(4,20,36,.72)), url("' + slotImg + '")';
+              slotEl.style.backgroundSize = "cover";
+              slotEl.style.backgroundPosition = "center";
+            }
+          }
+          if (slotLbl) {
+            var lblEl = document.getElementById("commLabel" + i);
+            if (lblEl) lblEl.textContent = slotLbl;
+          }
+        }
+      }
+
+      /* 08/08 모델하우스 · 방문예약 · 홈페이지 */
+      setBoxBgImage("modelhousePhotoBox", c.modelhouseImageUrl || c.coverImageUrl);
+      var addrEl = document.getElementById("contactAddressText");
+      var mhAddr = room.modelhouse_address || c.modelhouseAddress || room.area || "";
+      if (addrEl) {
+        addrEl.textContent = mhAddr ? ("📍 홍보관 위치: " + mhAddr) : "";
+      }
+
+      var hpBtn = document.getElementById("homepageLinkBtn");
+      var hpUrl = String(c.homepageUrl || "").trim();
+      if (hpBtn) {
+        if (hpUrl) {
+          hpBtn.href = hpUrl.indexOf("http") === 0 ? hpUrl : ("https://" + hpUrl);
+          hpBtn.style.display = "flex";
+        } else {
+          hpBtn.style.display = "none";
+        }
       }
 
       var phoneLink = document.getElementById("contactPhoneLink");
@@ -1017,10 +1179,11 @@ html,body{
       }
     }, 1000);
 
-    /* 방문예약 신청 모달 연결 */
+    /* 방문예약 신청 모달 연결 (서버 DB에도 실시간 저장) */
     var visitModal = document.getElementById("visitReserveModal");
     var visitPhoneInput = document.getElementById("visitPhone");
     var visitDongInput = document.getElementById("visitDong");
+    var visitDateInput = document.getElementById("visitDate");
     if (visitPhoneInput) {
       visitPhoneInput.addEventListener("input", function() {
         this.value = formatPhoneInput(this.value);
@@ -1041,12 +1204,28 @@ html,body{
     }
     var visitSubmit = document.getElementById("visitSubmitBtn");
     if (visitSubmit && visitModal) {
-      visitSubmit.addEventListener("click", function(){
+      visitSubmit.addEventListener("click", async function(){
         var ph = (visitPhoneInput && visitPhoneInput.value) || "";
         if (ph.replace(/[^0-9]/g, "").length < 10) {
           alert("방문예약 안내를 받으실 휴대폰 번호를 정확히 입력해 주세요.");
           return;
         }
+        var dongVal = (visitDongInput && visitDongInput.value) || "";
+        var dateVal = (visitDateInput && visitDateInput.value) || "";
+        try {
+          var apiOrigin = window.location.hostname.includes("wooriaptcd.com") ? "" : "https://wooriaptcd.com";
+          await fetch(apiOrigin + "/api/sale-save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "visit_reserve",
+              project_code: currentRoom.project_code || roomCode || "ROOM-001",
+              phone: ph,
+              dong: dongVal,
+              visit_date: dateVal
+            })
+          });
+        } catch (e) {}
         visitModal.style.display = "none";
         alert("[" + (currentRoom.project_name || "분양단지") + "] 모델하우스 방문예약 신청이 접수되었습니다. 담당 상담사가 연락드리겠습니다.");
       });

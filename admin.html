@@ -261,9 +261,11 @@ var params=new URLSearchParams(window.location.search);
 var roomCode=(params.get("room")||params.get("code")||"").trim().toUpperCase();
 
 if(roomCode){
-  var saleSrc="/sale-admin.html?room="+encodeURIComponent(roomCode);
-  document.getElementById("tabSaleAdmin").setAttribute("data-src",saleSrc);
-  frame.src=saleSrc;
+  tabs.forEach(function(t){
+    var base = t.getAttribute("data-src") || "/sale-admin.html";
+    t.setAttribute("data-src", base.split("?")[0] + "?room=" + encodeURIComponent(roomCode));
+  });
+  frame.src="/sale-admin.html?room="+encodeURIComponent(roomCode);
   document.getElementById("presaleBrandSub").textContent="ROOM #"+roomCode+" ADMIN";
   document.getElementById("presaleBrandTitle").textContent="분양사 개별 관리자 (#"+roomCode+")";
 }

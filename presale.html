@@ -115,8 +115,22 @@ button,input,select,textarea{
 #saleMain .project-image{
   position:relative;
   height:clamp(240px,43vw,330px);
-  background:linear-gradient(150deg,#a9d1dc,#527b8d) center/cover no-repeat;
+  background:
+    radial-gradient(circle at 80% 22%, rgba(200,163,95,.22) 0%, transparent 55%),
+    repeating-linear-gradient(90deg, rgba(200,163,95,.05) 0px, rgba(200,163,95,.05) 1px, transparent 1px, transparent 48px),
+    repeating-linear-gradient(0deg, rgba(200,163,95,.05) 0px, rgba(200,163,95,.05) 1px, transparent 1px, transparent 48px),
+    linear-gradient(155deg,#081d31 0%,#12344d 52%,#071626 100%) center/cover no-repeat;
+  border-bottom:1px solid rgba(200,163,95,.35);
   overflow:hidden;
+}
+
+#saleMain .project-image::after{
+  content:"";
+  position:absolute;
+  inset:12px;
+  border:1px solid rgba(200,163,95,.28);
+  border-radius:14px;
+  pointer-events:none;
 }
 
 #saleMain .image-shade{
@@ -124,9 +138,9 @@ button,input,select,textarea{
   inset:0;
   background:linear-gradient(
     to bottom,
-    rgba(0,0,0,.05),
-    rgba(0,0,0,.05) 45%,
-    rgba(0,0,0,.68)
+    rgba(4,16,28,.10),
+    rgba(4,16,28,.18) 45%,
+    rgba(4,16,28,.78)
   );
 }
 
@@ -138,45 +152,61 @@ button,input,select,textarea{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  z-index:2;
+}
+
+#saleMain .brand-tag{
+  padding:6px 11px;
+  border-radius:20px;
+  font-size:11.5px;
+  font-weight:700;
+  letter-spacing:.4px;
+  background:rgba(7,25,43,.72);
+  border:1px solid rgba(214,178,110,.48);
+  color:#f0d290;
+  backdrop-filter:blur(4px);
 }
 
 #saleMain .status{
-  padding:7px 11px;
+  padding:7px 12px;
   border-radius:20px;
   font-size:12px;
   font-weight:800;
-  background:#ee9d19;
-  color:#fff;
+  background:linear-gradient(135deg,#d6b26e,#b88e44);
+  color:#07192b;
 }
 
 #saleMain .status.upcoming{
-  background:#d5ad59;
-  color:#162532;
+  background:rgba(214,178,110,.22);
+  border:1px solid rgba(214,178,110,.55);
+  color:#f3d999;
 }
 
 #saleMain .project-title{
   position:absolute;
-  left:20px;
-  right:20px;
+  left:22px;
+  right:22px;
   bottom:22px;
   color:#fff;
+  z-index:2;
 }
 
 #saleMain .project-title small{
-  color:#f0c568;
+  color:#e6c98a;
   font-weight:800;
-  letter-spacing:1.4px;
+  letter-spacing:1.6px;
 }
 
 #saleMain .project-title h2{
   margin:8px 0 5px;
   font-size:clamp(22px,4vw,26px);
+  letter-spacing:-.4px;
 }
 
 #saleMain .project-title p{
   margin:0;
   font-size:14px;
-  color:rgba(255,255,255,.9);
+  color:rgba(255,255,255,.88);
 }
 
 #saleMain .project-info{
@@ -191,31 +221,54 @@ button,input,select,textarea{
 
 #saleMain .info-grid div{
   padding:14px;
-  background:#f1f8fb;
+  background:#f4f8fa;
+  border:1px solid #e5eef2;
   border-radius:13px;
 }
 
 #saleMain .info-grid span{
   display:block;
   margin-bottom:6px;
-  color:#71818b;
+  color:#64748b;
   font-size:12px;
 }
 
 #saleMain .info-grid strong{
   font-size:15px;
+  color:#0f2437;
+}
+
+#saleMain .mh-bar{
+  margin-top:10px;
+  padding:10px 13px;
+  background:#f9fbfd;
+  border:1px solid #e2ecf2;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  font-size:12.5px;
+  color:#334155;
+}
+
+#saleMain .mh-bar b{
+  color:#0c2d48;
+  font-weight:800;
+  flex-shrink:0;
 }
 
 #saleMain .detail-btn{
   width:100%;
   margin-top:14px;
   padding:16px;
-  border:0;
+  border:1px solid rgba(214,178,110,.45);
   border-radius:13px;
-  background:#118984;
-  color:#fff;
+  background:linear-gradient(135deg,#0d2e46,#123c52);
+  color:#f5deb3;
   font-size:15px;
   font-weight:800;
+  letter-spacing:.3px;
   cursor:pointer;
 }
 
@@ -497,16 +550,18 @@ button,input,select,textarea{
 
     if (emptyEl) emptyEl.style.display = "none";
 
-    listEl.innerHTML = displayRooms.map(function(r, idx) {
+    listEl.innerHTML = displayRooms.map(function(r) {
       var c = r.catalog_data || {};
       var code = r.project_code || "ROOM-001";
-      var imgUrl = c.coverImageUrl || "";
+      var imgUrl = String(c.coverImageUrl || "").trim();
       var detailUrl = "/sale-detail.html?room=" + encodeURIComponent(code);
       var statusText = r.sale_status || "분양 중";
       var isUpcoming = statusText.indexOf("예정") !== -1;
       var bgStyle = imgUrl
-        ? "background-image:url('" + escapeHtml(imgUrl) + "')"
-        : (idx % 2 === 1 ? "background:linear-gradient(150deg,#b4d7ca,#547f73)" : "");
+        ? "background-image:url('" + escapeHtml(imgUrl) + "');background-size:cover;background-position:center;"
+        : "";
+      var brandName = c.companyName || "PREMIUM ARCHIVE";
+      var mhLocation = r.modelhouse_address || r.area || "";
 
       return `
         <article class="project-card" data-area="${escapeHtml(c.sido || 'seoul')}">
@@ -515,6 +570,7 @@ button,input,select,textarea{
 
             <div class="card-top">
               <span class="status ${isUpcoming ? 'upcoming' : ''}">${escapeHtml(statusText)}</span>
+              <span class="brand-tag">${escapeHtml(brandName)}</span>
             </div>
 
             <div class="project-title">
@@ -547,10 +603,17 @@ button,input,select,textarea{
               </div>
             </div>
 
+            ${mhLocation ? `
+            <div class="mh-bar">
+              <b>모델하우스 · 현장</b>
+              <span>${escapeHtml(mhLocation)}</span>
+            </div>
+            ` : ''}
+
             <button type="button"
                     class="detail-btn"
                     data-link="${escapeHtml(detailUrl)}">
-              분양 카탈로그 보기
+              분양 카탈로그 보기 (01~08P)
             </button>
           </div>
         </article>

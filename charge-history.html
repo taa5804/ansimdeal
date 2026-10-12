@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#12394d">
+<title>충전금 사용내역 | 우리아파트 분양</title>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%}
+
+body{
+  background:#f5f7f9;
+  color:#172b3d;
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Segoe UI",Arial,sans-serif;
+  overflow-x:hidden;
+}
+
+#chargeHistoryApp{
+  width:100%;
+  max-width:1200px;
+  margin:0 auto;
+  padding:clamp(10px,2.4vw,18px);
+}
+
+#chargeHistoryApp .head{
+  margin-bottom:16px;
+}
+
+#chargeHistoryApp .head h2{
+  margin:0 0 5px;
+  font-size:clamp(21px,3vw,24px);
+}
+
+#chargeHistoryApp .head p{
+  margin:0;
+  color:#71808d;
+  font-size:13px;
+  line-height:1.5;
+}
+
+#chargeHistoryApp .summary{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  margin-bottom:14px;
+}
+
+#chargeHistoryApp .summary-box{
+  min-width:0;
+  padding:15px;
+  border:1px solid #dfe5ea;
+  border-radius:10px;
+  background:#fff;
+}
+
+#chargeHistoryApp .summary-box span{
+  display:block;
+  margin-bottom:7px;
+  color:#71808d;
+  font-size:12px;
+}
+
+#chargeHistoryApp .summary-box strong{
+  display:block;
+  font-size:clamp(18px,2.5vw,21px);
+  overflow-wrap:anywhere;
+}
+
+#chargeHistoryApp .panel{
+  overflow:hidden;
+  border:1px solid #dfe5ea;
+  border-radius:10px;
+  background:#fff;
+}
+
+#chargeHistoryApp .panel-title{
+  padding:14px 15px;
+  border-bottom:1px solid #e4e9ed;
+  font-size:16px;
+  font-weight:800;
+}
+
+#chargeHistoryApp .filters{
+  display:grid;
+  grid-template-columns:1fr 1fr 1.3fr 1.6fr auto;
+  gap:8px;
+  padding:12px;
+}
+
+#chargeHistoryApp input,
+#chargeHistoryApp select,
+#chargeHistoryApp button{
+  width:100%;
+  min-width:0;
+  height:40px;
+  padding:0 9px;
+  border:1px solid #cad4dc;
+  border-radius:6px;
+  background:#fff;
+  font:inherit;
+  font-size:12px;
+}
+
+#chargeHistoryApp button{
+  border:0;
+  background:#12394d;
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+}
+
+#chargeHistoryApp .table-tools{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  padding:10px 12px;
+  border-top:1px solid #e5eaee;
+  font-size:13px;
+}
+
+#chargeHistoryApp .table-wrap{
+  width:100%;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+#chargeHistoryApp table{
+  width:100%;
+  min-width:1120px;
+  border-collapse:collapse;
+}
+
+#chargeHistoryApp th{
+  padding:11px 7px;
+  border-bottom:1px solid #dfe5ea;
+  background:#f6f8fa;
+  color:#536575;
+  font-size:12px;
+  white-space:nowrap;
+}
+
+#chargeHistoryApp td{
+  padding:12px 7px;
+  border-bottom:1px solid #edf0f2;
+  font-size:12px;
+  text-align:center;
+  white-space:nowrap;
+}
+
+#chargeHistoryApp .minus{
+  color:#c34b45;
+  font-weight:800;
+}
+
+#chargeHistoryApp .plus{
+  color:#17804b;
+  font-weight:800;
+}
+
+#chargeHistoryApp #empty{
+  padding:55px 10px;
+  color:#8b98a3;
+  text-align:center;
+  font-size:13px;
+}
+
+@media(max-width:900px){
+  #chargeHistoryApp .summary{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  #chargeHistoryApp .filters{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  #chargeHistoryApp .filters #searchBtn{
+    grid-column:1 / -1;
+  }
+}
+
+@media(max-width:560px){
+  #chargeHistoryApp{
+    padding:10px;
+  }
+
+  #chargeHistoryApp .summary{
+    gap:8px;
+  }
+
+  #chargeHistoryApp .summary-box{
+    padding:12px;
+  }
+
+  #chargeHistoryApp .filters{
+    grid-template-columns:1fr;
+  }
+
+  #chargeHistoryApp .filters #searchBtn{
+    grid-column:auto;
+  }
+
+  #chargeHistoryApp input,
+  #chargeHistoryApp select,
+  #chargeHistoryApp button{
+    height:44px;
+    font-size:13px;
+  }
+
+  #chargeHistoryApp .table-tools{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
+
+@media(max-width:360px){
+  #chargeHistoryApp .summary{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="chargeHistoryApp">
+
+  <div class="head">
+    <h2>충전금 사용내역</h2>
+    <p>분양현장별 충전금 충전·차감 및 잔액 변동 내역을 확인합니다.</p>
+  </div>
+
+  <div class="summary">
+
+    <div class="summary-box">
+      <span>총 충전금</span>
+      <strong id="s1">0원</strong>
+    </div>
+
+    <div class="summary-box">
+      <span>총 사용금액</span>
+      <strong id="s2">0원</strong>
+    </div>
+
+    <div class="summary-box">
+      <span>현재 잔액</span>
+      <strong id="s3">0원</strong>
+    </div>
+
+    <div class="summary-box">
+      <span>사용 건수</span>
+      <strong id="s4">0건</strong>
+    </div>
+
+  </div>
+
+  <div class="panel">
+
+    <div class="panel-title">
+      충전금 사용내역
+    </div>
+
+    <div class="filters">
+
+      <input type="date" id="sd">
+      <input type="date" id="ed">
+
+      <select id="type">
+        <option value="">전체 구분</option>
+        <option value="CHARGE">충전</option>
+        <option value="USE">사용</option>
+      </select>
+
+      <input
+        type="text"
+        id="kw"
+        placeholder="현장코드·분양사·현장명 검색"
+      >
+
+      <button type="button" id="searchBtn">
+        조회
+      </button>
+
+    </div>
+
+    <div class="table-tools">
+      <div>총 <strong id="cnt">0</strong>건</div>
+      <div>조회 사용금액 <strong id="sumUse">0원</strong></div>
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+        <thead>
+          <tr>
+            <th>일시</th>
+            <th>분양현장코드</th>
+            <th>분양사명</th>
+            <th>현장명</th>
+            <th>구분</th>
+            <th>충전금액</th>
+            <th>사용금액</th>
+            <th>잔액</th>
+            <th>내용</th>
+          </tr>
+        </thead>
+
+        <tbody id="rows"></tbody>
+      </table>
+
+      <div id="empty">
+        충전금 사용내역이 없습니다.
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var root=document.getElementById("chargeHistoryApp");
+if(!root)return;
+
+var D=[];
+
+function el(id){
+  return root.querySelector("#"+id);
+}
+
+function n(v){
+  return Number(v||0).toLocaleString("ko-KR");
+}
+
+function render(A){
+
+  var rows=el("rows");
+  rows.innerHTML="";
+
+  var totalCharge=0;
+  var totalUse=0;
+  var useCount=0;
+
+  D.forEach(function(x){
+
+    if(x.type==="CHARGE"){
+      totalCharge+=Number(x.amount||0);
+    }
+
+    if(x.type==="USE"){
+      totalUse+=Number(x.amount||0);
+      useCount++;
+    }
+  });
+
+  el("s1").textContent=n(totalCharge)+"원";
+  el("s2").textContent=n(totalUse)+"원";
+  el("s3").textContent=n(totalCharge-totalUse)+"원";
+  el("s4").textContent=n(useCount)+"건";
+
+  el("cnt").textContent=A.length;
+
+  var viewUse=0;
+
+  A.forEach(function(x){
+
+    if(x.type==="USE"){
+      viewUse+=Number(x.amount||0);
+    }
+
+    var chargeAmount=
+      x.type==="CHARGE" ? n(x.amount)+"원" : "-";
+
+    var useAmount=
+      x.type==="USE" ? n(x.amount)+"원" : "-";
+
+    var tr=document.createElement("tr");
+
+    tr.innerHTML=
+      "<td>"+(x.date||"-")+"</td>"+
+      "<td>"+(x.siteCode||"-")+"</td>"+
+      "<td>"+(x.company||"-")+"</td>"+
+      "<td>"+(x.siteName||"-")+"</td>"+
+      "<td class='"+(x.type==="CHARGE"?"plus":"minus")+"'>"+
+        (x.type==="CHARGE"?"충전":"사용")+
+      "</td>"+
+      "<td class='plus'>"+chargeAmount+"</td>"+
+      "<td class='minus'>"+useAmount+"</td>"+
+      "<td>"+n(x.balance)+"원</td>"+
+      "<td>"+(x.memo||"-")+"</td>";
+
+    rows.appendChild(tr);
+  });
+
+  el("sumUse").textContent=n(viewUse)+"원";
+  el("empty").style.display=A.length?"none":"block";
+}
+
+function search(){
+
+  var sd=el("sd").value;
+  var ed=el("ed").value;
+  var type=el("type").value;
+  var kw=el("kw").value.trim().toLowerCase();
+
+  var result=D.filter(function(x){
+
+    var date=String(x.date||"").slice(0,10);
+
+    if(sd && date<sd){
+      return false;
+    }
+
+    if(ed && date>ed){
+      return false;
+    }
+
+    if(type && x.type!==type){
+      return false;
+    }
+
+    var text=(
+      (x.siteCode||"")+" "+
+      (x.company||"")+" "+
+      (x.siteName||"")
+    ).toLowerCase();
+
+    if(kw && !text.includes(kw)){
+      return false;
+    }
+
+    return true;
+  });
+
+  render(result);
+}
+
+async function loadLiveChargeHistory(){
+  var params = new URLSearchParams(window.location.search);
+  var roomFilter = (params.get("room") || params.get("code") || "").trim().toUpperCase();
+  var rooms = [];
+
+  try {
+    var res = await fetch("/api/sale-save");
+    var data = await res.json();
+    if(res.ok && data.ok && Array.isArray(data.rooms)){
+      rooms = data.rooms;
+    }
+  } catch(e){}
+
+  if(rooms.length === 0){
+    try {
+      rooms = JSON.parse(localStorage.getItem("wooriapt_replicated_rooms_v2") || "[]");
+    } catch(e){}
+  }
+
+  var ledger = [];
+  rooms.forEach(function(r){
+    var code = String(r.project_code || "ROOM-001").toUpperCase();
+    if(roomFilter && code !== roomFilter) return;
+    var c = r.catalog_data || {};
+    var reward = Number(c.rewardAmount || 3000);
+    var qty = Number(c.issueQty || 500);
+    var budget = Number(c.chargeBudget || (reward * qty));
+    var createdDate = String(r.updated_at || new Date().toISOString()).replace("T", " ").slice(0, 16);
+
+    var balance = budget;
+    ledger.push({
+      date: createdDate,
+      siteCode: code,
+      company: c.companyName || "-",
+      siteName: r.project_name || "-",
+      type: "CHARGE",
+      amount: budget,
+      balance: balance,
+      memo: "선불 예치금 충전 (" + n(reward) + "원 × " + n(qty) + "장)"
+    });
+
+    var hist = (Array.isArray(c.issuedHistory) ? c.issuedHistory.slice().reverse() : []);
+    hist.forEach(function(h){
+      var useAmt = Number(h.rewardAmount || reward);
+      balance = Math.max(0, balance - useAmt);
+      var dStr = String(h.issuedAt || "").replace("T", " ").slice(0, 16);
+      ledger.push({
+        date: dStr || createdDate,
+        siteCode: code,
+        company: h.companyName || c.companyName || "-",
+        siteName: h.projectName || r.project_name || "-",
+        type: "USE",
+        amount: useAmt,
+        balance: balance,
+        memo: "60초 유효열람 바코드카드 발급 (" + (h.dong || "-") + " · " + (h.phone || "-") + ")"
+      });
+    });
+  });
+
+  ledger.sort(function(a, b){
+    return String(b.date || "").localeCompare(String(a.date || ""));
+  });
+
+  D = ledger;
+  search();
+}
+
+el("searchBtn").onclick=function(){
+  loadLiveChargeHistory();
+};
+
+el("kw").addEventListener(
+  "keydown",
+  function(e){
+    if(e.key==="Enter"){
+      search();
+    }
+  }
+);
+
+var today=new Date();
+
+el("ed").value=
+  today.toISOString().slice(0,10);
+
+var firstDay = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+el("sd").value=
+  firstDay.toISOString().slice(0,10);
+
+loadLiveChargeHistory();
+
+})();
+</script>
+
+</body>
+</html>
