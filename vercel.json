@@ -189,15 +189,6 @@
       ]
     },
     {
-      "source": "/broker-landing.html",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, s-maxage=31536000, stale-while-revalidate=86400"
-        }
-      ]
-    },
-    {
       "source": "/mart-landing.html",
       "headers": [
         {
@@ -217,6 +208,15 @@
     },
     {
       "source": "/(.*).html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/broker-landing.png",
       "headers": [
         {
           "key": "Cache-Control",

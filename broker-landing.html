@@ -3,587 +3,86 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f766e">
-<title>공인중개사 매수·임차요청 플랫폼 | 안심딜 점포·상가 안심거래</title>
-<meta name="description" content="전국 창업자·임차인·매수자의 상가·점포·꼬마빌딩·토지 희망조건을 확인하고 공인중개사가 맞춤 매물을 제안할 수 있는 안심딜 공인중개사 플랫폼입니다.">
-<meta name="keywords" content="안심딜,공인중개사,상가 중개사,점포 중개,상가 매물 등록,점포 매물 등록,꼬마빌딩 매물,상가 임차인 찾기,점포 창업 고객,상가 매수자 찾기,공인중개사 플랫폼,상가 역제안,점포 안심거래,권리금 안심거래">
+<meta name="theme-color" content="#0d5bd7">
+<title>공인중개사 매수요청 플랫폼 | 점포·상가 안심딜</title>
+<meta name="description" content="전국 매수자·임차인의 희망조건을 확인하고 공인중개사가 맞춤 매물을 제안할 수 있는 점포·상가 안심딜 공인중개사 플랫폼입니다.">
+<meta name="keywords" content="공인중개사,부동산중개사,공인중개사 플랫폼,부동산 중개 플랫폼,공인중개사 매물,부동산 매물 등록,상가 매물 등록,점포 매물 등록,상가 매수자 찾기,점포 임차인 찾기,상가 매수 고객,점포 임차 고객,실거래 매수 요청,매수 희망 고객,전세 세입자 찾기,월세 세입자 찾기,임차인 구하기,부동산 고객 유치,공인중개사 고객 유치,중개사 고객 확보,부동산 고객 확보,공인중개사 홍보,부동산 홍보,부동산 온라인 홍보,공인중개사 온라인 광고,부동산 매물 제안,상가 매물 제안,매수자 맞춤 매물,맞춤 부동산 매물,부동산 역제안,공인중개사 거래 관리,부동산 거래 관리,부동산 전자계약,안전한 부동산 거래,점포 상가 안심딜,안심딜,공인중개사 매수요청 플랫폼">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://www.ansimdeal.com/broker-landing.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="공인중개사 매수·임차요청 플랫폼 | 안심딜 점포·상가 안심거래">
-<meta property="og:description" content="전국의 상가·점포·빌딩 매수·임차 희망조건을 확인하고 맞춤 제안을 등록하세요.">
+<meta property="og:title" content="공인중개사 매수요청 플랫폼 | 점포·상가 안심딜">
+<meta property="og:description" content="등록된 매수·임차 희망조건을 확인하고 맞춤 제안을 등록하세요.">
 <meta property="og:url" content="https://www.ansimdeal.com/broker-landing.html">
+<meta property="og:image" content="https://www.ansimdeal.com/broker-landing.png">
+
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: #eef5fb;
-    color: #0f172a;
-    font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Noto Sans KR", sans-serif;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { text-decoration: none; color: inherit; }
-  .page {
-    max-width: 920px;
-    margin: 0 auto;
-    background: #ffffff;
-    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.1);
-    overflow: hidden;
-  }
-
-  /* 1. 상단 헤더 */
-  .top-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 28px;
-    background: #ffffff;
-    border-bottom: 1px solid #e2e8f0;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 21px;
-    font-weight: 900;
-    color: #0f766e;
-    letter-spacing: -0.5px;
-  }
-  .brand-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #0f766e, #0d9488);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 19px;
-  }
-  .nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .btn-main-go {
-    background: #0f766e;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 800;
-    padding: 9px 18px;
-    border-radius: 999px;
-    transition: 0.15s;
-  }
-  .btn-main-go:hover { background: #115e59; }
-  .btn-woori-go {
-    background: #eff6ff;
-    color: #1d4ed8;
-    border: 1px solid #bfdbfe;
-    font-size: 13px;
-    font-weight: 800;
-    padding: 8px 14px;
-    border-radius: 999px;
-  }
-
-  /* 2. 히어로 섹션 */
-  .hero {
-    background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 55%, #dbeafe 100%);
-    padding: 46px 32px 42px;
-    position: relative;
-  }
-  .hero-badge {
-    display: inline-block;
-    background: #0f766e;
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 800;
-    padding: 6px 14px;
-    border-radius: 999px;
-    margin-bottom: 16px;
-  }
-  .hero h1 {
-    font-size: clamp(28px, 4.5vw, 44px);
-    font-weight: 900;
-    line-height: 1.25;
-    letter-spacing: -1px;
-    color: #0f172a;
-    margin-bottom: 14px;
-  }
-  .hero h1 .accent {
-    color: #0f766e;
-    display: block;
-    font-size: clamp(32px, 5vw, 50px);
-    margin-top: 4px;
-  }
-  .hero-desc {
-    font-size: clamp(16px, 2.2vw, 20px);
-    font-weight: 700;
-    color: #334155;
-    margin-bottom: 32px;
-  }
-
-  .hero-circles {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    max-width: 680px;
-  }
-  .circle-card {
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid #cbd5e1;
-    border-radius: 20px;
-    padding: 20px 14px;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
-  }
-  .circle-icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    margin: 0 auto 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    color: #fff;
-  }
-  .c-teal { background: linear-gradient(135deg, #0d9488, #0f766e); }
-  .c-blue { background: linear-gradient(135deg, #0284c7, #0369a1); }
-  .c-orange { background: linear-gradient(135deg, #f97316, #ea580c); }
-  .circle-card strong {
-    display: block;
-    font-size: 17px;
-    font-weight: 900;
-    color: #0f172a;
-    margin-bottom: 6px;
-  }
-  .circle-card span {
-    font-size: 13.5px;
-    color: #475569;
-    font-weight: 600;
-    line-height: 1.4;
-    display: block;
-  }
-
-  /* 3. 다크 네이비/틸 서비스 섹션 */
-  .service-band {
-    background: linear-gradient(135deg, #0f172a 0%, #134e4a 100%);
-    color: #ffffff;
-    padding: 40px 32px;
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 28px;
-    align-items: center;
-  }
-  .mock-screen {
-    background: #ffffff;
-    color: #0f172a;
-    border-radius: 16px;
-    padding: 18px;
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
-  }
-  .mock-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 10px;
-    margin-bottom: 12px;
-    border-bottom: 2px solid #f1f5f9;
-  }
-  .mock-top strong {
-    color: #0f766e;
-    font-size: 15px;
-    font-weight: 900;
-  }
-  .mock-top span {
-    background: #ccfbf1;
-    color: #0f766e;
-    font-size: 11.5px;
-    font-weight: 800;
-    padding: 3px 9px;
-    border-radius: 999px;
-  }
-  .mock-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12.5px;
-  }
-  .mock-table th {
-    background: #f8fafc;
-    color: #475569;
-    font-weight: 800;
-    padding: 8px 6px;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
-  }
-  .mock-table td {
-    padding: 9px 6px;
-    border-bottom: 1px solid #f1f5f9;
-    font-weight: 700;
-    color: #1e293b;
-  }
-  .tag-type {
-    display: inline-block;
-    padding: 2px 7px;
-    border-radius: 5px;
-    font-size: 11px;
-    font-weight: 800;
-    background: #f0fdfa;
-    color: #0f766e;
-    border: 1px solid #99f6e4;
-  }
-
-  .service-list h2 {
-    font-size: 25px;
-    font-weight: 900;
-    margin-bottom: 18px;
-    line-height: 1.35;
-  }
-  .service-list ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .service-list li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 15.5px;
-    font-weight: 700;
-    color: #f1f5f9;
-  }
-  .check-badge {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: #14b8a6;
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 900;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  /* 4. 중앙 CTA 버튼 영역 */
-  .cta-section {
-    padding: 36px 24px 30px;
-    text-align: center;
-    background: #ffffff;
-  }
-  .cta-main-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: min(100%, 520px);
-    padding: 18px 28px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #f97316 0%, #ea580c 100%);
-    color: #ffffff;
-    font-size: clamp(18px, 2.8vw, 23px);
-    font-weight: 900;
-    box-shadow: 0 10px 25px rgba(234, 88, 12, 0.35);
-    transition: transform 0.15s;
-  }
-  .cta-main-btn:hover { transform: translateY(-2px); }
-  .cta-sub {
-    margin-top: 12px;
-    font-size: 15px;
-    font-weight: 700;
-    color: #475569;
-  }
-
-  /* 5. 4대 핵심 강점 */
-  .trust-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    padding: 10px 28px 34px;
-    border-bottom: 1px solid #e2e8f0;
-  }
-  .trust-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 12px;
-    border-radius: 14px;
-    background: #f8fafc;
-  }
-  .trust-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #e0f2fe;
-    color: #0f766e;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 19px;
-    flex-shrink: 0;
-  }
-  .trust-item strong {
-    display: block;
-    font-size: 15px;
-    font-weight: 900;
-    color: #0f172a;
-    margin-bottom: 3px;
-  }
-  .trust-item span {
-    display: block;
-    font-size: 12.5px;
-    color: #64748b;
-    font-weight: 600;
-    line-height: 1.4;
-  }
-
-  /* 6. 추천 대상 */
-  .recommend-sec {
-    padding: 32px 28px 38px;
-    background: #ffffff;
-  }
-  .recommend-sec h3 {
-    font-size: 21px;
-    font-weight: 900;
-    color: #0f172a;
-    margin-bottom: 16px;
-  }
-  .rec-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-  }
-  .rec-card {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 14px;
-    padding: 16px 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13.5px;
-    font-weight: 800;
-    color: #1e293b;
-    line-height: 1.4;
-  }
-  .rec-card .r-ico {
-    font-size: 22px;
-    flex-shrink: 0;
-  }
-
-  /* 7. 푸터 */
-  .footer {
-    background: #f8fafc;
-    border-top: 1px solid #e2e8f0;
-    padding: 24px 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    font-size: 13px;
-    color: #475569;
-    font-weight: 700;
-  }
-  .footer-brand {
-    font-size: 18px;
-    font-weight: 900;
-    color: #0f172a;
-    margin-right: 10px;
-  }
-
-  @media (max-width: 768px) {
-    .top-nav { padding: 14px 16px; }
-    .hero { padding: 32px 18px; }
-    .hero-circles { grid-template-columns: 1fr; }
-    .service-band { grid-template-columns: 1fr; padding: 28px 18px; }
-    .trust-grid { grid-template-columns: repeat(2, 1fr); padding: 10px 18px 26px; }
-    .rec-grid { grid-template-columns: repeat(2, 1fr); }
-    .recommend-sec { padding: 26px 18px; }
-    .footer { padding: 20px 18px; }
-  }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#eef5fb;font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Noto Sans KR",Arial,sans-serif}
+.page{position:relative;width:min(100%,1024px);margin:0 auto;background:#fff;box-shadow:0 0 30px rgba(0,0,0,.10)}
+.img-wrap{position:relative;line-height:0}
+.img-wrap img{display:block;width:100%;height:auto}
+.top-home{position:absolute;z-index:5;right:4.5%;width:16%;top:0.5%;height:3.3%;border-radius:999px;text-indent:-9999px;overflow:hidden;cursor:pointer}
+.cta{position:absolute;z-index:5;left:22.5%;width:55%;top:61.1%;height:4.7%;border-radius:999px;text-indent:-9999px;overflow:hidden;cursor:pointer}
+.cta:focus,.top-home:focus{outline:4px solid #fff;outline-offset:3px}
+.bottom-switch{padding:16px 20px 24px;background:#f8fafc;border-top:1px solid #e2e8f0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.switch-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:15px 12px;border-radius:14px;font-size:15px;font-weight:900;color:#fff;text-decoration:none;text-align:center;line-height:1.2}
+.btn-woori{background:#17387d;box-shadow:0 4px 12px rgba(23,56,125,0.22)}
+.btn-ansim{background:#0f766e;box-shadow:0 4px 12px rgba(15,118,110,0.22)}
+.seo{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:normal;border:0}
+@media(max-width:640px){
+  .page{width:100%}
+  .bottom-switch{padding:14px 14px 20px;gap:8px}
+  .switch-btn{font-size:13.5px;padding:13px 8px}
+}
 </style>
 </head>
+
 <body>
 
 <main class="page">
-  <!-- 상단 헤더 -->
-  <header class="top-nav">
-    <a href="https://www.ansimdeal.com/" class="brand">
-      <span class="brand-icon">🏪</span>
-      <span>안심딜 점포·상가 안심거래</span>
+
+  <div class="img-wrap">
+    <img
+      src="/broker-landing.png?v=2"
+      alt="점포·상가 안심딜 공인중개사 플랫폼. 전국 매수자와 임차인의 희망조건을 확인하고 맞춤 매물을 제안하세요."
+    >
+
+    <a
+      class="top-home"
+      href="https://www.ansimdeal.com/"
+      aria-label="메인으로 가기"
+    >
+      메인으로 가기
     </a>
-    <div class="nav-actions">
-      <a href="https://www.wooriapt.app/" class="btn-woori-go">🏠 우리아파트 안심거래 ›</a>
-      <a href="https://www.ansimdeal.com/" class="btn-main-go">메인으로 가기</a>
-    </div>
-  </header>
 
-  <!-- 히어로 영역 -->
-  <section class="hero">
-    <span class="hero-badge">상가 · 점포 · 꼬마빌딩 · 토지 공인중개사 전용</span>
-    <h1>
-      공인중개사님,<br>
-      이제는 고객을 찾지 말고
-      <span class="accent">창업·매수 고객이 찾아옵니다!</span>
-    </h1>
-    <p class="hero-desc">
-      전국의 창업자·임차인·매수자가 등록한 상가·점포·빌딩 희망조건을 확인하고, 맞춤 매물을 제안하세요.
-    </p>
-
-    <div class="hero-circles">
-      <div class="circle-card">
-        <div class="circle-icon c-teal">👥</div>
-        <strong>실거래 매수·임차요청</strong>
-        <span>실제 창업자·매수인의<br>상가·점포 희망조건 확인</span>
-      </div>
-      <div class="circle-card">
-        <div class="circle-icon c-blue">🖥️</div>
-        <strong>간편한 제안 등록</strong>
-        <span>몇 번의 클릭으로<br>상가·빌딩·토지 매물 제안</span>
-      </div>
-      <div class="circle-card">
-        <div class="circle-icon c-orange">🤝</div>
-        <strong>거래 성사 기회 확대</strong>
-        <span>더 많은 상업용 부동산<br>고객과 연결되는 기회</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- 서비스 소개 밴드 -->
-  <section class="service-band">
-    <div class="mock-screen">
-      <div class="mock-top">
-        <strong>🏪 안심딜 매수·임차요청 현황</strong>
-        <span>실시간 접수중</span>
-      </div>
-      <table class="mock-table">
-        <thead>
-          <tr>
-            <th>거래유형</th>
-            <th>희망지역 / 업종</th>
-            <th>희망예산</th>
-            <th>상태</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span class="tag-type">상가임대</span></td>
-            <td>광주 북구 / 1층 카페·음식점</td>
-            <td>보증 3천 / 월 150만</td>
-            <td>제안가능</td>
-          </tr>
-          <tr>
-            <td><span class="tag-type">점포매매</span></td>
-            <td>광주 광산구 / 대로변 상가</td>
-            <td>매매 8억 이하</td>
-            <td>제안가능</td>
-          </tr>
-          <tr>
-            <td><span class="tag-type">꼬마빌딩</span></td>
-            <td>서울 강남·마포 / 수익형 빌딩</td>
-            <td>매매 35억 이하</td>
-            <td>제안가능</td>
-          </tr>
-          <tr>
-            <td><span class="tag-type">창업점포</span></td>
-            <td>경기 성남·수원 / 무권리 점포</td>
-            <td>보증 2천 / 월 120만</td>
-            <td>제안가능</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="service-list">
-      <h2>공인중개사를 위한<br>안심딜 맞춤 서비스</h2>
-      <ul>
-        <li><span class="check-badge">✓</span> 전국 상가·점포·빌딩 희망조건 실시간 확인</li>
-        <li><span class="check-badge">✓</span> 간편한 보유 상가·점포 매물 제안 등록</li>
-        <li><span class="check-badge">✓</span> 거래 진행 현황 한눈에 관리</li>
-        <li><span class="check-badge">✓</span> 권리금·임대차 전자계약으로 안전한 거래</li>
-        <li><span class="check-badge">✓</span> 비회원도 거래 가능 (성사 시 서류 업로드)</li>
-        <li><span class="check-badge">✓</span> 회원 중개사 전용 추가 혜택</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 메인 CTA 버튼 -->
-  <section class="cta-section">
-    <a href="https://www.ansimdeal.com/broker-requests.html" class="cta-main-btn">
-      <span>지금 바로 중개사 제안등록하기</span>
-      <span>›</span>
+    <a
+      class="cta"
+      href="https://www.ansimdeal.com/"
+      aria-label="지금 바로 중개사 제안등록하기"
+    >
+      지금 바로 중개사 제안등록하기
     </a>
-    <p class="cta-sub">더 많은 상가·점포 고객과, 더 좋은 거래 기회를 만나보세요.</p>
+  </div>
+
+  <div class="bottom-switch">
+    <a href="https://www.wooriapt.app/" class="switch-btn btn-woori">
+      <span>🏠</span> <span>우리아파트 안심거래 ›</span>
+    </a>
+    <a href="https://www.ansimdeal.com/" class="switch-btn btn-ansim">
+      <span>🏪</span> <span>점포·상가 안심딜 ›</span>
+    </a>
+  </div>
+
+  <section class="seo">
+
+    <h1>공인중개사 매수요청 플랫폼 점포·상가 안심딜</h1>
+
+    <p>전국 매수자와 임차인의 희망조건을 확인하고 맞춤 매물을 제안할 수 있습니다.</p>
+
+    <p>점포·상가 및 부동산 매매, 전세, 월세 요청을 공인중개사가 확인하고 제안을 등록할 수 있습니다.</p>
+
   </section>
 
-  <!-- 4대 강점 -->
-  <section class="trust-grid">
-    <div class="trust-item">
-      <div class="trust-icon">🛡️</div>
-      <div>
-        <strong>안전한 거래</strong>
-        <span>권리금·임대차 전자계약 안심거래</span>
-      </div>
-    </div>
-    <div class="trust-item">
-      <div class="trust-icon">🪙</div>
-      <div>
-        <strong>추가 비용 없음</strong>
-        <span>간편한 이용 합리적인 운영</span>
-      </div>
-    </div>
-    <div class="trust-item">
-      <div class="trust-icon">📊</div>
-      <div>
-        <strong>전국 서비스</strong>
-        <span>상가·점포·빌딩·토지 모든 거래</span>
-      </div>
-    </div>
-    <div class="trust-item">
-      <div class="trust-icon">⭐</div>
-      <div>
-        <strong>신뢰할 수 있는 플랫폼</strong>
-        <span>투명하고 공정한 거래 환경</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- 추천 대상 -->
-  <section class="recommend-sec">
-    <h3>이런 중개사님들께 추천합니다!</h3>
-    <div class="rec-grid">
-      <div class="rec-card">
-        <span class="r-ico">🎯</span>
-        <span>상가·점포 임차·매수 고객을 확보하고 싶으신 분</span>
-      </div>
-      <div class="rec-card">
-        <span class="r-ico">🏪</span>
-        <span>보유한 상가·빌딩 매물을 제안하고 싶으신 분</span>
-      </div>
-      <div class="rec-card">
-        <span class="r-ico">⏱️</span>
-        <span>효율적인 상가 중개 시스템이 필요하신 분</span>
-      </div>
-      <div class="rec-card">
-        <span class="r-ico">👥</span>
-        <span>더 많은 상업용 거래기회를 만들고 싶으신 분</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- 푸터 -->
-  <footer class="footer">
-    <div>
-      <span class="footer-brand">에너젠51</span>
-      <span>대표 장수용 &nbsp;|&nbsp; 광주광역시 광산구 하남산단8번로 176</span>
-    </div>
-    <div>안심딜 점포·상가 안심거래와 함께 성장하는 부동산 시장</div>
-  </footer>
 </main>
 
 </body>
