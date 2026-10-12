@@ -3,80 +3,50 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>[오늘의 시세 매칭기] 농·축·수산물 1주일 시세 급락 TOP 3 & 아파트 분양 3,000원 바코드카드 지급</title>
-<meta name="description" content="농림축산식품부 aT 공공데이터 기준 오늘의 시세 1초 매칭! 1주일 전 대비 가격 급락 품목 실시간 확인 및 하단 아파트 분양정보 1분 스크롤 시 3,000원 모바일 바코드카드 카카오톡 즉시 지급, 우리아파트 안심거래·안심딜 수수료 50% 혜택 연동.">
+<title>[오늘의 시세 매칭기] 농·축·수산물 1주일 시세 급락 TOP 3 | 장바구니 물가 1초 매칭</title>
+<meta name="description" content="농림축산식품부 aT 공공데이터 기준 농·축·수산물 오늘의 시세 1초 확인! 배추, 무, 양파, 사과, 삼겹살, 계란, 고등어 등 1주일 전 대비 가격 급락 품목 실시간 매칭.">
+<meta name="keywords" content="오늘의 시세, 농산물 오늘의 시세, 농축수산물 시세, 채소 시세, 과일 시세, 수산물 시세, 축산물 시세, 배추 시세, 양파 시세, 대파 시세, 사과 시세, 삼겹살 시세, 계란 한 판 시세, 고등어 시세, 갈치 시세, 아파트 분양정보, 우리아파트 안심거래, 점포 상가 안심딜">
 
-<!-- 광범위 검색어·색인어 확장 -->
-<meta name="keywords" content="오늘의 시세, 오늘의 시세 매칭기, 농산물 오늘의 시세, 농축수산물 시세, 채소 시세, 야채 도매가, 과일 도매가, 수산물 시세, 축산물 도매가, 정육 시세, 식자재 시세, 공판장 경락가, 도매시장 시세, 배추 오늘의 시세, 양파 시세, 대파 시세, 무 가격, 사과 오늘의 시세, 배 시세, 삼겹살 오늘의 시세, 계란 한 판 시세, 한우 시세, 고등어 오늘의 시세, 갈치 시세, 오징어 가격, 아파트 분양정보, 분양 모바일 바코드카드 3000원, 당근비즈 우리동네 시세, 우리아파트 안심거래, 점포 상가 안심딜">
-
-<!-- OpenGraph (카카오톡, 당근비즈, 네이버 블로그/카페 공유 시 썸네일 노출) -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="[오늘의 시세 매칭기] 1주일 시세 급락 TOP 3 & 아파트 분양 3,000원 바코드카드 지급">
-<meta property="og:description" content="우리 동네 오늘의 시세 1초 확인! 하단 아파트 분양정보 1분 스크롤 열람 시 카카오톡으로 3,000원 모바일 바코드카드 즉시 지급 (현금처럼 사용)">
-<meta property="og:url" content="https://wooriapt.app/price">
+<meta property="og:title" content="[오늘의 시세 매칭기] 농·축·수산물 1주일 시세 급락 TOP 3">
+<meta property="og:description" content="오늘 장보기 전 필수! 농림축산식품부 공공데이터 기준 1주일 전 대비 가격 급락 품목 1초 확인">
+<meta property="og:url" content="https://www.wooriapt.app/price">
 
-<!-- Web App Manifest & Mobile PWA -->
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="theme-color" content="#059669">
 
-<!-- Tailwind CSS -->
 <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
-
-<!-- Schema.org JSON-LD -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "DataCatalog",
-  "name": "대한민국 오늘의 시세 매칭기 및 아파트 분양 모바일 바코드카드 리워드 플랫폼",
-  "description": "농림축산식품부 aT 공공데이터 기반 주요 50대 농·축·수산물 1주일 등락폭 실시간 매칭 및 아파트 분양 1분 스크롤 3,000원 모바일 바코드카드 카카오톡 지급, 우리아파트 안심거래·안심딜 연동",
-  "provider": {
-    "@type": "Organization",
-    "name": "우리아파트 안심거래 · 안심딜",
-    "url": "https://www.wooriapt.app"
-  }
-}
-</script>
 
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body { font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Noto Sans KR", sans-serif; background: #f8fafc; color: #0f172a; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-  @keyframes pulseGlow {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.45); }
-    50% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
-  }
-  .presale-glow { animation: pulseGlow 2s infinite; }
 </style>
 </head>
 
-<body class="min-h-screen pb-24">
+<body class="min-h-screen pb-20">
 
   <!-- ==========================================
-       1. 최상단 네비게이션 헤더 (우측 상단 앱설치 아이콘 필수 배치)
+       1. 최상단 네비게이션 헤더 (앱 설치 버튼)
   =========================================== -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 py-3 shadow-sm">
-    <div class="max-w-2xl mx-auto flex items-center justify-between gap-2">
-      <a href="/" class="flex items-center gap-2 min-w-0">
-        <span class="w-9 h-9 shrink-0 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-black text-sm shadow-md">시세</span>
-        <div class="truncate">
-          <div class="font-extrabold text-slate-900 text-sm sm:text-base leading-tight flex items-center gap-1.5">
-            <span>오늘의 시세 매칭기</span>
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 py-3">
+    <div class="max-w-2xl mx-auto flex items-center justify-between">
+      <a href="/price" class="flex items-center gap-2">
+        <span class="w-8 h-8 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-black text-sm shadow-md">시세</span>
+        <div>
+          <div class="font-extrabold text-slate-900 text-sm leading-tight flex items-center gap-1.5">
+            <span>농·축·수산물 오늘의 시세</span>
             <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black bg-emerald-100 text-emerald-800">공공데이터</span>
           </div>
-          <div class="text-[11px] text-slate-500 font-bold truncate">우리동네 실시간 시세 & 분양 3,000원 바코드카드</div>
+          <div class="text-[11px] text-slate-500 font-medium">1주일 등락폭 실시간 장바구니 매칭기</div>
         </div>
       </a>
 
-      <!-- 우측 상단 앱 다운로드·설치 아이콘 버튼 -->
-      <div class="flex items-center gap-1.5 shrink-0">
-        <a href="/presale.html" class="hidden sm:flex px-2.5 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-black transition items-center gap-1">
-          <span>🎁</span>
-          <span>분양 3,000원</span>
-        </a>
-        <button id="pwaInstallHeaderBtn" onclick="installAppDirectly()" class="px-3 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-xs sm:text-sm font-black shadow-md transition flex items-center gap-1.5 active:scale-95 border border-emerald-400/40" title="스마트폰 바탕화면에 오늘의시세 매칭기 앱 다운로드 설치">
-          <span class="text-base leading-none">📲</span>
-          <span>앱설치</span>
+      <div class="flex items-center gap-1.5">
+        <button id="pwaInstallHeaderBtn" onclick="installAppDirectly()" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black shadow-sm transition flex items-center gap-1">
+          <span>📲</span>
+          <span>앱 설치</span>
         </button>
       </div>
     </div>
@@ -85,56 +55,55 @@
   <main class="max-w-2xl mx-auto p-4 space-y-4">
 
     <!-- ==========================================
-         2. 1단계: 조건 없는 1초 무료 앱 다운로드 배너
+         2. 조건 없는 1초 무료 앱 설치 배너
     =========================================== -->
-    <div id="unconditionalInstallBanner" class="bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-800 text-white rounded-3xl p-4 sm:p-5 shadow-xl relative overflow-hidden">
+    <div id="unconditionalInstallBanner" class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-3xl p-4 sm:p-5 shadow-xl relative overflow-hidden">
       <div class="relative z-10 flex items-center justify-between gap-3">
         <div>
-          <div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-black bg-amber-400 text-slate-900 mb-1.5 shadow-sm">
-            <span>🥕</span> 우리동네 집중 혜택 · 조건 없이 1초 다운로드
+          <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-white/20 text-emerald-100 mb-1">
+            <span>⚡</span> 조건 없음 · 스토어 이동 없음
           </div>
-          <h2 class="text-base sm:text-lg font-black leading-snug">오늘의 시세 매칭기 앱 다운로드</h2>
-          <p class="text-xs text-emerald-100 mt-0.5 font-medium">우측 상단 <strong class="text-white underline">[📲 앱설치]</strong>를 누르면 내 폰 바탕화면에 즉시 설치됩니다!</p>
+          <h2 class="text-base sm:text-lg font-black leading-snug">매일 아침 1초 시세 매칭기</h2>
+          <p class="text-xs text-emerald-100 mt-0.5">내 휴대폰 바탕화면에 1초 만에 무료 설치하고 장보기 전 매일 확인하세요!</p>
         </div>
-        <button onclick="installAppDirectly()" class="shrink-0 px-4 py-3 bg-white hover:bg-emerald-50 text-emerald-900 font-black text-xs sm:text-sm rounded-2xl shadow-lg transition active:scale-95 flex flex-col items-center justify-center gap-0.5 border-2 border-emerald-200">
-          <span class="text-lg leading-none">📲</span>
-          <span>앱 다운로드</span>
+        <button onclick="installAppDirectly()" class="shrink-0 px-4 py-3 bg-white hover:bg-emerald-50 text-emerald-800 font-black text-xs sm:text-sm rounded-2xl shadow-lg transition active:scale-95 flex items-center gap-1.5">
+          <span>📲</span>
+          <span>1초 무료 설치</span>
         </button>
       </div>
       <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
     </div>
 
     <!-- ==========================================
-         3. 오늘의 시세 등락폭 매칭기 보드
+         3. 농·축·수산물 오늘의 시세 등락폭 매칭 보드
     =========================================== -->
     <div class="bg-white rounded-3xl p-5 shadow-lg border border-slate-200/80 space-y-4">
       
-      <!-- 기준 선택 탭 & 검색창 -->
       <div class="flex items-center justify-between gap-2 flex-wrap">
         <div>
-          <h3 class="text-base sm:text-lg font-black text-slate-900 flex items-center gap-1.5">
+          <h3 class="text-base font-black text-slate-900 flex items-center gap-1.5">
             <span>📊</span>
-            <span>오늘의 시세 · 1주일 전 대비 급락 품목</span>
+            <span>1주일 전 대비 가격 급락 품목</span>
           </h3>
-          <p class="text-xs text-slate-500 font-medium mt-0.5">농림축산식품부 aT 공공데이터 실시간 자동 매칭</p>
+          <p class="text-xs text-slate-500 font-medium mt-0.5">농림축산식품부 aT 공공데이터 실시간 연동</p>
         </div>
 
         <div class="inline-flex p-1 bg-slate-100 rounded-xl text-xs font-bold text-slate-600">
           <button class="px-2.5 py-1 bg-white text-emerald-800 rounded-lg shadow-sm font-black">1주일 전 대비</button>
-          <button onclick="alert('현재 1주일 전 대비 주간 특가 분석 모드가 활성화되어 있습니다.')" class="px-2.5 py-1 hover:text-slate-900">어제 대비</button>
+          <button onclick="alert('현재 1주일 전 대비 주간 장바구니 시세 분석 모드가 활성화되어 있습니다.')" class="px-2.5 py-1 hover:text-slate-900">어제 대비</button>
         </div>
       </div>
 
       <!-- 품목 빠른 검색창 -->
       <div class="relative">
-        <input id="itemSearchInput" oninput="filterItems()" type="text" placeholder="품목 검색 (예: 배추, 삼겹살, 사과, 계란, 고등어)" class="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-10 pr-4 py-2.5 text-xs sm:text-sm font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none">
+        <input id="itemSearchInput" oninput="filterItems()" type="text" placeholder="품목 검색 (예: 배추, 삼겹살, 사과, 계란, 고등어)" class="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-10 pr-4 py-2.5 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none">
         <span class="absolute left-3.5 top-2.5 text-slate-400 text-sm">🔍</span>
       </div>
 
       <!-- 4대 카테고리 탭 (전체 TOP3 / 농산 / 축산 / 수산) -->
       <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-1">
         <button onclick="switchCategory('all')" id="tab-all" class="cat-tab shrink-0 px-3.5 py-2 rounded-xl text-xs font-black bg-emerald-600 text-white shadow-sm transition">
-          🔥 전체 급락 TOP 3
+          🔥 전체 TOP 3
         </button>
         <button onclick="switchCategory('produce')" id="tab-produce" class="cat-tab shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
           🥬 농산 (채소·과일)
@@ -149,201 +118,97 @@
 
       <!-- 품목 리스트 컨테이너 -->
       <div id="itemListContainer" class="space-y-2.5 pt-1">
-        <!-- 품목 동적 생성 -->
+        <!-- 품목 동적 주입 -->
       </div>
 
     </div>
 
     <!-- ==========================================
-         4. 매칭기 하단 3대 핵심 홍보 버튼
-            1) 아파트 분양정보 (분양 메인화면 이동 ➔ 1분 스크롤 시 3,000원 모바일 바코드카드 카카오톡 지급)
-            2) 우리아파트 안심거래 메인화면 바로가기 (수수료 50%)
-            3) 점포·상가 안심딜 메인화면 바로가기 (수수료 50%)
+         4. 하단 영역:
+            - 상단(1단): 분양사 연동 버튼 (지역·분양사 설정 단가에 따라 변동 지급 / 상위노출 연동)
+            - 하단(2줄): 1) 우리아파트 안심거래 버튼 / 2) 점포·상가 안심딜 버튼
     =========================================== -->
-    <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 text-white rounded-3xl p-5 shadow-2xl space-y-4 border border-slate-700">
-      <div class="flex items-center justify-between flex-wrap gap-2">
-        <div>
-          <div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-black bg-amber-400 text-slate-950">
-            <span>🎁</span> 우리동네 주민 전용 혜택 & 수수료 50% 안심 플랫폼
+    <div class="bg-gradient-to-b from-slate-900 to-slate-800 text-white rounded-3xl p-5 shadow-2xl space-y-3">
+
+      <!-- [하단의 상단] 분양사 연동 버튼 (변동 지급 표시) -->
+      <a id="presaleRoomBtn" href="/presale.html" class="w-full p-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 border-2 border-amber-300 flex items-center justify-between transition group shadow-lg">
+        <div class="flex items-center gap-3 min-w-0">
+          <span class="w-11 h-11 shrink-0 rounded-xl bg-white/20 text-white flex items-center justify-center text-xl font-black">🎁</span>
+          <div class="min-w-0">
+            <div id="presaleRoomBadge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-950/75 text-amber-300 text-[10px] font-black mb-1">
+              <span>분양사 클릭단가 상위노출</span> · <span>지역·현장별 차등 지급</span>
+            </div>
+            <div id="presaleRoomTitle" class="text-sm sm:text-base font-black text-white leading-snug">
+              아파트 분양정보 열람 혜택 <span id="presaleRewardLabel" class="text-yellow-200 underline decoration-2">(현장별 변동 지급)</span>
+            </div>
+            <div id="presaleRoomSub" class="text-[11px] text-amber-100 font-bold mt-0.5">
+              분양 지역·현장별 책정 금액 즉시 확인 및 모바일 바코드카드 수령
+            </div>
           </div>
-          <h3 class="text-base sm:text-lg font-black text-white mt-1.5">아파트 분양 3,000원 지급 & 안심 플랫폼 바로가기</h3>
-          <p class="text-xs text-slate-300 mt-0.5">분양정보 1분 스크롤 시 <strong class="text-amber-300">카카오톡으로 3,000원 모바일 바코드카드(현금 동일 사용)</strong>를 즉시 보내드립니다!</p>
         </div>
-      </div>
+        <span id="presaleRoomCta" class="shrink-0 ml-2 px-3 py-2 rounded-xl bg-slate-950 text-amber-300 font-black text-xs sm:text-sm">분양 보기 ➔</span>
+      </a>
 
-      <div class="space-y-3">
-        <!-- ① 🎁 아파트 분양정보 3,000원 모바일 바코드카드 지급 (클릭 시 분양 메인화면/해당 복제방으로 이동) -->
-        <a id="presaleRoomBtn" href="/presale.html" class="presale-glow w-full p-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white border-2 border-amber-300 flex items-center justify-between transition group shadow-lg">
-          <div class="flex items-center gap-3.5 min-w-0">
-            <span class="w-12 h-12 shrink-0 rounded-2xl bg-white/20 backdrop-blur-sm text-white flex items-center justify-center text-2xl font-black shadow-inner">🎁</span>
-            <div class="min-w-0">
-              <div id="presaleRoomBadge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-950/80 text-amber-300 text-[10px] font-black mb-1">
-                <span>💬 카카오톡 즉시 수령</span> · <span>현금처럼 즉시 사용</span>
-              </div>
-              <div id="presaleRoomTitle" class="text-sm sm:text-base font-black text-white leading-snug">
-                아파트 분양정보 <span class="text-yellow-200 underline decoration-2">3,000원 지급</span>
-              </div>
-              <div id="presaleRoomSub" class="text-[11.5px] text-amber-100 font-bold mt-0.5 leading-tight">
-                분양 메인화면 진입 ➔ 1분 스크롤 시 모바일 바코드카드 카톡 발송!
-              </div>
-            </div>
+      <!-- [하단 1번째 줄] 우리아파트 안심거래 버튼 -->
+      <a href="https://www.wooriapt.app/" class="w-full p-4 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 flex items-center justify-between transition group">
+        <div class="flex items-center gap-3 min-w-0">
+          <span class="w-10 h-10 shrink-0 rounded-xl bg-blue-500/30 text-blue-300 flex items-center justify-center text-lg font-black">🏠</span>
+          <div class="min-w-0">
+            <div class="text-sm font-black text-white group-hover:text-blue-300 transition">우리아파트 안심거래</div>
+            <div class="text-[11px] text-slate-400 truncate">중개수수료 50% 절감 · BM 특허 안심거래 · 국토부 전자계약</div>
           </div>
-          <span id="presaleRoomCta" class="shrink-0 ml-2 px-3 py-2 rounded-xl bg-slate-950 text-amber-300 font-black text-xs sm:text-sm shadow">분양 메인 ➔</span>
-        </a>
+        </div>
+        <span class="shrink-0 text-blue-400 font-black text-sm">바로가기 ➔</span>
+      </a>
 
-        <!-- ② 🏠 우리아파트 안심거래 메인화면 바로가기 -->
-        <a href="https://www.wooriapt.app/" class="w-full p-4 rounded-2xl bg-blue-600/20 hover:bg-blue-600/30 border border-blue-400/40 flex items-center justify-between transition group">
-          <div class="flex items-center gap-3.5 min-w-0">
-            <span class="w-12 h-12 shrink-0 rounded-2xl bg-blue-500/30 text-blue-300 flex items-center justify-center text-2xl font-black">🏠</span>
-            <div class="min-w-0">
-              <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-500/30 text-blue-200 text-[10px] font-black mb-1">
-                <span>아파트 매매·전세·월세</span> · <span>중개수수료 50% 절감</span>
-              </div>
-              <div class="text-sm sm:text-base font-black text-white group-hover:text-blue-300 transition">우리아파트 안심거래</div>
-              <div class="text-[11.5px] text-slate-300 font-medium mt-0.5">반값 중개수수료 · BM 특허 안심거래 · 국토부 전자계약</div>
-            </div>
+      <!-- [하단 2번째 줄] 점포·상가 안심딜 버튼 -->
+      <a href="https://www.ansimdeal.com/" class="w-full p-4 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 flex items-center justify-between transition group">
+        <div class="flex items-center gap-3 min-w-0">
+          <span class="w-10 h-10 shrink-0 rounded-xl bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-lg font-black">🏪</span>
+          <div class="min-w-0">
+            <div class="text-sm font-black text-white group-hover:text-emerald-300 transition">점포·상가 안심딜</div>
+            <div class="text-[11px] text-slate-400 truncate">상가·점포 수수료 50% 절감 · 권리금 안심거래 · 300m 상권분석</div>
           </div>
-          <span class="shrink-0 ml-2 px-3 py-2 rounded-xl bg-blue-600 text-white font-black text-xs sm:text-sm">바로가기 ➔</span>
-        </a>
+        </div>
+        <span class="shrink-0 text-emerald-400 font-black text-sm">바로가기 ➔</span>
+      </a>
 
-        <!-- ③ 🏪 점포·상가 안심딜 메인화면 바로가기 -->
-        <a href="https://www.ansimdeal.com/" class="w-full p-4 rounded-2xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-400/40 flex items-center justify-between transition group">
-          <div class="flex items-center gap-3.5 min-w-0">
-            <span class="w-12 h-12 shrink-0 rounded-2xl bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-2xl font-black">🏪</span>
-            <div class="min-w-0">
-              <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-500/30 text-emerald-200 text-[10px] font-black mb-1">
-                <span>점포·상가·사무실</span> · <span>중개수수료 50% · 직거래</span>
-              </div>
-              <div class="text-sm sm:text-base font-black text-white group-hover:text-emerald-300 transition">점포·상가 안심딜</div>
-              <div class="text-[11.5px] text-slate-300 font-medium mt-0.5">권리금·상가 수수료 50% 절감 · 소상공인 300m 상권분석</div>
-            </div>
-          </div>
-          <span class="shrink-0 ml-2 px-3 py-2 rounded-xl bg-emerald-600 text-white font-black text-xs sm:text-sm">바로가기 ➔</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- ==========================================
-         5. 마트 대표님 전용 디지털 사진 전단지 기능 (기존 기능 보존)
-    =========================================== -->
-    <div class="bg-white rounded-3xl p-5 shadow-lg border border-slate-200/80 space-y-3">
-      <div class="flex items-center justify-between">
-        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-black bg-blue-100 text-blue-900">
-          <span>📢</span> 마트 가맹점 전용 특별 기능
-        </span>
-        <a href="/mart" class="text-xs font-black text-blue-600 hover:underline">우리동네 마트 메인 ➔</a>
-      </div>
-
-      <div class="bg-blue-50/70 border border-blue-200 rounded-2xl p-4">
-        <h3 class="text-base sm:text-lg font-black text-blue-950 leading-tight">
-          "문자로 보내지 말고,<br>
-          <span class="text-blue-600 underline decoration-blue-400 decoration-2">‘디지털 사진’</span>으로 보내세요!"
-        </h3>
-        <ul class="mt-2.5 space-y-1 text-xs font-bold text-blue-900">
-          <li class="flex items-center gap-1.5">
-            <span class="text-blue-500">✓</span> 매달 나가는 문자비용 0원!
-          </li>
-          <li class="flex items-center gap-1.5">
-            <span class="text-blue-500">✓</span> 선명한 디지털 사진 전단지로 동네 고객 유치!
-          </li>
-        </ul>
-      </div>
-
-      <button onclick="createDigitalFlyerModal()" class="w-full py-3.5 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-sm rounded-2xl shadow-md transition flex items-center justify-center gap-2 active:scale-[0.98]">
-        <span>📸</span>
-        <span>오늘 특가 '디지털 사진 전단지' 1초 만들기</span>
-      </button>
     </div>
 
   </main>
 
   <!-- ==========================================
-       6. 디지털 사진 전단지 생성 모달
-  =========================================== -->
-  <div id="flyerModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-md rounded-3xl p-5 sm:p-6 space-y-4 shadow-2xl animate-in zoom-in-95">
-      <div class="flex items-center justify-between border-b pb-3">
-        <div>
-          <h3 class="text-base font-black text-slate-900">📸 오늘 특가 '디지털 사진 전단지'</h3>
-          <p class="text-xs text-slate-500">문자로 보내지 말고 이 사진으로 쏘세요!</p>
-        </div>
-        <button onclick="closeFlyerModal()" class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
-      </div>
-
-      <!-- 전단지 미리보기 카드 -->
-      <div id="flyerPreviewCard" class="bg-gradient-to-b from-amber-50 to-orange-50 border-2 border-amber-300 rounded-2xl p-4 text-center space-y-3 shadow-md">
-        <div class="inline-flex items-center gap-1 px-3 py-1 bg-red-600 text-white rounded-full text-xs font-black shadow-sm animate-pulse">
-          🔥 오늘 단 하루! 산지 직송 특가 세일
-        </div>
-        <h4 class="text-lg font-black text-slate-900">우리동네 마트 농·축·수산 특가전</h4>
-
-        <div class="bg-white rounded-xl p-3 border border-amber-200 text-left space-y-2 text-xs">
-          <div class="flex items-center justify-between border-b pb-1.5">
-            <span class="font-black text-slate-800">🥬 고랭지 배추 1포기</span>
-            <span class="font-black text-red-600 text-sm">3,500원 <span class="text-[10px] text-slate-400 line-through">6,800원</span></span>
-          </div>
-          <div class="flex items-center justify-between border-b pb-1.5">
-            <span class="font-black text-slate-800">🥩 국내산 생삼겹살 (100g)</span>
-            <span class="font-black text-red-600 text-sm">1,980원 <span class="text-[10px] text-slate-400 line-through">2,800원</span></span>
-          </div>
-          <div class="flex items-center justify-between">
-            <span class="font-black text-slate-800">🐟 생물 자반고등어 1손</span>
-            <span class="font-black text-red-600 text-sm">4,900원 <span class="text-[10px] text-slate-400 line-through">7,500원</span></span>
-          </div>
-        </div>
-
-        <div class="text-[10px] text-slate-500 pt-1">
-          우리아파트 안심거래 · 안심딜 공식 제휴 · 재고 소진 시 조기 마감
-        </div>
-      </div>
-
-      <!-- 액션 버튼 -->
-      <div class="grid grid-cols-2 gap-2">
-        <button onclick="downloadFlyerImage()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md transition flex items-center justify-center gap-1.5">
-          <span>📥</span>
-          <span>사진 갤러리 저장</span>
-        </button>
-        <button onclick="shareFlyerKakao()" class="w-full py-3 bg-amber-400 hover:bg-amber-500 text-slate-900 font-black text-xs rounded-xl shadow-md transition flex items-center justify-center gap-1.5">
-          <span>💬</span>
-          <span>카톡/문자 전송</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==========================================
-       7. 시세 데이터 및 인터랙션 스크립트
+       5. 시세 데이터 및 분양사 변동 단가 연동 스크립트
   =========================================== -->
   <script>
     "use strict";
 
-    // 50대 주요 농·축·수산물 데이터셋 (1주일 전 vs 오늘 시세 팩트)
     const ITEMS_DATA = [
       // 농산 (채소·과일)
-      { cat: "produce", name: "배추 (10kg 망)", unit: "1포기 환산", prev: "6,800원", curr: "4,400원", rate: -35, rank: 1, tip: "공판장 출하량 급증으로 이번 주 전단지 메인 특가 강력 추천!" },
-      { cat: "produce", name: "흙대파 (1단)", unit: "1단 (1kg)", prev: "3,900원", curr: "2,800원", rate: -28, rank: 2, tip: "주부 장바구니 필수 품목으로 1,980원 미끼 특가 추천!" },
-      { cat: "produce", name: "햇양파 (1망)", unit: "3kg 망", prev: "5,800원", curr: "4,300원", rate: -25, rank: 3, tip: "저장 물량 방출로 단가 대폭 하락." },
-      { cat: "produce", name: "시금치 (1단)", unit: "1단", prev: "4,500원", curr: "3,500원", rate: -22, rank: 4, tip: "신선 채소 코너 묶음 세일 추천." },
-      { cat: "produce", name: "애호박 (1개)", unit: "1개", prev: "2,500원", curr: "2,000원", rate: -20, rank: 5, tip: "찌개용 미끼 상품으로 회전율 최고." },
-      { cat: "produce", name: "사과 (부사 10과)", unit: "10개 들이", prev: "25,000원", curr: "20,000원", rate: -20, rank: 6, tip: "산지 햇사과 출하로 과일 코너 인기품목." },
-      { cat: "produce", name: "무 (1개)", unit: "개", prev: "2,800원", curr: "2,300원", rate: -18, rank: 7, tip: "김장철 사전 특가 추천." },
-      { cat: "produce", name: "배 (신고 5과)", unit: "5개 들이", prev: "18,000원", curr: "15,000원", rate: -16, rank: 8, tip: "낙과 산지 직송 프로모션 추천." },
-      { cat: "produce", name: "수미감자 (1박스)", unit: "5kg", prev: "16,000원", curr: "13,600원", rate: -15, rank: 9, tip: "식자재 대량구매 박스 특가." },
-      { cat: "produce", name: "제주 감귤 (1박스)", unit: "3kg", prev: "14,000원", curr: "11,900원", rate: -15, rank: 10, tip: "겨울철 핵심 과일 코너 배치." },
+      { cat: "produce", name: "배추 (10kg 망)", unit: "1포기 환산", prev: "6,800원", curr: "4,400원", rate: -35, rank: 1, tip: "산지 출하량 증가로 이번 주 장바구니 가격 대폭 하락!" },
+      { cat: "produce", name: "흙대파 (1단)", unit: "1단 (1kg)", prev: "3,900원", curr: "2,800원", rate: -28, rank: 2, tip: "주부 장바구니 필수 품목, 1주일 전보다 28% 저렴!" },
+      { cat: "produce", name: "깐양파 (1망)", unit: "3kg 망", prev: "5,800원", curr: "4,300원", rate: -25, rank: 3, tip: "저장 물량 출하로 단가 안정화." },
+      { cat: "produce", name: "시금치 (1단)", unit: "1단", prev: "4,500원", curr: "3,500원", rate: -22, rank: 4, tip: "신선 나물·국거리용 가격 하락세." },
+      { cat: "produce", name: "애호박 (1개)", unit: "1개", prev: "2,500원", curr: "2,000원", rate: -20, rank: 5, tip: "찌개·볶음용 알뜰 장보기 추천 품목." },
+      { cat: "produce", name: "사과 (부사 10입)", unit: "10개 들이", prev: "25,000원", curr: "20,000원", rate: -20, rank: 6, tip: "산지 햇사과 출하로 과일 시세 하락." },
+      { cat: "produce", name: "무 (1개)", unit: "개", prev: "2,800원", curr: "2,300원", rate: -18, rank: 7, tip: "국거리·깍두기용 무 가격 약세." },
+      { cat: "produce", name: "배 (신고 5입)", unit: "5개 들이", prev: "18,000원", curr: "15,000원", rate: -16, rank: 8, tip: "산지 직송 물량 확대로 가격 인하." },
+      { cat: "produce", name: "수미감자 (1박스)", unit: "5kg", prev: "16,000원", curr: "13,600원", rate: -15, rank: 9, tip: "가정용 5kg 박스 시세 안정." },
+      { cat: "produce", name: "제주 감귤 (1박스)", unit: "3kg", prev: "14,000원", curr: "11,900원", rate: -15, rank: 10, tip: "제철 과일 출하량 증가로 가격 하락." },
 
       // 축산 (정육·계란)
-      { cat: "meat", name: "국내산 삼겹살 (100g)", unit: "100g", prev: "2,900원", curr: "2,380원", rate: -18, rank: 1, tip: "마트 전체 매출을 견인하는 절대 1위 미끼 상품!" },
-      { cat: "meat", name: "특란 (30구 1판)", unit: "대란 30알", prev: "7,800원", curr: "6,600원", rate: -15, rank: 2, tip: "1인 1판 한정 세일로 주말 집객 효과 최고!" },
-      { cat: "meat", name: "한우 국거리 (100g)", unit: "1등급 100g", prev: "6,500원", curr: "5,700원", rate: -12, rank: 3, tip: "주말 한우 데이 페스티벌 추천." },
-      { cat: "meat", name: "하림 생닭 (1kg)", unit: "11호 생닭", prev: "6,900원", curr: "6,200원", rate: -10, rank: 4, tip: "백숙용/볶음탕용 묶음전." },
-      { cat: "meat", name: "국내산 목살 (100g)", unit: "100g", prev: "2,600원", curr: "2,390원", rate: -8, rank: 5, tip: "삼겹살과 교차 구이용 세트 구성." },
+      { cat: "meat", name: "국내산 삼겹살 (100g)", unit: "100g", prev: "2,900원", curr: "2,380원", rate: -18, rank: 1, tip: "온 가족 저녁 메뉴 1위, 지난주 대비 18% 하락!" },
+      { cat: "meat", name: "특란 (30구 1판)", unit: "대란 30알", prev: "7,800원", curr: "6,600원", rate: -15, rank: 2, tip: "식탁 필수품 계란 한 판 시세 하락세!" },
+      { cat: "meat", name: "한우 국거리 (100g)", unit: "1등급 100g", prev: "6,500원", curr: "5,700원", rate: -12, rank: 3, tip: "한우 도매가 하락으로 국거리 가격 안정." },
+      { cat: "meat", name: "하림 생닭 (1kg)", unit: "11호 생닭", prev: "6,900원", curr: "6,200원", rate: -10, rank: 4, tip: "백숙·닭볶음탕용 생닭 시세 인하." },
+      { cat: "meat", name: "국내산 목살 (100g)", unit: "100g", prev: "2,600원", curr: "2,390원", rate: -8, rank: 5, tip: "구이·수육용 국내산 돈육 가격 약세." },
 
       // 수산 (생선·해물)
-      { cat: "fish", name: "생물 고등어 (1손)", unit: "2마리", prev: "7,500원", curr: "5,600원", rate: -25, rank: 1, tip: "산지 어획량 증가로 수산 코너 오늘 최고 추천 특가!" },
-      { cat: "fish", name: "제주 은갈치 (1마리)", unit: "대 크기", prev: "11,000원", curr: "8,900원", rate: -19, rank: 2, tip: "주말 수산 미끼 상품으로 1초 완판 가능." },
-      { cat: "fish", name: "물오징어 (2마리)", unit: "선어 2미", prev: "9,000원", curr: "7,450원", rate: -17, rank: 3, tip: "국거리/볶음용 저녁 해물전." },
-      { cat: "fish", name: "서해 꽃게 (1kg)", unit: "활꽃게 1kg", prev: "18,000원", curr: "15,500원", rate: -14, rank: 4, tip: "산지 직송 제철 한정판." },
-      { cat: "fish", name: "활바지락 (1봉)", unit: "800g", prev: "5,500원", curr: "4,950원", rate: -10, rank: 5, tip: "찌개 채소와 교차 진열 추천." }
+      { cat: "fish", name: "생물 고등어 (1손)", unit: "2마리", prev: "7,500원", curr: "5,600원", rate: -25, rank: 1, tip: "산지 어획량 증가로 이번 주 수산물 하락폭 1위!" },
+      { cat: "fish", name: "제주 은갈치 (1마리)", unit: "대 크기", prev: "11,000원", curr: "8,900원", rate: -19, rank: 2, tip: "구이·조림용 은갈치 시세 19% 하락." },
+      { cat: "fish", name: "물오징어 (2마리)", unit: "선어 2미", prev: "9,000원", curr: "7,450원", rate: -17, rank: 3, tip: "국거리·볶음용 오징어 시세 안정." },
+      { cat: "fish", name: "서해 꽃게 (1kg)", unit: "활꽃게 1kg", prev: "18,000원", curr: "15,500원", rate: -14, rank: 4, tip: "제철 꽃게 산지 출하량 증가." },
+      { cat: "fish", name: "활바지락 (1봉)", unit: "800g", prev: "5,500원", curr: "4,950원", rate: -10, rank: 5, tip: "된장찌개·칼국수용 바지락 가격 하락." }
     ];
 
     let currentCategory = "all";
@@ -355,7 +220,6 @@
       });
     }
 
-    // PWA 설치 이벤트 캐치
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
@@ -429,13 +293,12 @@
       renderItems();
     }
 
-    // 1초 무료 설치 (우측 상단 앱설치 아이콘 연동)
     function installAppDirectly() {
       if (deferredPrompt) {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
           if (choiceResult.outcome === 'accepted') {
-            alert('🎉 [앱 설치 완료]\n\n휴대폰 바탕화면에 [오늘의 시세 매칭기] 앱이 설치되었습니다!\n언제든 바탕화면 아이콘을 눌러 시세와 분양 혜택을 확인하세요.');
+            alert('🎉 [설치 완료]\n\n휴대폰 바탕화면에 [오늘의 시세 매칭기]가 1초 만에 설치되었습니다!\n매일 아침 바탕화면 아이콘을 눌러 확인하세요.');
           }
           deferredPrompt = null;
         });
@@ -444,85 +307,49 @@
       }
     }
 
-    // 디지털 사진 전단지 모달
-    function createDigitalFlyerModal() {
-      document.getElementById('flyerModal').classList.remove('hidden');
-    }
-    function closeFlyerModal() {
-      document.getElementById('flyerModal').classList.add('hidden');
-    }
-    function downloadFlyerImage() {
-      alert('✓ [디지털 사진 전단지 갤러리 저장완료]\n\n오늘 특가 사진 전단지가 휴대폰 사진첩에 1초 만에 저장되었습니다!\n단골 손님 단톡방이나 문자로 사진을 바로 보내세요.');
-      closeFlyerModal();
-    }
-    function shareFlyerKakao() {
-      if (navigator.share) {
-        navigator.share({
-          title: '오늘의 시세 매칭기 & 아파트 분양 3,000원 바코드카드 지급',
-          text: '우리동네 오늘의 시세 1초 확인하고 아파트 분양정보 1분 스크롤 시 카카오톡으로 3,000원 모바일 바코드카드 받으세요!',
-          url: window.location.href
-        }).catch(() => {});
-      } else {
-        alert('카카오톡 또는 문자 메시지 창에 링크가 복사되었습니다!');
-      }
-    }
-
-    // 당근비즈 분양사별 복제 방(?room=ROOM-001) 연동
-    (async function initReplicatedRoomBinding() {
+    // 분양사별 클릭당 설정 금액(변동 단가) 및 상위노출 방 자동 연동
+    (async function initDynamicPresaleReward() {
       try {
         const params = new URLSearchParams(window.location.search);
         const roomCode = (params.get('room') || params.get('code') || '').trim().toUpperCase();
         const btn = document.getElementById('presaleRoomBtn');
+        const badgeEl = document.getElementById('presaleRoomBadge');
+        const titleEl = document.getElementById('presaleRoomTitle');
+        const subEl = document.getElementById('presaleRoomSub');
+        const ctaEl = document.getElementById('presaleRoomCta');
         if (!btn) return;
 
-        if (roomCode) {
+        const r1 = await fetch('https://wooriaptcd.com/api/sale-save' + (roomCode ? ('?code=' + encodeURIComponent(roomCode)) : ''));
+        const d1 = await r1.json();
+
+        if (roomCode && d1 && d1.room) {
+          const room = d1.room;
+          const c = room.catalog_data || {};
+          const rewardNum = Number(c.rewardAmount || 0);
+          const rewardTxt = rewardNum > 0 ? (rewardNum.toLocaleString('ko-KR') + '원 지급') : '현장별 변동 지급';
           btn.href = '/presale.html?room=' + encodeURIComponent(roomCode);
-          try {
-            localStorage.setItem('activePresaleRoomCode', roomCode);
-          } catch (e) {}
-
-          let room = null;
-          try {
-            const r1 = await fetch('https://wooriaptcd.com/api/sale-save?code=' + encodeURIComponent(roomCode));
-            const d1 = await r1.json();
-            if (d1 && d1.room) room = d1.room;
-          } catch (e) {}
-
-          if (!room) {
-            try {
-              const savedList = JSON.parse(localStorage.getItem('wooriapt_replicated_rooms_v1') || '[]');
-              room = savedList.find(x => x.project_code === roomCode) || null;
-            } catch (e) {}
-          }
-
-          if (room) {
-            const c = room.catalog_data || {};
-            const isMart = c.channelType === 'mart';
-            const reward = Number(c.rewardAmount || 3000).toLocaleString('ko-KR');
-            const badgeEl = document.getElementById('presaleRoomBadge');
-            const titleEl = document.getElementById('presaleRoomTitle');
-            const subEl = document.getElementById('presaleRoomSub');
-            const ctaEl = document.getElementById('presaleRoomCta');
-
-            if (badgeEl) {
-              badgeEl.innerHTML = isMart
-                ? '<span>🛒 ' + (c.partnerName || '지정 마트') + '</span> · <span>마트 전자쿠폰 지급</span>'
-                : '<span>🥕 ' + (c.targetDong || room.area || '우리동네') + ' 전용</span> · <span>💬 카카오톡 즉시 수령</span>';
-            }
-            if (titleEl) {
-              titleEl.innerHTML = '[' + (room.project_name || '아파트 분양') + '] <span class="text-yellow-200 underline decoration-2">' + reward + '원 지급</span>';
-            }
-            if (subEl) {
-              subEl.textContent = isMart
-                ? '분양 메인화면 진입 ➔ 1분 스크롤 시 마트 전자쿠폰 즉시 발급!'
-                : '분양 메인화면 진입 ➔ 1분 스크롤 시 카카오톡 모바일 바코드카드(현금 동일) 즉시 발송!';
-            }
-            if (ctaEl) {
-              ctaEl.textContent = '전용 분양방 ➔';
-            }
+          if (badgeEl) badgeEl.innerHTML = '<span>🥕 ' + (c.targetDong || room.area || '분양 지역') + '</span> · <span>분양사 직접 지급</span>';
+          if (titleEl) titleEl.innerHTML = '[' + (room.project_name || '아파트 분양') + '] <span class="text-yellow-200 underline decoration-2">' + rewardTxt + '</span>';
+          if (subEl) subEl.textContent = '지역·분양사 책정 단가 기준 · 열람 후 모바일 바코드카드 즉시 수령';
+          if (ctaEl) ctaEl.textContent = '분양 보기 ➔';
+        } else if (d1 && Array.isArray(d1.rooms) && d1.rooms.length > 0) {
+          // 클릭당 지급 금액을 높게 설정한 분양사 순서대로 정렬하여 최소~최대 변동 범위 표시
+          const activeRooms = d1.rooms.filter(r => r.status !== 'paused');
+          const amounts = activeRooms
+            .map(r => Number((r.catalog_data && r.catalog_data.rewardAmount) || 0))
+            .filter(n => n > 0)
+            .sort((a, b) => b - a);
+          if (amounts.length > 0) {
+            const maxAmt = amounts[0].toLocaleString('ko-KR');
+            const minAmt = amounts[amounts.length - 1].toLocaleString('ko-KR');
+            const rangeTxt = (maxAmt === minAmt)
+              ? ('최대 ' + maxAmt + '원 · 지역별 변동 지급')
+              : (minAmt + '~' + maxAmt + '원 · 지역별 차등 지급');
+            const rewardLabel = document.getElementById('presaleRewardLabel');
+            if (rewardLabel) rewardLabel.textContent = '(' + rangeTxt + ')';
           }
         }
-      } catch (err) {}
+      } catch (e) {}
     })();
   </script>
 
