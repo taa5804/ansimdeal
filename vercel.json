@@ -33,6 +33,10 @@
       "destination": "/app-install.html"
     },
     {
+      "source": "/presale-list",
+      "destination": "/presale-list.html"
+    },
+    {
       "source": "/utility",
       "destination": "/tools-center.html"
     },
