@@ -129,48 +129,18 @@ html,body{
 #aptCatalog .cover{
   min-height:700px;
   background:
-    radial-gradient(circle at 50% 25%, rgba(200,163,95,.18), transparent 65%),
-    linear-gradient(165deg,#061524 0%,#0d2740 52%,#05111e 100%);
-  background-size:cover;
-  background-position:center;
+    linear-gradient(180deg,rgba(4,16,28,.18) 0%,rgba(4,16,28,.35) 50%,rgba(3,12,22,.92) 100%),
+    url("https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1400&q=85") center/cover no-repeat;
   color:#fff;
 }
 
-#aptCatalog .cover-frame-mark{
+#aptCatalog .cover::after{
+  content:"";
   position:absolute;
+  inset:16px;
+  border:1px solid rgba(200,163,95,.36);
+  pointer-events:none;
   z-index:2;
-  top:72px;
-  left:26px;
-  right:26px;
-  height:340px;
-  border:1px solid rgba(200,163,95,.38);
-  background:
-    linear-gradient(135deg, rgba(200,163,95,.07), rgba(7,26,44,.45)),
-    repeating-linear-gradient(0deg, rgba(200,163,95,.05) 0px, rgba(200,163,95,.05) 1px, transparent 1px, transparent 28px),
-    repeating-linear-gradient(90deg, rgba(200,163,95,.05) 0px, rgba(200,163,95,.05) 1px, transparent 1px, transparent 28px);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:20px;
-}
-
-#aptCatalog .cover-frame-mark small{
-  color:var(--gold);
-  font-family:Georgia,serif;
-  letter-spacing:3px;
-  font-size:11px;
-  margin-bottom:8px;
-}
-
-#aptCatalog .cover-frame-mark span{
-  color:rgba(255,255,255,.78);
-  font-size:12.5px;
-  font-weight:600;
-  padding:7px 14px;
-  border:1px solid rgba(200,163,95,.4);
-  background:rgba(4,16,28,.65);
 }
 
 #aptCatalog .cover-copy{
@@ -248,41 +218,20 @@ html,body{
 #aptCatalog .gallery>div{
   position:relative;
   overflow:hidden;
-  background:
-    radial-gradient(circle at 50% 40%, rgba(200,163,95,.16), transparent 70%),
-    linear-gradient(145deg,#0b2136 0%,#13314c 55%,#091a2b 100%);
+  background-color:#0b2136;
   background-size:cover;
   background-position:center;
-  border:1px solid rgba(200,163,95,.42);
-}
-
-#aptCatalog .location-photo::before,
-#aptCatalog .complex-photo::before,
-#aptCatalog .premium-photo::before,
-#aptCatalog .modelhouse::before,
-#aptCatalog .floorplan::before,
-#aptCatalog .gallery>div::before{
-  content:"ARCHITECTURAL CATALOG SPACE";
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-65%);
-  color:rgba(200,163,95,.55);
-  font-family:Georgia,serif;
-  font-size:10px;
-  letter-spacing:2.2px;
-  white-space:nowrap;
-  pointer-events:none;
-}
-
-#aptCatalog .has-custom-img::before{
-  display:none !important;
+  border:1px solid rgba(200,163,95,.48);
+  box-shadow:0 14px 32px rgba(6,20,34,.14);
 }
 
 #aptCatalog .location-photo{
   height:250px;
   margin:22px 0 0;
-  border-radius:4px;
+  border-radius:6px;
+  background-image:
+    linear-gradient(180deg,rgba(4,16,28,.08),rgba(4,16,28,.45)),
+    url("https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=85");
 }
 
 #aptCatalog .image-label{
@@ -292,7 +241,7 @@ html,body{
   bottom:14px;
   padding:10px 12px;
   border:1px solid rgba(200,163,95,.55);
-  background:rgba(6,20,34,.76);
+  background:rgba(6,20,34,.78);
   color:#f8f3e6;
   font-size:11.5px;
   font-weight:600;
@@ -343,6 +292,9 @@ html,body{
   border-top:0;
   border-bottom:0;
   border-left:0;
+  background-image:
+    linear-gradient(180deg,rgba(4,16,28,.12),rgba(4,16,28,.48)),
+    url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85");
 }
 
 #aptCatalog .premium-copy{padding:58px 18px 30px}
@@ -394,7 +346,10 @@ html,body{
 #aptCatalog .complex-photo{
   height:280px;
   margin:22px 0 0;
-  border-radius:4px;
+  border-radius:6px;
+  background-image:
+    linear-gradient(180deg,rgba(4,16,28,.06),rgba(4,16,28,.42)),
+    url("https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=85");
 }
 
 #aptCatalog .feature-grid{
@@ -430,8 +385,9 @@ html,body{
 #aptCatalog .floorplan{
   height:280px;
   margin:20px 0 14px;
-  border:1px solid rgba(200,163,95,.45);
-  border-radius:4px;
+  border:1px solid rgba(200,163,95,.55);
+  border-radius:6px;
+  background-color:#0c2238;
 }
 
 #aptCatalog .unit-info{
@@ -486,7 +442,26 @@ html,body{
 #aptCatalog .gallery .wide{grid-column:1/3}
 
 #aptCatalog .gallery>div{
-  border-radius:4px;
+  border-radius:6px;
+}
+
+#aptCatalog #commSlot1{
+  background-image:linear-gradient(180deg,rgba(4,16,28,.08),rgba(4,16,28,.65)),url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1100&q=85");
+}
+#aptCatalog #commSlot2{
+  background-image:linear-gradient(180deg,rgba(4,16,28,.08),rgba(4,16,28,.65)),url("https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=800&q=80");
+}
+#aptCatalog #commSlot3{
+  background-image:linear-gradient(180deg,rgba(4,16,28,.08),rgba(4,16,28,.65)),url("https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=800&q=80");
+}
+#aptCatalog #commSlot4{
+  background-image:linear-gradient(180deg,rgba(4,16,28,.08),rgba(4,16,28,.65)),url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80");
+}
+#aptCatalog #commSlot5{
+  background-image:linear-gradient(180deg,rgba(4,16,28,.08),rgba(4,16,28,.65)),url("https://images.unsplash.com/photo-1566454544259-f4b94c3d758c?auto=format&fit=crop&w=800&q=80");
+}
+#aptCatalog #commSlot6{
+  background-image:linear-gradient(180deg,rgba(4,16,28,.08),rgba(4,16,28,.65)),url("https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80");
 }
 
 #aptCatalog .gallery span{
@@ -505,10 +480,8 @@ html,body{
 
 #aptCatalog .contact{
   background:
-    radial-gradient(circle at 50% 20%, rgba(200,163,95,.18), transparent 65%),
-    linear-gradient(165deg,#061524 0%,#0f2942 55%,#04101c 100%);
-  background-size:cover;
-  background-position:center;
+    linear-gradient(180deg,rgba(4,16,28,.45),rgba(4,16,28,.88)),
+    url("https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85") center/cover no-repeat;
   color:#fff;
 }
 
@@ -524,7 +497,10 @@ html,body{
   height:210px;
   margin-top:24px;
   border:1px solid rgba(200,163,95,.5);
-  border-radius:4px;
+  border-radius:6px;
+  background-image:
+    linear-gradient(180deg,rgba(4,16,28,.08),rgba(4,16,28,.52)),
+    url("https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1100&q=85");
 }
 
 #aptCatalog .contact-actions{
@@ -718,7 +694,43 @@ html,body{
       </div>
 
       <div class="floorplan" id="unit1PhotoBox">
-        <div class="image-label" id="unit1PhotoLabel">평면도 01 (분양사 카탈로그 이미지)</div>
+        <svg class="default-fp-svg" viewBox="0 0 420 260" style="width:100%;height:100%;display:block;background:linear-gradient(145deg,#08192b,#0f2a42);">
+          <defs>
+            <pattern id="fpGrid1" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(214,178,110,0.08)" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="420" height="260" fill="url(#fpGrid1)"/>
+          <!-- 외벽 -->
+          <rect x="28" y="20" width="364" height="190" fill="rgba(214,178,110,0.06)" stroke="#d6b26e" stroke-width="2.2"/>
+          <!-- 상단: 현관 / 욕실1 / 주방&식당 / 알파룸 / 드레스룸 -->
+          <rect x="28" y="20" width="58" height="72" fill="rgba(255,255,255,0.04)" stroke="rgba(214,178,110,0.55)" stroke-width="1.2"/>
+          <text x="57" y="54" fill="#e6c98a" font-size="10" font-weight="700" text-anchor="middle">현관/팬트리</text>
+          <rect x="86" y="20" width="56" height="72" fill="rgba(255,255,255,0.03)" stroke="rgba(214,178,110,0.55)" stroke-width="1.2"/>
+          <text x="114" y="58" fill="#cbd5e1" font-size="10" font-weight="700" text-anchor="middle">공용욕실</text>
+          <rect x="142" y="20" width="110" height="76" fill="rgba(214,178,110,0.12)" stroke="#d6b26e" stroke-width="1.4"/>
+          <text x="197" y="53" fill="#fff" font-size="11.5" font-weight="800" text-anchor="middle">주방 / 다이닝</text>
+          <text x="197" y="69" fill="#d6b26e" font-size="9" text-anchor="middle">KITCHEN &amp; DINING</text>
+          <rect x="252" y="20" width="62" height="76" fill="rgba(255,255,255,0.04)" stroke="rgba(214,178,110,0.55)" stroke-width="1.2"/>
+          <text x="283" y="58" fill="#e6c98a" font-size="10.5" font-weight="700" text-anchor="middle">알파룸</text>
+          <rect x="314" y="20" width="78" height="76" fill="rgba(255,255,255,0.05)" stroke="rgba(214,178,110,0.55)" stroke-width="1.2"/>
+          <text x="353" y="54" fill="#cbd5e1" font-size="10" font-weight="700" text-anchor="middle">드레스룸</text>
+          <text x="353" y="68" fill="#94a3b8" font-size="8.5" text-anchor="middle">부부욕실</text>
+          <!-- 하단 4Bay 전면: 침실3 / 침실2 / 거실 / 안방(마스터룸) -->
+          <rect x="28" y="96" width="76" height="114" fill="rgba(255,255,255,0.05)" stroke="#d6b26e" stroke-width="1.5"/>
+          <text x="66" y="150" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">침실 3</text>
+          <text x="66" y="165" fill="#94a3b8" font-size="8.5" text-anchor="middle">BEDROOM 3</text>
+          <rect x="104" y="96" width="76" height="114" fill="rgba(255,255,255,0.05)" stroke="#d6b26e" stroke-width="1.5"/>
+          <text x="142" y="150" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">침실 2</text>
+          <text x="142" y="165" fill="#94a3b8" font-size="8.5" text-anchor="middle">BEDROOM 2</text>
+          <rect x="180" y="96" width="116" height="114" fill="rgba(214,178,110,0.18)" stroke="#f0c568" stroke-width="1.8"/>
+          <text x="238" y="148" fill="#fff" font-size="13" font-weight="900" text-anchor="middle">거 실 (LIVING)</text>
+          <text x="238" y="166" fill="#f0c568" font-size="9.5" font-weight="700" text-anchor="middle">4Bay 맞통풍 판상형</text>
+          <rect x="296" y="96" width="96" height="114" fill="rgba(214,178,110,0.12)" stroke="#d6b26e" stroke-width="1.6"/>
+          <text x="344" y="148" fill="#fff" font-size="12" font-weight="800" text-anchor="middle">안 방</text>
+          <text x="344" y="165" fill="#e6c98a" font-size="9" text-anchor="middle">MASTER ROOM</text>
+        </svg>
+        <div class="image-label" id="unit1PhotoLabel">84A TYPE · 4Bay 판상형 맞통풍 특화설계</div>
       </div>
 
       <div class="unit-info">
@@ -754,7 +766,33 @@ html,body{
       </div>
 
       <div class="floorplan" id="unit2PhotoBox">
-        <div class="image-label" id="unit2PhotoLabel">평면도 02 (분양사 카탈로그 이미지)</div>
+        <svg class="default-fp-svg" viewBox="0 0 420 260" style="width:100%;height:100%;display:block;background:linear-gradient(145deg,#08192b,#0f2a42);">
+          <rect width="420" height="260" fill="url(#fpGrid1)"/>
+          <!-- 타워형 2면 개방 구조 -->
+          <rect x="34" y="18" width="352" height="192" fill="rgba(214,178,110,0.05)" stroke="#d6b26e" stroke-width="2.2"/>
+          <!-- 좌측: 현관 / 침실2 / 침실3 -->
+          <rect x="34" y="18" width="88" height="58" fill="rgba(255,255,255,0.04)" stroke="rgba(214,178,110,0.55)" stroke-width="1.2"/>
+          <text x="78" y="51" fill="#e6c98a" font-size="10" font-weight="700" text-anchor="middle">현관 · 워크인팬트리</text>
+          <rect x="34" y="76" width="88" height="66" fill="rgba(255,255,255,0.05)" stroke="#d6b26e" stroke-width="1.4"/>
+          <text x="78" y="112" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">침실 2</text>
+          <rect x="34" y="142" width="88" height="68" fill="rgba(255,255,255,0.05)" stroke="#d6b26e" stroke-width="1.4"/>
+          <text x="78" y="179" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">침실 3</text>
+          <!-- 중앙: 독립형 아일랜드 주방 & 2면 개방 거실 -->
+          <rect x="122" y="18" width="142" height="78" fill="rgba(214,178,110,0.12)" stroke="#d6b26e" stroke-width="1.5"/>
+          <text x="193" y="54" fill="#fff" font-size="11.5" font-weight="800" text-anchor="middle">독립형 아일랜드 주방</text>
+          <text x="193" y="70" fill="#d6b26e" font-size="9" text-anchor="middle">DINING &amp; PANTRY</text>
+          <rect x="122" y="96" width="148" height="114" fill="rgba(214,178,110,0.19)" stroke="#f0c568" stroke-width="1.8"/>
+          <text x="196" y="148" fill="#fff" font-size="13" font-weight="900" text-anchor="middle">2면 개방 파노라마 거실</text>
+          <text x="196" y="166" fill="#f0c568" font-size="9.5" font-weight="700" text-anchor="middle">TOWER LIVING ROOM</text>
+          <!-- 우측: 마스터룸 + 와이드 드레스룸 -->
+          <rect x="270" y="18" width="116" height="78" fill="rgba(255,255,255,0.04)" stroke="rgba(214,178,110,0.55)" stroke-width="1.2"/>
+          <text x="328" y="54" fill="#cbd5e1" font-size="10.5" font-weight="700" text-anchor="middle">와이드 드레스룸</text>
+          <text x="328" y="70" fill="#94a3b8" font-size="9" text-anchor="middle">호텔식 부부욕실</text>
+          <rect x="270" y="96" width="116" height="114" fill="rgba(214,178,110,0.13)" stroke="#d6b26e" stroke-width="1.6"/>
+          <text x="328" y="148" fill="#fff" font-size="12" font-weight="800" text-anchor="middle">마스터룸 (안방)</text>
+          <text x="328" y="165" fill="#e6c98a" font-size="9" text-anchor="middle">MASTER SUITE</text>
+        </svg>
+        <div class="image-label" id="unit2PhotoLabel">84B TYPE · 2면 개방 파노라마 타워형</div>
       </div>
 
       <div class="unit-info">
@@ -933,6 +971,9 @@ html,body{
     var params = new URLSearchParams(window.location.search);
     var roomCode = (params.get("room") || params.get("code") || "").trim().toUpperCase();
     var urlDong = (params.get("dong") || params.get("area") || "").trim();
+    var previewAptName = (params.get("apt") || params.get("name") || "").trim();
+    var previewCompany = (params.get("company") || "").trim();
+    var previewPhone = (params.get("tel") || params.get("phone") || "").trim();
     if (!roomCode) {
       try {
         roomCode = (localStorage.getItem("activePresaleRoomCode") || "ROOM-001").toUpperCase();
@@ -943,14 +984,14 @@ html,body{
 
     var currentRoom = {
       project_code: roomCode || "ROOM-001",
-      project_name: "더 퍼스트 센트럴파크",
-      contact_phone: "02-1588-0001",
-      area: "서울특별시 강남구 역삼동",
+      project_name: previewAptName || "더 퍼스트 센트럴파크",
+      contact_phone: previewPhone || "02-1588-0001",
+      area: urlDong || "서울특별시 강남구 역삼동",
       modelhouse_address: "",
       catalog_data: {
         channelType: "daangn",
-        companyName: "더 퍼스트 분양사업단",
-        targetDong: "역삼동",
+        companyName: previewCompany || "더 퍼스트 분양사업단",
+        targetDong: urlDong || "역삼동",
         households: "1,520세대",
         rewardAmount: 3000,
         partnerName: "모바일 바코드카드"
@@ -975,6 +1016,8 @@ html,body{
       if (!el) return;
       var cleanUrl = String(imgUrl || "").trim();
       if (cleanUrl) {
+        var svgChild = el.querySelector(".default-fp-svg");
+        if (svgChild) svgChild.style.display = "none";
         el.style.backgroundImage = 'url("' + cleanUrl + '")';
         el.style.backgroundSize = "cover";
         el.style.backgroundPosition = "center";
@@ -984,14 +1027,18 @@ html,body{
     function applyRoomUI(room) {
       if (!room) return;
       currentRoom = room;
+      if (previewAptName) currentRoom.project_name = previewAptName;
+      if (previewPhone) currentRoom.contact_phone = previewPhone;
       var c = room.catalog_data || {};
+      if (previewCompany) c.companyName = previewCompany;
+      if (urlDong) c.targetDong = urlDong;
 
       /* 01/08 표지 */
       var eyebrowEl = document.getElementById("coverEyebrow");
       if (eyebrowEl) eyebrowEl.textContent = c.coverEyebrow || "PREMIUM RESIDENCE";
 
       var titleEl = document.getElementById("coverTitle");
-      if (titleEl) titleEl.textContent = room.project_name || "단지명을 입력해 주세요";
+      if (titleEl) titleEl.textContent = currentRoom.project_name || "단지명을 입력해 주세요";
 
       var descEl = document.getElementById("coverDesc");
       if (descEl) {

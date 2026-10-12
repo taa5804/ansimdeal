@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#061524">
+<title>분양사 전용 모바일 카탈로그·바코드카드 플랫폼 안내 | 우리아파트 분양</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#05101c;color:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Segoe UI",sans-serif;overflow-x:hidden;}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+
+:root{
+  --navy:#061524;
+  --navy2:#0c233a;
+  --gold:#d6b26e;
+  --gold-light:#f3d999;
+  --ivory:#f8f5ef;
+}
+
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px 70px;}
+
+/* 상단 고정 네비게이션 */
+.top-nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(6,21,36,0.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(214,178,110,0.3);
+}
+.top-nav-inner{
+  max-width:1040px;margin:0 auto;padding:12px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+}
+.brand-logo{display:flex;align-items:center;gap:10px;}
+.brand-logo .mark{
+  padding:5px 10px;border:1px solid var(--gold);border-radius:6px;
+  color:var(--gold);font-family:Georgia,serif;font-weight:800;font-size:12px;letter-spacing:1.5px;
+}
+.brand-logo strong{font-size:16px;color:#fff;letter-spacing:-.3px;}
+.nav-btns{display:flex;gap:8px;flex-wrap:wrap;}
+.nav-btn{
+  padding:8px 13px;border-radius:8px;font-size:12.5px;font-weight:800;
+  border:1px solid rgba(214,178,110,0.45);background:rgba(12,35,58,0.85);color:var(--gold-light);
+}
+.nav-btn.primary{
+  background:linear-gradient(135deg,#d6b26e,#b88e44);color:#061524;border:0;
+}
+
+/* HERO */
+.hero{
+  margin-top:20px;padding:48px 28px;border-radius:24px;
+  background:
+    linear-gradient(180deg,rgba(6,21,36,0.45) 0%,rgba(6,21,36,0.88) 65%,rgba(5,16,28,0.98) 100%),
+    url("https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1400&q=85") center/cover no-repeat;
+  border:1px solid rgba(214,178,110,0.42);
+  box-shadow:0 24px 60px rgba(0,0,0,0.55);
+  position:relative;overflow:hidden;text-align:center;
+}
+.hero::after{
+  content:"";position:absolute;inset:14px;border:1px solid rgba(214,178,110,0.25);border-radius:16px;pointer-events:none;
+}
+.hero-eyebrow{
+  display:inline-block;padding:6px 14px;border-radius:999px;
+  background:rgba(214,178,110,0.16);border:1px solid rgba(214,178,110,0.5);
+  color:var(--gold-light);font-size:12px;font-weight:800;letter-spacing:1.5px;margin-bottom:14px;
+}
+.hero h1{
+  margin:0 auto 14px;max-width:760px;
+  font-family:Georgia,"Noto Serif KR",serif;font-size:clamp(26px,4.5vw,40px);
+  line-height:1.3;font-weight:700;color:#fff;
+}
+.hero h1 em{font-style:normal;color:var(--gold-light);}
+.hero p{
+  margin:0 auto 26px;max-width:660px;font-size:15px;line-height:1.7;color:#cbd5e1;word-break:keep-all;
+}
+.hero-cta{
+  display:flex;justify-content:center;gap:12px;flex-wrap:wrap;position:relative;z-index:2;
+}
+.cta-main{
+  min-height:52px;padding:0 24px;border-radius:12px;
+  background:linear-gradient(135deg,#e2be79,#b88e44);color:#061524;
+  font-size:15px;font-weight:900;display:inline-flex;align-items:center;gap:8px;
+  box-shadow:0 10px 26px rgba(184,142,68,0.4);
+}
+.cta-sub{
+  min-height:52px;padding:0 22px;border-radius:12px;
+  background:rgba(7,25,43,0.82);border:1.5px solid var(--gold);color:var(--gold-light);
+  font-size:14.5px;font-weight:800;display:inline-flex;align-items:center;gap:8px;
+}
+
+/* 핵심 비교 섹션 */
+.sec{margin-top:34px;}
+.sec-head{text-align:center;margin-bottom:20px;}
+.sec-head small{display:block;color:var(--gold);font-weight:800;font-size:11.5px;letter-spacing:2px;margin-bottom:6px;}
+.sec-head h2{margin:0 0 8px;font-family:Georgia,"Noto Serif KR",serif;font-size:clamp(22px,3.5vw,30px);color:#fff;}
+.sec-head p{margin:0;color:#94a3b8;font-size:14px;}
+
+.compare-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+}
+.cmp-card{
+  padding:24px;border-radius:18px;background:#0a1d30;border:1px solid rgba(255,255,255,0.1);
+}
+.cmp-card.good{
+  background:linear-gradient(155deg,#0d2740,#08192b);
+  border:1.5px solid var(--gold);
+  box-shadow:0 16px 40px rgba(0,0,0,0.4);
+}
+.cmp-badge{
+  display:inline-block;padding:5px 11px;border-radius:999px;font-size:11.5px;font-weight:800;margin-bottom:12px;
+}
+.cmp-card.bad .cmp-badge{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.3);}
+.cmp-card.good .cmp-badge{background:rgba(214,178,110,0.2);color:var(--gold-light);border:1px solid var(--gold);}
+.cmp-card h3{margin:0 0 14px;font-size:19px;}
+.cmp-list{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:13.5px;line-height:1.55;color:#cbd5e1;}
+.cmp-list li{padding-left:22px;position:relative;}
+.cmp-card.bad .cmp-list li::before{content:"✕";position:absolute;left:0;color:#f87171;font-weight:900;}
+.cmp-card.good .cmp-list li::before{content:"✔";position:absolute;left:0;color:var(--gold-light);font-weight:900;}
+
+/* 2대 채널 분리 카드 */
+.channel-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.ch-box{
+  padding:24px;border-radius:18px;background:#0b2136;border:1px solid rgba(214,178,110,0.35);
+}
+.ch-tag{
+  display:inline-block;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:900;margin-bottom:10px;
+}
+.ch-tag.daangn{background:#ffedd5;color:#c2410c;}
+.ch-tag.mart{background:#dcfce7;color:#15803d;}
+.ch-box h3{margin:0 0 8px;font-size:20px;color:#fff;}
+.ch-box p{margin:0 0 14px;font-size:13.5px;color:#cbd5e1;line-height:1.6;}
+.ch-flow{
+  padding:12px 14px;border-radius:12px;background:rgba(4,14,24,0.65);border:1px solid rgba(214,178,110,0.25);
+  font-size:12.5px;color:var(--gold-light);font-weight:700;line-height:1.6;
+}
+
+/* 01~08P 분양사 자율 카탈로그 쇼케이스 */
+.catalog-showcase{
+  padding:26px;border-radius:20px;background:linear-gradient(160deg,#0b2136,#071624);
+  border:1px solid rgba(214,178,110,0.45);
+}
+.page-cards{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px;
+}
+.p-card{
+  border-radius:12px;overflow:hidden;background:#061320;border:1px solid rgba(214,178,110,0.35);
+  display:flex;flex-direction:column;
+}
+.p-thumb{
+  height:115px;background-size:cover;background-position:center;position:relative;
+}
+.p-no{
+  position:absolute;top:8px;left:8px;padding:3px 8px;border-radius:999px;
+  background:rgba(6,20,34,0.85);border:1px solid var(--gold);color:var(--gold-light);
+  font-size:10.5px;font-weight:800;
+}
+.p-body{padding:10px 12px;}
+.p-body strong{display:block;font-size:13px;color:#fff;margin-bottom:3px;}
+.p-body span{display:block;font-size:11.5px;color:#94a3b8;line-height:1.4;}
+
+/* 4단계 프로세스 */
+.step-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
+.step-box{
+  padding:18px;border-radius:14px;background:#0b2136;border:1px solid rgba(214,178,110,0.3);
+}
+.step-num{
+  display:inline-block;padding:4px 9px;border-radius:6px;background:var(--gold);color:#061524;
+  font-size:11px;font-weight:900;margin-bottom:10px;
+}
+.step-box h4{margin:0 0 6px;font-size:15px;color:#fff;}
+.step-box p{margin:0;font-size:12.5px;color:#cbd5e1;line-height:1.55;}
+
+/* 하단 즉시 체험 & 방 개설 신청 배너 */
+.bottom-banner{
+  margin-top:36px;padding:32px 24px;border-radius:22px;
+  background:linear-gradient(135deg,#102c46,#071726);
+  border:2px solid var(--gold);text-align:center;
+}
+.bottom-banner h2{margin:0 0 10px;font-family:Georgia,"Noto Serif KR",serif;font-size:26px;color:var(--gold-light);}
+.bottom-banner p{margin:0 auto 22px;max-width:620px;font-size:14px;color:#cbd5e1;line-height:1.65;}
+
+@media(max-width:820px){
+  .compare-grid,.channel-grid{grid-template-columns:1fr;}
+  .page-cards,.step-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:480px){
+  .hero{padding:34px 18px;}
+  .page-cards,.step-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="top-nav-inner">
+    <a href="/presale-landing.html" class="brand-logo">
+      <span class="mark">PREMIUM ARCHIVE</span>
+      <strong>우리아파트 모바일 카탈로그 플랫폼</strong>
+    </a>
+    <div class="nav-btns">
+      <a href="/presale-search.html" class="nav-btn">🔍 전국 분양현장 자동검색</a>
+      <a href="/index.html" class="nav-btn">🏠 분양 메인화면</a>
+      <a href="/sale-detail.html?room=ROOM-001" class="nav-btn primary">📖 01~08P 고급 샘플 카탈로그 체험</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="hero-eyebrow">PRESALE DIGITAL BROCHURE &amp; KAKAOTALK REWARD</span>
+    <h1>
+      버려지는 전단지·현수막 대신<br>
+      <em>60초 동안 끝까지 읽히는 고급 모바일 카탈로그</em>
+    </h1>
+    <p>
+      당근마켓 타겟 동네 주민과 지역 대형마트 진성 고객이 <strong>01~08페이지 분양 카탈로그를 60초간 정독</strong>하면
+      <strong>💬 카카오톡으로 모바일 바코드카드·전자쿠폰</strong>이 즉시 지급되어 휴대폰에 저장됩니다.
+    </p>
+    <div class="hero-cta">
+      <a href="/sale-detail.html?room=ROOM-001" class="cta-main">📖 01~08P 완성형 샘플 카탈로그 보기 ↗</a>
+      <a href="/admin.html?room=ROOM-001" class="cta-sub">🖼️ 분양사 카탈로그 직접 등록 화면 보기</a>
+      <a href="/presale-search.html" class="cta-sub">🔍 내 분양단지 자동검색 · 맞춤 미리보기</a>
+    </div>
+  </section>
+
+  <!-- 1. 기존 홍보 vs 모바일 카탈로그 비교 -->
+  <section class="sec">
+    <div class="sec-head">
+      <small>WHY DIGITAL CATALOG</small>
+      <h2>기존 오프라인 분양 홍보 vs 60초 유효열람 카탈로그</h2>
+      <p>단순 노출이 아니라 실제 거주 동네 주민이 평면도와 입지를 1분간 정독하게 만듭니다.</p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="cmp-card bad">
+        <span class="cmp-badge">기존 전단지 · 불법 현수막 · 단순 배너광고</span>
+        <h3>고비용 · 저효율 단순 노출</h3>
+        <ul class="cmp-list">
+          <li>전단지 배포 즉시 바닥에 버려지거나 현수막 철거·과태료 반복</li>
+          <li>단순 배너 클릭 후 1~2초 만에 이탈하여 단지 특장점 전달 불가</li>
+          <li>누가 어느 동네에서 관심을 가졌는지 진성 유입 확인 불가</li>
+          <li>분양 현장이 바뀔 때마다 홈페이지 외주 제작비 수백만 원 재지출</li>
+        </ul>
+      </div>
+
+      <div class="cmp-card good">
+        <span class="cmp-badge">우리아파트 01~08P 모바일 카탈로그 + 카카오톡 바코드카드</span>
+        <h3>100% 60초 정독 완료 고객에게만 보상 지급</h3>
+        <ul class="cmp-list">
+          <li><strong>01표지 ~ 08모델하우스</strong>까지 60초 동안 스크롤하며 정독해야만 혜택 버튼 활성화</li>
+          <li>60초 열람 완료 시 <strong>거주 동네 + 휴대폰 번호 입력 후 카카오톡 바코드카드</strong> 즉시 저장</li>
+          <li><strong>동일 휴대폰 번호 중복 발급 원천 차단</strong>으로 선불 예치금 100% 진성 고객에게만 사용</li>
+          <li>분양사 전용 방만 배정받으면 <strong>원본 카탈로그 이미지를 복사·붙여넣기(Ctrl+V)</strong>로 즉시 세팅</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 당근비즈 vs 지역 마트 2대 채널 분리 -->
+  <section class="sec">
+    <div class="sec-head">
+      <small>DUAL TARGETING CHANNEL</small>
+      <h2>분양 현장 특성에 맞춘 2가지 타겟 채널</h2>
+      <p>본사에서 현장별 전용 방(ROOM)을 복제해 드리며, 당근 채널과 마트 채널을 선택해 운영할 수 있습니다.</p>
+    </div>
+
+    <div class="channel-grid">
+      <div class="ch-box">
+        <span class="ch-tag daangn">채널 A · 당근비즈 지역주민 타겟</span>
+        <h3>🥕 당근마켓 동네주민 + 카카오톡 바코드카드</h3>
+        <p>분양 현장 반경 핵심 타겟 동네(예: 역삼동·판교동·양산동) 주민에게 고급 모바일 카탈로그를 노출하고 모바일 바코드카드를 지급합니다.</p>
+        <div class="ch-flow">
+          당근 지역광고 유입 → 01~08P 카탈로그 60초 열람 → 거주 동네·휴대폰 입력 → 💬 카카오톡 모바일 바코드카드(3,000원 등) 휴대폰 즉시 저장
+        </div>
+      </div>
+
+      <div class="ch-box">
+        <span class="ch-tag mart">채널 B · 지역 대형마트 연동 타겟</span>
+        <h3>🛒 지역 거점 마트 고객 + 마트 전용 전자쿠폰</h3>
+        <p>분양 단지 인근 대형마트 방문·온라인 고객이 분양 카탈로그를 60초 확인하면 해당 마트 계산대에서 바로 쓰는 전자쿠폰을 지급합니다.</p>
+        <div class="ch-flow">
+          지역 마트 배너·QR 유입 → 01~08P 카탈로그 60초 열람 → 거주 동네·휴대폰 입력 → 💬 지정 마트 전자쿠폰(5,000원 등) 즉시 발급
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 01/08 ~ 08/08 카탈로그 구성 (고급 기본 샘플 + 분양사 자율 업로드) -->
+  <section class="sec">
+    <div class="catalog-showcase">
+      <div class="sec-head" style="margin-bottom:10px;">
+        <small>01/08 TO 08/08 LUXURY BROCHURE</small>
+        <h2>고급 카탈로그 틀 제공 · 모든 이미지는 분양사에서 자유롭게 등록</h2>
+        <p>기본 완성형 고급 샘플이 세팅되어 있으며, 분양사 관리자에서 파일 업로드 또는 카탈로그 캡처 붙여넣기(Ctrl+V)로 즉시 교체됩니다.</p>
+      </div>
+
+      <div class="page-cards">
+        <div class="p-card">
+          <div class="p-thumb" style="background-image:url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80')"><span class="p-no">01 / 08</span></div>
+          <div class="p-body"><strong>표지 · 브랜드 타이틀</strong><span>단지명, 슬로건, 대표 외관 투시도</span></div>
+        </div>
+        <div class="p-card">
+          <div class="p-thumb" style="background-image:url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=600&q=80')"><span class="p-no">02 / 08</span></div>
+          <div class="p-body"><strong>입지환경 (LOCATION)</strong><span>광역 조감도·지도 및 교통·교육·생활</span></div>
+        </div>
+        <div class="p-card">
+          <div class="p-thumb" style="background-image:url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80')"><span class="p-no">03 / 08</span></div>
+          <div class="p-body"><strong>프리미엄 6 (PREMIUM)</strong><span>핵심 특장점 6가지 및 대표 인테리어</span></div>
+        </div>
+        <div class="p-card">
+          <div class="p-thumb" style="background-image:url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80')"><span class="p-no">04 / 08</span></div>
+          <div class="p-body"><strong>단지설계 (COMPLEX)</strong><span>단지 배치도, 조경 투시도, 동선 설계</span></div>
+        </div>
+        <div class="p-card">
+          <div class="p-thumb" style="background:linear-gradient(145deg,#08192b,#13334c);display:flex;align-items:center;justify-content:center;color:#e6c98a;font-weight:900;font-size:15px;"><span class="p-no">05 / 08</span>84A 4Bay 평면도</div>
+          <div class="p-body"><strong>주력 평면도 01</strong><span>84A 등 주력 타입 평면도 이미지</span></div>
+        </div>
+        <div class="p-card">
+          <div class="p-thumb" style="background:linear-gradient(145deg,#08192b,#13334c);display:flex;align-items:center;justify-content:center;color:#e6c98a;font-weight:900;font-size:15px;"><span class="p-no">06 / 08</span>84B 타워형 평면도</div>
+          <div class="p-body"><strong>주력 평면도 02</strong><span>84B 등 타입별 평면도 이미지</span></div>
+        </div>
+        <div class="p-card">
+          <div class="p-thumb" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80')"><span class="p-no">07 / 08</span></div>
+          <div class="p-body"><strong>다양한 커뮤니티</strong><span>통카탈로그 1장 또는 6개 시설 사진 선택</span></div>
+        </div>
+        <div class="p-card">
+          <div class="p-thumb" style="background-image:url('https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=600&q=80')"><span class="p-no">08 / 08</span></div>
+          <div class="p-body"><strong>모델하우스 · 상담연결</strong><span>방문예약 접수, 전화상담, 공식 홈페이지</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 운영 절차 -->
+  <section class="sec">
+    <div class="sec-head">
+      <small>HOW IT WORKS</small>
+      <h2>전용 방 개설부터 카탈로그 오픈까지 10분 완성</h2>
+    </div>
+
+    <div class="step-grid">
+      <div class="step-box">
+        <span class="step-num">STEP 01</span>
+        <h4>전용 방(ROOM) 즉시 배정</h4>
+        <p>본사에서 현장 고유 방 코드와 선불 충전 수량(단가×수량)을 즉시 복제·배정합니다.</p>
+      </div>
+      <div class="step-box">
+        <span class="step-num">STEP 02</span>
+        <h4>분양사 이미지 자율 등록</h4>
+        <p>분양사 관리자에서 01~08P 공간에 보유 카탈로그 이미지를 업로드하거나 Ctrl+V로 붙여넣습니다.</p>
+      </div>
+      <div class="step-box">
+        <span class="step-num">STEP 03</span>
+        <h4>60초 정독 &amp; 카카오톡 발급</h4>
+        <p>고객이 8페이지를 60초 열람하면 카카오톡 바코드카드/마트쿠폰이 휴대폰에 자동 저장됩니다.</p>
+      </div>
+      <div class="step-box">
+        <span class="step-num">STEP 04</span>
+        <h4>실시간 조회·방문예약 관리</h4>
+        <p>분양사 관리자에서 유효열람 건수, 방문예약 신청, 충전금 잔액을 실시간으로 확인합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 하단 배너 -->
+  <section class="bottom-banner">
+    <h2>지금 바로 완성형 고급 샘플 카탈로그를 직접 스크롤해 보세요</h2>
+    <p>
+      스마트폰이나 PC에서 01페이지부터 08페이지까지 내려보시면 상단 60초 타이머와 카카오톡 바코드카드 발급 과정을 그대로 체험하실 수 있습니다.
+    </p>
+    <div class="hero-cta">
+      <a href="/sale-detail.html?room=ROOM-001" class="cta-main">📖 샘플 카탈로그(01~08P) 바로 체험하기 ↗</a>
+      <a href="/presale-search.html" class="cta-sub">🔍 전국 분양단지 자동검색 페이지 이동</a>
+      <a href="/admin.html?room=ROOM-001" class="cta-sub">⚙️ 분양사 관리자 화면 열기</a>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

@@ -550,16 +550,20 @@ button,input,select,textarea{
 
     if (emptyEl) emptyEl.style.display = "none";
 
-    listEl.innerHTML = displayRooms.map(function(r) {
+    var SAMPLE_COVERS = [
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1400&q=85",
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1400&q=85",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1400&q=85"
+    ];
+
+    listEl.innerHTML = displayRooms.map(function(r, idx) {
       var c = r.catalog_data || {};
       var code = r.project_code || "ROOM-001";
-      var imgUrl = String(c.coverImageUrl || "").trim();
+      var imgUrl = String(c.coverImageUrl || "").trim() || SAMPLE_COVERS[idx % SAMPLE_COVERS.length];
       var detailUrl = "/sale-detail.html?room=" + encodeURIComponent(code);
       var statusText = r.sale_status || "분양 중";
       var isUpcoming = statusText.indexOf("예정") !== -1;
-      var bgStyle = imgUrl
-        ? "background-image:url('" + escapeHtml(imgUrl) + "');background-size:cover;background-position:center;"
-        : "";
+      var bgStyle = "background-image:linear-gradient(180deg,rgba(4,16,28,.12) 0%,rgba(4,16,28,.22) 45%,rgba(4,16,28,.82) 100%),url('" + escapeHtml(imgUrl) + "');background-size:cover;background-position:center;";
       var brandName = c.companyName || "PREMIUM ARCHIVE";
       var mhLocation = r.modelhouse_address || r.area || "";
 

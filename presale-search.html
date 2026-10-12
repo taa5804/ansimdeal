@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07192b">
+<title>전국 분양사·분양현장 자동검색 & 맞춤 카탈로그 생성기 | 우리아파트</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#f1f5f9;color:#0f172a;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;}
+button,input,select{font:inherit}
+a{text-decoration:none;color:inherit}
+
+.wrap{max-width:1260px;margin:0 auto;padding:18px 14px 60px;}
+
+.head-card{
+  padding:26px 24px;border-radius:20px;
+  background:linear-gradient(135deg,#07192b,#123552);
+  border:1px solid rgba(214,178,110,0.45);
+  color:#fff;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  box-shadow:0 16px 38px rgba(7,25,43,0.18);
+}
+.head-card small{display:block;color:#e6c98a;font-weight:800;font-size:11.5px;letter-spacing:1.8px;margin-bottom:6px;}
+.head-card h1{margin:0 0 6px;font-size:clamp(22px,3.5vw,28px);}
+.head-card p{margin:0;color:#cbd5e1;font-size:13.5px;line-height:1.55;}
+.head-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.btn-top{
+  height:44px;padding:0 16px;border-radius:10px;font-size:13px;font-weight:800;
+  display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(214,178,110,0.5);
+  background:rgba(255,255,255,0.1);color:#fff;cursor:pointer;
+}
+.btn-top.gold{
+  background:linear-gradient(135deg,#d6b26e,#b88e44);color:#07192b;border:0;font-weight:900;
+}
+
+/* 자동검색 컨트롤 바 */
+.search-panel{
+  margin-top:16px;padding:18px;border-radius:16px;background:#fff;
+  border:2px solid #cbd5e1;box-shadow:0 8px 24px rgba(15,23,42,0.05);
+}
+.search-row{
+  display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;
+}
+.search-input-wrap{position:relative;}
+.search-input{
+  width:100%;height:50px;padding:0 16px 0 42px;border-radius:12px;
+  border:2px solid #0f2942;font-size:15px;font-weight:700;color:#0f172a;background:#f8fafc;outline:0;
+}
+.search-input:focus{border-color:#b88e44;background:#fff;box-shadow:0 0 0 3px rgba(214,178,110,0.22);}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;}
+
+.region-chips{
+  display:flex;gap:6px;overflow-x:auto;padding-top:12px;margin-top:12px;border-top:1px solid #e2e8f0;
+}
+.chip{
+  flex:none;height:36px;padding:0 13px;border-radius:999px;border:1px solid #cbd5e1;
+  background:#f8fafc;color:#475569;font-size:12.5px;font-weight:800;cursor:pointer;
+}
+.chip.active{background:#07192b;color:#f3d999;border-color:#d6b26e;}
+
+/* 요약 카운트 바 */
+.stat-bar{
+  margin:14px 0;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  font-size:13.5px;color:#334155;font-weight:700;
+}
+.stat-bar strong{color:#0f2942;font-size:16px;}
+
+/* 테이블 / 카드 리스트 */
+.table-card{
+  background:#fff;border-radius:16px;border:1px solid #cbd5e1;overflow:hidden;
+  box-shadow:0 6px 20px rgba(15,23,42,0.04);
+}
+.table-wrap{width:100%;overflow-x:auto;}
+table{width:100%;min-width:1120px;border-collapse:collapse;}
+th{
+  padding:12px 10px;background:#0b2136;color:#f3d999;font-size:12px;font-weight:800;
+  text-align:center;white-space:nowrap;border-bottom:1px solid rgba(214,178,110,0.3);
+}
+td{
+  padding:13px 10px;border-bottom:1px solid #e2e8f0;font-size:12.5px;text-align:center;vertical-align:middle;
+}
+tr:hover td{background:#f8fafc;}
+.badge-ing{display:inline-block;padding:4px 9px;border-radius:999px;background:#dcfce7;color:#166534;font-weight:800;font-size:11.5px;}
+.badge-up{display:inline-block;padding:4px 9px;border-radius:999px;background:#fef3c7;color:#92400e;font-weight:800;font-size:11.5px;}
+.act-btns{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;}
+.btn-sm{
+  height:32px;padding:0 10px;border-radius:7px;font-size:11.5px;font-weight:800;cursor:pointer;
+  display:inline-flex;align-items:center;gap:4px;border:1px solid #cbd5e1;background:#fff;color:#0f172a;
+}
+.btn-sm.navy{background:#07192b;color:#f3d999;border-color:#d6b26e;}
+.btn-sm.gold{background:#fffbeb;color:#92400e;border-color:#f59e0b;}
+
+/* 메이저 분양대행사 본사 섹션 */
+.agency-section{margin-top:28px;}
+.agency-section h2{margin:0 0 8px;font-size:20px;color:#07192b;}
+.agency-section p{margin:0 0 14px;font-size:13px;color:#475569;}
+
+/* 발송 문구 미리보기 모달 */
+#msgPreviewModal{
+  display:none;position:fixed;inset:0;z-index:99999;background:rgba(4,16,28,0.76);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;padding:16px;
+}
+.modal-box{
+  width:100%;max-width:520px;background:#fff;border-radius:18px;overflow:hidden;
+  box-shadow:0 24px 60px rgba(0,0,0,0.45);
+}
+.modal-head{
+  background:#07192b;color:#f3d999;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;
+  font-weight:900;font-size:15px;
+}
+.modal-body{padding:20px;}
+.modal-textarea{
+  width:100%;height:210px;padding:12px;border:1.5px solid #cbd5e1;border-radius:10px;
+  font-size:13px;line-height:1.6;color:#0f172a;background:#f8fafc;resize:vertical;
+}
+
+.toast{
+  position:fixed;right:20px;bottom:20px;z-index:99999;display:none;
+  padding:14px 20px;border-radius:12px;background:#07192b;border:2px solid #d6b26e;
+  color:#fff;font-size:13.5px;font-weight:800;box-shadow:0 12px 32px rgba(0,0,0,0.35);
+}
+.toast.show{display:block;}
+
+@media(max-width:760px){
+  .search-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="head-card">
+    <div>
+      <small>AUTO SEARCH &amp; ONE-CLICK PROPOSAL SYSTEM</small>
+      <h1>🔍 전국 분양현장 · 분양대행사 자동검색 시스템</h1>
+      <p>단지명·지역·시공사·대행사를 검색하면 <strong>그 단지 이름이 적용된 고급 01~08P 카탈로그 링크</strong>와 <strong>무통화 발송 문구·팩스·우편주소</strong>가 자동 생성됩니다.</p>
+    </div>
+    <div class="head-actions">
+      <a href="/presale-landing.html" class="btn-top gold">🏢 분양사 제안용 랜딩페이지 보기 ↗</a>
+      <a href="/sale-detail.html?room=ROOM-001" class="btn-top">📖 고급 샘플 카탈로그(01~08P) ↗</a>
+      <a href="/presale-list.xlsx" download="전국_분양중_분양예정_분양사리스트_2026.xlsx" class="btn-top">📥 엑셀(.xlsx) 다운로드</a>
+    </div>
+  </header>
+
+  <section class="search-panel">
+    <div class="search-row">
+      <div class="search-input-wrap">
+        <span class="search-icon">🔎</span>
+        <input type="text" id="autoSearchInput" class="search-input" placeholder="아파트 단지명, 지역(예: 강남, 판교, 광주), 시공사(현대, GS 등), 분양대행사 즉시 자동검색...">
+      </div>
+      <select id="statusSelect" style="height:50px;padding:0 14px;border-radius:12px;border:1.5px solid #cbd5e1;font-weight:800;">
+        <option value="all">전체 분양상태</option>
+        <option value="분양중">분양중</option>
+        <option value="분양예정">분양예정</option>
+      </select>
+      <button type="button" id="resetBtn" style="height:50px;padding:0 16px;border-radius:12px;border:1px solid #cbd5e1;background:#f8fafc;font-weight:800;cursor:pointer;">검색 초기화</button>
+    </div>
+
+    <div class="region-chips" id="regionChips">
+      <button type="button" class="chip active" data-sido="all">전체 지역</button>
+      <button type="button" class="chip" data-sido="서울특별시">서울특별시</button>
+      <button type="button" class="chip" data-sido="경기도">경기도</button>
+      <button type="button" class="chip" data-sido="인천광역시">인천광역시</button>
+      <button type="button" class="chip" data-sido="부산광역시">부산광역시</button>
+      <button type="button" class="chip" data-sido="대구광역시">대구광역시</button>
+      <button type="button" class="chip" data-sido="대전광역시">대전광역시</button>
+      <button type="button" class="chip" data-sido="울산광역시">울산광역시</button>
+      <button type="button" class="chip" data-sido="세종특별자치시">세종특별자치시</button>
+      <button type="button" class="chip" data-sido="강원특별자치도">강원특별자치도</button>
+      <button type="button" class="chip" data-sido="충청북도">충청북도</button>
+      <button type="button" class="chip" data-sido="충청남도">충청남도</button>
+      <button type="button" class="chip" data-sido="전북특별자치도">전북특별자치도</button>
+      <button type="button" class="chip" data-sido="전남광주">전남·광주</button>
+      <button type="button" class="chip" data-sido="경상북도">경상북도</button>
+      <button type="button" class="chip" data-sido="경상남도">경상남도</button>
+      <button type="button" class="chip" data-sido="제주특별자치도">제주특별자치도</button>
+    </div>
+  </section>
+
+  <div class="stat-bar">
+    <div>자동검색 결과: 총 <strong id="resultCount">0</strong>개 분양 현장</div>
+    <div style="font-size:12.5px;color:#64748b;">💡 <strong>[📖 맞춤 카탈로그 열기]</strong>를 누르면 해당 아파트 단지명이 표지에 즉시 적용된 고급 샘플 카탈로그가 열립니다.</div>
+  </div>
+
+  <div class="table-card">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>상태</th>
+            <th>시·도 / 시·군·구</th>
+            <th>아파트 단지명 (현장명)</th>
+            <th>시공사 / 브랜드</th>
+            <th>세대수</th>
+            <th>홍보관 대표전화</th>
+            <th>본사·대행사 팩스(FAX)</th>
+            <th>모델하우스 우편(DM) 주소</th>
+            <th>맞춤 카탈로그 &amp; 무통화 발송</th>
+          </tr>
+        </thead>
+        <tbody id="siteRows"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 대형 분양대행사 본사 일괄발송 섹션 -->
+  <section class="agency-section">
+    <h2>🏢 전국 메이저 분양대행사 본사 (웹팩스 · 우편 DM 일괄발송 리스트)</h2>
+    <p>개별 현장 통화 없이 분양대행사 본사 기획팀으로 팩스(FAX) 또는 우편 제안서를 일괄 발송할 수 있는 본사 DB입니다.</p>
+    <div class="table-card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>분양대행사명</th>
+              <th>본사 소재지 (우편 발송 주소)</th>
+              <th>주요 담당 브랜드 / 실적</th>
+              <th>본사 대표전화</th>
+              <th>본사 팩스(FAX)</th>
+              <th>공식 홈페이지 / 발송문구</th>
+            </tr>
+          </thead>
+          <tbody id="agencyRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 맞춤 발송문구 모달 -->
+<div id="msgPreviewModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <span id="modalSiteTitle">📋 현장 맞춤 무통화 발송 문구 (문자·팩스·카톡 겸용)</span>
+      <button type="button" id="closeModalBtn" style="border:0;background:transparent;color:#fff;font-size:20px;cursor:pointer;">×</button>
+    </div>
+    <div class="modal-body">
+      <textarea id="modalMsgText" class="modal-textarea"></textarea>
+      <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end;">
+        <button type="button" id="copyModalBtn" class="btn-top gold" style="width:100%;justify-content:center;">📋 위 맞춤 문구 + 전용 카탈로그 링크 전체 복사하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var PRESALE_SITES = [
+    { no:1, status:"분양중", sido:"서울특별시", sigungu:"강남구 역삼동", name:"더 퍼스트 센트럴파크", builder:"더 퍼스트 분양사업단", households:"1,520세대", tel:"02-1588-0001", fax:"02-558-0190", addr:"(06234) 서울특별시 강남구 테헤란로 견본주택" },
+    { no:2, status:"분양중", sido:"서울특별시", sigungu:"서초구 방배동", name:"디에이치 방배", builder:"현대건설", households:"3,064세대", tel:"1588-3064", fax:"02-746-1114", addr:"(06693) 서울특별시 서초구 방배동 946-8 견본주택" },
+    { no:3, status:"분양중", sido:"서울특별시", sigungu:"강남구 청담동", name:"청담 르엘", builder:"롯데건설", households:"1,261세대", tel:"02-545-1261", fax:"02-3480-9114", addr:"(06072) 서울특별시 강남구 청담동 134-18 홍보관" },
+    { no:4, status:"분양예정", sido:"서울특별시", sigungu:"송파구 신천동", name:"잠실 르엘", builder:"롯데건설", households:"1,865세대", tel:"02-415-1865", fax:"02-3480-9114", addr:"(05551) 서울특별시 송파구 올림픽로 잠실 홍보관" },
+    { no:5, status:"분양중", sido:"서울특별시", sigungu:"서초구 반포동", name:"래미안 원페를라", builder:"삼성물산", households:"1,097세대", tel:"02-595-1097", fax:"02-2145-5114", addr:"(06578) 서울특별시 서초구 방배동 반포 주택전시관" },
+    { no:6, status:"분양예정", sido:"서울특별시", sigungu:"동작구 노량진동", name:"노량진 뉴타운 디에이치", builder:"현대건설", households:"1,012세대", tel:"02-812-1012", fax:"02-746-1114", addr:"(06922) 서울특별시 동작구 노량진로 분양홍보관" },
+    { no:7, status:"분양중", sido:"경기도", sigungu:"성남시 분당구", name:"판교 레이크뷰 프레스티지", builder:"레이크뷰 분양본부", households:"1,180세대", tel:"031-1588-0002", fax:"031-709-0114", addr:"(13529) 경기도 성남시 분당구 판교역로 모델하우스" },
+    { no:8, status:"분양중", sido:"경기도", sigungu:"과천시 별양동", name:"프레스티어 자이", builder:"GS건설", households:"1,445세대", tel:"1644-1445", fax:"02-2154-1114", addr:"(13834) 경기도 과천시 별양동 7 견본주택" },
+    { no:9, status:"분양중", sido:"경기도", sigungu:"수원시 장안구", name:"북수원자이 렉스비아 2차", builder:"GS건설", households:"1,598세대", tel:"1644-1598", fax:"031-245-1599", addr:"(16312) 경기도 수원시 장안구 정자동 견본주택" },
+    { no:10, status:"분양중", sido:"경기도", sigungu:"김포시 북변동", name:"한강 수자인 오브센트", builder:"BS한양", households:"3,058세대", tel:"1899-3058", fax:"031-985-3059", addr:"(10105) 경기도 김포시 북변동 242 견본주택" },
+    { no:11, status:"분양중", sido:"경기도", sigungu:"의정부시 금오동", name:"의정부 롯데캐슬 나리벡시티", builder:"롯데건설", households:"671세대", tel:"1811-0671", fax:"031-852-0672", addr:"(11759) 경기도 의정부시 금오동 128 견본주택" },
+    { no:12, status:"분양중", sido:"경기도", sigungu:"평택시 장안동", name:"브레인시티 대광로제비앙 그랜드센텀", builder:"대광건영", households:"1,182세대", tel:"1533-1182", fax:"031-668-1183", addr:"(17725) 경기도 평택시 죽백동 브레인시티 견본주택" },
+    { no:13, status:"분양예정", sido:"경기도", sigungu:"화성시 오산동", name:"동탄2신도시 디에트르 퍼스티지", builder:"대방건설", households:"740세대", tel:"1688-0740", fax:"02-2181-9700", addr:"(18478) 경기도 화성시 오산동 동탄역 견본주택" },
+    { no:14, status:"분양중", sido:"인천광역시", sigungu:"연수구 옥련동", name:"래미안 송도역 센트리폴", builder:"삼성물산", households:"2,549세대", tel:"032-832-2549", fax:"032-832-2550", addr:"(21942) 인천광역시 연수구 옥련동 104 견본주택" },
+    { no:15, status:"분양중", sido:"인천광역시", sigungu:"미추홀구 학익동", name:"시티오씨엘 6단지", builder:"HDC현대산업개발·현대건설·포스코이앤씨", households:"1,734세대", tel:"032-831-1734", fax:"032-831-1735", addr:"(22219) 인천광역시 미추홀구 아암대로 287번길 7 견본주택" },
+    { no:16, status:"분양예정", sido:"인천광역시", sigungu:"서구 검단신도시", name:"검단신도시 푸르지오 더 파크", builder:"대우건설", households:"919세대", tel:"1600-0919", fax:"02-2288-3114", addr:"(22675) 인천광역시 서구 당하동 검단 견본주택" },
+    { no:17, status:"분양중", sido:"부산광역시", sigungu:"수영구 광안동", name:"드파인 광안", builder:"SK에코플랜트", households:"1,233세대", tel:"051-757-1233", fax:"051-757-1239", addr:"(48265) 부산광역시 해운대구 재송동 견본주택" },
+    { no:18, status:"분양중", sido:"부산광역시", sigungu:"동래구 사직동", name:"사직 힐스테이트 오시리아", builder:"현대엔지니어링", households:"1,068세대", tel:"051-505-1068", fax:"051-505-1069", addr:"(47858) 부산광역시 동래구 사직동 견본주택" },
+    { no:19, status:"분양중", sido:"대구광역시", sigungu:"수성구 범어동", name:"범어 아이파크 2차", builder:"HDC현대산업개발", households:"490세대", tel:"053-755-0490", fax:"053-755-0491", addr:"(42018) 대구광역시 수성구 상동 견본주택" },
+    { no:20, status:"분양중", sido:"대전광역시", sigungu:"유성구 도안동", name:"힐스테이트 도안리버파크 2차", builder:"현대건설", households:"1,616세대", tel:"042-825-1616", fax:"042-825-1617", addr:"(34185) 대전광역시 서구 도안동 1557 견본주택" },
+    { no:21, status:"분양중", sido:"울산광역시", sigungu:"남구 신정동", name:"라엘에스 (신정 B-08구역)", builder:"롯데건설·SK에코플랜트", households:"2,033세대", tel:"052-275-2033", fax:"052-275-2039", addr:"(44715) 울산광역시 남구 달동 979 견본주택" },
+    { no:22, status:"분양예정", sido:"세종특별자치시", sigungu:"5-1생활권", name:"세종 5-1생활권 양우내안애", builder:"양우건설", households:"698세대", tel:"044-868-0698", fax:"044-868-0699", addr:"(30151) 세종특별자치시 대평동 264-1 견본주택" },
+    { no:23, status:"분양중", sido:"강원특별자치도", sigungu:"원주시 무실동", name:"원주역 우미린 더 스카이", builder:"우미건설", households:"900세대", tel:"033-747-0900", fax:"033-747-0905", addr:"(26425) 강원특별자치도 원주시 단계동 878-1 견본주택" },
+    { no:24, status:"분양중", sido:"충청북도", sigungu:"청주시 흥덕구", name:"청주 테크노폴리스 아테라 2차", builder:"금호건설", households:"576세대", tel:"043-266-0576", fax:"043-266-0578", addr:"(28445) 충청북도 청주시 흥덕구 외북동 325 견본주택" },
+    { no:25, status:"분양중", sido:"충청남도", sigungu:"아산시 탕정면", name:"더샵 탕정인피니티시티 3차", builder:"포스코이앤씨", households:"1,163세대", tel:"1551-1163", fax:"041-548-1164", addr:"(31465) 충청남도 아산시 배방읍 장재리 1763 견본주택" },
+    { no:26, status:"분양중", sido:"전북특별자치도", sigungu:"전주시 완산구", name:"전주 기자촌 더샵 퍼스트", builder:"포스코이앤씨", households:"2,225세대", tel:"063-288-2225", fax:"063-288-2228", addr:"(54998) 전북특별자치도 전주시 완산구 중노송동 견본주택" },
+    { no:27, status:"분양중", sido:"전남광주", sigungu:"광주 광산구 양산동", name:"양산택지지구 프리미엄 대단지", builder:"양산택지지구 분양사업단", households:"1,520세대", tel:"062-952-4150", fax:"062-952-4159", addr:"(62218) 광주광역시 광산구 하남산단8번로 176 홍보관" },
+    { no:28, status:"분양중", sido:"전남광주", sigungu:"광주 북구 운암동", name:"운암자이포레나 퍼스티체", builder:"GS건설·한화건설", households:"3,214세대", tel:"062-529-3214", fax:"062-529-3218", addr:"(61263) 광주광역시 북구 경양로 165 견본주택" },
+    { no:29, status:"분양중", sido:"경상북도", sigungu:"포항시 북구", name:"힐스테이트 더샵 상생공원", builder:"현대엔지니어링·포스코이앤씨", households:"1,668세대", tel:"054-277-1668", fax:"054-277-1670", addr:"(37669) 경상북도 포항시 남구 이동 232 견본주택" },
+    { no:30, status:"분양중", sido:"경상남도", sigungu:"창원시 의창구", name:"창원 롯데캐슬 포레스트 2블록", builder:"롯데건설", households:"958세대", tel:"055-266-0958", fax:"055-266-0959", addr:"(51435) 경상남도 창원시 성산구 중앙동 견본주택" },
+    { no:31, status:"분양중", sido:"제주특별자치도", sigungu:"제주시 오등동", name:"위파크 제주 (오등봉공원)", builder:"호반건설", households:"1,401세대", tel:"1661-1401", fax:"064-745-1402", addr:"(63146) 제주특별자치도 제주시 오라이동 1585-1 견본주택" }
+  ];
+
+  var AGENCIES = [
+    { no:1, name:"(주)신영엠앤디", addr:"(06181) 서울특별시 강남구 영동대로 511 트레이드타워 분양기획본부", brands:"브라이튼, 지웰시티, 래미안, 디에이치", tel:"02-6000-2700", fax:"02-6000-2719", web:"https://www.shinyoungmnd.com" },
+    { no:2, name:"(주)유림아이앤디", addr:"(06134) 서울특별시 강남구 테헤란로 201 아주빌딩 분양총괄본부", brands:"디에이치, 힐스테이트, 자이, 아크로", tel:"02-566-8800", fax:"02-566-8809", web:"http://www.yurimind.com" },
+    { no:3, name:"(주)미래인", addr:"(06620) 서울특별시 서초구 서초대로78길 22 홍우빌딩 분양사업부", brands:"래미안, 푸르지오, 더샵, 아이파크", tel:"02-588-3300", fax:"02-588-3309", web:"http://www.miraein.co.kr" },
+    { no:4, name:"(주)프런티어마루", addr:"(06054) 서울특별시 강남구 언주로 726 두산빌딩 마케팅본부", brands:"롯데캐슬, 르엘, 자이, 힐스테이트", tel:"02-549-8900", fax:"02-549-8908", web:"http://www.fmaru.co.kr" },
+    { no:5, name:"(주)내외주건", addr:"(06129) 서울특별시 강남구 봉은사로 129 거평타운 분양기획팀", brands:"e편한세상, 아크로, 푸르지오, 더샵", tel:"02-557-7700", fax:"02-557-7719", web:"http://www.naewae.co.kr" },
+    { no:6, name:"(주)건영아이앤디", addr:"(06236) 서울특별시 강남구 테헤란로20길 10 쓰리엠타워", brands:"포레나, 우미린, 호반써밋, 중흥S-클래스", tel:"02-562-4500", fax:"02-562-4509", web:"-" },
+    { no:7, name:"(주)도우씨앤디", addr:"(05836) 서울특별시 송파구 법원로 114 엠스테이트 B동", brands:"더샵, 자이, 롯데캐슬, 힐스테이트", tel:"02-402-6600", fax:"02-402-6609", web:"-" },
+    { no:8, name:"(주)씨아이앤디플래닝", addr:"(06168) 서울특별시 강남구 테헤란로 503 하이브로빌딩", brands:"디에이치, 래미안, 아이파크", tel:"02-553-9100", fax:"02-553-9109", web:"-" },
+    { no:9, name:"(주)삼일산업 (분양사업부)", addr:"(48059) 부산광역시 해운대구 센텀중앙로 97 센텀스카이비즈", brands:"부산·경남권 대단지 분양대행", tel:"051-747-3100", fax:"051-747-3109", web:"-" },
+    { no:10, name:"(주)솔렉스마케팅", addr:"(42028) 대구광역시 수성구 동대구로 356", brands:"대구·경북·충청권 아파트 분양대행", tel:"053-745-8800", fax:"053-745-8809", web:"-" }
+  ];
+
+  var currentSido = "all";
+  var searchInput = document.getElementById("autoSearchInput");
+  var statusSelect = document.getElementById("statusSelect");
+  var siteRows = document.getElementById("siteRows");
+  var agencyRows = document.getElementById("agencyRows");
+  var resultCount = document.getElementById("resultCount");
+  var toast = document.getElementById("toast");
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(function(){ toast.classList.remove("show"); }, 2600);
+  }
+
+  function buildProposalText(siteName, builder, dong){
+    var origin = window.location.origin.includes("http") ? window.location.origin : "https://wooriaptcd.com";
+    var customCatalogUrl = origin + "/sale-detail.html?room=ROOM-001&apt=" + encodeURIComponent(siteName) + "&company=" + encodeURIComponent(builder) + "&dong=" + encodeURIComponent(dong);
+    var landingUrl = origin + "/presale-landing.html";
+
+    return [
+      "[분양총괄본부장님 / 홍보팀장님 귀하]",
+      "",
+      "안녕하세요, [" + siteName + "] 분양 현장의 성공적인 완판을 기원합니다.",
+      "버려지는 전단지·현수막 대신 당근마켓 동네주민과 인근 마트 고객이 [" + siteName + "] 01~08페이지 모바일 카탈로그를 60초 동안 정독하면 카카오톡 바코드카드(3,000원권)·마트 전자쿠폰을 즉시 지급하는 플랫폼입니다.",
+      "",
+      "▶ [" + siteName + "] 전용 01~08P 모바일 카탈로그 샘플 바로보기:",
+      customCatalogUrl,
+      "",
+      "▶ 분양사 도입 안내 및 자율 이미지 등록 방식 보기:",
+      landingUrl,
+      "",
+      "※ 본사에서 전용 방만 개설해 드리며, 보유하신 카탈로그 이미지를 복사·붙여넣기(Ctrl+V)로 즉시 세팅하실 수 있습니다."
+    ].join("\n");
+  }
+
+  function renderSites(){
+    var kw = (searchInput.value || "").trim().toLowerCase();
+    var st = statusSelect.value;
+
+    var filtered = PRESALE_SITES.filter(function(s){
+      if(currentSido !== "all" && s.sido.indexOf(currentSido) === -1) return false;
+      if(st !== "all" && s.status !== st) return false;
+      if(kw){
+        var hay = (s.sido + " " + s.sigungu + " " + s.name + " " + s.builder + " " + s.addr + " " + s.tel + " " + s.fax).toLowerCase();
+        if(hay.indexOf(kw) === -1) return false;
+      }
+      return true;
+    });
+
+    resultCount.textContent = filtered.length;
+
+    siteRows.innerHTML = filtered.map(function(s){
+      var previewUrl = "/sale-detail.html?room=ROOM-001&apt=" + encodeURIComponent(s.name) + "&company=" + encodeURIComponent(s.builder) + "&dong=" + encodeURIComponent(s.sigungu) + "&tel=" + encodeURIComponent(s.tel);
+      var badgeCls = s.status === "분양중" ? "badge-ing" : "badge-up";
+      return '<tr>' +
+        '<td>' + s.no + '</td>' +
+        '<td><span class="' + badgeCls + '">' + s.status + '</span></td>' +
+        '<td><strong>' + s.sido + '</strong><br><span style="color:#64748b;font-size:11.5px;">' + s.sigungu + '</span></td>' +
+        '<td style="text-align:left;"><strong style="font-size:13.5px;color:#07192b;">' + s.name + '</strong></td>' +
+        '<td>' + s.builder + '</td>' +
+        '<td>' + s.households + '</td>' +
+        '<td><strong>' + s.tel + '</strong></td>' +
+        '<td style="color:#0369a1;font-weight:800;">📠 ' + s.fax + '</td>' +
+        '<td style="text-align:left;font-size:11.5px;color:#334155;">' + s.addr + '</td>' +
+        '<td>' +
+          '<div class="act-btns">' +
+            '<a href="' + previewUrl + '" target="_blank" class="btn-sm navy">📖 맞춤 카탈로그 열기 ↗</a>' +
+            '<button type="button" class="btn-sm gold" data-msg-name="' + s.name + '" data-msg-builder="' + s.builder + '" data-msg-dong="' + s.sigungu + '">📋 맞춤 발송문구</button>' +
+          '</div>' +
+        '</td>' +
+      '</tr>';
+    }).join("");
+  }
+
+  function renderAgencies(){
+    agencyRows.innerHTML = AGENCIES.map(function(a){
+      return '<tr>' +
+        '<td>' + a.no + '</td>' +
+        '<td><strong style="color:#07192b;">' + a.name + '</strong></td>' +
+        '<td style="text-align:left;font-size:12px;">' + a.addr + '</td>' +
+        '<td>' + a.brands + '</td>' +
+        '<td>' + a.tel + '</td>' +
+        '<td style="color:#0369a1;font-weight:800;">📠 ' + a.fax + '</td>' +
+        '<td>' +
+          '<button type="button" class="btn-sm gold" data-msg-name="' + a.name + ' 담당 현장" data-msg-builder="' + a.name + '" data-msg-dong="전국 주요 현장">📋 대행사 제안문구 복사</button>' +
+        '</td>' +
+      '</tr>';
+    }).join("");
+  }
+
+  searchInput.addEventListener("input", renderSites);
+  statusSelect.addEventListener("change", renderSites);
+  document.getElementById("resetBtn").addEventListener("click", function(){
+    searchInput.value = "";
+    statusSelect.value = "all";
+    currentSido = "all";
+    document.querySelectorAll(".chip").forEach(function(c){ c.classList.remove("active"); });
+    document.querySelector('.chip[data-sido="all"]').classList.add("active");
+    renderSites();
+  });
+
+  document.getElementById("regionChips").addEventListener("click", function(e){
+    var btn = e.target.closest(".chip");
+    if(!btn) return;
+    document.querySelectorAll(".chip").forEach(function(c){ c.classList.remove("active"); });
+    btn.classList.add("active");
+    currentSido = btn.getAttribute("data-sido") || "all";
+    renderSites();
+  });
+
+  var modal = document.getElementById("msgPreviewModal");
+  var modalText = document.getElementById("modalMsgText");
+  var modalTitle = document.getElementById("modalSiteTitle");
+
+  document.body.addEventListener("click", function(e){
+    var btn = e.target.closest("[data-msg-name]");
+    if(!btn) return;
+    var name = btn.getAttribute("data-msg-name");
+    var builder = btn.getAttribute("data-msg-builder");
+    var dong = btn.getAttribute("data-msg-dong");
+    modalTitle.textContent = "📋 [" + name + "] 맞춤 발송 문구 & 전용 샘플 링크";
+    modalText.value = buildProposalText(name, builder, dong);
+    modal.style.display = "flex";
+  });
+
+  document.getElementById("closeModalBtn").addEventListener("click", function(){
+    modal.style.display = "none";
+  });
+
+  document.getElementById("copyModalBtn").addEventListener("click", function(){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(modalText.value).then(function(){
+        showToast("✅ 맞춤 제안 문구와 전용 샘플 카탈로그 링크가 복사되었습니다!");
+        modal.style.display = "none";
+      });
+    } else {
+      modalText.select();
+      document.execCommand("copy");
+      showToast("✅ 맞춤 제안 문구가 복사되었습니다!");
+      modal.style.display = "none";
+    }
+  });
+
+  renderSites();
+  renderAgencies();
+})();
+</script>
+</body>
+</html>
