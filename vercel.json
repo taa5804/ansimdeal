@@ -146,7 +146,7 @@
     },
     {
       "source": "/map",
-      "destination": "/map.html"
+      "destination": "/tools-center.html?tab=map"
     },
     {
       "source": "/sitemap.xml",
