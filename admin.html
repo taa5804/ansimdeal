@@ -2,327 +2,772 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#12394d">
-<title>분양사 개별 관리자 | 우리아파트 분양 (wooriaptcd.com)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102536">
+<title>분양사 카탈로그(01~08P) 이미지·정보 등록관리 | 우리아파트 분양 플랫폼</title>
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;min-height:100%}
-body{
-  min-height:100vh;
-  background:#eef7fb;
-  color:#172b3d;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif;
+#saleAdmin, #saleAdmin *{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#f3f5f7;}
+#saleAdmin.sale-admin{
+  --navy:#0b2136; --gold:#c8a35f; --line:#dfe4e8;
+  width:100%; max-width:1180px; min-height:100vh; margin:auto; padding:24px;
+  background:#f3f5f7; color:#17212b; font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;
 }
-.wrap{
-  width:100%;
-  max-width:1280px;
-  margin:0 auto;
-  padding:14px;
+#saleAdmin button, #saleAdmin input, #saleAdmin select, #saleAdmin textarea{font:inherit}
+#saleAdmin .admin-head{
+  display:flex; align-items:center; justify-content:space-between; gap:20px; padding:24px 26px;
+  border-radius:18px; background:linear-gradient(135deg,#07192b,#12344d); color:#fff;
+  border:1px solid rgba(200,163,95,.4);
+  box-shadow:0 15px 35px rgba(15,36,52,.17); flex-wrap:wrap;
 }
-.brand{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-bottom:12px;
-  padding:18px 20px;
-  border-radius:14px;
-  background:#123f55;
-  color:#fff;
+#saleAdmin .admin-head small{display:block; margin-bottom:6px; color:#e6c98a; font-weight:800; letter-spacing:1.5px;}
+#saleAdmin .admin-head h1{margin:0 0 6px; font-size:25px;}
+#saleAdmin .admin-head p{margin:0; color:#cbd5dc; font-size:13px;}
+#saleAdmin .btn-gold{
+  min-height:45px; padding:0 20px; border:0; border-radius:10px;
+  background:linear-gradient(135deg,#d6b26e,#b88e44);
+  color:#07192b; font-weight:900; font-size:14px; cursor:pointer;
+  box-shadow:0 6px 16px rgba(184,142,68,.3);
 }
-.brand small{
-  display:block;
-  margin-bottom:5px;
-  color:#f0c15a;
-  font-weight:800;
+#saleAdmin .room-selector-bar{
+  margin-top:16px; padding:16px 20px; border-radius:14px; background:#fff; border:2px solid #cbd5e1;
+  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
 }
-.brand h1{
-  margin:0 0 5px;
-  font-size:clamp(22px,4vw,28px);
+#saleAdmin .basic-card{
+  margin-top:18px; padding:22px; border:1px solid var(--line); border-radius:16px; background:#fff;
 }
-.brand p{
-  margin:0;
-  color:#d8e5eb;
-  font-size:13px;
+#saleAdmin .basic-card h2{
+  margin:0 0 6px; font-size:18px; color:#0b2136; display:flex; align-items:center; gap:8px;
 }
-.brand-links{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
+#saleAdmin .basic-card .sub-desc{
+  margin:0 0 16px; font-size:13px; color:#64748b;
 }
-.brand-links a{
-  padding:9px 14px;
-  border-radius:9px;
-  background:rgba(255,255,255,.15);
-  border:1px solid rgba(255,255,255,.3);
-  color:#fff;
-  font-size:13px;
-  font-weight:800;
-  text-decoration:none;
+#saleAdmin .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+#saleAdmin label span{display:block; margin-bottom:6px; color:#475569; font-size:12.5px; font-weight:800;}
+#saleAdmin input[type="text"], #saleAdmin input[type="tel"], #saleAdmin input[type="number"], #saleAdmin input[type="url"], #saleAdmin select, #saleAdmin textarea{
+  width:100%; border:1px solid #cbd5e1; border-radius:9px; outline:0; background:#fff; color:#0f172a;
 }
-.card{
-  padding:18px;
-  border:1px solid #dfe6eb;
-  border-radius:14px;
-  background:#fff;
-  box-shadow:0 6px 20px rgba(0,0,0,.04);
+#saleAdmin input[type="text"], #saleAdmin input[type="tel"], #saleAdmin input[type="number"], #saleAdmin input[type="url"], #saleAdmin select{
+  height:42px; padding:0 13px; font-size:13.5px;
 }
-#loginArea{
-  display:none;
-  max-width:520px;
-  margin:40px auto 0;
+#saleAdmin textarea{padding:12px; resize:vertical; font-size:13.5px;}
+
+/* 01/08 ~ 08/08 카탈로그 업로드 룸 그리드 */
+#saleAdmin .catalog-grid{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:14px;
 }
-.field{margin-bottom:12px}
-label{
-  display:block;
-  margin-bottom:6px;
-  color:#526676;
-  font-size:13px;
-  font-weight:800;
+#saleAdmin .slot-box{
+  border:1.5px solid #cbd5e1; border-radius:14px; padding:16px; background:#f8fafc;
+  display:flex; flex-direction:column; gap:10px; position:relative; transition:border-color .15s, box-shadow .15s;
 }
-input{
-  width:100%;
-  height:46px;
-  padding:0 12px;
-  border:1px solid #cbd5dc;
-  border-radius:8px;
-  font-size:15px;
+#saleAdmin .slot-box:focus-within{
+  border-color:#b88e44; box-shadow:0 0 0 3px rgba(200,163,95,.18); background:#fff;
 }
-button{
-  min-height:46px;
-  border:0;
-  border-radius:8px;
-  background:#123f55;
-  color:#fff;
-  font-size:14px;
-  font-weight:800;
+#saleAdmin .slot-head{
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+}
+#saleAdmin .slot-badge{
+  display:inline-block; padding:4px 10px; border-radius:999px; background:#0b2136; color:#e6c98a;
+  font-size:11.5px; font-weight:800; letter-spacing:.5px;
+}
+#saleAdmin .slot-title{
+  font-size:14.5px; font-weight:900; color:#0f172a;
+}
+#saleAdmin .slot-preview{
+  width:100%; height:155px; border-radius:11px;
+  background:
+    radial-gradient(circle at 75% 25%, rgba(200,163,95,.18) 0%, transparent 55%),
+    repeating-linear-gradient(90deg, rgba(200,163,95,.06) 0px, rgba(200,163,95,.06) 1px, transparent 1px, transparent 36px),
+    repeating-linear-gradient(0deg, rgba(200,163,95,.06) 0px, rgba(200,163,95,.06) 1px, transparent 1px, transparent 36px),
+    linear-gradient(155deg,#081d31,#13334c);
+  background-size:cover; background-position:center;
+  border:1px solid rgba(200,163,95,.4);
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  padding:12px; color:#e6c98a; font-size:12px; font-weight:700; position:relative; overflow:hidden;
   cursor:pointer;
 }
-#loginArea button{width:100%}
-.demo{
-  margin-top:15px;
-  padding:14px;
-  border-radius:10px;
-  background:#fff7df;
-  color:#604d20;
-  font-size:13px;
-  line-height:1.7;
+#saleAdmin .slot-preview.has-img span{
+  background:rgba(7,25,43,.78); padding:5px 10px; border-radius:8px; border:1px solid rgba(200,163,95,.45);
 }
-.msg{min-height:22px;margin-top:10px;font-size:13px;font-weight:700}
-.msg.error{color:#c4473d}
-.msg.ok{color:#17804b}
+#saleAdmin .slot-actions{
+  display:flex; gap:6px; align-items:center; flex-wrap:wrap;
+}
+#saleAdmin .file-btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:5px;
+  height:36px; padding:0 12px; border-radius:8px; background:#0b2136; color:#f3d999;
+  font-size:12px; font-weight:800; cursor:pointer; border:1px solid rgba(200,163,95,.45);
+}
+#saleAdmin .clear-btn{
+  height:36px; padding:0 10px; border-radius:8px; border:1px solid #cbd5e1; background:#fff;
+  color:#64748b; font-size:12px; font-weight:700; cursor:pointer;
+}
+#saleAdmin .comm-subgrid{
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:12px;
+}
 
-#adminArea{display:block}
-.topbar{
-  display:flex;
-  gap:8px;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:10px;
+#saleAdmin .save-message{
+  position:fixed; right:24px; bottom:24px; z-index:9999; display:none; padding:16px 24px;
+  border-radius:12px; background:#07192b; border:2px solid #d6b26e; color:#fff; font-weight:bold;
+  font-size:14px; box-shadow:0 12px 35px rgba(0,0,0,.35);
 }
-.tabs{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:8px;
-  flex:1;
+#saleAdmin .save-message.show{display:block;}
+@media(max-width:850px){
+  #saleAdmin .form-grid, #saleAdmin .catalog-grid, #saleAdmin .comm-subgrid{grid-template-columns:1fr;}
 }
-.tab{
-  width:100%;
-  background:#e8eef2;
-  color:#314555;
-}
-.tab.active{
-  background:#123f55;
-  color:#fff;
-}
-.logout{
-  flex:none;
-  padding:0 16px;
-  background:#dfe6eb;
-  color:#314555;
-}
-.frame-wrap{
-  overflow:hidden;
-  border:1px solid #dfe6eb;
-  border-radius:12px;
-  background:#fff;
-}
-#contentFrame{
-  display:block;
-  width:100%;
-  height:calc(100vh - 190px);
-  min-height:680px;
-  border:0;
-  background:#fff;
-}
-@media(max-width:700px){
-  .wrap{padding:8px}
-  .topbar{
-    align-items:stretch;
-    flex-direction:column;
-  }
-  .tabs{
-    grid-template-columns:1fr;
-  }
-  .logout{width:100%}
-  #contentFrame{
-    height:calc(100vh - 300px);
-    min-height:620px;
-  }
+@media(max-width:640px){
+  #saleAdmin.sale-admin{padding:12px 10px 50px;}
+  #saleAdmin .admin-head{padding:20px 16px;border-radius:15px;}
+  #saleAdmin .admin-head h1{font-size:20px;line-height:1.35;word-break:keep-all;}
+  #saleAdmin .admin-head p{font-size:12.5px;line-height:1.5;word-break:keep-all;}
+  #saleAdmin .btn-gold{width:100%;height:46px;}
+  #saleAdmin .room-bar{padding:12px;border-radius:12px;}
+  #saleAdmin .card{padding:16px 12px;border-radius:14px;}
+  #saleAdmin .page-slot{padding:12px;}
 }
 </style>
 </head>
 <body>
-
-<div class="wrap">
-
-  <div class="brand">
+<div id="saleAdmin" class="sale-admin">
+  <header class="admin-head">
     <div>
-      <small id="presaleBrandSub">WOORI APT PRESALE ROOM ADMIN</small>
-      <h1 id="presaleBrandTitle">분양사 개별 관리자</h1>
-      <p>분양등록·수정 / 충전금 사용내역 / 조회현황</p>
+      <small id="roomBadgeTop">PREMIUM BROCHURE STUDIO</small>
+      <h1 id="headRoomTitle">분양사 카탈로그(01~08P) 직접 등록·관리</h1>
+      <p>분양사에서 보유한 카탈로그 이미지(파일 업로드 또는 캡처 후 Ctrl+V 붙여넣기)를 각 페이지 방에 자유롭게 등록하세요.</p>
     </div>
-    <div class="brand-links">
-      <a href="/head-admin.html">⚙️ 본사관리자 (방 복제·설정)</a>
-      <a href="/index.html">🏠 분양 메인화면</a>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button id="saveAllBtn" type="button" class="btn-gold">💾 카탈로그 및 방 설정 즉시 저장</button>
     </div>
-  </div>
+  </header>
 
-  <div id="loginArea" class="card">
-    <h2>분양사 관리자 로그인</h2>
-
-    <form id="loginForm">
-      <div class="field">
-        <label for="adminId">아이디</label>
-        <input id="adminId" type="text" value="presaleadmin" autocomplete="username">
-      </div>
-
-      <div class="field">
-        <label for="adminPw">비밀번호</label>
-        <input id="adminPw" type="password" value="1234" autocomplete="current-password">
-      </div>
-
-      <button type="submit">로그인</button>
-      <div id="msg" class="msg"></div>
-    </form>
-
-    <div class="demo">
-      <strong>분양사 개별 관리자 로그인</strong><br>
-      기본 아이디 : <b>presaleadmin</b> (또는 방별 ID: <b>room001</b> 등)<br>
-      비밀번호 : <b>1234</b>
+  <div class="room-selector-bar">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex:1">
+      <strong style="font-size:14px;color:#0b2136">📂 관리할 분양사 방 선택:</strong>
+      <select id="roomSelector" style="max-width:380px;font-weight:800;color:#1d4ed8"></select>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a id="previewMainBtn" href="/index.html?room=ROOM-001" target="_blank" style="padding:10px 14px;border-radius:8px;background:#f8fafc;border:1px solid #cbd5e1;color:#0f172a;font-size:12.5px;font-weight:800;text-decoration:none">🏠 분양 메인화면 미리보기 ↗</a>
+      <a id="previewDetailBtn" href="/sale-detail.html?room=ROOM-001" target="_blank" style="padding:10px 14px;border-radius:8px;background:#0b2136;border:1px solid #c8a35f;color:#f3d999;font-size:12.5px;font-weight:800;text-decoration:none">📖 01~08P 카탈로그 미리보기 ↗</a>
     </div>
   </div>
 
-  <div id="adminArea">
-    <div class="topbar">
-      <div class="tabs">
-        <button type="button" class="tab active" id="tabSaleAdmin" data-src="/sale-admin.html">
-          분양등록·수정
-        </button>
-        <button type="button" class="tab" data-src="/charge-history.html">
-          충전금 사용내역
-        </button>
-        <button type="button" class="tab" data-src="/inquiry-status.html">
-          조회현황
-        </button>
+  <!-- 1. 단지 기본정보 설정 -->
+  <section class="basic-card">
+    <h2>🏢 1. 분양 단지 기본 정보 & 상담·홈페이지 설정</h2>
+    <p class="sub-desc">메인 화면 카드와 01페이지 표지, 08페이지 상담/방문예약 화면에 연동되는 정보입니다.</p>
+    <div class="form-grid">
+      <label><span>분양 방 고유코드</span><input id="projectCode" type="text" value="ROOM-001" style="font-weight:900;color:#1d4ed8"></label>
+      <label><span>분양 지역 (시·도 표준순서)</span>
+        <select id="sidoSelect" style="font-weight:800">
+          <option value="seoul">서울특별시</option>
+          <option value="gyeonggi">경기도</option>
+          <option value="incheon">인천광역시</option>
+          <option value="busan">부산광역시</option>
+          <option value="daegu">대구광역시</option>
+          <option value="daejeon">대전광역시</option>
+          <option value="ulsan">울산광역시</option>
+          <option value="sejong">세종특별자치시</option>
+          <option value="gangwon">강원특별자치도</option>
+          <option value="chungbuk">충청북도</option>
+          <option value="chungnam">충청남도</option>
+          <option value="jeonbuk">전북특별자치도</option>
+          <option value="jg">전남광주통합특별시</option>
+          <option value="gyeongbuk">경상북도</option>
+          <option value="gyeongnam">경상남도</option>
+          <option value="jeju">제주특별자치도</option>
+        </select>
+      </label>
+      <label><span>분양사명 / 브랜드명 (표지 하단 및 카드 상단 노출)</span><input id="companyName" type="text" placeholder="예: 더 퍼스트 분양사업단"></label>
+      <label><span>분양 단지명 (현장명)</span><input id="projectName" type="text" placeholder="예: 더 퍼스트 센트럴파크"></label>
+      <label><span>표지 상단 영문 타이틀 (Eyebrow)</span><input id="coverEyebrow" type="text" value="PREMIUM RESIDENCE"></label>
+      <label><span>분양 상태</span><select id="saleStatus"><option value="분양 중">분양 중</option><option value="분양 예정">분양 예정</option><option value="분양 종료">분양 종료</option></select></label>
+      <label><span>총 세대수</span><input id="households" type="text" placeholder="예: 1,520세대"></label>
+      <label><span>주요 평형</span><input id="types" type="text" placeholder="예: 84A · 84B"></label>
+      <label><span>입주 예정</span><input id="moveInDate" type="text" placeholder="예: 2029년 8월"></label>
+      <label><span>분양 상담 대표전화</span><input id="contactPhone" type="tel" placeholder="예: 02-1588-0001"></label>
+      <label><span>현장 / 타겟 동네</span><input id="projectArea" type="text" placeholder="예: 서울특별시 강남구 역삼동"></label>
+      <label><span>모델하우스(견본주택) 주소</span><input id="modelhouseAddress" type="text" placeholder="예: 서울특별시 강남구 역삼동 모델하우스"></label>
+      <label style="grid-column:1/-1"><span>🌐 공식 분양 홈페이지 주소 (입력 시 08페이지에 '공식 홈페이지 바로가기' 버튼 자동 생성)</span><input id="homepageUrl" type="url" placeholder="예: https://... (선택사항)"></label>
+      <label style="grid-column:1/-1"><span>대표 카탈로그 헤드라인 문구 (메인 카드 & 01페이지 표지 노출)</span><textarea id="coverDescription" rows="2" placeholder="예: 일상이 작품이 되는 새로운 주거의 시작"></textarea></label>
+
+      <!-- 본사 연동 보상 정보 (유지보수용) -->
+      <label style="border:1px solid #e2e8f0;padding:12px;border-radius:10px;background:#f8fafc;">
+        <span>채널 구분 (본사 배정 연동)</span>
+        <select id="channelType" style="font-weight:800">
+          <option value="daangn">🥕 당근비즈 (카카오톡 모바일 바코드카드)</option>
+          <option value="mart">🛒 마트 연동 (지정 마트 전자쿠폰)</option>
+        </select>
+      </label>
+      <label style="border:1px solid #e2e8f0;padding:12px;border-radius:10px;background:#f8fafc;">
+        <span>60초 열람 보상 금액(원) / 발행 수량(장)</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <input id="rewardAmount" type="number" step="500" value="3000" title="보상금액(원)">
+          <input id="issueQty" type="number" value="500" title="발행수량(장)">
+        </div>
+        <input id="partnerName" type="hidden" value="모바일 바코드카드">
+      </label>
+    </div>
+  </section>
+
+  <!-- 2. 01/08 ~ 08/08 카탈로그 페이지별 이미지 업로드 공간 -->
+  <section class="basic-card">
+    <h2>🖼️ 2. 카탈로그 페이지별 이미지 등록 공간 (01/08 ~ 08/08)</h2>
+    <p class="sub-desc">
+      각 페이지 박스에 <strong>[📁 내 PC 이미지 파일 선택]</strong>을 누르거나, 카탈로그 화면을 캡처한 뒤 박스를 클릭하고 <strong>[Ctrl + V 붙여넣기]</strong>를 하면 분양사 전용 카탈로그 이미지가 즉시 들어갑니다.
+    </p>
+
+    <div class="catalog-grid">
+      <!-- PAGE 01 -->
+      <div class="slot-box" data-slot="coverImageUrl">
+        <div class="slot-head">
+          <span class="slot-badge">01 / 08 표지 · 메인카드</span>
+          <span class="slot-title">대표 표지 / 투시도 이미지</span>
+        </div>
+        <div class="slot-preview" id="prev_coverImageUrl" tabindex="0">
+          <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(미등록 시 고급 네이비&골드 카탈로그 프레임 적용)</span>
+        </div>
+        <div class="slot-actions">
+          <label class="file-btn">📁 이미지 파일 업로드<input type="file" accept="image/*" data-target="coverImageUrl" style="display:none"></label>
+          <button type="button" class="clear-btn" data-clear="coverImageUrl">초기화</button>
+        </div>
+        <input type="text" id="coverImageUrl" placeholder="또는 이미지 URL 입력 (파일 업로드 시 자동 입력됨)">
       </div>
 
-      <button type="button" id="logoutBtn" class="logout">로그아웃</button>
+      <!-- PAGE 02 -->
+      <div class="slot-box" data-slot="locationImageUrl">
+        <div class="slot-head">
+          <span class="slot-badge">02 / 08 LOCATION</span>
+          <span class="slot-title">입지 환경 · 광역 조감도/지도</span>
+        </div>
+        <div class="slot-preview" id="prev_locationImageUrl" tabindex="0">
+          <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(입지 환경 카탈로그 이미지 영역)</span>
+        </div>
+        <div class="slot-actions">
+          <label class="file-btn">📁 이미지 파일 업로드<input type="file" accept="image/*" data-target="locationImageUrl" style="display:none"></label>
+          <button type="button" class="clear-btn" data-clear="locationImageUrl">초기화</button>
+        </div>
+        <input type="text" id="locationImageUrl" placeholder="입지 환경 이미지 URL (또는 파일 업로드)">
+      </div>
+
+      <!-- PAGE 03 -->
+      <div class="slot-box" data-slot="premiumImageUrl">
+        <div class="slot-head">
+          <span class="slot-badge">03 / 08 PREMIUM</span>
+          <span class="slot-title">프리미엄 6 대표 이미지</span>
+        </div>
+        <div class="slot-preview" id="prev_premiumImageUrl" tabindex="0">
+          <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(프리미엄 카탈로그 이미지 영역)</span>
+        </div>
+        <div class="slot-actions">
+          <label class="file-btn">📁 이미지 파일 업로드<input type="file" accept="image/*" data-target="premiumImageUrl" style="display:none"></label>
+          <button type="button" class="clear-btn" data-clear="premiumImageUrl">초기화</button>
+        </div>
+        <input type="text" id="premiumImageUrl" placeholder="프리미엄 대표 이미지 URL (또는 파일 업로드)">
+      </div>
+
+      <!-- PAGE 04 -->
+      <div class="slot-box" data-slot="complexImageUrl">
+        <div class="slot-head">
+          <span class="slot-badge">04 / 08 COMPLEX</span>
+          <span class="slot-title">단지 조감도 · 동호수 배치도</span>
+        </div>
+        <div class="slot-preview" id="prev_complexImageUrl" tabindex="0">
+          <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(단지 배치도/조감도 카탈로그 영역)</span>
+        </div>
+        <div class="slot-actions">
+          <label class="file-btn">📁 이미지 파일 업로드<input type="file" accept="image/*" data-target="complexImageUrl" style="display:none"></label>
+          <button type="button" class="clear-btn" data-clear="complexImageUrl">초기화</button>
+        </div>
+        <input type="text" id="complexImageUrl" placeholder="단지 조감도/배치도 이미지 URL (또는 파일 업로드)">
+      </div>
+
+      <!-- PAGE 05 -->
+      <div class="slot-box" data-slot="unit1ImageUrl">
+        <div class="slot-head">
+          <span class="slot-badge">05 / 08 UNIT PLAN 01</span>
+          <span class="slot-title">주력 평면도 01 (예: 84A)</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="text" id="unit1Type" value="84A" placeholder="타입명 (예: 84A)" style="width:140px;height:36px;">
+          <span style="font-size:12px;color:#64748b;">타입 평면도 카탈로그 이미지</span>
+        </div>
+        <div class="slot-preview" id="prev_unit1ImageUrl" tabindex="0">
+          <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(05페이지 평면도 카탈로그 이미지)</span>
+        </div>
+        <div class="slot-actions">
+          <label class="file-btn">📁 평면도 01 파일 업로드<input type="file" accept="image/*" data-target="unit1ImageUrl" style="display:none"></label>
+          <button type="button" class="clear-btn" data-clear="unit1ImageUrl">초기화</button>
+        </div>
+        <input type="text" id="unit1ImageUrl" placeholder="평면도 01 이미지 URL (또는 파일 업로드)">
+      </div>
+
+      <!-- PAGE 06 -->
+      <div class="slot-box" data-slot="unit2ImageUrl">
+        <div class="slot-head">
+          <span class="slot-badge">06 / 08 UNIT PLAN 02</span>
+          <span class="slot-title">주력 평면도 02 (예: 84B)</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="text" id="unit2Type" value="84B" placeholder="타입명 (예: 84B)" style="width:140px;height:36px;">
+          <span style="font-size:12px;color:#64748b;">타입 평면도 카탈로그 이미지</span>
+        </div>
+        <div class="slot-preview" id="prev_unit2ImageUrl" tabindex="0">
+          <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(06페이지 평면도 카탈로그 이미지)</span>
+        </div>
+        <div class="slot-actions">
+          <label class="file-btn">📁 평면도 02 파일 업로드<input type="file" accept="image/*" data-target="unit2ImageUrl" style="display:none"></label>
+          <button type="button" class="clear-btn" data-clear="unit2ImageUrl">초기화</button>
+        </div>
+        <input type="text" id="unit2ImageUrl" placeholder="평면도 02 이미지 URL (또는 파일 업로드)">
+      </div>
+
+      <!-- PAGE 08 -->
+      <div class="slot-box" data-slot="modelhouseImageUrl" style="grid-column:1/-1">
+        <div class="slot-head">
+          <span class="slot-badge">08 / 08 CONTACT · 모델하우스</span>
+          <span class="slot-title">모델하우스 · 홍보관 안내 이미지</span>
+        </div>
+        <div class="slot-preview" id="prev_modelhouseImageUrl" tabindex="0" style="height:140px;">
+          <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(모델하우스 약도 또는 외관 이미지 영역)</span>
+        </div>
+        <div class="slot-actions">
+          <label class="file-btn">📁 모델하우스 이미지 업로드<input type="file" accept="image/*" data-target="modelhouseImageUrl" style="display:none"></label>
+          <button type="button" class="clear-btn" data-clear="modelhouseImageUrl">초기화</button>
+        </div>
+        <input type="text" id="modelhouseImageUrl" placeholder="모델하우스 이미지 URL (또는 파일 업로드)">
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 07/08 다양한 커뮤니티 전용 이미지 공간 (통카탈로그 1장 또는 6칸 개별 선택) -->
+  <section class="basic-card">
+    <h2>🏛️ 3. [07 / 08 페이지] 다양한 커뮤니티 이미지 공간 (분양사 자율 선택)</h2>
+    <p class="sub-desc">
+      분양사 카탈로그에 있는 커뮤니티 페이지를 <strong>통째로 1장 붙여넣거나</strong>, 아래 <strong>6개 시설 방에 개별 이미지를 업로드</strong>할 수 있습니다.
+    </p>
+
+    <!-- 옵션 A: 커뮤니티 통카탈로그 1장 -->
+    <div class="slot-box" data-slot="commFullImageUrl" style="background:#fffdf8;border-color:#d6b26e;">
+      <div class="slot-head">
+        <span class="slot-badge">방식 A · 통카탈로그 1장</span>
+        <span class="slot-title">07/08 커뮤니티 카탈로그 페이지 통이미지 등록 (등록 시 1장으로 꽉 차게 노출)</span>
+      </div>
+      <div class="slot-preview" id="prev_commFullImageUrl" tabindex="0" style="height:145px;">
+        <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(분양사 카탈로그의 커뮤니티 소개 페이지를 통째로 넣으실 때 사용하세요)</span>
+      </div>
+      <div class="slot-actions">
+        <label class="file-btn">📁 커뮤니티 통카탈로그 업로드<input type="file" accept="image/*" data-target="commFullImageUrl" style="display:none"></label>
+        <button type="button" class="clear-btn" data-clear="commFullImageUrl">통이미지 비우기 (6분할 사용)</button>
+      </div>
+      <input type="text" id="commFullImageUrl" placeholder="커뮤니티 통카탈로그 이미지 URL (비워두면 아래 6분할 갤러리 노출)">
     </div>
 
-    <div class="frame-wrap">
-      <iframe
-        id="contentFrame"
-        src="/sale-admin.html"
-        title="분양사 관리자 내용"
-      ></iframe>
-    </div>
-  </div>
+    <!-- 옵션 B: 커뮤니티 6분할 개별 이미지 공간 -->
+    <div class="comm-subgrid">
+      <div class="slot-box" data-slot="commImg1">
+        <div class="slot-head"><span class="slot-badge">커뮤니티 01 (상단 와이드)</span></div>
+        <input type="text" id="commLabel1" value="클럽 라운지" placeholder="시설명 (예: 클럽 라운지)">
+        <div class="slot-preview" id="prev_commImg1" tabindex="0" style="height:110px;"><span>클릭 후 Ctrl+V 또는 파일 업로드</span></div>
+        <div class="slot-actions">
+          <label class="file-btn">📁 파일 선택<input type="file" accept="image/*" data-target="commImg1" style="display:none"></label>
+          <button type="button" class="clear-btn" data-clear="commImg1">초기화</button>
+        </div>
+        <input type="text" id="commImg1" placeholder="이미지 URL">
+      </div>
 
+      <div class="slot-box" data-slot="commImg2">
+        <div class="slot-head"><span class="slot-badge">커뮤니티 02</span></div>
+        <input type="text" id="commLabel2" value="피트니스" placeholder="시설명 (예: 피트니스)">
+        <div class="slot-preview" id="prev_commImg2" tabindex="0" style="height:110px;"><span>클릭 후 Ctrl+V 또는 파일 업로드</span></div>
+        <div class="slot-actions">
+          <label class="file-btn">📁 파일 선택<input type="file" accept="image/*" data-target="commImg2" style="display:none"></label>
+          <button type="button" class="clear-btn" data-clear="commImg2">초기화</button>
+        </div>
+        <input type="text" id="commImg2" placeholder="이미지 URL">
+      </div>
+
+      <div class="slot-box" data-slot="commImg3">
+        <div class="slot-head"><span class="slot-badge">커뮤니티 03</span></div>
+        <input type="text" id="commLabel3" value="골프연습장" placeholder="시설명 (예: 골프연습장)">
+        <div class="slot-preview" id="prev_commImg3" tabindex="0" style="height:110px;"><span>클릭 후 Ctrl+V 또는 파일 업로드</span></div>
+        <div class="slot-actions">
+          <label class="file-btn">📁 파일 선택<input type="file" accept="image/*" data-target="commImg3" style="display:none"></label>
+          <button type="button" class="clear-btn" data-clear="commImg3">초기화</button>
+        </div>
+        <input type="text" id="commImg3" placeholder="이미지 URL">
+      </div>
+
+      <div class="slot-box" data-slot="commImg4">
+        <div class="slot-head"><span class="slot-badge">커뮤니티 04</span></div>
+        <input type="text" id="commLabel4" value="독서실" placeholder="시설명 (예: 독서실)">
+        <div class="slot-preview" id="prev_commImg4" tabindex="0" style="height:110px;"><span>클릭 후 Ctrl+V 또는 파일 업로드</span></div>
+        <div class="slot-actions">
+          <label class="file-btn">📁 파일 선택<input type="file" accept="image/*" data-target="commImg4" style="display:none"></label>
+          <button type="button" class="clear-btn" data-clear="commImg4">초기화</button>
+        </div>
+        <input type="text" id="commImg4" placeholder="이미지 URL">
+      </div>
+
+      <div class="slot-box" data-slot="commImg5">
+        <div class="slot-head"><span class="slot-badge">커뮤니티 05</span></div>
+        <input type="text" id="commLabel5" value="어린이집" placeholder="시설명 (예: 어린이집)">
+        <div class="slot-preview" id="prev_commImg5" tabindex="0" style="height:110px;"><span>클릭 후 Ctrl+V 또는 파일 업로드</span></div>
+        <div class="slot-actions">
+          <label class="file-btn">📁 파일 선택<input type="file" accept="image/*" data-target="commImg5" style="display:none"></label>
+          <button type="button" class="clear-btn" data-clear="commImg5">초기화</button>
+        </div>
+        <input type="text" id="commImg5" placeholder="이미지 URL">
+      </div>
+
+      <div class="slot-box" data-slot="commImg6">
+        <div class="slot-head"><span class="slot-badge">커뮤니티 06</span></div>
+        <input type="text" id="commLabel6" value="게스트하우스" placeholder="시설명 (예: 게스트하우스)">
+        <div class="slot-preview" id="prev_commImg6" tabindex="0" style="height:110px;"><span>클릭 후 Ctrl+V 또는 파일 업로드</span></div>
+        <div class="slot-actions">
+          <label class="file-btn">📁 파일 선택<input type="file" accept="image/*" data-target="commImg6" style="display:none"></label>
+          <button type="button" class="clear-btn" data-clear="commImg6">초기화</button>
+        </div>
+        <input type="text" id="commImg6" placeholder="이미지 URL">
+      </div>
+    </div>
+
+    <div style="margin-top:20px;display:flex;justify-content:flex-end;">
+      <button id="saveBottomBtn" type="button" class="btn-gold" style="width:100%;max-width:420px;height:52px;font-size:15.5px;">
+        💾 전체 카탈로그 이미지 & 단지 설정 즉시 저장하기
+      </button>
+    </div>
+  </section>
+
+  <div id="saveMessage" class="save-message"></div>
 </div>
 
 <script>
 (function(){
-"use strict";
+  "use strict";
+  var STORAGE_KEY = "wooriapt_replicated_rooms_v2";
+  var rooms = [];
 
-var loginArea=document.getElementById("loginArea");
-var adminArea=document.getElementById("adminArea");
-var form=document.getElementById("loginForm");
-var adminId=document.getElementById("adminId");
-var adminPw=document.getElementById("adminPw");
-var msg=document.getElementById("msg");
-var logoutBtn=document.getElementById("logoutBtn");
-var frame=document.getElementById("contentFrame");
-var tabs=Array.prototype.slice.call(document.querySelectorAll(".tab"));
+  var IMAGE_KEYS = [
+    "coverImageUrl",
+    "locationImageUrl",
+    "premiumImageUrl",
+    "complexImageUrl",
+    "unit1ImageUrl",
+    "unit2ImageUrl",
+    "modelhouseImageUrl",
+    "commFullImageUrl",
+    "commImg1",
+    "commImg2",
+    "commImg3",
+    "commImg4",
+    "commImg5",
+    "commImg6"
+  ];
 
-var params=new URLSearchParams(window.location.search);
-var roomCode=(params.get("room")||params.get("code")||"").trim().toUpperCase();
-
-if(roomCode){
-  tabs.forEach(function(t){
-    var base = t.getAttribute("data-src") || "/sale-admin.html";
-    t.setAttribute("data-src", base.split("?")[0] + "?room=" + encodeURIComponent(roomCode));
-  });
-  frame.src="/sale-admin.html?room="+encodeURIComponent(roomCode);
-  document.getElementById("presaleBrandSub").textContent="ROOM #"+roomCode+" ADMIN";
-  document.getElementById("presaleBrandTitle").textContent="분양사 개별 관리자 (#"+roomCode+")";
-}
-
-function showAdmin(){
-  loginArea.style.display="none";
-  adminArea.style.display="block";
-}
-
-function showLogin(){
-  adminArea.style.display="none";
-  loginArea.style.display="block";
-}
-
-function openTab(btn){
-  tabs.forEach(function(x){
-    x.classList.remove("active");
-  });
-  btn.classList.add("active");
-  frame.src=btn.getAttribute("data-src");
-}
-
-tabs.forEach(function(btn){
-  btn.addEventListener("click",function(){
-    openTab(btn);
-  });
-});
-
-form.addEventListener("submit",function(e){
-  e.preventDefault();
-  msg.className="msg";
-  var idVal=adminId.value.trim().toLowerCase();
-  var pwVal=adminPw.value.trim();
-
-  if((idVal==="presaleadmin" || idVal==="hqadmin" || idVal.indexOf("room")===0) && pwVal==="1234"){
-    try{
-      sessionStorage.setItem("presaleAdminLogin","1");
-    }catch(err){}
-    msg.textContent="로그인되었습니다.";
-    msg.classList.add("ok");
-    showAdmin();
-    return;
+  function $(s){ return document.querySelector(s); }
+  function showMessage(text){
+    var box = $("#saveMessage");
+    if(!box) return;
+    box.textContent = text;
+    box.classList.add("show");
+    setTimeout(function(){ box.classList.remove("show"); }, 2800);
   }
 
-  msg.textContent="아이디 또는 비밀번호가 맞지 않습니다.";
-  msg.classList.add("error");
-});
+  /* 이미지 파일/클립보드 붙여넣기 자동 리사이즈 & 압축 (서버 저장 최적화) */
+  function compressImageFile(file, callback){
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(evt){
+      var img = new Image();
+      img.onload = function(){
+        var maxW = 960;
+        var maxH = 1280;
+        var w = img.width;
+        var h = img.height;
+        if(w > maxW){
+          h = Math.round(h * (maxW / w));
+          w = maxW;
+        }
+        if(h > maxH){
+          w = Math.round(w * (maxH / h));
+          h = maxH;
+        }
+        var canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, w, h);
+        var dataUrl = canvas.toDataURL("image/jpeg", 0.78);
+        callback(dataUrl);
+      };
+      img.src = evt.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
 
-logoutBtn.addEventListener("click",function(){
-  try{
-    sessionStorage.removeItem("presaleAdminLogin");
-  }catch(e){}
-  showLogin();
-});
+  var DEFAULT_SAMPLE_IMAGES = {
+    coverImageUrl: "/sample-cover.jpg",
+    locationImageUrl: "/sample-location.jpg",
+    premiumImageUrl: "/sample-interior.jpg",
+    complexImageUrl: "/sample-complex.jpg",
+    unit1ImageUrl: "",
+    unit2ImageUrl: "",
+    modelhouseImageUrl: "/sample-modelhouse.jpg",
+    commFullImageUrl: "/sample-community.jpg",
+    commImg1: "/sample-community.jpg",
+    commImg2: "/sample-interior.jpg",
+    commImg3: "/sample-modelhouse.jpg",
+    commImg4: "/sample-community.jpg",
+    commImg5: "/sample-complex.jpg",
+    commImg6: "/sample-cover.jpg"
+  };
 
+  function updateSlotPreview(key){
+    var inputEl = $("#" + key);
+    var prevEl = $("#prev_" + key);
+    if(!inputEl || !prevEl) return;
+    var val = (inputEl.value || "").trim();
+    var sampleUrl = DEFAULT_SAMPLE_IMAGES[key] || "";
+    if(val){
+      prevEl.style.backgroundImage = 'url("' + val + '")';
+      prevEl.classList.add("has-img");
+      prevEl.innerHTML = '<span>✅ 분양사 전용 이미지 등록됨 (클릭 후 변경 가능)</span>';
+    } else if(sampleUrl){
+      prevEl.style.backgroundImage = 'linear-gradient(180deg,rgba(4,16,28,.15),rgba(4,16,28,.55)), url("' + sampleUrl + '")';
+      prevEl.classList.add("has-img");
+      prevEl.innerHTML = '<span>✨ 고급 기본 샘플 적용중 (클릭 후 Ctrl+V 또는 파일 선택 시 분양사 이미지로 교체)</span>';
+    } else {
+      prevEl.style.backgroundImage = "";
+      prevEl.classList.remove("has-img");
+      prevEl.innerHTML = '<span>✨ 84A/84B 기본 평면도 도면 적용중 (파일 업로드 또는 Ctrl+V 시 분양사 평면도로 교체)</span>';
+    }
+  }
+
+  function setupImageSlots(){
+    IMAGE_KEYS.forEach(function(key){
+      var inputEl = $("#" + key);
+      if(inputEl){
+        inputEl.addEventListener("input", function(){
+          updateSlotPreview(key);
+        });
+      }
+    });
+
+    /* 파일 선택 업로드 */
+    var fileInputs = document.querySelectorAll('input[type="file"][data-target]');
+    fileInputs.forEach(function(fInput){
+      fInput.addEventListener("change", function(){
+        var targetKey = this.getAttribute("data-target");
+        var file = this.files && this.files[0];
+        if(!file || !targetKey) return;
+        compressImageFile(file, function(dataUrl){
+          var targetInput = $("#" + targetKey);
+          if(targetInput){
+            targetInput.value = dataUrl;
+            updateSlotPreview(targetKey);
+            showMessage("🖼️ 이미지가 등록되었습니다. [저장] 버튼을 누르면 즉시 반영됩니다.");
+          }
+        });
+      });
+    });
+
+    /* 초기화 버튼 */
+    var clearBtns = document.querySelectorAll('button[data-clear]');
+    clearBtns.forEach(function(cBtn){
+      cBtn.addEventListener("click", function(){
+        var targetKey = this.getAttribute("data-clear");
+        var targetInput = $("#" + targetKey);
+        if(targetInput){
+          targetInput.value = "";
+          updateSlotPreview(targetKey);
+        }
+      });
+    });
+
+    /* 클립보드 Ctrl+V 이미지 붙여넣기 */
+    var slotBoxes = document.querySelectorAll('.slot-box[data-slot]');
+    slotBoxes.forEach(function(box){
+      box.addEventListener("paste", function(e){
+        var slotKey = box.getAttribute("data-slot");
+        var items = (e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData) || {}).items;
+        if(!items) return;
+        for(var i = 0; i < items.length; i++){
+          if(items[i].type && items[i].type.indexOf("image") !== -1){
+            e.preventDefault();
+            var blob = items[i].getAsFile();
+            compressImageFile(blob, function(dataUrl){
+              var targetInput = $("#" + slotKey);
+              if(targetInput){
+                targetInput.value = dataUrl;
+                updateSlotPreview(slotKey);
+                showMessage("📋 클립보드 카탈로그 이미지가 붙여넣기 되었습니다!");
+              }
+            });
+            return;
+          }
+        }
+      });
+    });
+  }
+
+  function populateForm(room){
+    if(!room) return;
+    var c = room.catalog_data || {};
+    var code = room.project_code || "ROOM-001";
+    $("#projectCode").value = code;
+    $("#sidoSelect").value = c.sido || "seoul";
+    $("#channelType").value = c.channelType || "daangn";
+    $("#companyName").value = c.companyName || "";
+    $("#projectName").value = room.project_name || "";
+    $("#coverEyebrow").value = c.coverEyebrow || "PREMIUM RESIDENCE";
+    $("#projectArea").value = c.targetDong || room.area || "";
+    $("#saleStatus").value = room.sale_status || "분양 중";
+    $("#households").value = c.households || "1,520세대";
+    $("#types").value = c.types || "84A · 84B";
+    $("#moveInDate").value = room.move_in_date || "2029년 8월";
+    $("#contactPhone").value = room.contact_phone || "";
+    $("#modelhouseAddress").value = room.modelhouse_address || "";
+    $("#homepageUrl").value = c.homepageUrl || "";
+    $("#rewardAmount").value = c.rewardAmount || 3000;
+    $("#partnerName").value = c.partnerName || (c.channelType === "mart" ? "전자쿠폰" : "모바일 바코드카드");
+    $("#issueQty").value = c.issueQty || 500;
+    $("#coverDescription").value = c.coverDescription || "일상이 작품이 되는 새로운 주거의 시작";
+
+    $("#unit1Type").value = c.unit1Type || "84A";
+    $("#unit2Type").value = c.unit2Type || "84B";
+
+    var defaultLabels = ["클럽 라운지", "피트니스", "골프연습장", "독서실", "어린이집", "게스트하우스"];
+    for(var i = 1; i <= 6; i++){
+      var lblInput = $("#commLabel" + i);
+      if(lblInput) lblInput.value = c["commLabel" + i] || defaultLabels[i - 1];
+    }
+
+    IMAGE_KEYS.forEach(function(key){
+      var inputEl = $("#" + key);
+      if(inputEl){
+        inputEl.value = c[key] || "";
+        updateSlotPreview(key);
+      }
+    });
+
+    $("#roomBadgeTop").textContent = "ROOM #" + code + " · PREMIUM CATALOG";
+    $("#headRoomTitle").textContent = "[" + code + "] " + (room.project_name || "분양사 카탈로그 관리");
+    $("#previewMainBtn").href = "/index.html?room=" + encodeURIComponent(code);
+    $("#previewDetailBtn").href = "/sale-detail.html?room=" + encodeURIComponent(code);
+  }
+
+  async function init(){
+    setupImageSlots();
+
+    var params = new URLSearchParams(window.location.search);
+    var requestedCode = (params.get("room") || params.get("code") || "").trim().toUpperCase();
+
+    try {
+      var res = await fetch("/api/sale-save");
+      var data = await res.json();
+      if(res.ok && data.ok && Array.isArray(data.rooms) && data.rooms.length > 0){
+        rooms = data.rooms;
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(rooms)); } catch(e){}
+      }
+    } catch(e){}
+
+    if(rooms.length === 0){
+      try {
+        rooms = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      } catch(e){}
+    }
+
+    var sel = $("#roomSelector");
+    if(sel && rooms.length > 0){
+      sel.innerHTML = rooms.map(function(r){
+        var c = r.catalog_data || {};
+        var tag = c.channelType === "mart" ? "🛒마트" : "🥕당근";
+        return '<option value="' + r.project_code + '">[' + r.project_code + ' · ' + tag + '] ' + (r.project_name || '') + '</option>';
+      }).join("");
+
+      var target = rooms.find(function(r){ return String(r.project_code || "").toUpperCase() === requestedCode; }) || rooms[0];
+      sel.value = target.project_code;
+      populateForm(target);
+
+      sel.onchange = function(){
+        var found = rooms.find(function(r){ return r.project_code === sel.value; });
+        if(found) populateForm(found);
+      };
+    }
+  }
+
+  async function executeRealSave(){
+    var code = ($("#projectCode").value || "ROOM-001").trim().toUpperCase();
+    var existing = rooms.find(function(r){ return String(r.project_code || "").toUpperCase() === code; });
+    var prevCatalog = existing ? (existing.catalog_data || {}) : {};
+
+    var nextCatalog = Object.assign({}, prevCatalog, {
+      sido: $("#sidoSelect").value || "seoul",
+      channelType: $("#channelType").value || "daangn",
+      companyName: $("#companyName").value.trim(),
+      coverEyebrow: $("#coverEyebrow").value.trim() || "PREMIUM RESIDENCE",
+      targetDong: $("#projectArea").value.trim(),
+      targetRegion: $("#projectArea").value.trim(),
+      households: $("#households").value.trim(),
+      types: $("#types").value.trim(),
+      homepageUrl: $("#homepageUrl").value.trim(),
+      rewardAmount: Number($("#rewardAmount").value || 3000),
+      partnerName: $("#partnerName").value.trim(),
+      issueQty: Number($("#issueQty").value || 500),
+      coverDescription: $("#coverDescription").value.trim(),
+      unit1Type: $("#unit1Type").value.trim() || "84A",
+      unit2Type: $("#unit2Type").value.trim() || "84B"
+    });
+
+    for(var i = 1; i <= 6; i++){
+      var lblEl = $("#commLabel" + i);
+      if(lblEl) nextCatalog["commLabel" + i] = lblEl.value.trim();
+    }
+
+    IMAGE_KEYS.forEach(function(key){
+      var el = $("#" + key);
+      if(el) nextCatalog[key] = el.value.trim();
+    });
+
+    var roomObj = {
+      project_code: code,
+      project_name: $("#projectName").value.trim() || "분양 단지명",
+      sale_status: $("#saleStatus").value,
+      area: $("#projectArea").value.trim(),
+      move_in_date: $("#moveInDate").value.trim(),
+      contact_phone: $("#contactPhone").value.trim(),
+      modelhouse_address: $("#modelhouseAddress").value.trim(),
+      is_active: true,
+      updated_at: new Date().toISOString(),
+      catalog_data: nextCatalog
+    };
+
+    try {
+      await fetch("/api/sale-save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Admin-Key": "1234" },
+        body: JSON.stringify(roomObj)
+      });
+    } catch(e){}
+
+    var idx = rooms.findIndex(function(r){ return String(r.project_code || "").toUpperCase() === code; });
+    if(idx > -1) rooms[idx] = roomObj;
+    else rooms.unshift(roomObj);
+
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(rooms));
+    } catch(e){}
+
+    populateForm(roomObj);
+    showMessage("✅ [" + code + " - " + roomObj.project_name + "] 01~08P 카탈로그 이미지 및 설정이 저장되었습니다!");
+  }
+
+  var btn1 = $("#saveAllBtn");
+  if(btn1) btn1.onclick = executeRealSave;
+  var btn2 = $("#saveBottomBtn");
+  if(btn2) btn2.onclick = executeRealSave;
+
+  init();
 })();
 </script>
-
 </body>
 </html>

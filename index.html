@@ -1050,11 +1050,17 @@ button, input {
 }
 
 @media(max-width: 900px) {
-  .trade, .quick-tools {
+  .trade {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .quick-tools {
     grid-template-columns: 1fr;
+    gap: 10px;
   }
   .steps, .promise-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
   .broker {
     flex-direction: column;
@@ -1062,6 +1068,97 @@ button, input {
   }
   .broker-left {
     flex-direction: column;
+  }
+}
+
+@media(max-width: 600px) {
+  .wrap {
+    padding: 0 12px;
+  }
+  .hero {
+    padding: 22px 16px;
+  }
+  .hero-text h1 {
+    font-size: 25px;
+    line-height: 1.3;
+    word-break: keep-all;
+  }
+  .hero-text p {
+    font-size: 13.5px;
+    word-break: keep-all;
+  }
+  .trade a {
+    min-height: 132px;
+    padding: 15px 10px;
+  }
+  .trade .ico {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .trade b {
+    font-size: 15px;
+  }
+  .trade a > span:last-child {
+    font-size: 11.5px;
+  }
+  .quick-tool-btn {
+    padding: 12px 14px;
+    min-height: 64px;
+    gap: 11px;
+  }
+  .quick-tool-text strong {
+    font-size: 13.5px;
+  }
+  .quick-tool-text span {
+    font-size: 11px;
+    word-break: keep-all;
+  }
+  .access-panels {
+    grid-template-columns: 1fr;
+  }
+  .transaction-panel {
+    border-left: 0;
+    border-top: 1px solid #e1e8ee;
+    padding-left: 8px;
+    padding-top: 16px;
+    margin-top: 4px;
+  }
+  .title {
+    margin: 28px 0 14px;
+    font-size: 20px;
+  }
+  .step, .promise-grid .card {
+    min-height: 170px;
+    padding: 16px 12px;
+  }
+  .fee-head {
+    padding: 18px 14px;
+  }
+  .fee-head h1 {
+    font-size: 21px;
+    line-height: 1.3;
+    word-break: keep-all;
+  }
+  .calculator {
+    padding: 16px 14px;
+  }
+  .compare-card {
+    padding: 14px 8px;
+  }
+  .price {
+    font-size: 20px;
+  }
+  .broker-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .broker-btn {
+    padding: 10px 6px;
+    font-size: 11.5px;
   }
 }
   </style>

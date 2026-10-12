@@ -183,9 +183,41 @@ button,input,select{font:inherit}
   .compare-grid,.channel-grid{grid-template-columns:1fr;}
   .page-cards,.step-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
-@media(max-width:480px){
-  .hero{padding:34px 18px;}
-  .page-cards,.step-grid{grid-template-columns:1fr;}
+@media(max-width:640px){
+  .wrap{padding:0 12px 54px;}
+  .top-nav-inner{padding:10px 12px;gap:8px;}
+  .brand-logo{width:100%;justify-content:center;}
+  .brand-logo .mark{font-size:10.5px;padding:4px 8px;}
+  .brand-logo strong{font-size:14.5px;}
+  .nav-btns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;width:100%;}
+  .nav-btn{padding:8px 4px;font-size:11.5px;text-align:center;justify-content:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hero{margin-top:14px;padding:30px 16px 24px;border-radius:18px;}
+  .hero::after{inset:8px;border-radius:12px;}
+  .hero-eyebrow{font-size:10.5px;padding:5px 10px;letter-spacing:1px;margin-bottom:10px;}
+  .hero h1{font-size:23px;line-height:1.34;margin-bottom:10px;}
+  .hero p{font-size:13.5px;line-height:1.6;margin-bottom:18px;}
+  .hero-cta{flex-direction:column;gap:8px;width:100%;}
+  .cta-main,.cta-sub{width:100%;min-height:46px;padding:0 14px;font-size:13.5px;justify-content:center;}
+  .sec{margin-top:24px;}
+  .sec-head{margin-bottom:14px;}
+  .sec-head h2{font-size:20px;line-height:1.35;word-break:keep-all;}
+  .sec-head p{font-size:12.5px;line-height:1.5;word-break:keep-all;}
+  .cmp-card,.ch-box{padding:18px 15px;border-radius:15px;}
+  .cmp-card h3,.ch-box h3{font-size:17px;}
+  .cmp-list{font-size:12.5px;gap:8px;}
+  .catalog-showcase{padding:18px 12px;border-radius:16px;}
+  .page-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px;}
+  .p-thumb{height:96px;}
+  .p-body{padding:8px 9px;}
+  .p-body strong{font-size:12px;}
+  .p-body span{font-size:10.5px;word-break:keep-all;}
+  .step-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+  .step-box{padding:14px 12px;border-radius:12px;}
+  .step-box h4{font-size:13.5px;}
+  .step-box p{font-size:11.5px;word-break:keep-all;}
+  .bottom-banner{margin-top:26px;padding:24px 16px;border-radius:18px;}
+  .bottom-banner h2{font-size:20px;line-height:1.35;word-break:keep-all;}
+  .bottom-banner p{font-size:12.5px;margin-bottom:16px;word-break:keep-all;}
 }
 </style>
 </head>
@@ -198,9 +230,9 @@ button,input,select{font:inherit}
       <strong>우리아파트 모바일 카탈로그 플랫폼</strong>
     </a>
     <div class="nav-btns">
-      <a href="/presale-search.html" class="nav-btn">🔍 전국 분양현장 자동검색</a>
+      <a href="/presale-search.html" class="nav-btn">🔍 분양사 자동검색</a>
       <a href="/index.html" class="nav-btn">🏠 분양 메인화면</a>
-      <a href="/sale-detail.html?room=ROOM-001" class="nav-btn primary">📖 01~08P 고급 샘플 카탈로그 체험</a>
+      <a href="/sale-detail.html?room=ROOM-001" class="nav-btn primary">📖 샘플 카탈로그</a>
     </div>
   </div>
 </nav>

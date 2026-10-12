@@ -121,8 +121,54 @@ tr:hover td{background:#f8fafc;}
 }
 .toast.show{display:block;}
 
-@media(max-width:760px){
-  .search-row{grid-template-columns:1fr;}
+@media(max-width:768px){
+  .wrap{padding:12px 10px 50px;}
+  .head-card{padding:20px 16px;border-radius:16px;gap:12px;}
+  .head-card small{font-size:10.5px;letter-spacing:1.2px;}
+  .head-card h1{font-size:20px;line-height:1.35;word-break:keep-all;}
+  .head-card p{font-size:12.5px;line-height:1.5;word-break:keep-all;}
+  .head-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;width:100%;}
+  .head-actions .btn-top:first-child{grid-column:1 / -1;}
+  .btn-top{width:100%;height:42px;padding:0 10px;font-size:12px;justify-content:center;text-align:center;}
+  .search-panel{margin-top:12px;padding:14px 12px;border-radius:14px;}
+  .search-row{grid-template-columns:1fr 1fr;gap:8px;}
+  .search-input-wrap{grid-column:1 / -1;}
+  .search-input{height:46px;font-size:13.5px;padding:0 12px 0 38px;}
+  #statusSelect,#resetBtn{height:42px !important;font-size:12.5px !important;width:100%;}
+  .region-chips{padding-top:10px;margin-top:10px;-webkit-overflow-scrolling:touch;}
+  .chip{height:34px;padding:0 12px;font-size:12px;}
+  .stat-bar{margin:12px 2px;font-size:12.5px;gap:4px;}
+  /* 모바일에서 가로 스크롤 없는 100% 카드형 리스트 전환 */
+  .table-card{background:transparent;border:0;box-shadow:none;overflow:visible;}
+  .table-wrap{overflow:visible;}
+  table,thead,tbody,th,td,tr{display:block;width:100%;min-width:0 !important;}
+  thead{display:none;}
+  tbody{display:grid;gap:12px;}
+  tbody tr{
+    background:#fff;border:1.5px solid #cbd5e1;border-radius:16px;padding:14px;
+    box-shadow:0 6px 18px rgba(15,23,42,0.05);position:relative;
+  }
+  tbody td{
+    border:0;padding:4px 0;text-align:left !important;font-size:13px;
+    display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+  }
+  tbody td::before{
+    content:attr(data-label);
+    flex:0 0 92px;color:#64748b;font-size:11.5px;font-weight:800;
+  }
+  tbody td.m-head-cell{
+    border-bottom:1px solid #e2e8f0;padding-bottom:10px;margin-bottom:6px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  tbody td.m-head-cell::before{display:none;}
+  tbody td.m-act-cell{
+    border-top:1px solid #e2e8f0;padding-top:10px;margin-top:6px;display:block;
+  }
+  tbody td.m-act-cell::before{display:none;}
+  .act-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;}
+  .btn-sm{height:40px;font-size:12px;justify-content:center;width:100%;border-radius:9px;}
+  .agency-section h2{font-size:18px;line-height:1.35;word-break:keep-all;}
+  .toast{left:12px;right:12px;bottom:14px;text-align:center;font-size:12.5px;padding:12px 14px;}
 }
 </style>
 </head>
@@ -137,7 +183,7 @@ tr:hover td{background:#f8fafc;}
     </div>
     <div class="head-actions">
       <a href="/presale-landing.html" class="btn-top gold">🏢 분양사 제안용 랜딩페이지 보기 ↗</a>
-      <a href="/sale-detail.html?room=ROOM-001" class="btn-top">📖 고급 샘플 카탈로그(01~08P) ↗</a>
+      <a href="/sale-detail.html?room=ROOM-001" class="btn-top">📖 고급 샘플 카탈로그 ↗</a>
       <a href="/presale-list.xlsx" download="전국_분양중_분양예정_분양사리스트_2026.xlsx" class="btn-top">📥 엑셀(.xlsx) 다운로드</a>
     </div>
   </header>
@@ -146,7 +192,7 @@ tr:hover td{background:#f8fafc;}
     <div class="search-row">
       <div class="search-input-wrap">
         <span class="search-icon">🔎</span>
-        <input type="text" id="autoSearchInput" class="search-input" placeholder="아파트 단지명, 지역(예: 강남, 판교, 광주), 시공사(현대, GS 등), 분양대행사 즉시 자동검색...">
+        <input type="text" id="autoSearchInput" class="search-input" placeholder="단지명, 지역(강남·판교·광주 등), 시공사, 대행사 검색...">
       </div>
       <select id="statusSelect" style="height:50px;padding:0 14px;border-radius:12px;border:1.5px solid #cbd5e1;font-weight:800;">
         <option value="all">전체 분양상태</option>
@@ -353,16 +399,16 @@ tr:hover td{background:#f8fafc;}
       var previewUrl = "/sale-detail.html?room=ROOM-001&apt=" + encodeURIComponent(s.name) + "&company=" + encodeURIComponent(s.builder) + "&dong=" + encodeURIComponent(s.sigungu) + "&tel=" + encodeURIComponent(s.tel);
       var badgeCls = s.status === "분양중" ? "badge-ing" : "badge-up";
       return '<tr>' +
-        '<td>' + s.no + '</td>' +
-        '<td><span class="' + badgeCls + '">' + s.status + '</span></td>' +
-        '<td><strong>' + s.sido + '</strong><br><span style="color:#64748b;font-size:11.5px;">' + s.sigungu + '</span></td>' +
-        '<td style="text-align:left;"><strong style="font-size:13.5px;color:#07192b;">' + s.name + '</strong></td>' +
-        '<td>' + s.builder + '</td>' +
-        '<td>' + s.households + '</td>' +
-        '<td><strong>' + s.tel + '</strong></td>' +
-        '<td style="color:#0369a1;font-weight:800;">📠 ' + s.fax + '</td>' +
-        '<td style="text-align:left;font-size:11.5px;color:#334155;">' + s.addr + '</td>' +
-        '<td>' +
+        '<td data-label="번호">#' + s.no + '</td>' +
+        '<td data-label="분양상태"><span class="' + badgeCls + '">' + s.status + '</span></td>' +
+        '<td data-label="지역"><span><strong>' + s.sido + '</strong> · <span style="color:#64748b;font-size:11.5px;">' + s.sigungu + '</span></span></td>' +
+        '<td data-label="아파트 단지명" style="text-align:left;"><strong style="font-size:14px;color:#07192b;">' + s.name + '</strong></td>' +
+        '<td data-label="시공사/브랜드">' + s.builder + '</td>' +
+        '<td data-label="세대수">' + s.households + '</td>' +
+        '<td data-label="홍보관 전화"><a href="tel:' + s.tel + '" style="color:#0f2942;font-weight:800;">📞 ' + s.tel + '</a></td>' +
+        '<td data-label="본사·대행사 팩스" style="color:#0369a1;font-weight:800;">📠 ' + s.fax + '</td>' +
+        '<td data-label="우편(DM) 주소" style="text-align:left;font-size:11.5px;color:#334155;">' + s.addr + '</td>' +
+        '<td class="m-act-cell">' +
           '<div class="act-btns">' +
             '<a href="' + previewUrl + '" target="_blank" class="btn-sm navy">📖 맞춤 카탈로그 열기 ↗</a>' +
             '<button type="button" class="btn-sm gold" data-msg-name="' + s.name + '" data-msg-builder="' + s.builder + '" data-msg-dong="' + s.sigungu + '">📋 맞춤 발송문구</button>' +
@@ -375,13 +421,13 @@ tr:hover td{background:#f8fafc;}
   function renderAgencies(){
     agencyRows.innerHTML = AGENCIES.map(function(a){
       return '<tr>' +
-        '<td>' + a.no + '</td>' +
-        '<td><strong style="color:#07192b;">' + a.name + '</strong></td>' +
-        '<td style="text-align:left;font-size:12px;">' + a.addr + '</td>' +
-        '<td>' + a.brands + '</td>' +
-        '<td>' + a.tel + '</td>' +
-        '<td style="color:#0369a1;font-weight:800;">📠 ' + a.fax + '</td>' +
-        '<td>' +
+        '<td data-label="번호">#' + a.no + '</td>' +
+        '<td data-label="분양대행사명"><strong style="color:#07192b;font-size:14px;">' + a.name + '</strong></td>' +
+        '<td data-label="본사 우편주소" style="text-align:left;font-size:12px;">' + a.addr + '</td>' +
+        '<td data-label="담당 브랜드">' + a.brands + '</td>' +
+        '<td data-label="본사 대표전화"><a href="tel:' + a.tel + '" style="font-weight:800;">📞 ' + a.tel + '</a></td>' +
+        '<td data-label="본사 팩스(FAX)" style="color:#0369a1;font-weight:800;">📠 ' + a.fax + '</td>' +
+        '<td class="m-act-cell">' +
           '<button type="button" class="btn-sm gold" data-msg-name="' + a.name + ' 담당 현장" data-msg-builder="' + a.name + '" data-msg-dong="전국 주요 현장">📋 대행사 제안문구 복사</button>' +
         '</td>' +
       '</tr>';
