@@ -494,19 +494,41 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
     reader.readAsDataURL(file);
   }
 
+  var DEFAULT_SAMPLE_IMAGES = {
+    coverImageUrl: "/sample-cover.jpg",
+    locationImageUrl: "/sample-location.jpg",
+    premiumImageUrl: "/sample-interior.jpg",
+    complexImageUrl: "/sample-complex.jpg",
+    unit1ImageUrl: "",
+    unit2ImageUrl: "",
+    modelhouseImageUrl: "/sample-modelhouse.jpg",
+    commFullImageUrl: "/sample-community.jpg",
+    commImg1: "/sample-community.jpg",
+    commImg2: "/sample-interior.jpg",
+    commImg3: "/sample-modelhouse.jpg",
+    commImg4: "/sample-community.jpg",
+    commImg5: "/sample-complex.jpg",
+    commImg6: "/sample-cover.jpg"
+  };
+
   function updateSlotPreview(key){
     var inputEl = $("#" + key);
     var prevEl = $("#prev_" + key);
     if(!inputEl || !prevEl) return;
     var val = (inputEl.value || "").trim();
+    var sampleUrl = DEFAULT_SAMPLE_IMAGES[key] || "";
     if(val){
       prevEl.style.backgroundImage = 'url("' + val + '")';
       prevEl.classList.add("has-img");
-      prevEl.innerHTML = '<span>✅ 분양사 이미지 등록됨 (클릭 후 변경 가능)</span>';
+      prevEl.innerHTML = '<span>✅ 분양사 전용 이미지 등록됨 (클릭 후 변경 가능)</span>';
+    } else if(sampleUrl){
+      prevEl.style.backgroundImage = 'linear-gradient(180deg,rgba(4,16,28,.15),rgba(4,16,28,.55)), url("' + sampleUrl + '")';
+      prevEl.classList.add("has-img");
+      prevEl.innerHTML = '<span>✨ 고급 기본 샘플 적용중 (클릭 후 Ctrl+V 또는 파일 선택 시 분양사 이미지로 교체)</span>';
     } else {
       prevEl.style.backgroundImage = "";
       prevEl.classList.remove("has-img");
-      prevEl.innerHTML = '<span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택</span>';
+      prevEl.innerHTML = '<span>✨ 84A/84B 기본 평면도 도면 적용중 (파일 업로드 또는 Ctrl+V 시 분양사 평면도로 교체)</span>';
     }
   }
 
