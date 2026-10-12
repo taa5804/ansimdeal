@@ -2190,7 +2190,7 @@ li a:hover {
         <span>⚡</span> <span>전기 · 수도 · 가스 입주연결 · 해지정산 매칭기 바로가기 ›</span>
       </a>
       <a href="/tools-center.html?tab=map" style="width:100%; background:#eff6ff; border:1.5px solid #93c5fd; color:#1d4ed8; text-decoration:none; border-radius:12px; padding:11px; font-size:13px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:8px;">
-        <span>🗺️</span> <span>소상공인진흥공단 DB 반경 500m 상권분석 지도 말풍선 ›</span>
+        <span>🗺️</span> <span>소상공인진흥공단 DB 반경 300m 상권분석 지도 말풍선 ›</span>
       </a>
     </div>
 
@@ -3370,7 +3370,7 @@ ${html(description)}
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
   <a href="/tools-center.html?tab=utility" style="display:block;padding:13px 10px;border-radius:12px;background:#059669;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">⚡ 전기·수도·가스 입주·해지 정산기</a>
-  <a href="/tools-center.html?tab=map" style="display:block;padding:13px 10px;border-radius:12px;background:#1e3a8a;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">🗺️ 반경 500m 상권분석 지도</a>
+  <a href="/tools-center.html?tab=map" style="display:block;padding:13px 10px;border-radius:12px;background:#1e3a8a;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">🗺️ 반경 300m 상권분석 지도</a>
 </div>
 
 </section>
