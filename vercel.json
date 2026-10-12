@@ -37,6 +37,18 @@
       "destination": "/presale-list.html"
     },
     {
+      "source": "/presale-search",
+      "destination": "/presale-search.html"
+    },
+    {
+      "source": "/presale-landing",
+      "destination": "/presale-landing.html"
+    },
+    {
+      "source": "/broker-landing",
+      "destination": "/broker-landing.html"
+    },
+    {
       "source": "/utility",
       "destination": "/tools-center.html"
     },
