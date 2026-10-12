@@ -64,6 +64,7 @@
   <div class="top-bar">
     <a class="brand" href="/">🏢 전국 분양중·분양예정 분양사 리스트 센터</a>
     <div class="top-links">
+      <a href="/presale-list.xlsx" download="전국_분양중_분양예정_분양사리스트_2026.xlsx" style="background:#10b981;color:#fff;border-color:#059669;">📥 엑셀(.xlsx) 즉시 다운로드</a>
       <a href="/head-admin.html">⚙️ 본사관리자</a>
       <a href="/room-manager.html">🗂️ 분양실 매칭 관리</a>
       <a href="/">🏠 분양 메인화면</a>
@@ -75,11 +76,14 @@
     <h1>전국 분양중 · 분양예정 아파트 분양사 리스트 (총 <span id="totalHeroCount">148</span>개 현장 + 메이저 분양대행사)</h1>
     <p>
       총괄본부장·기획팀장 영업용 <strong>모델하우스 대표번호, 시공사/분양본부 팩스(FAX), 공식 이메일, 홈페이지</strong>가 모두 수록되어 있습니다.<br>
-      아래 버튼을 누르면 <strong>엑셀(CSV) 파일</strong>로 즉시 다운로드되며, 지역별·상태별로 골라서 다운로드할 수도 있습니다.
+      아래 버튼을 누르면 <strong>엑셀(.xlsx) 원본 파일 또는 CSV 파일</strong>로 즉시 다운로드되며, 지역별·상태별로 골라서 다운로드할 수도 있습니다.
     </p>
     <div class="dl-bar">
-      <a href="/presale-list.csv" download="전국_분양중_분양예정_분양사리스트.csv" class="dl-btn dl-primary">
-        📥 전국 전체 리스트 엑셀(CSV) 다운로드 (148개 단지 + 대행사DB)
+      <a href="/presale-list.xlsx" download="전국_분양중_분양예정_분양사리스트_2026.xlsx" class="dl-btn dl-primary">
+        📥 전국 전체 엑셀(.xlsx) 원본 다운로드 (4개 시트 통합본)
+      </a>
+      <a href="/presale-list.csv" download="전국_분양중_분양예정_분양사리스트_2026.csv" class="dl-btn dl-secondary">
+        📥 전국 전체 CSV 다운로드 (148개 단지 + 대행사DB)
       </a>
       <button type="button" class="dl-btn dl-secondary" onclick="downloadFilteredCsv('분양중')">
         📥 현재 [분양중] 리스트만 다운로드 (117건)

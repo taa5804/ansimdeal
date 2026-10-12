@@ -202,6 +202,32 @@
           "value": "public, max-age=0, s-maxage=31536000, stale-while-revalidate=86400"
         }
       ]
+    },
+    {
+      "source": "/presale-list.xlsx",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "attachment; filename=\"presale-list-2026.xlsx\"; filename*=UTF-8''%EC%A0%84%EA%B5%AD_%EB%B6%84%EC%96%91%EC%A4%91_%EB%B6%84%EC%96%91%EC%98%88%EC%A0%95_%EB%B6%84%EC%96%91%EC%82%AC%EB%A6%AC%EC%8A%A4%ED%8A%B8_2026.xlsx"
+        }
+      ]
+    },
+    {
+      "source": "/presale-list.csv",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/csv; charset=utf-8"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "attachment; filename=\"presale-list-2026.csv\"; filename*=UTF-8''%EC%A0%84%EA%B5%AD_%EB%B6%84%EC%96%91%EC%A4%91_%EB%B6%84%EC%96%91%EC%98%88%EC%A0%95_%EB%B6%84%EC%96%91%EC%82%AC%EB%A6%AC%EC%8A%A4%ED%8A%B8_2026.csv"
+        }
+      ]
     }
   ],
   "crons": [
