@@ -1050,8 +1050,8 @@
       <a class="logo" href="index.html">
         <span class="logo-app-icon">🏪</span>
         <div>
-          <strong>점포·상가 안심딜 (ansimdeal)</strong>
-          <span>반경 300m 실측 상권분석 지도 &amp; 전기·수도·가스 입주연결·해지정산 매칭기</span>
+          <strong>안심딜 · 우리아파트 안심거래</strong>
+          <span>상권분석 지도(300m) &amp; 전기·수도·가스 입주연결·해지정산 매칭기</span>
         </div>
       </a>
 
@@ -1062,7 +1062,8 @@
       </button>
     </div>
 
-    <div class="header-actions" style="display:flex; justify-content:flex-end;">
+    <div class="header-actions">
+      <a class="back-btn-deal" href="https://wooriapt.app">🏠 우리아파트 안심거래 메인</a>
       <a class="back-btn-deal" href="index.html">🏪 점포·상가 안심딜 메인</a>
     </div>
   </header>
@@ -1331,11 +1332,14 @@
         </div>
       </div>
 
-      <!-- 하단 점포·상가 안심딜 메인화면 바로가기 버튼 -->
+      <!-- 하단 양대 플랫폼 메인화면 바로가기 버튼 2개 (입주/해지 공통) -->
       <div class="platform-links-box" id="platformLinksBox">
-        <div class="platform-links-title">👇 확인 후 점포·상가 안심딜 메인화면으로 바로 이동하세요</div>
-        <div class="platform-links-grid" style="grid-template-columns:1fr;">
-          <a href="index.html" class="platform-home-btn store">
+        <div class="platform-links-title">👇 확인 후 원하는 플랫폼 메인화면으로 바로 이동하세요</div>
+        <div class="platform-links-grid">
+          <a href="https://wooriapt.app" class="platform-home-btn apt">
+            <span>🏠 우리아파트 안심거래 메인화면 바로가기</span>
+          </a>
+          <a href="https://ansimdeal.com" class="platform-home-btn store">
             <span>🏪 점포·상가 안심딜 메인화면 바로가기</span>
           </a>
         </div>
@@ -3121,6 +3125,7 @@ function buildKakaoShareText() {
       : "✅ 정산 방식: 보증금(잔금)에서 총 " + totalFee.toLocaleString() + "원 정산 차감 합의"
   );
   lines.push("");
+  lines.push("🏠 우리아파트 안심거래: https://wooriapt.app");
   lines.push("🏪 점포·상가 안심딜: https://ansimdeal.com");
 
   return lines.join("\n");
