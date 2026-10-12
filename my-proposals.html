@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1165d7">
 
-<title>나의 제안 | 안심딜 상가 안심거래</title>
-<meta name="description" content="나의 제안 | 안심딜 상가 안심거래 - 상가·점포 전세·월세 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+<title>나의 제안 | 우리아파트 안심거래</title>
+<meta name="description" content="나의 제안 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
 
 <style>
 *{box-sizing:border-box}
@@ -33,13 +33,13 @@ a{
   width:100%;
   max-width:760px;
   margin:0 auto;
-  padding:14px 12px 55px;
+  padding:14px 12px 50px;
 }
 
 .header{
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   gap:10px;
   margin-bottom:16px;
 }
@@ -68,7 +68,7 @@ a{
   background:#fff;
   border:1px solid #dce5ec;
   border-radius:18px;
-  padding:22px 16px;
+  padding:20px 15px;
   box-shadow:0 6px 18px rgba(26,61,88,.06);
 }
 
@@ -99,50 +99,50 @@ h1{
 .request-box{
   margin-bottom:18px;
   padding:14px;
-  border:1px solid #d7e5f2;
-  border-radius:13px;
-  background:#f4f9fd;
+  border:1px solid #d7e5ef;
+  border-radius:12px;
+  background:#f6faff;
 }
 
 .request-label{
-  color:#607788;
+  margin-bottom:6px;
+  color:#6d8190;
   font-size:12px;
   font-weight:800;
 }
 
 .request-number{
-  margin-top:4px;
   color:#1165d7;
-  font-size:20px;
+  font-size:19px;
   font-weight:900;
+  letter-spacing:.3px;
 }
 
 .help{
-  margin-top:6px;
-  color:#6d7f8e;
-  font-size:12px;
+  margin-top:7px;
+  color:#718391;
+  font-size:11px;
   line-height:1.55;
 }
 
 .count{
-  margin:18px 0 12px;
-  color:#173e60;
-  font-size:15px;
-  font-weight:900;
+  margin-bottom:10px;
+  color:#536d80;
+  font-size:13px;
+  font-weight:800;
 }
 
 .property{
-  margin-bottom:12px;
-  padding:15px;
-  border:2px solid #dfe7ee;
+  margin-top:11px;
+  padding:16px;
+  border:1px solid #dce5ec;
   border-radius:14px;
   background:#fff;
-  transition:.15s;
 }
 
 .property.selected{
   border-color:#1165d7;
-  background:#f7fbff;
+  box-shadow:0 0 0 2px rgba(17,101,215,.08);
 }
 
 .property-top{
@@ -152,164 +152,93 @@ h1{
 }
 
 .check{
-  width:20px;
-  height:20px;
+  width:22px;
+  height:22px;
+  flex:0 0 22px;
   margin-top:2px;
   accent-color:#1165d7;
-  cursor:pointer;
 }
 
 .property-main{
   flex:1;
+  min-width:0;
 }
 
 .apartment{
-  color:#143b61;
-  font-size:18px;
+  margin-bottom:8px;
+  color:#173e60;
+  font-size:17px;
   font-weight:900;
+  word-break:keep-all;
 }
 
 .info{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:11px;
-  padding:11px;
-  border-radius:10px;
-  background:#f5f8fa;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
 }
 
 .item-label{
-  color:#728493;
+  margin-bottom:3px;
+  color:#7a8c99;
   font-size:11px;
-  font-weight:800;
 }
 
 .item-value{
-  margin-top:3px;
-  color:#173e60;
+  color:#31546c;
   font-size:14px;
-  font-weight:900;
-}
-
-.description{
-  margin-top:10px;
-  color:#4f6474;
-  font-size:13px;
-  line-height:1.6;
-}
-
-.broker-hidden{
-  margin-top:10px;
-  padding:9px 11px;
-  border-radius:9px;
-  background:#fff8eb;
-  color:#8a5800;
-  font-size:12px;
   font-weight:800;
 }
 
+.description{
+  margin-top:12px;
+  padding-top:11px;
+  border-top:1px solid #edf1f4;
+  color:#617788;
+  font-size:12px;
+  line-height:1.65;
+}
+
+.broker-hidden{
+  margin-top:12px;
+  padding:10px 11px;
+  border-radius:9px;
+  background:#f5f7f9;
+  color:#778996;
+  font-size:11px;
+  line-height:1.55;
+}
+
 .broker-visible{
-  margin-top:10px;
+  margin-top:12px;
   padding:11px;
   border-radius:9px;
   background:#edf8f1;
-  color:#1e6b37;
-  font-size:13px;
-  font-weight:900;
+  color:#26733e;
+  font-size:12px;
   line-height:1.65;
 }
 
 .empty{
-  padding:32px 15px;
-  border:1px dashed #cad7e2;
-  border-radius:14px;
+  padding:35px 15px;
+  border:1px dashed #cbd8e1;
+  border-radius:13px;
   text-align:center;
-  color:#6c7f8e;
+  color:#718596;
   font-size:14px;
   line-height:1.7;
 }
 
-.additional-request-area{
-  margin-top:16px;
-  padding:15px;
-  border:1px solid #dce6ef;
-  border-radius:14px;
-  background:#f8fbfd;
-}
-
-.additional-request-title{
-  color:#173e60;
-  font-size:14px;
-  font-weight:900;
-}
-
-.additional-request-help{
-  margin-top:4px;
-  color:#6c7f8e;
-  font-size:12px;
-  line-height:1.55;
-}
-
-.additional-request-buttons{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:11px;
-}
-
-.additional-request-btn{
-  height:44px;
-  border:1px solid #1165d7;
-  border-radius:10px;
-  background:#fff;
-  color:#1165d7;
-  font-size:13px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.additional-request-btn:disabled{
-  border-color:#ccd7e0;
-  background:#eef2f6;
-  color:#8b9aa6;
-  cursor:not-allowed;
-}
-
-.request-time-notice{
-  margin-top:10px;
-  padding:10px 12px;
-  border-radius:9px;
-  background:#eef5fc;
-  border:1px solid #cfe0f0;
-  color:#2b4c65;
-  font-size:12px;
-  line-height:1.6;
-}
-
-.request-time-status{
-  margin-top:8px;
-  font-size:12px;
-  font-weight:800;
-  color:#1165d7;
-}
-
-.request-time-status.off{
-  color:#c62828;
-}
-
 .action-area{
   margin-top:18px;
-  padding-top:16px;
-  border-top:1px solid #e4ebf1;
 }
 
 .selected-info{
   margin-bottom:10px;
-  color:#486173;
-  font-size:13px;
-  font-weight:800;
+  color:#536d80;
+  font-size:12px;
   line-height:1.5;
+  text-align:center;
 }
 
 .action-buttons{
@@ -340,7 +269,7 @@ h1{
 .decision-btn{
   width:100%;
   height:52px;
-  border:none;
+  border:0;
   border-radius:12px;
   background:#1165d7;
   color:#fff;
@@ -350,24 +279,91 @@ h1{
 }
 
 .decision-btn:disabled{
-  background:#b8c7d4;
+  background:#b9c6d0;
   cursor:not-allowed;
+}
+
+.additional-request-area{
+  margin-top:18px;
+  padding:14px;
+  border:1px solid #d7e5ef;
+  border-radius:12px;
+  background:#f6faff;
+}
+
+.additional-request-title{
+  margin-bottom:7px;
+  color:#173e60;
+  font-size:14px;
+  font-weight:900;
+}
+
+.additional-request-help{
+  margin-bottom:11px;
+  color:#718391;
+  font-size:11px;
+  line-height:1.55;
+}
+
+.additional-request-buttons{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.additional-request-btn{
+  width:100%;
+  height:44px;
+  border:0;
+  border-radius:10px;
+  background:#1165d7;
+  color:#fff;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.additional-request-btn:disabled{
+  background:#b9c6d0;
+  cursor:not-allowed;
+}
+
+.request-time-notice{
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:9px;
+  background:#eef5fc;
+  border:1px solid #cfe0f0;
+  color:#2b4c65;
+  font-size:11.5px;
+  line-height:1.6;
+}
+
+.request-time-status{
+  margin-top:8px;
+  font-size:12px;
+  font-weight:800;
+  color:#1165d7;
+}
+
+.request-time-status.off{
+  color:#c62828;
 }
 
 .notice{
   margin-top:16px;
   padding:13px;
-  border-radius:11px;
-  background:#f4f8fb;
-  color:#556b7b;
+  border-radius:10px;
+  background:#f5f8fa;
+  color:#718391;
   font-size:12px;
   line-height:1.7;
 }
 
 .msg{
   display:none;
-  margin-top:12px;
-  padding:12px;
+  margin-top:14px;
+  padding:13px;
   border-radius:10px;
   font-size:13px;
   line-height:1.6;
@@ -376,7 +372,7 @@ h1{
 .msg.ok{
   display:block;
   background:#edf8f1;
-  color:#236c3a;
+  color:#26733e;
 }
 
 .msg.error{
@@ -392,7 +388,12 @@ h1{
   font-size:11px;
 }
 
-@media(max-width:460px){
+@media(max-width:430px){
+
+  .wrap{
+    padding-left:10px;
+    padding-right:10px;
+  }
 
   .card{
     padding:18px 13px;
@@ -408,6 +409,15 @@ h1{
 
 }
 </style>
+<link rel="canonical" href="https://www.wooriapt.app/my-proposals.html">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="우리아파트">
+<meta property="og:title" content="나의 제안 | 우리아파트 안심거래">
+<meta property="og:description" content="나의 제안 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+<meta property="og:url" content="https://www.wooriapt.app/my-proposals.html">
+<meta property="og:image" content="https://www.wooriapt.app/apt-hero.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"나의 제안 | 우리아파트 안심거래","description":"나의 제안 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.","url":"https://www.wooriapt.app/my-proposals.html","isPartOf":{"@type":"WebSite","name":"우리아파트","url":"https://www.wooriapt.app/"}}</script>
 </head>
 
 <body>
@@ -417,7 +427,7 @@ h1{
 <header class="header">
 
   <a class="brand" href="/">
-    🏢 안심딜 <strong>상가 안심거래</strong>
+    🏠 우리아파트 <strong>안심거래</strong>
   </a>
 
   <a
@@ -432,7 +442,7 @@ h1{
 <main class="card">
 
   <span class="badge">
-    임차인 전용
+    매수자 전용
   </span>
 
   <h1>
@@ -440,16 +450,16 @@ h1{
   </h1>
 
   <p class="desc">
-    내가 등록한 상가 전세·월세 임차요청에 맞춰 중개사가 등록한 매물을 확인합니다.
+    내가 등록한 매수요청에 맞춰 중개사가 등록한 매물을 확인합니다.
   </p>
 
 
-  <!-- 임차요청번호 -->
+  <!-- 매수요청번호 -->
 
   <div class="request-box">
 
     <div class="request-label">
-      임차요청번호
+      매수요청번호
     </div>
 
     <div
@@ -459,7 +469,7 @@ h1{
     </div>
 
     <div class="help">
-      같은 임차요청번호로 등록된 상가·점포 매물이 모두 표시됩니다.
+      같은 매수요청번호로 등록된 매물이 모두 표시됩니다.
     </div>
 
   </div>
@@ -486,7 +496,7 @@ h1{
     </div>
 
     <div class="additional-request-help">
-      자동 발송으로 인한 법적 문제를 방지하기 위해 임차인(매수자)이 직접 버튼을 눌러 매물 요청을 발송합니다.
+      자동 발송으로 인한 법적 문제를 방지하기 위해 매수자(임차인)가 직접 버튼을 눌러 매물 요청을 발송합니다.
     </div>
 
     <div class="additional-request-buttons">
@@ -568,11 +578,11 @@ h1{
   <div class="notice">
 
     <b>[거래 요청 · 거래 결정 및 진행절차 안내]</b><br>
-    1. <b>[1·2·3차 매물 요청]</b> 자동 요청 시 법적 문제가 있을 수 있으므로 임차인(매수자)이 직접 버튼을 눌러 요청하며, <b>오전 9시부터 오후 9시까지(09:00~21:00)만 활성화</b>됩니다. (밤·새벽 시간대에는 1·2·3차 버튼 모두 비활성화 / 2차·3차 요청은 이전 요청 후 <b>3시간 후</b> 활성화)<br>
-    2. <b>[거래 요청 - 다중 선택 가능]</b> 임차인(매수자)이 가능한 많은 매물을 보고 결정할 수 있도록, 매물을 <b>2개든 3개든 원하는 만큼 모두 체크</b>한 후 <b>거래 요청</b>을 누르면 <b>선택된 모든 중개사의 부동산명과 연락처가 즉시 공개</b>됩니다.<br>
+    1. <b>[1·2·3차 매물 요청]</b> 자동 요청 시 법적 문제가 있을 수 있으므로 매수자(임차인)가 직접 버튼을 눌러 요청하며, <b>오전 9시부터 오후 9시까지(09:00~21:00)만 활성화</b>됩니다. (밤·새벽 시간대에는 1·2·3차 버튼 모두 비활성화 / 2차·3차 요청은 이전 요청 후 <b>3시간 후</b> 활성화)<br>
+    2. <b>[거래 요청 - 다중 선택 가능]</b> 매수자(임차인)가 가능한 많은 매물을 보고 결정할 수 있도록, 매물을 <b>2개든 3개든 원하는 만큼 모두 체크</b>한 후 <b>거래 요청</b>을 누르면 <b>선택된 모든 중개사의 부동산명과 연락처가 즉시 공개</b>됩니다.<br>
     3. <b>[거래 결정 - 최종 1건 계약]</b> 여러 매물을 확인·비교한 후 최종 계약할 매물 1건을 선택하고 <b>거래 결정</b>을 누르면 <b>전용 4자리 거래방 코드(진행번호)</b>가 생성되어 선택된 담당 중개사에게 문자로 전송됩니다.<br>
-    4. 임대인·중개사 연락처는 등록 시 노출되지 않으며, <b>임차인(매수자)이 매물을 선택(거래 요청 또는 거래 결정)하였을 때만 임차인(매수자)에게만 공개</b>됩니다.<br>
-    5. <b>임차인(매수자)의 연락처는 거래 요청·거래 결정 후에도 중개사·임대인에게 공개되지 않으며, 임차인(매수자)이 직접 알려주기 전까지는 절대 공개되지 않습니다.</b>
+    4. 매도인·임대인·중개사 연락처는 등록 시 노출되지 않으며, <b>매수자(임차인)가 매물을 선택(거래 요청 또는 거래 결정)하였을 때만 매수자(임차인)에게만 공개</b>됩니다.<br>
+    5. <b>매수자(임차인)의 연락처는 거래 요청·거래 결정 후에도 중개사·매도인(임대인)에게 공개되지 않으며, 매수자(임차인)가 직접 알려주기 전까지는 절대 공개되지 않습니다.</b>
 
   </div>
 
@@ -580,7 +590,7 @@ h1{
 
 
 <footer class="footer">
-  © 안심딜 상가 안심거래
+  © 우리아파트 안심거래
 </footer>
 
 </div>
@@ -689,7 +699,7 @@ function formatRemainTime(ms){
 
 
 /*
-  URL에 ?request=임차요청번호가 있으면 사용합니다.
+  URL에 ?request=매수요청번호가 있으면 사용합니다.
 */
 
 (function(){
@@ -734,7 +744,7 @@ function formatRemainTime(ms){
   }else{
 
     requestNumberEl.textContent =
-      "임차요청번호 확인 중";
+      "매수요청번호 확인 중";
 
   }
 
@@ -761,7 +771,7 @@ function updateRequestButtonsState(){
     firstRequestBtn.disabled = true;
     secondRequestBtn.disabled = true;
     thirdRequestBtn.disabled = true;
-    requestTimeStatus.textContent = "임차요청번호가 확인되면 요청 버튼이 활성화됩니다.";
+    requestTimeStatus.textContent = "매수요청번호가 확인되면 요청 버튼이 활성화됩니다.";
     requestTimeStatus.className = "request-time-status";
 
     return;
@@ -887,7 +897,7 @@ setInterval(updateRequestButtonsState, 30000);
 
 /*
   중개사가 등록한 매물 중
-  현재 임차요청번호와 같은 매물만 가져옵니다.
+  현재 매수요청번호와 같은 매물만 가져옵니다.
 */
 
 (async function loadProperties(){
@@ -925,7 +935,7 @@ setInterval(updateRequestButtonsState, 30000);
       return {
         propertyId: item.propertyId || item.proposalNo || item.id,
         requestNumber: item.requestNumber || item.requestCode || "",
-        dealType: item.dealType || item.transactionType || "monthly",
+        dealType: item.dealType || item.transactionType || "sale",
         apartment: item.apartment || item.propertyAddress || (item.address ? [item.address.sido, item.address.sigungu, item.address.dong, item.address.apartment].filter(Boolean).join(" ") : ""),
         amount: item.amount || item.proposedPrice || "",
         floor: item.floor || "-",
@@ -938,7 +948,6 @@ setInterval(updateRequestButtonsState, 30000);
         status: item.status || "PROPOSED"
       };
     });
-
 
     localList =
       testMode
@@ -954,7 +963,6 @@ setInterval(updateRequestButtonsState, 30000);
 
           }
         );
-
 
   }catch(e){
 
@@ -1000,45 +1008,41 @@ setInterval(updateRequestButtonsState, 30000);
       {
         propertyId: "prop-5804-1",
         requestNumber: "5804",
-        dealType: "monthly",
-        apartment: "[상가 월세] 역삼역 도보 3분 대로변 이면 1층 코너 점포",
-        amount: "보증금 3,000만원 / 월세 230만원 · 권리금: 무권리(0원)",
-        floor: "지상 1층 / 5층",
-        area: "전용 22평 · 제2종근생",
-        description: "전기 15kW(3상), 상하수도·배수 완비, 내부 화장실, 주차 2대 가능. 가계약 전 건축물대장 사본 제공.",
-        officeName: "강남안심 공인중개사사무소",
+        apartment: "역삼동 래미안 84㎡ (로열동·중층)",
+        amount: "매매 14억 5,000만원",
+        floor: "12층 / 25층",
+        area: "전용 84㎡ (34평)",
+        description: "남향 판상형 구조, 시스템에어컨 4대 완비, 입주일 협의 가능",
+        officeName: "안심파트너 공인중개사사무소",
         officePhone: "010-5804-1234",
         status: "PROPOSED"
       },
       {
         propertyId: "prop-5804-2",
         requestNumber: "5804",
-        dealType: "jeonse",
-        apartment: "[상가 전세] 선릉역 오피스 밀집구역 지상 1층 로드샵 점포",
-        amount: "전세보증금 2억 2,000만원 · 권리금: 시설권리 1,500만원(협의)",
-        floor: "지상 1층 / 6층",
-        area: "전용 18.5평 · 제2종근생",
-        description: "현재 성업 중인 점포로 현장 방문(임장) 시 내부 공개. 선순위 근저당 없는 안전 전세 상가.",
-        officeName: "테헤란로파트너스 공인중개사사무소",
+        apartment: "역삼동 이편한세상 84㎡ (고층·올수리)",
+        amount: "매매 14억 2,000만원",
+        floor: "18층 / 22층",
+        area: "전용 84㎡ (34평)",
+        description: "전체 인테리어 완료, 즉시 입주 및 잔금 일정 맞춤 가능",
+        officeName: "우리아파트 공인중개사사무소",
         officePhone: "010-5804-5678",
         status: "PROPOSED"
       },
       {
         propertyId: "prop-5804-3",
         requestNumber: "5804",
-        dealType: "monthly",
-        apartment: "[상가 월세] 역삼초 사거리 메인상권 지상 1층 무권리 점포",
-        amount: "보증금 2,500만원 / 월세 190만원 · 권리금: 무권리(0원)",
-        floor: "지상 1층 / 4층",
-        area: "전용 19평 · 제1종근생",
-        description: "공실 상태로 즉시 입점 및 인테리어 공사 가능, 전면 통유리 시공 완료.",
-        officeName: "역삼퍼스트 공인중개사사무소",
+        apartment: "역삼동 푸르지오 84㎡ (남동향·공원조망)",
+        amount: "매매 14억 1,000만원",
+        floor: "15층 / 24층",
+        area: "전용 84㎡ (34평)",
+        description: "단지 내 초등학교 인접, 확장형 거실 및 주방 리모델링 완료",
+        officeName: "역삼중앙 공인중개사사무소",
         officePhone: "010-5804-9012",
         status: "PROPOSED"
       }
     ];
   }
-
 
   render();
 
@@ -1052,15 +1056,15 @@ function renderBrokerBoxHtml(property){
     const phone = escapeHtml(property.officePhone || property.ownerPhone || "-");
     return `
       <div class="broker-visible" data-broker-box="${escapeHtml(property.propertyId)}">
-        ✓ 거래 요청 매물 (임차인·매수자에게만 공개)<br>
+        ✓ 거래 요청 매물 (매수자·임차인에게만 공개)<br>
         부동산명(중개사무소): <b>${office}</b><br>
-        중개사 연락처: <b><a href="tel:${phone}" style="color:#1e6b37;text-decoration:underline;">${phone}</a></b>
+        중개사 연락처: <b><a href="tel:${phone}" style="color:#26733e;text-decoration:underline;">${phone}</a></b>
       </div>
     `;
   }
   return `
     <div class="broker-hidden" data-broker-box="${escapeHtml(property.propertyId)}">
-      🔒 등록 시 임대인·중개사 연락처는 노출되지 않습니다. (매물을 1개·2개·3개 등 원하는 만큼 체크 후 <b>[거래 요청]</b>을 누르시면 선택된 중개사의 부동산명과 연락처가 모두 공개됩니다)
+      🔒 등록 시 매도인·임대인·중개사 연락처는 노출되지 않습니다. (매물을 1개·2개·3개 등 원하는 만큼 체크 후 <b>[거래 요청]</b>을 누르시면 선택된 중개사의 부동산명과 연락처가 모두 공개됩니다)
     </div>
   `;
 }
@@ -1081,7 +1085,7 @@ function render(){
     propertyList.innerHTML = `
       <div class="empty">
         아직 등록된 매물이 없습니다.<br>
-        중개사가 임차요청 조건에 맞는 상가 매물을 등록하면
+        중개사가 매수요청 조건에 맞는 매물을 등록하면
         이곳에 표시됩니다.
       </div>
     `;
@@ -1153,7 +1157,7 @@ function render(){
 
               <div>
                 <div class="item-label">
-                  면적·용도
+                  면적
                 </div>
 
                 <div class="item-value">
@@ -1390,7 +1394,7 @@ async function runAdditionalRequest(round){
   if(!targetRequestNumber){
 
     showMsg(
-      "임차요청번호를 확인해 주세요.",
+      "매수요청번호를 확인해 주세요.",
       false
     );
 
@@ -1736,7 +1740,7 @@ decisionBtn.addEventListener(
           description: property.description || "",
           officeName: property.officeName,
           officePhone: property.officePhone,
-          tradeType: property.dealType || "monthly",
+          tradeType: property.dealType || "sale",
           transactionNumber: transactionNumber,
           buyerPhone: localStorage.getItem("wooriapt_buyer_phone") || ""
         })
@@ -1801,8 +1805,6 @@ decisionBtn.addEventListener(
           transactionNumber,
         tradeRoomCode:
           tradeRoomCode,
-        tradeType:
-          property.dealType || "monthly",
         requestNumber:
           requestNumber,
         propertyId:
@@ -1871,7 +1873,7 @@ decisionBtn.addEventListener(
           "broker-visible";
 
         old.innerHTML =
-          "✓ 최종 거래 결정 완료 (임차인·매수자에게만 공개)<br>"+
+          "✓ 최종 거래 결정 완료 (매수자·임차인에게만 공개)<br>"+
           "부동산명(중개사무소): <b>"+
           escapeHtml(
             property.officeName || property.ownerName || "-"

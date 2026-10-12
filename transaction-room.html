@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#12394d">
 
-<title>안심거래 진행현황 | 점포·상가 전세·월세 안심거래</title>
-<meta name="description" content="안심거래 진행현황 | 점포·상가 전세·월세 안심거래 - 점포·상가 전세·월세 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+<title>안심거래 진행현황 | 우리아파트 안심거래</title>
+<meta name="description" content="안심거래 진행현황 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
 
 <style>
 *{box-sizing:border-box}
@@ -618,6 +618,15 @@ select{
   }
 }
 </style>
+<link rel="canonical" href="https://www.wooriapt.app/transaction-room.html">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="우리아파트">
+<meta property="og:title" content="안심거래 진행현황 | 우리아파트 안심거래">
+<meta property="og:description" content="안심거래 진행현황 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+<meta property="og:url" content="https://www.wooriapt.app/transaction-room.html">
+<meta property="og:image" content="https://www.wooriapt.app/apt-hero.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"안심거래 진행현황 | 우리아파트 안심거래","description":"안심거래 진행현황 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.","url":"https://www.wooriapt.app/transaction-room.html","isPartOf":{"@type":"WebSite","name":"우리아파트","url":"https://www.wooriapt.app/"}}</script>
 </head>
 
 <body>
@@ -627,7 +636,7 @@ select{
 <header class="header">
 
   <div class="brand">
-    🏪 점포·상가 전세·월세 안심거래
+    🏠 우리아파트 안심거래
   </div>
 
   <div class="header-top">
@@ -677,14 +686,15 @@ select{
 
       <select id="tradeType">
         <option value="">선택</option>
-        <option value="jeonse">점포·상가 전세</option>
-        <option value="monthly">점포·상가 월세</option>
+        <option value="sale">매매</option>
+        <option value="jeonse">전세</option>
+        <option value="monthly">월세</option>
       </select>
     </div>
 
     <div class="field">
-      <label>점포·상가명<span class="req">*</span></label>
-      <input id="apartmentName" type="text" placeholder="점포·상가명">
+      <label>아파트명<span class="req">*</span></label>
+      <input id="apartmentName" type="text" placeholder="아파트명">
     </div>
 
     <div class="field full">
@@ -1176,24 +1186,14 @@ select{
     ※ <b>① 거래 기본정보 입력 · ② 거래 당사자 본인확인 · ③·④ 필수서류 등록</b>이 모두 완료되면 <b>[전자계약서 작성]</b> 버튼이 활성화됩니다.
   </div>
 
-  <div class="contract-box" style="display:flex; gap:10px; flex-wrap:wrap;">
+  <div class="contract-box">
 
     <button
       id="contractButton"
       type="button"
       class="contract-btn"
-      style="flex:1; min-width:180px;"
       disabled>
       전자계약서 작성
-    </button>
-
-    <button
-      id="contractPrintButton"
-      type="button"
-      class="contract-btn"
-      style="flex:1; min-width:180px; background:#12394d;"
-      onclick="openContractPrint()">
-      🖨️ 전자계약서 프린트 / PDF 저장
     </button>
 
   </div>
@@ -1302,86 +1302,6 @@ select{
 
     </div>
 
-  </div>
-
-</section>
-
-
-<!-- ⑧ 사업자등록증 · 상가 확정일자 신청 (관할 세무서 자동 연결) -->
-
-<section class="card" id="taxOfficeSection" style="border:2px solid #1165d7; background:#f8fbff;">
-
-  <div class="card-head">
-    <div class="card-title" style="color:#0f3e7d;">⑧ 사업자등록증 · 상가 확정일자 신청 (관할 세무서 자동 연결)</div>
-    <span id="taxOfficeBadge" class="state ok">매수자(임차인) 열람·인쇄 가능</span>
-  </div>
-
-  <div class="notice" style="background:#eef6ff; border-color:#cfe2fa; color:#173f67;">
-    💡 <b>상가·점포 임차인(매수자) 필수 절차 안내</b><br>
-    전자계약 체결 후 <b>계약서를 프린트(또는 PDF 저장)</b>하여 아래 <b>신청 페이지</b> 또는 <b>관할 세무서</b>에서 <b>「사업자등록 신청」과 「상가건물 임대차 확정일자 부여 신청」</b>을 진행하시면 보증금 우선변제권이 법적으로 보호됩니다.
-  </div>
-
-  <!-- 관할 세무서 자동 매칭 박스 -->
-  <div style="background:#fff; border:1px solid #d5e3f2; border-radius:14px; padding:16px; margin-bottom:14px;">
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:12px; align-items:center;">
-      <div>
-        <div style="font-size:12px; font-weight:800; color:#5b7083; margin-bottom:4px;">📍 계약 점포·상가 소재지 (주소 입력 시 자동 변경)</div>
-        <input id="taxMatchAddress" type="text" placeholder="점포·상가 주소를 입력하면 관할 세무서가 자동 연결됩니다" style="width:100%; min-height:42px; border:1px solid #bcd2ea; border-radius:10px; padding:8px 12px; font-weight:700; color:#172b3d;">
-      </div>
-      <div style="background:#f0f7ff; border:1.5px solid #9ec5fe; border-radius:12px; padding:12px 14px;">
-        <div style="font-size:12px; font-weight:800; color:#1165d7; margin-bottom:3px;">🏛️ 주소 기반 자동 매칭 관할 세무서</div>
-        <div id="matchedTaxOfficeName" style="font-size:18px; font-weight:900; color:#0c3266;">관할 세무서 자동 확인 중...</div>
-        <div id="matchedTaxOfficeSub" style="font-size:12px; color:#4b637a; margin-top:2px;">민원봉사실 · 부가가치세과 (국세상담 ☎️ 126)</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 1단계: 매수자(임차인) 세무서 제출용 계약서 열람 및 프린트 -->
-  <div style="background:#fff; border:1px solid #dce5ec; border-radius:14px; padding:15px; margin-bottom:14px;">
-    <div style="font-size:14px; font-weight:900; color:#143b61; margin-bottom:10px;">
-      1단계. 세무서 제출용 전자계약서 확인 및 프린트 (매수자 · 임차인용)
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px;">
-      <button type="button" onclick="openContractView()" style="min-height:46px; border:1px solid #1165d7; border-radius:10px; background:#edf5ff; color:#1165d7; font-weight:900; cursor:pointer;">
-        📄 전자계약서 전체 내용 보기
-      </button>
-      <button type="button" onclick="openContractPrint()" style="min-height:46px; border:0; border-radius:10px; background:#12394d; color:#fff; font-weight:900; cursor:pointer;">
-        🖨️ 전자계약서 프린트 / PDF 저장 (세무서 제출용)
-      </button>
-    </div>
-  </div>
-
-  <!-- 2단계: 사업자등록증 & 확정일자 신청 페이지 바로 이동 -->
-  <div style="background:#fff; border:1px solid #dce5ec; border-radius:14px; padding:15px; margin-bottom:14px;">
-    <div style="font-size:14px; font-weight:900; color:#143b61; margin-bottom:10px;">
-      2단계. 사업자등록증 · 상가 확정일자 신청 페이지 바로 이동
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:10px;">
-      <a href="https://hometax.go.kr" target="_blank" rel="noopener noreferrer" style="display:flex; flex-direction:column; justify-content:center; padding:13px 15px; border-radius:12px; background:#1165d7; color:#fff; text-decoration:none; box-shadow:0 4px 12px rgba(17,101,215,0.18);">
-        <strong style="font-size:14.5px; font-weight:900;">🏛️ 국세청 홈택스 신청 바로 이동 ↗</strong>
-        <span style="font-size:12px; opacity:0.92; margin-top:3px;">사업자등록 + 상가 확정일자 온라인 동시 신청</span>
-      </a>
-      <a href="https://www.gov.kr/mw/AA020InfoCappView.do?CappBizCD=12100000072" target="_blank" rel="noopener noreferrer" style="display:flex; flex-direction:column; justify-content:center; padding:13px 15px; border-radius:12px; background:#0d9488; color:#fff; text-decoration:none;">
-        <strong style="font-size:14.5px; font-weight:900;">📋 사업자등록 신청 페이지 바로 이동 ↗</strong>
-        <span style="font-size:12px; opacity:0.92; margin-top:3px;">정부24 개인·일반 사업자등록 공식 신청창</span>
-      </a>
-      <a href="https://www.gov.kr/mw/AA020InfoCappView.do?CappBizCD=12100000286" target="_blank" rel="noopener noreferrer" style="display:flex; flex-direction:column; justify-content:center; padding:13px 15px; border-radius:12px; background:#2563eb; color:#fff; text-decoration:none;">
-        <strong style="font-size:14.5px; font-weight:900;">🛡️ 상가 확정일자 신청 안내 바로 이동 ↗</strong>
-        <span style="font-size:12px; opacity:0.92; margin-top:3px;">상가건물 임대차 확정일자 부여 공식 민원창</span>
-      </a>
-      <button type="button" onclick="openMatchedTaxOfficeMap()" style="display:flex; flex-direction:column; justify-content:center; text-align:left; padding:13px 15px; border:1.5px solid #12394d; border-radius:12px; background:#f8fafc; color:#12394d; cursor:pointer;">
-        <strong id="taxOfficeMapBtnTitle" style="font-size:14.5px; font-weight:900;">📍 관할 세무서 위치 · 민원실 바로 보기 ↗</strong>
-        <span style="font-size:12px; color:#475569; margin-top:3px;">직접 방문 시 자동 매칭된 세무서 위치·전화 안내</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- 3단계: 준비서류 및 신청 안내 -->
-  <div style="background:#fff9eb; border:1px solid #f5d896; border-radius:12px; padding:14px 16px; font-size:13px; line-height:1.65; color:#78350f;">
-    <div style="font-weight:900; font-size:14px; color:#92400e; margin-bottom:6px;">📌 세무서 신청 시 필수 준비서류 및 안내</div>
-    1. <b>필수 준비서류</b> : ① 위 버튼으로 프린트(또는 PDF 저장)한 <b>상가 임대차 전자계약서</b>, ② <b>임차인 신분증</b>, ③ (음식점·카페 등 인허가 업종 시) <b>영업신고증·허가증</b><br>
-    2. <b>온라인 한 번에 신청하는 법</b> : <b>[국세청 홈택스 신청 바로 이동]</b> 클릭 ➔ 로그인 ➔ <b>[국세증명·사업자등록] &gt; [사업자등록 신청]</b>에서 임대차계약서 파일을 첨부하고 <b>‘확정일자 부여 신청’</b>에 체크하면 세무서 방문 없이 두 가지가 동시에 발급됩니다.<br>
-    3. <b>관할 세무서 방문 신청 시</b> : 인쇄한 계약서와 신분증을 지참해 위 자동 매칭된 <b>관할 세무서 민원봉사실</b>에 제출하시면 당일(3시간 이내) 처리됩니다.
   </div>
 
 </section>
@@ -2451,169 +2371,8 @@ async function syncServerTradeState(){
     }
     loadBrokerData();
     updateStatus();
-    syncTaxOfficeUI();
   }catch(e){}
 }
-
-/* =========================================
-   관할 세무서 자동 매칭 & 전자계약서 열람/프린트
-========================================= */
-
-const TAX_OFFICE_RULES = [
-  { keys: ["평택", "안성", "청북", "고덕", "송탄", "안중", "팽성"], name: "평택세무서", sub: "경기 평택시·안성시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["역삼", "도곡", "개포", "대치", "수서", "일원", "강남구"], name: "역삼세무서 · 삼성세무서 · 강남세무서", sub: "서울 강남구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["서초", "반포", "방배", "양재", "잠원"], name: "서초세무서 · 반포세무서", sub: "서울 서초구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["마포", "홍대", "서교", "연남", "합정", "상암", "공덕"], name: "마포세무서", sub: "서울 마포구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["종로", "광화문", "혜화", "인사동"], name: "종로세무서", sub: "서울 종로구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["중구", "명동", "을지로", "남대문", "충무로"], name: "중부세무서 · 남대문세무서", sub: "서울 중구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["용산", "이태원", "한남", "삼각지"], name: "용산세무서", sub: "서울 용산구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["성동", "성수", "왕십리", "광진", "건대", "구의", "자양"], name: "성동세무서 · 광진세무서", sub: "서울 성동구·광진구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["동대문", "청량리", "회기"], name: "동대문세무서", sub: "서울 동대문구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["중랑", "면목", "상봉"], name: "중랑세무서", sub: "서울 중랑구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["성북", "안암", "정릉", "길음"], name: "성북세무서", sub: "서울 성북구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["강북", "미아", "수유", "도봉", "창동"], name: "도봉세무서", sub: "서울 강북구·도봉구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["노원", "상계", "중계"], name: "노원세무서", sub: "서울 노원구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["은평", "연신내", "불광", "응암"], name: "은평세무서", sub: "서울 은평구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["서대문", "신촌", "홍제", "연희"], name: "서대문세무서", sub: "서울 서대문구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["양천", "목동", "신정"], name: "양천세무서", sub: "서울 양천구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["강서", "마곡", "화곡", "발산", "등촌"], name: "강서세무서", sub: "서울 강서구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["구로", "신도림", "개봉"], name: "구로세무서", sub: "서울 구로구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["금천", "가산", "독산"], name: "금천세무서", sub: "서울 금천구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["영등포", "여의도", "당산", "문래"], name: "영등포세무서", sub: "서울 영등포구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["동작", "노량진", "사당", "흑석"], name: "동작세무서", sub: "서울 동작구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["관악", "신림", "봉천", "서울대입구"], name: "관악세무서", sub: "서울 관악구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["송파", "잠실", "가락", "문정", "방이"], name: "송파세무서 · 잠실세무서", sub: "서울 송파구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["강동", "천호", "길동", "고덕동", "암사"], name: "강동세무서", sub: "서울 강동구 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["수원", "영통", "광교", "인계", "팔달", "권선", "장안"], name: "수원세무서 · 동수원세무서", sub: "경기 수원시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["성남", "분당", "판교", "정자", "서현", "야탑", "수정구", "중원구"], name: "성남세무서 · 분당세무서", sub: "경기 성남시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["화성", "동탄", "병점", "봉담", "향남", "오산"], name: "화성세무서 · 동화성세무서", sub: "경기 화성시·오산시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["용인", "수지", "기흥", "처인", "죽전", "보정"], name: "용인세무서 · 기흥세무서", sub: "경기 용인시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["고양", "일산", "덕양", "화정", "삼송"], name: "고양세무서 · 동고양세무서", sub: "경기 고양시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["부천", "상동", "중동", "송내"], name: "부천세무서", sub: "경기 부천시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["안산", "고잔", "중앙동", "단원", "상록"], name: "안산세무서 · 동안산세무서", sub: "경기 안산시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["안양", "평촌", "범계", "인덕원", "군포", "산본", "의왕", "과천"], name: "안양세무서 · 동안양세무서", sub: "경기 안양권 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["남양주", "다산", "별내", "구리", "가평"], name: "남양주세무서 · 구리세무서", sub: "경기 남양주·구리시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["시흥", "배곧", "정왕", "광명", "철산"], name: "시흥세무서 · 광명세무서", sub: "경기 시흥·광명시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["파주", "운정", "금촌", "김포", "구래", "장기"], name: "파주세무서 · 김포세무서", sub: "경기 파주·김포시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["의정부", "양주", "동두천", "포천", "연천"], name: "의정부세무서 · 포천세무서", sub: "경기 북부 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["하남", "미사", "감일", "이천", "여주", "양평"], name: "하남세무서 · 이천세무서", sub: "경기 동부 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["인천", "송도", "연수", "남동", "구월", "부평", "계양", "청라", "서구", "미추홀"], name: "인천·남동·연수·부평·서인천세무서", sub: "인천광역시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["부산", "해운대", "서면", "부산진", "동래", "수영", "남포", "사하", "금정"], name: "부산진·해운대·수영·중부산·동래세무서", sub: "부산광역시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["대구", "수성", "동성로", "달서", "북대구", "서대구"], name: "동대구·서대구·남대구·북대구·수성세무서", sub: "대구광역시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["대전", "둔산", "유성", "서구", "대덕"], name: "대전세무서 · 서대전세무서 · 북대전세무서", sub: "대전광역시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["광주", "상무", "첨단", "수완", "광산", "북광주"], name: "광주세무서 · 서광주세무서 · 북광주세무서 · 광산세무서", sub: "광주광역시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["울산", "삼산", "남구", "동울산"], name: "울산세무서 · 동울산세무서", sub: "울산광역시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["세종", "나성", "어진", "보람"], name: "세종세무서", sub: "세종특별자치시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["천안", "불당", "두정", "아산", "배방"], name: "천안세무서 · 아산세무서", sub: "충남 천안·아산시 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["청주", "오창", "충주", "제천"], name: "청주세무서 · 동청주세무서 · 충주세무서", sub: "충북 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["전주", "익산", "군산", "정읍"], name: "전주세무서 · 북전주세무서 · 익산·군산세무서", sub: "전북 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["여수", "순천", "목포", "광양", "나주"], name: "순천세무서 · 여수세무서 · 목포세무서", sub: "전남 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["포항", "구미", "경주", "안동", "경산"], name: "포항세무서 · 구미세무서 · 경주·경산세무서", sub: "경북 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["창원", "마산", "김해", "진주", "양산", "거제", "통영"], name: "창원세무서 · 마산세무서 · 김해·양산·진주세무서", sub: "경남 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["춘천", "원주", "강릉", "속초"], name: "춘천세무서 · 원주세무서 · 강릉세무서", sub: "강원 관할 · 민원봉사실 (국세상담 ☎️ 126)" },
-  { keys: ["제주", "서귀포", "노형", "연동"], name: "제주세무서", sub: "제주특별자치도 관할 · 민원봉사실 (국세상담 ☎️ 126)" }
-];
-
-function matchTaxOfficeByAddress(rawAddress){
-  const addr = String(rawAddress || "").trim();
-  if(!addr){
-    return {
-      name: "소재지 관할 세무서 (주소 자동 연동)",
-      sub: "상가 소재지 주소를 입력하시면 해당 지역 관할 세무서가 자동 표시됩니다 (국세상담 ☎️ 126)",
-      query: "관할 세무서"
-    };
-  }
-  for(let i = 0; i < TAX_OFFICE_RULES.length; i++){
-    const rule = TAX_OFFICE_RULES[i];
-    for(let j = 0; j < rule.keys.length; j++){
-      if(addr.indexOf(rule.keys[j]) !== -1){
-        return {
-          name: rule.name,
-          sub: rule.sub,
-          query: rule.name.split("·")[0].trim()
-        };
-      }
-    }
-  }
-  const tokens = addr.split(/\s+/).filter(Boolean);
-  const regionName = tokens.slice(0, 2).join(" ") || addr;
-  return {
-    name: regionName + " 관할 세무서",
-    sub: regionName + " 소재지 관할 세무서 민원봉사실 · 부가가치세과 (국세상담 ☎️ 126)",
-    query: regionName + " 세무서"
-  };
-}
-
-function getEffectiveAddress(){
-  const manual = $("taxMatchAddress") ? $("taxMatchAddress").value.trim() : "";
-  if(manual) return manual;
-  const addrInput = $("address") ? $("address").value.trim() : "";
-  const aptInput = $("apartmentName") ? $("apartmentName").value.trim() : "";
-  if(addrInput || aptInput){
-    return [addrInput, aptInput].filter(Boolean).join(" ");
-  }
-  try{
-    const cData = JSON.parse(localStorage.getItem("woori_contract_" + roomCode));
-    if(cData && (cData.address || cData.apartmentName)){
-      return [cData.address, cData.apartmentName].filter(Boolean).join(" ");
-    }
-  }catch(e){}
-  if(roomCode === "5804"){
-    return "경기 평택시 청북읍 안청로 1층 상가";
-  }
-  return "";
-}
-
-function syncTaxOfficeUI(fromManualInput){
-  const addr = getEffectiveAddress();
-  if(!fromManualInput && $("taxMatchAddress") && !$("taxMatchAddress").value && addr){
-    $("taxMatchAddress").value = addr;
-  }
-  const matched = matchTaxOfficeByAddress(addr);
-  if($("matchedTaxOfficeName")){
-    $("matchedTaxOfficeName").textContent = matched.name;
-  }
-  if($("matchedTaxOfficeSub")){
-    $("matchedTaxOfficeSub").textContent = matched.sub;
-  }
-  if($("taxOfficeMapBtnTitle")){
-    $("taxOfficeMapBtnTitle").textContent = "📍 " + matched.query + " 위치 · 민원실 바로 보기 ↗";
-  }
-}
-
-if($("taxMatchAddress")){
-  $("taxMatchAddress").addEventListener("input", function(){
-    syncTaxOfficeUI(true);
-  });
-}
-if($("address")){
-  $("address").addEventListener("input", function(){
-    if($("taxMatchAddress")) $("taxMatchAddress").value = [this.value.trim(), $("apartmentName") ? $("apartmentName").value.trim() : ""].filter(Boolean).join(" ");
-    syncTaxOfficeUI(true);
-  });
-}
-if($("apartmentName")){
-  $("apartmentName").addEventListener("input", function(){
-    if($("taxMatchAddress") && !$("address").value.trim()) $("taxMatchAddress").value = this.value.trim();
-    syncTaxOfficeUI(true);
-  });
-}
-
-window.openContractView = function(){
-  saveProgress(false);
-  location.href = "/electronic-contract.html?code=" + encodeURIComponent(roomCode || "5804");
-};
-
-window.openContractPrint = function(){
-  saveProgress(false);
-  window.open("/electronic-contract.html?code=" + encodeURIComponent(roomCode || "5804") + "&print=1", "_blank");
-};
-
-window.openMatchedTaxOfficeMap = function(){
-  const addr = getEffectiveAddress();
-  const matched = matchTaxOfficeByAddress(addr);
-  window.open("https://map.naver.com/p/search/" + encodeURIComponent(matched.query), "_blank", "noopener");
-};
 
 /* START */
 
@@ -2630,7 +2389,6 @@ if((function(){
 })()){}
 loadBrokerData();
 updateStatus();
-syncTaxOfficeUI(false);
 syncServerTradeState();
 
 })();

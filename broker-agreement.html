@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1165d7">
 
-<title>1단계 필수동의 | 안심딜 상가 안심거래</title>
-<meta name="description" content="1단계 필수동의 | 안심딜 상가 안심거래 - 상가·점포 전세·월세 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+<title>1단계 필수동의 | 우리아파트 안심거래</title>
+<meta name="description" content="1단계 필수동의 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
 
 <style>
 *{
@@ -267,6 +267,7 @@ body{
 
 }
 </style>
+<meta name="robots" content="noindex,nofollow">
 </head>
 
 <body>
@@ -275,7 +276,7 @@ body{
 
   <div class="top">
     <div class="brand">
-      안심딜 상가 안심거래
+      우리아파트 안심거래
     </div>
 
     <div class="step">
@@ -304,7 +305,7 @@ body{
       <div class="code-box">
 
         <div class="code-label">
-          임차 요청번호
+          매수·임차 요청번호
         </div>
 
         <div
@@ -333,14 +334,14 @@ body{
       <div class="notice">
 
         <p>
-          안심딜 상가 안심거래를 통해 성사되는 거래에서는
+          우리아파트 안심거래를 통해 성사되는 거래에서는
           <strong>
-            공인중개사가 임차인에게 중개보수를 청구할 수 없습니다.
+            공인중개사가 매수인·임차인에게 중개보수를 청구할 수 없습니다.
           </strong>
         </p>
 
         <p>
-          공인중개사는 임대인에게
+          공인중개사는 매도인·임대인에게
           <strong>
             법정 중개보수 상한 범위 내에서 중개보수를 청구하고 직접 수령
           </strong>
@@ -348,7 +349,7 @@ body{
         </p>
 
         <p>
-          플랫폼은 임대인이 공인중개사에게 지급하는
+          플랫폼은 매도인·임대인이 공인중개사에게 지급하는
           <strong>
             중개보수를 배분받지 않습니다.
           </strong>
@@ -360,7 +361,7 @@ body{
       <div class="important">
 
         위 운영기준에 동의하지 않는 경우
-        안심딜 상가 안심거래를 통한 매물 제안을 진행할 수 없습니다.
+        우리아파트 안심거래를 통한 매물 제안을 진행할 수 없습니다.
 
       </div>
 
@@ -402,7 +403,7 @@ body{
       <div class="bottom">
 
         동의 후 2단계 매물 제안방에서
-        임차 희망조건을 확인하고 매물을 제안할 수 있습니다.
+        매수·임차 희망조건을 확인하고 매물을 제안할 수 있습니다.
 
       </div>
 
@@ -427,10 +428,7 @@ new URLSearchParams(
 
 const code =
 String(
-  params.get("code") ||
-  params.get("request") ||
-  params.get("requestNumber") ||
-  (localStorage.getItem("wooriapt_test_key") === "5804" ? "5804" : "")
+  params.get("code") || ""
 )
 .trim();
 
@@ -466,7 +464,7 @@ if(!code){
   "요청번호 없음";
 
   errorMsg.textContent =
-  "임차 요청번호가 없습니다.";
+  "매수·임차 요청번호가 없습니다.";
 
   errorMsg.style.display =
   "block";

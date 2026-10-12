@@ -4,43 +4,59 @@ const SUPABASE_URL = "https://dcysjuxyjqtvkihdsjvv.supabase.co";
 const SUPABASE_KEY = "sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
 const ROWS_PER_SITEMAP = 5000;
 
+const PAGES_LIST = [
+  { path: "/", priority: "1.0", changefreq: "daily" },
+  { path: "/apt", priority: "1.0", changefreq: "daily" },
+  { path: "/check", priority: "1.0", changefreq: "daily" },
+  { path: "/map", priority: "0.95", changefreq: "daily" },
+  { path: "/price", priority: "0.95", changefreq: "daily" },
+  { path: "/mart", priority: "0.95", changefreq: "daily" },
+  { path: "/aura", priority: "0.95", changefreq: "daily" },
+  { path: "/tools-center.html", priority: "0.95", changefreq: "daily" },
+  { path: "/mart-landing.html", priority: "0.95", changefreq: "daily" },
+  { path: "/broker-landing.html", priority: "0.95", changefreq: "daily" },
+  { path: "/presale-landing.html", priority: "0.95", changefreq: "daily" },
+  { path: "/presale-search.html", priority: "0.95", changefreq: "daily" },
+  { path: "/presale-proposal.html", priority: "0.90", changefreq: "weekly" },
+  { path: "/presale.html", priority: "0.90", changefreq: "daily" },
+  { path: "/mart-sales.html", priority: "0.90", changefreq: "weekly" },
+  { path: "/mart-price.html", priority: "0.90", changefreq: "daily" },
+  { path: "/broker-guide.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/broker-signup.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/app-install.html", priority: "0.85", changefreq: "monthly" },
+  { path: "/request.html", priority: "0.90", changefreq: "daily" },
+  { path: "/apt-buy.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/apt-jeonse.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/apt-monthly.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/apt-find.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/apt-condition.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/mart-customer.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/mart-promotion.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/mart-cost.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/mart-db.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/broker-buyer.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/broker-customer.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/broker-local.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/broker-proposal.html", priority: "0.85", changefreq: "weekly" },
+  { path: "/broker-sales.html", priority: "0.85", changefreq: "weekly" }
+];
+
 module.exports = async function handler(req, res) {
   if (req.method !== "GET") {
     return res.status(405).send("Method Not Allowed");
   }
 
-  const rawHost = (req && req.headers && req.headers.host) ? String(req.headers.host) : "";
+  const rawHost = (req && req.headers && req.headers.host) ? String(req.headers.host).toLowerCase() : "";
   const reqHost = rawHost.includes("ansimdeal.com")
     ? "www.ansimdeal.com"
-    : (rawHost.includes("wooriapt.app") ? rawHost : "wooriapt.app");
+    : "www.wooriapt.app";
   const SITE_ORIGIN = "https://" + reqHost;
 
   if (req.query && req.query.mode === "pages") {
-    const pagesPaths = [
-      { path: "/", priority: "1.0", changefreq: "daily" },
-      { path: "/tools-center.html", priority: "1.0", changefreq: "daily" },
-      { path: "/tools-center.html?tab=utility", priority: "1.0", changefreq: "daily" },
-      { path: "/tools-center.html?tab=map", priority: "1.0", changefreq: "daily" },
-      { path: "/utility", priority: "1.0", changefreq: "daily" },
-      { path: "/apt", priority: "1.0", changefreq: "daily" },
-      { path: "/map", priority: "0.95", changefreq: "daily" },
-      { path: "/check", priority: "1.0", changefreq: "daily" },
-      { path: "/request.html?type=monthly", priority: "0.95", changefreq: "daily" },
-      { path: "/request.html?type=jeonse", priority: "0.95", changefreq: "daily" },
-      { path: "/price", priority: "0.95", changefreq: "daily" },
-      { path: "/aura", priority: "0.95", changefreq: "daily" },
-      { path: "/pension", priority: "0.9", changefreq: "daily" },
-      { path: "/mart", priority: "0.9", changefreq: "daily" },
-      { path: "/broker-signup", priority: "0.9", changefreq: "weekly" },
-      { path: "/broker-guide", priority: "0.9", changefreq: "weekly" },
-      { path: "/app-install", priority: "0.9", changefreq: "monthly" },
-      { path: "/broker-landing.html", priority: "0.85", changefreq: "weekly" },
-      { path: "/mart-landing.html", priority: "0.85", changefreq: "weekly" }
-    ];
     let urlItems = "";
-    for (const item of pagesPaths) {
+    for (const item of PAGES_LIST) {
       const escapedLoc = (SITE_ORIGIN + item.path).replace(/&/g, "&amp;");
-      urlItems += "  <url><loc>" + escapedLoc + "</loc><lastmod>2026-10-11</lastmod><changefreq>" + item.changefreq + "</changefreq><priority>" + item.priority + "</priority></url>\n";
+      urlItems += "  <url><loc>" + escapedLoc + "</loc><lastmod>2026-10-13</lastmod><changefreq>" + item.changefreq + "</changefreq><priority>" + item.priority + "</priority></url>\n";
     }
     res.setHeader("Content-Type", "application/xml; charset=utf-8");
     res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400");
@@ -74,16 +90,18 @@ module.exports = async function handler(req, res) {
     const pages = Math.max(1, Math.ceil(totalCount / ROWS_PER_SITEMAP));
 
     let sitemapItems = "";
-    sitemapItems += "<sitemap><loc>" + SITE_ORIGIN + "/pages-sitemap.xml</loc></sitemap>";
+    sitemapItems += "<sitemap><loc>" + SITE_ORIGIN + "/pages-sitemap.xml</loc><lastmod>2026-10-13</lastmod></sitemap>";
+    sitemapItems += "<sitemap><loc>" + SITE_ORIGIN + "/apt-sitemap.xml</loc><lastmod>2026-10-13</lastmod></sitemap>";
 
     for (let page = 1; page <= pages; page += 1) {
-      sitemapItems += "<sitemap><loc>" + SITE_ORIGIN + "/sitemaps/apartments-" + page + ".xml</loc></sitemap>";
+      sitemapItems += "<sitemap><loc>" + SITE_ORIGIN + "/sitemaps/apartments-" + page + ".xml</loc><lastmod>2026-10-13</lastmod></sitemap>";
     }
 
-    sitemapItems += "<sitemap><loc>" + SITE_ORIGIN + "/broker-sitemap.xml</loc></sitemap>";
+    sitemapItems += "<sitemap><loc>" + SITE_ORIGIN + "/broker-sitemap.xml</loc><lastmod>2026-10-13</lastmod></sitemap>";
+    sitemapItems += "<sitemap><loc>" + SITE_ORIGIN + "/mart-sitemap.xml</loc><lastmod>2026-10-13</lastmod></sitemap>";
 
     for (let m = 1; m <= 6; m += 1) {
-      sitemapItems += "<sitemap><loc>" + SITE_ORIGIN + "/sitemaps/marts-" + m + ".xml</loc></sitemap>";
+      sitemapItems += "<sitemap><loc>" + SITE_ORIGIN + "/sitemaps/marts-" + m + ".xml</loc><lastmod>2026-10-13</lastmod></sitemap>";
     }
 
     res.setHeader("Content-Type", "application/xml; charset=utf-8");
