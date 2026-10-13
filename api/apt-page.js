@@ -1011,7 +1011,7 @@ async function aptHandleApartmentPage(req, res) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${aptHtml(subject)} | 실거래가·단지정보·수수료 50% 절약 | 우리아파트 안심거래</title>
 <meta name="description" content="${aptHtml(description)}">
-<meta name="keywords" content="${aptHtml(location + " 아파트, " + subject + ", " + place + " 아파트 매매, " + place + " 아파트 전세, " + place + " 아파트 월세, " + (apartment ? apartment + " 실거래가, " + apartment + " 매매, " : "") + "우리아파트 안심거래, 부동산 중개수수료 반값")}">
+<meta name="keywords" content="${aptHtml(location + " 아파트, " + subject + ", " + place + " 아파트 매매, " + place + " 아파트 전세, " + place + " 아파트 월세, " + (apartment ? apartment + " 실거래가, " + apartment + " 매매, " : "") + "아파트 지도 말풍선, 단지별 말풍선 실거래 지도, 점포 상가 상권분석 지도, 우리아파트 안심거래, 부동산 중개수수료 반값")}">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="${aptHtml(canonical)}">
 <meta property="og:type" content="website">
@@ -1514,7 +1514,7 @@ p {
       우리아파트 <strong>안심거래</strong>
     </a>
     <div style="display:flex;gap:8px;align-items:center;">
-      <a href="/map" style="font-size:12.5px;font-weight:800;color:#059669;background:#ecfdf5;border:1px solid #a7f3d0;padding:6px 11px;border-radius:999px;text-decoration:none;">🗺️ 실거래 지도</a>
+      <a href="/map" style="font-size:12.5px;font-weight:800;color:#059669;background:#ecfdf5;border:1px solid #a7f3d0;padding:6px 11px;border-radius:999px;text-decoration:none;">💬 아파트 지도 위 말풍선</a>
       <a href="/price" style="font-size:12.5px;font-weight:800;color:#1d4ed8;background:#eff6ff;border:1px solid #bfdbfe;padding:6px 11px;border-radius:999px;text-decoration:none;">🥬 오늘의 시세</a>
     </div>
   </div>
@@ -1547,6 +1547,7 @@ p {
       <a href="${basePagePrefix}/sale" class="type-pill ${type === "sale" ? "active" : ""}">🏠 ${aptHtml(apartment || place)} 매매</a>
       <a href="${basePagePrefix}/jeonse" class="type-pill ${type === "jeonse" ? "active" : ""}">🔑 ${aptHtml(apartment || place)} 전세</a>
       <a href="${basePagePrefix}/monthly" class="type-pill ${type === "monthly" ? "active" : ""}">🏢 ${aptHtml(apartment || place)} 월세</a>
+      <a href="/map" class="type-pill" style="background:#fef3c7;color:#b45309;border-color:#fde68a;">💬 아파트 지도 위 시세·매물 말풍선 보기</a>
       <a href="${brokerSearchUrl}" class="type-pill broker-link">🤝 ${aptHtml(place)} 공인중개사 목록 보기</a>
     </div>
 
@@ -1651,11 +1652,11 @@ p {
 
     <div style="padding: 10px 18px 0; background: #ffffff; display:flex; flex-direction:column; gap:8px;">
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-        <a href="https://www.wooriapt.app/" style="background:#17387d; color:#ffffff; text-decoration:none; border-radius:12px; padding:12px 8px; font-size:13px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:5px; text-align:center; box-shadow:0 4px 12px rgba(23,56,125,0.22);">
-          <span>🏠</span> <span>우리아파트 안심거래 ›</span>
+        <a href="https://www.wooriapt.app/map" style="background:#17387d; color:#ffffff; text-decoration:none; border-radius:12px; padding:12px 8px; font-size:13px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:5px; text-align:center; box-shadow:0 4px 12px rgba(23,56,125,0.22);">
+          <span>💬</span> <span>아파트 지도 위 말풍선 ›</span>
         </a>
-        <a href="https://www.ansimdeal.com/" style="background:#0f766e; color:#ffffff; text-decoration:none; border-radius:12px; padding:12px 8px; font-size:13px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:5px; text-align:center; box-shadow:0 4px 12px rgba(15,118,110,0.22);">
-          <span>🏪</span> <span>점포·상가 안심딜 ›</span>
+        <a href="https://www.ansimdeal.com/map" style="background:#0f766e; color:#ffffff; text-decoration:none; border-radius:12px; padding:12px 8px; font-size:13px; font-weight:900; display:flex; align-items:center; justify-content:center; gap:5px; text-align:center; box-shadow:0 4px 12px rgba(15,118,110,0.22);">
+          <span>🏪</span> <span>점포·상가 상권분석 지도 ›</span>
         </a>
       </div>
       <button onclick="mShareLink()" style="width:100%; background:#fee500; color:#191919; border:none; border-radius:12px; padding:12px; font-size:14px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
@@ -1705,7 +1706,9 @@ p {
     <h2>🔗 ${aptHtml(location)} 연관 부동산·생활 서비스 바로가기</h2>
     <div class="quick-links-grid">
       <a class="quick-link-btn" href="${brokerSearchUrl}">🤝 ${aptHtml(place)} 공인중개사 찾기</a>
-      <a class="quick-link-btn" href="/map">🗺️ 전국 단지 터치 실거래 지도</a>
+      <a class="quick-link-btn" href="https://www.wooriapt.app/map">💬 아파트 지도 위 시세·매물 말풍선</a>
+      <a class="quick-link-btn" href="https://www.ansimdeal.com/map">🏪 점포·상가 상권분석 지도 매칭기</a>
+      <a class="quick-link-btn" href="https://www.ansimdeal.com/">🏢 대지·건물·점포·상가 안심딜</a>
       <a class="quick-link-btn" href="/check">🚫 허위·팔린매물 1초 팩트체크</a>
       <a class="quick-link-btn" href="/tools-center.html">⚡ 전기·수도·가스 이사정산</a>
       <a class="quick-link-btn" href="/price">🥬 농·축·수산물 60종 오늘의 시세</a>
@@ -2366,7 +2369,7 @@ async function handleBrokerPage(req, res) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${html(title)}</title>
 <meta name="description" content="${html(description)}">
-<meta name="keywords" content="${html(location + " 공인중개사, " + location + " 부동산, " + place + " 공인중개사사무소, " + (broker ? broker + ", " : "") + place + " 아파트 매매, " + place + " 아파트 전세, 우리아파트 안심거래")}">
+<meta name="keywords" content="${html(location + " 공인중개사, " + location + " 부동산, " + place + " 공인중개사사무소, " + (broker ? broker + ", " : "") + place + " 아파트 매매, " + place + " 아파트 전세, 점포 상가 상권분석 지도, 아파트 지도 말풍선, 우리아파트 안심거래")}">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="${html(canonical)}">
 <meta property="og:type" content="website">
@@ -2488,8 +2491,8 @@ p { line-height: 1.7; color: #334155; font-size: 14.5px; margin: 8px 0; }
   </a>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
-    <a href="https://www.wooriapt.app/" style="display:block;padding:13px 10px;border-radius:12px;background:#17387d;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">🏠 우리아파트 안심거래 ›</a>
-    <a href="https://www.ansimdeal.com/" style="display:block;padding:13px 10px;border-radius:12px;background:#0f766e;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">🏪 점포·상가 안심딜 ›</a>
+    <a href="https://www.wooriapt.app/map" style="display:block;padding:13px 10px;border-radius:12px;background:#17387d;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">💬 아파트 지도 위 말풍선 ›</a>
+    <a href="https://www.ansimdeal.com/map" style="display:block;padding:13px 10px;border-radius:12px;background:#0f766e;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">🏪 점포·상가 상권분석 지도 ›</a>
   </div>
 </section>
 
@@ -2508,9 +2511,9 @@ p { line-height: 1.7; color: #334155; font-size: 14.5px; margin: 8px 0; }
     <a class="cross-link" href="${html(aptSearchJeonseUrl)}">🔑 ${html(place)} 아파트 전세</a>
     <a class="cross-link" href="${html(aptSearchMonthlyUrl)}">🏢 ${html(place)} 아파트 월세</a>
     <a class="cross-link" href="${html(regionBrokerListUrl)}">🤝 ${html(place)} 중개사 전체보기</a>
+    <a class="cross-link" href="https://www.wooriapt.app/map">💬 아파트 지도 위 시세·매물 말풍선</a>
+    <a class="cross-link" href="https://www.ansimdeal.com/map">🏪 점포·상가 상권분석 지도 매칭기</a>
     <a class="cross-link" href="/broker-landing.html">📢 공인중개사 플랫폼 안내</a>
-    <a class="cross-link" href="/broker-guide.html">📘 안심거래 중개 이용가이드</a>
-    <a class="cross-link" href="/map">🗺️ 전국 단지 터치 실거래 지도</a>
     <a class="cross-link" href="/check">🚫 허위매물 1초 팩트체크</a>
   </div>
 </section>
