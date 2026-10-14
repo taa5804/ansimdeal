@@ -30,10 +30,7 @@
   }
   </script>
 
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=afb1495e5138ed5d431f6203b02a7a29&libraries=services,clusterer"></script>
-  <!-- Leaflet 지도 라이브러리 -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=afb1495e5138ed5d431f6203b02a7a29&libraries=services,clusterer&autoload=false"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; }
@@ -2165,55 +2162,10 @@ function initKakaoMapEngine(container) {
     renderRadiusAndBubble(currentCenter.lat, currentCenter.lng, currentCenter.address, true);
     window.mapReady = true;
   } catch (err) {
-    console.error("카카오맵 초기화 실패, Leaflet 안전 모드로 전환:", err);
-    initLeafletFallbackEngine(container);
+    console.error("카카오맵 초기화 실패:", err);
   }
 }
 
-// 카카오 SDK 지연 또는 미지원 시 백화 방지용 Leaflet 대체 엔진
-let leafletMap = null;
-let leafletCircle = null;
-let leafletMarker = null;
-let leafletPopup = null;
-
-function initLeafletFallbackEngine(container) {
-  if (!container || leafletMap || kakaoMap) return;
-  try {
-    container.innerHTML = "";
-    leafletMap = L.map(container, {
-      center: [currentCenter.lat, currentCenter.lng],
-      zoom: 16,
-      zoomControl: true
-    });
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: '© OpenStreetMap'
-    }).addTo(leafletMap);
-
-    leafletCircle = L.circle([currentCenter.lat, currentCenter.lng], {
-      radius: RADIUS_METERS,
-      color: "#ef4444",
-      weight: 3,
-      fillColor: "#ef4444",
-      fillOpacity: 0.15
-    }).addTo(leafletMap);
-
-    leafletMarker = L.marker([currentCenter.lat, currentCenter.lng]).addTo(leafletMap);
-    leafletMarker.bindPopup("<b>" + currentCenter.address + "</b><br>반경 300m 상권분석 구역").openPopup();
-
-    leafletMap.on("click", function(e) {
-      const lat = e.latlng.lat;
-      const lng = e.latlng.lng;
-      leafletCircle.setLatLng([lat, lng]);
-      leafletMarker.setLatLng([lat, lng]);
-      leafletMarker.setPopupContent("<b>선택 지점 (" + lat.toFixed(4) + ", " + lng.toFixed(4) + ")</b><br>반경 300m 상권분석 구역").openPopup();
-      document.getElementById("currentCoordText").textContent = "현재 중심: 선택 지점 (반경 300m)";
-    });
-    window.mapReady = true;
-  } catch (e) {
-    console.error("Leaflet 대체 엔진 초기화 실패:", e);
-  }
-}
 
 
 /* =========================================================================
@@ -2810,25 +2762,19 @@ window.copyUtilityMessage = async function() {
 window.addEventListener("DOMContentLoaded", async function() {
   initIndustrySelects();
 
-  function startEngine() {
+  function startKakaoMap() {
     const mapContainer = document.getElementById("realMap");
     if (window.kakao && window.kakao.maps) {
       kakao.maps.load(function() {
         initKakaoMapEngine(mapContainer);
       });
     } else {
-      initLeafletFallbackEngine(mapContainer);
+      setTimeout(startKakaoMap, 100);
     }
   }
 
-  // SDK 로드 대기 후 시작
-  if (window.kakao && window.kakao.maps) {
-    kakao.maps.load(function() {
-      initKakaoMapEngine(document.getElementById("realMap"));
-    });
-  } else {
-    setTimeout(startEngine, 300);
-  }
+  startKakaoMap();
+
 
   window.mapReady = true;
 
