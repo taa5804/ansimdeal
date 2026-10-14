@@ -593,12 +593,23 @@ export default async function handler(req, res) {
     }
 
 
-    /*
-      법적 준수(자동 요청 금지 및 야간 발송 제한):
-      등록 시 자동으로 1차 알림을 발송하지 않으며,
-      임차인(매수자)이 [나의 제안] 화면에서 오전 9시~오후 9시 사이에
-      직접 [1차 요청] 버튼을 눌렀을 때만 발송됩니다.
-    */
+    // 등록 즉시 관내 중개사에게 ARS 전화 및 LMS 문자 자동 즉시 발송 실행
+    const proto = req.headers["x-forwarded-proto"] || "https";
+    const host = req.headers["x-forwarded-host"] || req.headers.host || "ansimdeal.com";
+    const baseUrl = `${proto}://${host}`;
+
+    try {
+      fetch(`${baseUrl}/api/ars-batch`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          requestNumber: requestNumber,
+          testMode: false
+        })
+      }).catch(err => console.error("auto ars-batch error:", err));
+    } catch (e) {
+      console.error("auto trigger error:", e);
+    }
 
     return res.status(200).json({
 
