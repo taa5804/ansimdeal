@@ -2022,11 +2022,14 @@ async function renderRadiusAndBubble(lat, lng, address, moveView) {
   const storePreview = realStores.slice(0, 3).map(s => s.place_name).join(", ");
   const storePreviewHtml = storePreview
     ? '<div style="font-size:11px; color:#b91c1c; font-weight:700; margin-top:2px;">📍 카카오 실측: ' + storePreview + '</div>'
+    : '';
+
   // 지도 위 사각 말풍선 박스 제거: 지도 가림을 없애고 300m 반경 및 도로·점포망을 시원하게 노출 (상세 수치는 하단 4대 카드로 집중)
   if (kakaoOverlay) {
     kakaoOverlay.setMap(null);
     kakaoOverlay = null;
   }
+
 
 
   document.getElementById("currentCoordText").textContent = "현재 중심: " + address + " (🔴 카카오맵 반경 300m 권역)";
