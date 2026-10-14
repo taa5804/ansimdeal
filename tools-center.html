@@ -2731,23 +2731,25 @@ window.copyUtilityMessage = async function() {
 window.addEventListener("DOMContentLoaded", async function() {
   initIndustrySelects();
 
-  // 카카오 지도 생성 (컨테이너: realMap)
-  const mapContainer = document.getElementById("realMap");
-  const mapOption = {
-    center: new kakao.maps.LatLng(currentCenter.lat, currentCenter.lng),
-    level: 4 // 반경 300m에 최적화된 축척
-  };
+  function startEngine() {
+    const mapContainer = document.getElementById("realMap");
+    if (window.kakao && window.kakao.maps) {
+      kakao.maps.load(function() {
+        initKakaoMapEngine(mapContainer);
+      });
+    } else {
+      initLeafletFallbackEngine(mapContainer);
+    }
+  }
 
-  kakaoMap = new kakao.maps.Map(mapContainer, mapOption);
-  kakaoPlacesService = new kakao.maps.services.Places();
-  kakaoGeocoder = new kakao.maps.services.Geocoder();
-
-  // 카카오맵 줌 컨트롤러 추가
-  const zoomControl = new kakao.maps.ZoomControl();
-  kakaoMap.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-  // 지도 클릭 이벤트 연결
-  kakao.maps.event.addListener(kakaoMap, "click", onKakaoMapClick);
+  // SDK 로드 대기 후 시작
+  if (window.kakao && window.kakao.maps) {
+    kakao.maps.load(function() {
+      initKakaoMapEngine(document.getElementById("realMap"));
+    });
+  } else {
+    setTimeout(startEngine, 300);
+  }
 
   window.mapReady = true;
 
@@ -2760,6 +2762,7 @@ window.addEventListener("DOMContentLoaded", async function() {
   await setupThreeStepRegion("utilSido", "utilSgg", "utilDong", "광주광역시", "북구", "양산동", function() {
     renderUtilityMatcher();
   });
+
 
 
 
