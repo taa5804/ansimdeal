@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     process.env.CLAWOPS_FROM_NUMBER;
 
   const CLAWOPS_CALL_FLOW_ID =
-    process.env.CLAWOPS_CALL_FLOW_ID;
+    process.env.CLAWOPS_CALL_FLOW_ID || "cmv8ozldd001n01s6vz5dn8k4";
 
 
   if (
@@ -724,58 +724,21 @@ export default async function handler(req, res) {
 
 
     const lines = [
-      "[안심딜 상가·점포 임차요청 전달]",
+      "[상가·점포 임차 희망조건 전달]",
       "",
-      target
+      "관내 상가·점포 임차 희망 손님이 접수되었습니다.",
+      "",
+      "■ 희망업종: 식음료·카페 / 도소매 / 서비스 (의뢰조건 참조)",
+      "■ 희망상권: 1층 로드샵 / 역세권 상권",
+      `■ 임차조건: ${d.desired_price || "보증금·월세 협의 가능 (매물 조건에 맞춤)"}`,
+      `■ 입점시기: ${d.move_in_date || "빠른 입점 / 개업일 협의 가능"}`,
+      "",
+      "조건에 맞는 점포·상가 매물이 있으시면 즉시 제안해 주세요.",
+      `▶ 의뢰서 확인 및 매물제안: https://ansimdeal.com/broker-property-register.html?requestNumber=${d.request_number}`,
+      "",
+      "발송자: 안심딜",
+      "※ 무료수신거부: 080-XXX-XXXX"
     ];
-
-
-    if (
-      d.desired_area
-    ) {
-
-      lines.push(
-        `희망면적: ${d.desired_area}`
-      );
-    }
-
-
-    if (
-      d.desired_price
-    ) {
-
-      lines.push(
-        `희망조건: ${d.desired_price}`
-      );
-    }
-
-
-    if (
-      d.move_in_date
-    ) {
-
-      lines.push(
-        `입점희망일: ${d.move_in_date}`
-      );
-    }
-
-
-    lines.push(
-
-      "",
-
-      "조건에 맞는 상가·점포 매물이 있으면 제안해 주세요.",
-      "※ 상세 번지·현 상호명은 비공개 보호되며, 사진 없이도 1분 만에 제안 가능합니다.",
-
-      `4자리 임차요청번호: ${d.request_number}`,
-
-      `바로 제안하기: https://www.ansimdeal.com/broker-property-register.html?requestNumber=${d.request_number}`,
-
-      "",
-
-      "발송자: 안심딜 상가 전월세 안전거래"
-    );
-
 
     return lines.join("\n");
   }
