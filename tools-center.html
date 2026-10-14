@@ -2127,14 +2127,15 @@ function computeRealSpatialMetrics(lat, lng, address, ind, scan) {
   const geoType = (scan && scan.geoInfo && scan.geoInfo.type) || "";
   const isNaturalGeo = /natural|waterway|landuse/.test(geoCat) && /wood|forest|peak|ridge|valley|water|river|reservoir|farmland|farmyard|meadow|scrub|cliff|wetland/.test(geoType);
   const isMyeonRiAddr = /\s[가-힣]+면(\s|$)/.test(address) || /\s[가-힣]+리(\s|$)/.test(address) || /산\d+/.test(address);
+  const isExplicitMountain = /산\d+|월산|삼각산|매곡산|대지산|무등산|야산|임야|묘지|공원묘지|저수지|영락공원/.test(address);
 
   // 1단계: 산림·임야·하천·농경지·외곽 비상권 구역 판별 (실제 건물 0~2동 & 등록 상가 POI 0개 등)
-  const isNonCommercialZone =
+  const isNonCommercialZone = scan && scan.scannedOk &&
     (totalPois === 0 && totalBuildings <= 2) ||
     (isNaturalGeo && totalPois === 0 && totalBuildings <= 6) ||
     (isMyeonRiAddr && totalPois === 0 && totalBuildings <= 5 && aptCount === 0);
 
-  if (isNonCommercialZone) {
+  if (isExplicitMountain || isNonCommercialZone) {
     return {
       zoneType: "NON_COMMERCIAL",
       zoneBadge: "🌲 비상권 구역 (산림·임야·상권 미형성)",
@@ -2363,7 +2364,7 @@ async function renderRadiusAndBubble(lat, lng, address, moveView, existingGeoInf
   const ind = getCurrentIndustryText();
 
   if (moveView && map) {
-    map.setView([lat, lng], 15, { animate: true });
+    map.setView([lat, lng], 17, { animate: true });
   }
 
   if (redCircle) map.removeLayer(redCircle);
@@ -3193,7 +3194,7 @@ window.addEventListener("DOMContentLoaded", async function() {
 
   map = L.map("realMap", {
     center: [currentCenter.lat, currentCenter.lng],
-    zoom: 14
+    zoom: 17
   });
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
