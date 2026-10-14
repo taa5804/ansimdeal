@@ -2137,6 +2137,85 @@ function onKakaoMapClick(mouseEvent) {
   }
 }
 
+// 카카오 지도 정식 초기화 엔진
+function initKakaoMapEngine(container) {
+  if (!container || kakaoMap) return;
+  try {
+    const centerLatLng = new kakao.maps.LatLng(currentCenter.lat, currentCenter.lng);
+    const mapOptions = {
+      center: centerLatLng,
+      level: 4 // 반경 300m 원(지름 600m)이 여유있게 한눈에 들어오는 최적 배율
+    };
+    kakaoMap = new kakao.maps.Map(container, mapOptions);
+
+    // 기본 컨트롤러 (줌 컨트롤)
+    const zoomControl = new kakao.maps.ZoomControl();
+    kakaoMap.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    // 서비스 인스턴스
+    if (kakao.maps.services) {
+      kakaoPlacesService = new kakao.maps.services.Places();
+      kakaoGeocoder = new kakao.maps.services.Geocoder();
+    }
+
+    // 지도 클릭 시 반경 300m 분석 이벤트 연결
+    kakao.maps.event.addListener(kakaoMap, "click", onKakaoMapClick);
+
+    // 초기 중심 렌더링
+    renderRadiusAndBubble(currentCenter.lat, currentCenter.lng, currentCenter.address, true);
+    window.mapReady = true;
+  } catch (err) {
+    console.error("카카오맵 초기화 실패, Leaflet 안전 모드로 전환:", err);
+    initLeafletFallbackEngine(container);
+  }
+}
+
+// 카카오 SDK 지연 또는 미지원 시 백화 방지용 Leaflet 대체 엔진
+let leafletMap = null;
+let leafletCircle = null;
+let leafletMarker = null;
+let leafletPopup = null;
+
+function initLeafletFallbackEngine(container) {
+  if (!container || leafletMap || kakaoMap) return;
+  try {
+    container.innerHTML = "";
+    leafletMap = L.map(container, {
+      center: [currentCenter.lat, currentCenter.lng],
+      zoom: 16,
+      zoomControl: true
+    });
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(leafletMap);
+
+    leafletCircle = L.circle([currentCenter.lat, currentCenter.lng], {
+      radius: RADIUS_METERS,
+      color: "#ef4444",
+      weight: 3,
+      fillColor: "#ef4444",
+      fillOpacity: 0.15
+    }).addTo(leafletMap);
+
+    leafletMarker = L.marker([currentCenter.lat, currentCenter.lng]).addTo(leafletMap);
+    leafletMarker.bindPopup("<b>" + currentCenter.address + "</b><br>반경 300m 상권분석 구역").openPopup();
+
+    leafletMap.on("click", function(e) {
+      const lat = e.latlng.lat;
+      const lng = e.latlng.lng;
+      leafletCircle.setLatLng([lat, lng]);
+      leafletMarker.setLatLng([lat, lng]);
+      leafletMarker.setPopupContent("<b>선택 지점 (" + lat.toFixed(4) + ", " + lng.toFixed(4) + ")</b><br>반경 300m 상권분석 구역").openPopup();
+      document.getElementById("currentCoordText").textContent = "현재 중심: 선택 지점 (반경 300m)";
+    });
+    window.mapReady = true;
+  } catch (e) {
+    console.error("Leaflet 대체 엔진 초기화 실패:", e);
+  }
+}
+
+
 /* =========================================================================
    4. [탭 2] 동 단위 도시가스 자동 매칭 + 해지 시 계량기 숫자 요금 정산기
    ========================================================================= */
