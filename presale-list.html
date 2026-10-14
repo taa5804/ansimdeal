@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07192b">
 <title>전국 분양사·분양현장 자동검색 & 맞춤 카탈로그 생성기 | 우리아파트</title>
-<meta name="description" content="전국 분양사·분양현장 자동검색 & 맞춤 카탈로그 생성기 | 우리아파트 - 전국 아파트 매매·전세·월세 수수료 50% 안심거래, 공인중개사 역제안, 우리동네 마트 오늘의 시세, 분양 카탈로그 통합 플랫폼 우리아파트에서 확인하세요.">
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:#f1f5f9;color:#0f172a;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;}
@@ -172,15 +171,6 @@ tr:hover td{background:#f8fafc;}
   .toast{left:12px;right:12px;bottom:14px;text-align:center;font-size:12.5px;padding:12px 14px;}
 }
 </style>
-<link rel="canonical" href="https://www.wooriapt.app/presale-list.html">
-<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="우리아파트">
-<meta property="og:title" content="전국 분양사·분양현장 자동검색 & 맞춤 카탈로그 생성기 | 우리아파트">
-<meta property="og:description" content="전국 분양사·분양현장 자동검색 & 맞춤 카탈로그 생성기 | 우리아파트 - 전국 아파트 매매·전세·월세 수수료 50% 안심거래, 공인중개사 역제안, 우리동네 마트 오늘의 시세, 분양 카탈로그 통합 플랫폼 우리아파트에서 확인하세요.">
-<meta property="og:url" content="https://www.wooriapt.app/presale-list.html">
-<meta property="og:image" content="https://www.wooriapt.app/apt-hero.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"전국 분양사·분양현장 자동검색 & 맞춤 카탈로그 생성기 | 우리아파트","description":"전국 분양사·분양현장 자동검색 & 맞춤 카탈로그 생성기 | 우리아파트 - 전국 아파트 매매·전세·월세 수수료 50% 안심거래, 공인중개사 역제안, 우리동네 마트 오늘의 시세, 분양 카탈로그 통합 플랫폼 우리아파트에서 확인하세요.","url":"https://www.wooriapt.app/presale-list.html","isPartOf":{"@type":"WebSite","name":"우리아파트","url":"https://www.wooriapt.app/"}}</script>
 </head>
 <body>
 
@@ -3171,23 +3161,37 @@ tr:hover td{background:#f8fafc;}
   }
 
   function buildProposalText(siteName, builder, dong){
-    var origin = window.location.origin.includes("http") ? window.location.origin : "https://www.wooriapt.app";
-    var customCatalogUrl = origin + "/sale-detail.html?room=ROOM-001&apt=" + encodeURIComponent(siteName) + "&company=" + encodeURIComponent(builder) + "&dong=" + encodeURIComponent(dong);
-    var landingUrl = origin + "/presale-landing.html";
-
     return [
-      "[" + siteName + " 분양총괄본부장님 / 홍보팀장님 귀하]",
+      "[" + siteName + " 분양총괄본부장님 / 시행·분양대행사 대표님 귀하]",
+      "당근비즈 [분양하는 동 + 옆 동 30~50대 주부] 집중 타깃 & '오늘의 시세' 분양 매칭 시스템 안내",
       "",
-      "안녕하세요, [" + siteName + "] 분양 현장의 성공적인 완판을 기원합니다.",
-      "버려지는 전단지·현수막 대신 당근비즈 주부 [오늘의 시세 매칭기]와 인근 마트 장보기 고객이 [" + siteName + "] 01~08페이지 모바일 카탈로그를 60초 동안 정독하면 카카오톡 바코드카드·마트 장보기 쿠폰을 지급하는 특허 출원 분양홍보 플랫폼입니다.",
+      "■ 우리 시스템의 홍보 방법 및 핵심 진행 로직",
       "",
-      "▶ [" + siteName + "] 전용 01~08P 모바일 카탈로그 샘플 바로보기:",
-      customCatalogUrl,
+      "1. 당근비즈에 [분양하는 동 + 바로 옆 동]의 '30~50대 여성 주부'만을 대상으로 매칭기를 노출합니다",
+      "- (이유 ① 높은 분양 비율) 아파트를 분양받아 실제로 이사하는 비율은 현재 분양하는 동과 바로 그 옆 동(인접 동) 거주자가 가장 높기 때문입니다.",
+      "- (이유 ② 최종 결정권자) 집을 보러 오고 분양 계약을 최종 결정하는 실권자는 30~50대 여성 주부이기 때문입니다.",
+      "- (이유 ③ 완벽한 중복 방지 효과) 대상을 넓히면 한 가정의 남편·자녀에게까지 중복 노출되어 비용이 낭비되지만, 오직 '30~50대 여성 주부'만 지정하면 한 가정당 딱 1명(결정권자)에게만 노출되어 중복 비용이 원천 차단됩니다.",
       "",
-      "▶ 분양사 도입 안내 및 클릭당 자율입찰·자율 이미지 등록 방식 보기:",
-      landingUrl,
+      "2. 주부들이 가장 필요로 하는 [농·축·수산물 60종 오늘의 시세]를 매칭기로 활용하여 앱을 깔게 만듭니다",
+      "- (오늘의 시세에 매칭하는 이유) 당근비즈에 일반 분양 홍보를 올리면 주부들이 누르지 않지만, 매일 장을 보면서 가장 필요로 하는 [농·축·수산물 60종 오늘의 시세]를 매칭기로 올리면 물가를 확인하기 위해 거부감 없이 100% 클릭해서 들어올 수밖에 없습니다.",
+      "- (앱 설치 및 매일 반복 유입) 한 번 시세를 확인한 주부는 매일 아침 변동되는 시세를 보려고 휴대폰에 앱을 설치하게 되므로, 분양하는 동과 옆 동네 주부들이 매일 스스로 접속하는 고정 유입 통로가 만들어집니다.",
       "",
-      "※ 본사에서 전용 방만 개설해 드리며, 보유하신 카탈로그 이미지를 복사·붙여넣기(Ctrl+V)로 즉시 세팅하실 수 있습니다."
+      "3. 시세를 보러 들어온 주부가 [분양사 연동 버튼]을 누르고 1분간 스크롤할 수밖에 없게 만듭니다",
+      "- (분양사를 누를 수밖에 없는 이유) '오늘의 시세 매칭기' 화면 메인에 [분양사 연동 버튼]이 연결되어 있으며, 주부가 이 버튼을 눌러 분양 플랫폼에 들어가서 1분(60초)간 스크롤하며 분양 정보를 보면 분양사에서 포인트를 지급합니다.",
+      "- (확실한 분양아파트 집중 효과) 주부는 오늘의 시세도 확인하고 포인트도 즉시 받기 위해 무조건 분양사 버튼을 클릭할 수밖에 없으며, 포인트를 받으려고 1분 동안 귀사의 분양아파트를 처음부터 끝까지 스크롤하며 집중해서 보게 됩니다.",
+      "",
+      "4. 적은 비용으로 기존 광고보다 수십 배 큰 효과를 냅니다 (비용 및 상위 노출 운영)",
+      "- ① 당근비즈 클릭당 요금 및 상위 노출: 당근비즈에 지급하는 클릭당 요금은 분양사가 지급하며, 분양이 급할 시 클릭당 금액을 높여 당근비즈 상위에 최우선 노출시킵니다.",
+      "- ② 저렴한 고객 포인트 (지역별 차등): 주부가 플랫폼에 들어가 1분간 스크롤할 때 지급하는 고객 포인트 또한 지역에 따라 차등을 두며 금액이 매우 저렴합니다.",
+      "- ③ 기존 광고 방식과의 비교 (적은 비용 · 최대 효과):",
+      "  · 기존 광고 방식은 구매와 무관한 불특정 다수에게 무작위로 노출되어 광고비는 많이 들면서 그냥 스쳐 지나가 홍보 효과가 떨어집니다.",
+      "  · 반면 당사 시스템은 가구 내 중복 없이 오직 분양하는 동과 옆 동의 결정권자(30~50대 주부)가 실제 클릭해 1분간 스크롤하며 정독할 때만 저렴한 비용이 지출되고, 한 번 앱을 깔면 추가 비용 없이도 매일 반복 노출되므로 기존 광고보다 돈은 훨씬 적게 들면서 분양 홍보 효과는 비교할 수 없이 큽니다.",
+      "(※ 세부적인 매칭페이지 연동 및 작동 방식은 계약 전 상담 단계에서 상세히 안내해 드립니다.)",
+      "",
+      "■ 우리 현장 [분양하는 동 + 옆 동] 집중 노출 및 연동 문의",
+      "📞 본사 직통전화 / 문자접수 : 010-9850-3388 (우리아파트 분양 홍보본부)",
+      "▶ 당근비즈 주부 유입용 [오늘의 시세 매칭기] 보기 : https://www.wooriapt.app/price",
+      "▶ 분양 플랫폼 메인페이지 바로가기 : https://wooriaptcd.com"
     ].join("\n");
   }
 
