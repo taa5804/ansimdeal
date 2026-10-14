@@ -30,7 +30,8 @@
   }
   </script>
 
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=afb1495e5138ed5d431f6203b02a7a29&libraries=services,clusterer&autoload=false"></script>
+  <!-- 카카오맵 정식 SDK (국내 초정밀 지도) -->
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=afb1495e5138ed5d431f6203b02a7a29&libraries=services,clusterer"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; }
@@ -2757,23 +2758,22 @@ window.copyUtilityMessage = async function() {
 };
 
 /* =========================================================================
-   5. 페이지 로드 초기화
+   5. 페이지 로드 초기화 (wooriapt 검증 정식 규격)
    ========================================================================= */
-window.addEventListener("DOMContentLoaded", async function() {
+window.addEventListener("load", async function() {
   initIndustrySelects();
 
   function startKakaoMap() {
     const mapContainer = document.getElementById("realMap");
     if (window.kakao && window.kakao.maps) {
-      kakao.maps.load(function() {
-        initKakaoMapEngine(mapContainer);
-      });
+      initKakaoMapEngine(mapContainer);
     } else {
-      setTimeout(startKakaoMap, 100);
+      setTimeout(startKakaoMap, 150);
     }
   }
 
   startKakaoMap();
+
 
 
   window.mapReady = true;
