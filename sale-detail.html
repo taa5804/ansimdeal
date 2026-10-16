@@ -365,7 +365,58 @@ html,body{
   color:#fff;
 }
 
-#aptCatalog .unit-head{padding-top:24px}
+#aptCatalog 
+/* 평형 타입 선택 바 (고객 맞춤 선택형 평면도 쇼케이스) */
+.unit-selector-wrapper {
+  margin: 10px 0 16px;
+  padding: 12px 14px;
+  background: rgba(214,178,110,0.08);
+  border: 1px solid rgba(214,178,110,0.35);
+  border-radius: 14px;
+  backdrop-filter: blur(4px);
+}
+.unit-selector-label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #f0c568;
+  margin-bottom: 8px;
+  letter-spacing: .5px;
+}
+.unit-selector-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.unit-selector-chips::-webkit-scrollbar { display: none; }
+.unit-chip-btn {
+  flex: none;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(214,178,110,0.4);
+  background: rgba(7,25,43,0.85);
+  color: #e2e8f0;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all .18s ease;
+}
+.unit-chip-btn:hover {
+  border-color: #d6b26e;
+  color: #fff;
+}
+.unit-chip-btn.active {
+  border-color: #f0c568;
+  background: linear-gradient(135deg, #d6b26e, #b88f48);
+  color: #07192b;
+  font-weight: 900;
+  box-shadow: 0 4px 14px rgba(214,178,110,0.45);
+  transform: translateY(-1px);
+}
+
+.unit-head{padding-top:24px}
 
 #aptCatalog .unit-head h2{
   margin:0;
@@ -761,12 +812,20 @@ html,body{
       </div>
     </section>
 
-    <!-- PAGE 05 -->
+    <!-- PAGE 05: 평형 타입 인터랙티브 쇼케이스 -->
     <section class="apt-page unit" data-page="4">
       <div class="page-no">05 / 08</div>
 
+      <!-- 고객 맞춤 평수 우선 선택 바 -->
+      <div class="unit-selector-wrapper">
+        <span class="unit-selector-label">🔍 원하시는 평형 타입을 먼저 선택하세요 (터치 시 평면도 즉시 전환)</span>
+        <div class="unit-selector-chips" id="unitChipList">
+          <!-- 동적 칩 버튼 -->
+        </div>
+      </div>
+
       <div class="unit-head">
-        <span>UNIT PLAN 01</span>
+        <span id="currentUnitBadge">UNIT PLAN 01</span>
         <h2 id="unit1Title">84A <small>TYPE</small></h2>
         <p id="unit1CountText">총 000세대</p>
       </div>
@@ -1154,21 +1213,113 @@ html,body{
         if (compLbl) compLbl.textContent = c.complexLabel;
       }
 
-      /* 05/08 & 06/08 평면안내 */
-      var hh = c.households || "1,520세대";
-      var u1Title = document.getElementById("unit1Title");
-      if (u1Title && c.unit1Type) u1Title.innerHTML = c.unit1Type + ' <small>TYPE</small>';
-      var u2Title = document.getElementById("unit2Title");
-      if (u2Title && c.unit2Type) u2Title.innerHTML = c.unit2Type + ' <small>TYPE</small>';
 
-      var unitCounts = root.querySelectorAll(".unit-head p");
-      if (unitCounts && unitCounts.length > 0) {
-        unitCounts.forEach(function(p) {
-          p.textContent = "단지 전체 " + hh + " 중 주력 타입";
+      /* 05/08 평형 타입 동적 선택형 인터랙티브 쇼케이스 (최대 5개) */
+      var unitList = [];
+      if(Array.isArray(c.unitPlans) && c.unitPlans.length > 0){
+        unitList = c.unitPlans;
+      } else {
+        unitList = [
+          {
+            type: c.unit1Type || "84A",
+            households: "680세대",
+            excl: "84.98㎡",
+            supp: "112.45㎡",
+            cont: "168.72㎡",
+            features: "4Bay 판상형, 알파룸 제공, 맞통풍 특화",
+            imageUrl: c.unit1ImageUrl || ""
+          }
+        ];
+        if(c.unit2Type || c.unit2ImageUrl){
+          unitList.push({
+            type: c.unit2Type || "84B",
+            households: "320세대",
+            excl: "84.95㎡",
+            supp: "112.30㎡",
+            cont: "168.50㎡",
+            features: "타워형 이면개방, 파노라마 조망 특화",
+            imageUrl: c.unit2ImageUrl || ""
+          });
+        }
+      }
+
+      var chipContainer = document.getElementById("unitChipList");
+      if(chipContainer){
+        chipContainer.innerHTML = unitList.map(function(u, idx){
+          return `<button type="button" class="unit-chip-btn ${idx === 0 ? 'active' : ''}" data-idx="${idx}">
+            ${escapeHtml(u.type || ('타입 0' + (idx+1)))} <small style="font-weight:700;opacity:0.85">(${escapeHtml(u.households || '')})</small>
+          </button>`;
+        }).join("");
+
+        chipContainer.querySelectorAll(".unit-chip-btn").forEach(function(btn){
+          btn.addEventListener("click", function(){
+            var idx = parseInt(btn.getAttribute("data-idx"), 10);
+            selectUnitPlan(idx);
+          });
         });
       }
-      setBoxBgImage("unit1PhotoBox", c.unit1ImageUrl);
-      setBoxBgImage("unit2PhotoBox", c.unit2ImageUrl);
+
+      function selectUnitPlan(idx){
+        var u = unitList[idx];
+        if(!u) return;
+
+        // update active chip
+        if(chipContainer){
+          chipContainer.querySelectorAll(".unit-chip-btn").forEach(function(b, i){
+            b.classList.toggle("active", i === idx);
+          });
+        }
+
+        var badgeEl = document.getElementById("currentUnitBadge");
+        if(badgeEl) badgeEl.textContent = "UNIT PLAN 0" + (idx + 1);
+
+        var titleEl = document.getElementById("unit1Title");
+        if(titleEl) titleEl.innerHTML = escapeHtml(u.type || ('타입 0' + (idx+1))) + ' <small>TYPE</small>';
+
+        var cntEl = document.getElementById("unit1CountText");
+        if(cntEl) cntEl.textContent = "해당 타입 " + (u.households || '공급 세대') + " (단지 전체 " + (c.households || '1,520세대') + ")";
+
+        var photoBox = document.getElementById("unit1PhotoBox");
+        var photoLbl = document.getElementById("unit1PhotoLabel");
+        if(photoBox){
+          if(u.imageUrl){
+            photoBox.style.backgroundImage = 'url("' + u.imageUrl + '")';
+            photoBox.style.backgroundSize = "contain";
+            photoBox.style.backgroundPosition = "center";
+            photoBox.style.backgroundRepeat = "no-repeat";
+            var svg = photoBox.querySelector("svg");
+            if(svg) svg.style.visibility = "hidden";
+          } else {
+            photoBox.style.backgroundImage = "";
+            var svg = photoBox.querySelector("svg");
+            if(svg) svg.style.visibility = "visible";
+          }
+        }
+        if(photoLbl) photoLbl.textContent = (u.type || '타입') + " TYPE · " + (u.features || '특화설계 평면도');
+
+        var exclEl = document.getElementById("unit1Excl");
+        if(exclEl) exclEl.textContent = u.excl || "84.98㎡";
+
+        var suppEl = document.getElementById("unit1Supp");
+        if(suppEl) suppEl.textContent = u.supp || "112.45㎡";
+
+        var contEl = document.getElementById("unit1Cont");
+        if(contEl) contEl.textContent = u.cont || "168.72㎡";
+
+        var featBox = document.querySelector(".unit-features");
+        if(featBox && u.features){
+          var tags = u.features.split(/[,\/·]/).map(function(t){ return t.trim(); }).filter(Boolean);
+          if(tags.length > 0){
+            featBox.innerHTML = tags.map(function(t){ return '<span>' + escapeHtml(t) + '</span>'; }).join("");
+          }
+        }
+      }
+
+      // Initialize with first unit
+      if(unitList.length > 0){
+        selectUnitPlan(0);
+      }
+
 
       /* 07/08 다양한 커뮤니티 (통카탈로그 1장 또는 6분할 슬롯) */
       var commFullBox = document.getElementById("communityFullBox");

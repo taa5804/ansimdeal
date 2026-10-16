@@ -63,7 +63,43 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
 #saleAdmin .slot-box:focus-within{
   border-color:#b88e44; box-shadow:0 0 0 3px rgba(200,163,95,.18); background:#fff;
 }
-#saleAdmin .slot-head{
+#saleAdmin 
+/* 동적 평형 타입 슬롯 (최대 5개 증설) 스타일 */
+.unit-plans-wrap { grid-column: 1 / -1; margin-bottom: 12px; }
+.unit-plans-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; border-radius: 12px; background: #f1f5f9; border: 1.5px solid #cbd5e1;
+  margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
+}
+.unit-plans-title { font-size: 14.5px; font-weight: 900; color: #0f293a; display: flex; align-items: center; gap: 8px; }
+.add-unit-btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+  border-radius: 999px; border: 1.5px solid #16a34a; background: #22c55e;
+  color: #fff; font-size: 13px; font-weight: 900; cursor: pointer; transition: .15s;
+  box-shadow: 0 4px 12px rgba(34,197,94,.25);
+}
+.add-unit-btn:hover { background: #16a34a; transform: translateY(-1px); }
+.add-unit-btn:disabled { background: #94a3b8; border-color: #cbd5e1; cursor: not-allowed; box-shadow: none; transform: none; }
+.unit-slot-card {
+  border: 1.5px solid #dbe3eb; border-radius: 14px; background: #fff; padding: 16px; margin-bottom: 14px;
+}
+.unit-slot-card-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px dashed #e2e8f0;
+}
+.unit-slot-badge {
+  padding: 3px 9px; border-radius: 999px; background: #0f293a; color: #facc15; font-size: 12px; font-weight: 900;
+}
+.remove-unit-btn {
+  padding: 4px 10px; border-radius: 6px; border: 1px solid #fca5a5; background: #fff1f2;
+  color: #e11d48; font-size: 12px; font-weight: 800; cursor: pointer;
+}
+.remove-unit-btn:hover { background: #ffe4e6; }
+.unit-fields-grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px;
+}
+
+.slot-head{
   display:flex; align-items:center; justify-content:space-between; gap:8px;
 }
 #saleAdmin .slot-badge{
@@ -280,62 +316,22 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
         <input type="text" id="complexImageUrl" placeholder="단지 조감도/배치도 이미지 URL (또는 파일 업로드)">
       </div>
 
-      <!-- PAGE 05 -->
-      <div class="slot-box" data-slot="unit1ImageUrl">
-        <div class="slot-head">
-          <span class="slot-badge">05 / 08 UNIT PLAN 01</span>
-          <span class="slot-title">주력 평면도 01 (예: 84A)</span>
+      <!-- [평형 타입 증설 시스템: 기본 1개 제공 / 최대 5개까지 증설] -->
+      <div class="unit-plans-wrap">
+        <div class="unit-plans-head">
+          <div class="unit-plans-title">
+            <span>📐</span>
+            <span>평형 타입별 평면도 등록 <small style="color:#64748b;font-weight:700;">(기본 1개 제공 · <b>최대 5개까지 자유 증설</b>)</small></span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span id="unitCountBadge" style="font-size:12px;font-weight:800;color:#0f293a;">현재 <b id="currentUnitCount" style="color:#2563eb;">1</b> / 최대 5개</span>
+            <button type="button" id="addUnitBtn" class="add-unit-btn">➕ 평형 타입 추가하기</button>
+          </div>
         </div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <input type="text" id="unit1Type" value="84A" placeholder="타입명 (예: 84A)" style="width:140px;height:36px;">
-          <span style="font-size:12px;color:#64748b;">타입 평면도 카탈로그 이미지</span>
-        </div>
-        <div class="slot-preview" id="prev_unit1ImageUrl" tabindex="0">
-          <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(05페이지 평면도 카탈로그 이미지)</span>
-        </div>
-        <div class="slot-actions">
-          <label class="file-btn">📁 평면도 01 파일 업로드<input type="file" accept="image/*" data-target="unit1ImageUrl" style="display:none"></label>
-          <button type="button" class="clear-btn" data-clear="unit1ImageUrl">초기화</button>
-        </div>
-        <input type="text" id="unit1ImageUrl" placeholder="평면도 01 이미지 URL (또는 파일 업로드)">
-      </div>
 
-      <!-- PAGE 06 -->
-      <div class="slot-box" data-slot="unit2ImageUrl">
-        <div class="slot-head">
-          <span class="slot-badge">06 / 08 UNIT PLAN 02</span>
-          <span class="slot-title">주력 평면도 02 (예: 84B)</span>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <input type="text" id="unit2Type" value="84B" placeholder="타입명 (예: 84B)" style="width:140px;height:36px;">
-          <span style="font-size:12px;color:#64748b;">타입 평면도 카탈로그 이미지</span>
-        </div>
-        <div class="slot-preview" id="prev_unit2ImageUrl" tabindex="0">
-          <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(06페이지 평면도 카탈로그 이미지)</span>
-        </div>
-        <div class="slot-actions">
-          <label class="file-btn">📁 평면도 02 파일 업로드<input type="file" accept="image/*" data-target="unit2ImageUrl" style="display:none"></label>
-          <button type="button" class="clear-btn" data-clear="unit2ImageUrl">초기화</button>
-        </div>
-        <input type="text" id="unit2ImageUrl" placeholder="평면도 02 이미지 URL (또는 파일 업로드)">
+        <!-- 동적 생성되는 평형 타입 슬롯 목록 -->
+        <div id="unitSlotsContainer"></div>
       </div>
-
-      <!-- PAGE 08 -->
-      <div class="slot-box" data-slot="modelhouseImageUrl" style="grid-column:1/-1">
-        <div class="slot-head">
-          <span class="slot-badge">08 / 08 CONTACT · 모델하우스</span>
-          <span class="slot-title">모델하우스 · 홍보관 안내 이미지</span>
-        </div>
-        <div class="slot-preview" id="prev_modelhouseImageUrl" tabindex="0" style="height:140px;">
-          <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(모델하우스 약도 또는 외관 이미지 영역)</span>
-        </div>
-        <div class="slot-actions">
-          <label class="file-btn">📁 모델하우스 이미지 업로드<input type="file" accept="image/*" data-target="modelhouseImageUrl" style="display:none"></label>
-          <button type="button" class="clear-btn" data-clear="modelhouseImageUrl">초기화</button>
-        </div>
-        <input type="text" id="modelhouseImageUrl" placeholder="모델하우스 이미지 URL (또는 파일 업로드)">
-      </div>
-    </div>
   </section>
 
   <!-- 3. 07/08 다양한 커뮤니티 전용 이미지 공간 (통카탈로그 1장 또는 6칸 개별 선택) -->
@@ -632,8 +628,33 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
     $("#issueQty").value = c.issueQty || 500;
     $("#coverDescription").value = c.coverDescription || "일상이 작품이 되는 새로운 주거의 시작";
 
-    $("#unit1Type").value = c.unit1Type || "84A";
-    $("#unit2Type").value = c.unit2Type || "84B";
+    if(Array.isArray(c.unitPlans) && c.unitPlans.length > 0){
+      unitPlansData = c.unitPlans.slice(0, MAX_UNITS);
+    } else {
+      unitPlansData = [
+        {
+          type: c.unit1Type || "84A",
+          households: "680세대",
+          excl: "84.98㎡",
+          supp: "112.45㎡",
+          cont: "168.72㎡",
+          features: "4Bay 판상형, 알파룸 제공",
+          imageUrl: c.unit1ImageUrl || ""
+        }
+      ];
+      if(c.unit2Type || c.unit2ImageUrl){
+        unitPlansData.push({
+          type: c.unit2Type || "84B",
+          households: "320세대",
+          excl: "84.95㎡",
+          supp: "112.30㎡",
+          cont: "168.50㎡",
+          features: "타워형 이면개방, 조망 특화",
+          imageUrl: c.unit2ImageUrl || ""
+        });
+      }
+    }
+    renderUnitSlots();
 
     var defaultLabels = ["클럽 라운지", "피트니스", "골프연습장", "독서실", "어린이집", "게스트하우스"];
     for(var i = 1; i <= 6; i++){
