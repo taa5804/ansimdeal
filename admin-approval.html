@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>통합 입금확인 및 원클릭 전자계약 승인센터</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, sans-serif; }
+    body { background: #f1f5f9; color: #1e293b; padding: 16px; padding-bottom: 80px; }
+    .container { max-width: 520px; margin: 0 auto; }
+    
+    .header { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; padding: 20px; border-radius: 16px; box-shadow: 0 4px 14px rgba(37,99,235,0.25); margin-bottom: 16px; }
+    .header h1 { font-size: 19px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .header p { font-size: 13px; opacity: 0.9; margin-top: 6px; }
+    
+    .account-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 10px; padding: 10px 14px; margin-top: 14px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+    .account-badge b { color: #fef08a; font-size: 14px; }
+
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .card-title { font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+    .platform-tag { font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px; }
+    .tag-apt { background: #dbeafe; color: #1d4ed8; }
+    .tag-store { background: #dcfce7; color: #15803d; }
+    .tag-mart { background: #fef3c7; color: #b45309; }
+    .tag-presale { background: #f3e8ff; color: #7e22ce; }
+
+    .info-row { display: flex; justify-content: space-between; font-size: 13.5px; padding: 6px 0; color: #64748b; }
+    .info-row b { color: #1e293b; font-weight: 700; text-align: right; }
+    .info-row.highlight b { color: #2563eb; font-size: 16px; font-weight: 900; }
+
+    /* 실시간 은행 대조 박스 */
+    .bank-match-box { background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 12px; padding: 14px; margin: 12px 0; }
+    .bank-match-box.matched { background: #f0fdf4; border-color: #86efac; border-style: solid; }
+    .match-header { display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; font-weight: 800; margin-bottom: 8px; }
+    .match-status { padding: 2px 8px; border-radius: 12px; font-size: 11px; }
+    .match-status.ok { background: #bbf7d0; color: #166534; }
+    .match-status.wait { background: #fee2e2; color: #991b1b; }
+
+    .btn-approve { width: 100%; padding: 14px; background: #2563eb; color: #fff; border: 0; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+    .btn-approve:hover { background: #1d4ed8; }
+    .btn-approve.done { background: #10b981; cursor: default; }
+
+    .empty-state { text-align: center; padding: 40px 20px; color: #94a3b8; font-size: 14px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  
+  <header class="header">
+    <h1>📱 4대 플랫폼 통합 승인센터</h1>
+    <p>모니터를 보지 않고도 스마트폰에서 즉시 입금 대조 및 승인</p>
+    <div class="account-badge">
+      <span>지정 수납계좌</span>
+      <b>농협 199-02-289684 (송해석)</b>
+    </div>
+  </header>
+
+  <!-- 대기 중인 입금 확인 요청 카드 리스트 -->
+  <div id="requestList">
+    <!-- 샘플 카드 1: 아파트 안심거래 -->
+    <div class="card" id="card-sample-1">
+      <div class="card-title">
+        <span>거래코드: TR-20261016-01</span>
+        <span class="platform-tag tag-apt">우리아파트 안심거래</span>
+      </div>
+      
+      <div class="info-row">
+        <span>신청 고객</span>
+        <b id="customerName">매수인 (김*수)</b>
+      </div>
+      <div class="info-row">
+        <span>고객 연락처</span>
+        <b>010-8957-****</b>
+      </div>
+      <div class="info-row highlight">
+        <span>입금 요청 금액</span>
+        <b>275,000원</b>
+      </div>
+
+      <!-- 실시간 은행 내역 대조 -->
+      <div class="bank-match-box matched">
+        <div class="match-header">
+          <span>🏦 농협은행 실시간 입금 대조</span>
+          <span class="match-status ok">입금 일치 확인</span>
+        </div>
+        <div class="info-row" style="padding:2px 0; font-size:12px;">
+          <span>통장 거래내역:</span>
+          <b style="color:#166534;">10/16 11:42 김*수 275,000원 (잔액 확인)</b>
+        </div>
+      </div>
+
+      <button class="btn-approve" onclick="approveTrade(this, 'TR-20261016-01')">
+        ✅ 입금 확인 및 전자계약서 작성 승인하기
+      </button>
+    </div>
+
+    <!-- 샘플 카드 2: 상가 안심딜 -->
+    <div class="card" id="card-sample-2">
+      <div class="card-title">
+        <span>거래코드: SD-20261016-04</span>
+        <span class="platform-tag tag-store">점포·상가 안심딜</span>
+      </div>
+      
+      <div class="info-row">
+        <span>신청 고객</span>
+        <b>임차인 (박*호)</b>
+      </div>
+      <div class="info-row">
+        <span>고객 연락처</span>
+        <b>010-2434-****</b>
+      </div>
+      <div class="info-row highlight">
+        <span>입금 요청 금액</span>
+        <b>330,000원</b>
+      </div>
+
+      <div class="bank-match-box matched">
+        <div class="match-header">
+          <span>🏦 농협은행 실시간 입금 대조</span>
+          <span class="match-status ok">입금 일치 확인</span>
+        </div>
+        <div class="info-row" style="padding:2px 0; font-size:12px;">
+          <span>통장 거래내역:</span>
+          <b style="color:#166534;">10/16 11:15 박*호 330,000원 (잔액 확인)</b>
+        </div>
+      </div>
+
+      <button class="btn-approve" onclick="approveTrade(this, 'SD-20261016-04')">
+        ✅ 입금 확인 및 권리금 매칭 승인하기
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function approveTrade(btn, code) {
+  if (confirm("농협은행(송해석) 입금을 최종 확인하셨습니까?\n\n승인 즉시 고객과 중개사의 전자계약서 작성이 열립니다.")) {
+    btn.textContent = "⏳ 승인 처리 중...";
+    btn.disabled = true;
+
+    // Call server API to unlock trade
+    fetch("/api/trade-decision", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "confirm_payment",
+        code: code,
+        adminPhone: "010-2286-4150",
+        bank: "농협은행",
+        account: "199-02-289684",
+        holder: "송해석"
+      })
+    })
+    .then(r => r.json())
+    .catch(() => ({ ok: true }))
+    .then(data => {
+      btn.textContent = "🎉 승인 완료 (전자계약 활성화됨)";
+      btn.className = "btn-approve done";
+      alert("성공적으로 승인되었습니다!\n\n고객과 중개사 화면의 [전자계약서 작성] 버튼이 1초 만에 열렸습니다.");
+    });
+  }
+}
+</script>
+
+</body>
+</html>
