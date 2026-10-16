@@ -991,9 +991,19 @@ html,body{
         <p id="contactAddressText" style="margin-top:6px;font-size:12.5px;color:#e6c98a;font-weight:700;"></p>
       </div>
 
-      <div class="modelhouse" id="modelhousePhotoBox">
-        <div class="image-label" id="modelhousePhotoLabel">모델하우스 · 홍보관 안내</div>
+      <!-- 모델하우스 안내 및 카카오맵 클릭 연동 박스 -->
+      <div class="modelhouse" id="modelhousePhotoBox" style="cursor:pointer;position:relative;" title="클릭 시 카카오맵 지도로 이동합니다">
+        <div class="image-label" id="modelhousePhotoLabel">모델하우스 · 홍보관 안내 (클릭 시 카카오맵 연동 ↗)</div>
+        <div style="position:absolute;top:10px;right:10px;background:rgba(254,229,0,0.92);color:#3C1E1E;font-size:11.5px;font-weight:900;padding:4px 10px;border-radius:999px;display:flex;align-items:center;gap:4px;box-shadow:0 3px 10px rgba(0,0,0,0.3);">
+          <span>🗺️</span> <span>카카오지도 보기</span>
+        </div>
       </div>
+
+      <!-- 카카오맵 모델하우스 위치 및 길찾기 원클릭 버튼 -->
+      <a id="kakaoMapLinkBtn" href="#" target="_blank" rel="noopener" style="position:relative;z-index:2;width:100%;height:44px;margin-bottom:8px;border-radius:12px;border:1.5px solid #FEE500;background:#FEE500;color:#191919;font-size:13.5px;font-weight:900;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 4px 14px rgba(254,229,0,0.35);transition:transform .15s ease;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:#3C1E1E;color:#FEE500;font-size:11px;font-weight:900;">MAP</span>
+        <span id="kakaoMapBtnText">카카오맵 지도로 모델하우스 위치·길찾기 ↗</span>
+      </a>
 
       <a id="homepageLinkBtn" href="#" target="_blank" rel="noopener" style="display:none;position:relative;z-index:2;width:100%;height:44px;margin-bottom:8px;border-radius:12px;border:1px solid rgba(214,178,110,0.65);background:rgba(7,25,43,0.75);color:#f3d999;font-size:13.5px;font-weight:800;text-decoration:none;align-items:center;justify-content:center;gap:6px;">
         🌐 공식 분양 홈페이지 바로가기 ↗
@@ -1349,12 +1359,37 @@ html,body{
         }
       }
 
-      /* 08/08 모델하우스 · 방문예약 · 홈페이지 */
+      /* 08/08 모델하우스 · 카카오지도 연동 · 방문예약 */
       setBoxBgImage("modelhousePhotoBox", c.modelhouseImageUrl || c.coverImageUrl);
       var addrEl = document.getElementById("contactAddressText");
       var mhAddr = room.modelhouse_address || c.modelhouseAddress || room.area || "";
+      var projName = room.project_name || "분양현장";
+
       if (addrEl) {
-        addrEl.textContent = mhAddr ? ("📍 홍보관 위치: " + mhAddr) : "";
+        addrEl.textContent = mhAddr ? ("📍 홍보관 위치: " + mhAddr + " (클릭 시 카카오지도)") : "";
+        addrEl.style.cursor = "pointer";
+      }
+
+      // 카카오맵 검색 & 길찾기 링크 생성
+      var mapQuery = mhAddr || (projName + " 모델하우스");
+      var kakaoMapUrl = "https://map.kakao.com/link/search/" + encodeURIComponent(mapQuery);
+
+      var mapBtn = document.getElementById("kakaoMapLinkBtn");
+      if (mapBtn) {
+        mapBtn.href = kakaoMapUrl;
+      }
+
+      // 모델하우스 사진 박스 클릭 시에도 카카오맵 즉시 열림
+      var mhBox = document.getElementById("modelhousePhotoBox");
+      if (mhBox) {
+        mhBox.onclick = function() {
+          window.open(kakaoMapUrl, "_blank", "noopener,noreferrer");
+        };
+      }
+      if (addrEl) {
+        addrEl.onclick = function() {
+          window.open(kakaoMapUrl, "_blank", "noopener,noreferrer");
+        };
       }
 
       var hpBtn = document.getElementById("homepageLinkBtn");
