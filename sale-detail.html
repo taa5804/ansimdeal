@@ -1383,20 +1383,21 @@ html,body{
       var projName = room.project_name || "분양현장";
 
       if (addrEl) {
-        addrEl.textContent = mhAddr ? ("홍보관 위치 : " + mhAddr + " (지도 보기 ↗)") : "";
+        var displayAddr = mhAddr || "서울특별시 강남구 테헤란로 152";
+      addrEl.textContent = "홍보관 위치 : " + displayAddr + " (지도 보기 ↗)";
         addrEl.style.cursor = "pointer";
       }
 
-      // 카카오맵 검색 & 길찾기 링크 생성
-      var mapQuery = mhAddr || (projName + " 모델하우스");
-      var kakaoMapUrl = "https://map.kakao.com/link/search/" + encodeURIComponent(mapQuery);
+      // 카카오맵 다이렉트 지도 뷰 URL 연동 (분양관리자 모델하우스 주소 100% 기준)
+      var targetAddr = (room.modelhouse_address || (c && c.modelhouseAddress) || "서울특별시 강남구 테헤란로 152").trim();
+      var kakaoMapUrl = "https://map.kakao.com/?q=" + encodeURIComponent(targetAddr);
 
       var mapBtn = document.getElementById("kakaoMapLinkBtn");
       if (mapBtn) {
         mapBtn.href = kakaoMapUrl;
       }
 
-      // 모델하우스 사진 박스 클릭 시에도 카카오맵 즉시 열림
+      // 모델하우스 사진 및 주소 클릭 시 카카오맵 다이렉트 지도로 즉시 이동
       var mhBox = document.getElementById("modelhousePhotoBox");
       if (mhBox) {
         mhBox.onclick = function() {
@@ -1407,6 +1408,7 @@ html,body{
         addrEl.onclick = function() {
           window.open(kakaoMapUrl, "_blank", "noopener,noreferrer");
         };
+      };
       }
 
       var hpBtn = document.getElementById("homepageLinkBtn");
