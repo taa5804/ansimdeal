@@ -563,6 +563,34 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
       </div>
     </div>
 
+    
+    <!-- 모델하우스 방문 & 가계약 특별 혜택 설정 -->
+    <div style="background:rgba(214,178,110,0.08);border:1.5px solid rgba(214,178,110,0.45);border-radius:14px;padding:18px 20px;margin-bottom:24px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="font-size:18px;">🎁</span>
+        <strong style="color:#f3d999;font-size:15.5px;">모델하우스 방문 혜택 & 가계약(동호지정) 특별 혜택 설정</strong>
+        <span style="font-size:11.5px;color:#cbd5e1;background:rgba(255,255,255,0.08);padding:3px 8px;border-radius:6px;">선택 사항 · 미입력 시 비노출</span>
+      </div>
+      <p style="font-size:12px;color:#94a3b8;margin:0 0 14px;line-height:1.5;">
+        기재 시 고객 상세페이지(1분 스크롤 후 예약상담 직전)에 럭셔리 골드 기프트 박스로 자동 노출되며, 비워둘 경우 흔적 없이 깔끔하게 비노출됩니다.
+      </p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div>
+          <label style="display:block;color:#e2e8f0;font-size:13px;font-weight:700;margin-bottom:6px;">
+            🛍️ 모델하우스 방문 시 혜택
+          </label>
+          <input type="text" id="visitGiftText" placeholder="예: 전문 상담 완료 시 신세계 상품권 3만원권 증정 (방문 고객 전원)" style="width:100%;height:44px;padding:0 12px;border:1px solid rgba(214,178,110,0.35);border-radius:8px;background:#06182a;color:#fff;font-size:13px;">
+        </div>
+        <div>
+          <label style="display:block;color:#e2e8f0;font-size:13px;font-weight:700;margin-bottom:6px;">
+            🏆 가계약(동호지정) 시 특별 혜택
+          </label>
+          <input type="text" id="contractGiftText" placeholder="예: 선착순 동호지정 가계약 시 다이슨 에어랩 또는 황금열쇠 5돈 증정" style="width:100%;height:44px;padding:0 12px;border:1px solid rgba(214,178,110,0.35);border-radius:8px;background:#06182a;color:#fff;font-size:13px;">
+        </div>
+      </div>
+    </div>
+
     <div style="margin-top:20px;display:flex;justify-content:flex-end;">
       <button id="saveBottomBtn" type="button" class="btn-gold" style="width:100%;max-width:420px;height:52px;font-size:15.5px;">
         💾 전체 카탈로그 이미지 & 단지 설정 즉시 저장하기
@@ -1118,6 +1146,8 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
     $("#partnerName").value = c.partnerName || (c.channelType === "mart" ? "전자쿠폰" : "모바일 바코드카드");
     $("#issueQty").value = c.issueQty || 500;
     $("#coverDescription").value = c.coverDescription || "일상이 작품이 되는 새로운 주거의 시작";
+    $("#visitGiftText").value = c.visitGiftText || "";
+    $("#contractGiftText").value = c.contractGiftText || "";
 
     // Populate dual channels
     if($("#useDaangn")) $("#useDaangn").checked = c.useDaangn !== undefined ? c.useDaangn : true;
@@ -1247,6 +1277,8 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
       partnerName: $("#partnerName").value.trim(),
       issueQty: Number($("#issueQty").value || 500),
       coverDescription: $("#coverDescription").value.trim(),
+      visitGiftText: ($("#visitGiftText") ? $("#visitGiftText").value.trim() : ""),
+      contractGiftText: ($("#contractGiftText") ? $("#contractGiftText").value.trim() : ""),
       unitPlans: (syncCurrentUnitInputs(), unitPlansData),
       useDaangn: $("#useDaangn") ? $("#useDaangn").checked : true,
       daangnCustReward: Number(($("#daangnCustReward") && $("#daangnCustReward").value) || 3000),

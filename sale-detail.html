@@ -1004,6 +1004,32 @@ html,body{
         🌐 공식 분양 홈페이지 바로가기 ↗
       </a>
 
+      
+      <!-- [사은품 & 프로모션 골드 박스] 분양사가 기재 시에만 노출 / 미기재 시 완전 비노출 -->
+      <div id="promoGiftCard" style="display:none;position:relative;z-index:2;width:100%;margin:16px 0 12px;padding:16px;border-radius:14px;border:1.5px solid rgba(214,178,110,0.85);background:linear-gradient(145deg,rgba(16,36,58,0.92),rgba(8,20,34,0.96));box-shadow:0 8px 24px rgba(0,0,0,0.45);text-align:left;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed rgba(214,178,110,0.35);">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:16px;">🎁</span>
+            <strong style="color:#f3d999;font-size:13.5px;letter-spacing:0.3px;">본사 공식 모델하우스 특별 프로모션</strong>
+          </div>
+          <span style="font-size:10.5px;color:#d6b26e;background:rgba(214,178,110,0.15);padding:2px 7px;border-radius:4px;font-weight:700;">선착순 한정</span>
+        </div>
+
+        <div id="visitGiftRow" style="display:none;margin-bottom:8px;padding:8px 10px;background:rgba(255,255,255,0.04);border-radius:8px;border-left:3px solid #d6b26e;">
+          <div style="font-size:11px;color:#cbd5e1;font-weight:700;margin-bottom:2px;">🛍️ 모델하우스 방문 시 혜택 (상담 고객 전원)</div>
+          <div id="visitGiftDisplay" style="font-size:12.5px;color:#fff;font-weight:800;line-height:1.4;"></div>
+        </div>
+
+        <div id="contractGiftRow" style="display:none;padding:8px 10px;background:rgba(214,178,110,0.08);border-radius:8px;border-left:3px solid #f59e0b;">
+          <div style="font-size:11px;color:#fcd34d;font-weight:700;margin-bottom:2px;">🏆 가계약(동호지정) 특별 혜택</div>
+          <div id="contractGiftDisplay" style="font-size:12.5px;color:#fef3c7;font-weight:800;line-height:1.4;"></div>
+        </div>
+
+        <div style="margin-top:10px;text-align:center;font-size:11px;color:#94a3b8;">
+          ※ 위 혜택은 아래 [방문예약 신청] 후 현장 방문 시 모바일 교환권으로 확인 및 수령하실 수 있습니다.
+        </div>
+      </div>
+
       <div class="contact-actions">
         <button type="button" id="visitBtn">
           방문예약 신청
@@ -1416,6 +1442,40 @@ html,body{
       if (phoneLink && room.contact_phone) {
         phoneLink.href = "tel:" + String(room.contact_phone).replace(/[^0-9]/g, "");
         phoneLink.textContent = "상담전화 " + room.contact_phone;
+      }
+
+      
+      // 모델하우스 방문 & 가계약 혜택 표시/비노출 동적 제어
+      var vGift = String(c.visitGiftText || "").trim();
+      var cGift = String(c.contractGiftText || "").trim();
+      var cardEl = document.getElementById("promoGiftCard");
+      var vRow = document.getElementById("visitGiftRow");
+      var vDisp = document.getElementById("visitGiftDisplay");
+      var cRow = document.getElementById("contractGiftRow");
+      var cDisp = document.getElementById("contractGiftDisplay");
+
+      if (cardEl) {
+        if (!vGift && !cGift) {
+          cardEl.style.display = "none";
+        } else {
+          cardEl.style.display = "block";
+          if (vRow && vDisp) {
+            if (vGift) {
+              vDisp.textContent = vGift;
+              vRow.style.display = "block";
+            } else {
+              vRow.style.display = "none";
+            }
+          }
+          if (cRow && cDisp) {
+            if (cGift) {
+              cDisp.textContent = cGift;
+              cRow.style.display = "block";
+            } else {
+              cRow.style.display = "none";
+            }
+          }
+        }
       }
 
       checkReward();
