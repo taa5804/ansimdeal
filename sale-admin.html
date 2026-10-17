@@ -737,48 +737,7 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
   }
 
   
-  /* =====================================================================
-     1. 듀얼 채널 실시간 총금액 계산 엔진
-  ===================================================================== */
-  function updateAdminCalculations(){
-    var useD = $("#useDaangn") ? $("#useDaangn").checked : true;
-    var useM = $("#useMart") ? $("#useMart").checked : true;
-
-    var dCust = Number(($("#daangnCustReward") && $("#daangnCustReward").value) || 0);
-    var dPlat = Number(($("#daangnPlatFee") && $("#daangnPlatFee").value) || 0);
-    var dQty = useD ? Number(($("#daangnQty") && $("#daangnQty").value) || 0) : 0;
-    var dDeduct = dCust + dPlat;
-    var dBudget = dQty * dDeduct;
-
-    if($("#daangnDeductText")) $("#daangnDeductText").textContent = dDeduct.toLocaleString('ko-KR') + "원 (고객 " + dCust.toLocaleString('ko-KR') + " + 플랫폼 " + dPlat.toLocaleString('ko-KR') + ")";
-    if($("#daangnTotalText")) $("#daangnTotalText").textContent = dBudget.toLocaleString('ko-KR') + "원";
-
-    var mCust = Number(($("#martCustReward") && $("#martCustReward").value) || 0);
-    var mPlat = Number(($("#martPlatFee") && $("#martPlatFee").value) || 0);
-    var mQty = useM ? Number(($("#martQty") && $("#martQty").value) || 0) : 0;
-    var mDeduct = mCust + mPlat;
-    var mBudget = mQty * mDeduct;
-
-    if($("#martDeductText")) $("#martDeductText").textContent = mDeduct.toLocaleString('ko-KR') + "원 (고객 " + mCust.toLocaleString('ko-KR') + " + 플랫폼 " + mPlat.toLocaleString('ko-KR') + ")";
-    if($("#martTotalText")) $("#martTotalText").textContent = mBudget.toLocaleString('ko-KR') + "원";
-
-    var totalQ = dQty + mQty;
-    var totalB = dBudget + mBudget;
-
-    if($("#adminSummaryQty")) $("#adminSummaryQty").textContent = totalQ.toLocaleString('ko-KR') + "장";
-    if($("#adminSummaryBreakdown")) $("#adminSummaryBreakdown").textContent = "(바코드 " + dQty.toLocaleString('ko-KR') + " + 마트 " + mQty.toLocaleString('ko-KR') + ")";
-    if($("#adminSummaryBudget")) $("#adminSummaryBudget").textContent = totalB.toLocaleString('ko-KR') + "원";
-  }
-
-  ["useDaangn", "useMart", "daangnCustReward", "daangnPlatFee", "daangnQty", "martCustReward", "martPlatFee", "martQty"].forEach(function(id){
-    var el = document.getElementById(id);
-    if(el){
-      el.addEventListener("input", updateAdminCalculations);
-      el.addEventListener("change", updateAdminCalculations);
-    }
-  });
-
-  /* =====================================================================
+    /* =====================================================================
      2. 평형 타입 동적 관리 엔진 (기본 1개 ~ 최대 5개 증설)
   ===================================================================== */
   var MAX_UNITS = 5;
@@ -803,8 +762,17 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
 
     var addBtn = document.getElementById("addUnitBtn");
     if(addBtn){
-      addBtn.disabled = unitPlansData.length >= MAX_UNITS;
-      addBtn.textContent = unitPlansData.length >= MAX_UNITS ? "✓ 최대 5개 등록 완료" : "➕ 평형 타입 추가하기";
+      if(unitPlansData.length >= MAX_UNITS){
+        addBtn.disabled = true;
+        addBtn.innerHTML = "<span>✓ 최대 5개 등록 완료</span>";
+        addBtn.style.opacity = "0.6";
+        addBtn.style.cursor = "not-allowed";
+      } else {
+        addBtn.disabled = false;
+        addBtn.innerHTML = "<span style=\"font-size:15px;line-height:1;color:#facc15;\">✦</span><span>평형 타입 추가하기</span><span style=\"font-size:11px;opacity:0.85;font-weight:600;padding-left:3px;\">(" + unitPlansData.length + "/5)</span>";
+        addBtn.style.opacity = "1";
+        addBtn.style.cursor = "pointer";
+      }
     }
 
     container.innerHTML = unitPlansData.map(function(u, idx){
@@ -814,56 +782,56 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
       var urlId = "url_unitImg_" + idx;
 
       return `
-        <div class="unit-slot-card" data-idx="${idx}" style="border:1.5px solid #cbd5e1;border-radius:14px;background:#fff;padding:16px;margin-bottom:14px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;margin-bottom:12px;border-bottom:1px dashed #e2e8f0;">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span style="padding:3px 9px;border-radius:999px;background:#0f293a;color:#facc15;font-size:12px;font-weight:900;">TYPE 0${num}</span>
-              <strong style="font-size:14.5px;color:#0f293a;">${escapeHtml(u.type || ('타입 0' + num))} 평면도</strong>
-              ${isFirst ? '<span style="font-size:11px;color:#2563eb;font-weight:800;background:#eff6ff;padding:2px 7px;border-radius:4px;">★ 주력 대표타입</span>' : ''}
+        <div class="unit-slot-card" data-idx="${idx}" style="border:1.5px solid rgba(200,163,95,0.4);border-radius:14px;background:#ffffff;padding:18px;margin-bottom:16px;box-shadow:0 4px 16px rgba(11,33,54,0.06);">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid #f1f5f9;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="padding:4px 12px;border-radius:999px;background:linear-gradient(135deg, #0b2136 0%, #163859 100%);color:#facc15;font-size:12px;font-weight:900;letter-spacing:0.5px;box-shadow:0 2px 6px rgba(11,33,54,0.25);">TYPE 0${num}</span>
+              <strong style="font-size:15px;color:#0b2136;font-weight:900;">${escapeHtml(u.type || ('타입 0' + num))} 평면도</strong>
+              ${isFirst ? '<span style="font-size:11.5px;color:#1e40af;font-weight:800;background:#eff6ff;padding:3px 9px;border-radius:6px;border:1px solid #bfdbfe;">★ 주력 대표타입</span>' : ''}
             </div>
-            ${!isFirst ? `<button type="button" class="remove-unit-btn" onclick="removeUnitPlan(${idx})" style="padding:4px 10px;border-radius:6px;border:1px solid #fca5a5;background:#fff1f2;color:#e11d48;font-size:12px;font-weight:800;cursor:pointer;">🗑️ 이 타입 삭제</button>` : ''}
+            ${!isFirst ? `<button type="button" class="remove-unit-btn" onclick="removeUnitPlan(${idx})" style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;border:1px solid #fecdd3;background:#fff1f2;color:#e11d48;font-size:12px;font-weight:800;cursor:pointer;transition:.15s;"><span style="font-size:13px;">✕</span> 해당 평형 삭제</button>` : ''}
           </div>
 
-          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px;">
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px;">
             <label>
-              <span style="font-size:12px;font-weight:800;color:#475569;">타입명 *</span>
-              <input type="text" class="unit-in-type" value="${escapeHtml(u.type || '')}" placeholder="예: 34평형 (84A), 25평형 (59A)">
+              <span style="font-size:12px;font-weight:800;color:#334155;">타입명 *</span>
+              <input type="text" class="unit-in-type" value="${escapeHtml(u.type || '')}" placeholder="예: 34평형 (84A), 25평형 (59A)" style="margin-top:4px;width:100%;height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
             </label>
             <label>
-              <span style="font-size:12px;font-weight:800;color:#475569;">해당 타입 세대수</span>
-              <input type="text" class="unit-in-households" value="${escapeHtml(u.households || '')}" placeholder="예: 680세대">
+              <span style="font-size:12px;font-weight:800;color:#334155;">해당 타입 세대수</span>
+              <input type="text" class="unit-in-households" value="${escapeHtml(u.households || '')}" placeholder="예: 680세대" style="margin-top:4px;width:100%;height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
             </label>
             <label>
-              <span style="font-size:12px;font-weight:800;color:#475569;">특장점 키워드</span>
-              <input type="text" class="unit-in-features" value="${escapeHtml(u.features || '')}" placeholder="예: 4Bay 판상형, 알파룸">
+              <span style="font-size:12px;font-weight:800;color:#334155;">특장점 키워드</span>
+              <input type="text" class="unit-in-features" value="${escapeHtml(u.features || '')}" placeholder="예: 4Bay 판상형, 알파룸" style="margin-top:4px;width:100%;height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
             </label>
             <label>
-              <span style="font-size:12px;font-weight:800;color:#475569;">전용면적</span>
-              <input type="text" class="unit-in-excl" value="${escapeHtml(u.excl || '')}" placeholder="예: 84.98㎡">
+              <span style="font-size:12px;font-weight:800;color:#334155;">전용면적</span>
+              <input type="text" class="unit-in-excl" value="${escapeHtml(u.excl || '')}" placeholder="예: 84.98㎡" style="margin-top:4px;width:100%;height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
             </label>
             <label>
-              <span style="font-size:12px;font-weight:800;color:#475569;">공급면적</span>
-              <input type="text" class="unit-in-supp" value="${escapeHtml(u.supp || '')}" placeholder="예: 112.45㎡">
+              <span style="font-size:12px;font-weight:800;color:#334155;">공급면적</span>
+              <input type="text" class="unit-in-supp" value="${escapeHtml(u.supp || '')}" placeholder="예: 112.45㎡" style="margin-top:4px;width:100%;height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
             </label>
             <label>
-              <span style="font-size:12px;font-weight:800;color:#475569;">계약면적</span>
-              <input type="text" class="unit-in-cont" value="${escapeHtml(u.cont || '')}" placeholder="예: 168.72㎡">
+              <span style="font-size:12px;font-weight:800;color:#334155;">계약면적</span>
+              <input type="text" class="unit-in-cont" value="${escapeHtml(u.cont || '')}" placeholder="예: 168.72㎡" style="margin-top:4px;width:100%;height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
             </label>
           </div>
 
           <!-- 평면도 카탈로그 이미지 업로드/붙여넣기 -->
-          <div class="slot-preview" id="${prevId}" tabindex="0" style="height:140px;border:1.5px dashed #cbd5e1;border-radius:10px;background:#f8fafc;display:flex;align-items:center;justify-content:center;cursor:pointer;${u.imageUrl ? 'background-image:url("' + u.imageUrl + '");background-size:contain;background-position:center;background-repeat:no-repeat;' : ''}">
-            ${!u.imageUrl ? `<span style="font-size:12px;color:#64748b;text-align:center;">클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(TYPE 0${num} 평면도 카탈로그 이미지)</span>` : ''}
+          <div class="slot-preview" id="${prevId}" tabindex="0" style="height:145px;border:1.5px dashed #cbd5e1;border-radius:10px;background:#f8fafc;display:flex;align-items:center;justify-content:center;cursor:pointer;${u.imageUrl ? 'background-image:url(&quot;' + u.imageUrl + '&quot;);background-size:contain;background-position:center;background-repeat:no-repeat;' : ''}">
+            ${!u.imageUrl ? `<span style="font-size:12px;color:#64748b;text-align:center;line-height:1.6;">클릭 후 Ctrl+V 이미지 붙여넣기 또는 파일 업로드<br><strong style="color:#0b2136;">(TYPE 0${num} 평면도 카탈로그)</strong></span>` : ''}
           </div>
 
-          <div style="display:flex;gap:8px;margin-top:8px;">
-            <label class="file-btn" style="padding:6px 12px;background:#0f293a;color:#fff;border-radius:6px;font-size:12px;font-weight:800;cursor:pointer;">
-              📁 평면도 0${num} 파일 업로드
+          <div style="display:flex;gap:8px;margin-top:10px;align-items:center;">
+            <label class="file-btn" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:linear-gradient(135deg, #0b2136 0%, #173550 100%);color:#f3d999;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;border:1px solid rgba(200,163,95,0.4);box-shadow:0 2px 6px rgba(11,33,54,0.15);">
+              <span>📁 평면도 0${num} 파일 선택</span>
               <input type="file" accept="image/*" class="unit-file-input" data-idx="${idx}" style="display:none">
             </label>
-            <button type="button" class="clear-btn" onclick="clearUnitImg(${idx})" style="padding:6px 12px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;font-weight:800;cursor:pointer;">이미지 초기화</button>
+            <button type="button" class="clear-btn" onclick="clearUnitImg(${idx})" style="padding:8px 12px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;font-weight:700;color:#64748b;cursor:pointer;">이미지 초기화</button>
           </div>
-          <input type="text" class="unit-in-img" id="${urlId}" value="${escapeHtml(u.imageUrl || '')}" placeholder="평면도 0${num} 이미지 URL (또는 파일 업로드)" style="margin-top:6px;width:100%;height:38px;padding:0 10px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;">
+          <input type="text" class="unit-in-img" id="${urlId}" value="${escapeHtml(u.imageUrl || '')}" placeholder="평면도 0${num} 이미지 URL (또는 위 파일 업로드)" style="margin-top:8px;width:100%;height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;">
         </div>
       `;
     }).join("");
@@ -878,48 +846,6 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
     }
     syncCurrentUnitInputs();
     unitPlansData.splice(idx, 1);
-        // Populate dual channels
-    if($("#useDaangn")) $("#useDaangn").checked = c.useDaangn !== undefined ? c.useDaangn : true;
-    if($("#daangnCustReward")) $("#daangnCustReward").value = c.daangnCustReward || c.customerRewardAmount || 3000;
-    if($("#daangnPlatFee")) $("#daangnPlatFee").value = c.daangnPlatFee || c.platformFeeAmount || 2000;
-    if($("#daangnQty")) $("#daangnQty").value = c.daangnQty || 1000;
-    if($("#daangnPartnerName")) $("#daangnPartnerName").value = c.daangnPartnerName || "모바일 바코드카드";
-
-    if($("#useMart")) $("#useMart").checked = c.useMart !== undefined ? c.useMart : (c.channelType === "mart");
-    if($("#martCustReward")) $("#martCustReward").value = c.martCustReward || 3000;
-    if($("#martPlatFee")) $("#martPlatFee").value = c.martPlatFee || 2000;
-    if($("#martQty")) $("#martQty").value = c.martQty || 1000;
-    if($("#martPartnerName")) $("#martPartnerName").value = c.martPartnerName || c.partnerName || "에너젠마트";
-    updateAdminCalculations();
-
-    // Populate unit plans data
-    if(Array.isArray(c.unitPlans) && c.unitPlans.length > 0){
-      unitPlansData = c.unitPlans.slice(0, MAX_UNITS);
-    } else {
-      unitPlansData = [
-        {
-          type: c.unit1Type || "34평형 (84A)",
-          households: "680세대",
-          excl: "84.98㎡",
-          supp: "112.45㎡",
-          cont: "168.72㎡",
-          features: "4Bay 판상형, 알파룸 제공",
-          imageUrl: c.unit1ImageUrl || ""
-        }
-      ];
-      if(c.unit2Type || c.unit2ImageUrl){
-        unitPlansData.push({
-          type: c.unit2Type || "34평형 (84B)",
-          households: "320세대",
-          excl: "84.95㎡",
-          supp: "112.30㎡",
-          cont: "168.50㎡",
-          features: "타워형 이면개방, 조망 특화",
-          imageUrl: c.unit2ImageUrl || ""
-        });
-      }
-    }
-    setupAddUnitBtn();
     renderUnitSlots();
   };
 
@@ -927,49 +853,7 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
     syncCurrentUnitInputs();
     if(unitPlansData[idx]){
       unitPlansData[idx].imageUrl = "";
-          // Populate dual channels
-    if($("#useDaangn")) $("#useDaangn").checked = c.useDaangn !== undefined ? c.useDaangn : true;
-    if($("#daangnCustReward")) $("#daangnCustReward").value = c.daangnCustReward || c.customerRewardAmount || 3000;
-    if($("#daangnPlatFee")) $("#daangnPlatFee").value = c.daangnPlatFee || c.platformFeeAmount || 2000;
-    if($("#daangnQty")) $("#daangnQty").value = c.daangnQty || 1000;
-    if($("#daangnPartnerName")) $("#daangnPartnerName").value = c.daangnPartnerName || "모바일 바코드카드";
-
-    if($("#useMart")) $("#useMart").checked = c.useMart !== undefined ? c.useMart : (c.channelType === "mart");
-    if($("#martCustReward")) $("#martCustReward").value = c.martCustReward || 3000;
-    if($("#martPlatFee")) $("#martPlatFee").value = c.martPlatFee || 2000;
-    if($("#martQty")) $("#martQty").value = c.martQty || 1000;
-    if($("#martPartnerName")) $("#martPartnerName").value = c.martPartnerName || c.partnerName || "에너젠마트";
-    updateAdminCalculations();
-
-    // Populate unit plans data
-    if(Array.isArray(c.unitPlans) && c.unitPlans.length > 0){
-      unitPlansData = c.unitPlans.slice(0, MAX_UNITS);
-    } else {
-      unitPlansData = [
-        {
-          type: c.unit1Type || "34평형 (84A)",
-          households: "680세대",
-          excl: "84.98㎡",
-          supp: "112.45㎡",
-          cont: "168.72㎡",
-          features: "4Bay 판상형, 알파룸 제공",
-          imageUrl: c.unit1ImageUrl || ""
-        }
-      ];
-      if(c.unit2Type || c.unit2ImageUrl){
-        unitPlansData.push({
-          type: c.unit2Type || "34평형 (84B)",
-          households: "320세대",
-          excl: "84.95㎡",
-          supp: "112.30㎡",
-          cont: "168.50㎡",
-          features: "타워형 이면개방, 조망 특화",
-          imageUrl: c.unit2ImageUrl || ""
-        });
-      }
-    }
-    setupAddUnitBtn();
-    renderUnitSlots();
+      renderUnitSlots();
     }
   };
 
@@ -1009,49 +893,7 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
           syncCurrentUnitInputs();
           if(unitPlansData[idx]){
             unitPlansData[idx].imageUrl = evt.target.result;
-                // Populate dual channels
-    if($("#useDaangn")) $("#useDaangn").checked = c.useDaangn !== undefined ? c.useDaangn : true;
-    if($("#daangnCustReward")) $("#daangnCustReward").value = c.daangnCustReward || c.customerRewardAmount || 3000;
-    if($("#daangnPlatFee")) $("#daangnPlatFee").value = c.daangnPlatFee || c.platformFeeAmount || 2000;
-    if($("#daangnQty")) $("#daangnQty").value = c.daangnQty || 1000;
-    if($("#daangnPartnerName")) $("#daangnPartnerName").value = c.daangnPartnerName || "모바일 바코드카드";
-
-    if($("#useMart")) $("#useMart").checked = c.useMart !== undefined ? c.useMart : (c.channelType === "mart");
-    if($("#martCustReward")) $("#martCustReward").value = c.martCustReward || 3000;
-    if($("#martPlatFee")) $("#martPlatFee").value = c.martPlatFee || 2000;
-    if($("#martQty")) $("#martQty").value = c.martQty || 1000;
-    if($("#martPartnerName")) $("#martPartnerName").value = c.martPartnerName || c.partnerName || "에너젠마트";
-    updateAdminCalculations();
-
-    // Populate unit plans data
-    if(Array.isArray(c.unitPlans) && c.unitPlans.length > 0){
-      unitPlansData = c.unitPlans.slice(0, MAX_UNITS);
-    } else {
-      unitPlansData = [
-        {
-          type: c.unit1Type || "34평형 (84A)",
-          households: "680세대",
-          excl: "84.98㎡",
-          supp: "112.45㎡",
-          cont: "168.72㎡",
-          features: "4Bay 판상형, 알파룸 제공",
-          imageUrl: c.unit1ImageUrl || ""
-        }
-      ];
-      if(c.unit2Type || c.unit2ImageUrl){
-        unitPlansData.push({
-          type: c.unit2Type || "34평형 (84B)",
-          households: "320세대",
-          excl: "84.95㎡",
-          supp: "112.30㎡",
-          cont: "168.50㎡",
-          features: "타워형 이면개방, 조망 특화",
-          imageUrl: c.unit2ImageUrl || ""
-        });
-      }
-    }
-    setupAddUnitBtn();
-    renderUnitSlots();
+            renderUnitSlots();
           }
         };
         r.readAsDataURL(file);
@@ -1072,49 +914,7 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
               syncCurrentUnitInputs();
               if(unitPlansData[idx]){
                 unitPlansData[idx].imageUrl = evt.target.result;
-                    // Populate dual channels
-    if($("#useDaangn")) $("#useDaangn").checked = c.useDaangn !== undefined ? c.useDaangn : true;
-    if($("#daangnCustReward")) $("#daangnCustReward").value = c.daangnCustReward || c.customerRewardAmount || 3000;
-    if($("#daangnPlatFee")) $("#daangnPlatFee").value = c.daangnPlatFee || c.platformFeeAmount || 2000;
-    if($("#daangnQty")) $("#daangnQty").value = c.daangnQty || 1000;
-    if($("#daangnPartnerName")) $("#daangnPartnerName").value = c.daangnPartnerName || "모바일 바코드카드";
-
-    if($("#useMart")) $("#useMart").checked = c.useMart !== undefined ? c.useMart : (c.channelType === "mart");
-    if($("#martCustReward")) $("#martCustReward").value = c.martCustReward || 3000;
-    if($("#martPlatFee")) $("#martPlatFee").value = c.martPlatFee || 2000;
-    if($("#martQty")) $("#martQty").value = c.martQty || 1000;
-    if($("#martPartnerName")) $("#martPartnerName").value = c.martPartnerName || c.partnerName || "에너젠마트";
-    updateAdminCalculations();
-
-    // Populate unit plans data
-    if(Array.isArray(c.unitPlans) && c.unitPlans.length > 0){
-      unitPlansData = c.unitPlans.slice(0, MAX_UNITS);
-    } else {
-      unitPlansData = [
-        {
-          type: c.unit1Type || "34평형 (84A)",
-          households: "680세대",
-          excl: "84.98㎡",
-          supp: "112.45㎡",
-          cont: "168.72㎡",
-          features: "4Bay 판상형, 알파룸 제공",
-          imageUrl: c.unit1ImageUrl || ""
-        }
-      ];
-      if(c.unit2Type || c.unit2ImageUrl){
-        unitPlansData.push({
-          type: c.unit2Type || "34평형 (84B)",
-          households: "320세대",
-          excl: "84.95㎡",
-          supp: "112.30㎡",
-          cont: "168.50㎡",
-          features: "타워형 이면개방, 조망 특화",
-          imageUrl: c.unit2ImageUrl || ""
-        });
-      }
-    }
-    setupAddUnitBtn();
-    renderUnitSlots();
+                renderUnitSlots();
               }
             };
             reader.readAsDataURL(file);
@@ -1148,54 +948,12 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
           features: "4Bay 판상형, 맞통풍 특화",
           imageUrl: ""
         });
-            // Populate dual channels
-    if($("#useDaangn")) $("#useDaangn").checked = c.useDaangn !== undefined ? c.useDaangn : true;
-    if($("#daangnCustReward")) $("#daangnCustReward").value = c.daangnCustReward || c.customerRewardAmount || 3000;
-    if($("#daangnPlatFee")) $("#daangnPlatFee").value = c.daangnPlatFee || c.platformFeeAmount || 2000;
-    if($("#daangnQty")) $("#daangnQty").value = c.daangnQty || 1000;
-    if($("#daangnPartnerName")) $("#daangnPartnerName").value = c.daangnPartnerName || "모바일 바코드카드";
-
-    if($("#useMart")) $("#useMart").checked = c.useMart !== undefined ? c.useMart : (c.channelType === "mart");
-    if($("#martCustReward")) $("#martCustReward").value = c.martCustReward || 3000;
-    if($("#martPlatFee")) $("#martPlatFee").value = c.martPlatFee || 2000;
-    if($("#martQty")) $("#martQty").value = c.martQty || 1000;
-    if($("#martPartnerName")) $("#martPartnerName").value = c.martPartnerName || c.partnerName || "에너젠마트";
-    updateAdminCalculations();
-
-    // Populate unit plans data
-    if(Array.isArray(c.unitPlans) && c.unitPlans.length > 0){
-      unitPlansData = c.unitPlans.slice(0, MAX_UNITS);
-    } else {
-      unitPlansData = [
-        {
-          type: c.unit1Type || "34평형 (84A)",
-          households: "680세대",
-          excl: "84.98㎡",
-          supp: "112.45㎡",
-          cont: "168.72㎡",
-          features: "4Bay 판상형, 알파룸 제공",
-          imageUrl: c.unit1ImageUrl || ""
-        }
-      ];
-      if(c.unit2Type || c.unit2ImageUrl){
-        unitPlansData.push({
-          type: c.unit2Type || "34평형 (84B)",
-          households: "320세대",
-          excl: "84.95㎡",
-          supp: "112.30㎡",
-          cont: "168.50㎡",
-          features: "타워형 이면개방, 조망 특화",
-          imageUrl: c.unit2ImageUrl || ""
-        });
-      }
-    }
-    setupAddUnitBtn();
-    renderUnitSlots();
+        renderUnitSlots();
       };
     }
   }
 
-  function populateForm(room){
+function populateForm(room){
     if(!room) return;
     var c = room.catalog_data || {};
     var code = room.project_code || "ROOM-001";
