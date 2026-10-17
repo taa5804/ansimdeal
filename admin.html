@@ -377,10 +377,23 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
 
   <!-- 2. 01/08 ~ 08/08 카탈로그 페이지별 이미지 업로드 공간 -->
   <section class="basic-card">
-    <h2>🖼️ 2. 카탈로그 페이지별 이미지 등록 공간 (01/08 ~ 08/08)</h2>
+        <h2>🖼️ 2. 카탈로그 페이지별 이미지 등록 공간 (01/08 ~ 08/08)</h2>
     <p class="sub-desc">
       각 페이지 박스에 <strong>[📁 내 PC 이미지 파일 선택]</strong>을 누르거나, 카탈로그 화면을 캡처한 뒤 박스를 클릭하고 <strong>[Ctrl + V 붙여넣기]</strong>를 하면 분양사 전용 카탈로그 이미지가 즉시 들어갑니다.
     </p>
+
+    <!-- 평형 타입 추가 바 (01~04번과 동일한 2열 카탈로그 그리드로 증설) -->
+    <div style="display:flex;align-items:center;justify-content:space-between;background:#f1f5f9;border:1px solid #cbd5e1;padding:12px 18px;border-radius:12px;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:18px;">📐</span>
+        <strong style="font-size:14.5px;color:#0b2136;">평형 타입별 평면도 등록 (05~08페이지)</strong>
+        <span style="font-size:12px;color:#64748b;">(기본 1개 제공 · <b>최대 5개까지 자유 증설</b>)</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span id="unitCountBadge" style="font-size:12.5px;font-weight:800;color:#0f293a;background:#fff;padding:4px 12px;border-radius:999px;border:1px solid #cbd5e1;">현재 <b id="currentUnitCount" style="color:#2563eb;">1</b> / 최대 5개</span>
+        <button type="button" id="addUnitBtn" class="add-unit-btn"><span style="font-size:14px;line-height:1;color:#facc15;">✦</span><span>평형 타입 추가하기</span><span style="font-size:11px;opacity:0.85;font-weight:600;padding-left:3px;">(1/5)</span></button>
+      </div>
+    </div>
 
     <div class="catalog-grid">
       <!-- PAGE 01 -->
@@ -447,27 +460,11 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
         <input type="text" id="complexImageUrl" placeholder="단지 조감도/배치도 이미지 URL (또는 파일 업로드)">
       </div>
 
-            </div><!-- /.catalog-grid 01-04 -->
+      <!-- [동적으로 증설되는 평형 타입 슬롯들 - 01~04번과 100% 동일한 slot-box 양식으로 2열 바둑판에 직접 삽입] -->
+    </div><!-- /.catalog-grid (기본 01~04) -->
 
-      <!-- [평형 타입 증설 시스템: 기본 1개 제공 / 최대 5개까지 증설] -->
-      <div class="unit-plans-wrap" style="margin-top:24px;border:1.5px solid rgba(200,163,95,0.45);border-radius:16px;background:#ffffff;padding:22px;box-shadow:0 6px 20px rgba(11,33,54,0.06);">
-        <div class="unit-plans-head" style="display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;margin-bottom:18px;border-bottom:1.5px solid #f1f5f9;flex-wrap:wrap;gap:12px;">
-          <div class="unit-plans-title" style="display:flex;align-items:center;gap:10px;">
-            <span style="font-size:22px;line-height:1;">📐</span>
-            <div>
-              <strong style="font-size:16px;color:#0b2136;display:block;">평형 타입별 평면도 등록</strong>
-              <small style="color:#64748b;font-weight:600;font-size:12px;">기본 1개 제공 · <b>최대 5개까지 자유롭게 증설/삭제 가능</b></small>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span id="unitCountBadge" style="font-size:13px;font-weight:800;color:#0f293a;background:#f8fafc;padding:6px 14px;border-radius:999px;border:1px solid #cbd5e1;">현재 <b id="currentUnitCount" style="color:#2563eb;font-size:15px;">1</b> / 최대 5개</span>
-            <button type="button" id="addUnitBtn" class="add-unit-btn"><span style="font-size:15px;line-height:1;color:#facc15;">✦</span><span>평형 타입 추가하기</span><span style="font-size:11px;opacity:0.85;font-weight:600;padding-left:3px;">(1/5)</span></button>
-          </div>
-        </div>
-
-        <!-- 동적 생성되는 평형 타입 슬롯 목록 (전체 너비로 시원하게 노출) -->
-        <div id="unitSlotsContainer" style="display:flex;flex-direction:column;gap:16px;width:100%;"></div>
-      </div>
+    <!-- 평형 타입들이 동일한 catalog-grid 양식으로 바로 아래 2열 바둑판으로 펼쳐짐 -->
+    <div id="unitSlotsContainer" class="catalog-grid" style="margin-top:16px;"></div>
   </section>
 
   <!-- 3. 07/08 다양한 커뮤니티 전용 이미지 공간 (통카탈로그 1장 또는 6칸 개별 선택) -->
@@ -746,8 +743,8 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
   }
 
   
-    /* =====================================================================
-     2. 평형 타입 동적 관리 엔진 (기본 1개 ~ 최대 5개 증설)
+      /* =====================================================================
+     2. 평형 타입 동적 관리 엔진 (01~04번과 100% 동일한 slot-box 양식)
   ===================================================================== */
   var MAX_UNITS = 5;
   var unitPlansData = [
@@ -763,7 +760,6 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
   ];
 
   function renderUnitSlots(){
-    console.log("[renderUnitSlots] called, count:", unitPlansData.length);
     var container = document.getElementById("unitSlotsContainer");
     if(!container) return;
 
@@ -774,12 +770,12 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
     if(addBtn){
       if(unitPlansData.length >= MAX_UNITS){
         addBtn.disabled = true;
-        addBtn.innerHTML = "<span>✓ 최대 5개 등록 완료</span>";
+        addBtn.innerHTML = "<span>✓ 최대 5개 증설 완료</span>";
         addBtn.style.opacity = "0.6";
         addBtn.style.cursor = "not-allowed";
       } else {
         addBtn.disabled = false;
-        addBtn.innerHTML = "<span style=\"font-size:15px;line-height:1;color:#facc15;\">✦</span><span>평형 타입 추가하기</span><span style=\"font-size:11px;opacity:0.85;font-weight:600;padding-left:3px;\">(" + unitPlansData.length + "/5)</span>";
+        addBtn.innerHTML = "<span style=\"font-size:14px;line-height:1;color:#facc15;\">✦</span><span>평형 타입 추가하기</span><span style=\"font-size:11px;opacity:0.85;font-weight:600;padding-left:3px;\">(" + unitPlansData.length + "/5)</span>";
         addBtn.style.opacity = "1";
         addBtn.style.cursor = "pointer";
       }
@@ -787,61 +783,46 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
 
     container.innerHTML = unitPlansData.map(function(u, idx){
       var num = idx + 1;
+      var pageNum = (4 + num) <= 8 ? ("0" + (4 + num)) : String(4 + num);
       var isFirst = idx === 0;
       var prevId = "prev_unitImg_" + idx;
       var urlId = "url_unitImg_" + idx;
+      var currentType = u.type || (num === 1 ? "34평형 (84A)" : ("타입 0" + num));
 
       return `
-        <div class="unit-slot-card" data-idx="${idx}" style="border:1.5px solid rgba(200,163,95,0.4);border-radius:14px;background:#ffffff;padding:18px;margin-bottom:16px;box-shadow:0 4px 16px rgba(11,33,54,0.06);">
-          <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid #f1f5f9;">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <span style="padding:4px 12px;border-radius:999px;background:linear-gradient(135deg, #0b2136 0%, #163859 100%);color:#facc15;font-size:12px;font-weight:900;letter-spacing:0.5px;box-shadow:0 2px 6px rgba(11,33,54,0.25);">TYPE 0${num}</span>
-              <strong style="font-size:15px;color:#0b2136;font-weight:900;">${escapeHtml(u.type || ('타입 0' + num))} 평면도</strong>
-              ${isFirst ? '<span style="font-size:11.5px;color:#1e40af;font-weight:800;background:#eff6ff;padding:3px 9px;border-radius:6px;border:1px solid #bfdbfe;">★ 주력 대표타입</span>' : ''}
+        <div class="slot-box" data-unit-idx="${idx}" style="position:relative;">
+          <div class="slot-head">
+            <span class="slot-badge">${pageNum} / 08 UNIT TYPE 0${num}</span>
+            <div style="display:flex;align-items:center;gap:6px;">
+              ${isFirst ? '<span style="font-size:11px;color:#2563eb;background:#eff6ff;padding:2px 7px;border-radius:4px;font-weight:800;border:1px solid #bfdbfe;">대표타입</span>' : ''}
+              ${!isFirst ? `<button type="button" onclick="removeUnitPlan(${idx})" style="padding:2px 8px;border-radius:5px;border:1px solid #fecdd3;background:#fff1f2;color:#e11d48;font-size:11px;font-weight:800;cursor:pointer;">삭제</button>` : ''}
             </div>
-            ${!isFirst ? `<button type="button" class="remove-unit-btn" onclick="removeUnitPlan(${idx})" style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;border:1px solid #fecdd3;background:#fff1f2;color:#e11d48;font-size:12px;font-weight:800;cursor:pointer;transition:.15s;"><span style="font-size:13px;">✕</span> 해당 평형 삭제</button>` : ''}
           </div>
 
-          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px;">
-            <label>
-              <span style="font-size:12px;font-weight:800;color:#334155;">타입명 *</span>
-              <input type="text" class="unit-in-type" value="${escapeHtml(u.type || '')}" placeholder="예: 34평형 (84A), 25평형 (59A)" style="margin-top:4px;width:100%;height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
-            </label>
-            <label>
-              <span style="font-size:12px;font-weight:800;color:#334155;">해당 타입 세대수</span>
-              <input type="text" class="unit-in-households" value="${escapeHtml(u.households || '')}" placeholder="예: 680세대" style="margin-top:4px;width:100%;height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
-            </label>
-            <label>
-              <span style="font-size:12px;font-weight:800;color:#334155;">특장점 키워드</span>
-              <input type="text" class="unit-in-features" value="${escapeHtml(u.features || '')}" placeholder="예: 4Bay 판상형, 알파룸" style="margin-top:4px;width:100%;height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
-            </label>
-            <label>
-              <span style="font-size:12px;font-weight:800;color:#334155;">전용면적</span>
-              <input type="text" class="unit-in-excl" value="${escapeHtml(u.excl || '')}" placeholder="예: 84.98㎡" style="margin-top:4px;width:100%;height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
-            </label>
-            <label>
-              <span style="font-size:12px;font-weight:800;color:#334155;">공급면적</span>
-              <input type="text" class="unit-in-supp" value="${escapeHtml(u.supp || '')}" placeholder="예: 112.45㎡" style="margin-top:4px;width:100%;height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
-            </label>
-            <label>
-              <span style="font-size:12px;font-weight:800;color:#334155;">계약면적</span>
-              <input type="text" class="unit-in-cont" value="${escapeHtml(u.cont || '')}" placeholder="예: 168.72㎡" style="margin-top:4px;width:100%;height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;">
-            </label>
+          <!-- 평형 명칭 입력 (대표 박스 제목 영역) -->
+          <div style="margin:2px 0 4px 0;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+              <span style="font-size:12px;font-weight:800;color:#0b2136;">평형 명칭 및 세대수</span>
+            </div>
+            <input type="text" class="unit-in-type" value="${escapeHtml(currentType)}" placeholder="예: 34평형 (84A)" style="height:38px;font-weight:800;font-size:13.5px;color:#0b2136;border:1.5px solid #cbd5e1;border-radius:8px;padding:0 10px;width:100%;">
           </div>
 
-          <!-- 평면도 카탈로그 이미지 업로드/붙여넣기 -->
-          <div class="slot-preview" id="${prevId}" tabindex="0" style="height:145px;border:1.5px dashed #cbd5e1;border-radius:10px;background:#f8fafc;display:flex;align-items:center;justify-content:center;cursor:pointer;${u.imageUrl ? 'background-image:url(&quot;' + u.imageUrl + '&quot;);background-size:contain;background-position:center;background-repeat:no-repeat;' : ''}">
-            ${!u.imageUrl ? `<span style="font-size:12px;color:#64748b;text-align:center;line-height:1.6;">클릭 후 Ctrl+V 이미지 붙여넣기 또는 파일 업로드<br><strong style="color:#0b2136;">(TYPE 0${num} 평면도 카탈로그)</strong></span>` : ''}
+          <!-- 01~04번과 100% 동일한 프리뷰 박스 (Ctrl+V 붙여넣기 및 파일 드롭) -->
+          <div class="slot-preview${u.imageUrl ? ' has-img' : ''}" id="${prevId}" tabindex="0" style="${u.imageUrl ? ('background-image:url(&quot;' + u.imageUrl + '&quot;);') : ''}">
+            ${u.imageUrl ? '<span>✅ 평면도 이미지 등록됨 (클릭 후 변경 가능)</span>' : '<span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(TYPE 0' + num + ' 평면도 카탈로그 영역)</span>'}
           </div>
 
-          <div style="display:flex;gap:8px;margin-top:10px;align-items:center;">
-            <label class="file-btn" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:linear-gradient(135deg, #0b2136 0%, #173550 100%);color:#f3d999;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;border:1px solid rgba(200,163,95,0.4);box-shadow:0 2px 6px rgba(11,33,54,0.15);">
-              <span>📁 평면도 0${num} 파일 선택</span>
+          <!-- 01~04번과 100% 동일한 액션 버튼들 -->
+          <div class="slot-actions">
+            <label class="file-btn">
+              📁 평면도 이미지 파일 업로드
               <input type="file" accept="image/*" class="unit-file-input" data-idx="${idx}" style="display:none">
             </label>
-            <button type="button" class="clear-btn" onclick="clearUnitImg(${idx})" style="padding:8px 12px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;font-weight:700;color:#64748b;cursor:pointer;">이미지 초기화</button>
+            <button type="button" class="clear-btn" onclick="clearUnitImg(${idx})">초기화</button>
           </div>
-          <input type="text" class="unit-in-img" id="${urlId}" value="${escapeHtml(u.imageUrl || '')}" placeholder="평면도 0${num} 이미지 URL (또는 위 파일 업로드)" style="margin-top:8px;width:100%;height:38px;padding:0 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;">
+
+          <!-- 이미지 URL 인풋 -->
+          <input type="text" class="unit-in-img" id="${urlId}" value="${escapeHtml(u.imageUrl || '')}" placeholder="평면도 이미지 URL (파일 업로드 시 자동 입력됨)">
         </div>
       `;
     }).join("");
@@ -868,23 +849,13 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
   };
 
   function syncCurrentUnitInputs(){
-    var cards = document.querySelectorAll(".unit-slot-card");
-    cards.forEach(function(card, idx){
+    var cards = document.querySelectorAll(".slot-box[data-unit-idx]");
+    cards.forEach(function(card){
+      var idx = parseInt(card.getAttribute("data-unit-idx"), 10);
       if(!unitPlansData[idx]) return;
       var typeEl = card.querySelector(".unit-in-type");
-      var hhEl = card.querySelector(".unit-in-households");
-      var featEl = card.querySelector(".unit-in-features");
-      var exclEl = card.querySelector(".unit-in-excl");
-      var suppEl = card.querySelector(".unit-in-supp");
-      var contEl = card.querySelector(".unit-in-cont");
       var imgEl = card.querySelector(".unit-in-img");
-
       if(typeEl) unitPlansData[idx].type = typeEl.value.trim();
-      if(hhEl) unitPlansData[idx].households = hhEl.value.trim();
-      if(featEl) unitPlansData[idx].features = featEl.value.trim();
-      if(exclEl) unitPlansData[idx].excl = exclEl.value.trim();
-      if(suppEl) unitPlansData[idx].supp = suppEl.value.trim();
-      if(contEl) unitPlansData[idx].cont = contEl.value.trim();
       if(imgEl) unitPlansData[idx].imageUrl = imgEl.value.trim();
     });
   }
@@ -893,42 +864,68 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
     var container = document.getElementById("unitSlotsContainer");
     if(!container) return;
 
+    // File inputs
     container.querySelectorAll(".unit-file-input").forEach(function(inp){
       inp.addEventListener("change", function(e){
         var idx = parseInt(inp.getAttribute("data-idx"), 10);
         var file = e.target.files && e.target.files[0];
         if(!file) return;
-        var r = new FileReader();
-        r.onload = function(evt){
+        compressImageFile(file, function(dataUrl){
           syncCurrentUnitInputs();
           if(unitPlansData[idx]){
-            unitPlansData[idx].imageUrl = evt.target.result;
+            unitPlansData[idx].imageUrl = dataUrl;
             renderUnitSlots();
+            showMessage("🖼️ TYPE 0" + (idx+1) + " 평면도가 등록되었습니다. [저장]을 누르면 반영됩니다.");
           }
-        };
-        r.readAsDataURL(file);
+        });
       });
     });
 
+    // URL input typing event
+    container.querySelectorAll(".unit-in-img").forEach(function(uInp){
+      uInp.addEventListener("input", function(){
+        var card = uInp.closest(".slot-box[data-unit-idx]");
+        if(!card) return;
+        var idx = parseInt(card.getAttribute("data-unit-idx"), 10);
+        syncCurrentUnitInputs();
+        if(unitPlansData[idx]){
+          unitPlansData[idx].imageUrl = uInp.value.trim();
+          var prevEl = document.getElementById("prev_unitImg_" + idx);
+          if(prevEl){
+            if(unitPlansData[idx].imageUrl){
+              prevEl.style.backgroundImage = 'url("' + unitPlansData[idx].imageUrl + '")';
+              prevEl.classList.add("has-img");
+              prevEl.innerHTML = '<span>✅ 평면도 이미지 등록됨 (클릭 후 변경 가능)</span>';
+            } else {
+              prevEl.style.backgroundImage = '';
+              prevEl.classList.remove("has-img");
+              prevEl.innerHTML = '<span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(TYPE 0' + (idx+1) + ' 평면도 카탈로그 영역)</span>';
+            }
+          }
+        }
+      });
+    });
+
+    // Paste event on slot-preview
     container.querySelectorAll(".slot-preview").forEach(function(prevBox){
       prevBox.addEventListener("paste", function(e){
-        var card = prevBox.closest(".unit-slot-card");
+        var card = prevBox.closest(".slot-box[data-unit-idx]");
         if(!card) return;
-        var idx = parseInt(card.getAttribute("data-idx"), 10);
-        var items = (e.clipboardData || e.originalEvent.clipboardData).items;
+        var idx = parseInt(card.getAttribute("data-unit-idx"), 10);
+        var items = (e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData) || {}).items;
+        if(!items) return;
         for (var i = 0; i < items.length; i++) {
-          if (items[i].type.indexOf("image") !== -1) {
-            var file = items[i].getAsFile();
-            var reader = new FileReader();
-            reader.onload = function(evt){
+          if (items[i].type && items[i].type.indexOf("image") !== -1) {
+            e.preventDefault();
+            var blob = items[i].getAsFile();
+            compressImageFile(blob, function(dataUrl){
               syncCurrentUnitInputs();
               if(unitPlansData[idx]){
-                unitPlansData[idx].imageUrl = evt.target.result;
+                unitPlansData[idx].imageUrl = dataUrl;
                 renderUnitSlots();
+                showMessage("📋 클립보드 평면도 이미지가 붙여넣기 되었습니다!");
               }
-            };
-            reader.readAsDataURL(file);
-            e.preventDefault();
+            });
             break;
           }
         }
@@ -936,7 +933,6 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
     });
   }
 
-  // Bind addUnitBtn event safely
   function setupAddUnitBtn(){
     var addBtn = document.getElementById("addUnitBtn");
     if(addBtn){
@@ -963,7 +959,7 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
     }
   }
 
-function populateForm(room){
+  function populateForm(room){
     if(!room) return;
     var c = room.catalog_data || {};
     var code = room.project_code || "ROOM-001";
