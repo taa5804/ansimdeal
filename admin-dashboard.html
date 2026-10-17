@@ -588,7 +588,7 @@ h1{
       <span class="menu-text">
 
         <span class="menu-title">
-          매수·임차 요청 관리
+          상가·점포 요청 관리
         </span>
 
         <span class="menu-desc">
@@ -819,11 +819,11 @@ h1{
   </button>
 
   <h2 class="panel-title">
-    매수·임차 요청 관리
+    상가·점포 요청 관리
   </h2>
 
   <p class="panel-desc">
-    등록된 매매·전세·월세 희망조건 요청현황을 확인합니다.
+    등록된 상가·점포 임차, 월세, 매매, 양도양수 희망조건 요청현황을 확인합니다.
   </p>
 
 
@@ -835,18 +835,18 @@ h1{
     </div>
 
     <div class="summary">
-      <div class="summary-label">매매</div>
+      <div class="summary-label">상가 임차·월세</div>
+      <div class="summary-value" id="reqMonthly">0</div>
+    </div>
+
+    <div class="summary">
+      <div class="summary-label">상가 매매</div>
       <div class="summary-value" id="reqSale">0</div>
     </div>
 
     <div class="summary">
-      <div class="summary-label">전세</div>
+      <div class="summary-label">양도양수</div>
       <div class="summary-value" id="reqJeonse">0</div>
-    </div>
-
-    <div class="summary">
-      <div class="summary-label">월세</div>
-      <div class="summary-value" id="reqMonthly">0</div>
     </div>
 
   </div>
@@ -856,22 +856,22 @@ h1{
 
     <select id="requestTypeFilter" onchange="renderRequests()">
       <option value="">전체 거래유형</option>
-      <option value="sale">매매</option>
-      <option value="jeonse">전세</option>
-      <option value="monthly">월세</option>
+      <option value="monthly">상가 임차·월세</option>
+      <option value="sale">상가 매매</option>
+      <option value="jeonse">양도양수</option>
     </select>
 
     <input
       id="requestSearch"
       type="search"
       oninput="renderRequests()"
-      placeholder="지역·아파트·요청번호">
+      placeholder="지역·상가/점포명·업종·요청번호">
 
   </div>
 
 
   <div id="requestList" class="list">
-    <div class="empty">등록된 매수·임차 요청이 이곳에 표시됩니다.</div>
+    <div class="empty">등록된 상가·점포 요청이 이곳에 표시됩니다.</div>
   </div>
 
 </section>
@@ -1014,7 +1014,7 @@ h1{
       id="txSearch"
       type="search"
       oninput="renderTransactions()"
-      placeholder="4자리 거래 진행 코드·아파트명">
+      placeholder="4자리 거래 진행 코드·상가/점포명">
 
   </div>
 
@@ -1551,7 +1551,7 @@ function mergeLocalTransactions(){
           byCode.set(code, {
             id: "local-" + code,
             requestNumber: code,
-            apartment: d.aptName || "아파트 매물",
+            apartment: d.aptName || "상가·점포 매물",
             amount: d.price ? (Number(d.price).toLocaleString() + "원") : "-",
             floor: d.dongHo || "-",
             area: "-",
