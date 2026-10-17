@@ -109,13 +109,27 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
 }
 .unit-plans-title { font-size: 14.5px; font-weight: 900; color: #0f293a; display: flex; align-items: center; gap: 8px; }
 .add-unit-btn {
-  display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
-  border-radius: 999px; border: 1.5px solid #16a34a; background: #22c55e;
-  color: #fff; font-size: 13px; font-weight: 900; cursor: pointer; transition: .15s;
-  box-shadow: 0 4px 12px rgba(34,197,94,.25);
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px;
+  border-radius: 999px; border: 1.5px solid rgba(200,163,95,0.7);
+  background: linear-gradient(135deg, #0b2136 0%, #173859 100%);
+  color: #f7e6b5; font-size: 13.5px; font-weight: 900; letter-spacing: 0.3px;
+  cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(11,33,54,0.25), inset 0 1px 1px rgba(255,255,255,0.2);
 }
-.add-unit-btn:hover { background: #16a34a; transform: translateY(-1px); }
-.add-unit-btn:disabled { background: #94a3b8; border-color: #cbd5e1; cursor: not-allowed; box-shadow: none; transform: none; }
+.add-unit-btn:hover {
+  background: linear-gradient(135deg, #102d4a 0%, #1e456e 100%);
+  border-color: #facc15; color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(11,33,54,0.35), inset 0 1px 1px rgba(255,255,255,0.3);
+}
+.add-unit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(11,33,54,0.2);
+}
+.add-unit-btn:disabled {
+  background: #cbd5e1; border-color: #e2e8f0; color: #94a3b8;
+  cursor: not-allowed; box-shadow: none; transform: none;
+}
 .unit-slot-card {
   border: 1.5px solid #dbe3eb; border-radius: 14px; background: #fff; padding: 16px; margin-bottom: 14px;
 }
@@ -1182,7 +1196,6 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
   }
 
   function populateForm(room){
-
     if(!room) return;
     var c = room.catalog_data || {};
     var code = room.project_code || "ROOM-001";
@@ -1205,33 +1218,7 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
     $("#issueQty").value = c.issueQty || 500;
     $("#coverDescription").value = c.coverDescription || "일상이 작품이 되는 새로운 주거의 시작";
 
-    if(Array.isArray(c.unitPlans) && c.unitPlans.length > 0){
-      unitPlansData = c.unitPlans.slice(0, MAX_UNITS);
-    } else {
-      unitPlansData = [
-        {
-          type: c.unit1Type || "84A",
-          households: "680세대",
-          excl: "84.98㎡",
-          supp: "112.45㎡",
-          cont: "168.72㎡",
-          features: "4Bay 판상형, 알파룸 제공",
-          imageUrl: c.unit1ImageUrl || ""
-        }
-      ];
-      if(c.unit2Type || c.unit2ImageUrl){
-        unitPlansData.push({
-          type: c.unit2Type || "84B",
-          households: "320세대",
-          excl: "84.95㎡",
-          supp: "112.30㎡",
-          cont: "168.50㎡",
-          features: "타워형 이면개방, 조망 특화",
-          imageUrl: c.unit2ImageUrl || ""
-        });
-      }
-    }
-        // Populate dual channels
+    // Populate dual channels
     if($("#useDaangn")) $("#useDaangn").checked = c.useDaangn !== undefined ? c.useDaangn : true;
     if($("#daangnCustReward")) $("#daangnCustReward").value = c.daangnCustReward || c.customerRewardAmount || 3000;
     if($("#daangnPlatFee")) $("#daangnPlatFee").value = c.daangnPlatFee || c.platformFeeAmount || 2000;
