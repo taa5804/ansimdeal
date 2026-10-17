@@ -1446,8 +1446,11 @@ html,body{
 
       
       // 모델하우스 방문 & 가계약 혜택 표시/비노출 동적 제어
-      var vGift = String(c.visitGiftText || "").trim();
-      var cGift = String(c.contractGiftText || "").trim();
+      // 분양사가 입력한 값 우선, 없으면 룸 기본 프로모션 예시 자동 적용
+      var vGift = String(c.visitGiftText || "전문 상담 완료 시 신세계 상품권 3만원권 증정 (방문 고객 전원)").trim();
+      var cGift = String(c.contractGiftText || "선착순 동호지정 가계약 시 다이슨 에어랩 또는 황금열쇠 5돈 증정").trim();
+      if (c.visitGiftText === "NONE" || c.visitGiftText === "비노출") vGift = "";
+      if (c.contractGiftText === "NONE" || c.contractGiftText === "비노출") cGift = "";
       var cardEl = document.getElementById("promoGiftCard");
       var vRow = document.getElementById("visitGiftRow");
       var vDisp = document.getElementById("visitGiftDisplay");
@@ -1502,7 +1505,7 @@ html,body{
     var activeSeconds = 0;
     var requiredSeconds = 10;
     var lastActivity = Date.now();
-    var idleLimit = 15000;
+    var idleLimit = 2500;
 
     function markActivity(){
       lastActivity = Date.now();
@@ -1545,9 +1548,12 @@ html,body{
       }
     }
 
-    ["scroll", "touchstart", "touchmove", "wheel", "mousemove", "click", "keydown"].forEach(function(evt){
+    // 스크롤 및 터치 동작 시에만 유효 활동으로 인정 (스크롤 멈추면 2.5초 후 타이머 정지)
+    ["scroll", "touchmove", "wheel"].forEach(function(evt){
       window.addEventListener(evt, markActivity, { passive: true });
     });
+    // 첫 진입 시 최초 1회 활동 마킹
+    markActivity();
 
     var timerInterval = setInterval(function(){
       var isVisible = document.visibilityState === "visible";
