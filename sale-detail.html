@@ -856,7 +856,7 @@ html,body{
         <p id="unit1CountText">총 000세대</p>
       </div>
 
-      <div class="floorplan" id="unit1PhotoBox">
+      <div class="floorplan" id="unit1PhotoBox" style="background-image:url('/sample-floorplan-84a.jpg');background-size:contain;background-position:center;background-repeat:no-repeat;">
         <svg class="default-fp-svg" viewBox="0 0 420 260" style="width:100%;height:100%;display:block;background:linear-gradient(145deg,#08192b,#0f2a42);">
           <defs>
             <pattern id="fpGrid1" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -928,7 +928,7 @@ html,body{
         <p id="unit2CountText">총 000세대</p>
       </div>
 
-      <div class="floorplan" id="unit2PhotoBox">
+      <div class="floorplan" id="unit2PhotoBox" style="background-image:url('/sample-floorplan-84b.jpg');background-size:contain;background-position:center;background-repeat:no-repeat;">
         <svg class="default-fp-svg" viewBox="0 0 420 260" style="width:100%;height:100%;display:block;background:linear-gradient(145deg,#08192b,#0f2a42);">
           <rect width="420" height="260" fill="url(#fpGrid1)"/>
           <!-- 타워형 2면 개방 구조 -->
@@ -1297,7 +1297,14 @@ html,body{
       /* 05/08 평형 타입 동적 선택형 인터랙티브 쇼케이스 (최대 5개) */
       var unitList = [];
       if(Array.isArray(c.unitPlans) && c.unitPlans.length > 0){
-        unitList = c.unitPlans;
+        unitList = c.unitPlans.map(function(item, idx){
+          var copy = Object.assign({}, item);
+          if(!copy.imageUrl){
+            if(idx === 0) copy.imageUrl = "/sample-floorplan-84a.jpg";
+            else if(idx === 1) copy.imageUrl = "/sample-floorplan-84b.jpg";
+          }
+          return copy;
+        });
       } else {
         unitList = [
           {
@@ -1307,7 +1314,7 @@ html,body{
             supp: "112.45㎡",
             cont: "168.72㎡",
             features: "4Bay 판상형, 알파룸 제공, 맞통풍 특화",
-            imageUrl: c.unit1ImageUrl || ""
+            imageUrl: c.unit1ImageUrl || "/sample-floorplan-84a.jpg"
           }
         ];
         if(c.unit2Type || c.unit2ImageUrl){
@@ -1318,7 +1325,7 @@ html,body{
             supp: "112.30㎡",
             cont: "168.50㎡",
             features: "타워형 이면개방, 파노라마 조망 특화",
-            imageUrl: c.unit2ImageUrl || ""
+            imageUrl: c.unit2ImageUrl || "/sample-floorplan-84b.jpg"
           });
         }
       }
@@ -1384,18 +1391,13 @@ html,body{
         var photoBox = document.getElementById("unit1PhotoBox");
         var photoLbl = document.getElementById("unit1PhotoLabel");
         if(photoBox){
-          if(u.imageUrl){
-            photoBox.style.backgroundImage = 'url("' + u.imageUrl + '")';
-            photoBox.style.backgroundSize = "contain";
-            photoBox.style.backgroundPosition = "center";
-            photoBox.style.backgroundRepeat = "no-repeat";
-            var svg = photoBox.querySelector("svg");
-            if(svg) svg.style.visibility = "hidden";
-          } else {
-            photoBox.style.backgroundImage = "";
-            var svg = photoBox.querySelector("svg");
-            if(svg) svg.style.visibility = "visible";
-          }
+          var planImg = u.imageUrl || (idx === 1 ? "/sample-floorplan-84b.jpg" : "/sample-floorplan-84a.jpg");
+          photoBox.style.backgroundImage = 'url("' + planImg + '")';
+          photoBox.style.backgroundSize = "contain";
+          photoBox.style.backgroundPosition = "center";
+          photoBox.style.backgroundRepeat = "no-repeat";
+          var svg = photoBox.querySelector("svg");
+          if(svg) svg.style.visibility = "hidden";
         }
         if(photoLbl) photoLbl.textContent = (u.type || '타입') + " TYPE · " + (u.features || '특화설계 평면도');
 
