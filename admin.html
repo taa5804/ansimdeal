@@ -152,6 +152,21 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
 .slot-head{
   display:flex; align-items:center; justify-content:space-between; gap:8px;
 }
+#saleAdmin .slot-guide-badge{
+  display:inline-flex; align-items:center; gap:5px;
+  background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px;
+  padding:4px 8px; font-size:11.5px; color:#334155; line-height:1.3;
+  margin-top:2px; margin-bottom:2px;
+}
+#saleAdmin .slot-guide-badge strong{
+  color:#0f293a; font-weight:800;
+}
+#saleAdmin .slot-guide-badge .spec-hl{
+  color:#2563eb; font-weight:800;
+}
+#saleAdmin .slot-guide-badge .spec-file{
+  color:#059669; font-weight:700; font-size:11px;
+}
 #saleAdmin .slot-badge{
   display:inline-block; padding:4px 10px; border-radius:999px; background:#0b2136; color:#e6c98a;
   font-size:11.5px; font-weight:800; letter-spacing:.5px;
@@ -406,6 +421,9 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
           <span class="slot-badge">01 / 08 표지 · 메인카드</span>
           <span class="slot-title">대표 표지 / 투시도 이미지</span>
         </div>
+        <div class="slot-guide-badge">
+          📐 권장 규격: <span class="spec-hl">1200 × 800 px</span> (가로 3:2 비율) · <span class="spec-file">JPG / PNG (10MB 이하)</span>
+        </div>
         <div class="slot-preview" id="prev_coverImageUrl" tabindex="0">
           <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(미등록 시 고급 네이비&골드 카탈로그 프레임 적용)</span>
         </div>
@@ -421,6 +439,9 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
         <div class="slot-head">
           <span class="slot-badge">02 / 08 LOCATION</span>
           <span class="slot-title">입지 환경 · 광역 조감도/지도</span>
+        </div>
+        <div class="slot-guide-badge">
+          📐 권장 규격: <span class="spec-hl">1200 × 750 px</span> (가로 16:10 비율) · <span class="spec-file">JPG / PNG (10MB 이하)</span>
         </div>
         <div class="slot-preview" id="prev_locationImageUrl" tabindex="0">
           <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(입지 환경 카탈로그 이미지 영역)</span>
@@ -438,6 +459,9 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
           <span class="slot-badge">03 / 08 PREMIUM</span>
           <span class="slot-title">프리미엄 6 대표 이미지</span>
         </div>
+        <div class="slot-guide-badge">
+          📐 권장 규격: <span class="spec-hl">1200 × 750 px</span> (가로 16:10 비율) · <span class="spec-file">JPG / PNG (10MB 이하)</span>
+        </div>
         <div class="slot-preview" id="prev_premiumImageUrl" tabindex="0">
           <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(프리미엄 카탈로그 이미지 영역)</span>
         </div>
@@ -453,6 +477,9 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
         <div class="slot-head">
           <span class="slot-badge">04 / 08 COMPLEX</span>
           <span class="slot-title">단지 조감도 · 동호수 배치도</span>
+        </div>
+        <div class="slot-guide-badge">
+          📐 권장 규격: <span class="spec-hl">1200 × 750 px</span> (가로 16:10 비율) · <span class="spec-file">JPG / PNG (10MB 이하)</span>
         </div>
         <div class="slot-preview" id="prev_complexImageUrl" tabindex="0">
           <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(단지 배치도/조감도 카탈로그 영역)</span>
@@ -484,6 +511,9 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
         <span class="slot-badge">방식 A · 통카탈로그 1장</span>
         <span class="slot-title">07/08 커뮤니티 카탈로그 페이지 통이미지 등록 (등록 시 1장으로 꽉 차게 노출)</span>
       </div>
+      <div class="slot-guide-badge" style="background:#fff9eb;border-color:#e5c98a;">
+        📐 통카탈로그 권장 규격: <span class="spec-hl">1200 × 800 px</span> (가로 3:2 비율) · <span class="spec-file">JPG / PNG (10MB 이하)</span>
+      </div>
       <div class="slot-preview" id="prev_commFullImageUrl" tabindex="0" style="height:145px;">
         <span>클릭 후 Ctrl+V 붙여넣기 또는 파일 선택<br>(분양사 카탈로그의 커뮤니티 소개 페이지를 통째로 넣으실 때 사용하세요)</span>
       </div>
@@ -498,6 +528,9 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
     <div class="comm-subgrid">
       <div class="slot-box" data-slot="commImg1">
         <div class="slot-head"><span class="slot-badge">커뮤니티 01 (상단 와이드)</span></div>
+        <div class="slot-guide-badge">
+          📐 권장: <span class="spec-hl">1200 × 500 px</span> (와이드) · <span class="spec-file">JPG/PNG</span>
+        </div>
         <input type="text" id="commLabel1" value="클럽 라운지" placeholder="시설명 (예: 클럽 라운지)">
         <div class="slot-preview" id="prev_commImg1" tabindex="0" style="height:110px;"><span>클릭 후 Ctrl+V 또는 파일 업로드</span></div>
         <div class="slot-actions">
@@ -509,6 +542,9 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
 
       <div class="slot-box" data-slot="commImg2">
         <div class="slot-head"><span class="slot-badge">커뮤니티 02</span></div>
+        <div class="slot-guide-badge">
+          📐 권장: <span class="spec-hl">600 × 400 px</span> (3:2) · <span class="spec-file">JPG/PNG</span>
+        </div>
         <input type="text" id="commLabel2" value="피트니스" placeholder="시설명 (예: 피트니스)">
         <div class="slot-preview" id="prev_commImg2" tabindex="0" style="height:110px;"><span>클릭 후 Ctrl+V 또는 파일 업로드</span></div>
         <div class="slot-actions">
@@ -520,6 +556,9 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
 
       <div class="slot-box" data-slot="commImg3">
         <div class="slot-head"><span class="slot-badge">커뮤니티 03</span></div>
+        <div class="slot-guide-badge">
+          📐 권장: <span class="spec-hl">600 × 400 px</span> (3:2) · <span class="spec-file">JPG/PNG</span>
+        </div>
         <input type="text" id="commLabel3" value="골프연습장" placeholder="시설명 (예: 골프연습장)">
         <div class="slot-preview" id="prev_commImg3" tabindex="0" style="height:110px;"><span>클릭 후 Ctrl+V 또는 파일 업로드</span></div>
         <div class="slot-actions">
@@ -531,6 +570,9 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
 
       <div class="slot-box" data-slot="commImg4">
         <div class="slot-head"><span class="slot-badge">커뮤니티 04</span></div>
+        <div class="slot-guide-badge">
+          📐 권장: <span class="spec-hl">600 × 400 px</span> (3:2) · <span class="spec-file">JPG/PNG</span>
+        </div>
         <input type="text" id="commLabel4" value="독서실" placeholder="시설명 (예: 독서실)">
         <div class="slot-preview" id="prev_commImg4" tabindex="0" style="height:110px;"><span>클릭 후 Ctrl+V 또는 파일 업로드</span></div>
         <div class="slot-actions">
@@ -542,6 +584,9 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
 
       <div class="slot-box" data-slot="commImg5">
         <div class="slot-head"><span class="slot-badge">커뮤니티 05</span></div>
+        <div class="slot-guide-badge">
+          📐 권장: <span class="spec-hl">600 × 400 px</span> (3:2) · <span class="spec-file">JPG/PNG</span>
+        </div>
         <input type="text" id="commLabel5" value="어린이집" placeholder="시설명 (예: 어린이집)">
         <div class="slot-preview" id="prev_commImg5" tabindex="0" style="height:110px;"><span>클릭 후 Ctrl+V 또는 파일 업로드</span></div>
         <div class="slot-actions">
@@ -553,6 +598,9 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
 
       <div class="slot-box" data-slot="commImg6">
         <div class="slot-head"><span class="slot-badge">커뮤니티 06</span></div>
+        <div class="slot-guide-badge">
+          📐 권장: <span class="spec-hl">600 × 400 px</span> (3:2) · <span class="spec-file">JPG/PNG</span>
+        </div>
         <input type="text" id="commLabel6" value="게스트하우스" placeholder="시설명 (예: 게스트하우스)">
         <div class="slot-preview" id="prev_commImg6" tabindex="0" style="height:110px;"><span>클릭 후 Ctrl+V 또는 파일 업로드</span></div>
         <div class="slot-actions">
@@ -637,15 +685,15 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
     setTimeout(function(){ box.classList.remove("show"); }, 2800);
   }
 
-  /* 이미지 파일/클립보드 붙여넣기 자동 리사이즈 & 압축 (서버 저장 최적화) */
+  /* 이미지 파일/클립보드 붙여넣기 자동 리사이즈 & 압축 (도면 치수선 선명도 유지) */
   function compressImageFile(file, callback){
     if(!file) return;
     var reader = new FileReader();
     reader.onload = function(evt){
       var img = new Image();
       img.onload = function(){
-        var maxW = 960;
-        var maxH = 1280;
+        var maxW = 1600;
+        var maxH = 1600;
         var w = img.width;
         var h = img.height;
         if(w > maxW){
@@ -661,7 +709,7 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
         canvas.height = h;
         var ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, w, h);
-        var dataUrl = canvas.toDataURL("image/jpeg", 0.78);
+        var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
         callback(dataUrl);
       };
       img.src = evt.target.result;
@@ -837,6 +885,10 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
               <span style="font-size:12px;font-weight:800;color:#0b2136;">평형 명칭 및 세대수</span>
             </div>
             <input type="text" class="unit-in-type" value="${escapeHtml(currentType)}" placeholder="예: 34평형 (84A)" style="height:38px;font-weight:800;font-size:13.5px;color:#0b2136;border:1.5px solid #cbd5e1;border-radius:8px;padding:0 10px;width:100%;">
+          </div>
+
+          <div class="slot-guide-badge" style="width:100%;box-sizing:border-box;">
+            📐 도면 권장 규격: <span class="spec-hl">1600 × 1200 px</span> (가로 4:3 비율) · <span class="spec-file">치수선 CAD 도면 권장 (10MB 이하)</span>
           </div>
 
           <!-- 01~04번과 100% 동일한 프리뷰 박스 (Ctrl+V 붙여넣기 및 파일 드롭) -->
