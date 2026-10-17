@@ -101,7 +101,7 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
 }
 #saleAdmin 
 /* 동적 평형 타입 슬롯 (최대 5개 증설) 스타일 */
-.unit-plans-wrap { grid-column: 1 / -1; margin-bottom: 12px; }
+.unit-plans-wrap { width: 100%; box-sizing: border-box; }
 .unit-plans-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: 12px 16px; border-radius: 12px; background: #f1f5f9; border: 1.5px solid #cbd5e1;
@@ -447,21 +447,26 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
         <input type="text" id="complexImageUrl" placeholder="단지 조감도/배치도 이미지 URL (또는 파일 업로드)">
       </div>
 
+            </div><!-- /.catalog-grid 01-04 -->
+
       <!-- [평형 타입 증설 시스템: 기본 1개 제공 / 최대 5개까지 증설] -->
-      <div class="unit-plans-wrap">
-        <div class="unit-plans-head">
-          <div class="unit-plans-title">
-            <span>📐</span>
-            <span>평형 타입별 평면도 등록 <small style="color:#64748b;font-weight:700;">(기본 1개 제공 · <b>최대 5개까지 자유 증설</b>)</small></span>
+      <div class="unit-plans-wrap" style="margin-top:24px;border:1.5px solid rgba(200,163,95,0.45);border-radius:16px;background:#ffffff;padding:22px;box-shadow:0 6px 20px rgba(11,33,54,0.06);">
+        <div class="unit-plans-head" style="display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;margin-bottom:18px;border-bottom:1.5px solid #f1f5f9;flex-wrap:wrap;gap:12px;">
+          <div class="unit-plans-title" style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:22px;line-height:1;">📐</span>
+            <div>
+              <strong style="font-size:16px;color:#0b2136;display:block;">평형 타입별 평면도 등록</strong>
+              <small style="color:#64748b;font-weight:600;font-size:12px;">기본 1개 제공 · <b>최대 5개까지 자유롭게 증설/삭제 가능</b></small>
+            </div>
           </div>
-          <div style="display:flex;align-items:center;gap:10px;">
-            <span id="unitCountBadge" style="font-size:12px;font-weight:800;color:#0f293a;">현재 <b id="currentUnitCount" style="color:#2563eb;">1</b> / 최대 5개</span>
-            <button type="button" id="addUnitBtn" class="add-unit-btn">➕ 평형 타입 추가하기</button>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span id="unitCountBadge" style="font-size:13px;font-weight:800;color:#0f293a;background:#f8fafc;padding:6px 14px;border-radius:999px;border:1px solid #cbd5e1;">현재 <b id="currentUnitCount" style="color:#2563eb;font-size:15px;">1</b> / 최대 5개</span>
+            <button type="button" id="addUnitBtn" class="add-unit-btn"><span style="font-size:15px;line-height:1;color:#facc15;">✦</span><span>평형 타입 추가하기</span><span style="font-size:11px;opacity:0.85;font-weight:600;padding-left:3px;">(1/5)</span></button>
           </div>
         </div>
 
-        <!-- 동적 생성되는 평형 타입 슬롯 목록 -->
-        <div id="unitSlotsContainer"></div>
+        <!-- 동적 생성되는 평형 타입 슬롯 목록 (전체 너비로 시원하게 노출) -->
+        <div id="unitSlotsContainer" style="display:flex;flex-direction:column;gap:16px;width:100%;"></div>
       </div>
   </section>
 
@@ -1126,7 +1131,7 @@ function populateForm(room){
       unit1ImageUrl: (unitPlansData[0] && unitPlansData[0].imageUrl) || "",
       unit2Type: (unitPlansData[1] && unitPlansData[1].type) || "34평형 (84B)",
       unit2ImageUrl: (unitPlansData[1] && unitPlansData[1].imageUrl) || "",
-      unit2Type: $("#unit2Type").value.trim() || "84B"
+      // unit2Type handled via unitPlansData
     });
 
     for(var i = 1; i <= 6; i++){
