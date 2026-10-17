@@ -25,8 +25,8 @@ html,body{
   --ivory:#f6f2e9;
   --text:#132238;
   position:relative;
-  width:min(100%,460px);
-  max-width:460px;
+  width:min(100%,690px);
+  max-width:690px;
   margin:0 auto;
   padding-bottom:30px;
   background:#0b1d2d;
@@ -1870,6 +1870,106 @@ html,body{
       });
     }
 
+    
+    /* =====================================================================
+       이미지 터치/클릭 시 풀스크린 확대 뷰어 엔진
+    ===================================================================== */
+    var zoomModal = document.getElementById("imageZoomModal");
+    var zoomImg = document.getElementById("zoomModalImg");
+    var zoomTitle = document.getElementById("zoomModalTitle");
+    var closeZoomBtn = document.getElementById("closeZoomModalBtn");
+
+    function openZoom(imgUrl, titleText){
+      if(!zoomModal || !zoomImg) return;
+      var clean = String(imgUrl || "").trim();
+      if(!clean) return;
+      zoomImg.src = clean;
+      if(zoomTitle) zoomTitle.textContent = titleText || "이미지 확대 뷰어";
+      zoomModal.style.display = "flex";
+      zoomImg.style.transform = "scale(1)";
+    }
+
+    if(closeZoomBtn && zoomModal){
+      closeZoomBtn.addEventListener("click", function(){
+        zoomModal.style.display = "none";
+      });
+      zoomModal.addEventListener("click", function(e){
+        if(e.target === zoomModal || e.target.parentElement === zoomModal){
+          zoomModal.style.display = "none";
+        }
+      });
+    }
+
+    // 터치 확대 대상 요소들 등록 (평면도, 조감도, 커뮤니티 등)
+    var zoomableTargets = [
+      { id: "unit1PhotoBox", title: "평형 타입 평면도 상세 확대" },
+      { id: "locationPhotoBox", title: "입지환경 조감도 확대" },
+      { id: "premiumPhotoBox", title: "프리미엄 인테리어 확대" },
+      { id: "complexPhotoBox", title: "단지배치도 상세 확대" },
+      { id: "modelhousePhotoBox", title: "모델하우스 견본주택 확대" },
+      { id: "communityFullBox", title: "커뮤니티 시설 안내 확대" },
+      { id: "commSlot1", title: "커뮤니티 01 확대" },
+      { id: "commSlot2", title: "커뮤니티 02 확대" },
+      { id: "commSlot3", title: "커뮤니티 03 확대" },
+      { id: "commSlot4", title: "커뮤니티 04 확대" },
+      { id: "commSlot5", title: "커뮤니티 05 확대" },
+      { id: "commSlot6", title: "커뮤니티 06 확대" }
+    ];
+
+    zoomableTargets.forEach(function(item){
+      var el = document.getElementById(item.id);
+      if(el){
+        el.style.cursor = "zoom-in";
+        el.title = "터치하여 크게 확대해 보기 🔍";
+        el.addEventListener("click", function(e){
+          // 버튼 클릭 방지
+          if(e.target.tagName === "BUTTON" || e.target.tagName === "A") return;
+          var bg = el.style.backgroundImage || "";
+          var m = bg.match(/url\(["']?([^"']+)["']?\)/);
+          if(m && m[1]){
+            openZoom(m[1], item.title);
+          } else {
+            // 평면도 내부 SVG가 있을 경우
+            var svg = el.querySelector("svg");
+            if(svg){
+              // SVG를 이미지 데이터URL로 변환하여 확대
+              var xml = new XMLSerializer().serializeToString(svg);
+              var svgDataUrl = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(xml);
+              openZoom(svgDataUrl, item.title);
+            }
+          }
+        });
+      }
+    });
+
+    // 핀치 줌 / 더블터치 줌 지원
+    if(zoomImg){
+      var scale = 1;
+      var lastTouchDist = 0;
+
+      zoomImg.addEventListener("dblclick", function(){
+        scale = scale === 1 ? 1.8 : 1;
+        zoomImg.style.transform = "scale(" + scale + ")";
+      });
+
+      zoomModal.addEventListener("touchmove", function(e){
+        if(e.touches.length === 2){
+          e.preventDefault();
+          var dist = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
+          if(lastTouchDist > 0){
+            var diff = dist - lastTouchDist;
+            scale = Math.max(1, Math.min(3.5, scale + diff * 0.008));
+            zoomImg.style.transform = "scale(" + scale + ")";
+          }
+          lastTouchDist = dist;
+        }
+      }, { passive: false });
+
+      zoomModal.addEventListener("touchend", function(){
+        lastTouchDist = 0;
+      });
+    }
+
     checkReward();
   }
 
@@ -1881,5 +1981,18 @@ html,body{
 
 })();
 </script>
+
+<!-- 터치/클릭 확대 뷰어 모달 (이미지 돋보기) -->
+<div id="imageZoomModal" style="display:none;position:fixed;inset:0;z-index:999999;background:rgba(2,8,16,0.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);flex-direction:column;align-items:center;justify-content:center;padding:12px;touch-action:none;">
+  <div style="position:absolute;top:16px;right:16px;z-index:10;display:flex;align-items:center;gap:10px;">
+    <span style="font-size:12px;color:#cbd5e1;background:rgba(255,255,255,0.1);padding:4px 10px;border-radius:20px;">🔍 두 손가락으로 확대/축소 가능</span>
+    <button type="button" id="closeZoomModalBtn" style="width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.6);color:#fff;font-size:24px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">×</button>
+  </div>
+  <div id="zoomModalTitle" style="position:absolute;top:20px;left:20px;color:#f3d999;font-size:14px;font-weight:800;letter-spacing:0.5px;"></div>
+  <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+    <img id="zoomModalImg" src="" alt="확대 이미지" style="max-width:100%;max-height:92vh;object-fit:contain;border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,0.8);transition:transform 0.15s ease;cursor:grab;">
+  </div>
+</div>
+
 </body>
 </html>
