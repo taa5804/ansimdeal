@@ -680,7 +680,7 @@ html,body{
   <div class="sticky-scroll-bar">
     <div class="sticky-top-row">
       <a id="detailBackBtn" href="/index.html" class="back-btn">‹ 분양 목록</a>
-      <div class="timer-pill" id="topRewardPill">유효조회 <b id="viewTime">00:00</b> / 01:00</div>
+      <div class="timer-pill" id="topRewardPill">유효조회 <b id="viewTime">00:00</b> / 00:10</div>
     </div>
     <div class="progress-track">
       <div id="scrollProgressFill" class="progress-fill"></div>
@@ -1049,14 +1049,14 @@ html,body{
 
 </div>
 
-<!-- 60초 완료 후 카카오톡 연동 · 휴대폰 저장 모달 -->
+<!-- 10초 완료 후 카카오톡 연동 · 휴대폰 저장 모달 -->
 <div id="kakaoReceiveModal" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(4,20,36,0.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px;">
   <div style="width:100%;max-width:420px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.45);font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;color:#111827;">
     <div style="background:#FEE500;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;">
       <div style="display:flex;align-items:center;gap:10px;">
         <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;background:#3C1E1E;color:#FEE500;font-weight:900;font-size:17px;">TALK</span>
         <div>
-          <div style="font-size:11.5px;font-weight:800;color:#3C1E1E;opacity:0.85;">60초 유효열람 완료 · 휴대폰 즉시 저장</div>
+          <div style="font-size:11.5px;font-weight:800;color:#3C1E1E;opacity:0.85;">10초 열람 완료 · 휴대폰 즉시 저장</div>
           <div id="kakaoModalTitle" style="font-size:16px;font-weight:900;color:#191919;">카카오톡 모바일 바코드카드 받기</div>
         </div>
       </div>
@@ -1065,7 +1065,7 @@ html,body{
 
     <div style="padding:20px;">
       <p id="kakaoModalDesc" style="margin:0 0 14px;font-size:13.5px;color:#374151;line-height:1.55;word-break:keep-all;">
-        축하합니다! 8페이지 확인 및 60초 열람을 완료하셨습니다.<br>
+        축하합니다! 8페이지 확인 및 10초 열람을 완료하셨습니다.<br>
         <strong>휴대폰 카카오톡 연동 및 카드 보관</strong>을 위해 거주 동네와 휴대폰 번호를 입력해 주세요.
       </p>
 
@@ -1500,7 +1500,7 @@ html,body{
     })();
 
     var activeSeconds = 0;
-    var requiredSeconds = 60;
+    var requiredSeconds = 10;
     var lastActivity = Date.now();
     var idleLimit = 15000;
 
@@ -1532,7 +1532,7 @@ html,body{
 
       if (topRewardPill) {
         topRewardPill.innerHTML =
-          reward + " " + rewardTypeLabel + " · 유효조회 <b id='viewTime'>" + formatTime(activeSeconds) + "</b> / 01:00";
+          reward + " " + rewardTypeLabel + " · 유효조회 <b id='viewTime'>" + formatTime(activeSeconds) + "</b> / 00:10";
       }
 
       rewardBtn.disabled = !enoughTime;
@@ -1549,13 +1549,19 @@ html,body{
       window.addEventListener(evt, markActivity, { passive: true });
     });
 
-    setInterval(function(){
+    var timerInterval = setInterval(function(){
       var isVisible = document.visibilityState === "visible";
       var isActive = (Date.now() - lastActivity) <= idleLimit;
 
       if (isVisible && isActive) {
-        activeSeconds += 1;
-        checkReward();
+        if (activeSeconds < requiredSeconds) {
+          activeSeconds += 1;
+          checkReward();
+        } else {
+          activeSeconds = requiredSeconds;
+          checkReward();
+          clearInterval(timerInterval);
+        }
       }
     }, 1000);
 
@@ -1611,7 +1617,7 @@ html,body{
       });
     }
 
-    /* 60초 완료 후 카카오톡 연동 모달 열기 */
+    /* 10초 완료 후 카카오톡 연동 모달 열기 */
     var kakaoModal = document.getElementById("kakaoReceiveModal");
     var kakaoInputDong = document.getElementById("kakaoInputDong");
     var kakaoInputPhone = document.getElementById("kakaoInputPhone");
@@ -1649,7 +1655,7 @@ html,body{
       var descEl = document.getElementById("kakaoModalDesc");
       if (descEl) {
         descEl.innerHTML =
-          "8페이지 확인 및 60초 열람을 완료하셨습니다!<br>" +
+          "8페이지 확인 및 10초 열람을 완료하셨습니다!<br>" +
           "<strong>휴대폰 카카오톡으로 " + rewardFormatted + " " + rewardTypeLabel + "을(를) 전송·저장</strong>하기 위해 거주 동네와 휴대폰 번호를 입력해 주세요.";
       }
 
