@@ -596,6 +596,10 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
   ];
 
   function $(s){ return document.querySelector(s); }
+  function escapeHtml(str){
+    if(!str) return "";
+    return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+  }
   function showMessage(text){
     var box = $("#saveMessage");
     if(!box) return;
@@ -759,6 +763,7 @@ html,body{margin:0;padding:0;background:#f3f5f7;}
   ];
 
   function renderUnitSlots(){
+    console.log("[renderUnitSlots] called, count:", unitPlansData.length);
     var container = document.getElementById("unitSlotsContainer");
     if(!container) return;
 
