@@ -1872,7 +1872,7 @@ html,body{
 
     
     /* =====================================================================
-       이미지 터치/클릭 시 풀스크린 확대 뷰어 엔진
+       전체 모든 이미지 터치/클릭 시 풀스크린 확대 뷰어 엔진
     ===================================================================== */
     var zoomModal = document.getElementById("imageZoomModal");
     var zoomImg = document.getElementById("zoomModalImg");
@@ -1884,7 +1884,7 @@ html,body{
       var clean = String(imgUrl || "").trim();
       if(!clean) return;
       zoomImg.src = clean;
-      if(zoomTitle) zoomTitle.textContent = titleText || "이미지 확대 뷰어";
+      if(zoomTitle) zoomTitle.textContent = titleText || "이미지 확대 뷰어 (더블클릭/두손가락 줌)";
       zoomModal.style.display = "flex";
       zoomImg.style.transform = "scale(1)";
     }
@@ -1900,42 +1900,64 @@ html,body{
       });
     }
 
-    // 터치 확대 대상 요소들 등록 (평면도, 조감도, 커뮤니티 등)
-    var zoomableTargets = [
-      { id: "unit1PhotoBox", title: "평형 타입 평면도 상세 확대" },
-      { id: "locationPhotoBox", title: "입지환경 조감도 확대" },
-      { id: "premiumPhotoBox", title: "프리미엄 인테리어 확대" },
-      { id: "complexPhotoBox", title: "단지배치도 상세 확대" },
-      { id: "modelhousePhotoBox", title: "모델하우스 견본주택 확대" },
-      { id: "communityFullBox", title: "커뮤니티 시설 안내 확대" },
-      { id: "commSlot1", title: "커뮤니티 01 확대" },
-      { id: "commSlot2", title: "커뮤니티 02 확대" },
-      { id: "commSlot3", title: "커뮤니티 03 확대" },
-      { id: "commSlot4", title: "커뮤니티 04 확대" },
-      { id: "commSlot5", title: "커뮤니티 05 확대" },
-      { id: "commSlot6", title: "커뮤니티 06 확대" }
+    function extractBgUrl(el){
+      if(!el) return "";
+      var style = window.getComputedStyle(el);
+      var bg = (el.style && el.style.backgroundImage) || style.backgroundImage || "";
+      var matches = bg.match(/url\(["']?([^"'\)]+)["']?\)/g);
+      if(matches && matches.length > 0){
+        // get the last url in linear-gradient(...) url(...)
+        var lastMatch = matches[matches.length - 1];
+        var m = lastMatch.match(/url\(["']?([^"'\)]+)["']?\)/);
+        if(m && m[1]) return m[1];
+      }
+      return "";
+    }
+
+    // 커뮤니티 슬롯 내부 span 터치 이벤트 관통(pointer-events: none) 처리하여 부모 클릭 보장
+    var commSpans = document.querySelectorAll("#communityGalleryGrid span, .gallery span");
+    commSpans.forEach(function(sp){ sp.style.pointerEvents = "none"; });
+
+    // 전체 모든 사진 박스 자동 탐색 및 클릭 등록
+    var allImageSelectors = [
+      "#coverSection",
+      "#locationPhotoBox",
+      "#premiumPhotoBox",
+      "#complexPhotoBox",
+      "#unit1PhotoBox",
+      "#unit2PhotoBox",
+      "#communityFullBox",
+      "#commSlot1",
+      "#commSlot2",
+      "#commSlot3",
+      "#commSlot4",
+      "#commSlot5",
+      "#commSlot6",
+      "#modelhousePhotoBox"
     ];
 
-    zoomableTargets.forEach(function(item){
-      var el = document.getElementById(item.id);
+    allImageSelectors.forEach(function(sel){
+      var el = document.querySelector(sel);
       if(el){
         el.style.cursor = "zoom-in";
         el.title = "터치하여 크게 확대해 보기 🔍";
         el.addEventListener("click", function(e){
-          // 버튼 클릭 방지
-          if(e.target.tagName === "BUTTON" || e.target.tagName === "A") return;
-          var bg = el.style.backgroundImage || "";
-          var m = bg.match(/url\(["']?([^"']+)["']?\)/);
-          if(m && m[1]){
-            openZoom(m[1], item.title);
+          if(e.target.tagName === "BUTTON" || e.target.tagName === "A" || e.target.id === "kakaoMapLinkBtn") return;
+          
+          var foundUrl = extractBgUrl(el);
+          var title = (el.querySelector(".image-label") && el.querySelector(".image-label").textContent) ||
+                      (el.querySelector("span") && el.querySelector("span").textContent) ||
+                      "단지 상세 사진 확대";
+
+          if(foundUrl){
+            openZoom(foundUrl, title);
           } else {
-            // 평면도 내부 SVG가 있을 경우
+            // 평면도 내부 SVG인 경우
             var svg = el.querySelector("svg");
             if(svg){
-              // SVG를 이미지 데이터URL로 변환하여 확대
               var xml = new XMLSerializer().serializeToString(svg);
               var svgDataUrl = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(xml);
-              openZoom(svgDataUrl, item.title);
+              openZoom(svgDataUrl, "평형 타입 평면도 상세 확대");
             }
           }
         });
@@ -1948,7 +1970,7 @@ html,body{
       var lastTouchDist = 0;
 
       zoomImg.addEventListener("dblclick", function(){
-        scale = scale === 1 ? 1.8 : 1;
+        scale = scale === 1 ? 2.0 : 1;
         zoomImg.style.transform = "scale(" + scale + ")";
       });
 
