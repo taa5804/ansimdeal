@@ -996,9 +996,9 @@ html,body{
       </div>
 
       <!-- 단일 홍보관 오시는 길 지도 버튼 (위로 튕김 방지 완벽 버튼) -->
-      <button type="button" id="kakaoMapLinkBtn" style="position:relative;z-index:2;width:100%;height:44px;margin-bottom:8px;border-radius:12px;border:1px solid rgba(214,178,110,0.65);background:rgba(7,25,43,0.85);color:#f3d999;font-size:13.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 4px 14px rgba(0,0,0,0.25);transition:all .15s ease;">
+      <a id="kakaoMapLinkBtn" href="https://map.kakao.com/?q=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EA%B0%95%EB%82%A8%EA%B5%AC%20%ED%85%8C%ED%97%A4%EB%9E%80%EB%A1%9C%20152" target="_blank" rel="noopener noreferrer" style="position:relative;z-index:2;width:100%;height:44px;margin-bottom:8px;border-radius:12px;border:1.5px solid rgba(214,178,110,0.7);background:rgba(7,25,43,0.9);color:#f3d999;font-size:13.5px;font-weight:800;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 4px 14px rgba(0,0,0,0.3);transition:all .15s ease;">
         <span id="kakaoMapBtnText">홍보관 오시는 길 · 카카오지도 보기 ↗</span>
-      </button>
+      </a>
 
       <a id="homepageLinkBtn" href="#" target="_blank" rel="noopener" style="display:none;position:relative;z-index:2;width:100%;height:44px;margin-bottom:8px;border-radius:12px;border:1px solid rgba(214,178,110,0.65);background:rgba(7,25,43,0.75);color:#f3d999;font-size:13.5px;font-weight:800;text-decoration:none;align-items:center;justify-content:center;gap:6px;">
         🌐 공식 분양 홈페이지 바로가기 ↗
@@ -1388,33 +1388,17 @@ html,body{
         addrEl.style.cursor = "pointer";
       }
 
-      // 카카오맵 다이렉트 지도 뷰 연동 (화면 튕김 절대 방지 & 테헤란로 152 기준)
+      // 카카오맵 표준 href 링크 직결 (팝업 차단 원천 차단)
       var targetAddr = (room.modelhouse_address || (c && c.modelhouseAddress) || "서울특별시 강남구 테헤란로 152").trim();
       var kakaoMapUrl = "https://map.kakao.com/?q=" + encodeURIComponent(targetAddr);
 
       var mapBtn = document.getElementById("kakaoMapLinkBtn");
       if (mapBtn) {
-        mapBtn.onclick = function(e) {
-          if (e) {
-            e.preventDefault();
-            e.stopPropagation();
-          }
-          window.open(kakaoMapUrl, "_blank", "noopener,noreferrer");
-          return false;
-        };
+        mapBtn.href = kakaoMapUrl;
       }
 
-      // 주소 텍스트 클릭 시에도 카카오맵 단독 오픈
       if (addrEl) {
-        addrEl.onclick = function(e) {
-          if (e) {
-            e.preventDefault();
-            e.stopPropagation();
-          }
-          window.open(kakaoMapUrl, "_blank", "noopener,noreferrer");
-          return false;
-        };
-
+        addrEl.innerHTML = '<a href="' + kakaoMapUrl + '" target="_blank" rel="noopener noreferrer" style="color:#e6c98a;text-decoration:underline;">홍보관 위치 : ' + (mhAddr || "서울특별시 강남구 테헤란로 152") + ' (카카오지도 보기 ↗)</a>';
       }
 
       var hpBtn = document.getElementById("homepageLinkBtn");
