@@ -1006,26 +1006,26 @@ html,body{
 
       
       <!-- [사은품 & 프로모션 골드 박스] 분양사가 기재 시에만 노출 / 미기재 시 완전 비노출 -->
-      <div id="promoGiftCard" style="display:none;position:relative;z-index:2;width:100%;margin:16px 0 12px;padding:16px;border-radius:14px;border:1.5px solid rgba(214,178,110,0.85);background:linear-gradient(145deg,rgba(16,36,58,0.92),rgba(8,20,34,0.96));box-shadow:0 8px 24px rgba(0,0,0,0.45);text-align:left;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed rgba(214,178,110,0.35);">
+      <div id="promoGiftCard" style="display:block;position:relative;z-index:10;width:100%;margin:16px 0 14px;padding:16px 14px;border-radius:14px;border:1.5px solid #d6b26e;background:linear-gradient(145deg,#0c233c,#061524);box-shadow:0 8px 24px rgba(0,0,0,0.5);text-align:left;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed rgba(214,178,110,0.4);">
           <div style="display:flex;align-items:center;gap:6px;">
-            <span style="font-size:16px;">🎁</span>
-            <strong style="color:#f3d999;font-size:13.5px;letter-spacing:0.3px;">본사 공식 모델하우스 특별 프로모션</strong>
+            <span style="font-size:17px;">🎁</span>
+            <strong style="color:#f3d999;font-size:14px;letter-spacing:0.3px;">본사 공식 모델하우스 특별 프로모션</strong>
           </div>
-          <span style="font-size:10.5px;color:#d6b26e;background:rgba(214,178,110,0.15);padding:2px 7px;border-radius:4px;font-weight:700;">선착순 한정</span>
+          <span style="font-size:10.5px;color:#d6b26e;background:rgba(214,178,110,0.18);padding:3px 7px;border-radius:5px;font-weight:800;">선착순 한정</span>
         </div>
 
-        <div id="visitGiftRow" style="display:none;margin-bottom:8px;padding:8px 10px;background:rgba(255,255,255,0.04);border-radius:8px;border-left:3px solid #d6b26e;">
-          <div style="font-size:11px;color:#cbd5e1;font-weight:700;margin-bottom:2px;">🛍️ 모델하우스 방문 시 혜택 (상담 고객 전원)</div>
-          <div id="visitGiftDisplay" style="font-size:12.5px;color:#fff;font-weight:800;line-height:1.4;"></div>
+        <div id="visitGiftRow" style="display:block;margin-bottom:8px;padding:9px 11px;background:rgba(255,255,255,0.05);border-radius:8px;border-left:3.5px solid #d6b26e;">
+          <div style="font-size:11.5px;color:#cbd5e1;font-weight:700;margin-bottom:3px;">🛍️ 모델하우스 방문 시 혜택 (상담 고객 전원)</div>
+          <div id="visitGiftDisplay" style="font-size:13px;color:#fff;font-weight:800;line-height:1.4;">전문 상담 완료 시 신세계 상품권 3만원권 증정 (방문 고객 전원)</div>
         </div>
 
-        <div id="contractGiftRow" style="display:none;padding:8px 10px;background:rgba(214,178,110,0.08);border-radius:8px;border-left:3px solid #f59e0b;">
-          <div style="font-size:11px;color:#fcd34d;font-weight:700;margin-bottom:2px;">🏆 가계약(동호지정) 특별 혜택</div>
-          <div id="contractGiftDisplay" style="font-size:12.5px;color:#fef3c7;font-weight:800;line-height:1.4;"></div>
+        <div id="contractGiftRow" style="display:block;padding:9px 11px;background:rgba(214,178,110,0.1);border-radius:8px;border-left:3.5px solid #f59e0b;">
+          <div style="font-size:11.5px;color:#fcd34d;font-weight:700;margin-bottom:3px;">🏆 가계약(동호지정) 특별 혜택</div>
+          <div id="contractGiftDisplay" style="font-size:13px;color:#fef3c7;font-weight:800;line-height:1.4;">선착순 동호지정 가계약 시 다이슨 에어랩 또는 황금열쇠 5돈 증정</div>
         </div>
 
-        <div style="margin-top:10px;text-align:center;font-size:11px;color:#94a3b8;">
+        <div style="margin-top:10px;text-align:center;font-size:11.5px;color:#94a3b8;">
           ※ 위 혜택은 아래 [방문예약 신청] 후 현장 방문 시 모바일 교환권으로 확인 및 수령하실 수 있습니다.
         </div>
       </div>
@@ -1445,12 +1445,14 @@ html,body{
       }
 
       
-      // 모델하우스 방문 & 가계약 혜택 표시/비노출 동적 제어
-      // 분양사가 입력한 값 우선, 없으면 룸 기본 프로모션 예시 자동 적용
-      var vGift = String(c.visitGiftText || "전문 상담 완료 시 신세계 상품권 3만원권 증정 (방문 고객 전원)").trim();
-      var cGift = String(c.contractGiftText || "선착순 동호지정 가계약 시 다이슨 에어랩 또는 황금열쇠 5돈 증정").trim();
-      if (c.visitGiftText === "NONE" || c.visitGiftText === "비노출") vGift = "";
-      if (c.contractGiftText === "NONE" || c.contractGiftText === "비노출") cGift = "";
+      // 모델하우스 방문 & 가계약 혜택 표시/비노출 제어
+      var rawV = c.visitGiftText;
+      var rawC = c.contractGiftText;
+      var vGift = (rawV !== undefined && rawV !== null && String(rawV).trim() !== "") ? String(rawV).trim() : "전문 상담 완료 시 신세계 상품권 3만원권 증정 (방문 고객 전원)";
+      var cGift = (rawC !== undefined && rawC !== null && String(rawC).trim() !== "") ? String(rawC).trim() : "선착순 동호지정 가계약 시 다이슨 에어랩 또는 황금열쇠 5돈 증정";
+      if (rawV === "NONE" || rawV === "비노출") vGift = "";
+      if (rawC === "NONE" || rawC === "비노출") cGift = "";
+
       var cardEl = document.getElementById("promoGiftCard");
       var vRow = document.getElementById("visitGiftRow");
       var vDisp = document.getElementById("visitGiftDisplay");
