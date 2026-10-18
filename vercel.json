@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/mart-store",
+      "destination": "/mart-store.html"
+    },
+    {
+      "source": "/74",
+      "destination": "/mart-store.html"
+    },
+    {
       "source": "/map-landing",
       "destination": "/presale-matcher.html?map=1"
     },
