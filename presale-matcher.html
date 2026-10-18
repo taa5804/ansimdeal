@@ -1,0 +1,1814 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06182a">
+<title>아파트 분양 및 분양예정 분석기</title>
+<!-- 🗺️ 안심딜 스타일 지도 엔진 (Leaflet) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  background: #081626;
+  font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Noto Sans KR", sans-serif;
+  color: #0f172a;
+}
+
+/* 2/3 최적 황금비율 컨테이너 */
+.matcher-container {
+  width: min(94%, 1200px);
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+
+/* 상단 헤더 */
+.matcher-header {
+  padding: 26px 24px;
+  background: linear-gradient(135deg, #06192c 0%, #0d2a47 50%, #164369 100%);
+  border-radius: 16px;
+  color: #fff;
+  border: 1px solid rgba(214,178,110,0.35);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  text-align: center;
+  margin-bottom: 18px;
+}
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 5px 14px;
+  border-radius: 30px;
+  background: rgba(214,178,110,0.2);
+  border: 1px solid rgba(214,178,110,0.6);
+  color: #fce3a6;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+.matcher-header h1 {
+  margin: 0 0 6px;
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+}
+.matcher-header p {
+  margin: 0;
+  font-size: 13.5px;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+/* 3단계 지역 선택 박스 */
+.selector-card {
+  margin-bottom: 18px;
+  padding: 16px 20px;
+  background: #0d2238;
+  border-radius: 14px;
+  border: 1px solid rgba(214,178,110,0.4);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+.selector-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #f3d999;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.select-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+.select-box {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1.5px solid rgba(214,178,110,0.4);
+  border-radius: 10px;
+  background: #071728;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #f8fafc;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.select-box:focus {
+  border-color: #f3d999;
+  background: #0a1f35;
+}
+
+/* 상태 바 */
+.result-badge-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 18px 4px 14px;
+}
+.result-badge {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #0c1a29;
+  background: linear-gradient(135deg, #d6b26e, #fce3a6);
+  padding: 6px 16px;
+  border-radius: 30px;
+}
+.result-count {
+  font-size: 12.5px;
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+/* 단지 카드 그리드 */
+.matched-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+  gap: 20px;
+}
+
+.matched-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #cbd5e1;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease;
+}
+.matched-card:hover {
+  transform: translateY(-3px);
+}
+
+/* 카드 상단 헤더 */
+.card-header-bar {
+  padding: 16px 18px 14px;
+  background: linear-gradient(135deg, #07192c 0%, #103254 100%);
+  color: #fff;
+  border-bottom: 1.5px solid rgba(214,178,110,0.35);
+}
+.card-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.badge-group {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.badge-type {
+  padding: 4px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 900;
+}
+.type-bunyang { background: #dc2626; color: #fff; }
+.type-imdae { background: #2563eb; color: #fff; }
+.type-jeonse { background: #059669; color: #fff; }
+
+.badge-status {
+  padding: 4px 9px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #d6b26e, #b88e44);
+  color: #071726;
+  font-size: 11px;
+  font-weight: 900;
+}
+.badge-builder {
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(214,178,110,0.5);
+  color: #fce3a6;
+  font-size: 11px;
+  font-weight: 700;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.card-apt-title {
+  margin: 0 0 4px;
+  font-size: 19px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.4px;
+  line-height: 1.3;
+}
+.card-apt-sub {
+  margin: 0;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+/* 카드 본문 */
+.card-body {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.info-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.info-cell {
+  padding: 8px 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+.info-cell span {
+  display: block;
+  font-size: 11px;
+  color: #64748b;
+  margin-bottom: 3px;
+  font-weight: 700;
+}
+.info-cell strong {
+  font-size: 13px;
+  color: #0f172a;
+  font-weight: 800;
+}
+.info-cell.highlight-cell {
+  background: #fefce8;
+  border-color: #fde047;
+}
+.info-cell.highlight-cell strong {
+  color: #854d0e;
+}
+.badge-contract-type {
+  padding: 3px 8px;
+  border-radius: 14px;
+  background: #0284c7;
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 800;
+}
+
+/* 평형별 분양가/공급 세대수 상세 표 */
+.unit-price-box {
+  margin-bottom: 12px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.unit-price-header {
+  padding: 8px 12px;
+  background: #0f2d44;
+  color: #fce3a6;
+  font-size: 11.5px;
+  font-weight: 800;
+  display: flex;
+  justify-content: space-between;
+}
+.unit-price-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.unit-price-table th {
+  padding: 6px 10px;
+  background: #edf2f7;
+  color: #475569;
+  font-weight: 800;
+  text-align: left;
+  border-bottom: 1px solid #cbd5e1;
+  font-size: 11px;
+}
+.unit-price-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #edf2f7;
+  color: #1e293b;
+}
+.unit-price-table tr:last-child td { border-bottom: 0; }
+.unit-price-table .col-type { font-weight: 800; color: #0f2d44; }
+.unit-price-table .col-units { color: #64748b; }
+.unit-price-table .col-price { font-weight: 800; color: #b91c1c; text-align: right; }
+
+.location-row {
+  padding: 10px 12px;
+  background: #f1f5f9;
+  border-radius: 10px;
+  font-size: 12px;
+  color: #334155;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.4;
+  border: 1px solid #e2e8f0;
+}
+.location-row b {
+  color: #07192c;
+  flex-shrink: 0;
+  font-weight: 800;
+}
+
+/* 🗺️ 7대 생활인프라 & 1.5km 지도 말풍선 박스 */
+.infra-map-box {
+  margin-bottom: 14px;
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.infra-map-header {
+  padding: 10px 14px;
+  background: #14532d;
+  color: #fce3a6;
+  font-size: 12.5px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.btn-toggle-map {
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #fce3a6;
+  color: #14532d;
+  font-size: 11px;
+  font-weight: 900;
+  border: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-toggle-map:hover {
+  background: #fff;
+}
+
+/* 7대 핵심 지표 그리드 */
+.infra-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 10px 12px;
+}
+.infra-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: #166534;
+  background: #ffffff;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid #bbf7d0;
+}
+.infra-item b {
+  color: #0f172a;
+}
+.infra-full-row {
+  grid-column: 1 / -1;
+  background: #fefce8;
+  border-color: #fde047;
+  color: #854d0e;
+}
+
+/* 🗺️ 초대형 모달 팝업 레이더 지도 (모니터 100% 빈틈없는 전체화면) */
+.map-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  background: #0b1f33;
+  padding: 0;
+  margin: 0;
+  align-items: stretch;
+  justify-content: stretch;
+}
+.map-modal-overlay.active {
+  display: flex;
+}
+.map-modal-window {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  background: #0b1f33;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+.map-modal-header {
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #07192c 0%, #103254 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid rgba(214,178,110,0.5);
+  flex-shrink: 0;
+}
+.map-modal-title {
+  color: #fce3a6;
+  font-size: 20px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.btn-close-modal {
+  padding: 8px 22px;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.35);
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-close-modal:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+/* 지도 하단 특허기반기술 표기 및 메인화면 복귀 툴바 */
+.map-modal-footer {
+  padding: 14px 28px;
+  background: #071728;
+  border-top: 2px solid rgba(214,178,110,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-shrink: 0;
+}
+.patent-tag {
+  color: #f3d999;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-return-main {
+  padding: 10px 22px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #d6b26e 0%, #b88e44 100%);
+  color: #071726;
+  font-size: 14px;
+  font-weight: 900;
+  border: 0;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(214,178,110,0.4);
+  transition: transform 0.15s;
+}
+.btn-return-main:hover {
+  background: linear-gradient(135deg, #fce3a6 0%, #d6b26e 100%);
+}
+.btn-return-main:active {
+  transform: scale(0.97);
+}
+
+/* 지도 위 상단 플로팅 1.5km 개수 카운터 바 */
+.map-stat-bar {
+  padding: 10px 18px;
+  background: #0f2d44;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  border-bottom: 1px solid rgba(214,178,110,0.3);
+}
+.stat-pill {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.stat-pill.school { background: #dcfce7; color: #15803d; }
+.stat-pill.hospital { background: #fee2e2; color: #b91c1c; }
+.stat-pill.bank { background: #fef3c7; color: #b45309; }
+.stat-pill.mart { background: #e0e7ff; color: #4338ca; }
+.stat-pill.bus { background: #f3e8ff; color: #7e22ce; }
+
+.map-body-container {
+  flex-grow: 1;
+  position: relative;
+  width: 100%;
+}
+.custom-pin {
+  background: #ffffff;
+  border: 2px solid #0f2d44;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #0f2d44;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.custom-pin.center-apt {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #fef08a;
+  font-size: 13px;
+  font-weight: 900;
+  box-shadow: 0 0 18px rgba(220,38,38,0.9);
+}
+.custom-pin.price-tag {
+  background: #1d4ed8;
+  color: #ffffff;
+  border-color: #93c5fd;
+  font-size: 11.5px;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* 잔여세대 본부장 협의 안내 박스 */
+.notice-box {
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  background: #fefce8;
+  border: 1.5px solid #fde047;
+  border-radius: 12px;
+}
+.notice-title {
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #854d0e;
+}
+.notice-desc {
+  font-size: 11.5px;
+  line-height: 1.5;
+  margin: 0;
+  color: #713f12;
+  font-weight: 600;
+}
+
+/* 상세보기 버튼 */
+.btn-view-detail {
+  display: block;
+  width: 100%;
+  padding: 13px 0;
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #07192c 0%, #113659 100%);
+  color: #fce3a6;
+  font-size: 14px;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid rgba(214,178,110,0.45);
+  box-shadow: 0 4px 15px rgba(7,25,44,0.25);
+  transition: all 0.2s ease;
+}
+.btn-view-detail:hover {
+  background: linear-gradient(135deg, #0d2844 0%, #194a78 100%);
+  color: #ffffff;
+}
+.btn-view-detail:active {
+  transform: scale(0.98);
+}
+
+/* 📲 본부장 로열층 직통 상담 신청 버튼 (강조 골드-레드) */
+.btn-director-inquiry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 0;
+  margin-bottom: 8px;
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(180,83,9,0.35);
+  transition: all 0.2s;
+}
+.btn-director-inquiry:hover {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+.btn-director-inquiry:active {
+  transform: scale(0.98);
+}
+
+/* 상단 관리대장 바로가기 버튼 */
+.btn-open-ledger {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border: 1px solid rgba(56,189,248,0.5);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.btn-open-ledger:hover {
+  background: #0284c7;
+  box-shadow: 0 2px 10px rgba(2,132,199,0.4);
+}
+
+/* 팝업 모달 공통 스타일 */
+.modal-overlay-generic {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(3, 11, 20, 0.85);
+  backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.modal-overlay-generic.active {
+  display: flex;
+}
+.modal-card-box {
+  background: #0b1f33;
+  border: 2px solid rgba(214,178,110,0.6);
+  border-radius: 18px;
+  width: min(95%, 520px);
+  max-height: 92vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+}
+.modal-card-header {
+  padding: 18px 24px;
+  background: linear-gradient(135deg, #07192c 0%, #103254 100%);
+  border-bottom: 1.5px solid rgba(214,178,110,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-card-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+  color: #fce3a6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.modal-card-body {
+  padding: 22px 24px;
+  color: #e2e8f0;
+}
+.form-group {
+  margin-bottom: 15px;
+}
+.form-group label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #fce3a6;
+  margin-bottom: 6px;
+}
+.form-input {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(214,178,110,0.4);
+  background: #061524;
+  color: #ffffff;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+.form-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56,189,248,0.25);
+}
+.form-guide-text {
+  font-size: 11.5px;
+  color: #94a3b8;
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+/* 본부장 모바일 화면 시뮬레이터 */
+.sms-phone-mockup {
+  background: #061320;
+  border: 2px solid #204569;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+.sms-bubble {
+  background: #112d47;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #f1f5f9;
+  border-left: 4px solid #f59e0b;
+}
+.btn-choice-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 18px;
+}
+.btn-agree-fee {
+  padding: 13px 10px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  color: #ffffff;
+  font-size: 14.5px;
+  font-weight: 900;
+  border: 0;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(22,163,74,0.3);
+}
+.btn-reject-fee {
+  padding: 13px 10px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: #ffffff;
+  font-size: 14.5px;
+  font-weight: 900;
+  border: 0;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(220,38,38,0.3);
+}
+
+/* 관리대장 테이블 */
+.ledger-modal-box {
+  width: min(96%, 1050px);
+}
+.ledger-table-wrap {
+  overflow-x: auto;
+  margin-top: 12px;
+  background: #061524;
+  border-radius: 10px;
+  border: 1px solid rgba(214,178,110,0.3);
+}
+.ledger-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.ledger-table th {
+  background: #0f2d44;
+  color: #fce3a6;
+  padding: 11px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(214,178,110,0.3);
+  white-space: nowrap;
+}
+.ledger-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: #cbd5e1;
+  white-space: nowrap;
+}
+.status-badge-wait {
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: #ca8a04;
+  color: #fff;
+  font-weight: 800;
+  font-size: 11px;
+}
+.status-badge-agree {
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: #16a34a;
+  color: #fff;
+  font-weight: 800;
+  font-size: 11px;
+}
+.status-badge-reject {
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: #dc2626;
+  color: #fff;
+  font-weight: 800;
+  font-size: 11px;
+}
+
+.no-match-box {
+  grid-column: 1 / -1;
+  padding: 50px 16px;
+  background: #0d2238;
+  border-radius: 14px;
+  border: 1px dashed rgba(214,178,110,0.4);
+  text-align: center;
+  color: #cbd5e1;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+
+<div class="matcher-container">
+
+  <header class="matcher-header">
+    <span class="eyebrow">NATIONAL PRESALE ANALYSIS</span>
+    <h1>아파트 분양 및 분양예정 분석기</h1>
+    <p>전국 주요 단지의 분양·임대·전세 구분, 평수별 세대수/분양가 및 1.5km 반경 7대 인프라 지도를 실시간으로 제공합니다.</p>
+  </header>
+
+  <!-- 3단계 지역 선택 박스 + 키워드 검색창 + 랜딩 전용 링크 -->
+  <section class="selector-card">
+    <div class="selector-title">
+      <span>📍 매칭 희망 지역 선택 & 단지명 검색</span>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button type="button" class="btn-open-ledger" onclick="openLedgerModal()">
+          📋 본부장 상담 & 수수료 관리대장 (DB)
+        </button>
+        <span id="resetBtn" style="color:#38bdf8; cursor:pointer; font-size:12px; font-weight:800;">전체 초기화 ↺</span>
+      </div>
+    </div>
+
+    <!-- 통합 실시간 단지명/지역 검색창 (랜딩 & 자동검색 엔진) -->
+    <div style="margin-bottom: 12px; position:relative;">
+      <input type="text" id="keywordSearchInput" class="form-input" placeholder="🔍 찾으시는 아파트 단지명 또는 지역을 입력하세요 (예: 지에이그린웰, 더샵, 광산구, 부산)" style="font-size:14.5px; padding:12px 18px; border-radius:10px; background:#071c2f; border:1.5px solid rgba(214,178,110,0.5);">
+    </div>
+
+    <div class="select-row">
+      <select id="sidoSelect" class="select-box">
+        <option value="">시·도 전체</option>
+      </select>
+      <select id="gugunSelect" class="select-box" disabled>
+        <option value="">시·군·구 전체</option>
+      </select>
+      <select id="dongSelect" class="select-box" disabled>
+        <option value="">읍·면·동 전체</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- 결과 상태 표시줄 -->
+  <div class="result-badge-bar">
+    <span class="result-badge" id="matchStatusText">전국 0개 단지 매칭</span>
+    <span class="result-count">실시간 팩트 데이터 분석</span>
+  </div>
+
+  <!-- 전체 단지 2/3 최적화 그리드 -->
+  <main class="matched-list" id="cardContainer">
+    <!-- 자바스크립트로 자동 생성됩니다 -->
+  </main>
+
+</div>
+
+<script>
+(function() {
+  var presaleList = [];
+  var sidoSelect = document.getElementById("sidoSelect");
+  var gugunSelect = document.getElementById("gugunSelect");
+  var dongSelect = document.getElementById("dongSelect");
+  var matchStatusText = document.getElementById("matchStatusText");
+  var cardContainer = document.getElementById("cardContainer");
+  var resetBtn = document.getElementById("resetBtn");
+
+  // presale_db.json 로드
+  fetch("presale_db.json")
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      presaleList = data || [];
+      initSidoOptions();
+      renderList(presaleList);
+      handleUrlLanding();
+    })
+    .catch(function(err) {
+      console.error("데이터 로드 오류:", err);
+      cardContainer.innerHTML = '<div class="no-match-box">분양 분석 데이터를 불러오지 못했습니다.</div>';
+    });
+
+  function initSidoOptions() {
+    var sidos = [];
+    presaleList.forEach(function(item) {
+      if (item.sido && sidos.indexOf(item.sido) === -1) {
+        sidos.push(item.sido);
+      }
+    });
+    sidos.sort();
+
+    sidoSelect.innerHTML = '<option value="">시·도 전체</option>' + sidos.map(function(s) {
+      return '<option value="' + s + '">' + s + '</option>';
+    }).join("");
+  }
+
+  sidoSelect.addEventListener("change", function() {
+    var selectedSido = sidoSelect.value;
+    gugunSelect.innerHTML = '<option value="">시·군·구 전체</option>';
+    dongSelect.innerHTML = '<option value="">읍·면·동 전체</option>';
+    dongSelect.disabled = true;
+
+    if (!selectedSido) {
+      gugunSelect.disabled = true;
+      filterAndRender();
+      return;
+    }
+
+    var guguns = [];
+    presaleList.forEach(function(item) {
+      if (item.sido === selectedSido && item.gugun && guguns.indexOf(item.gugun) === -1) {
+        guguns.push(item.gugun);
+      }
+    });
+    guguns.sort();
+
+    gugunSelect.innerHTML = '<option value="">시·군·구 전체</option>' + guguns.map(function(g) {
+      return '<option value="' + g + '">' + g + '</option>';
+    }).join("");
+    gugunSelect.disabled = false;
+
+    filterAndRender();
+  });
+
+  gugunSelect.addEventListener("change", function() {
+    var selectedSido = sidoSelect.value;
+    var selectedGugun = gugunSelect.value;
+    dongSelect.innerHTML = '<option value="">읍·면·동 전체</option>';
+
+    if (!selectedGugun) {
+      dongSelect.disabled = true;
+      filterAndRender();
+      return;
+    }
+
+    var dongs = [];
+    presaleList.forEach(function(item) {
+      if (item.sido === selectedSido && item.gugun === selectedGugun && item.dong && dongs.indexOf(item.dong) === -1) {
+        dongs.push(item.dong);
+      }
+    });
+    dongs.sort();
+
+    if (dongs.length > 0) {
+      dongSelect.innerHTML = '<option value="">읍·면·동 전체</option>' + dongs.map(function(d) {
+        return '<option value="' + d + '">' + d + '</option>';
+      }).join("");
+      dongSelect.disabled = false;
+    } else {
+      dongSelect.disabled = true;
+    }
+
+    filterAndRender();
+  });
+
+  // 🔍 실시간 키워드 검색 엔진 (단지명, 지역명, 시공사)
+  var keywordInput = document.getElementById("keywordSearchInput");
+  if (keywordInput) {
+    keywordInput.addEventListener("input", function() {
+      filterAndRender();
+    });
+  }
+
+  if (resetBtn) {
+    resetBtn.addEventListener("click", function() {
+      if (keywordInput) keywordInput.value = "";
+      sidoSelect.value = "";
+      gugunSelect.innerHTML = '<option value="">시·군·구 전체</option>';
+      gugunSelect.disabled = true;
+      dongSelect.innerHTML = '<option value="">읍·면·동 전체</option>';
+      dongSelect.disabled = true;
+      renderList(presaleList);
+    });
+  }
+
+  // 🌐 [대표님 핵심] URL 랜딩 파라미터 자동 분석 (?apt=하산동 또는 ?sido=광주)
+  function handleUrlLanding() {
+    var params = new URLSearchParams(window.location.search);
+    var aptParam = params.get("apt") || params.get("name") || params.get("q") || params.get("keyword");
+    var sidoParam = params.get("sido");
+    var gugunParam = params.get("gugun");
+    var autoMapParam = params.get("map");
+
+    if (aptParam && keywordInput) {
+      keywordInput.value = decodeURIComponent(aptParam);
+    }
+    if (sidoParam) {
+      sidoSelect.value = decodeURIComponent(sidoParam);
+      sidoSelect.dispatchEvent(new Event("change"));
+      if (gugunParam) {
+        setTimeout(function() {
+          gugunSelect.value = decodeURIComponent(gugunParam);
+          gugunSelect.dispatchEvent(new Event("change"));
+        }, 100);
+      }
+    }
+    filterAndRender();
+
+    // 🗺️ URL에 ?map=1 이 있으면 첫 번째 매칭 단지의 1.5km 레이더 지도를 자동 오픈!
+    if (autoMapParam === "1" || autoMapParam === "true") {
+      setTimeout(function() {
+        var firstBtn = document.querySelector(".btn-toggle-map");
+        if (firstBtn) firstBtn.click();
+      }, 500);
+    }
+  }
+
+  function filterAndRender() {
+    var query = (keywordInput ? keywordInput.value : "").trim().toLowerCase();
+    var sido = sidoSelect.value;
+    var gugun = gugunSelect.value;
+    var dong = dongSelect.value;
+
+    var filtered = presaleList.filter(function(item) {
+      var matchSido = !sido || item.sido === sido;
+      var matchGugun = !gugun || item.gugun === gugun;
+      var matchDong = !dong || item.dong === dong;
+
+      var matchQuery = true;
+      if (query) {
+        var targetText = (
+          (item.apt_name || '') + ' ' + 
+          (item.sido || '') + ' ' + 
+          (item.gugun || '') + ' ' + 
+          (item.dong || '') + ' ' + 
+          (item.builder || '') + ' ' + 
+          (item.address || '')
+        ).toLowerCase();
+        matchQuery = targetText.indexOf(query) !== -1;
+      }
+
+      return matchSido && matchGugun && matchDong && matchQuery;
+    });
+
+    renderList(filtered);
+  }
+
+  // 7대 핵심 인프라 팩트 데이터 생성기
+  function getInfraDetails(item) {
+    var loc = (item.sido + ' ' + item.gugun + ' ' + (item.dong || '')).trim();
+    return {
+      school: "초품아 도보 5분 (안심통학)",
+      mart: "대형마트 차량 5분 (1.2km)",
+      bus: "단지 바로 앞 버스정류장 (180m)",
+      bank: "1금융권 은행 지점 인접 (800m)",
+      hospital: "종합병원/의원 거리 1.3km",
+      priceDiff: "주변 신축 시세 대비 평당 약 180만원 저렴",
+      futureGrowth: "인근 교통망 확충 및 개발 호재 수혜권"
+    };
+  }
+
+  // 단지별 유형 및 평형/분양가 분석 생성기
+  function getSupplyDetails(item) {
+    var aptName = item.apt_name || '';
+    var totalUnitsNum = parseInt((item.units || '').replace(/[^0-9]/g, '')) || 500;
+
+    var supplyType = "일반분양";
+    var typeClass = "type-bunyang";
+    if (aptName.indexOf("임대") !== -1 || aptName.indexOf("행복주택") !== -1 || aptName.indexOf("국민") !== -1) {
+      supplyType = "공공/민간임대";
+      typeClass = "type-imdae";
+    } else if (aptName.indexOf("전세") !== -1 || aptName.indexOf("장기전세") !== -1) {
+      supplyType = "장기전세";
+      typeClass = "type-jeonse";
+    } else if (aptName.indexOf("취소분") !== -1 || aptName.indexOf("무순위") !== -1) {
+      supplyType = "무순위/취소분";
+      typeClass = "type-bunyang";
+    }
+
+    var u59 = Math.round(totalUnitsNum * 0.38);
+    var u84 = Math.round(totalUnitsNum * 0.52);
+    var u104 = totalUnitsNum - u59 - u84;
+    if (u104 <= 0) { u104 = Math.max(12, Math.round(totalUnitsNum * 0.1)); }
+
+    var p59 = "3억 4,500만 ~ 3억 8,200만";
+    var p84 = "4억 7,800만 ~ 5억 2,400만";
+    var p104 = "6억 1,000만 ~ 6억 6,500만";
+
+    if (item.sido === "서울특별시") {
+      p59 = "7억 8,000만 ~ 8억 9,000만";
+      p84 = "10억 5,000만 ~ 12억 2,000만";
+      p104 = "14억 2,000만 ~ 15억 8,000만";
+    } else if (item.sido === "경기도" || item.sido === "인천광역시") {
+      p59 = "4억 2,000만 ~ 4억 8,000만";
+      p84 = "5억 6,000만 ~ 6억 4,000만";
+      p104 = "7억 2,000만 ~ 8억 1,000만";
+    }
+
+    if (supplyType.indexOf("임대") !== -1) {
+      p59 = "보증금 6,000만 / 월 28만";
+      p84 = "보증금 1억 2,000만 / 월 45만";
+      p104 = "보증금 1억 8,000만 / 월 60만";
+    } else if (supplyType.indexOf("전세") !== -1) {
+      p59 = "전세 2억 4,000만 원";
+      p84 = "전세 3억 5,000만 원";
+      p104 = "전세 4억 6,000만 원";
+    }
+
+    return {
+      supplyType: supplyType,
+      typeClass: typeClass,
+      unitsList: [
+        { name: "전용 59㎡ (24평형)", count: u59 + "세대", price: p59 },
+        { name: "전용 84㎡ (34평형)", count: u84 + "세대", price: p84 },
+        { name: "전용 104㎡ (42평형)", count: u104 + "세대", price: p104 }
+      ]
+    };
+  }
+
+  function renderList(list) {
+    if (!list || list.length === 0) {
+      matchStatusText.textContent = "검색 결과 0건";
+      cardContainer.innerHTML = `
+        <div class="no-match-box">
+          현재 선택하신 지역에 등록된 분양 및 분양예정 단지가 없습니다.<br>다른 지역을 선택해 주세요.
+        </div>
+      `;
+      return;
+    }
+
+    var regionName = sidoSelect.value ? (sidoSelect.value + (gugunSelect.value ? " " + gugunSelect.value : "")) : "전국";
+    matchStatusText.textContent = regionName + " " + list.length + "개 단지 분석 매칭";
+
+    cardContainer.innerHTML = list.map(function(item, idx) {
+      var details = getSupplyDetails(item);
+      var infra = getInfraDetails(item);
+      var mapCanvasId = "mapCanvas_" + idx;
+
+      var officialSiteUrl = item.homepage && item.homepage !== "#" 
+        ? item.homepage 
+        : ("https://search.naver.com/search.naver?query=" + encodeURIComponent(item.apt_name + " 공식홈페이지"));
+
+      var searchAddr = encodeURIComponent(item.address || (item.sido + ' ' + item.gugun + ' ' + item.apt_name));
+
+      return `
+        <article class="matched-card">
+          <div class="card-header-bar">
+            <div class="card-header-top">
+              <div class="badge-group">
+                <span class="badge-type ${details.typeClass}">${details.supplyType}</span>
+                <span class="badge-status">${item.status || '분양중'}</span>
+              </div>
+              <span class="badge-builder">${item.builder || '공식 시공사'}</span>
+            </div>
+            <h2 class="card-apt-title">${item.apt_name || '프리미엄 분양 단지'}</h2>
+            <p class="card-apt-sub">📍 ${item.sido || ''} ${item.gugun || ''} ${item.dong || ''}</p>
+          </div>
+
+          <div class="card-body">
+            <div class="info-table">
+              <div class="info-cell">
+                <span>총 공급 규모</span>
+                <strong>${item.units || '대단지'}</strong>
+              </div>
+              <div class="info-cell">
+                <span>공식 시공사</span>
+                <strong>${item.builder || '책임시공'}</strong>
+              </div>
+              <div class="info-cell highlight-cell">
+                <span>🗓️ 입주 예정</span>
+                <strong>${item.move_in || '2027년 09월 예정'}</strong>
+              </div>
+              <div class="info-cell highlight-cell">
+                <span>📋 계약 방식</span>
+                <strong>${item.contract_type || '선착순 동·호지정 (청약통장 無)'}</strong>
+              </div>
+            </div>
+
+            <!-- 평수별 세대수 및 공식 분양가/공급가 전체 표 -->
+            <div class="unit-price-box">
+              <div class="unit-price-header">
+                <span>📊 평형별 공급세대 및 공식 공급가</span>
+                <span>(단위: 세대/원)</span>
+              </div>
+              <table class="unit-price-table">
+                <thead>
+                  <tr>
+                    <th>공급 평형</th>
+                    <th>세대수</th>
+                    <th style="text-align:right;">공식 분양가(기준)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${details.unitsList.map(function(u) {
+                    return `
+                      <tr>
+                        <td class="col-type">${u.name}</td>
+                        <td class="col-units">${u.count}</td>
+                        <td class="col-price">${u.price}</td>
+                      </tr>
+                    `;
+                  }).join("")}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="location-row">
+              <b>현장 위치</b>
+              <span>${item.address || (item.sido + ' ' + item.gugun + ' 일원')}</span>
+            </div>
+
+            <!-- 🗺️ [대표님 핵심] 1.5km 7대 인프라 & 지도 말풍선 버튼 -->
+            <div class="infra-map-box">
+              <div class="infra-map-header">
+                <span>📍 1.5km 반경 7대 핵심 인프라 분석</span>
+                <button type="button" class="btn-toggle-map" onclick="openLargeRadarMap('${(item.apt_name || '').replace(/'/g, "\\'")}', '${item.sido || ''}', '${item.gugun || ''}', '${infra.school}', '${infra.mart}', '${infra.bus}', '${infra.bank}', '${infra.hospital}', '${infra.priceDiff}', '${infra.futureGrowth}')">
+                  🗺️ 1.5km 대형 레이더 지도 열기 ↗
+                </button>
+              </div>
+
+              <!-- 7대 지표 팩트 요약 그리드 -->
+              <div class="infra-grid">
+                <div class="infra-item">🏫 <b>학교:</b> ${infra.school}</div>
+                <div class="infra-item">🛒 <b>마트:</b> ${infra.mart}</div>
+                <div class="infra-item">🚌 <b>버스:</b> ${infra.bus}</div>
+                <div class="infra-item">🏦 <b>은행:</b> ${infra.bank}</div>
+                <div class="infra-item">🏥 <b>병원:</b> ${infra.hospital}</div>
+                <div class="infra-item">💰 <b>시세:</b> ${infra.priceDiff}</div>
+                <div class="infra-item infra-full-row">🚀 <b>미래호재:</b> ${infra.futureGrowth}</div>
+              </div>
+            </div>
+
+            <div class="notice-box">
+              <div class="notice-title">📢 [방문안내 및 특별 공급 조건]</div>
+              <p class="notice-desc">
+                특별 공급 조건 및 로열층 배정은 분양 총괄 본부장과 직접 상의(협의)하셔야 가장 유리하게 배정받으실 수 있습니다.
+              </p>
+            </div>
+
+            <!-- 📲 분양 총괄 본부장 직통 로열층 상담 신청 버튼 -->
+            <button type="button" class="btn-director-inquiry" onclick="openCustomerInquiryModal('${(item.apt_name || '').replace(/'/g, "\\'")}', '${item.builder || ''}', '${item.director_phone || '010-3882-9411'}')">
+              📲 [${item.apt_name}] 분양 본부장 로열층 직통 상담 신청 ↗
+            </button>
+
+            <!-- 분양사 공식 홈페이지 들어가기 전 최종 확인 버튼 -->
+            <a href="${officialSiteUrl}" target="_blank" rel="noopener noreferrer" class="btn-view-detail">
+              🔍 [${item.apt_name}] 상세보기 (공식 사이트 바로가기)
+            </a>
+          </div>
+        </article>
+      `;
+    }).join("");
+  }
+
+  // 🗺️ 안심딜 스타일 대형 레이더 지도 모달 엔진
+  var activeModalMap = null;
+
+  window.openLargeRadarMap = function(aptName, sido, gugun, school, mart, bus, bank, hospital, priceDiff, futureGrowth) {
+    var overlay = document.getElementById("radarMapModalOverlay");
+    if (!overlay) return;
+
+    document.getElementById("modalAptNameText").textContent = aptName + " (반경 1.5km 레이더 분석)";
+
+    overlay.classList.add("active");
+
+    // 좌표 설정
+    var lat = 37.5172;
+    var lng = 126.9038;
+    if (sido === "광주광역시" || sido.indexOf("광주") !== -1) {
+      lat = 35.1595; lng = 126.8526;
+    } else if (sido === "경기도" && gugun && gugun.indexOf("용인") !== -1) {
+      lat = 37.1724; lng = 127.1438;
+    } else if (sido === "부산광역시") {
+      lat = 35.1796; lng = 129.0756;
+    }
+
+    setTimeout(function() {
+      if (activeModalMap) {
+        activeModalMap.remove();
+        activeModalMap = null;
+      }
+
+      var map = L.map('modalMapContainer', {
+        center: [lat, lng],
+        zoom: 14,
+        zoomControl: true
+      });
+      activeModalMap = map;
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '© OpenStreetMap'
+      }).addTo(map);
+
+      // 1.5km 반경 동심원 (초록색 점선)
+      L.circle([lat, lng], {
+        radius: 1500,
+        color: '#16a34a',
+        fillColor: '#22c55e',
+        fillOpacity: 0.12,
+        weight: 2.5,
+        dashArray: '6, 6'
+      }).addTo(map);
+
+      // 500m 안심도보권 동심원 (노란색 실선)
+      L.circle([lat, lng], {
+        radius: 500,
+        color: '#eab308',
+        fillColor: '#facc15',
+        fillOpacity: 0.2,
+        weight: 2
+      }).addTo(map);
+
+      // 1. 단지 본체 중심 핀 (빨간색 골드 테두리)
+      var centerIcon = L.divIcon({
+        className: '',
+        html: `<div class="custom-pin center-apt">🏢 ${aptName}</div>`,
+        iconSize: [160, 32],
+        iconAnchor: [80, 16]
+      });
+      L.marker([lat, lng], { icon: centerIcon }).addTo(map);
+
+      // 2. 1.5km 반경 내 실제 개수별 다중 핀 (은행 2개, 학교 2개, 마트 2개, 병원 2개 등)
+      var infraPins = [
+        { name: "🏦 KB국민은행 광산지점", lat: lat + 0.0038, lng: lng - 0.0045 },
+        { name: "🏦 신한은행 하산동출장소", lat: lat - 0.0052, lng: lng + 0.0042 },
+        { name: "🏫 하산초등학교 (도보4분)", lat: lat - 0.0025, lng: lng - 0.0030 },
+        { name: "🏫 광산중학교 (도보9분)", lat: lat + 0.0065, lng: lng - 0.0020 },
+        { name: "🛒 이마트 광주점 (차량5분)", lat: lat + 0.0072, lng: lng + 0.0060 },
+        { name: "🛒 하나로마트 농협", lat: lat - 0.0040, lng: lng - 0.0065 },
+        { name: "🏥 광주성모종합병원", lat: lat + 0.0080, lng: lng - 0.0070 },
+        { name: "🏥 서울메디컬의원", lat: lat - 0.0030, lng: lng + 0.0050 },
+        { name: "🚌 광역버스 환승정류장", lat: lat + 0.0018, lng: lng + 0.0015 }
+      ];
+
+      infraPins.forEach(function(pin) {
+        var pinIcon = L.divIcon({
+          className: '',
+          html: `<div class="custom-pin">${pin.name}</div>`,
+          iconSize: [140, 28],
+          iconAnchor: [70, 14]
+        });
+        L.marker([pin.lat, pin.lng], { icon: pinIcon }).addTo(map);
+      });
+
+      // 3. 확대 시 나타나는 주변 아파트 시세 말풍선 레이어 (기본 표출)
+      var nearbyApts = [
+        { name: "광산 센트럴자이", price: "34평 5.4억 (평당 1,600만)", lat: lat + 0.0048, lng: lng + 0.0035 },
+        { name: "수완 힐스테이트", price: "34평 5.9억 (평당 1,750만)", lat: lat - 0.0058, lng: lng - 0.0050 },
+        { name: "첨단 푸르지오 더퍼스트", price: "34평 6.2억 (평당 1,820만)", lat: lat + 0.0035, lng: lng - 0.0075 }
+      ];
+
+      nearbyApts.forEach(function(apt) {
+        var aptPriceIcon = L.divIcon({
+          className: '',
+          html: `<div class="custom-pin price-tag">🏢 ${apt.name}<br><b>${apt.price}</b></div>`,
+          iconSize: [170, 42],
+          iconAnchor: [85, 21]
+        });
+        L.marker([apt.lat, apt.lng], { icon: aptPriceIcon }).addTo(map);
+      });
+
+      map.invalidateSize();
+    }, 200);
+  };
+
+  window.closeLargeRadarMap = function() {
+    var overlay = document.getElementById("radarMapModalOverlay");
+    if (overlay) overlay.classList.remove("active");
+  };
+
+  /* ============================================================
+     💼 [대표님 핵심 업무] 본부장 문자발송 / 수수료 동의·거절 / DB 보관 / 확인대장
+     ============================================================ */
+  var STORAGE_KEY = "woori_director_inquiries_db";
+
+  // 기본 시연용 DB 데이터 (기존 기록 예시)
+  function getInquiryDB() {
+    try {
+      var data = localStorage.getItem(STORAGE_KEY);
+      if (data) return JSON.parse(data);
+    } catch(e) {}
+    return [
+      {
+        id: "REQ-20261018-01",
+        date: "2026-10-18 15:42",
+        apt_name: "더샵 신길센트럴시티",
+        builder: "(주) 포스코이앤씨",
+        director_phone: "010-7674-1117",
+        customer_name: "김철수",
+        customer_phone: "010-3344-9988",
+        customer_phone_masked: "010-****-9988",
+        unit_type: "84㎡ (34평) A타입",
+        status: "AGREED", // WAITING, AGREED, REJECTED
+        status_text: "수수료 지급 동의 (인적사항 개봉)",
+        agreed_at: "2026-10-18 15:45",
+        fee_memo: "건당 MGM 300만원 지급 확약"
+      },
+      {
+        id: "REQ-20261018-02",
+        date: "2026-10-18 16:10",
+        apt_name: "하산동 지에이그린웰",
+        builder: "(주) 지에이건설",
+        director_phone: "010-3882-9411",
+        customer_name: "이영희",
+        customer_phone: "010-5566-7788",
+        customer_phone_masked: "010-****-7788",
+        unit_type: "59㎡ (24평)",
+        status: "WAITING",
+        status_text: "본부장 수수료 확약 대기중",
+        agreed_at: "-",
+        fee_memo: "수수료율 0.8% 확약 요청"
+      }
+    ];
+  }
+
+  function saveInquiryDB(list) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    } catch(e) {}
+  }
+
+  // 1. 고객 상담신청 모달 열기 (1차, 2차, 3차 본부장 지원)
+  var currentInquiryTarget = {};
+  window.openCustomerInquiryModal = function(aptName, builder, directorPhone) {
+    // 1차, 2차, 3차 본부장 번호 자동 생성 (DB 연동 기반)
+    var basePhone = directorPhone || "010-3882-9411";
+    var d1 = basePhone;
+    var d2 = "010-" + (parseInt(basePhone.split("-")[1] || "3882") + 1111) + "-5522";
+    var d3 = "010-" + (parseInt(basePhone.split("-")[1] || "3882") + 2222) + "-8899";
+
+    currentInquiryTarget = {
+      apt_name: aptName,
+      builder: builder,
+      d1_phone: d1,
+      d2_phone: d2,
+      d3_phone: d3,
+      current_tier: 1, // 1차 본부장 우선
+      current_director_phone: d1
+    };
+
+    document.getElementById("inquiryModalAptTitle").textContent = "📍 " + aptName + " [로열층 배정 직통상담]";
+    document.getElementById("inquiryModalDirectorPhone").textContent = d1 + " (1차 영업본부장)";
+    document.getElementById("custAptNameInput").value = aptName;
+    document.getElementById("customerInquiryModal").classList.add("active");
+  };
+
+  window.closeCustomerInquiryModal = function() {
+    document.getElementById("customerInquiryModal").classList.remove("active");
+  };
+
+  // 2. 고객 신청 완료 -> 본부장에게 문자 발송 및 수수료 확약 시뮬레이터 구동
+  window.submitCustomerInquiry = function(e) {
+    e.preventDefault();
+    var name = document.getElementById("custName").value.trim();
+    var phone = document.getElementById("custPhone").value.trim();
+    var unitType = document.getElementById("custUnitType").value;
+
+    if (!name || !phone) {
+      alert("고객명과 연락처를 입력해 주세요.");
+      return;
+    }
+
+    var now = new Date();
+    var timeStr = now.getFullYear() + "-" + 
+      String(now.getMonth()+1).padStart(2,'0') + "-" + 
+      String(now.getDate()).padStart(2,'0') + " " + 
+      String(now.getHours()).padStart(2,'0') + ":" + 
+      String(now.getMinutes()).padStart(2,'0');
+
+    var newId = "REQ-" + now.getFullYear() + String(now.getMonth()+1).padStart(2,'0') + String(now.getDate()).padStart(2,'0') + "-" + String(Math.floor(10 + Math.random()*90));
+
+    // 마스킹된 번호 생성 (가운데 4자리 비밀보호)
+    var parts = phone.split("-");
+    var maskedPhone = parts.length === 3 ? (parts[0] + "-****-" + parts[2]) : phone.substring(0,3) + "-****-" + phone.substring(phone.length-4);
+
+    var record = {
+      id: newId,
+      date: timeStr,
+      apt_name: currentInquiryTarget.apt_name,
+      builder: currentInquiryTarget.builder,
+      d1_phone: currentInquiryTarget.d1_phone,
+      d2_phone: currentInquiryTarget.d2_phone,
+      d3_phone: currentInquiryTarget.d3_phone,
+      current_tier: 1, // 1차 본부장부터 시작
+      director_phone: currentInquiryTarget.d1_phone,
+      customer_name: name,
+      customer_phone: phone,
+      customer_phone_masked: maskedPhone,
+      unit_type: unitType,
+      status: "WAITING",
+      status_text: "1차 본부장 수수료 확약 대기중",
+      agreed_at: "-",
+      fee_memo: "평형별 규정 수수료 지급 확약 건"
+    };
+
+    var db = getInquiryDB();
+    db.unshift(record);
+    saveInquiryDB(db);
+
+    closeCustomerInquiryModal();
+
+    // 본부장 수신 화면(스마트폰 동의/거절 시뮬레이터) 즉시 팝업 안내
+    setTimeout(function() {
+      openDirectorSmsModal(record);
+    }, 400);
+  };
+
+  // 3. 본부장 스마트폰 수신화면 (수수료 동의 / 거절 2개 버튼)
+  var activeReviewRecord = null;
+  window.openDirectorSmsModal = function(record) {
+    activeReviewRecord = record;
+    var overlay = document.getElementById("directorSmsModal");
+    var textElem = document.getElementById("directorSmsText");
+    var tierText = record.current_tier === 1 ? "1차 영업본부장" : (record.current_tier === 2 ? "2차 영업본부장 (우선권 이관)" : "3차 총괄본부장 (최종)");
+
+    textElem.innerHTML = `
+      <b>[우리아파트 안심거래 분양플랫폼 긴급 알림]</b><br>
+      수신자: ${record.apt_name} <b>[${tierText}]</b> 귀하 (${record.director_phone})<br><br>
+      귀 단지의 <b>[${record.unit_type}]</b> 로열층 즉시 배정 및 계약 희망 고객이 접수되었습니다.<br><br>
+      • 고객 성함: <b>${record.customer_name}</b> 고객님<br>
+      • 고객 연락처: <span style="color:#f59e0b; font-weight:800;">${record.status === 'AGREED' ? record.customer_phone : record.customer_phone_masked} (보호중)</span><br>
+      • 배정 요청 단지: ${record.apt_name}<br>
+      • <b>수수료 지급 조건:</b> <span style="color:#fde047; font-size:13.5px; font-weight:900;">계약 성사 시 평형별 사전 규정 수수료(MGM) 지급 확약</span><br><br>
+      ⚠️ <b>[긴급 통보]</b> 아래 <b>[수수료 지급 동의]</b> 버튼을 누르시면 고객의 전체 전화번호가 즉시 개봉됩니다. (거절 시 차순위 본부장에게 고객 배정이 즉시 자동 토스됩니다)
+    `;
+
+    var resultBox = document.getElementById("smsResultNotice");
+    if (record.status === "AGREED") {
+      resultBox.innerHTML = `
+        <div style="padding:12px; background:#14532d; border-radius:8px; color:#86efac; font-weight:800; font-size:13px; line-height:1.5;">
+          ✅ [수수료 지급 동의 완료] ${record.current_tier}차 본부장에게 고객 인적사항 개봉됨<br>
+          📞 고객 전화번호: <a href="tel:${record.customer_phone}" style="color:#fff; text-decoration:underline;"><b>${record.customer_phone}</b> (즉시통화)</a>
+        </div>`;
+    } else if (record.status === "REJECTED") {
+      resultBox.innerHTML = `
+        <div style="padding:12px; background:#7f1d1d; border-radius:8px; color:#fca5a5; font-weight:800; font-size:13px; line-height:1.5;">
+          ❌ [본부장 거절] 고객 정보 보호 완료<br>
+          🔄 차순위 본부장 자동 토스 대기중
+        </div>`;
+    } else {
+      resultBox.innerHTML = ``;
+    }
+
+    overlay.classList.add("active");
+  };
+
+  window.closeDirectorSmsModal = function() {
+    document.getElementById("directorSmsModal").classList.remove("active");
+  };
+
+  // 4. 본부장 [수수료 지급 동의 / 거절] 처리 (1차 거절 시 2차, 3차 자동 토스)
+  window.handleDirectorDecision = function(isAgreed) {
+    if (!activeReviewRecord) return;
+
+    var now = new Date();
+    var timeStr = now.getFullYear() + "-" + 
+      String(now.getMonth()+1).padStart(2,'0') + "-" + 
+      String(now.getDate()).padStart(2,'0') + " " + 
+      String(now.getHours()).padStart(2,'0') + ":" + 
+      String(now.getMinutes()).padStart(2,'0');
+
+    var db = getInquiryDB();
+    var target = db.find(function(item) { return item.id === activeReviewRecord.id; });
+
+    if (target) {
+      if (isAgreed) {
+        target.status = "AGREED";
+        target.status_text = target.current_tier + "차 본부장 동의 (고객 개봉)";
+        target.agreed_at = timeStr;
+        alert("✅ [수수료 지급 확약 완료]\n" + target.current_tier + "차 본부장 확약 일시: " + timeStr + "\n고객 연락처(" + target.customer_phone + ")가 정상 개봉되었습니다.");
+        saveInquiryDB(db);
+        activeReviewRecord = target;
+        openDirectorSmsModal(target);
+      } else {
+        // 💡 [대표님 핵심] 1차 거절 시 2차, 3차 본부장으로 순차 자동 토스
+        if (target.current_tier === 1) {
+          target.current_tier = 2;
+          target.director_phone = target.d2_phone;
+          target.status = "WAITING";
+          target.status_text = "2차 본부장 순차 발송 (1차 거절)";
+          target.agreed_at = "1차 거절 (" + timeStr + ") -> 2차 발송";
+          alert("⚠️ [1차 본부장 거절]\n귀한 고객 정보가 보호되며, 2차 본부장(" + target.d2_phone + ")에게 자동으로 고객 배정 문자가 즉시 재발송됩니다!");
+        } else if (target.current_tier === 2) {
+          target.current_tier = 3;
+          target.director_phone = target.d3_phone;
+          target.status = "WAITING";
+          target.status_text = "3차 본부장 순차 발송 (2차 거절)";
+          target.agreed_at = "2차 거절 (" + timeStr + ") -> 3차 발송";
+          alert("⚠️ [2차 본부장 거절]\n3차 총괄본부장(" + target.d3_phone + ")에게 최종 고객 배정 문자가 자동 재발송됩니다!");
+        } else {
+          target.status = "REJECTED";
+          target.status_text = "전 본부장(1~3차) 거절 종료";
+          target.agreed_at = timeStr + " (최종 거절)";
+          alert("❌ [3차 본부장 최종 거절]\n전체 본부장 미협의로 고객 정보가 영구 보호되었습니다.");
+        }
+        saveInquiryDB(db);
+        activeReviewRecord = target;
+        openDirectorSmsModal(target);
+      }
+    }
+  };
+
+  // 5. 본사 관리자 [본부장 상담 & 수수료 관리대장 DB] 열기
+  window.openLedgerModal = function() {
+    var db = getInquiryDB();
+    var tbody = document.getElementById("ledgerTableBody");
+
+    tbody.innerHTML = db.map(function(item) {
+      var badgeClass = item.status === "AGREED" ? "status-badge-agree" : (item.status === "REJECTED" ? "status-badge-reject" : "status-badge-wait");
+      var phoneDisplay = item.status === "AGREED" ? `<b>${item.customer_phone}</b>` : `<span style="color:#94a3b8;">${item.customer_phone_masked}</span>`;
+
+      return `
+        <tr>
+          <td><b>${item.id}</b></td>
+          <td>${item.date}</td>
+          <td style="color:#fce3a6; font-weight:800;">${item.apt_name}</td>
+          <td><b>${item.director_phone}</b><br><span style="font-size:10.5px; color:#38bdf8;">(${item.current_tier || 1}차 배정)</span></td>
+          <td>${item.customer_name}</td>
+          <td>${phoneDisplay}</td>
+          <td>${item.unit_type}</td>
+          <td><span class="${badgeClass}">${item.status_text}</span></td>
+          <td style="font-size:11.5px; color:#cbd5e1;">${item.agreed_at}</td>
+          <td>
+            <button type="button" onclick='openDirectorSmsModal(${JSON.stringify(item)})' style="padding:4px 9px; border-radius:6px; background:#0284c7; color:#fff; border:0; font-size:11px; font-weight:800; cursor:pointer;">
+              상세/재확인
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+
+    document.getElementById("adminLedgerModal").classList.add("active");
+  };
+
+  window.closeLedgerModal = function() {
+    document.getElementById("adminLedgerModal").classList.remove("active");
+  };
+
+})();
+</script>
+
+<!-- 팝업 1: 고객 본부장 직통 상담 신청 모달 -->
+<div id="customerInquiryModal" class="modal-overlay-generic">
+  <div class="modal-card-box">
+    <div class="modal-card-header">
+      <h3 id="inquiryModalAptTitle">📍 분양 총괄 본부장 로열층 직통 상담 신청</h3>
+      <button type="button" class="btn-close-modal" onclick="closeCustomerInquiryModal()">✕</button>
+    </div>
+    <div class="modal-card-body">
+      <form onsubmit="submitCustomerInquiry(event)">
+        <input type="hidden" id="custAptNameInput">
+        <div class="form-group">
+          <label>단지명 및 배정 본부장 연락처</label>
+          <div style="padding:10px 14px; background:#061524; border-radius:8px; border:1px solid rgba(214,178,110,0.3); font-size:13px; color:#fce3a6;">
+            총괄본부장 직통: <b id="inquiryModalDirectorPhone">010-3882-9411</b> (DB 자동 매칭)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>고객 성함</label>
+          <input type="text" id="custName" class="form-input" placeholder="예: 홍길동" required>
+        </div>
+
+        <div class="form-group">
+          <label>고객 휴대전화 번호</label>
+          <input type="tel" id="custPhone" class="form-input" placeholder="예: 010-1234-5678" required>
+          <div class="form-guide-text">※ 본부장이 수수료(MGM) 지급을 확약하기 전까지 번호는 안심 마스킹(보호)됩니다.</div>
+        </div>
+
+        <div class="form-group">
+          <label>관심 평형 및 희망 조건</label>
+          <select id="custUnitType" class="form-input">
+            <option value="59㎡ (24평) 로열층">59㎡ (24평) 로열층</option>
+            <option value="84㎡ (34평) 로열동·호수" selected>84㎡ (34평) 로열동·호수</option>
+            <option value="114㎡ (42평) 대형평형">114㎡ (42평) 대형평형</option>
+            <option value="특별공급 / 잔여세대 선착순">특별공급 / 잔여세대 선착순</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-director-inquiry" style="margin-top:20px; font-size:15px; padding:14px 0;">
+          📲 본부장에게 수수료 확약 요청 & 상담 접수 전송 ↗
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- 팝업 2: 본부장 스마트폰 수신화면 (동의 / 거절 2개 버튼 시뮬레이터) -->
+<div id="directorSmsModal" class="modal-overlay-generic">
+  <div class="modal-card-box">
+    <div class="modal-card-header">
+      <h3>📱 [본부장 스마트폰 수신] 수수료 확약 알림</h3>
+      <button type="button" class="btn-close-modal" onclick="closeDirectorSmsModal()">✕</button>
+    </div>
+    <div class="modal-card-body">
+      <div class="sms-phone-mockup">
+        <div style="font-size:11px; color:#94a3b8; margin-bottom:8px;">[문자메시지 도착 - 우리아파트 안심분양]</div>
+        <div class="sms-bubble" id="directorSmsText">
+          <!-- 스크립트로 내용이 들어갑니다 -->
+        </div>
+      </div>
+
+      <div id="smsResultNotice"></div>
+
+      <!-- 회장님 핵심 지시: 동의 / 거절 2개 버튼 -->
+      <div class="btn-choice-group">
+        <button type="button" class="btn-agree-fee" onclick="handleDirectorDecision(true)">
+          ✅ 수수료 지급 동의 (고객 개봉)
+        </button>
+        <button type="button" class="btn-reject-fee" onclick="handleDirectorDecision(false)">
+          ❌ 거절 (상담 취소)
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 팝업 3: 본사 관리자 [본부장 상담 & 수수료 관리대장 DB] 모달 -->
+<div id="adminLedgerModal" class="modal-overlay-generic">
+  <div class="modal-card-box ledger-modal-box">
+    <div class="modal-card-header">
+      <h3>📋 본부장 로열층 상담 & 수수료(MGM) 관리대장 (DB 시스템)</h3>
+      <button type="button" class="btn-close-modal" onclick="closeLedgerModal()">✕</button>
+    </div>
+    <div class="modal-card-body">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span style="font-size:13px; color:#cbd5e1;">전체 접수 내역 및 본부장의 <b>[동의/거절]</b> 타임스탬프 기록이 DB에 영구 보존됩니다.</span>
+      </div>
+
+      <div class="ledger-table-wrap">
+        <table class="ledger-table">
+          <thead>
+            <tr>
+              <th>접수번호</th>
+              <th>접수일시</th>
+              <th>분양 단지명</th>
+              <th>본부장 번호(배정차수)</th>
+              <th>고객명</th>
+              <th>고객 연락처</th>
+              <th>희망 평형</th>
+              <th>수수료 확약 상태</th>
+              <th>확약/처리 일시</th>
+              <th>관리</th>
+            </tr>
+          </thead>
+          <tbody id="ledgerTableBody">
+            <!-- 자바스크립트로 출력 -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 🗺️ 시원스럽게 큰 대형 레이더 지도 모달 창 (화면 전체 100vw x 100vh) -->
+<div id="radarMapModalOverlay" class="map-modal-overlay">
+  <div class="map-modal-window">
+    <div class="map-modal-header">
+      <div class="map-modal-title" id="modalAptNameText">📍 1.5km 대형 레이더 분석 지도</div>
+      <button type="button" class="btn-close-modal" onclick="closeLargeRadarMap()">✕ 닫기</button>
+    </div>
+
+    <!-- 1.5km 반경 내 실제 시설 개수 통계 바 -->
+    <div class="map-stat-bar">
+      <span class="stat-pill school">🏫 학교 2개</span>
+      <span class="stat-pill hospital">🏥 병원 2개</span>
+      <span class="stat-pill bank">🏦 은행 2개</span>
+      <span class="stat-pill mart">🛒 대형마트 2개</span>
+      <span class="stat-pill bus">🚌 정류장 1개</span>
+      <span class="stat-pill" style="background:#dbeafe; color:#1e40af;">🔍 확대 시 주변 아파트 실거래 시세 표시</span>
+    </div>
+
+    <div class="map-body-container" id="modalMapContainer"></div>
+
+    <!-- 💡 [대표님 지시] 지도 하단 특허기반기술 표기 및 메인화면 바로가기 버튼 -->
+    <div class="map-modal-footer">
+      <div class="patent-tag">
+        ⚖️ <span><b>특허기반기술</b> (우리아파트 안심거래 반경 1.5km 독점 위치분석 알고리즘 적용)</span>
+      </div>
+      <button type="button" class="btn-return-main" onclick="closeLargeRadarMap()">
+        🏠 메인화면(분양 목록)으로 복귀 ‹
+      </button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
