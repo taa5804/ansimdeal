@@ -1,26 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/mart-store",
-      "destination": "/mart-store.html"
-    },
-    {
-      "source": "/74",
-      "destination": "/mart-store.html"
-    },
-    {
-      "source": "/map-landing",
-      "destination": "/presale-matcher.html?map=1"
-    },
-    {
-      "source": "/presale-matcher",
-      "destination": "/presale-matcher.html"
-    },
-    {
-      "source": "/matcher",
-      "destination": "/presale-matcher.html"
-    },
-    {
       "source": "/sale-admin",
       "destination": "/sale-admin.html"
     },
@@ -71,6 +51,26 @@
     {
       "source": "/mart-price",
       "destination": "/mart-price.html"
+    },
+    {
+      "source": "/mart-store",
+      "destination": "/mart-store.html"
+    },
+    {
+      "source": "/74",
+      "destination": "/mart-store.html"
+    },
+    {
+      "source": "/map-landing",
+      "destination": "/presale-matcher.html?map=1"
+    },
+    {
+      "source": "/presale-matcher",
+      "destination": "/presale-matcher.html"
+    },
+    {
+      "source": "/matcher",
+      "destination": "/presale-matcher.html"
     },
     {
       "source": "/utility",
