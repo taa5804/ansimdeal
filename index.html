@@ -230,56 +230,137 @@ button, input {
   margin-top: 14px;
 }
 
-.quick-tool-btn {
-  min-height: 70px;
-  padding: 14px 18px;
-  border: 1px solid #d8e5f1;
-  border-radius: 14px;
-  background: #ffffff;
+/* 1. 상권분석 지도 말풍선 버튼 (생생한 로열 블루 테마) */
+.quick-tool-btn.map-tool {
+  min-height: 78px;
+  padding: 16px 20px;
+  border: 1.5px solid #93c5fd;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 55%, #ffffff 100%);
   display: flex;
   align-items: center;
-  gap: 14px;
-  box-shadow: 0 4px 12px rgba(31,65,92,.04);
+  gap: 15px;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.10);
   cursor: pointer;
-  transition: .15s ease;
+  position: relative;
+  overflow: hidden;
+  transition: all .2s ease;
 }
 
-.quick-tool-btn:hover {
-  background: #f8fbff;
-  border-color: #1165d7;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(17,101,215,.08);
+.quick-tool-btn.map-tool:hover {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 55%, #ffffff 100%);
+  border-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.18);
 }
 
-.quick-tool-ico {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: #eef6ff;
+.quick-tool-btn.map-tool .quick-tool-ico {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 24px;
   flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.32);
 }
 
-.quick-tool-btn.meter .quick-tool-ico {
-  background: #ecfdf5;
-}
-
-.quick-tool-text strong {
-  display: block;
-  font-size: 15px;
+.quick-tool-btn.map-tool .quick-tool-text strong {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 15.5px;
   font-weight: 900;
-  color: #173f67;
+  color: #1e3a8a;
+  letter-spacing: -0.3px;
 }
 
-.quick-tool-text span {
+.quick-tool-btn.map-tool .quick-tool-text span {
   display: block;
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 600;
-  color: #64748b;
-  margin-top: 2px;
+  color: #2563eb;
+  margin-top: 3px;
+}
+
+/* 2. 전기·수도·가스 매칭기 버튼 (생생한 에메랄드 테마) */
+.quick-tool-btn.meter-tool {
+  min-height: 78px;
+  padding: 16px 20px;
+  border: 1.5px solid #86efac;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 55%, #ffffff 100%);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.10);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all .2s ease;
+}
+
+.quick-tool-btn.meter-tool:hover {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 55%, #ffffff 100%);
+  border-color: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(16, 185, 129, 0.18);
+}
+
+.quick-tool-btn.meter-tool .quick-tool-ico {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #10b981, #047857);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.32);
+}
+
+.quick-tool-btn.meter-tool .quick-tool-text strong {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 15.5px;
+  font-weight: 900;
+  color: #064e3b;
+  letter-spacing: -0.3px;
+}
+
+.quick-tool-btn.meter-tool .quick-tool-text span {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #059669;
+  margin-top: 3px;
+}
+
+/* 뱃지 알약 스타일 */
+.quick-tool-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+}
+.quick-tool-badge.blue {
+  background: #2563eb;
+  color: #ffffff;
+}
+.quick-tool-badge.green {
+  background: #059669;
+  color: #ffffff;
 }
 
 /* 나의 제안 / 거래 진행 패널 */
@@ -1256,21 +1337,27 @@ button, input {
 
   <!-- 3-1. 추가 핵심 바로가기 2종 (상권분석 지도 말풍선 & 전기·수도·가스 입주연결·해지정산 매칭기) -->
   <div class="quick-tools">
-    <!-- 버튼 1: 상권분석 지도 말풍선 -->
-    <div class="quick-tool-btn" onclick="location.href='tools-center.html?tab=map'">
+    <!-- 버튼 1: 상권분석 지도 말풍선 (선명한 로열 블루 테마) -->
+    <div class="quick-tool-btn map-tool" onclick="location.href='tools-center.html?tab=map'">
       <div class="quick-tool-ico">🗺️</div>
       <div class="quick-tool-text">
-        <strong>소상공인진흥공단 DB 상권분석 지도 말풍선</strong>
-        <span>시·구·동 선택 · 반경 300m 전 업종 유동인구·경쟁점포·매출추이</span>
+        <strong>
+          <span>소상공인진흥공단 DB 상권분석 지도 말풍선</span>
+          <span class="quick-tool-badge blue">실시간 300m</span>
+        </strong>
+        <span>시·구·동 선택 · 반경 300m 전 업종 유동인구 · 경쟁점포 · 매출추이 팩트</span>
       </div>
     </div>
 
-    <!-- 버튼 2: 전기·수도·가스 입주연결·해지정산 매칭기 -->
-    <div class="quick-tool-btn meter" onclick="location.href='tools-center.html?tab=utility'">
+    <!-- 버튼 2: 전기·수도·가스 입주연결·해지정산 매칭기 (선명한 에메랄드 테마) -->
+    <div class="quick-tool-btn meter-tool" onclick="location.href='tools-center.html?tab=utility'">
       <div class="quick-tool-ico">⚡</div>
       <div class="quick-tool-text">
-        <strong>전기 · 수도 · 가스 입주연결 · 해지정산 매칭기</strong>
-        <span>동 선택 시 관할 도시가스 매칭 · 해지 시 계량기 숫자 요금정산·카톡 전송</span>
+        <strong>
+          <span>전기 · 수도 · 가스 입주연결 · 해지정산 매칭기</span>
+          <span class="quick-tool-badge green">원클릭 정산</span>
+        </strong>
+        <span>동 선택 시 관할 도시가스 매칭 · 해지 시 계량기 숫자 요금정산 · 카톡 전송</span>
       </div>
     </div>
   </div>
