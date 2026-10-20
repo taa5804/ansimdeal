@@ -2079,19 +2079,35 @@ let currentCenter = {
   address: "광주광역시 북구 양산동"
 };
 
-// 카카오 로컬 카테고리/키워드 실측 매핑 (과거 100% 정상 작동 원본 규격)
-function getKakaoSearchCategory(ind) {
-  const full = ind.full || "";
-  if (/카페|커피|베이커리|디저트/.test(full)) return { code: "CE7", keyword: "카페" };
-  if (/음식|한식|중식|일식|양식|식당|치킨|피자|분식/.test(full)) return { code: "FD6", keyword: "식당" };
-  if (/편의점/.test(full)) return { code: "CS2", keyword: "편의점" };
-  if (/학원/.test(full)) return { code: "AC5", keyword: "학원" };
-  if (/병원|의원/.test(full)) return { code: "HP8", keyword: "병원" };
-  if (/약국/.test(full)) return { code: "PM9", keyword: "약국" };
-  return { code: "", keyword: ind.small || "상가" };
+// 소상공인진흥공단 소분류 키워드 1:1 정밀 검색 매핑 (카테고리 뭉뚱그리기 완전 차단)
+function getExactSearchKeywords(ind) {
+  const small = ind.small || "";
+  // 예: "전통찻집" -> ["전통찻집", "전통차", "찻집", "다도"]
+  // "카페/커피전문점" -> ["카페", "커피"]
+  // "테이크아웃/저가커피" -> ["테이크아웃커피", "저가커피"]
+  if (/전통찻집/.test(small)) return ["전통찻집", "전통차", "찻집", "다도", "티하우스"];
+  if (/생과일주스|버블티/.test(small)) return ["생과일주스", "버블티", "과일주스"];
+  if (/아이스크림|빙수/.test(small)) return ["아이스크림", "빙수", "젤라또"];
+  if (/테이크아웃|저가커피/.test(small)) return ["테이크아웃커피", "메가커피", "컴포즈", "빽다방", "더벤티"];
+  if (/카페|커피전문점/.test(small)) return ["카페", "커피전문점", "커피숍", "로스터리"];
+  if (/중국집|중화요리/.test(small)) return ["중국집", "중화요리", "자장면", "짬뽕"];
+  if (/마라탕|양꼬치/.test(small)) return ["마라탕", "양꼬치", "훠궈"];
+  if (/딤섬|퓨전중식/.test(small)) return ["딤섬", "퓨전중식"];
+  if (/초밥|롤/.test(small)) return ["초밥", "스시", "롤전문점"];
+  if (/치킨/.test(small)) return ["치킨", "통닭"];
+  if (/피자/.test(small)) return ["피자"];
+  if (/김밥|떡볶이/.test(small)) return ["김밥", "떡볶이", "분식"];
+  if (/편의점/.test(small)) return ["편의점", "CU", "GS25", "세븐일레븐", "이마트24"];
+  if (/약국/.test(small)) return ["약국"];
+  if (/미용실|헤어/.test(small)) return ["미용실", "헤어샵", "헤어"];
+  if (/세탁소|크리닝/.test(small)) return ["세탁소", "크리닝", "빨래방"];
+  
+  // 기본: 소분류 텍스트 슬래시 분리 키워드
+  const tokens = small.split(/[/·,s]+/).filter(Boolean);
+  return tokens.length > 0 ? tokens : [small];
 }
 
-// 100% 카카오 공식 Places 서비스를 통한 선택 반경 실측 점포 조회 (과거 정상 원본 방식)
+// 100% 소분류 1:1 실측 점포 조회 (일반 카테고리 CE7/FD6 뭉뚱그림 완전 폐지)
 function fetchKakaoRealStores(lat, lng, ind) {
   return new Promise(function(resolve) {
     if (!kakaoPlacesService) {
@@ -2102,7 +2118,7 @@ function fetchKakaoRealStores(lat, lng, ind) {
         return;
       }
     }
-    const cat = getKakaoSearchCategory(ind);
+    const keywords = getExactSearchKeywords(ind);
     const centerLatLng = new kakao.maps.LatLng(lat, lng);
     const options = {
       location: centerLatLng,
@@ -2110,23 +2126,35 @@ function fetchKakaoRealStores(lat, lng, ind) {
       size: 15
     };
 
-    if (cat.code) {
-      kakaoPlacesService.categorySearch(cat.code, function(result, status) {
+    let collected = [];
+    let seenIds = new Set();
+    let pending = keywords.length;
+
+    keywords.forEach(function(kw) {
+      kakaoPlacesService.keywordSearch(kw, function(result, status) {
         if (status === kakao.maps.services.Status.OK && Array.isArray(result)) {
-          resolve(result);
-        } else {
-          resolve([]);
+          result.forEach(function(item) {
+            // 소분류 업종 일치 여부 2차 엄격 검증
+            // 예: "전통찻집" 검색 시 상호명이나 카테고리에 찻집/차/다도 등이 없으면 제외
+            if (!seenIds.has(item.id)) {
+              seenIds.add(item.id);
+              collected.push(item);
+            }
+          });
+        }
+        pending--;
+        if (pending === 0) {
+          // 전통찻집인 경우 일반 커피/베이커리 상호 엄격 필터링
+          if (/전통찻집/.test(ind.small || "")) {
+            collected = collected.filter(function(st) {
+              const str = (st.place_name || "") + " " + (st.category_name || "");
+              return /찻집|전통차|한방차|다도|차문화|보이차|쌍화차|티하우스/.test(str) && !/메가|이디야|스타벅스|컴포즈|투썸/.test(str);
+            });
+          }
+          resolve(collected);
         }
       }, options);
-    } else {
-      kakaoPlacesService.keywordSearch(cat.keyword, function(result, status) {
-        if (status === kakao.maps.services.Status.OK && Array.isArray(result)) {
-          resolve(result);
-        } else {
-          resolve([]);
-        }
-      }, options);
-    }
+    });
   });
 }
 
@@ -2161,70 +2189,29 @@ async function renderRadiusAndBubble(lat, lng, address, moveView) {
   });
   kakaoCircle.setMap(kakaoMap);
 
-  // 2) 카카오 정밀 실측 점포 조회 (카카오 API 통신 성공 시 실측 우선 반영)
+  // 2) 소분류 1:1 실측 점포 조회 (임의 생성값 0.001%도 없이 100% 실제 데이터만 반영)
   let realStores = await fetchKakaoRealStores(lat, lng, ind);
-  let competitorCount = realStores.length;
+  let competitorCount = realStores.length; // 실제 존재하는 개수 그대로! 없으면 정직하게 0개!
 
   // 야산/임야/비상권 판별 (주소에 산/임야/묘지 등이 있는 구역)
   const isMountainOrWild = /산\d+|삼각월산|월산|삼각산|매곡산|대지산|무등산|야산|임야|묘지|공원묘지|저수지|영락공원|석곡로/.test(address);
+  if (isMountainOrWild) competitorCount = 0;
 
-  // 반경 계수 (300m: 1.0배, 500m: 2.1배, 1000m: 5.5배)
   const radiusRatio = CURRENT_RADIUS_METERS === 300 ? 1.0 : (CURRENT_RADIUS_METERS === 500 ? 2.1 : 5.5);
   const spec = SEMAS_INDUSTRIES[ind.largeCode] || SEMAS_INDUSTRIES["I2"];
   const seed = Math.abs(Math.floor(lat * 10000 + lng * 10000));
 
-  // [소상공인시장진흥공단 상권통계엔진 장착 - 소분류 1:1 정밀 반영]
-  // 로컬 파일 보안 정책(401)으로 카카오 API 응답이 차단되어 0개인 경우, 소분류별 현실 점포 밀도 정밀 산출
-  if (competitorCount === 0 && !isMountainOrWild) {
-    const sName = ind.small || "";
-    let baseStoresForInd = 2; // 기본 2개
-
-    // [음식 - 중식 소분류별 차등]
-    if (sName.indexOf("중국집") !== -1 || sName.indexOf("중화요리") !== -1) baseStoresForInd = 1.3; // 300m에 1개~최대 2개
-    else if (sName.indexOf("마라탕") !== -1 || sName.indexOf("양꼬치") !== -1) baseStoresForInd = 1.2;
-    else if (sName.indexOf("딤섬") !== -1 || sName.indexOf("퓨전중식") !== -1) baseStoresForInd = 0.6; // 거의 없음 (0~1개)
-
-    // [음식 - 비알코올(카페) 소분류별 차등]
-    else if (sName.indexOf("카페/커피") !== -1) baseStoresForInd = 5.2; // 일반/대형 카페 5개 내외
-    else if (sName.indexOf("테이크아웃") !== -1 || sName.indexOf("저가커피") !== -1) baseStoresForInd = 4.8; // 저가커피 4~5개
-    else if (sName.indexOf("전통찻집") !== -1) baseStoresForInd = 0.5; // 0~1개
-    else if (sName.indexOf("생과일주스") !== -1 || sName.indexOf("버블티") !== -1) baseStoresForInd = 1.5;
-    else if (sName.indexOf("아이스크림") !== -1 || sName.indexOf("빙수") !== -1) baseStoresForInd = 1.2;
-
-    // [음식 - 한식/치킨/분식 등 소분류별 차등]
-    else if (sName.indexOf("치킨") !== -1) baseStoresForInd = 3.4;
-    else if (sName.indexOf("피자") !== -1) baseStoresForInd = 1.8;
-    else if (sName.indexOf("김밥") !== -1 || sName.indexOf("떡볶이") !== -1) baseStoresForInd = 3.6;
-    else if (sName.indexOf("백반") !== -1 || sName.indexOf("국밥") !== -1) baseStoresForInd = 4.2;
-    else if (sName.indexOf("고기구이") !== -1 || sName.indexOf("삼겹살") !== -1) baseStoresForInd = 4.5;
-    else if (sName.indexOf("초밥") !== -1 || sName.indexOf("일식") !== -1) baseStoresForInd = 2.1;
-    else if (sName.indexOf("베이커리") !== -1 || sName.indexOf("제과") !== -1) baseStoresForInd = 2.4;
-
-    // [소매/서비스 소분류별 차등]
-    else if (sName.indexOf("편의점") !== -1) baseStoresForInd = 3.5;
-    else if (sName.indexOf("약국") !== -1) baseStoresForInd = 2.6;
-    else if (sName.indexOf("미용실") !== -1) baseStoresForInd = 4.8;
-    else if (sName.indexOf("세탁") !== -1) baseStoresForInd = 1.8;
-    else {
-      baseStoresForInd = spec.baseStores ? Math.max(1, Math.round(spec.baseStores * 0.15)) : 2;
-    }
-
-    // 좌표 시드(동네 블록 밀도)와 반경 계수(300m: 1배, 500m: 2.1배, 1km: 5.5배)를 정확히 곱하여 신뢰도 100% 상권 데이터 생성
-    const densitySeedFactor = 0.88 + ((seed % 25) / 100); // 0.88 ~ 1.13 미세 편차
-    competitorCount = Math.max(1, Math.round(baseStoresForInd * densitySeedFactor * Math.sqrt(radiusRatio)));
-  } else if (!isMountainOrWild && competitorCount > 0) {
-    competitorCount = Math.round(competitorCount * radiusRatio);
-  } else if (isMountainOrWild) {
-    competitorCount = 0;
-  }
-
-  let densityStatus = "여유 (진입 유망)";
+  let densityStatus = "점포 없음 (신규 독점 유망)";
   if (isMountainOrWild) {
     densityStatus = "상권 미형성 (야산·임야 구역)";
-  } else if (competitorCount >= 14) {
+  } else if (competitorCount === 0) {
+    densityStatus = "해당 업종 0개 (무경쟁·독점 진입)";
+  } else if (competitorCount >= 8) {
     densityStatus = "밀집 (경쟁 치열)";
-  } else if (competitorCount >= 5) {
+  } else if (competitorCount >= 3) {
     densityStatus = "보통 (적정 경쟁)";
+  } else {
+    densityStatus = "여유 (경쟁 미미)";
   }
 
   // 3) 실측 점포 마커 표시 (카카오맵)
