@@ -2113,7 +2113,7 @@ async function fetchRealIndustryStores(lat, lng, ind) {
 
   // 1순위: 소상공인시장진흥공단 공식 오픈API (/api/semas-stores) 호출
   try {
-    const semasRes = await fetch('/api/semas-stores?lat=' + encodeURIComponent(lat) + '&lng=' + encodeURIComponent(lng) + '&radius=' + encodeURIComponent(radius));
+    // const semasRes = await fetch('/api/semas-stores?lat=' + encodeURIComponent(lat) + '&lng=' + encodeURIComponent(lng) + '&radius=' + encodeURIComponent(radius));
     if (semasRes.ok) {
       const resJson = await semasRes.json();
       if (resJson && resJson.ok && resJson.data && resJson.data.body && Array.isArray(resJson.data.body.items)) {
