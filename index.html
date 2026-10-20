@@ -1335,10 +1335,10 @@ button, input {
     </a>
   </div>
 
-  <!-- 3-1. 추가 핵심 바로가기 2종 (상권분석 지도 말풍선 & 전기·수도·가스 입주연결·해지정산 매칭기) -->
-  <div class="quick-tools">
+  <!-- 3-1. 핵심 바로가기: 소상공인진흥공단 DB 상권분석 지도 말풍선 -->
+  <div class="quick-tools" style="grid-template-columns: 1fr;">
     <!-- 버튼 1: 상권분석 지도 말풍선 (선명한 로열 블루 테마) -->
-    <div class="quick-tool-btn map-tool" onclick="location.href='tools-center.html?tab=map'">
+    <div class="quick-tool-btn map-tool" onclick="location.href='tools-center.html?tab=map'" style="width:100%;">
       <div class="quick-tool-ico">🗺️</div>
       <div class="quick-tool-text">
         <strong>
@@ -1348,22 +1348,38 @@ button, input {
         <span>시·구·동 선택 · 반경 300m 전 업종 유동인구 · 경쟁점포 · 매출추이 팩트</span>
       </div>
     </div>
-
-    <!-- 버튼 2: 전기·수도·가스 입주연결·해지정산 매칭기 (선명한 에메랄드 테마) -->
-    <div class="quick-tool-btn meter-tool" onclick="location.href='tools-center.html?tab=utility'">
-      <div class="quick-tool-ico">⚡</div>
-      <div class="quick-tool-text">
-        <strong>
-          <span>전기 · 수도 · 가스 입주연결 · 해지정산 매칭기</span>
-          <span class="quick-tool-badge green">원클릭 정산</span>
-        </strong>
-        <span>동 선택 시 관할 도시가스 매칭 · 해지 시 계량기 숫자 요금정산 · 카톡 전송</span>
-      </div>
-    </div>
   </div>
 
+  <!-- [3대 법적 안심 보증 팩트 배지] -->
+  <section style="width:100%; margin: 14px 0 0; background:#ffffff; border:1px solid #dce5ed; border-radius:14px; padding:14px 16px; box-shadow:0 3px 12px rgba(15,23,42,0.03);">
+    <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #edf2f7;">
+      <span style="font-size:16px;">🛡️</span>
+      <h2 style="margin:0; font-size:14px; font-weight:900; color:#173f67; letter-spacing:-0.3px;">안심딜 상가 3대 안심 팩트</h2>
+    </div>
+    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;">
+      <!-- 배지 1 -->
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:10px 8px; text-align:center;">
+        <div style="font-size:20px; line-height:1;">🏢</div>
+        <div style="font-size:13px; font-weight:900; color:#1165d7; margin-top:5px; letter-spacing:-0.3px;">2억 공제증서</div>
+        <div style="font-size:10px; color:#475569; font-weight:700; margin-top:3px; line-height:1.35; word-break:keep-all;">협회 2억원 보증<br>사고 시 손해배상</div>
+      </div>
+      <!-- 배지 2 -->
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:10px 8px; text-align:center;">
+        <div style="font-size:20px; line-height:1;">🗺️</div>
+        <div style="font-size:13px; font-weight:900; color:#059669; margin-top:5px; letter-spacing:-0.3px;">정부 상권분석</div>
+        <div style="font-size:10px; color:#475569; font-weight:700; margin-top:3px; line-height:1.35; word-break:keep-all;">소진공 300m 팩트<br>유동인구·경쟁점포</div>
+      </div>
+      <!-- 배지 3 -->
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:10px 8px; text-align:center;">
+        <div style="font-size:20px; line-height:1;">🔒</div>
+        <div style="font-size:13px; font-weight:900; color:#ea580c; margin-top:5px; letter-spacing:-0.3px;">전화번호 안심보호</div>
+        <div style="font-size:10px; color:#475569; font-weight:700; margin-top:3px; line-height:1.35; word-break:keep-all;">스팸 전화 차단<br>선택한 1곳만 연결</div>
+      </div>
+    </div>
+  </section>
+
   <!-- [컴팩트 Q&A 아코디언] 안심 매칭 꼭 확인하세요! -->
-  <section class="faq-accordion-section" style="width:100%; margin: 16px 0 6px; background:#ffffff; border:1px solid #dce5ed; border-radius:14px; padding:14px 16px; box-shadow:0 3px 12px rgba(15,23,42,0.03);">
+  <section class="faq-accordion-section" style="width:100%; margin: 12px 0 6px; background:#ffffff; border:1px solid #dce5ed; border-radius:14px; padding:14px 16px; box-shadow:0 3px 12px rgba(15,23,42,0.03);">
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #edf2f7;">
       <div style="display:flex; align-items:center; gap:6px;">
         <span style="font-size:16px;">💡</span>
