@@ -2092,19 +2092,29 @@ function updateIndustryBadgeAndRefresh() {
 let CURRENT_RADIUS_METERS = 300; // 기본 반경 300m
 
 function setAnalysisRadius(meters, btn) {
-  CURRENT_RADIUS_METERS = meters;
+  CURRENT_RADIUS_METERS = Number(meters);
   document.querySelectorAll(".radius-switch-btn").forEach(b => b.classList.remove("active"));
-  if (btn) btn.classList.add("active");
+  if (btn) {
+    btn.classList.add("active");
+  } else {
+    // find by meters
+    const matchedBtn = document.querySelector('.radius-switch-btn[onclick*="' + meters + '"]');
+    if (matchedBtn) matchedBtn.classList.add("active");
+  }
 
   const rLabel = meters >= 1000 ? (meters / 1000) + "km" : meters + "m";
   const badgeEl = document.getElementById("radiusIndicatorBadge");
   if (badgeEl) badgeEl.textContent = "반경 " + rLabel;
 
-  if (window.mapReady && currentCenter) {
-    // 줌 레벨 조정 (300m: 4, 500m: 5, 1000m: 6)
-    const targetLevel = meters === 300 ? 4 : (meters === 500 ? 5 : 6);
-    if (kakaoMap) kakaoMap.setLevel(targetLevel);
+  // 즉시 지도 및 통계 100% 실시간 자동 재연산 트리거!
+  const targetLevel = meters === 300 ? 4 : (meters === 500 ? 5 : 6);
+  if (kakaoMap) {
+    kakaoMap.setLevel(targetLevel);
+  }
+  if (currentCenter && currentCenter.lat && currentCenter.lng) {
     renderRadiusAndBubble(currentCenter.lat, currentCenter.lng, currentCenter.address, false);
+  } else {
+    searchMapByThreeStepAndDetail();
   }
 }
 
