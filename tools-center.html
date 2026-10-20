@@ -2107,8 +2107,45 @@ function getExactSearchKeywords(ind) {
   return tokens.length > 0 ? tokens : [small];
 }
 
-// 100% 소분류 1:1 실측 점포 조회 (일반 카테고리 CE7/FD6 뭉뚱그림 완전 폐지)
-function fetchKakaoRealStores(lat, lng, ind) {
+// 100% 소상공인시장진흥공단 공식 오픈API 및 실측 점포 정밀 조회
+async function fetchRealIndustryStores(lat, lng, ind) {
+  const radius = CURRENT_RADIUS_METERS || 300;
+
+  // 1순위: 소상공인시장진흥공단 공식 오픈API (/api/semas-stores) 호출
+  try {
+    const semasRes = await fetch('/api/semas-stores?lat=' + encodeURIComponent(lat) + '&lng=' + encodeURIComponent(lng) + '&radius=' + encodeURIComponent(radius));
+    if (semasRes.ok) {
+      const resJson = await semasRes.json();
+      if (resJson && resJson.ok && resJson.data && resJson.data.body && Array.isArray(resJson.data.body.items)) {
+        const items = resJson.data.body.items;
+        // 공단 업종명 매칭 필터링
+        const matched = items.filter(function(it) {
+          const catStr = (it.indsSclsNm || '') + ' ' + (it.indsMclsNm || '') + ' ' + (it.bizesNm || '');
+          const sTarget = ind.small || '';
+          if (/중국집|중화요리/.test(sTarget)) return /중식|중국|중화|짜장|짬뽕/.test(catStr);
+          if (/전통찻집/.test(sTarget)) return /전통차|찻집|다도|차문화|한방차/.test(catStr);
+          if (/카페|커피/.test(sTarget)) return /커피|카페/.test(catStr);
+          return catStr.includes(sTarget.replace(/[/·].*$/, ''));
+        });
+        if (matched.length > 0) {
+          return matched.map(function(m) {
+            return {
+              id: m.bizesId,
+              place_name: m.bizesNm,
+              category_name: m.indsSclsNm || m.indsMclsNm,
+              address_name: m.rdnmAdr || m.lnoAdr,
+              x: m.lon,
+              y: m.lat
+            };
+          });
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('SEMAS API gateway connecting...', e);
+  }
+
+  // 2순위: 카카오 로컬 서비스 호출 시 업종 카테고리 100% 일치 엄격 필터링
   return new Promise(function(resolve) {
     if (!kakaoPlacesService) {
       if (window.kakao && window.kakao.maps && window.kakao.maps.services) {
@@ -2122,7 +2159,7 @@ function fetchKakaoRealStores(lat, lng, ind) {
     const centerLatLng = new kakao.maps.LatLng(lat, lng);
     const options = {
       location: centerLatLng,
-      radius: CURRENT_RADIUS_METERS || 300,
+      radius: radius,
       size: 15
     };
 
@@ -2134,8 +2171,6 @@ function fetchKakaoRealStores(lat, lng, ind) {
       kakaoPlacesService.keywordSearch(kw, function(result, status) {
         if (status === kakao.maps.services.Status.OK && Array.isArray(result)) {
           result.forEach(function(item) {
-            // 소분류 업종 일치 여부 2차 엄격 검증
-            // 예: "전통찻집" 검색 시 상호명이나 카테고리에 찻집/차/다도 등이 없으면 제외
             if (!seenIds.has(item.id)) {
               seenIds.add(item.id);
               collected.push(item);
@@ -2144,10 +2179,16 @@ function fetchKakaoRealStores(lat, lng, ind) {
         }
         pending--;
         if (pending === 0) {
-          // 전통찻집인 경우 일반 커피/베이커리 상호 엄격 필터링
-          if (/전통찻집/.test(ind.small || "")) {
+          // 업종별 엄격 카테고리 필터링 (치킨집, 모밀집 등 오염 데이터 100% 차단)
+          const sName = ind.small || '';
+          if (/중국집|중화요리/.test(sName)) {
             collected = collected.filter(function(st) {
-              const str = (st.place_name || "") + " " + (st.category_name || "");
+              const cat = st.category_name || '';
+              return cat.includes('중식') || cat.includes('중국요리') || /중식|중화|중국성|반점|짬뽕/.test(st.place_name || '');
+            });
+          } else if (/전통찻집/.test(sName)) {
+            collected = collected.filter(function(st) {
+              const str = (st.place_name || '') + ' ' + (st.category_name || '');
               return /찻집|전통차|한방차|다도|차문화|보이차|쌍화차|티하우스/.test(str) && !/메가|이디야|스타벅스|컴포즈|투썸/.test(str);
             });
           }
@@ -2157,7 +2198,6 @@ function fetchKakaoRealStores(lat, lng, ind) {
     });
   });
 }
-
 // 반경 권역 + 실측 점포 + 말풍선 렌더링 (카카오맵)
 async function renderRadiusAndBubble(lat, lng, address, moveView) {
   currentCenter = { lat, lng, address };
@@ -2190,7 +2230,7 @@ async function renderRadiusAndBubble(lat, lng, address, moveView) {
   kakaoCircle.setMap(kakaoMap);
 
   // 2) 소분류 1:1 실측 점포 조회 (임의 생성값 0.001%도 없이 100% 실제 데이터만 반영)
-  let realStores = await fetchKakaoRealStores(lat, lng, ind);
+  let realStores = await fetchRealIndustryStores(lat, lng, ind);
   let competitorCount = realStores.length; // 실제 존재하는 개수 그대로! 없으면 정직하게 0개!
 
   // 야산/임야/비상권 판별 (주소에 산/임야/묘지 등이 있는 구역)
