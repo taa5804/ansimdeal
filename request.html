@@ -1855,9 +1855,7 @@ function verifyStatus(
 }
 
 
-$("#phone")
-.addEventListener(
-  "input",
+if($("#phone")) $("#phone").addEventListener("input",
   function(){
 
     this.value =
@@ -1883,9 +1881,7 @@ $("#phone")
 );
 
 
-$("#verifyCode")
-.addEventListener(
-  "input",
+if($("#verifyCode")) $("#verifyCode").addEventListener("input",
   function(){
 
     this.value =
@@ -1897,9 +1893,7 @@ $("#verifyCode")
 );
 
 
-$("#sendCodeBtn")
-.addEventListener(
-  "click",
+if($("#sendCodeBtn")) $("#sendCodeBtn").addEventListener("click",
   async function(){
 
     const phone =
@@ -2032,9 +2026,7 @@ $("#sendCodeBtn")
 );
 
 
-$("#verifyBtn")
-.addEventListener(
-  "click",
+if($("#verifyBtn")) $("#verifyBtn").addEventListener("click",
   async function(){
 
     const phone =
