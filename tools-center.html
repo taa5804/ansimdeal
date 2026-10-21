@@ -1372,7 +1372,7 @@
             <div class="m-label" style="color:#991b1b;">🏪 경쟁점포 및 층수</div>
             <span style="background:#ef4444; color:#fff; font-size:9px; font-weight:800; padding:1px 5px; border-radius:3px;">진흥공단 공인</span>
           </div>
-          <div class="m-val" id="sumCompetitors" style="color:#dc2626; font-size:16px;">24개 영업 중</div>
+          <div class="m-val" id="sumCompetitors" style="color:#dc2626; font-size:16px;">점포 집계 중...</div>
           <div class="m-sub" id="sumFloorRate" style="color:#b91c1c; font-weight:700;">1층 75% (18곳) · 지상층 25%</div>
         </div>
 
@@ -2573,7 +2573,13 @@ async function renderRadiusAndBubble(lat, lng, address, moveView) {
   });
   kakaoOverlay.setMap(kakaoMap);
 
-  // [원천 해결] 말풍선이 변경되는 즉시 좌측 하단 매출 & 생존율 카드도 100% 강제 일치 업데이트!
+  // [완벽 일체화] 말풍선이 화면에 찍히는 순간, 좌측의 모든 카드(점포수, 층수, 매출, 생존율)를 단 0.001초의 틈도 없이 일제히 강제 덮어쓰기!
+  if (document.getElementById("sumCompetitors")) {
+    document.getElementById("sumCompetitors").textContent = competitorCount + "개 영업 중";
+  }
+  if (document.getElementById("sumFloorRate")) {
+    document.getElementById("sumFloorRate").textContent = floorRateText;
+  }
   if (document.getElementById("sumSales")) {
     document.getElementById("sumSales").textContent = salesText;
   }
@@ -2585,6 +2591,24 @@ async function renderRadiusAndBubble(lat, lng, address, moveView) {
   }
   if (document.getElementById("sumClosureRateSub")) {
     document.getElementById("sumClosureRateSub").textContent = closureSubText;
+  }
+  if (document.getElementById("sumResidentPop")) {
+    document.getElementById("sumResidentPop").textContent = residentPopText;
+  }
+  if (document.getElementById("sumResidentPopSub")) {
+    document.getElementById("sumResidentPopSub").textContent = residentSubText;
+  }
+  if (document.getElementById("sumWorkerPop")) {
+    document.getElementById("sumWorkerPop").textContent = workerText;
+  }
+  if (document.getElementById("sumWorkerPopSub")) {
+    document.getElementById("sumWorkerPopSub").textContent = workerSubText;
+  }
+  if (document.getElementById("sumGrade")) {
+    document.getElementById("sumGrade").textContent = gradeTitle;
+  }
+  if (document.getElementById("sumGradeSub")) {
+    document.getElementById("sumGradeSub").textContent = gradeSub;
   }
 
   const cleanAddr = (address || "").replace(/전남광주통합특별시/g, "광주광역시");
