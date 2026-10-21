@@ -854,7 +854,7 @@ function productCard(p) {
     : '';
   return '<div class="card">'
     + '<div class="product-photo-wrap">'
-    + '<img src="' + escapeHtml(p.img) + '" alt="' + escapeHtml(p.name) + '">'
+    + '<img src="' + escapeHtml(p.img) + '" alt="' + escapeHtml(p.name) + '" loading="lazy" decoding="async">'
     + badge
     + '</div>'
     + '<div class="card-body">'
@@ -884,7 +884,7 @@ function groupCard(p) {
   const badge = p.discount > 0 ? '<span class="discount-badge"><b>' + p.discount + '%</b><small>할인</small></span>' : '';
   return '<div class="card group-card">'
     + '<div class="product-photo-wrap">'
-    + '<img src="' + escapeHtml(p.img) + '" alt="' + escapeHtml(p.name) + '">'
+    + '<img src="' + escapeHtml(p.img) + '" alt="' + escapeHtml(p.name) + '" loading="lazy" decoding="async">'
     + badge
     + '</div>'
     + '<div class="card-body">'
