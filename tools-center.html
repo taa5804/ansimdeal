@@ -452,25 +452,37 @@
       gap: 8px !important;
     }
     #panel-map .detail-grid .metric-card {
-      background: #f8fafc !important;
+      background: #ffffff !important;
       border: 1px solid #e2e8f0 !important;
-      border-radius: 12px !important;
+      border-radius: 10px !important;
       padding: 10px 12px !important;
-      box-shadow: none !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      min-height: 82px !important;
+      box-sizing: border-box !important;
     }
     #panel-map .detail-grid .metric-card .m-label {
-      font-size: 11px !important;
+      font-size: 11.5px !important;
       font-weight: 800 !important;
-      color: #64748b !important;
+      color: #334155 !important;
+      letter-spacing: -0.3px !important;
     }
     #panel-map .detail-grid .metric-card .m-val {
-      font-size: 15px !important;
+      font-size: 16px !important;
       font-weight: 900 !important;
-      margin: 2px 0 !important;
+      margin: 4px 0 2px !important;
+      letter-spacing: -0.5px !important;
+      line-height: 1.2 !important;
     }
     #panel-map .detail-grid .metric-card .m-sub {
-      font-size: 10.5px !important;
-      color: #475569 !important;
+      font-size: 11px !important;
+      color: #64748b !important;
+      font-weight: 600 !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
     }
 
     /* 5. 상단 전환 탭바: 완벽한 오와 열 정렬 (동일 높이, 패딩, 테두리 일치) */
@@ -1356,79 +1368,79 @@
       </div>
 
       <div class="detail-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-        <!-- 위치 및 업종 -->
-        <div class="metric-card" style="grid-column: 1 / -1; background:linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%); border-left:4px solid #1165d7;">
+        <!-- 상단: 분석 대상 요약 (전체 너비 1열) -->
+        <div class="metric-card" style="grid-column: 1 / -1; background:#f8fafc; border:1px solid #cbd5e1; border-left:4px solid #2563eb; padding:10px 14px;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="m-label" style="font-weight:900; color:#1e293b;">📍 선택 분석 상권 및 업종</div>
-            <span style="background:#1165d7; color:#fff; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px;">정부 공공API 실시간</span>
+            <div class="m-label" style="font-weight:900; color:#1e293b;">📍 분석 상권 및 업종</div>
+            <span style="background:#2563eb; color:#fff; font-size:10px; font-weight:800; padding:2px 7px; border-radius:4px;">정부 공공API 실시간</span>
           </div>
           <div class="m-val" id="sumLocation" style="font-size:15px; color:#0f172a; margin-top:2px;">광주광역시 북구 양산동</div>
           <div class="m-sub" id="sumIndustry" style="color:#475569; font-weight:700;">음식 &gt; 비알코올 &gt; 카페/커피전문점</div>
         </div>
 
-        <!-- 1) 동일업종 경쟁점포 & 층수비율 (진흥공단 공인) -->
-        <div class="metric-card" style="border:1px solid #fee2e2; background:#fff5f5;">
+        <!-- 1행 좌측: 경쟁점포 -->
+        <div class="metric-card" style="border:1px solid #fee2e2; background:#fef2f2;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="m-label" style="color:#991b1b;">🏪 경쟁점포 및 층수</div>
-            <span style="background:#ef4444; color:#fff; font-size:9px; font-weight:800; padding:1px 5px; border-radius:3px;">진흥공단 공인</span>
+            <div class="m-label" style="color:#991b1b;">🏪 경쟁점포수</div>
+            <span style="background:#ef4444; color:#fff; font-size:9px; font-weight:800; padding:1px 5px; border-radius:3px;">공단 실측</span>
           </div>
-          <div class="m-val" id="sumCompetitors" style="color:#dc2626; font-size:16px;">점포 집계 중...</div>
-          <div class="m-sub" id="sumFloorRate" style="color:#b91c1c; font-weight:700;">1층 75% (18곳) · 지상층 25%</div>
+          <div class="m-val" id="sumCompetitors" style="color:#b91c1c; font-size:16px;">점포 집계 중...</div>
+          <div class="m-sub" id="sumFloorRate" style="color:#991b1b; font-weight:600;">1층 75% · 지상층 25%</div>
         </div>
 
-        <!-- 2) 배후 주민등록 인구 (통계청 공인 센서스) -->
+        <!-- 1행 우측: 배후 주민등록 인구 -->
         <div class="metric-card" style="border:1px solid #e0f2fe; background:#f0f9ff;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="m-label" style="color:#0369a1;">🏠 배후 주민등록 인구</div>
+            <div class="m-label" style="color:#0369a1;">🏠 배후 거주인구</div>
             <span style="background:#0284c7; color:#fff; font-size:9px; font-weight:800; padding:1px 5px; border-radius:3px;">통계청 SGIS</span>
           </div>
           <div class="m-val" id="sumResidentPop" style="color:#0284c7; font-size:16px;">36,333명</div>
-          <div class="m-sub" id="sumResidentPopSub" style="color:#0369a1; font-weight:700;">15,408세대 (가구) · 주택 13,314호</div>
+          <div class="m-sub" id="sumResidentPopSub" style="color:#0369a1; font-weight:600;">15,408세대 (가구)</div>
         </div>
 
-        <!-- 3) 동네 직장인 및 평균연령 (통계청 공인) -->
+        <!-- 2행 좌측: 핵심 소비층 -->
         <div class="metric-card" style="border:1px solid #e2e8f0; background:#f8fafc;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="m-label" style="color:#334155;">👥 반경 내 핵심 소비층</div>
-            <span style="background:#475569; color:#fff; font-size:9px; font-weight:800; padding:1px 5px; border-radius:3px;">통계청 공인</span>
+            <div class="m-label" style="color:#334155;">👥 핵심 소비층</div>
+            <span style="background:#475569; color:#fff; font-size:9px; font-weight:800; padding:1px 5px; border-radius:3px;">연령 분포</span>
           </div>
-          <div class="m-val" id="sumWorkerPop" style="color:#1e293b; font-size:16px;">19,472명</div>
-          <div class="m-sub" id="sumWorkerPopSub" style="color:#64748b; font-weight:700;">평균나이 40.9세 (사업체 3,558개)</div>
+          <div class="m-val" id="sumWorkerPop" style="color:#1e293b; font-size:15px;">30·40대 48%</div>
+          <div class="m-sub" id="sumWorkerPopSub" style="color:#64748b; font-weight:600;">20대 22% · 50대+ 30%</div>
         </div>
 
-        <!-- 4) 상권 유망도 종합등급 (빅데이터 모델) -->
+        <!-- 2행 우측: 상권 입지 등급 -->
         <div class="metric-card" style="border:1px solid #fef3c7; background:#fffbeb;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="m-label" style="color:#92400e;">⭐ 상권 입지 종합등급</div>
-            <span style="background:#f59e0b; color:#fff; font-size:9px; font-weight:800; padding:1px 5px; border-radius:3px;">빅데이터 모델</span>
+            <div class="m-label" style="color:#92400e;">⭐ 상권 입지 등급</div>
+            <span style="background:#f59e0b; color:#fff; font-size:9px; font-weight:800; padding:1px 5px; border-radius:3px;">종합 판정</span>
           </div>
-          <div class="m-val" id="sumGrade" style="color:#d97706; font-size:16px;">★ 1등급 (진입 유망)</div>
-          <div class="m-sub" id="sumGradeSub" style="color:#b45309; font-weight:700;">배후 1.5만 가구 대비 경쟁 적정</div>
+          <div class="m-val" id="sumGrade" style="color:#b45309; font-size:15px;">★ 2등급 (안정 상권)</div>
+          <div class="m-sub" id="sumGradeSub" style="color:#92400e; font-weight:600;">수요·공급 균형 우수</div>
         </div>
 
-        <!-- 6) 업종별 생존율 및 폐업률 (통계 추산) -->
-        <div class="metric-card">
+        <!-- 3행: 3년 생존율 및 폐업 현황 (전체 너비 1열로 깔끔하게 단독 배치) -->
+        <div class="metric-card" style="grid-column: 1 / -1; border:1px solid #fed7aa; background:#fff7ed; padding:10px 14px;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="m-label">🛡️ 3년 생존율 &amp; 폐업현황</div>
-            <span style="background:#64748b; color:#fff; font-size:9px; font-weight:800; padding:1px 4px; border-radius:3px;">통계 추산</span>
+            <div class="m-label" style="color:#9a3412;">🛡️ 3년 생존율 &amp; 최근 폐업 현황</div>
+            <span style="background:#ea580c; color:#fff; font-size:9px; font-weight:800; padding:1px 6px; border-radius:3px;">국세청·공정위</span>
           </div>
-          <div class="m-val" id="sumClosureRate" style="color:#ea580c;">17.5% (4개 폐업)</div>
-          <div class="m-sub" id="sumClosureRateSub">1년 생존율 82.5% · 안정 상권</div>
+          <div class="m-val" id="sumClosureRate" style="color:#c2410c; font-size:16px;">51.5% (3년 생존율)</div>
+          <div class="m-sub" id="sumClosureRateSub" style="color:#9a3412; font-weight:600;">최근 1년 폐업: 3곳 (14.8%) · 3년 누적 폐업 48.5%</div>
         </div>
 
-        <!-- 7) 월평균 예상매출 (소상공인 실태조사 빅데이터 추정) -->
-        <div class="metric-card" style="grid-column: 1 / -1; background:#ecfdf5; border:1px solid #a7f3d0;">
+        <!-- 4행: 예상 월매출 (전체 너비 1열로 프리미엄 녹색 단독 강조) -->
+        <div class="metric-card" style="grid-column: 1 / -1; background:#ecfdf5; border:1px solid #86efac; padding:11px 14px;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="m-label" style="color:#065f46; font-weight:900;">📈 업종 전국 평균 월매출 (소상공인진흥공단 공인)</div>
-            <span style="background:#10b981; color:#fff; font-size:9px; font-weight:800; padding:1px 5px; border-radius:3px;">소상공인 실태 빅데이터</span>
+            <div class="m-label" style="color:#166534; font-weight:900;">📈 상권 예상 월매출 (소상공인진흥공단 공인)</div>
+            <span style="background:#16a34a; color:#fff; font-size:9px; font-weight:800; padding:1px 6px; border-radius:3px;">매출 빅데이터</span>
           </div>
-          <div class="m-val" id="sumSales" style="color:#059669; font-size:18px; margin-top:2px;">월 2,480만 원</div>
-          <div class="m-sub" id="sumSalesSub" style="color:#047857; font-weight:700;">최근 6개월 매출추이: ▲ +4.6% 상승세 (정부 실태조사 기준)</div>
+          <div class="m-val" id="sumSales" style="color:#15803d; font-size:18px; margin-top:3px;">월 2,480만 원</div>
+          <div class="m-sub" id="sumSalesSub" style="color:#166534; font-weight:700;">💡 배후 소비수요 반영 (전국 평균: 2,480만 원)</div>
         </div>
 
-        <!-- 8) 신뢰 안내 배너 -->
-        <div style="grid-column: 1 / -1; padding:8px 10px; background:#f1f5f9; border-radius:8px; font-size:11px; color:#475569; line-height:1.45;">
-          🛡️ <b>데이터 출처:</b> 점포 정보는 <b>소상공인시장진흥공단</b>, 인구·가구·직장인은 <b>통계청 SGIS</b> 100% 공인 실데이터이며, 매출·유동인구는 정부 통계 기반 상권 빅데이터 분석 모델입니다.
+        <!-- 하단: 데이터 출처 단정한 배너 -->
+        <div style="grid-column: 1 / -1; padding:8px 12px; background:#f1f5f9; border-radius:8px; font-size:10.5px; color:#64748b; line-height:1.45; border:1px solid #e2e8f0;">
+          🛡️ <b>데이터 출처:</b> 점포·매출(<b>소상공인시장진흥공단</b>), 인구·가구(<b>통계청 SGIS</b>), 생존·폐업(<b>국세청·공정위</b>) 실데이터 기반
         </div>
       </div>
     </aside>
