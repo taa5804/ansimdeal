@@ -387,7 +387,7 @@
       position: fixed !important;
       top: 50px !important;
       left: 10px !important;
-      width: 360px !important;
+      width: 390px !important;
       max-width: calc(100vw - 20px) !important;
       max-height: calc(100vh - 60px) !important;
       overflow-y: auto !important;
@@ -460,7 +460,7 @@
       display: flex !important;
       flex-direction: column !important;
       justify-content: space-between !important;
-      min-height: 82px !important;
+      min-height: 90px !important;
       box-sizing: border-box !important;
     }
     #panel-map .detail-grid .metric-card .m-label {
@@ -470,19 +470,23 @@
       letter-spacing: -0.3px !important;
     }
     #panel-map .detail-grid .metric-card .m-val {
-      font-size: 16px !important;
+      font-size: 14.5px !important;
       font-weight: 900 !important;
       margin: 4px 0 2px !important;
-      letter-spacing: -0.5px !important;
-      line-height: 1.2 !important;
+      letter-spacing: -0.3px !important;
+      line-height: 1.35 !important;
+      white-space: normal !important;
+      word-break: keep-all !important;
     }
     #panel-map .detail-grid .metric-card .m-sub {
-      font-size: 11px !important;
+      font-size: 10.5px !important;
       color: #64748b !important;
       font-weight: 600 !important;
-      white-space: nowrap !important;
-      overflow: hidden !important;
-      text-overflow: ellipsis !important;
+      white-space: normal !important;
+      word-break: break-all !important;
+      overflow: visible !important;
+      line-height: 1.35 !important;
+      margin-top: 3px !important;
     }
 
     /* 5. 상단 전환 탭바: 완벽한 오와 열 정렬 (동일 높이, 패딩, 테두리 일치) */
@@ -2423,8 +2427,8 @@ async function renderRadiusAndBubble(lat, lng, address, moveView) {
     const p3040s = 48 + ((seed * 3) % 8);
     const p50plus = 100 - p20s - p3040s;
     const count3040 = Math.round(effectivePop * (p3040s / 100));
-    const workerText = "30·40대 " + p3040s + "% (" + count3040.toLocaleString() + "명)";
-    const workerSubText = "20대 " + p20s + "% · 50대+ " + p50plus + "% (직장 " + sgisWorker.toLocaleString() + "명)";
+    const workerText = "30·40대 " + p3040s + "%<br><span style=\"font-size:12px; font-weight:700; color:#334155;\">(" + count3040.toLocaleString() + "명)</span>";
+    const workerSubText = "20대 " + p20s + "% · 50대+ " + p50plus + "%<br style=\"line-height:1.4\"><span style=\"color:#64748b; font-size:10px; font-weight:600;\">(직장인 " + sgisWorker.toLocaleString() + "명)</span>";
 
     // 3) 층수 분포 분석 (소상공인시장진흥공단 실데이터 기반 1층 비율)
     let groundStores = Math.round(competitorCount * 0.75);
@@ -2437,17 +2441,17 @@ async function renderRadiusAndBubble(lat, lng, address, moveView) {
     const totalDemand = Math.round((sgisPop * 0.94 * 1.0) + (sgisWorker * 0.8) + (dailyPop * 0.25));
     const demandPerStore = competitorCount > 0 ? Math.round(totalDemand / competitorCount) : totalDemand;
 
-    let gradeTitle = "★ 1등급 (황금·독점)";
-    let gradeSub = "점포당 배후수요 " + demandPerStore.toLocaleString() + "명 (공급 매우 부족)";
+    let gradeTitle = "★ 1등급<br><span style=\"font-size:12px; font-weight:700; color:#15803d;\">(황금·독점)</span>";
+    let gradeSub = "점포당 배후수요 " + demandPerStore.toLocaleString() + "명";
     if (demandPerStore < 1200) {
-      gradeTitle = "★ 3등급 (경쟁 심화)";
-      gradeSub = "점포당 배후수요 " + demandPerStore.toLocaleString() + "명 (차별화 전략 필수)";
+      gradeTitle = "★ 3등급<br><span style=\"font-size:12px; font-weight:700; color:#b45309;\">(경쟁 심화)</span>";
+      gradeSub = "점포당 배후수요 " + demandPerStore.toLocaleString() + "명";
     } else if (demandPerStore < 2200) {
-      gradeTitle = "★ 2등급 (안정 상권)";
-      gradeSub = "점포당 배후수요 " + demandPerStore.toLocaleString() + "명 (수요·공급 균형 우수)";
+      gradeTitle = "★ 2등급<br><span style=\"font-size:12px; font-weight:700; color:#b45309;\">(안정 상권)</span>";
+      gradeSub = "점포당 배후수요 " + demandPerStore.toLocaleString() + "명";
     } else {
-      gradeTitle = "★ 1등급 (우량 상권)";
-      gradeSub = "점포당 배후수요 " + demandPerStore.toLocaleString() + "명 (안정적 소비 배후)";
+      gradeTitle = "★ 1등급<br><span style=\"font-size:12px; font-weight:700; color:#15803d;\">(우량 상권)</span>";
+      gradeSub = "점포당 배후수요 " + demandPerStore.toLocaleString() + "명";
     }
 
     // [통계청/국세청/공정위 공인 업종별 정밀 3년 생존율 & 연간 폐업률 실데이터]
@@ -2552,10 +2556,10 @@ async function renderRadiusAndBubble(lat, lng, address, moveView) {
     if (document.getElementById("sumFloorRate")) document.getElementById("sumFloorRate").textContent = floorRateText;
     if (document.getElementById("sumResidentPop")) document.getElementById("sumResidentPop").textContent = residentPopText;
     if (document.getElementById("sumResidentPopSub")) document.getElementById("sumResidentPopSub").textContent = residentSubText;
-    if (document.getElementById("sumWorkerPop")) document.getElementById("sumWorkerPop").textContent = workerText;
-    if (document.getElementById("sumWorkerPopSub")) document.getElementById("sumWorkerPopSub").textContent = workerSubText;
-    if (document.getElementById("sumGrade")) document.getElementById("sumGrade").textContent = gradeTitle;
-    if (document.getElementById("sumGradeSub")) document.getElementById("sumGradeSub").textContent = gradeSub;
+    if (document.getElementById("sumWorkerPop")) document.getElementById("sumWorkerPop").innerHTML = workerText;
+    if (document.getElementById("sumWorkerPopSub")) document.getElementById("sumWorkerPopSub").innerHTML = workerSubText;
+    if (document.getElementById("sumGrade")) document.getElementById("sumGrade").innerHTML = gradeTitle;
+    if (document.getElementById("sumGradeSub")) document.getElementById("sumGradeSub").innerHTML = gradeSub;
     if (document.getElementById("sumClosureRate")) document.getElementById("sumClosureRate").textContent = closureRateText;
     if (document.getElementById("sumClosureRateSub")) document.getElementById("sumClosureRateSub").textContent = closureSubText;
     if (document.getElementById("sumSales")) if (document.getElementById("sumSales")) document.getElementById("sumSales").textContent = salesText;
@@ -2611,16 +2615,16 @@ async function renderRadiusAndBubble(lat, lng, address, moveView) {
     document.getElementById("sumResidentPopSub").textContent = residentSubText;
   }
   if (document.getElementById("sumWorkerPop")) {
-    document.getElementById("sumWorkerPop").textContent = workerText;
+    document.getElementById("sumWorkerPop").innerHTML = workerText;
   }
   if (document.getElementById("sumWorkerPopSub")) {
-    document.getElementById("sumWorkerPopSub").textContent = workerSubText;
+    document.getElementById("sumWorkerPopSub").innerHTML = workerSubText;
   }
   if (document.getElementById("sumGrade")) {
-    document.getElementById("sumGrade").textContent = gradeTitle;
+    document.getElementById("sumGrade").innerHTML = gradeTitle;
   }
   if (document.getElementById("sumGradeSub")) {
-    document.getElementById("sumGradeSub").textContent = gradeSub;
+    document.getElementById("sumGradeSub").innerHTML = gradeSub;
   }
 
   const cleanAddr = (address || "").replace(/전남광주통합특별시/g, "광주광역시");
