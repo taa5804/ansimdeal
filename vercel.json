@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/api/property-request",
+      "destination": "https://www.wooriapt.app/api/property-request"
+    },
+    {
+      "source": "/api/customer-phone-auth",
+      "destination": "https://www.wooriapt.app/api/customer-phone-auth"
+    },
+    {
       "source": "/sale-admin",
       "destination": "/sale-admin.html"
     },

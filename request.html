@@ -771,75 +771,7 @@ input:disabled{
 
     <!-- 휴대전화 본인확인 -->
 
-    <div class="section phone-verify">
-
-      <div class="label">
-        휴대전화 본인확인
-        <span class="req">*</span>
-      </div>
-
-      <div class="phone-row">
-
-        <input
-          id="phone"
-          type="tel"
-          inputmode="numeric"
-          maxlength="11"
-          autocomplete="tel"
-          placeholder="01012345678"
-        >
-
-        <button
-          id="sendCodeBtn"
-          class="verify-btn"
-          type="button"
-        >
-          인증번호 받기
-        </button>
-
-      </div>
-
-
-      <div class="verify-row">
-
-        <input
-          id="verifyCode"
-          type="text"
-          inputmode="numeric"
-          maxlength="4"
-          placeholder="인증번호 4자리"
-          disabled
-        >
-
-        <button
-          id="verifyBtn"
-          class="verify-btn secondary"
-          type="button"
-          disabled
-        >
-          인증 확인
-        </button>
-
-      </div>
-
-
-      <div class="help">
-
-        장난·허위 요청 방지를 위해
-        휴대전화 인증 후
-        요청을 등록할 수 있습니다.
-
-        <strong>임차인(매수자) 전화번호(연락처)는 공인중개사·임대인에게 공개되지 않으며, 임차인(매수자)이 직접 알려주기 전까지는 절대 공개하지 않습니다.</strong>
-
-      </div>
-
-      <div
-        id="verifyStatus"
-        class="verify-status"
-        aria-live="polite"
-      ></div>
-
-    </div>
+    
 
 
     <!-- 시도 -->
@@ -1267,6 +1199,56 @@ input:disabled{
 
 
   </form>
+
+  <!-- [안심 본인인증 모달 팝업] -->
+  <div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.65); z-index:9999; align-items:center; justify-content:center; padding:16px; backdrop-filter:blur(3px);">
+    <div style="background:#ffffff; width:100%; max-width:440px; border-radius:20px; padding:24px 20px; box-shadow:0 20px 40px rgba(0,0,0,0.2); border:1px solid #e2e8f0; animation:modalPop 0.25s ease-out;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; border-bottom:1px solid #edf2f7; padding-bottom:12px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:22px;">🛡️</span>
+          <div>
+            <h3 style="margin:0; font-size:16px; font-weight:900; color:#173f67; letter-spacing:-0.3px;">휴대전화 안심 본인확인</h3>
+            <span style="font-size:11.5px; color:#64748b; font-weight:600;">허위·장난 요청 방지 및 1:1 매칭 제안 수신</span>
+          </div>
+        </div>
+        <button type="button" onclick="closeAuthModal()" style="border:none; background:transparent; font-size:22px; color:#94a3b8; cursor:pointer; line-height:1;">✕</button>
+      </div>
+
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:12px 14px; margin-bottom:16px; font-size:11.5px; color:#475569; line-height:1.5; word-break:keep-all;">
+        🔒 <b>고객 연락처 안심 보호:</b><br>
+        입력하신 전화번호는 공인중개사나 외부에 절대 직접 공개되지 않으며, <b>안심번호 및 1:1 매칭 제안 알림용</b>으로만 안전하게 사용됩니다.
+      </div>
+
+      <div class="phone-verify" style="padding:0; border:none; background:transparent;">
+        <div class="label" style="font-size:13px; font-weight:800; color:#1e293b; margin-bottom:6px;">휴대전화 번호 입력 <span class="req" style="color:#dc2626;">*</span></div>
+        <div class="phone-row" style="display:grid; grid-template-columns:1fr 115px; gap:8px; margin-bottom:10px;">
+          <input id="modalPhone" type="tel" inputmode="numeric" maxlength="11" placeholder="01012345678" style="width:100%; height:46px; border:1.5px solid #cbd5e1; border-radius:10px; padding:0 12px; font-size:14px; font-weight:700; outline:none;">
+          <button id="modalSendCodeBtn" type="button" style="height:46px; border:none; border-radius:10px; background:#1165d7; color:#ffffff; font-size:13px; font-weight:800; cursor:pointer;">인증번호 받기</button>
+        </div>
+
+        <div id="modalVerifyArea" style="display:none;">
+          <div class="label" style="font-size:13px; font-weight:800; color:#1e293b; margin-bottom:6px;">인증번호 4자리 <span class="req" style="color:#dc2626;">*</span></div>
+          <div class="verify-row" style="display:grid; grid-template-columns:1fr 115px; gap:8px; margin-bottom:10px;">
+            <input id="modalVerifyCode" type="text" inputmode="numeric" maxlength="4" placeholder="4자리 숫자" style="width:100%; height:46px; border:1.5px solid #cbd5e1; border-radius:10px; padding:0 12px; font-size:15px; font-weight:900; letter-spacing:3px; outline:none;">
+            <button id="modalVerifyBtn" type="button" style="height:46px; border:1px solid #1165d7; border-radius:10px; background:#eff6ff; color:#1165d7; font-size:13px; font-weight:800; cursor:pointer;">인증 확인</button>
+          </div>
+        </div>
+
+        <div id="modalVerifyStatus" style="font-size:12px; font-weight:700; min-height:18px; margin-top:6px;"></div>
+
+        <button id="modalFinalSubmitBtn" type="button" disabled style="width:100%; height:50px; border:none; border-radius:12px; background:#cbd5e1; color:#ffffff; font-size:15px; font-weight:900; cursor:not-allowed; margin-top:14px; box-shadow:0 4px 12px rgba(0,0,0,0.08); transition:all 0.2s;">
+          인증 완료 후 최종 등록하기
+        </button>
+      </div>
+    </div>
+  </div>
+  <style>
+    @keyframes modalPop {
+      0% { opacity:0; transform:scale(0.92); }
+      100% { opacity:1; transform:scale(1); }
+    }
+  </style>
+  
 
 </div>
 
@@ -2742,31 +2724,8 @@ async function savePropertyRequest(
    제출 검증 + 실제 저장
 ========================================= */
 
-$("#requestForm")
-.addEventListener(
-  "submit",
-  async function(e){
-
+$("#requestForm").addEventListener("submit", function(e){
     e.preventDefault();
-
-
-    const phone =
-    cleanPhone(
-      $("#phone").value
-    );
-
-
-    if(
-      !phoneVerified ||
-      verifiedPhone!==phone
-    ){
-
-      return message(
-        "error",
-        "휴대전화 인증을 완료해 주세요."
-      );
-
-    }
 
 
     if(
@@ -2957,77 +2916,8 @@ $("#requestForm")
     }
 
 
-    const submitBtn =
-    $("#submitBtn");
-
-    const originalText =
-    submitBtn.textContent;
-
-
-    submitBtn.disabled=true;
-
-    submitBtn.textContent=
-    "등록 중...";
-
-
-    try{
-
-      const result =
-      await savePropertyRequest(
-        phone
-      );
-
-      const savedNumber =
-      result.requestNumber;
-
-
-      localStorage.setItem(
-        "wooriapt_request_number",
-        savedNumber
-      );
-
-      localStorage.setItem(
-        "wooriapt_buyer_phone",
-        phone
-      );
-
-
-      message(
-        "ok",
-        "등록이 완료되었습니다. 임차요청번호는 " +
-        savedNumber +
-        "번입니다. 잠시 후 안심딜 메인화면으로 이동합니다."
-      );
-
-
-      submitBtn.disabled = false;
-      submitBtn.textContent = "🏪 안심딜 메인화면으로 이동 (요청번호 " + savedNumber + "번)";
-      submitBtn.onclick = function(ev){
-        ev.preventDefault();
-        location.href = "index.html";
-      };
-
-      setTimeout(function(){
-        location.href = "index.html";
-      }, 1800);
-
-
-    }catch(err){
-
-      console.error(err);
-
-      message(
-        "error",
-        err.message ||
-        "거래 요청 저장에 실패했습니다."
-      );
-
-      submitBtn.disabled=false;
-
-      submitBtn.textContent=
-      originalText;
-
-    }
+    // 모든 조건 검증 통과 ➔ 안심 본인인증 모달 팝업 열기
+    openAuthModal();
 
   }
 );
@@ -3202,6 +3092,136 @@ loadSido()
 
 
 })();
+
+
+
+/* =========================================
+   [개선] 등록 버튼 클릭 시 조건 검증 ➔ 본인인증 모달 팝업 오픈
+========================================= */
+
+window.openAuthModal = function() {
+  const modal = document.getElementById("authModal");
+  if (modal) {
+    modal.style.display = "flex";
+    const phoneInput = document.getElementById("modalPhone");
+    if (phoneInput && !phoneInput.value) {
+      phoneInput.focus();
+    }
+  }
+};
+
+window.closeAuthModal = function() {
+  const modal = document.getElementById("authModal");
+  if (modal) modal.style.display = "none";
+};
+
+let modalPhoneVerified = false;
+let modalVerifiedPhone = "";
+
+function modalStatus(type, msg) {
+  const el = document.getElementById("modalVerifyStatus");
+  if (!el) return;
+  el.textContent = msg;
+  el.style.color = type === "ok" ? "#16a34a" : (type === "info" ? "#2563eb" : "#dc2626");
+}
+
+// 모달 인증번호 받기
+document.getElementById("modalSendCodeBtn").addEventListener("click", async function() {
+  const phone = cleanPhone(document.getElementById("modalPhone").value);
+  if (!phone || phone.length < 10 || !phone.startsWith("010")) {
+    return modalStatus("error", "올바른 휴대전화 번호(010으로 시작)를 입력해 주세요.");
+  }
+  this.disabled = true;
+  this.textContent = "발송 중...";
+  modalStatus("info", "인증번호를 발송하고 있습니다...");
+
+  try {
+    const res = await fetch("/api/customer-phone-auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "send", phone: phone, purpose: "property_request" })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.ok) {
+      throw new Error(data.message || "인증번호 발송에 실패했습니다.");
+    }
+    modalStatus("ok", "인증번호 4자리가 문자로 발송되었습니다. (3분 이내 입력)");
+    document.getElementById("modalVerifyArea").style.display = "block";
+    document.getElementById("modalVerifyCode").focus();
+    this.textContent = "재발송";
+    this.disabled = false;
+  } catch (err) {
+    modalStatus("error", err.message || "인증번호 발송 실패");
+    this.textContent = "인증번호 받기";
+    this.disabled = false;
+  }
+});
+
+// 모달 인증 확인
+document.getElementById("modalVerifyBtn").addEventListener("click", async function() {
+  const phone = cleanPhone(document.getElementById("modalPhone").value);
+  const code = (document.getElementById("modalVerifyCode").value || "").trim();
+  if (!code || code.length !== 4) {
+    return modalStatus("error", "인증번호 4자리를 정확히 입력해 주세요.");
+  }
+  this.disabled = true;
+  this.textContent = "확인 중...";
+
+  try {
+    const res = await fetch("/api/customer-phone-auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "verify", phone: phone, code: code, purpose: "property_request" })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.ok) {
+      throw new Error(data.message || "인증번호가 올바르지 않습니다.");
+    }
+    modalPhoneVerified = true;
+    modalVerifiedPhone = phone;
+    modalStatus("ok", "✅ 휴대전화 본인인증이 완료되었습니다!");
+    document.getElementById("modalPhone").readOnly = true;
+    document.getElementById("modalVerifyCode").disabled = true;
+    this.disabled = true;
+    this.textContent = "인증 완료";
+
+    const finalBtn = document.getElementById("modalFinalSubmitBtn");
+    finalBtn.disabled = false;
+    finalBtn.style.background = "#1165d7";
+    finalBtn.style.cursor = "pointer";
+    finalBtn.textContent = "✅ 최종 안심 매칭 등록 완료하기";
+    finalBtn.focus();
+  } catch (err) {
+    modalStatus("error", err.message || "인증 확인 실패");
+    this.disabled = false;
+    this.textContent = "인증 확인";
+  }
+});
+
+// 최종 등록 버튼 클릭
+document.getElementById("modalFinalSubmitBtn").addEventListener("click", async function() {
+  if (!modalPhoneVerified || !modalVerifiedPhone) {
+    return modalStatus("error", "먼저 휴대전화 인증을 완료해 주세요.");
+  }
+  this.disabled = true;
+  this.textContent = "매칭 요청 저장 중...";
+
+  try {
+    const result = await savePropertyRequest(modalVerifiedPhone);
+    const savedNumber = result.requestNumber;
+    localStorage.setItem("wooriapt_request_number", savedNumber);
+    localStorage.setItem("wooriapt_buyer_phone", modalVerifiedPhone);
+
+    modalStatus("ok", "🎉 등록이 완료되었습니다! (요청번호: " + savedNumber + "번)");
+    setTimeout(() => {
+      location.href = "index.html";
+    }, 1500);
+  } catch (err) {
+    modalStatus("error", err.message || "저장 실패. 다시 시도해 주세요.");
+    this.disabled = false;
+    this.textContent = "최종 안심 매칭 등록 완료하기";
+  }
+});
 
 </script>
 
