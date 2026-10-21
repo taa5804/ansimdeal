@@ -800,8 +800,8 @@ async function aptHandleApartmentPage(req, res) {
     const primaryApproval = firstValue(firstRow, ["사용승인일", "준공년월"]);
 
     const description = apartment
-      ? `${subject} 실거래가·매물·시세 및 단지 기본정보(${primaryRoadAddr ? primaryRoadAddr + ", " : ""}${primaryHouseholds ? primaryHouseholds + "세대, " : ""}${primaryBuilder ? primaryBuilder + " 시공" : "국토부 등록 단지"}). 우리아파트 안심거래에서 중개수수료 50% 절감 혜택과 지역 공인중개사 1:1 맞춤 매물 제안을 받아보세요.`
-      : `${subject} 실거래가·시세 및 ${place} 지역 아파트 단지 총 ${rows.length}곳의 세대수·층수·도로명주소 정보를 확인하세요. 우리아파트 안심거래에서 원하는 매수·전세·월세 조건을 등록하면 중개수수료 50%에 안전하게 계약할 수 있습니다.`;
+      ? `${subject} 실거래가·매물·시세 및 단지 정보. 전세사기·깡통전세·중개사고 걱정 없는 [아파트 안심딜]에서 아파트 매수·임차 희망조건을 등록하고 매칭수수료 및 중개수수료 50% 절감 혜택과 검증된 공인중개사 1:1 맞춤 제안을 받아보세요.`
+      : `${subject} 실거래가·시세 및 ${place} 아파트 단지 정보. 전세사기·깡통전세 방지 [아파트 안심딜]에서 매매(매수)·전월세(임차) 조건을 등록하면 수수료 및 매칭수수료 50% 반값으로 안전하게 계약할 수 있습니다.`;
 
     // Unique apartment rows by 단지명
     const uniqueAptMap = new Map();
@@ -1009,15 +1009,15 @@ async function aptHandleApartmentPage(req, res) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${aptHtml(subject)} | 실거래가·단지정보·수수료 50% 절약 | 우리아파트 안심거래</title>
+<title>[아파트 안심딜] ${aptHtml(subject)} 실거래가·시세 | 매칭수수료 50% 절감 · 전세사기 예방</title>
 <meta name="description" content="${aptHtml(description)}">
-<meta name="keywords" content="${aptHtml(location + " 아파트, " + subject + ", " + place + " 아파트 매매, " + place + " 아파트 전세, " + place + " 아파트 월세, " + (apartment ? apartment + " 실거래가, " + apartment + " 매매, " : "") + "아파트 지도 말풍선, 단지별 말풍선 실거래 지도, 점포 상가 상권분석 지도, 우리아파트 안심거래, 부동산 중개수수료 반값")}">
+<meta name="keywords" content="${aptHtml(location + " 아파트, " + subject + ", " + place + " 아파트 매매, " + place + " 아파트 전세, " + place + " 아파트 월세, " + place + " 아파트 매수, " + place + " 아파트 임차, " + (apartment ? apartment + " 실거래가, " + apartment + " 매매, " : "") + "아파트 안심딜, 안심딜, 전세사기 예방, 깡통전세 방지, 중개사고 보증, 수수료 50%, 매칭수수료 50%, 매칭수수료 반값")}">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="${aptHtml(canonical)}">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="우리아파트 안심거래">
+<meta property="og:site_name" content="아파트 안심딜">
 <meta property="og:locale" content="ko_KR">
-<meta property="og:title" content="${aptHtml(subject)} | 우리아파트 안심거래">
+<meta property="og:title" content="[아파트 안심딜] ${aptHtml(subject)} | 매칭수수료 50% 절감">
 <meta property="og:description" content="${aptHtml(description)}">
 <meta property="og:url" content="${aptHtml(canonical)}">
 <meta property="og:image" content="${SITE_ORIGIN}/apt-hero.png">
@@ -2367,9 +2367,9 @@ async function handleBrokerPage(req, res) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${html(title)}</title>
+<title>[아파트 안심딜] ${html(title)} | 안심중개·수수료 50% 절감</title>
 <meta name="description" content="${html(description)}">
-<meta name="keywords" content="${html(location + " 공인중개사, " + location + " 부동산, " + place + " 공인중개사사무소, " + (broker ? broker + ", " : "") + place + " 아파트 매매, " + place + " 아파트 전세, 점포 상가 상권분석 지도, 아파트 지도 말풍선, 우리아파트 안심거래")}">
+<meta name="keywords" content="${html(location + " 공인중개사, " + location + " 부동산, " + place + " 공인중개사, " + (broker ? broker + ", " : "") + place + " 아파트 매수, " + place + " 아파트 임차, 아파트 안심딜, 안심딜, 수수료 50%, 매칭수수료 50%, 전세사기 예방, 중개사고 보증")}">>
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="${html(canonical)}">
 <meta property="og:type" content="website">
