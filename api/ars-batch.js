@@ -1,3 +1,8 @@
+let localBrokersDirectory = null;
+try {
+  localBrokersDirectory = require("./brokers_dispatch_directory.json");
+} catch (e) {}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ ok: false, message: "허용되지 않은 요청입니다." });
@@ -317,9 +322,19 @@ export default async function handler(req, res) {
     const alreadySentPhones = (Array.isArray(previousLogs) ? previousLogs : []).map(r => r.broker_phone);
 
     // 대상 동네 중개사 선별
-    const nonMembers = await supabaseGet(
+    let nonMembers = await supabaseGet(
       `agent_nonmembers?dong=eq.${encodeURIComponent(request.dong)}&select=id,phone,office_name,receive_blocked`
     ).catch(() => []);
+
+    if ((!Array.isArray(nonMembers) || nonMembers.length === 0) && localBrokersDirectory) {
+      const list = localBrokersDirectory[request.dong] || [];
+      nonMembers = list.map((item, idx) => ({
+        id: "local-" + encodeURIComponent(request.dong) + "-" + idx,
+        office_name: item[0],
+        phone: item[1],
+        receive_blocked: false
+      }));
+    }
 
     const selected = pickTenNonMembers(nonMembers, alreadySentPhones, 10);
     const mobileRecipients = selected.filter(item => isMobilePhone(item.phone));
