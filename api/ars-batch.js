@@ -336,7 +336,16 @@ export default async function handler(req, res) {
       }));
     }
 
-    const selected = pickTenNonMembers(nonMembers, alreadySentPhones, 10);
+    let selected = [];
+    if (body.testMode) {
+      // [안전 잠금] 테스트 시 실제 부동산 발송 절대 차단 -> 대표님 테스트 번호로만 발송
+      selected = [
+        { id: "test-mobile", office_name: "테스트(대표님 휴대폰)", phone: "010-2286-4150", receive_blocked: false },
+        { id: "test-landline", office_name: "테스트(회사 전화)", phone: "062-952-4150", receive_blocked: false }
+      ];
+    } else {
+      selected = pickTenNonMembers(nonMembers, alreadySentPhones, 10);
+    }
     const mobileRecipients = selected.filter(item => isMobilePhone(item.phone));
     const voiceRecipients = selected.filter(item => !isMobilePhone(item.phone));
 
