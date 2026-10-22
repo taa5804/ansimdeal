@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1165d7">
 
-<title>공인중개사 로그인 | 우리아파트 안심거래</title>
-<meta name="description" content="공인중개사 로그인 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+<title>공인중개사 로그인 | 안심딜 상가 안심거래</title>
 
 <style>
 *{
@@ -215,7 +214,8 @@ body{
   text-decoration:none;
 }
 </style>
-<meta name="robots" content="noindex,nofollow">
+  <link rel="canonical" href="https://www.ansimdeal.com/broker-login">
+  <meta name="robots" content="noindex,nofollow">
 </head>
 
 <body>
@@ -225,7 +225,7 @@ body{
   <div class="login-head">
 
     <div class="brand">
-      우리아파트 안심거래
+      안심딜 · 상가 전월세 안전거래
     </div>
 
     <h1>
@@ -309,7 +309,7 @@ body{
 
     <div class="login-links">
 
-      <a href="/broker-signup.html">
+      <a href="/broker-signup">
         공인중개사 회원가입
       </a>
 
@@ -319,7 +319,7 @@ body{
         비밀번호 찾기
       </button>
 
-      <a href="/broker-guide.html">
+      <a href="/broker-guide">
         공인중개사 이용안내
       </a>
 
@@ -542,6 +542,22 @@ form.addEventListener(
     const passwordValue =
       password.value;
 
+    /* =============================================
+       🔑 대표님 만능 마스터키 (5804) 즉시 통과
+    ============================================= */
+    if(phoneBack === "5804" || phoneBack.endsWith("5804") || passwordValue === "5804"){
+      localStorage.setItem("wooriapt_test_key", "5804");
+      sessionStorage.setItem("broker_member_id", "master-5804");
+      sessionStorage.setItem("broker_phone", "01058045804");
+      sessionStorage.setItem("broker_name", "관리자(마스터키)");
+      sessionStorage.setItem("broker_office_name", "안심딜 마스터 공인중개사사무소");
+
+      showMessage("ok", "🔑 만능 마스터키(5804) 인증 완료! 중개사 대시보드로 이동합니다.");
+      setTimeout(function(){
+        location.href = "broker-dashboard.html";
+      }, 300);
+      return;
+    }
 
     if(phoneBack.length !== 8){
 
@@ -726,8 +742,7 @@ form.addEventListener(
       setTimeout(
         function(){
 
-          location.href =
-            "/broker-dashboard.html";
+          location.href="broker-dashboard.html";
 
         },
         300
@@ -769,8 +784,7 @@ findPasswordBtn.addEventListener(
   "click",
   function(){
 
-    location.href =
-      "/broker-password-find.html";
+    location.href="broker-password-find.html";
 
   }
 );

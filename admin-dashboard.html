@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1165d7">
 
-<title>본사 관리자 | 안심딜</title>
-<meta name="description" content="본사 관리자 | 안심딜 - 국토부 실거래 기반 안심딜 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+<title>본사 관리자 | 점포·상가 전세·월세 안심거래</title>
+<meta name="description" content="본사 관리자 | 점포·상가 전세·월세 안심거래 - 점포·상가 전세·월세 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
 
 <style>
 *{
@@ -498,15 +498,9 @@ h1{
   }
 }
 </style>
-<link rel="canonical" href="https://www.wooriapt.app/admin-dashboard.html">
-<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="안심딜">
-<meta property="og:title" content="본사 관리자 | 안심딜">
-<meta property="og:description" content="본사 관리자 | 안심딜 - 국토부 실거래 기반 안심딜 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
-<meta property="og:url" content="https://www.wooriapt.app/admin-dashboard.html">
-<meta property="og:image" content="https://www.wooriapt.app/apt-hero.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"본사 관리자 | 안심딜","description":"본사 관리자 | 안심딜 - 국토부 실거래 기반 안심딜 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.","url":"https://www.wooriapt.app/admin-dashboard.html","isPartOf":{"@type":"WebSite","name":"안심딜","url":"https://www.wooriapt.app/"}}</script>
+  <link rel="canonical" href="https://www.ansimdeal.com/admin-dashboard">
+  <meta property="og:url" content="https://www.ansimdeal.com/admin-dashboard">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 </head>
 
 <body>
@@ -521,7 +515,7 @@ h1{
 <header class="header">
 
   <a class="brand" href="/">
-    🏬 <strong>안심딜</strong>
+    🏪 점포·상가 전세·월세 <strong>안심거래</strong>
   </a>
 
   <button
@@ -547,7 +541,7 @@ h1{
   </h1>
 
   <p class="desc">
-    안심딜 전체 운영현황을 관리합니다.
+    점포·상가 전세·월세 안심거래 전체 운영현황을 관리합니다.
   </p>
 
 
@@ -588,11 +582,11 @@ h1{
       <span class="menu-text">
 
         <span class="menu-title">
-          상가·점포 요청 관리
+          임차 요청 관리
         </span>
 
         <span class="menu-desc">
-          상가·점포 임차/월세/양도양수 요청 관리
+          점포·상가 전세·월세 요청현황 관리
         </span>
 
       </span>
@@ -640,7 +634,7 @@ h1{
         </span>
 
         <span class="menu-desc">
-          직거래·전자계약·에스크로 진행 관리
+          계약 진행중·입금확인·거래완료 관리
         </span>
 
       </span>
@@ -664,7 +658,7 @@ h1{
         </span>
 
         <span class="menu-desc">
-          회원 중개사 및 가맹점 관리
+          공인중개사 회원비 및 이용상태 관리
         </span>
 
       </span>
@@ -804,7 +798,7 @@ h1{
 
 
 <!-- =========================================
-     2. 매수·임차 요청 관리
+     2. 임차 요청 관리
 ========================================= -->
 
 <section
@@ -819,11 +813,11 @@ h1{
   </button>
 
   <h2 class="panel-title">
-    상가·점포 요청 관리
+    임차 요청 관리
   </h2>
 
   <p class="panel-desc">
-    등록된 상가·점포 임차, 월세, 매매, 양도양수 희망조건 요청현황을 확인합니다.
+    등록된 점포·상가 전세·월세 희망조건 요청현황을 확인합니다.
   </p>
 
 
@@ -835,18 +829,18 @@ h1{
     </div>
 
     <div class="summary">
-      <div class="summary-label">상가 임차·월세</div>
+      <div class="summary-label">점포·상가 전세</div>
+      <div class="summary-value" id="reqJeonse">0</div>
+    </div>
+
+    <div class="summary">
+      <div class="summary-label">점포·상가 월세</div>
       <div class="summary-value" id="reqMonthly">0</div>
     </div>
 
     <div class="summary">
-      <div class="summary-label">상가 매매</div>
-      <div class="summary-value" id="reqSale">0</div>
-    </div>
-
-    <div class="summary">
-      <div class="summary-label">양도양수</div>
-      <div class="summary-value" id="reqJeonse">0</div>
+      <div class="summary-label">진행중 요청</div>
+      <div class="summary-value" id="reqOpen">0</div>
     </div>
 
   </div>
@@ -856,22 +850,21 @@ h1{
 
     <select id="requestTypeFilter" onchange="renderRequests()">
       <option value="">전체 거래유형</option>
-      <option value="monthly">상가 임차·월세</option>
-      <option value="sale">상가 매매</option>
-      <option value="jeonse">양도양수</option>
+      <option value="jeonse">점포·상가 전세</option>
+      <option value="monthly">점포·상가 월세</option>
     </select>
 
     <input
       id="requestSearch"
       type="search"
       oninput="renderRequests()"
-      placeholder="지역·상가/점포명·업종·요청번호">
+      placeholder="지역·점포/상가·요청번호">
 
   </div>
 
 
   <div id="requestList" class="list">
-    <div class="empty">등록된 상가·점포 요청이 이곳에 표시됩니다.</div>
+    <div class="empty">등록된 임차 요청이 이곳에 표시됩니다.</div>
   </div>
 
 </section>
@@ -972,7 +965,7 @@ h1{
   </h2>
 
   <p class="panel-desc">
-    계약 진행중 거래의 플랫폼 이용료 입금 확인 및 완료된 거래를 확인합니다.
+    계약 진행중 거래의 플랫폼 이용료 입금 확인 및 완료된 거래를 관리합니다.
   </p>
 
 
@@ -1014,7 +1007,7 @@ h1{
       id="txSearch"
       type="search"
       oninput="renderTransactions()"
-      placeholder="4자리 거래 진행 코드·상가/점포명">
+      placeholder="4자리 거래 진행 코드·매물명">
 
   </div>
 
@@ -1242,7 +1235,7 @@ h1{
   </h2>
 
   <p class="panel-desc">
-    안심딜의 기본 운영값을 설정합니다.
+    점포·상가 전세·월세 안심거래의 기본 운영값을 설정합니다.
   </p>
 
 
@@ -1361,7 +1354,7 @@ h1{
 
 
 <div class="footer">
-  © 안심딜
+  © 점포·상가 전세·월세 안심거래
 </div>
 
 </div>
@@ -1494,7 +1487,7 @@ async function loadDashboardData(){
             status: r.status || "OPEN",
             tradeRoomCode: m ? m[1] : null,
             transactionNumber: m ? m[2] : null,
-            tradeType: m ? (m[3] || "sale") : "sale",
+            tradeType: m ? (m[3] || "monthly") : "monthly",
             feePaid: m ? m[4] === "Y" : false,
             createdAt: r.created_at
           };
@@ -1522,11 +1515,11 @@ function mergeLocalTransactions(){
     const savedBrokerSt = JSON.parse(localStorage.getItem("wooriapt_admin_broker_5804") || "{}");
     state.brokers.push({
       id: "master-5804",
-      office_name: "안심파트너 공인중개사사무소",
+      office_name: "강남안심 공인중개사사무소",
       representative_name: "홍길동 (마스터키 회원)",
-      phone: "010-5804-5804",
+      phone: "010-5804-1234",
       office_registration_no: "11680-2024-05804",
-      email: "ansim@wooriapt.app",
+      email: "ansim@ansimdeal.com",
       registration_status: savedBrokerSt.registration_status || "ACTIVE",
       membership_status: savedBrokerSt.membership_status || "ACTIVE",
       created_at: new Date().toISOString()
@@ -1551,7 +1544,7 @@ function mergeLocalTransactions(){
           byCode.set(code, {
             id: "local-" + code,
             requestNumber: code,
-            apartment: d.aptName || "상가·점포 매물",
+            apartment: d.aptName || "점포·상가 매물",
             amount: d.price ? (Number(d.price).toLocaleString() + "원") : "-",
             floor: d.dongHo || "-",
             area: "-",
@@ -1560,7 +1553,7 @@ function mergeLocalTransactions(){
             status: d.completed ? "COMPLETED" : "OPEN",
             tradeRoomCode: code,
             transactionNumber: "TR" + code + "0001",
-            tradeType: d.dealType || "sale",
+            tradeType: d.dealType || "monthly",
             feePaid: !!d.feePaid || isLocalPaid(code, "TR" + code + "0001"),
             createdAt: new Date().toISOString()
           });
@@ -1573,16 +1566,16 @@ function mergeLocalTransactions(){
     byCode.set("5804", {
       id: "prop-5804-1",
       requestNumber: "5804",
-      apartment: "[만능키 테스트] 역삼동 래미안 84㎡ (중층)",
-      amount: "매매 14억 5,000만원",
-      floor: "12층 / 25층",
-      area: "전용 84㎡ (34평)",
-      officeName: "안심파트너 공인중개사사무소",
-      officePhone: "010-5804-5804",
+      apartment: "[상가 월세] 역삼역 도보 3분 대로변 이면 1층 코너 점포 (전용 22평)",
+      amount: "보증금 3,000만원 / 월세 230만원",
+      floor: "지상 1층",
+      area: "전용 22평 (약 72.7㎡)",
+      officeName: "강남안심 공인중개사사무소",
+      officePhone: "010-5804-1234",
       status: "OPEN",
       tradeRoomCode: "5804",
       transactionNumber: "TR58040001",
-      tradeType: "sale",
+      tradeType: "monthly",
       feePaid: isLocalPaid("5804", "TR58040001"),
       createdAt: new Date().toISOString()
     });
@@ -1682,15 +1675,15 @@ window.updateBrokerStatus = async function(id, nextStatus){
 };
 
 /* =========================================
-   2. 매수·임차 요청 관리 렌더링
+   2. 임차 요청 관리 렌더링
 ========================================= */
 
 window.renderRequests = function(){
   const list = state.requests;
   document.getElementById("reqTotal").textContent = list.length;
-  document.getElementById("reqSale").textContent = list.filter(r => r.request_type === "sale").length;
   document.getElementById("reqJeonse").textContent = list.filter(r => r.request_type === "jeonse").length;
   document.getElementById("reqMonthly").textContent = list.filter(r => r.request_type === "monthly").length;
+  document.getElementById("reqOpen").textContent = list.filter(r => (r.status || "OPEN").toUpperCase() === "OPEN").length;
 
   const typeFilter = document.getElementById("requestTypeFilter").value;
   const keyword = (document.getElementById("requestSearch").value || "").trim().toLowerCase();
@@ -1706,18 +1699,18 @@ window.renderRequests = function(){
 
   const box = document.getElementById("requestList");
   if(filtered.length === 0){
-    box.innerHTML = '<div class="empty">등록된 매수·임차 요청이 없습니다.</div>';
+    box.innerHTML = '<div class="empty">등록된 점포·상가 임차 요청이 없습니다.</div>';
     return;
   }
 
   box.innerHTML = filtered.map(function(r){
-    const tLabel = r.request_type === "sale" ? "매매" : (r.request_type === "jeonse" ? "전세" : "월세");
+    const tLabel = r.request_type === "jeonse" ? "점포·상가 전세" : (r.request_type === "monthly" ? "점포·상가 월세" : "점포·상가 매매");
     const isOpen = (r.status || "OPEN").toUpperCase() === "OPEN";
     return `
       <div class="list-item">
         <div class="list-top">
           <div>
-            <div class="list-title">[요청번호 ${esc(r.request_number)}] ${esc(r.sido)} ${esc(r.sigungu)} ${esc(r.dong)} · ${esc(r.apartment || "희망단지 전체")}</div>
+            <div class="list-title">[요청번호 ${esc(r.request_number)}] ${esc(r.sido)} ${esc(r.sigungu)} ${esc(r.dong)} · ${esc(r.apartment || "희망상권 전체")}</div>
             <div class="list-sub">
               유형: ${tLabel} | 희망면적: ${esc(r.size || "-")} | 입주희망일: ${esc(r.move_date || "-")}<br>
               신청자 연락처: ${esc(r.phone || "-")} | 등록일: ${fmtDate(r.created_at)}
@@ -2036,7 +2029,7 @@ window.renderMessages = function(){
     if(Number(r.ars_round || 0) > 0){
       logs.push({
         title: `[${r.ars_round}차 공인중개사 알림] 요청번호 ${r.request_number}`,
-        sub: `지역: ${r.sido} ${r.sigungu} ${r.dong} | 단지: ${r.apartment || "전체"}`,
+        sub: `지역: ${r.sido} ${r.sigungu} ${r.dong} | 대상: ${r.apartment || "전체"}`,
         status: "발송 성공"
       });
     }

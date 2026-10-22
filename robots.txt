@@ -1,5 +1,17 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /head-admin
+Disallow: /sale-admin
+Disallow: /room-manager
+Disallow: /system-settings
+Disallow: /mart_admin
+Disallow: /mart_hq-dashboard
+Disallow: /mart_hq-store-account
+Disallow: /point-settlement
+Disallow: /charge-history
+Disallow: /charge-management
+Disallow: /inquiry-status
 
 User-agent: Yeti
 Allow: /
@@ -15,6 +27,4 @@ Allow: /
 
 Sitemap: https://www.ansimdeal.com/sitemap.xml
 Sitemap: https://www.ansimdeal.com/pages-sitemap.xml
-Sitemap: https://www.ansimdeal.com/apt-sitemap.xml
 Sitemap: https://www.ansimdeal.com/broker-sitemap.xml
-Sitemap: https://www.ansimdeal.com/mart-sitemap.xml

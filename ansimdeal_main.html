@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>안심딜 - 상가·점포 전월세 안심거래 플랫폼</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0369a1 100%);
+    }
+  </style>
+  <link rel="canonical" href="https://www.ansimdeal.com/ansimdeal_main">
+  <meta property="og:url" content="https://www.ansimdeal.com/ansimdeal_main">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <meta name="description" content="안심딜 - 상가·점포 전월세 안심거래 플랫폼 - 수수료 50% 절감 및 실거래 팩트 검증 안심거래 플랫폼입니다.">
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
+
+  <!-- GNB (상단 네비게이션) -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <!-- 로고 -->
+      <div class="flex items-center gap-3">
+        <a href="#" class="flex items-center gap-2">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-blue-500/20">
+            딜
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-xl font-black tracking-tight text-slate-900">안심딜</span>
+              <span class="text-[11px] font-semibold bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">상가·점포</span>
+            </div>
+            <p class="text-[10px] text-slate-400 font-medium">상가·점포 전월세 안심거래</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- 메뉴 -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
+        <a href="#hero-search" class="text-blue-600 hover:text-blue-700 transition">점포 찾기(임차)</a>
+        <a href="#register-deal" class="hover:text-blue-600 transition">내 점포 내놓기(임대)</a>
+        <a href="#safe-system" class="hover:text-blue-600 transition">상가 안심검증 시스템</a>
+        <a href="#process" class="hover:text-blue-600 transition">거래 절차</a>
+        <a href="#brokers" class="hover:text-blue-600 transition">공인중개사 파트너</a>
+      </nav>
+
+      <!-- 우측 CTA -->
+      <div class="flex items-center gap-2.5">
+        <button class="text-xs font-semibold px-3 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition">로그인</button>
+        <button onclick="document.getElementById('hero-search').scrollIntoView({behavior: 'smooth'})" 
+                class="text-xs font-bold px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm shadow-blue-600/30 transition">
+          안심거래 신청
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 메인 히어로 섹션 -->
+  <section class="hero-gradient text-white pt-14 pb-20 px-4 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px]"></div>
+    
+    <div class="max-w-4xl mx-auto text-center relative z-10">
+      <!-- 뱃지 -->
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-200 text-xs font-semibold mb-5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        권리금 사기·위반건축물 걱정 없는 100% 안전 거래
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight sm:leading-snug">
+        원하는 상가 조건만 등록하세요<br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 via-sky-300 to-emerald-300">
+          검증된 공인중개사가 최적 매물
+        </span>을 제안합니다
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-normal">
+        발품 팔 필요 없이 업종·예산·희망 상권만 등록하면, 지역 전문 중개사가 딱 맞는 상가·점포를 제안하고 전자계약까지 안전하게 연결합니다.
+      </p>
+
+      <!-- 통계 바 -->
+      <div class="mt-8 grid grid-cols-3 max-w-lg mx-auto bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/10 text-center">
+        <div>
+          <div class="text-xl sm:text-2xl font-black text-white">1,840<span class="text-xs font-normal text-slate-300">건</span></div>
+          <div class="text-[11px] text-slate-300 font-medium">누적 안심매칭</div>
+        </div>
+        <div class="border-x border-white/15">
+          <div class="text-xl sm:text-2xl font-black text-emerald-300">50%<span class="text-xs font-normal text-slate-300">↓</span></div>
+          <div class="text-[11px] text-slate-300 font-medium">중개보수 할인</div>
+        </div>
+        <div>
+          <div class="text-xl sm:text-2xl font-black text-sky-300">0<span class="text-xs font-normal text-slate-300">건</span></div>
+          <div class="text-[11px] text-slate-300 font-medium">권리사고 발생률</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 핵심 거래 등록 폼 (우리아파트 모델을 상가·점포로 전환) -->
+    <div id="hero-search" class="max-w-3xl mx-auto mt-10 relative z-20">
+      <div class="bg-white rounded-2xl shadow-2xl border border-slate-200/80 p-5 sm:p-7 text-slate-800">
+        
+        <!-- 탭 스위치 (임차인: 상가 구해요 vs 임대인: 점포 내놓기) -->
+        <div class="flex p-1 bg-slate-100 rounded-xl mb-6">
+          <button id="tab-find" onclick="switchTab('find')" class="flex-1 py-2.5 rounded-lg font-bold text-sm bg-white text-blue-600 shadow-sm transition">
+            🔑 상가·점포 구해요 (임차 희망)
+          </button>
+          <button id="tab-give" onclick="switchTab('give')" class="flex-1 py-2.5 rounded-lg font-bold text-sm text-slate-600 hover:text-slate-900 transition">
+            🏢 내 점포 내놓기 (임대·양도)
+          </button>
+        </div>
+
+        <!-- [폼 1] 상가 점포 구하기 폼 -->
+        <div id="form-find" class="space-y-4">
+          <!-- 1. 희망 지역 & 상권 -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">희망 지역 및 상권</label>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <select class="border border-slate-300 rounded-lg px-3 py-2.5 text-sm bg-slate-50 focus:bg-white focus:border-blue-500 focus:outline-none">
+                <option>서울특별시</option>
+                <option>경기도</option>
+                <option>인천광역시</option>
+                <option>부산광역시</option>
+              </select>
+              <select class="border border-slate-300 rounded-lg px-3 py-2.5 text-sm bg-slate-50 focus:bg-white focus:border-blue-500 focus:outline-none">
+                <option>강남구</option>
+                <option>마포구</option>
+                <option>영등포구</option>
+                <option>송파구</option>
+                <option>분당구</option>
+              </select>
+              <input type="text" placeholder="선호 지하철역/상권 (예: 홍대입구역)" class="col-span-2 sm:col-span-1 border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:border-blue-500 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- 2. 창업 및 운영 희망 업종 -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">창업·입점 희망 업종</label>
+            <div class="grid grid-cols-3 sm:grid-cols-6 gap-1.5 text-center text-xs">
+              <button type="button" onclick="selectCategory(this)" class="cat-btn py-2 px-2 border rounded-lg border-blue-600 bg-blue-50 font-bold text-blue-700">☕ 카페·디저트</button>
+              <button type="button" onclick="selectCategory(this)" class="cat-btn py-2 px-2 border rounded-lg border-slate-200 hover:bg-slate-50 text-slate-600">🍲 일반음식점</button>
+              <button type="button" onclick="selectCategory(this)" class="cat-btn py-2 px-2 border rounded-lg border-slate-200 hover:bg-slate-50 text-slate-600">🍺 주점·호프</button>
+              <button type="button" onclick="selectCategory(this)" class="cat-btn py-2 px-2 border rounded-lg border-slate-200 hover:bg-slate-50 text-slate-600">💇 뷰티·미용</button>
+              <button type="button" onclick="selectCategory(this)" class="cat-btn py-2 px-2 border rounded-lg border-slate-200 hover:bg-slate-50 text-slate-600">🛍️ 소매·의류</button>
+              <button type="button" onclick="selectCategory(this)" class="cat-btn py-2 px-2 border rounded-lg border-slate-200 hover:bg-slate-50 text-slate-600">📦 사무·기타</button>
+            </div>
+          </div>
+
+          <!-- 3. 예산 조건 (보증금 / 월세 / 권리금) -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">최대 보증금</label>
+              <div class="relative">
+                <input type="number" placeholder="예: 3000" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm pr-10 focus:border-blue-500 focus:outline-none">
+                <span class="absolute right-3 top-2.5 text-xs text-slate-400 font-medium">만원</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">최대 월세</label>
+              <div class="relative">
+                <input type="number" placeholder="예: 250" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm pr-10 focus:border-blue-500 focus:outline-none">
+                <span class="absolute right-3 top-2.5 text-xs text-slate-400 font-medium">만원</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">희망 권리금</label>
+              <select class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm bg-white focus:border-blue-500 focus:outline-none">
+                <option>권리금 없음 (무권리만)</option>
+                <option selected>협의 가능 (2,000만원 이하)</option>
+                <option>협의 가능 (5,000만원 이하)</option>
+                <option>제한 없음 (매출 우수 점포)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 4. 희망 면적 & 층수 -->
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">희망 전용면적</label>
+              <select class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm bg-white focus:border-blue-500 focus:outline-none">
+                <option>전체 무관</option>
+                <option selected>10평 ~ 15평 (소형 점포)</option>
+                <option>15평 ~ 30평 (중형 매장)</option>
+                <option>30평 이상 (대형 매장)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">희망 층수</label>
+              <select class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm bg-white focus:border-blue-500 focus:outline-none">
+                <option selected>1층 전용 (로드샵)</option>
+                <option>2층 이상 (저비용 상층부)</option>
+                <option>지하 1층 가능 (주점/음악 등)</option>
+                <option>층수 무관</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 안심 혜택 체크 & 제출 버튼 -->
+          <div class="pt-2">
+            <div class="bg-blue-50/70 rounded-xl p-3 border border-blue-100 flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold">✓</span>
+                <span class="text-xs font-bold text-blue-900">상가 안심거래 패키지 기본 적용</span>
+              </div>
+              <span class="text-[11px] text-blue-600 font-semibold">인허가 검증 + 중개수수료 50% 절감</span>
+            </div>
+
+            <button onclick="submitRequest()" class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-base shadow-lg shadow-blue-600/30 transition flex items-center justify-center gap-2">
+              <span>상가 임차 조건 등록하고 맞춤 매물 제안받기</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+            <p class="text-center text-[11px] text-slate-400 mt-2">조건 등록은 100% 무료이며, 불필요한 영업 전화는 일체 오지 않습니다.</p>
+          </div>
+        </div>
+
+        <!-- [폼 2] 내 점포 내놓기 폼 (초기 숨김) -->
+        <div id="form-give" class="space-y-4 hidden">
+          <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-amber-800 text-xs flex items-center gap-2">
+            <span>📢</span>
+            <span>임대인 또는 양도 희망 점주님: 매물 등록 시 <strong>검증된 우량 임차인 매칭</strong> 및 <strong>비공개 양도</strong>가 가능합니다.</span>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">점포 소재지 주소</label>
+            <input type="text" placeholder="예: 서울시 마포구 독막로 123 (상세주소 포함)" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:border-blue-500 focus:outline-none">
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">현재 운영 업종</label>
+              <input type="text" placeholder="예: 베이커리 카페" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:border-blue-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">전용 면적 (평수)</label>
+              <input type="number" placeholder="예: 18" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:border-blue-500 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">희망 보증금 (만원)</label>
+              <input type="number" placeholder="3000" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:border-blue-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">희망 월세 (만원)</label>
+              <input type="number" placeholder="220" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:border-blue-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">희망 권리금 (만원)</label>
+              <input type="number" placeholder="1500 (없으면 0)" class="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:border-blue-500 focus:outline-none">
+            </div>
+          </div>
+
+          <button onclick="submitGiveRequest()" class="w-full py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-base shadow-lg transition">
+            내 점포 비공개 안심 등록하기
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 거래 절차 (우리아파트 4단계 모델 계승 및 상가 특화) -->
+  <section id="process" class="py-16 bg-white border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="text-xs font-bold text-blue-600 tracking-wider uppercase mb-1">PROCESS</h2>
+        <p class="text-2xl sm:text-3xl font-extrabold text-slate-900">상가 전월세도 이렇게 안전합니다</p>
+        <p class="text-sm text-slate-500 mt-2">조건 등록부터 계약 체결까지, 안심딜만의 4단계 프로세스</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <!-- 1단계 -->
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 relative group hover:border-blue-400 hover:bg-blue-50/30 transition">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 font-black flex items-center justify-center text-sm mb-4">
+            01
+          </div>
+          <h3 class="font-bold text-base text-slate-900 mb-1.5">희망 조건 등록</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            원하는 업종, 상권, 예산(보증금/월세/권리금 한도)을 3분 만에 무료로 등록합니다.
+          </p>
+        </div>
+
+        <!-- 2단계 -->
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 relative group hover:border-blue-400 hover:bg-blue-50/30 transition">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 font-black flex items-center justify-center text-sm mb-4">
+            02
+          </div>
+          <h3 class="font-bold text-base text-slate-900 mb-1.5">전문 중개사 매물 제안</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            상권 전문 공인중개사가 허위 매물 없는 실매물과 최적 조건을 1:1로 제안합니다.
+          </p>
+        </div>
+
+        <!-- 3단계 -->
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 relative group hover:border-blue-400 hover:bg-blue-50/30 transition">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 text-white font-black flex items-center justify-center text-sm mb-4 shadow-sm shadow-blue-500/30">
+            03
+          </div>
+          <h3 class="font-bold text-base text-slate-900 mb-1.5">상가 안심 정밀검증</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            업종 인허가 가능 여부, 정화조 용량, 위반건축물, 환산보증금 대항력을 사전 검증합니다.
+          </p>
+        </div>
+
+        <!-- 4단계 -->
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 relative group hover:border-blue-400 hover:bg-blue-50/30 transition">
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 font-black flex items-center justify-center text-sm mb-4">
+            04
+          </div>
+          <h3 class="font-bold text-base text-slate-900 mb-1.5">안심 전자계약 체결</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            국토교통부 전자계약 시스템으로 안전 계약 후, 중개수수료 최대 50% 혜택을 받습니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 상가 안심거래 핵심 3대 안전장치 (대지/건물 대비 상가만의 핵심 불안 해결) -->
+  <section id="safe-system" class="py-16 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="text-xs font-bold text-blue-600 tracking-wider uppercase mb-1">SAFETY FIRST</h2>
+        <p class="text-2xl sm:text-3xl font-extrabold text-slate-900">상가 계약, 왜 안심딜이어야 할까요?</p>
+        <p class="text-sm text-slate-500 mt-2">일반 부동산 거래에서 가장 빈번하게 터지는 상가 분쟁을 사전에 차단합니다</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- 1: 업종 인허가 & 위반건축물 검증 -->
+        <div class="bg-white p-7 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl mb-5">
+            📋
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">업종 인허가 & 정화조 사전 검증</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            계약 다 해놓고 구청에서 휴게음식점 인허가가 안 나거나 위반건축물로 이행강제금이 나오는 낭패를 방지하기 위해 관할 구청 대장 및 용도를 사전 점검합니다.
+          </p>
+          <div class="mt-4 pt-4 border-t border-slate-100 flex items-center text-[11px] font-bold text-rose-600">
+            ✓ 인허가 불발 시 계약금 전액 반환 특약
+          </div>
+        </div>
+
+        <!-- 2: 권리금 안심 에스크로 -->
+        <div class="bg-white p-7 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-5">
+            🛡️
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">권리금 먹튀 방지 에스크로</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            임대인이 신규 임대차계약을 거절하거나 과도하게 월세를 인상해 권리금 계약이 파기되는 경우, 지불한 권리금 계약금이 즉시 보호되도록 안전 장치를 가동합니다.
+          </p>
+          <div class="mt-4 pt-4 border-t border-slate-100 flex items-center text-[11px] font-bold text-blue-600">
+            ✓ 임대차 본계약 성립 시까지 대금 안전 보관
+          </div>
+        </div>
+
+        <!-- 3: 환산보증금 & 상가임대차보호법 분석 -->
+        <div class="bg-white p-7 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-5">
+            ⚖️
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">환산보증금 & 10년 갱신청구권 분석</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            지역별 환산보증금 기준 초과 여부를 계산하고, 임차인의 10년 계약갱신요구권과 권리금 회수 기회가 온전히 법적으로 보호받는지 전문 분석 리포트를 제공합니다.
+          </p>
+          <div class="mt-4 pt-4 border-t border-slate-100 flex items-center text-[11px] font-bold text-emerald-600">
+            ✓ 1:1 맞춤형 상가 권리분석서 자동 발행
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 실시간 등록 현황 티커 (플랫폼 신뢰도 제고) -->
+  <section class="py-12 bg-white border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
+        <div>
+          <h3 class="text-lg font-bold text-slate-900">실시간 상가·점포 임차 희망 요청</h3>
+          <p class="text-xs text-slate-500">방금 전 등록된 예비 창업자들의 맞춤 점포 요청 현황입니다.</p>
+        </div>
+        <span class="text-xs font-semibold text-blue-600 mt-2 sm:mt-0 flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+          실시간 매칭 진행 중
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <!-- 티커 카드 1 -->
+        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
+          <div class="flex items-center justify-between text-xs mb-2">
+            <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-700 font-bold">마포구 상수동</span>
+            <span class="text-slate-400">10분 전</span>
+          </div>
+          <div class="font-bold text-sm text-slate-900 mb-1">☕ 디저트 카페 (1층 로드샵)</div>
+          <div class="text-xs text-slate-600">보증금 3,000만 / 월세 200만 / 12~15평</div>
+          <div class="mt-3 flex items-center justify-between text-[11px] text-emerald-600 font-semibold pt-2 border-t border-slate-200">
+            <span>제안 중개사 4명 매칭 완료</span>
+            <span>검증 진행중</span>
+          </div>
+        </div>
+
+        <!-- 티커 카드 2 -->
+        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
+          <div class="flex items-center justify-between text-xs mb-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-bold">강남구 역삼동</span>
+            <span class="text-slate-400">32분 전</span>
+          </div>
+          <div class="font-bold text-sm text-slate-900 mb-1">🍲 일식 덮밥 전문점</div>
+          <div class="text-xs text-slate-600">보증금 5,000만 / 월세 350만 / 20평 내외</div>
+          <div class="mt-3 flex items-center justify-between text-[11px] text-blue-600 font-semibold pt-2 border-t border-slate-200">
+            <span>제안 중개사 6명 매칭 완료</span>
+            <span>매물 조율중</span>
+          </div>
+        </div>
+
+        <!-- 티커 카드 3 -->
+        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
+          <div class="flex items-center justify-between text-xs mb-2">
+            <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-700 font-bold">성동구 성수동</span>
+            <span class="text-slate-400">1시간 전</span>
+          </div>
+          <div class="font-bold text-sm text-slate-900 mb-1">🛍️ 디자이너 쇼룸·소매</div>
+          <div class="text-xs text-slate-600">보증금 4,000만 / 월세 280만 / 권리금 무관</div>
+          <div class="mt-3 flex items-center justify-between text-[11px] text-emerald-600 font-semibold pt-2 border-t border-slate-200">
+            <span>전자계약 조율 단계</span>
+            <span>안심검증 완료</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 하단 푸터 -->
+  <footer class="mt-auto bg-slate-900 text-slate-400 text-xs py-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-6 border-b border-slate-800">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-white font-extrabold text-base">안심딜</span>
+            <span class="text-slate-500">|</span>
+            <span class="text-slate-300 font-medium">상가·점포 전월세 안심거래 플랫폼</span>
+          </div>
+          <p class="text-slate-500 text-[11px] leading-relaxed">
+            안심딜은 통신판매중개자로서 부동산 직접 거래의 당사자가 아니며, 등록된 매물 및 공인중개사가 제공하는 정보에 대한 법적 책임은 각 거래 당사자 및 해당 중개사에게 있습니다.
+          </p>
+        </div>
+        <div class="flex items-center gap-4 text-xs font-medium text-slate-300">
+          <a href="#" class="hover:text-white">이용약관</a>
+          <a href="#" class="hover:text-white font-bold text-white">개인정보처리방침</a>
+          <a href="#" class="hover:text-white">중개사 제휴안내</a>
+          <a href="#" class="hover:text-white">고객센터</a>
+        </div>
+      </div>
+      <div class="pt-6 flex flex-col sm:flex-row justify-between items-center text-slate-500 text-[11px]">
+        <p>© 2026 안심딜 (AnsimDeal). All rights reserved.</p>
+        <p class="mt-2 sm:mt-0">고객상담: 1688-0000 (평일 09:30 ~ 18:00)</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 알림 모달 스크립트 -->
+  <script>
+    function switchTab(type) {
+      const tabFind = document.getElementById('tab-find');
+      const tabGive = document.getElementById('tab-give');
+      const formFind = document.getElementById('form-find');
+      const formGive = document.getElementById('form-give');
+
+      if (type === 'find') {
+        tabFind.className = 'flex-1 py-2.5 rounded-lg font-bold text-sm bg-white text-blue-600 shadow-sm transition';
+        tabGive.className = 'flex-1 py-2.5 rounded-lg font-bold text-sm text-slate-600 hover:text-slate-900 transition';
+        formFind.classList.remove('hidden');
+        formGive.classList.add('hidden');
+      } else {
+        tabGive.className = 'flex-1 py-2.5 rounded-lg font-bold text-sm bg-white text-blue-600 shadow-sm transition';
+        tabFind.className = 'flex-1 py-2.5 rounded-lg font-bold text-sm text-slate-600 hover:text-slate-900 transition';
+        formGive.classList.remove('hidden');
+        formFind.classList.add('hidden');
+      }
+    }
+
+    function selectCategory(btn) {
+      document.querySelectorAll('.cat-btn').forEach(b => {
+        b.className = 'cat-btn py-2 px-2 border rounded-lg border-slate-200 hover:bg-slate-50 text-slate-600';
+      });
+      btn.className = 'cat-btn py-2 px-2 border rounded-lg border-blue-600 bg-blue-50 font-bold text-blue-700';
+    }
+
+    function submitRequest() {
+      alert("✅ [안심딜] 상가·점포 임차 희망 조건이 등록되었습니다!\n\n관할 상권의 검증된 공인중개사가 최적 매물 제안을 준비합니다.\n(인허가 사전 검증 및 전자계약 할인 혜택이 적용됩니다.)");
+    }
+
+    function submitGiveRequest() {
+      alert("✅ [안심딜] 내 점포 임대·양도 신청이 접수되었습니다!\n\n비공개 안심 절차에 따라 우량 창업 희망 임차인과 우선 매칭을 시작합니다.");
+    }
+  </script>
+</body>
+</html>

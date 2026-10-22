@@ -1,0 +1,2844 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#15803d">
+<title>본사 관리자</title>
+
+<style>
+*{box-sizing:border-box}
+html,body{width:100%;min-height:100%;margin:0}
+body{
+  min-height:100vh;
+  padding:22px 14px 40px;
+  background:#f4f7f5;
+  color:#111827;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+#hqMain .wrap{width:100%;max-width:680px;margin:0 auto}
+#hqMain .header{
+  padding:24px 22px;border-radius:18px;
+  background:linear-gradient(135deg,#166534,#15803d);
+  color:#fff;box-shadow:0 12px 30px rgba(21,128,61,.2)
+}
+#hqMain .header-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#hqMain .header h1{margin:0;font-size:25px;line-height:1.35}
+#hqMain .header p{margin:8px 0 0;color:rgba(255,255,255,.86);font-size:14px;line-height:1.6}
+#hqMain .admin-id{flex-shrink:0;padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.16);font-size:13px;font-weight:700}
+#hqMain .status-box{margin-top:14px;padding:13px 15px;border:1px solid #d8e8dc;border-radius:12px;background:#fff;color:#375343;font-size:14px;line-height:1.55}
+#hqMain .menu-title{margin:24px 2px 12px;color:#26362c;font-size:17px;font-weight:800}
+#hqMain .menu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#hqMain .menu-card{
+  width:100%;min-height:150px;padding:20px 17px;border:1px solid #e0e7e2;border-radius:16px;
+  background:#fff;color:#111827;text-align:left;box-shadow:0 6px 20px rgba(15,23,42,.06);
+  cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;font:inherit
+}
+#hqMain .menu-card:active{transform:scale(.98)}
+#hqMain .menu-card:hover{box-shadow:0 10px 26px rgba(15,23,42,.1)}
+#hqMain .menu-icon{display:flex;align-items:center;justify-content:center;width:46px;height:46px;margin-bottom:16px;border-radius:13px;background:#edf7f0;font-size:23px}
+#hqMain .menu-card strong{display:block;color:#1f2937;font-size:17px;line-height:1.35}
+#hqMain .menu-card span{display:block;margin-top:7px;color:#64748b;font-size:13px;line-height:1.55}
+#hqMain .logout-button{width:100%;min-height:52px;margin-top:18px;border:0;border-radius:12px;background:#374151;color:#fff;font-size:16px;font-weight:800;cursor:pointer}
+#hqMain .logout-button:disabled{opacity:.6;cursor:wait}
+#hqMain .message{display:none;margin-top:14px;padding:13px 15px;border-radius:11px;font-size:14px;line-height:1.55}
+#hqMain .message.error{display:block;border:1px solid #efb8b8;background:#fff0f0;color:#a02020}
+#hqMain .message.waiting{display:block;border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8}
+#hqMain #dashboard{display:none}
+#hqMain .login-card{width:100%;max-width:430px;margin:35px auto 0;padding:26px 22px;border:1px solid #d8e8dc;border-radius:18px;background:#fff;box-shadow:0 10px 28px rgba(15,23,42,.08)}
+#hqMain .login-card h1{margin:0 0 8px;color:#166534;font-size:25px}
+#hqMain .login-help{margin:0 0 16px;color:#64748b;font-size:14px;line-height:1.55}
+#hqMain .login-visible{margin:0 0 18px;padding:12px 14px;border:1px solid #bbdfc5;border-radius:11px;background:#edf8f0;color:#28543a;font-size:14px;line-height:1.8}
+#hqMain .login-card label{display:block;margin:13px 0 7px;color:#374151;font-size:14px;font-weight:700}
+#hqMain .login-card input{width:100%;height:48px;padding:0 13px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#111827;font-size:15px;outline:none}
+#hqMain .login-card input:focus{border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.12)}
+#hqMain .login-button{width:100%;min-height:50px;margin-top:18px;border:0;border-radius:11px;background:#15803d;color:#fff;font-size:16px;font-weight:800;cursor:pointer}
+#hqMain .login-message{display:none;margin-top:13px;padding:12px 14px;border-radius:10px;font-size:14px;line-height:1.5}
+#hqMain .login-message.error{display:block;border:1px solid #efb8b8;background:#fff0f0;color:#a02020}
+#hqMain .login-message.waiting{display:block;border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8}
+.hq-room-shell{display:none;width:100%;max-width:1160px;margin:0 auto}
+.hq-room-top{max-width:1100px;margin:0 auto 10px;padding:0 12px}
+.hq-back-btn{min-height:42px;padding:0 15px;border:0;border-radius:8px;background:#374151;color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+@media(max-width:470px){
+  #hqMain .menu-grid{grid-template-columns:1fr}
+  #hqMain .menu-card{min-height:auto}
+  #hqMain .header-top{align-items:flex-start}
+}
+</style>
+
+  <link rel="canonical" href="https://www.ansimdeal.com/mart_hq-dashboard">
+  <meta name="robots" content="noindex,nofollow">
+</head>
+<body>
+
+
+<div id="hqMain">
+  <main class="wrap">
+    <section id="loginScreen">
+      <div class="login-card">
+        <h1>본사 관리자 로그인</h1>
+        <p class="login-help">본사 관리자 아이디와 비밀번호를 입력해 주세요.</p>
+
+        <div class="login-visible">
+          아이디 <strong>admin</strong><br>
+          비밀번호 <strong>1234</strong>
+        </div>
+
+        <label for="loginId">아이디</label>
+        <input id="loginId" type="text" value="admin" autocomplete="username">
+
+        <label for="loginPassword">비밀번호</label>
+        <input id="loginPassword" type="text" value="1234" autocomplete="current-password">
+
+        <button id="loginButton" class="login-button" type="button">로그인</button>
+        <div id="loginMessage" class="login-message"></div>
+      </div>
+    </section>
+
+    <section id="dashboard">
+      <header class="header">
+        <div class="header-top">
+          <div>
+            <h1>본사 관리자</h1>
+            <p>플랫폼의 주요 운영 기능을 관리합니다.</p>
+          </div>
+          <div id="adminIdLabel" class="admin-id">admin</div>
+        </div>
+      </header>
+
+      <div class="menu-title">운영 현황</div>
+      <div class="status-box">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="background:#fff;border:1px solid #d9e7dd;border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:13px;color:#64748b">등록 매장</div>
+            <div id="storeCount" style="font-size:28px;font-weight:700;color:#166534">-</div>
+          </div>
+          <div style="background:#fff;border:1px solid #d9e7dd;border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:13px;color:#64748b">운영 중 매장</div>
+            <div id="activeStoreCount" style="font-size:28px;font-weight:700;color:#166534">-</div>
+          </div>
+          <div style="background:#fff;border:1px solid #d9e7dd;border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:13px;color:#64748b">메인 배너</div>
+            <div id="bannerCount" style="font-size:28px;font-weight:700;color:#166534">-</div>
+          </div>
+          <div style="background:#fff;border:1px solid #d9e7dd;border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:13px;color:#64748b">쿠폰 발행</div>
+            <div id="couponCount" style="font-size:28px;font-weight:700;color:#166534">-</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-title">관리 메뉴</div>
+      <div class="menu-grid">
+        <button type="button" class="menu-card" onclick="openHqRoom('account')">
+          <div class="menu-icon">🔐</div>
+          <strong>계정관리</strong>
+          <span>본사 관리자 비밀번호를 변경합니다.</span>
+        </button>
+
+        <button type="button" class="menu-card" onclick="openHqRoom('banner')">
+          <div class="menu-icon">🖼️</div>
+          <strong>메인 배너관리</strong>
+          <span>매장을 선택하고 배너 2개를 관리합니다.</span>
+        </button>
+
+        <button type="button" class="menu-card" onclick="openHqRoom('approval')">
+          <div class="menu-icon">🏪</div>
+          <strong>가맹점 승인관리</strong>
+          <span>가맹점 신청과 승인 상태를 관리합니다.</span>
+        </button>
+
+        <button type="button" class="menu-card" onclick="openHqRoom('payment')">
+          <div class="menu-icon">💳</div>
+          <strong>결제·계좌관리</strong>
+          <span>입금계좌와 결제 정보를 관리합니다.</span>
+        </button>
+
+        <button type="button" class="menu-card" onclick="openHqRoom('coupon')">
+          <div class="menu-icon">🎟️</div>
+          <strong>쿠폰관리</strong>
+          <span>쿠폰 발행과 사용 상태를 관리합니다.</span>
+        </button>
+
+        <button type="button" class="menu-card" onclick="openHqRoom('qr')">
+          <div class="menu-icon">🚗</div>
+          <strong>QR 주문관리</strong>
+          <span>매장 QR 주문 신청과 제작·발송 상태를 관리합니다.</span>
+        </button>
+
+        <button type="button" class="menu-card" onclick="openHqRoom('inquiry')">
+          <div class="menu-icon">💬</div>
+          <strong>가맹점 소통</strong>
+          <span>가맹점과 본사의 소통 내용을 관리합니다.</span>
+        </button>
+      </div>
+
+      <button id="logoutButton" class="logout-button" type="button">로그아웃</button>
+      <div id="messageBox" class="message" aria-live="polite"></div>
+    </section>
+  </main>
+</div>
+
+
+
+<div id="hqRoomAccount" class="hq-room-shell">
+  <div class="hq-room-top">
+    <button type="button" class="hq-back-btn" onclick="backToHqDashboard()">← 본사 관리자</button>
+  </div>
+  <div id="wgAccount">
+<style>
+#wgAccount{max-width:1100px;margin:auto;padding:20px 12px;font-family:Arial,sans-serif;color:#222}
+#wgAccount *{box-sizing:border-box}
+#wgAccount h2{margin:0 0 16px;font-size:22px}
+#wgAccount h3{margin:0 0 15px;font-size:18px}
+.wg-card{background:#fff;border:1px solid #ddd;border-radius:12px;padding:18px;margin-bottom:16px}
+.wg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.wg-full{grid-column:1/-1}
+#wgAccount label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}
+#wgAccount input{width:100%;height:44px;padding:0 11px;border:1px solid #ccc;border-radius:7px;font-size:14px}
+.wg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+#wgAccount button{border:0;border-radius:7px;padding:10px 15px;color:#fff;font-weight:700;cursor:pointer}
+.green{background:#15803d}.blue{background:#2563eb}.gray{background:#475569}.orange{background:#f59e0b}.red{background:#dc2626}
+.wg-table{overflow-x:auto}
+#wgAccount table{width:100%;min-width:800px;border-collapse:collapse}
+#wgAccount th,#wgAccount td{padding:10px;border-bottom:1px solid #ddd;text-align:left;font-size:13px}
+#wgAccount th{background:#f5f5f5}
+#wgAccount tbody tr{cursor:pointer}
+#wgAccount tbody tr:hover{background:#f0fdf4}
+#wgMsg{margin-top:12px;font-weight:700}
+#wgSelected{padding:12px;background:#f5f5f5;border-radius:7px}
+@media(max-width:700px){.wg-grid{grid-template-columns:1fr}.wg-full{grid-column:auto}}
+</style>
+
+<h2>우리가게 계정관리</h2>
+
+<div class="wg-card">
+<h3>신규 매장 등록 / 수정</h3>
+
+<div class="wg-grid">
+<div><label>매장 ID *</label><input id="wgStoreId" placeholder="STORE0001"></div>
+<div><label>로그인 ID *</label><input id="wgAdminId"></div>
+<div><label>초기 비밀번호 *</label><input id="wgPassword" type="password" placeholder="영문+숫자 8자 이상"></div>
+<div><label>매장명 *</label><input id="wgStoreName"></div>
+<div><label>대표자</label><input id="wgOwner"></div>
+<div><label>전화번호</label><input id="wgPhone"></div>
+<div><label>권역</label><input id="wgRegion"></div>
+<div class="wg-full"><label>주소</label><input id="wgAddress"></div>
+</div>
+
+<div class="wg-btns">
+<button id="wgCreate" class="green">신규 매장 등록</button>
+<button id="wgUpdate" class="blue">정보 수정</button>
+<button id="wgClear" class="gray">입력 초기화</button>
+</div>
+
+<div id="wgMsg"></div>
+</div>
+
+<div class="wg-card">
+<h3>등록 매장</h3>
+
+<input id="wgSearch" placeholder="매장명 · 매장ID · 대표자 · 전화번호 검색">
+<p id="wgCount">불러오는 중...</p>
+
+<div class="wg-table">
+<table>
+<thead>
+<tr>
+<th>매장 ID</th>
+<th>매장명</th>
+<th>로그인 ID</th>
+<th>비밀번호</th>
+<th>대표자</th>
+<th>전화번호</th>
+<th>권역</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody id="wgTable"></tbody>
+</table>
+</div>
+</div>
+
+<div class="wg-card">
+<h3>선택 매장 관리</h3>
+
+<div id="wgSelected">매장을 선택해 주세요.</div>
+
+<div class="wg-btns">
+<button id="wgActivate" class="green">사용 승인</button>
+<button id="wgSuspend" class="orange">사용 정지</button>
+<button id="wgReset" class="blue">비밀번호 초기화</button>
+<button id="wgDelete" class="red">매장 삭제</button>
+</div>
+</div>
+
+<script>
+(function(){
+
+var ROOT=document.getElementById("wgAccount");
+if(!ROOT)return;
+
+var $=function(s){return ROOT.querySelector(s);};
+
+var URL="https://dcysjuxyjqtvkihdsjvv.supabase.co/functions/v1/hq-store-account";
+var KEY="wooriapt_hq_admin_session";
+
+var stores=[];
+var selected=null;
+
+function session(){
+ return localStorage.getItem(KEY)||"";
+}
+
+function msg(text,error){
+ var e=$("#wgMsg");
+ e.textContent=text||"";
+ e.style.color=error?"#dc2626":"#15803d";
+}
+
+function esc(v){
+ var d=document.createElement("div");
+ d.textContent=v||"";
+ return d.innerHTML;
+}
+
+async function api(action,data){
+ var body=data||{};
+ body.action=action;
+ body.session_token=session();
+
+ var r=await fetch(URL,{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify(body)
+ });
+
+ var x=await r.json();
+
+ if(!r.ok||!x.ok){
+  throw new Error(x.message||"처리에 실패했습니다.");
+ }
+
+ return x;
+}
+
+async function load(){
+ try{
+  var x=await api("list_stores",{});
+  stores=x.stores||[];
+  render();
+ }catch(e){
+  $("#wgCount").textContent="목록을 불러오지 못했습니다.";
+  msg(e.message,true);
+ }
+}
+
+function render(){
+ var q=$("#wgSearch").value.toLowerCase().trim();
+ var tbody=$("#wgTable");
+ tbody.innerHTML="";
+
+ var list=stores.filter(function(s){
+  return [
+   s.store_id,s.store_name,s.admin_id,
+   s.owner_name,s.phone,s.region_name
+  ].join(" ").toLowerCase().indexOf(q)>-1;
+ });
+
+ $("#wgCount").textContent="총 "+list.length+"개 매장";
+
+ list.forEach(function(s){
+  var tr=document.createElement("tr");
+
+  var status="정상";
+  if(s.account_status==="suspended")status="정지";
+  if(s.account_status==="pending")status="승인대기";
+
+  var pwVal = s.password || "1234";
+   var pwCell = "<div style='display:flex;align-items:center;gap:6px;'>" + "<span id='wg_pw_"+esc(s.store_id)+"' style='font-size:12px;font-weight:800;color:#2563eb;background:#eff6ff;padding:2px 6px;border-radius:4px;border:1px solid #bfdbfe;'>••••</span>" + "<button type='button' onclick='event.stopPropagation();window.toggleWgPw(\""+esc(s.store_id)+"\",\""+esc(pwVal)+"\")' style='padding:2px 6px;font-size:11px;border:1px solid #cbd5e1;background:#fff;border-radius:4px;color:#333;cursor:pointer;'>👁️</button>" + "<button type='button' onclick='event.stopPropagation();window.resetWgPw(\""+esc(s.store_id)+"\")' style='padding:2px 6px;font-size:11px;border:1px solid #fed7aa;background:#fff7ed;border-radius:4px;color:#c2410c;font-weight:700;cursor:pointer;'>🔄 1234 리셋</button></div>";
+
+   tr.innerHTML=
+    "<td>"+esc(s.store_id)+"</td>"+
+    "<td><b>"+esc(s.store_name)+"</b></td>"+
+    "<td>"+esc(s.admin_id)+"</td>"+
+    "<td>"+pwCell+"</td>"+
+    "<td>"+esc(s.owner_name)+"</td>"+
+   "<td>"+esc(s.phone)+"</td>"+
+   "<td>"+esc(s.region_name)+"</td>"+
+   "<td>"+status+"</td>";
+
+  tr.onclick=function(){selectStore(s);};
+  tbody.appendChild(tr);
+ });
+}
+
+function selectStore(s){
+ selected=s;
+
+ $("#wgStoreId").value=s.store_id||"";
+ $("#wgAdminId").value=s.admin_id||"";
+ $("#wgPassword").value="";
+ $("#wgStoreName").value=s.store_name||"";
+ $("#wgOwner").value=s.owner_name||"";
+ $("#wgPhone").value=s.phone||"";
+ $("#wgRegion").value=s.region_name||"";
+ $("#wgAddress").value=s.address||"";
+
+ $("#wgStoreId").readOnly=true;
+ $("#wgSelected").textContent=(s.store_name||"")+" ("+(s.store_id||"")+")";
+}
+
+function clearForm(){
+ selected=null;
+
+ ["#wgStoreId","#wgAdminId","#wgPassword","#wgStoreName",
+ "#wgOwner","#wgPhone","#wgRegion","#wgAddress"].forEach(function(id){
+  $(id).value="";
+ });
+
+ $("#wgStoreId").readOnly=false;
+ $("#wgSelected").textContent="매장을 선택해 주세요.";
+}
+
+$("#wgCreate").onclick=async function(){
+ try{
+  var x=await api("create_store",{
+   store_id:$("#wgStoreId").value.trim(),
+   admin_id:$("#wgAdminId").value.trim(),
+   password:$("#wgPassword").value,
+   store_name:$("#wgStoreName").value.trim(),
+   owner_name:$("#wgOwner").value.trim(),
+   phone:$("#wgPhone").value.trim(),
+   region_name:$("#wgRegion").value.trim(),
+   address:$("#wgAddress").value.trim()
+  });
+
+  clearForm();
+  msg(x.message,false);
+  await load();
+ }catch(e){msg(e.message,true);}
+};
+
+$("#wgUpdate").onclick=async function(){
+ if(!selected){alert("매장을 먼저 선택하세요.");return;}
+
+ try{
+  var x=await api("update_store",{
+   store_id:selected.store_id,
+   admin_id:$("#wgAdminId").value.trim(),
+   store_name:$("#wgStoreName").value.trim(),
+   owner_name:$("#wgOwner").value.trim(),
+   phone:$("#wgPhone").value.trim(),
+   region_name:$("#wgRegion").value.trim(),
+   address:$("#wgAddress").value.trim()
+  });
+
+  clearForm();
+  msg(x.message,false);
+  await load();
+ }catch(e){msg(e.message,true);}
+};
+
+$("#wgClear").onclick=clearForm;
+
+$("#wgActivate").onclick=async function(){
+ if(!selected){alert("매장을 먼저 선택하세요.");return;}
+
+ try{
+  var x=await api("activate_store",{store_id:selected.store_id});
+  clearForm();
+  msg(x.message,false);
+  await load();
+ }catch(e){msg(e.message,true);}
+};
+
+$("#wgSuspend").onclick=async function(){
+ if(!selected){alert("매장을 먼저 선택하세요.");return;}
+ if(!confirm("이 매장의 사용을 정지하시겠습니까?"))return;
+
+ try{
+  var x=await api("suspend_store",{store_id:selected.store_id});
+  clearForm();
+  msg(x.message,false);
+  await load();
+ }catch(e){msg(e.message,true);}
+};
+
+$("#wgReset").onclick=async function(){
+ if(!selected){alert("매장을 먼저 선택하세요.");return;}
+
+ var pw=prompt("새 임시 비밀번호를 입력하세요.\n영문+숫자 8자 이상");
+ if(!pw)return;
+
+ try{
+  var x=await api("reset_store_password",{
+   store_id:selected.store_id,
+   new_password:pw
+  });
+  alert(x.message);
+ }catch(e){alert(e.message);}
+};
+
+$("#wgDelete").onclick=async function(){
+ if(!selected){alert("매장을 먼저 선택하세요.");return;}
+ if(!confirm((selected.store_name||"")+" 매장 계정을 삭제하시겠습니까?"))return;
+
+ try{
+  var x=await api("delete_store",{store_id:selected.store_id});
+  clearForm();
+  msg(x.message,false);
+  await load();
+ }catch(e){msg(e.message,true);}
+};
+
+$("#wgSearch").oninput=render;
+
+window.toggleWgPw = function(storeId, actualPw){
+  var el = document.getElementById("wg_pw_" + storeId);
+  if(!el) return;
+  el.textContent = el.textContent === "••••" ? actualPw : "••••";
+};
+
+window.resetWgPw = async function(storeId){
+  if(!confirm("[" + storeId + "] 매장의 관리자 비밀번호를 초기 비밀번호 [1234]로 리셋하시겠습니까?")) return;
+  try {
+    var res = await fetch("https://dcysjuxyjqtvkihdsjvv.supabase.co/functions/v1/hq-store-account", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "reset_store_password",
+        session_token: localStorage.getItem("wooriapt_hq_admin_session") || "",
+        store_id: storeId,
+        new_password: "1234"
+      })
+    });
+    var d = await res.json();
+    alert("[" + storeId + "] 매장의 비밀번호가 [1234]로 초기화되었습니다.");
+    var el = document.getElementById("wg_pw_" + storeId);
+    if(el) el.textContent = "1234";
+  } catch(err){
+    alert("비밀번호 리셋 완료 (임시 비밀번호: 1234)");
+    var el = document.getElementById("wg_pw_" + storeId);
+    if(el) el.textContent = "1234";
+  }
+};
+
+if(!session()){
+ msg("본사 관리자 로그인이 필요합니다.",true);
+}else{
+ load();
+}
+
+})();
+</script>
+</div>
+</div>
+
+
+
+
+
+
+<div id="hqRoomApproval" class="hq-room-shell">
+  <div class="hq-room-top">
+    <button type="button" class="hq-back-btn" onclick="backToHqDashboard()">← 본사 관리자</button>
+  </div>
+  <div id="wgApproval">
+<style>
+#wgApproval{max-width:1100px;margin:auto;padding:20px 12px;font-family:Arial,sans-serif;color:#222}
+#wgApproval *{box-sizing:border-box}
+#wgApproval h2{margin:0 0 6px;font-size:22px}
+#wgApproval .wa-sub{margin:0 0 16px;color:#64748b;font-size:14px;line-height:1.6}
+#wgApproval .wa-card{background:#fff;border:1px solid #ddd;border-radius:12px;padding:18px;margin-bottom:16px}
+#wgApproval .wa-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+#wgApproval input{flex:1;min-width:220px;height:44px;padding:0 11px;border:1px solid #ccc;border-radius:7px;font-size:14px}
+#wgApproval button{border:0;border-radius:7px;padding:10px 15px;color:#fff;font-weight:700;cursor:pointer}
+#wgApproval .green{background:#15803d}
+#wgApproval .gray{background:#475569}
+#wgApproval .wa-table{overflow-x:auto}
+#wgApproval table{width:100%;min-width:720px;border-collapse:collapse}
+#wgApproval th,#wgApproval td{padding:11px 10px;border-bottom:1px solid #ddd;text-align:left;font-size:13px;vertical-align:middle}
+#wgApproval th{background:#f5f5f5}
+#wgApproval tbody tr:hover{background:#f0fdf4}
+#wgApproval .wa-badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#fef3c7;color:#92400e;font-size:12px;font-weight:700}
+#wgApproval .wa-empty{padding:24px 10px;text-align:center;color:#64748b}
+#wgApproval #waMsg{margin-top:12px;font-weight:700}
+@media(max-width:700px){#wgApproval .wa-top{align-items:stretch}#wgApproval input{width:100%}}
+</style>
+
+<h2>가맹점 승인관리</h2>
+<p class="wa-sub">가맹점 신청 중 승인대기 상태의 매장을 확인하고 사용 승인합니다.</p>
+
+<div class="wa-card">
+  <div class="wa-top">
+    <input id="waSearch" placeholder="마트번호 · 매장명 · 대표자 · 전화번호 검색">
+    <button id="waRefresh" class="gray" type="button">새로고침</button>
+  </div>
+  <p id="waCount">불러오는 중...</p>
+  <div class="wa-table">
+    <table>
+      <thead>
+        <tr>
+          <th>마트번호</th>
+          <th>매장명</th>
+          <th>대표자</th>
+          <th>전화번호</th>
+          <th>권역</th>
+          <th>상태</th>
+          <th>승인</th>
+        </tr>
+      </thead>
+      <tbody id="waTable"></tbody>
+    </table>
+  </div>
+  <div id="waMsg"></div>
+</div>
+
+<script>
+(function(){
+var ROOT=document.getElementById("wgApproval");
+if(!ROOT)return;
+var $=function(s){return ROOT.querySelector(s);};
+var URL="https://dcysjuxyjqtvkihdsjvv.supabase.co/functions/v1/hq-store-account";
+var KEY="wooriapt_hq_admin_session";
+var stores=[];
+
+function session(){return localStorage.getItem(KEY)||"";}
+function esc(v){var d=document.createElement("div");d.textContent=v||"";return d.innerHTML;}
+function msg(text,error){var e=$("#waMsg");e.textContent=text||"";e.style.color=error?"#dc2626":"#15803d";}
+async function api(action,data){
+ var body=data||{};
+ body.action=action;
+ body.session_token=session();
+ var r=await fetch(URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+ var x=await r.json();
+ if(!r.ok||!x.ok)throw new Error(x.message||"처리에 실패했습니다.");
+ return x;
+}
+function isPending(s){return !s.account_status||s.account_status==="pending"||s.account_status==="waiting"||s.account_status==="승인대기";}
+async function load(){
+ try{
+  msg("",false);
+  $("#waCount").textContent="불러오는 중...";
+  var x=await api("list_stores",{});
+  stores=(x.stores||[]).filter(isPending);
+  render();
+ }catch(e){
+  $("#waCount").textContent="승인대기 목록을 불러오지 못했습니다.";
+  msg(e.message,true);
+ }
+}
+function render(){
+ var q=$("#waSearch").value.toLowerCase().trim();
+ var list=stores.filter(function(s){
+  return [s.store_id,s.store_name,s.owner_name,s.phone,s.region_name].join(" ").toLowerCase().indexOf(q)>-1;
+ });
+ var tbody=$("#waTable");
+ tbody.innerHTML="";
+ $("#waCount").textContent="승인대기 총 "+list.length+"개 매장";
+ if(!list.length){
+  var tr=document.createElement("tr");
+  tr.innerHTML='<td colspan="7" class="wa-empty">승인대기 중인 가맹점이 없습니다.</td>';
+  tbody.appendChild(tr);
+  return;
+ }
+ list.forEach(function(s){
+  var tr=document.createElement("tr");
+  tr.innerHTML=
+   "<td>"+esc(s.store_id)+"</td>"+
+   "<td><b>"+esc(s.store_name)+"</b></td>"+
+   "<td>"+esc(s.owner_name)+"</td>"+
+   "<td>"+esc(s.phone)+"</td>"+
+   "<td>"+esc(s.region_name)+"</td>"+
+   '<td><span class="wa-badge">승인대기</span></td>'+
+   '<td><button type="button" class="green wa-approve">사용 승인</button></td>';
+  tr.querySelector(".wa-approve").onclick=async function(){
+   if(!confirm((s.store_name||s.store_id||"해당 매장")+"을 사용 승인하시겠습니까?"))return;
+   try{
+    this.disabled=true;
+    var x=await api("activate_store",{store_id:s.store_id});
+    msg(x.message||"사용 승인되었습니다.",false);
+    await load();
+   }catch(e){
+    this.disabled=false;
+    msg(e.message,true);
+   }
+  };
+  tbody.appendChild(tr);
+ });
+}
+$("#waSearch").oninput=render;
+$("#waRefresh").onclick=load;
+window.loadHqApproval=load;
+if(!session()){
+ msg("본사 관리자 로그인이 필요합니다.",true);
+}else{
+ load();
+}
+})();
+</script>
+  </div>
+</div>
+
+<div id="hqRoomInquiry" class="hq-room-shell">
+  <div class="hq-room-top">
+    <button type="button" class="hq-back-btn" onclick="backToHqDashboard()">← 본사 관리자</button>
+  </div>
+  <div id="hqInquiryApp">
+    <style>
+      #hqInquiryApp{max-width:900px;margin:auto;padding:20px 12px;font-family:Arial,sans-serif;color:#1f2937}
+      #hqInquiryApp *{box-sizing:border-box}
+      #hqInquiryApp h2{margin:0 0 6px;font-size:25px}
+      #hqInquiryApp .hi-sub{margin:0 0 18px;color:#64748b;font-size:14px;line-height:1.6}
+      #hqInquiryApp .hi-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px;margin-bottom:16px}
+      #hqInquiryApp label{display:block;margin-bottom:6px;font-size:13px;font-weight:700}
+      #hqInquiryApp input,#hqInquiryApp textarea{width:100%;border:1px solid #cbd5e1;border-radius:8px;background:#fff;font-size:14px}
+      #hqInquiryApp input{height:44px;padding:0 11px}
+      #hqInquiryApp textarea{min-height:110px;padding:10px;resize:vertical}
+      #hqInquiryApp .hi-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+      #hqInquiryApp button{border:0;border-radius:8px;padding:10px 15px;color:#fff;font-weight:700;cursor:pointer}
+      #hqInquiryApp .green{background:#15803d}
+      #hqInquiryApp .blue{background:#2563eb}
+      #hqInquiryApp .gray{background:#475569}
+      #hqInquiryApp .hi-store{margin-top:12px;padding:12px;border-radius:8px;background:#f8fafc;font-size:14px}
+      #hqInquiryApp .hi-list{display:flex;flex-direction:column;gap:9px;max-height:460px;overflow:auto}
+      #hqInquiryApp .hi-msg{padding:11px 13px;border-radius:10px;background:#f1f5f9;line-height:1.55;font-size:14px}
+      #hqInquiryApp .hi-msg.hq{background:#dcfce7}
+      #hqInquiryApp .hi-meta{margin-bottom:4px;font-size:11px;color:#64748b}
+      #hqInquiryApp .hi-status{margin-top:10px;font-size:13px;font-weight:700}
+    </style>
+
+    <h2>가맹점 소통</h2>
+    <p class="hi-sub">매장 ID를 입력하면 해당 가맹점의 문의방을 바로 열어 본사와 소통할 수 있습니다.</p>
+
+    <div class="hi-card">
+      <label for="hiStoreId">매장 ID</label>
+      <input id="hiStoreId" placeholder="예: STORE0001">
+      <div class="hi-btns">
+        <button id="hiOpen" type="button" class="green">문의방 열기</button>
+        <button id="hiRefresh" type="button" class="gray">새로고침</button>
+      </div>
+      <div id="hiStore" class="hi-store">매장 ID를 입력해 주세요.</div>
+      <div id="hiStatus" class="hi-status"></div>
+    </div>
+
+    <div class="hi-card">
+      <div id="hiList" class="hi-list"><div class="hi-msg">문의방을 먼저 열어 주세요.</div></div>
+    </div>
+
+    <div class="hi-card">
+      <label for="hiMessage">본사 답변 / 문의</label>
+      <textarea id="hiMessage" maxlength="5000" placeholder="가맹점에 보낼 내용을 입력하세요."></textarea>
+      <div class="hi-btns">
+        <button id="hiSend" type="button" class="blue">전송</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var ROOT=document.getElementById("hqInquiryApp");
+  if(!ROOT)return;
+  var $=function(s){return ROOT.querySelector(s);};
+  var URL="https://dcysjuxyjqtvkihdsjvv.supabase.co/functions/v1/hq-admin-account";
+  var KEY="wooriapt_hq_admin_session";
+  var currentStoreId="";
+
+  function esc(v){
+    var d=document.createElement("div");
+    d.textContent=v==null?"":String(v);
+    return d.innerHTML;
+  }
+  function status(t,e){
+    $("#hiStatus").textContent=t||"";
+    $("#hiStatus").style.color=e?"#dc2626":"#15803d";
+  }
+  async function api(action,data){
+    var body=data||{};
+    body.action=action;
+    body.session_token=localStorage.getItem(KEY)||"";
+    var r=await fetch(URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+    var raw=await r.text();
+    var x={};
+    try{x=raw?JSON.parse(raw):{};}catch(e){}
+    if(!r.ok||x.ok===false)throw new Error(x.message||x.error||"처리에 실패했습니다.");
+    return x;
+  }
+  function render(messages){
+    var box=$("#hiList");
+    box.innerHTML="";
+    if(!messages||!messages.length){box.innerHTML='<div class="hi-msg">아직 문의 내용이 없습니다.</div>';return;}
+    messages.forEach(function(m){
+      var div=document.createElement("div");
+      div.className="hi-msg "+(String(m.sender_type||"").toUpperCase()==="HQ"?"hq":"");
+      div.innerHTML='<div class="hi-meta">'+esc(m.sender_type||"")+" · "+esc(m.created_at?new Date(m.created_at).toLocaleString("ko-KR"):"")+'</div><div>'+esc(m.message||"")+'</div>';
+      box.appendChild(div);
+    });
+    box.scrollTop=box.scrollHeight;
+  }
+  async function load(){
+    var id=$("#hiStoreId").value.trim();
+    if(!id){status("매장 ID를 입력해 주세요.",true);return;}
+    try{
+      status("문의방을 불러오는 중입니다.",false);
+      var check=await api("hq_store_check",{store_id:id});
+      currentStoreId=check.store.store_id||id;
+      $("#hiStoreId").value=currentStoreId;
+      $("#hiStore").textContent=(check.store.store_name||"")+" ("+currentStoreId+")";
+      var list=await api("hq_inquiry_list",{store_id:currentStoreId});
+      render(list.messages||[]);
+      status("문의방이 연결되었습니다.",false);
+    }catch(e){currentStoreId="";render([]);status(e.message,true);}
+  }
+  $("#hiOpen").onclick=load;
+  $("#hiRefresh").onclick=function(){if(currentStoreId)$("#hiStoreId").value=currentStoreId;load();};
+  $("#hiSend").onclick=async function(){
+    if(!currentStoreId){status("문의방을 먼저 열어 주세요.",true);return;}
+    var message=$("#hiMessage").value.trim();
+    if(!message){status("문의내용을 입력해 주세요.",true);return;}
+    try{
+      await api("hq_inquiry_send",{store_id:currentStoreId,message:message});
+      $("#hiMessage").value="";
+      await load();
+      status("가맹점에 문의가 전달되었습니다.",false);
+    }catch(e){status(e.message,true);}
+  };
+  $("#hiStoreId").addEventListener("keydown",function(e){if(e.key==="Enter")load();});
+  window.loadHqInquiry=function(){
+    status("",false);
+    if(currentStoreId){$("#hiStoreId").value=currentStoreId;load();}
+  };
+})();
+</script>
+
+<div id="hqRoomPayment" class="hq-room-shell">
+  <div class="hq-room-top">
+    <button type="button" class="hq-back-btn" onclick="backToHqDashboard()">← 본사 관리자</button>
+  </div>
+  <div id="wgPayAccount">
+
+<style>
+#wgPayAccount{max-width:1100px;margin:auto;padding:20px 12px;font-family:Arial,sans-serif;color:#1f2937}
+#wgPayAccount *{box-sizing:border-box}
+#wgPayAccount h2{margin:0 0 6px;font-size:25px}
+#wgPayAccount h3{margin:0 0 16px;font-size:18px}
+.wpa-sub{margin:0 0 20px;color:#64748b;font-size:14px}
+.wpa-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px;margin-bottom:16px}
+.wpa-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.wpa-full{grid-column:1/-1}
+#wgPayAccount label{display:block;margin-bottom:5px;font-size:13px;font-weight:700;color:#374151}
+#wgPayAccount input,#wgPayAccount select,#wgPayAccount textarea{
+ width:100%;border:1px solid #cbd5e1;border-radius:8px;background:#fff;font-size:14px
+}
+#wgPayAccount input,#wgPayAccount select{height:44px;padding:0 11px}
+#wgPayAccount textarea{min-height:90px;padding:10px;resize:vertical}
+#wgPayAccount input:focus,#wgPayAccount select:focus,#wgPayAccount textarea:focus{
+ outline:none;border-color:#15803d;box-shadow:0 0 0 3px rgba(21,128,61,.08)
+}
+.wpa-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+#wgPayAccount button{
+ border:0;border-radius:8px;padding:10px 15px;color:#fff;font-weight:700;cursor:pointer
+}
+.green{background:#15803d}
+.blue{background:#2563eb}
+.gray{background:#475569}
+.orange{background:#f59e0b}
+.red{background:#dc2626}
+.purple{background:#7c3aed}
+#wgPayAccount button:disabled{opacity:.45;cursor:not-allowed}
+.wpa-search{margin-bottom:10px}
+.wpa-table{overflow-x:auto}
+#wgPayAccount table{width:100%;min-width:1000px;border-collapse:collapse}
+#wgPayAccount th,#wgPayAccount td{
+ padding:10px;border-bottom:1px solid #e5e7eb;text-align:left;font-size:13px
+}
+#wgPayAccount th{background:#f8fafc;font-weight:700;color:#475569}
+#wgPayAccount tbody tr{cursor:pointer}
+#wgPayAccount tbody tr:hover{background:#f0fdf4}
+#wgPayAccount tbody tr.selected{background:#dcfce7}
+.wpa-badge{display:inline-block;padding:4px 8px;border-radius:15px;font-size:12px;font-weight:700}
+.paid{background:#dcfce7;color:#166534}
+.unpaid{background:#fee2e2;color:#991b1b}
+.exempt{background:#fef3c7;color:#92400e}
+.active-status{background:#dbeafe;color:#1d4ed8}
+.suspended-status{background:#e5e7eb;color:#475569}
+#wpaMessage{margin-top:12px;font-weight:700}
+#wpaSelected{padding:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px}
+.wpa-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.wpa-stat{padding:14px;border:1px solid #e2e8f0;border-radius:10px;background:#fff}
+.wpa-stat span{display:block;font-size:12px;color:#64748b;margin-bottom:5px}
+.wpa-stat strong{font-size:21px}
+@media(max-width:700px){
+ .wpa-grid{grid-template-columns:1fr}
+ .wpa-full{grid-column:auto}
+ .wpa-summary{grid-template-columns:1fr 1fr}
+}
+
+/* 가맹비 견적 계산기 - 결제·계좌관리 내부 */
+#wgPayAccount .wpa-quote{margin-top:22px;padding:20px;border:1px solid #d9e1e8;border-radius:12px;background:#fff}
+#wgPayAccount .wpa-quote h3{margin:0 0 6px;font-size:20px}
+#wgPayAccount .wpa-quote-sub{margin:0 0 18px;font-size:14px;color:#64748b}
+#wgPayAccount .wpa-quote-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+#wgPayAccount .wpa-quote-unit{display:flex;align-items:center;gap:8px}
+#wgPayAccount .wpa-quote-unit input{flex:1;min-width:0}
+#wgPayAccount .wpa-quote-unit span{font-size:14px;font-weight:700;color:#475569}
+#wgPayAccount .wpa-quote-rule{margin-top:16px;padding:13px 15px;background:#f8fafc;border-radius:8px;font-size:14px;line-height:1.8;color:#475569}
+#wgPayAccount .wpa-quote-result{margin-top:16px;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden}
+#wgPayAccount .wpa-quote-row{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;border-bottom:1px solid #e2e8f0}
+#wgPayAccount .wpa-quote-total{display:flex;justify-content:space-between;align-items:center;padding:14px 15px;background:#eff6ff;font-size:18px;font-weight:800;color:#1d4ed8}
+#wgPayAccount #wpaQuoteCalc{width:100%;margin-top:14px}
+@media(max-width:700px){#wgPayAccount .wpa-quote-grid{grid-template-columns:1fr}}
+
+</style>
+
+<h2>결제·계좌관리</h2>
+<p class="wpa-sub">매장 이용료 결제와 정산계좌를 한 화면에서 관리합니다.</p>
+
+<div class="wpa-summary">
+ <div class="wpa-stat"><span>전체 매장</span><strong id="wpaTotal">0</strong></div>
+ <div class="wpa-stat"><span>결제 완료</span><strong id="wpaPaid">0</strong></div>
+ <div class="wpa-stat"><span>미납</span><strong id="wpaUnpaid">0</strong></div>
+ <div class="wpa-stat"><span>결제 면제</span><strong id="wpaExempt">0</strong></div>
+</div>
+
+<div class="wpa-card">
+<h3>매장 선택</h3>
+
+<input id="wpaSearch" class="wpa-search"
+ placeholder="매장명 · 매장ID · 대표자 · 전화번호 검색">
+
+<div class="wpa-table">
+<table>
+<thead>
+<tr>
+<th>매장 ID</th>
+<th>매장명</th>
+<th>대표자</th>
+<th>전화번호</th>
+<th>월 이용료</th>
+<th>결제상태</th>
+<th>최근결제일</th>
+<th>다음결제일</th>
+<th>은행</th>
+<th>정산상태</th>
+</tr>
+</thead>
+<tbody id="wpaTable"></tbody>
+</table>
+</div>
+</div>
+
+<div class="wpa-card">
+<h3>선택 매장</h3>
+<div id="wpaSelected">매장을 선택해 주세요.</div>
+</div>
+
+<div class="wpa-card">
+<h3>결제정보</h3>
+
+<div class="wpa-grid">
+
+<div>
+<label>월 이용료</label>
+<input id="wpaMonthlyFee" type="number" min="0" placeholder="예: 100000">
+</div>
+
+<div>
+<label>결제 상태</label>
+<select id="wpaPaymentStatus">
+<option value="unpaid">미납</option>
+<option value="paid">결제완료</option>
+<option value="exempt">결제면제</option>
+</select>
+</div>
+
+<div>
+<label>최근 결제일</label>
+<input id="wpaLastDate" type="date">
+</div>
+
+<div>
+<label>다음 결제예정일</label>
+<input id="wpaNextDate" type="date">
+</div>
+
+<div class="wpa-full">
+<label>결제 방법</label>
+<select id="wpaPaymentMethod">
+<option value="">선택</option>
+<option value="bank">계좌이체</option>
+<option value="card">카드</option>
+<option value="cash">현금</option>
+<option value="auto">자동결제</option>
+<option value="other">기타</option>
+</select>
+</div>
+
+</div>
+
+<div class="wpa-btns">
+<button id="wpaPaidBtn" class="green">결제완료</button>
+<button id="wpaUnpaidBtn" class="red">미납처리</button>
+<button id="wpaExemptBtn" class="orange">결제면제</button>
+</div>
+</div>
+
+<div class="wpa-card">
+<h3>정산계좌</h3>
+
+<div class="wpa-grid">
+
+<div>
+<label>은행명</label>
+<input id="wpaBank" placeholder="예: 신한은행">
+</div>
+
+<div>
+<label>예금주</label>
+<input id="wpaHolder">
+</div>
+
+<div class="wpa-full">
+<label>계좌번호</label>
+<input id="wpaAccount" placeholder="'-' 포함 가능">
+</div>
+
+<div>
+<label>정산 상태</label>
+<select id="wpaSettlement">
+<option value="active">정산 사용</option>
+<option value="suspended">정산 정지</option>
+</select>
+</div>
+
+<div class="wpa-full">
+<label>관리 메모</label>
+<textarea id="wpaMemo" placeholder="본사 관리용 메모"></textarea>
+</div>
+
+</div>
+
+<div class="wpa-btns">
+<button id="wpaSave" class="blue">결제·계좌정보 저장</button>
+<button id="wpaSettlementOn" class="green">정산 사용</button>
+<button id="wpaSettlementOff" class="gray">정산 정지</button>
+<button id="wpaClear" class="purple">선택 해제</button>
+</div>
+
+
+<div class="wpa-quote" id="wpaQuoteBox">
+<h3>가맹비 견적 계산기</h3>
+<p class="wpa-quote-sub">DB 수와 매출액을 직접 입력하면 가맹비가 계산됩니다.</p>
+<div class="wpa-quote-grid">
+<div><label>매장명</label><input id="wpaQuoteStore" placeholder="매장명을 입력하세요"></div>
+<div><label>DB 수</label><div class="wpa-quote-unit"><input id="wpaQuoteDb" inputmode="numeric" placeholder="예: 10000"><span>개</span></div></div>
+<div><label>매출액</label><div class="wpa-quote-unit"><input id="wpaQuoteSales" inputmode="numeric" placeholder="예: 500000000"><span>원</span></div></div>
+</div>
+<div class="wpa-quote-rule">
+<div>DB 기준 : DB 수 × 50원 × 0.6</div>
+<div>매출 기준 : 매출 1억원당 100,000원 × 0.6</div>
+</div>
+<div class="wpa-quote-result">
+<div class="wpa-quote-row"><span>DB 기준 금액</span><strong id="wpaQuoteDbAmount">0원</strong></div>
+<div class="wpa-quote-row"><span>매출 기준 금액</span><strong id="wpaQuoteSalesAmount">0원</strong></div>
+<div class="wpa-quote-total"><span>최종 가맹비</span><strong id="wpaQuoteTotal">0원</strong></div>
+</div>
+<button type="button" id="wpaQuoteCalc" class="blue">견적 계산</button>
+</div>
+
+<div id="wpaMessage"></div>
+
+</div>
+
+
+<script>
+(function(){
+
+var ROOT=document.getElementById("wgPayAccount");
+if(!ROOT)return;
+
+var $=function(s){return ROOT.querySelector(s);};
+
+var URL="https://dcysjuxyjqtvkihdsjvv.supabase.co/functions/v1/hq-payment-account";
+var KEY="wooriapt_hq_admin_session";
+
+var rows=[];
+var selected=null;
+
+function session(){
+ return localStorage.getItem(KEY)||"";
+}
+
+function message(text,error){
+ var e=$("#wpaMessage");
+ e.textContent=text||"";
+ e.style.color=error?"#dc2626":"#15803d";
+}
+
+function esc(v){
+ var d=document.createElement("div");
+ d.textContent=v==null?"":String(v);
+ return d.innerHTML;
+}
+
+function money(v){
+ var n=Number(v||0);
+ return n.toLocaleString("ko-KR")+"원";
+}
+
+async function api(action,data){
+ var body=data||{};
+ body.action=action;
+ body.session_token=session();
+
+ var r=await fetch(URL,{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify(body)
+ });
+
+ var x=await r.json();
+
+ if(!r.ok||!x.ok){
+  throw new Error(x.message||"처리에 실패했습니다.");
+ }
+
+ return x;
+}
+
+async function load(){
+ try{
+  var x=await api("list",{});
+  rows=x.rows||[];
+  summary();
+  render();
+ }catch(e){
+  message(e.message,true);
+ }
+}
+
+function summary(){
+ $("#wpaTotal").textContent=rows.length;
+ $("#wpaPaid").textContent=rows.filter(function(r){return r.payment_status==="paid"}).length;
+ $("#wpaUnpaid").textContent=rows.filter(function(r){return r.payment_status==="unpaid"}).length;
+ $("#wpaExempt").textContent=rows.filter(function(r){return r.payment_status==="exempt"}).length;
+}
+
+function render(){
+
+ var q=$("#wpaSearch").value.trim().toLowerCase();
+ var tbody=$("#wpaTable");
+
+ tbody.innerHTML="";
+
+ var list=rows.filter(function(r){
+  return [
+   r.store_id,
+   r.store_name,
+   r.owner_name,
+   r.phone,
+   r.region_name
+  ].join(" ").toLowerCase().indexOf(q)>-1;
+ });
+
+ list.forEach(function(r){
+
+  var tr=document.createElement("tr");
+
+  if(selected&&selected.store_id===r.store_id){
+   tr.className="selected";
+  }
+
+  var ps="미납";
+  var pc="unpaid";
+
+  if(r.payment_status==="paid"){
+   ps="결제완료";
+   pc="paid";
+  }
+
+  if(r.payment_status==="exempt"){
+   ps="면제";
+   pc="exempt";
+  }
+
+  var ss=r.settlement_status==="suspended"?"정산정지":"정산사용";
+  var sc=r.settlement_status==="suspended"?"suspended-status":"active-status";
+
+  tr.innerHTML=
+   "<td>"+esc(r.store_id)+"</td>"+
+   "<td><b>"+esc(r.store_name)+"</b></td>"+
+   "<td>"+esc(r.owner_name)+"</td>"+
+   "<td>"+esc(r.phone)+"</td>"+
+   "<td>"+money(r.monthly_fee)+"</td>"+
+   '<td><span class="wpa-badge '+pc+'">'+ps+"</span></td>"+
+   "<td>"+esc(r.last_payment_date)+"</td>"+
+   "<td>"+esc(r.next_payment_date)+"</td>"+
+   "<td>"+esc(r.bank_name)+"</td>"+
+   '<td><span class="wpa-badge '+sc+'">'+ss+"</span></td>";
+
+  tr.onclick=function(){
+   selectRow(r);
+  };
+
+  tbody.appendChild(tr);
+ });
+}
+
+function selectRow(r){
+
+ selected=r;
+
+ $("#wpaSelected").innerHTML=
+  "<b>"+esc(r.store_name)+"</b> ("+esc(r.store_id)+")";
+
+ $("#wpaMonthlyFee").value=r.monthly_fee||0;
+ $("#wpaPaymentStatus").value=r.payment_status||"unpaid";
+ $("#wpaLastDate").value=r.last_payment_date||"";
+ $("#wpaNextDate").value=r.next_payment_date||"";
+ $("#wpaPaymentMethod").value=r.payment_method||"";
+
+ $("#wpaBank").value=r.bank_name||"";
+ $("#wpaAccount").value=r.account_number||"";
+ $("#wpaHolder").value=r.account_holder||"";
+ $("#wpaSettlement").value=r.settlement_status||"active";
+ $("#wpaMemo").value=r.memo||"";
+
+ message("",false);
+ render();
+}
+
+function clear(){
+
+ selected=null;
+
+ $("#wpaSelected").textContent="매장을 선택해 주세요.";
+
+ $("#wpaMonthlyFee").value="";
+ $("#wpaPaymentStatus").value="unpaid";
+ $("#wpaLastDate").value="";
+ $("#wpaNextDate").value="";
+ $("#wpaPaymentMethod").value="";
+
+ $("#wpaBank").value="";
+ $("#wpaAccount").value="";
+ $("#wpaHolder").value="";
+ $("#wpaSettlement").value="active";
+ $("#wpaMemo").value="";
+
+ message("",false);
+ render();
+}
+
+function mustSelect(){
+ if(!selected){
+  alert("매장을 먼저 선택하세요.");
+  return false;
+ }
+ return true;
+}
+
+$("#wpaSave").onclick=async function(){
+
+ if(!mustSelect())return;
+
+ try{
+
+  var x=await api("save",{
+   store_id:selected.store_id,
+   monthly_fee:$("#wpaMonthlyFee").value,
+   payment_status:$("#wpaPaymentStatus").value,
+   last_payment_date:$("#wpaLastDate").value,
+   next_payment_date:$("#wpaNextDate").value,
+   payment_method:$("#wpaPaymentMethod").value,
+   bank_name:$("#wpaBank").value.trim(),
+   account_number:$("#wpaAccount").value.trim(),
+   account_holder:$("#wpaHolder").value.trim(),
+   settlement_status:$("#wpaSettlement").value,
+   memo:$("#wpaMemo").value.trim()
+  });
+
+  message(x.message,false);
+  await load();
+
+ }catch(e){
+  message(e.message,true);
+ }
+};
+
+$("#wpaPaidBtn").onclick=async function(){
+
+ if(!mustSelect())return;
+
+ try{
+
+  var x=await api("mark_paid",{
+   store_id:selected.store_id,
+   last_payment_date:$("#wpaLastDate").value
+  });
+
+  message(x.message,false);
+  await load();
+
+ }catch(e){
+  message(e.message,true);
+ }
+};
+
+$("#wpaUnpaidBtn").onclick=async function(){
+
+ if(!mustSelect())return;
+
+ if(!confirm("선택 매장을 미납 상태로 변경하시겠습니까?"))return;
+
+ try{
+
+  var x=await api("mark_unpaid",{
+   store_id:selected.store_id
+  });
+
+  message(x.message,false);
+  await load();
+
+ }catch(e){
+  message(e.message,true);
+ }
+};
+
+$("#wpaExemptBtn").onclick=async function(){
+
+ if(!mustSelect())return;
+
+ if(!confirm("선택 매장을 결제 면제로 변경하시겠습니까?"))return;
+
+ try{
+
+  var x=await api("mark_exempt",{
+   store_id:selected.store_id
+  });
+
+  message(x.message,false);
+  await load();
+
+ }catch(e){
+  message(e.message,true);
+ }
+};
+
+$("#wpaSettlementOn").onclick=async function(){
+
+ if(!mustSelect())return;
+
+ try{
+
+  var x=await api("settlement_activate",{
+   store_id:selected.store_id
+  });
+
+  message(x.message,false);
+  await load();
+
+ }catch(e){
+  message(e.message,true);
+ }
+};
+
+$("#wpaSettlementOff").onclick=async function(){
+
+ if(!mustSelect())return;
+
+ if(!confirm("정산계좌 사용을 정지하시겠습니까?"))return;
+
+ try{
+
+  var x=await api("settlement_suspend",{
+   store_id:selected.store_id
+  });
+
+  message(x.message,false);
+  await load();
+
+ }catch(e){
+  message(e.message,true);
+ }
+};
+
+$("#wpaClear").onclick=clear;
+
+/* 가맹비 견적 계산기 */
+function quoteNumber(v){return Number(String(v||"").replace(/[^0-9]/g,""))||0;}
+function quoteMoney(v){return Math.round(v).toLocaleString("ko-KR")+"원";}
+function calculateQuote(){
+ var db=quoteNumber($("#wpaQuoteDb").value);
+ var sales=quoteNumber($("#wpaQuoteSales").value);
+ var dbFee=db*50*0.6;
+ var salesFee=(sales/100000000)*100000*0.6;
+ var total=dbFee+salesFee;
+ $("#wpaQuoteDbAmount").textContent=quoteMoney(dbFee);
+ $("#wpaQuoteSalesAmount").textContent=quoteMoney(salesFee);
+ $("#wpaQuoteTotal").textContent=quoteMoney(total);
+}
+$("#wpaQuoteCalc").onclick=calculateQuote;
+$("#wpaQuoteDb").onblur=function(){var n=quoteNumber(this.value);this.value=n?n.toLocaleString("ko-KR"):"";};
+$("#wpaQuoteSales").onblur=function(){var n=quoteNumber(this.value);this.value=n?n.toLocaleString("ko-KR"):"";};
+
+$("#wpaSearch").oninput=render;
+
+if(!session()){
+ message("본사 관리자 로그인이 필요합니다.",true);
+}else{
+ load();
+}
+
+})();
+</script>
+
+</div>
+</div>
+
+
+<div id="hqRoomBanner" class="hq-room-shell">
+  <div class="hq-room-top">
+    <button type="button" class="hq-back-btn" onclick="backToHqDashboard()">← 본사 관리자</button>
+  </div>
+  <div id="banner-admin-app">
+  <div class="ba-wrap">
+    <div class="ba-header">
+      <h2>메인 배너관리</h2>
+      <p>오늘의 특가 아래에 표시되는 작은 배너 2개를 관리합니다.</p>
+    </div>
+
+    <div id="ba-message" class="ba-message"></div>
+
+    <div class="ba-card">
+      <div class="ba-card-title">
+        <strong>배너 1</strong>
+
+        <label class="ba-switch-label">
+          <input type="checkbox" id="enabled-1" checked>
+          <span>사용</span>
+        </label>
+      </div>
+
+      <label class="ba-label" for="title-1">제목</label>
+      <input
+        id="title-1"
+        class="ba-input"
+        type="text"
+        maxlength="60"
+        placeholder="예: 아파트 분양 상담 고객"
+      >
+
+      <label class="ba-label" for="content-1">내용</label>
+      <input
+        id="content-1"
+        class="ba-input"
+        type="text"
+        maxlength="100"
+        placeholder="예: 3,000포인트 지급"
+      >
+
+      <label class="ba-label" for="url-1">연결 URL</label>
+      <input
+        id="url-1"
+        class="ba-input"
+        type="url"
+        placeholder="https://"
+      >
+
+    </div>
+
+    <div class="ba-card">
+      <div class="ba-card-title">
+        <strong>배너 2</strong>
+
+        <label class="ba-switch-label">
+          <input type="checkbox" id="enabled-2" checked>
+          <span>사용</span>
+        </label>
+      </div>
+
+      <label class="ba-label" for="title-2">제목</label>
+      <input
+        id="title-2"
+        class="ba-input"
+        type="text"
+        maxlength="60"
+        placeholder="예: 아파트 분양 특별혜택"
+      >
+
+      <label class="ba-label" for="content-2">내용</label>
+      <input
+        id="content-2"
+        class="ba-input"
+        type="text"
+        maxlength="100"
+        placeholder="예: 포인트 지급 내용을 확인하세요"
+      >
+
+      <label class="ba-label" for="url-2">연결 URL</label>
+      <input
+        id="url-2"
+        class="ba-input"
+        type="url"
+        placeholder="https://"
+      >
+
+      
+    </div>
+
+    <button
+      type="button"
+      class="ba-save-all-button"
+      onclick="saveAllBanners()"
+    >
+      저장
+    </button>
+  </div>
+</div>
+
+<style>
+  #banner-admin-app {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px 12px 30px;
+    background: #f5f6f8;
+  }
+
+  #banner-admin-app * {
+    box-sizing: border-box;
+  }
+
+  #banner-admin-app .ba-wrap {
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  #banner-admin-app .ba-header {
+    margin-bottom: 16px;
+  }
+
+  #banner-admin-app .ba-header h2 {
+    margin: 0 0 7px;
+    color: #222;
+    font-size: 23px;
+  }
+
+  #banner-admin-app .ba-header p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  #banner-admin-app .ba-card {
+    margin-bottom: 14px;
+    padding: 18px;
+    border: 1px solid #e3e5e8;
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  #banner-admin-app .ba-card-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 17px;
+  }
+
+  #banner-admin-app .ba-card-title strong {
+    font-size: 18px;
+    color: #222;
+  }
+
+  #banner-admin-app .ba-switch-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #444;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  #banner-admin-app .ba-switch-label input {
+    width: 18px;
+    height: 18px;
+  }
+
+  #banner-admin-app .ba-label {
+    display: block;
+    margin: 13px 0 6px;
+    color: #333;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  #banner-admin-app .ba-input {
+    width: 100%;
+    height: 46px;
+    padding: 0 12px;
+    border: 1px solid #d8dbe0;
+    border-radius: 8px;
+    background: #fff;
+    color: #222;
+    font-size: 15px;
+    outline: none;
+  }
+
+  #banner-admin-app .ba-input:focus {
+    border-color: #777;
+  }
+
+  #banner-admin-app button {
+    width: 100%;
+    min-height: 46px;
+    border: 0;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  #banner-admin-app .ba-save-button {
+    margin-top: 17px;
+    background: #333;
+    color: #fff;
+  }
+
+  #banner-admin-app .ba-save-all-button {
+    background: #111;
+    color: #fff;
+  }
+
+  #banner-admin-app button:disabled {
+    opacity: 0.55;
+    cursor: wait;
+  }
+
+  #banner-admin-app .ba-message {
+    display: none;
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  #banner-admin-app .ba-message.success {
+    display: block;
+    border: 1px solid #b8dec2;
+    background: #edf8f0;
+    color: #236631;
+  }
+
+  #banner-admin-app .ba-message.error {
+    display: block;
+    border: 1px solid #efb8b8;
+    background: #fff0f0;
+    color: #a02020;
+  }
+</style>
+
+<script>
+(function () {
+  "use strict";
+
+  const SUPABASE_URL =
+    "https://dcysjuxyjqtvkihdsjvv.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
+
+  const TABLE_NAME = "main_banners";
+
+  function headers(prefer) {
+    return {
+      "apikey": SUPABASE_KEY,
+      "Authorization": "Bearer " + SUPABASE_KEY,
+      "Content-Type": "application/json",
+      "Prefer": prefer || "return=representation"
+    };
+  }
+
+  function showMessage(text, type) {
+    const message = document.getElementById("ba-message");
+
+    if (!message) return;
+
+    message.textContent = text;
+    message.className = "ba-message " + type;
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+  function setButtonsDisabled(disabled) {
+    document
+      .querySelectorAll("#banner-admin-app button")
+      .forEach(function (button) {
+        button.disabled = disabled;
+      });
+  }
+
+  function normalizeUrl(value) {
+    const url = value.trim();
+
+    if (!url) return "";
+
+    if (
+      url.startsWith("https://") ||
+      url.startsWith("http://")
+    ) {
+      return url;
+    }
+
+    return "https://" + url;
+  }
+
+  function getFormData(slot) {
+    const title =
+      document.getElementById("title-" + slot).value.trim();
+
+    const content =
+      document.getElementById("content-" + slot).value.trim();
+
+    const url =
+      normalizeUrl(
+        document.getElementById("url-" + slot).value
+      );
+
+    const enabled =
+      document.getElementById("enabled-" + slot).checked;
+
+    if (enabled && !title) {
+      throw new Error(
+        "배너 " + slot + "의 제목을 입력해 주세요."
+      );
+    }
+
+    if (enabled && !content) {
+      throw new Error(
+        "배너 " + slot + "의 내용을 입력해 주세요."
+      );
+    }
+
+    if (enabled && !url) {
+      throw new Error(
+        "배너 " + slot + "의 연결 URL을 입력해 주세요."
+      );
+    }
+
+    return {
+      slot: slot,
+      title: title,
+      content: content,
+      url: url,
+      enabled: enabled,
+      updated_at: new Date().toISOString()
+    };
+  }
+
+  async function loadBanners() {
+    try {
+      setButtonsDisabled(true);
+
+      const response = await fetch(
+        SUPABASE_URL +
+        "/rest/v1/" +
+        TABLE_NAME +
+        "?select=slot,title,content,url,enabled&order=slot.asc",
+        {
+          method: "GET",
+          headers: headers()
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "배너 정보를 불러오지 못했습니다."
+        );
+      }
+
+      const rows = await response.json();
+
+      rows.forEach(function (row) {
+        const slot = row.slot;
+
+        const title =
+          document.getElementById("title-" + slot);
+
+        const content =
+          document.getElementById("content-" + slot);
+
+        const url =
+          document.getElementById("url-" + slot);
+
+        const enabled =
+          document.getElementById("enabled-" + slot);
+
+        if (title) title.value = row.title || "";
+        if (content) content.value = row.content || "";
+        if (url) url.value = row.url || "";
+        if (enabled) enabled.checked = row.enabled !== false;
+      });
+    } catch (error) {
+      showMessage(
+        error.message || "불러오기 중 오류가 발생했습니다.",
+        "error"
+      );
+    } finally {
+      setButtonsDisabled(false);
+    }
+  }
+
+  async function upsertBanner(data) {
+    const response = await fetch(
+      SUPABASE_URL +
+      "/rest/v1/" +
+      TABLE_NAME +
+      "?on_conflict=slot",
+      {
+        method: "POST",
+        headers: headers(
+          "resolution=merge-duplicates,return=representation"
+        ),
+        body: JSON.stringify(data)
+      }
+    );
+
+    if (!response.ok) {
+      let detail = "";
+
+      try {
+        const result = await response.json();
+        detail = result.message || result.hint || "";
+      } catch (error) {}
+
+      throw new Error(
+        detail || "저장 중 오류가 발생했습니다."
+      );
+    }
+
+    return response.json();
+  }
+
+  window.saveBanner = async function (slot) {
+    try {
+      setButtonsDisabled(true);
+
+      const data = getFormData(slot);
+
+      await upsertBanner(data);
+
+      showMessage(
+        "배너 " + slot + "이 저장되었습니다.",
+        "success"
+      );
+    } catch (error) {
+      showMessage(
+        error.message || "저장 중 오류가 발생했습니다.",
+        "error"
+      );
+    } finally {
+      setButtonsDisabled(false);
+    }
+  };
+
+  window.saveAllBanners = async function () {
+    try {
+      setButtonsDisabled(true);
+
+      const banner1 = getFormData(1);
+      const banner2 = getFormData(2);
+
+      await upsertBanner(banner1);
+      await upsertBanner(banner2);
+
+      showMessage(
+        "배너 2개가 모두 저장되었습니다.",
+        "success"
+      );
+    } catch (error) {
+      showMessage(
+        error.message || "저장 중 오류가 발생했습니다.",
+        "error"
+      );
+    } finally {
+      setButtonsDisabled(false);
+    }
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      loadBanners
+    );
+  } else {
+    loadBanners();
+  }
+})();
+</script>
+</div>
+
+
+<div id="hqRoomCoupon" class="hq-room-shell">
+  <div class="hq-room-top">
+    <button type="button" class="hq-back-btn" onclick="backToHqDashboard()">← 본사 관리자</button>
+  </div>
+  <div id="wgCoupon">
+
+<style>
+#wgCoupon{max-width:1100px;margin:auto;padding:20px 12px;font-family:Arial,sans-serif;color:#1f2937}
+#wgCoupon *{box-sizing:border-box}
+#wgCoupon h2{margin:0 0 6px;font-size:25px}
+#wgCoupon h3{margin:0 0 15px;font-size:18px}
+.wgc-sub{margin:0 0 20px;color:#64748b;font-size:14px}
+.wgc-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px;margin-bottom:16px}
+.wgc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.wgc-full{grid-column:1/-1}
+#wgCoupon label{display:block;margin-bottom:5px;font-size:13px;font-weight:700}
+#wgCoupon input,#wgCoupon select,#wgCoupon textarea{
+ width:100%;border:1px solid #cbd5e1;border-radius:8px;background:#fff;font-size:14px
+}
+#wgCoupon input,#wgCoupon select{height:44px;padding:0 11px}
+#wgCoupon textarea{min-height:90px;padding:10px;resize:vertical}
+.wgc-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+#wgCoupon button{border:0;border-radius:8px;padding:10px 15px;color:#fff;font-weight:700;cursor:pointer}
+.green{background:#15803d}.blue{background:#2563eb}.gray{background:#475569}
+.orange{background:#f59e0b}.red{background:#dc2626}.purple{background:#7c3aed}
+.wgc-search{margin-bottom:10px}
+.wgc-table{overflow-x:auto}
+#wgCoupon table{width:100%;min-width:1050px;border-collapse:collapse}
+#wgCoupon th,#wgCoupon td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left;font-size:13px}
+#wgCoupon th{background:#f8fafc;color:#475569}
+#wgCoupon tbody tr{cursor:pointer}
+#wgCoupon tbody tr:hover{background:#f0fdf4}
+#wgCoupon tbody tr.selected{background:#dcfce7}
+.wgc-badge{display:inline-block;padding:4px 8px;border-radius:15px;font-size:12px;font-weight:700}
+.active-c{background:#dcfce7;color:#166534}
+.suspended-c{background:#fee2e2;color:#991b1b}
+.expired-c{background:#e5e7eb;color:#475569}
+#wgcMessage{margin-top:12px;font-weight:700}
+#wgcSelected{padding:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px}
+.wgc-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.wgc-stat{padding:14px;border:1px solid #e2e8f0;border-radius:10px;background:#fff}
+.wgc-stat span{display:block;font-size:12px;color:#64748b}
+.wgc-stat strong{font-size:21px}
+@media(max-width:700px){
+ .wgc-grid{grid-template-columns:1fr}
+ .wgc-full{grid-column:auto}
+ .wgc-summary{grid-template-columns:1fr 1fr}
+}
+</style>
+
+<h2>쿠폰관리</h2>
+<p class="wgc-sub">매장별 쿠폰 생성 · 발행 · 사용 · 정지 · 만료를 관리합니다.</p>
+
+<div class="wgc-summary">
+ <div class="wgc-stat"><span>전체 쿠폰</span><strong id="wgcTotal">0</strong></div>
+ <div class="wgc-stat"><span>사용중</span><strong id="wgcActive">0</strong></div>
+ <div class="wgc-stat"><span>정지</span><strong id="wgcSuspended">0</strong></div>
+ <div class="wgc-stat"><span>만료</span><strong id="wgcExpired">0</strong></div>
+</div>
+
+<div class="wgc-card">
+<h3>매장 선택</h3>
+<select id="wgcStore">
+<option value="">매장을 선택하세요</option>
+</select>
+</div>
+
+<div class="wgc-card">
+<h3>쿠폰 생성 / 수정</h3>
+
+<div class="wgc-grid">
+
+<div>
+<label>쿠폰명 *</label>
+<input id="wgcName">
+</div>
+
+<div>
+<label>쿠폰코드</label>
+<input id="wgcCode" placeholder="비워두면 자동생성">
+</div>
+
+<div>
+<label>쿠폰 유형</label>
+<select id="wgcType">
+<option value="amount">금액 할인</option>
+<option value="rate">할인율</option>
+</select>
+</div>
+
+<div>
+<label>할인금액</label>
+<input id="wgcAmount" type="number" min="0">
+</div>
+
+<div>
+<label>할인율 (%)</label>
+<input id="wgcRate" type="number" min="0" max="100">
+</div>
+
+<div>
+<label>발행 한도</label>
+<input id="wgcLimit" type="number" min="0" placeholder="무제한이면 비움">
+</div>
+
+<div>
+<label>시작일</label>
+<input id="wgcStart" type="date">
+</div>
+
+<div>
+<label>종료일</label>
+<input id="wgcEnd" type="date">
+</div>
+
+<div class="wgc-full">
+<label>메모</label>
+<textarea id="wgcMemo"></textarea>
+</div>
+
+</div>
+
+<div class="wgc-btns">
+<button id="wgcCreate" class="green">쿠폰 생성</button>
+<button id="wgcUpdate" class="blue">쿠폰 수정</button>
+<button id="wgcClear" class="gray">입력 초기화</button>
+</div>
+
+<div id="wgcMessage"></div>
+</div>
+
+<div class="wgc-card">
+<h3>쿠폰 목록</h3>
+
+<input id="wgcSearch" class="wgc-search" placeholder="쿠폰명 · 쿠폰코드 검색">
+
+<div class="wgc-table">
+<table>
+<thead>
+<tr>
+<th>매장</th>
+<th>쿠폰명</th>
+<th>쿠폰코드</th>
+<th>유형</th>
+<th>할인</th>
+<th>발행수</th>
+<th>사용수</th>
+<th>기간</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody id="wgcTable"></tbody>
+</table>
+</div>
+</div>
+
+<div class="wgc-card">
+<h3>선택 쿠폰 관리</h3>
+
+<div id="wgcSelected">쿠폰을 선택해 주세요.</div>
+
+<div class="wgc-btns">
+<button id="wgcIssue" class="purple">발행 +1</button>
+<button id="wgcUse" class="green">사용처리</button>
+<button id="wgcActivate" class="blue">사용 활성화</button>
+<button id="wgcSuspend" class="orange">정지</button>
+<button id="wgcExpire" class="gray">만료처리</button>
+<button id="wgcDelete" class="red">삭제</button>
+</div>
+</div>
+
+</div>
+
+<script>
+(function(){
+
+var ROOT=document.getElementById("wgCoupon");
+if(!ROOT)return;
+
+var $=function(s){return ROOT.querySelector(s);};
+
+var URL="https://dcysjuxyjqtvkihdsjvv.supabase.co/functions/v1/hq-coupon-manager";
+var KEY="wooriapt_hq_admin_session";
+
+var stores=[];
+var coupons=[];
+var selected=null;
+
+function session(){
+ return localStorage.getItem(KEY)||"";
+}
+
+function msg(text,error){
+ var e=$("#wgcMessage");
+ e.textContent=text||"";
+ e.style.color=error?"#dc2626":"#15803d";
+}
+
+function esc(v){
+ var d=document.createElement("div");
+ d.textContent=v==null?"":String(v);
+ return d.innerHTML;
+}
+
+async function api(action,data){
+ var body=data||{};
+ body.action=action;
+ body.session_token=session();
+
+ var r=await fetch(URL,{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify(body)
+ });
+
+ var x=await r.json();
+
+ if(!r.ok||!x.ok){
+  throw new Error(x.message||"처리에 실패했습니다.");
+ }
+
+ return x;
+}
+
+async function loadStores(){
+ var x=await api("list_stores",{});
+ stores=x.stores||[];
+
+ var sel=$("#wgcStore");
+ sel.innerHTML='<option value="">매장을 선택하세요</option>';
+
+ stores.forEach(function(s){
+  var o=document.createElement("option");
+  o.value=s.store_id;
+  o.textContent=(s.store_name||"")+" ("+(s.store_id||"")+")";
+  sel.appendChild(o);
+ });
+}
+
+async function loadCoupons(){
+ var x=await api("list_coupons",{});
+ coupons=x.coupons||[];
+ summary();
+ render();
+}
+
+function summary(){
+ $("#wgcTotal").textContent=coupons.length;
+ $("#wgcActive").textContent=coupons.filter(function(c){return c.coupon_status==="active"}).length;
+ $("#wgcSuspended").textContent=coupons.filter(function(c){return c.coupon_status==="suspended"}).length;
+ $("#wgcExpired").textContent=coupons.filter(function(c){return c.coupon_status==="expired"}).length;
+}
+
+function storeName(id){
+ var s=stores.find(function(x){return x.store_id===id;});
+ return s?s.store_name:id;
+}
+
+function render(){
+ var q=$("#wgcSearch").value.trim().toLowerCase();
+ var tbody=$("#wgcTable");
+ tbody.innerHTML="";
+
+ var list=coupons.filter(function(c){
+  return [
+   c.coupon_name,
+   c.coupon_code,
+   c.store_id,
+   storeName(c.store_id)
+  ].join(" ").toLowerCase().indexOf(q)>-1;
+ });
+
+ list.forEach(function(c){
+
+  var tr=document.createElement("tr");
+
+  if(selected&&selected.id===c.id){
+   tr.className="selected";
+  }
+
+  var type=c.coupon_type==="rate"?"할인율":"금액";
+  var discount=c.coupon_type==="rate"
+   ? String(c.discount_rate||0)+"%"
+   : Number(c.discount_amount||0).toLocaleString("ko-KR")+"원";
+
+  var status="사용중";
+  var sc="active-c";
+
+  if(c.coupon_status==="suspended"){
+   status="정지";
+   sc="suspended-c";
+  }
+
+  if(c.coupon_status==="expired"){
+   status="만료";
+   sc="expired-c";
+  }
+
+  var period=(c.start_date||"-")+" ~ "+(c.end_date||"-");
+
+  tr.innerHTML=
+   "<td>"+esc(storeName(c.store_id))+"</td>"+
+   "<td><b>"+esc(c.coupon_name)+"</b></td>"+
+   "<td>"+esc(c.coupon_code)+"</td>"+
+   "<td>"+type+"</td>"+
+   "<td>"+discount+"</td>"+
+   "<td>"+esc(c.issued_count)+" / "+esc(c.issue_limit==null?"무제한":c.issue_limit)+"</td>"+
+   "<td>"+esc(c.used_count)+"</td>"+
+   "<td>"+period+"</td>"+
+   '<td><span class="wgc-badge '+sc+'">'+status+"</span></td>";
+
+  tr.onclick=function(){
+   selectCoupon(c);
+  };
+
+  tbody.appendChild(tr);
+ });
+}
+
+function selectCoupon(c){
+ selected=c;
+
+ $("#wgcStore").value=c.store_id||"";
+ $("#wgcName").value=c.coupon_name||"";
+ $("#wgcCode").value=c.coupon_code||"";
+ $("#wgcCode").readOnly=true;
+ $("#wgcType").value=c.coupon_type||"amount";
+ $("#wgcAmount").value=c.discount_amount||0;
+ $("#wgcRate").value=c.discount_rate||"";
+ $("#wgcLimit").value=c.issue_limit==null?"":c.issue_limit;
+ $("#wgcStart").value=c.start_date||"";
+ $("#wgcEnd").value=c.end_date||"";
+ $("#wgcMemo").value=c.memo||"";
+
+ $("#wgcSelected").textContent=
+  (c.coupon_name||"")+" ("+(c.coupon_code||"")+")";
+
+ render();
+}
+
+function clear(){
+ selected=null;
+
+ $("#wgcStore").value="";
+ $("#wgcName").value="";
+ $("#wgcCode").value="";
+ $("#wgcCode").readOnly=false;
+ $("#wgcType").value="amount";
+ $("#wgcAmount").value="";
+ $("#wgcRate").value="";
+ $("#wgcLimit").value="";
+ $("#wgcStart").value="";
+ $("#wgcEnd").value="";
+ $("#wgcMemo").value="";
+ $("#wgcSelected").textContent="쿠폰을 선택해 주세요.";
+
+ msg("",false);
+ render();
+}
+
+function mustSelect(){
+ if(!selected){
+  alert("쿠폰을 먼저 선택하세요.");
+  return false;
+ }
+ return true;
+}
+
+$("#wgcCreate").onclick=async function(){
+
+ try{
+
+  var x=await api("create_coupon",{
+   store_id:$("#wgcStore").value,
+   coupon_name:$("#wgcName").value.trim(),
+   coupon_code:$("#wgcCode").value.trim(),
+   coupon_type:$("#wgcType").value,
+   discount_amount:$("#wgcAmount").value,
+   discount_rate:$("#wgcRate").value,
+   issue_limit:$("#wgcLimit").value,
+   start_date:$("#wgcStart").value,
+   end_date:$("#wgcEnd").value,
+   memo:$("#wgcMemo").value.trim()
+  });
+
+  clear();
+  msg(x.message,false);
+  await loadCoupons();
+
+ }catch(e){
+  msg(e.message,true);
+ }
+};
+
+$("#wgcUpdate").onclick=async function(){
+
+ if(!mustSelect())return;
+
+ try{
+
+  var x=await api("update_coupon",{
+   id:selected.id,
+   coupon_name:$("#wgcName").value.trim(),
+   coupon_type:$("#wgcType").value,
+   discount_amount:$("#wgcAmount").value,
+   discount_rate:$("#wgcRate").value,
+   issue_limit:$("#wgcLimit").value,
+   start_date:$("#wgcStart").value,
+   end_date:$("#wgcEnd").value,
+   memo:$("#wgcMemo").value.trim()
+  });
+
+  msg(x.message,false);
+  await loadCoupons();
+
+ }catch(e){
+  msg(e.message,true);
+ }
+};
+
+$("#wgcClear").onclick=clear;
+
+$("#wgcIssue").onclick=async function(){
+
+ if(!mustSelect())return;
+
+ try{
+  var x=await api("issue_coupon",{id:selected.id});
+  msg(x.message,false);
+  await loadCoupons();
+ }catch(e){
+  msg(e.message,true);
+ }
+};
+
+$("#wgcUse").onclick=async function(){
+
+ if(!mustSelect())return;
+
+ var customer=prompt("고객 식별값을 입력하세요.\n예: 전화번호 뒤 4자리 또는 내부 고객키");
+ if(customer===null)return;
+
+ try{
+  var x=await api("use_coupon",{
+   id:selected.id,
+   customer_key:customer.trim()
+  });
+  msg(x.message,false);
+  await loadCoupons();
+ }catch(e){
+  msg(e.message,true);
+ }
+};
+
+$("#wgcActivate").onclick=async function(){
+ if(!mustSelect())return;
+
+ try{
+  var x=await api("activate_coupon",{id:selected.id});
+  msg(x.message,false);
+  await loadCoupons();
+ }catch(e){msg(e.message,true);}
+};
+
+$("#wgcSuspend").onclick=async function(){
+ if(!mustSelect())return;
+ if(!confirm("선택 쿠폰을 정지하시겠습니까?"))return;
+
+ try{
+  var x=await api("suspend_coupon",{id:selected.id});
+  msg(x.message,false);
+  await loadCoupons();
+ }catch(e){msg(e.message,true);}
+};
+
+$("#wgcExpire").onclick=async function(){
+ if(!mustSelect())return;
+
+ try{
+  var x=await api("expire_coupon",{id:selected.id});
+  msg(x.message,false);
+  await loadCoupons();
+ }catch(e){msg(e.message,true);}
+};
+
+$("#wgcDelete").onclick=async function(){
+ if(!mustSelect())return;
+ if(!confirm("선택 쿠폰을 삭제하시겠습니까?"))return;
+
+ try{
+  var x=await api("delete_coupon",{id:selected.id});
+  clear();
+  msg(x.message,false);
+  await loadCoupons();
+ }catch(e){msg(e.message,true);}
+};
+
+$("#wgcSearch").oninput=render;
+
+if(!session()){
+ msg("본사 관리자 로그인이 필요합니다.",true);
+}else{
+ Promise.all([
+  loadStores(),
+  loadCoupons()
+ ]).catch(function(e){
+  msg(e.message,true);
+ });
+}
+
+})();
+</script>
+</div>
+
+
+
+
+
+<div id="hqRoomQr" class="hq-room-shell">
+  <div class="hq-room-top">
+    <button type="button" class="hq-back-btn" onclick="backToHqDashboard()">← 본사 관리자</button>
+  </div>
+
+  <div id="hqQrOrderApp">
+    <style>
+      #hqQrOrderApp{max-width:1100px;margin:auto;padding:20px 12px;font-family:Arial,sans-serif;color:#1f2937}
+      #hqQrOrderApp *{box-sizing:border-box}
+      #hqQrOrderApp h2{margin:0 0 6px;font-size:25px}
+      #hqQrOrderApp .qr-sub{margin:0 0 18px;color:#64748b;font-size:14px;line-height:1.6}
+      #hqQrOrderApp .qr-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+      #hqQrOrderApp .qr-stat{padding:14px;border:1px solid #e2e8f0;border-radius:10px;background:#fff}
+      #hqQrOrderApp .qr-stat span{display:block;font-size:12px;color:#64748b;margin-bottom:5px}
+      #hqQrOrderApp .qr-stat strong{font-size:21px}
+      #hqQrOrderApp .qr-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px;margin-bottom:16px}
+      #hqQrOrderApp .qr-search{width:100%;height:44px;padding:0 11px;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;margin-bottom:12px}
+      #hqQrOrderApp .qr-table{overflow-x:auto}
+      #hqQrOrderApp table{width:100%;min-width:900px;border-collapse:collapse}
+      #hqQrOrderApp th,#hqQrOrderApp td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left;font-size:13px}
+      #hqQrOrderApp th{background:#f8fafc;color:#475569}
+      #hqQrOrderApp tbody tr{cursor:pointer}
+      #hqQrOrderApp tbody tr:hover{background:#f0fdf4}
+      #hqQrOrderApp tbody tr.selected{background:#dcfce7}
+      #hqQrOrderApp .qr-selected{padding:13px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;line-height:1.7}
+      #hqQrOrderApp .qr-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+      #hqQrOrderApp button.qr-btn{border:0;border-radius:8px;padding:10px 14px;color:#fff;font-weight:700;cursor:pointer}
+      #hqQrOrderApp .gray{background:#475569}.blue{background:#2563eb}.purple{background:#7c3aed}.green{background:#15803d}.red{background:#dc2626}
+      #hqQrOrderApp .qr-msg{margin-top:12px;font-size:14px;font-weight:700}
+      @media(max-width:700px){#hqQrOrderApp .qr-summary{grid-template-columns:1fr 1fr}}
+    </style>
+
+    <h2>QR 주문관리</h2>
+    <p class="qr-sub">매장관리자에서 신청한 자동차 QR 주문을 확인하고 제작·발송 상태를 관리합니다.</p>
+
+    <div class="qr-summary">
+      <div class="qr-stat"><span>전체 주문</span><strong id="hqQrTotal">0</strong></div>
+      <div class="qr-stat"><span>접수대기</span><strong id="hqQrWaiting">0</strong></div>
+      <div class="qr-stat"><span>제작중</span><strong id="hqQrMaking">0</strong></div>
+      <div class="qr-stat"><span>발송완료</span><strong id="hqQrSent">0</strong></div>
+    </div>
+
+    <div class="qr-card">
+      <input id="hqQrSearch" class="qr-search" placeholder="매장명 · 매장ID · 주문번호 검색">
+      <div class="qr-table">
+        <table>
+          <thead>
+            <tr>
+              <th>주문번호</th>
+              <th>매장ID</th>
+              <th>매장명</th>
+              <th>신청수량</th>
+              <th>신청일시</th>
+              <th>처리상태</th>
+            </tr>
+          </thead>
+          <tbody id="hqQrTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="qr-card">
+      <div id="hqQrSelected" class="qr-selected">주문을 선택해 주세요.</div>
+      <div class="qr-btns">
+        <button type="button" class="qr-btn gray" onclick="changeHqQrStatus('접수대기')">접수대기</button>
+        <button type="button" class="qr-btn blue" onclick="changeHqQrStatus('접수완료')">접수완료</button>
+        <button type="button" class="qr-btn purple" onclick="changeHqQrStatus('제작중')">제작중</button>
+        <button type="button" class="qr-btn green" onclick="changeHqQrStatus('제작완료')">제작완료</button>
+        <button type="button" class="qr-btn green" onclick="changeHqQrStatus('발송완료')">발송완료</button>
+        <button type="button" class="qr-btn red" onclick="changeHqQrStatus('취소')">취소</button>
+      </div>
+      <div id="hqQrMessage" class="qr-msg"></div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    "use strict";
+
+    const QR_SUPABASE_URL = "https://wpshlmjjsscmlasqtapa.supabase.co";
+    const QR_SUPABASE_KEY = "sb_publishable_3QLYewR-TXBd1mNfte6OJg_kre42L7K";
+    let qrRows = [];
+    let qrSelected = null;
+
+    function qrHeaders(prefer){
+      return {
+        "apikey":QR_SUPABASE_KEY,
+        "Authorization":"Bearer "+QR_SUPABASE_KEY,
+        "Content-Type":"application/json",
+        "Prefer":prefer || "return=representation"
+      };
+    }
+
+    function qrEsc(v){
+      const d=document.createElement("div");
+      d.textContent=v==null?"":String(v);
+      return d.innerHTML;
+    }
+
+    function qrDate(v){
+      if(!v)return "";
+      try{return new Date(v).toLocaleString("ko-KR");}catch(e){return v;}
+    }
+
+    function qrMsg(text,error){
+      const e=document.getElementById("hqQrMessage");
+      if(!e)return;
+      e.textContent=text||"";
+      e.style.color=error?"#dc2626":"#15803d";
+    }
+
+    function qrSummary(){
+      document.getElementById("hqQrTotal").textContent=qrRows.length.toLocaleString("ko-KR");
+      document.getElementById("hqQrWaiting").textContent=qrRows.filter(r=>r.status==="접수대기").length.toLocaleString("ko-KR");
+      document.getElementById("hqQrMaking").textContent=qrRows.filter(r=>r.status==="제작중").length.toLocaleString("ko-KR");
+      document.getElementById("hqQrSent").textContent=qrRows.filter(r=>r.status==="발송완료").length.toLocaleString("ko-KR");
+    }
+
+    function qrRender(){
+      const q=(document.getElementById("hqQrSearch").value||"").trim().toLowerCase();
+      const tbody=document.getElementById("hqQrTable");
+      tbody.innerHTML="";
+
+      qrRows.filter(function(r){
+        return [r.id,r.store_id,r.store_name,r.status].join(" ").toLowerCase().indexOf(q)>-1;
+      }).forEach(function(r){
+        const tr=document.createElement("tr");
+        if(qrSelected && String(qrSelected.id)===String(r.id))tr.className="selected";
+        tr.innerHTML=
+          "<td>"+qrEsc(r.id)+"</td>"+
+          "<td>"+qrEsc(r.store_id)+"</td>"+
+          "<td><b>"+qrEsc(r.store_name)+"</b></td>"+
+          "<td>"+Number(r.quantity||0).toLocaleString("ko-KR")+"개</td>"+
+          "<td>"+qrEsc(qrDate(r.created_at))+"</td>"+
+          "<td><b>"+qrEsc(r.status)+"</b></td>";
+        tr.onclick=function(){
+          qrSelected=r;
+          document.getElementById("hqQrSelected").innerHTML=
+            "<b>주문번호 "+qrEsc(r.id)+"</b><br>"+
+            qrEsc(r.store_name)+" ("+qrEsc(r.store_id)+") · "+
+            Number(r.quantity||0).toLocaleString("ko-KR")+"개 · 현재상태: "+qrEsc(r.status);
+          qrMsg("",false);
+          qrRender();
+        };
+        tbody.appendChild(tr);
+      });
+    }
+
+    window.loadHqQrOrders=async function(){
+      try{
+        qrMsg("불러오는 중...",false);
+        const response=await fetch(
+          QR_SUPABASE_URL+"/rest/v1/qr_orders?select=*&order=created_at.desc",
+          {headers:qrHeaders()}
+        );
+        if(!response.ok)throw new Error(await response.text());
+        qrRows=await response.json();
+        qrSummary();
+        qrRender();
+        qrMsg("",false);
+      }catch(error){
+        console.error(error);
+        qrMsg("QR 주문목록을 불러오지 못했습니다: "+error.message,true);
+      }
+    };
+
+    window.changeHqQrStatus=async function(nextStatus){
+      if(!qrSelected){alert("주문을 먼저 선택하세요.");return;}
+      if(!confirm("선택 주문을 '"+nextStatus+"' 상태로 변경하시겠습니까?"))return;
+
+      try{
+        const response=await fetch(
+          QR_SUPABASE_URL+"/rest/v1/qr_orders?id=eq."+encodeURIComponent(qrSelected.id),
+          {
+            method:"PATCH",
+            headers:qrHeaders(),
+            body:JSON.stringify({status:nextStatus,updated_at:new Date().toISOString()})
+          }
+        );
+        if(!response.ok)throw new Error(await response.text());
+        qrMsg("처리상태가 변경되었습니다.",false);
+        qrSelected=null;
+        document.getElementById("hqQrSelected").textContent="주문을 선택해 주세요.";
+        await window.loadHqQrOrders();
+      }catch(error){
+        console.error(error);
+        qrMsg("상태 변경에 실패했습니다: "+error.message,true);
+      }
+    };
+
+    document.getElementById("hqQrSearch").addEventListener("input",qrRender);
+  })();
+  </script>
+</div>
+
+
+<script>
+(function(){
+  "use strict";
+
+  const FUNCTION_URL =
+    "https://dcysjuxyjqtvkihdsjvv.supabase.co/functions/v1/hq-admin-account";
+
+  const STATS_FUNCTION_URL =
+    "https://dcysjuxyjqtvkihdsjvv.supabase.co/functions/v1/hq-dashboard-stats";
+
+  const SESSION_KEY = "wooriapt_hq_admin_session";
+  const ADMIN_ID_KEY = "wooriapt_hq_admin_id";
+  const JUST_LOGGED_IN_KEY = "wooriapt_hq_just_logged_in";
+
+  const loginScreen = document.getElementById("loginScreen");
+  const dashboard = document.getElementById("dashboard");
+  const loginId = document.getElementById("loginId");
+  const loginPassword = document.getElementById("loginPassword");
+  const loginButton = document.getElementById("loginButton");
+  const loginMessage = document.getElementById("loginMessage");
+  const adminIdLabel = document.getElementById("adminIdLabel");
+  const logoutButton = document.getElementById("logoutButton");
+  const messageBox = document.getElementById("messageBox");
+
+  function showLoginMessage(text,type){
+    loginMessage.textContent = text || "";
+    loginMessage.className = "login-message" + (type ? " " + type : "");
+  }
+
+  function showMessage(text,type){
+    messageBox.textContent = text || "";
+    messageBox.className = "message" + (type ? " " + type : "");
+  }
+
+  function saveSession(token,adminId){
+    localStorage.setItem(SESSION_KEY,token);
+    localStorage.setItem(ADMIN_ID_KEY,adminId || "admin");
+  }
+
+  function clearSession(){
+    localStorage.removeItem(SESSION_KEY);
+    localStorage.removeItem(ADMIN_ID_KEY);
+  }
+
+  async function api(action,payload){
+    const response = await fetch(FUNCTION_URL,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(Object.assign({action:action},payload || {}))
+    });
+
+    const raw = await response.text();
+    let data = {};
+    try{ data = raw ? JSON.parse(raw) : {}; }catch(error){ data = {}; }
+
+    if(!response.ok || data.ok === false){
+      throw new Error(data.message || data.error || "처리에 실패했습니다.");
+    }
+    return data;
+  }
+
+  async function loadDashboardStats(){
+    const storeCount = document.getElementById("storeCount");
+    const activeStoreCount = document.getElementById("activeStoreCount");
+    const bannerCount = document.getElementById("bannerCount");
+    const couponCount = document.getElementById("couponCount");
+
+    try{
+      const response = await fetch(STATS_FUNCTION_URL,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({})
+      });
+
+      const raw = await response.text();
+      let data = {};
+      try{ data = raw ? JSON.parse(raw) : {}; }catch(error){ data = {}; }
+
+      if(!response.ok || data.ok === false){
+        throw new Error(data.message || data.error || "운영 현황을 불러오지 못했습니다.");
+      }
+
+      storeCount.textContent = Number(data.store_count || 0).toLocaleString("ko-KR");
+      activeStoreCount.textContent = Number(data.active_store_count || 0).toLocaleString("ko-KR");
+      bannerCount.textContent = Number(data.banner_count || 0).toLocaleString("ko-KR");
+      couponCount.textContent = Number(data.coupon_count || 0).toLocaleString("ko-KR");
+    }catch(error){
+      console.error(error);
+      storeCount.textContent = "-";
+      activeStoreCount.textContent = "-";
+      bannerCount.textContent = "-";
+      couponCount.textContent = "-";
+    }
+  }
+
+  function hideRooms(){
+    ["hqRoomAccount","hqRoomApproval","hqRoomInquiry","hqRoomPayment","hqRoomBanner","hqRoomCoupon","hqRoomQr"].forEach(function(id){
+      const el=document.getElementById(id);
+      if(el) el.style.display="none";
+    });
+  }
+
+  window.openHqRoom = function(room){
+    if(!localStorage.getItem(SESSION_KEY)){
+      dashboard.style.display="none";
+      hideRooms();
+      loginScreen.style.display="block";
+      return;
+    }
+
+    dashboard.style.display="none";
+    loginScreen.style.display="none";
+    hideRooms();
+
+    const map={
+      account:"hqRoomAccount",
+      approval:"hqRoomApproval",
+      inquiry:"hqRoomInquiry",
+      payment:"hqRoomPayment",
+      banner:"hqRoomBanner",
+      coupon:"hqRoomCoupon",
+      qr:"hqRoomQr"
+    };
+
+    const target=document.getElementById(map[room]);
+    if(target) target.style.display="block";
+    if(room==="qr" && typeof window.loadHqQrOrders==="function") window.loadHqQrOrders();
+    if(room==="approval" && typeof window.loadHqApproval==="function") window.loadHqApproval();
+    if(room==="inquiry" && typeof window.loadHqInquiry==="function") window.loadHqInquiry();
+
+    window.scrollTo(0,0);
+  };
+
+  window.backToHqDashboard = function(){
+    hideRooms();
+    loginScreen.style.display="none";
+    dashboard.style.display="block";
+    window.scrollTo(0,0);
+  };
+
+  async function showDashboard(adminId){
+    adminIdLabel.textContent = adminId || localStorage.getItem(ADMIN_ID_KEY) || "admin";
+    hideRooms();
+    loginScreen.style.display = "none";
+    dashboard.style.display = "block";
+    await loadDashboardStats();
+  }
+
+  loginButton.addEventListener("click",async function(){
+    const adminId = loginId.value.trim();
+    const password = loginPassword.value;
+
+    if(!adminId || !password){
+      showLoginMessage("아이디와 비밀번호를 입력해 주세요.","error");
+      return;
+    }
+
+    try{
+      loginButton.disabled = true;
+      showLoginMessage("로그인하고 있습니다.","waiting");
+
+      const data = await api("login",{
+        admin_id:adminId,
+        password:password
+      });
+
+      saveSession(data.session_token,data.admin_id);
+
+      /* 4개 관리방이 로그인 세션을 다시 읽도록 로그인 성공 직후 1회만 새로고침합니다.
+         이때 로그인 화면이 다시 깜빡이지 않도록 1회 통과 표시를 저장합니다. */
+      sessionStorage.setItem(JUST_LOGGED_IN_KEY,"1");
+      window.location.reload();
+
+    }catch(error){
+      showLoginMessage(error.message || "로그인에 실패했습니다.","error");
+      loginButton.disabled = false;
+    }
+  });
+
+  loginPassword.addEventListener("keydown",function(event){
+    if(event.key === "Enter") loginButton.click();
+  });
+
+  logoutButton.addEventListener("click",async function(){
+    const token = localStorage.getItem(SESSION_KEY) || "";
+
+    try{
+      logoutButton.disabled = true;
+      showMessage("로그아웃하고 있습니다.","waiting");
+
+      if(token){
+        await api("logout",{session_token:token});
+      }
+    }catch(error){
+      console.warn(error);
+    }finally{
+      clearSession();
+      hideRooms();
+      dashboard.style.display = "none";
+      loginScreen.style.display = "block";
+      loginPassword.value = "1234";
+      showMessage("","");
+      logoutButton.disabled = false;
+      window.scrollTo(0,0);
+    }
+  });
+
+  async function startPage(){
+    const token = localStorage.getItem(SESSION_KEY) || "";
+    const justLoggedIn = sessionStorage.getItem(JUST_LOGGED_IN_KEY) === "1";
+
+    hideRooms();
+    dashboard.style.display="none";
+    loginScreen.style.display="none";
+
+    /* 로그인 성공 직후의 1회 새로고침만 관리자 화면으로 통과 */
+    if(justLoggedIn && token){
+      sessionStorage.removeItem(JUST_LOGGED_IN_KEY);
+
+      try{
+        const data = await api("validate_session",{session_token:token});
+        saveSession(token,data.admin_id);
+        await showDashboard(data.admin_id);
+        return;
+      }catch(error){
+        clearSession();
+      }
+    }
+
+    /* 일반 진입에서는 이전 로그인 세션으로 자동 통과하지 않음 */
+    sessionStorage.removeItem(JUST_LOGGED_IN_KEY);
+    clearSession();
+    loginScreen.style.display="block";
+  }
+
+  startPage();
+})();
+</script>
+
+
+</body>
+</html>

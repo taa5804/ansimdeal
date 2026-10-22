@@ -1,14 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/api/property-request",
-      "destination": "https://www.wooriapt.app/api/property-request"
-    },
-    {
-      "source": "/api/customer-phone-auth",
-      "destination": "https://www.wooriapt.app/api/customer-phone-auth"
-    },
-    {
       "source": "/sale-admin",
       "destination": "/sale-admin.html"
     },
@@ -59,6 +51,14 @@
     {
       "source": "/mart-price",
       "destination": "/mart-price.html"
+    },
+    {
+      "source": "/api/property-request",
+      "destination": "https://www.wooriapt.app/api/property-request"
+    },
+    {
+      "source": "/api/customer-phone-auth",
+      "destination": "https://www.wooriapt.app/api/customer-phone-auth"
     },
     {
       "source": "/mart-store",
@@ -175,6 +175,10 @@
     {
       "source": "/mart-search/:region/:city/:place/:mart",
       "destination": "/api/mart-page?mode=mart-page&region=:region&city=:city&place=:place&mart=:mart"
+    },
+    {
+      "source": "/mart-search/:region/:city/:place",
+      "destination": "/api/mart-page?mode=mart-page&region=:region&city=:city&place=:place"
     },
     {
       "source": "/sitemaps/marts-:page.xml",

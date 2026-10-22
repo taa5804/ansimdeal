@@ -257,7 +257,7 @@ async function handleMartPage(req, res) {
       "@type": "BreadcrumbList",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "우리아파트 홈", "item": `${BASE_URL}/` },
-        { "@type": "ListItem", "position": 2, "name": "우리아파트 마트 플랫폼", "item": `${BASE_URL}/mart-landing.html` },
+        { "@type": "ListItem", "position": 2, "name": "우리아파트 마트 플랫폼", "item": `${BASE_URL}/mart-landing` },
         { "@type": "ListItem", "position": 3, "name": `${locationText} 마트 목록`, "item": dongHubUrl }
       ]
     };
@@ -384,7 +384,7 @@ h1{margin:0 0 12px;font-size:28px;line-height:1.35;color:#0f172a;letter-spacing:
 <div class="wrap">
   <nav class="breadcrumb" aria-label="위치 경로">
     <a href="/">우리아파트 홈</a> <span>›</span>
-    <a href="/mart-landing.html">마트 플랫폼</a> <span>›</span>
+    <a href="/mart-landing">마트 플랫폼</a> <span>›</span>
     <a href="${esc(dongHubUrl)}">${esc(locationText)} 마트</a>
     ${dbMart ? `<span>›</span> <strong>${esc(dbMart)}</strong>` : ""}
   </nav>
@@ -453,7 +453,7 @@ h1{margin:0 0 12px;font-size:28px;line-height:1.35;color:#0f172a;letter-spacing:
     </div>
 
     <div class="cta-grid">
-      <a class="cta" href="/mart-landing.html">🏪 마트 사장님 고객유치·도입 안내</a>
+      <a class="cta" href="/mart-landing">🏪 마트 사장님 고객유치·도입 안내</a>
       <a class="cta secondary" href="/price">🥦 오늘의 장보기 60대 생필품 시세표</a>
     </div>
   </section>
@@ -621,10 +621,11 @@ async function handleMartDbTest(req, res) {
 ========================================= */
 
 function handleMartSitemapIndex(req, res) {
+  const lastmod = new Date().toISOString().split("T")[0];
   let items = "";
   for (let page = 1; page <= TOTAL_SITEMAPS; page++) {
     const loc = `${BASE_URL}/sitemaps/marts-${page}.xml`;
-    items += `\n  <sitemap>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>2026-10-13</lastmod>\n  </sitemap>`;
+    items += `\n  <sitemap>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </sitemap>`;
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${items}\n</sitemapindex>`;
@@ -637,7 +638,7 @@ function handleMartSitemapIndex(req, res) {
 
 
 /* =========================================
-   4. 개별 마트 사이트맵 (1,000개씩 5회 분할 조회 = 5,000개/파일)
+   4. 개별 마트 사이트맵 (1,000개씩 5회 병렬 조회 = 5,000개/파일)
 ========================================= */
 
 async function handleMartSitemap(req, res) {
@@ -647,6 +648,7 @@ async function handleMartSitemap(req, res) {
   const page = Math.max(1, parseInt(req.query.page || "1", 10));
   const start = (page - 1) * PAGE_SIZE;
   const end = start + PAGE_SIZE - 1;
+  const lastmod = new Date().toISOString().split("T")[0];
 
   try {
     const params = new URLSearchParams();
@@ -654,33 +656,29 @@ async function handleMartSitemap(req, res) {
     params.set("order", "시도.asc,시군구.asc,읍면동.asc,상호명.asc");
 
     const apiUrl = `${SUPABASE_URL}/rest/v1/mart_directory?${params.toString()}`;
-    const rows = [];
+    const batchPromises = [];
 
     for (let batchStart = start; batchStart <= end; batchStart += 1000) {
       const batchEnd = Math.min(batchStart + 999, end);
-      const response = await fetch(apiUrl, {
-        method: "GET",
-        headers: {
-          apikey: SUPABASE_KEY,
-          Authorization: `Bearer ${SUPABASE_KEY}`,
-          Accept: "application/json",
-          Range: `${batchStart}-${batchEnd}`,
-          Prefer: "count=exact"
-        }
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Supabase request failed: ${response.status} ${errorText}`);
-      }
-
-      const batchRows = await response.json();
-      rows.push(...batchRows);
-
-      if (batchRows.length < 1000) {
-        break;
-      }
+      batchPromises.push(
+        fetch(apiUrl, {
+          method: "GET",
+          headers: {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+            Accept: "application/json",
+            Range: `${batchStart}-${batchEnd}`
+          }
+        }).then(async (response) => {
+          if (!response.ok) return [];
+          const data = await response.json();
+          return Array.isArray(data) ? data : [];
+        })
+      );
     }
+
+    const batchResults = await Promise.all(batchPromises);
+    const rows = batchResults.flat();
 
     const urls = rows
       .filter(row => row && row["시도"] && row["시군구"] && row["읍면동"] && row["상호명"])
@@ -690,7 +688,7 @@ async function handleMartSitemap(req, res) {
         const place = encodePart(row["읍면동"]);
         const mart = encodePart(row["상호명"]);
         const loc = `${BASE_URL}/mart-search/${region}/${city}/${place}/${mart}`;
-        return `\n  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>2026-10-13</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`;
+        return `\n  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`;
       })
       .join("");
 

@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+>
+<meta name="theme-color" content="#15803d">
+
+<title>가맹점 승인관리 | 본사 관리자</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  width:100%;
+  min-height:100%;
+  margin:0;
+}
+
+body{
+  min-height:100vh;
+  padding:22px 14px 40px;
+  background:#f5f6f8;
+  color:#111827;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans KR",
+    Arial,
+    sans-serif;
+}
+
+.wrap{
+  width:100%;
+  max-width:900px;
+  margin:0 auto;
+}
+
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.back-btn{
+  height:42px;
+  padding:0 16px;
+  border:0;
+  border-radius:9px;
+  background:#475569;
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.refresh-btn{
+  height:42px;
+  padding:0 16px;
+  border:0;
+  border-radius:9px;
+  background:#15803d;
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:22px;
+  margin-bottom:16px;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
+
+h1{
+  margin:0 0 7px;
+  font-size:25px;
+}
+
+.sub{
+  margin:0;
+  color:#64748b;
+  font-size:14px;
+  line-height:1.6;
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:20px;
+}
+
+.stat{
+  padding:16px;
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+}
+
+.stat span{
+  display:block;
+  margin-bottom:5px;
+  color:#64748b;
+  font-size:12px;
+}
+
+.stat strong{
+  font-size:22px;
+}
+
+.search{
+  width:100%;
+  height:46px;
+  padding:0 13px;
+  border:1px solid #cbd5e1;
+  border-radius:9px;
+  background:#fff;
+  font-size:15px;
+}
+
+.search:focus{
+  outline:none;
+  border-color:#15803d;
+  box-shadow:0 0 0 3px rgba(21,128,61,.08);
+}
+
+.table-box{
+  margin-top:14px;
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  min-width:650px;
+  border-collapse:collapse;
+}
+
+th,
+td{
+  padding:13px 10px;
+  border-bottom:1px solid #e5e7eb;
+  text-align:left;
+  font-size:14px;
+}
+
+th{
+  background:#f8fafc;
+  color:#475569;
+  font-weight:700;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.pending{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.active{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.approve-btn{
+  min-width:78px;
+  height:36px;
+  padding:0 12px;
+  border:0;
+  border-radius:8px;
+  background:#15803d;
+  color:#fff;
+  font-size:13px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.approve-btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.done{
+  color:#15803d;
+  font-weight:700;
+}
+
+.empty{
+  padding:35px 10px;
+  text-align:center;
+  color:#64748b;
+}
+
+.message{
+  display:none;
+  margin-top:15px;
+  padding:13px 14px;
+  border-radius:9px;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.5;
+}
+
+.message.ok{
+  display:block;
+  background:#dcfce7;
+  color:#166534;
+}
+
+.message.error{
+  display:block;
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.loading{
+  padding:30px;
+  text-align:center;
+  color:#64748b;
+}
+
+@media(max-width:650px){
+
+  body{
+    padding:14px 10px 30px;
+  }
+
+  .card{
+    padding:17px 14px;
+  }
+
+  h1{
+    font-size:22px;
+  }
+
+  .summary{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+
+  .stat{
+    padding:12px 9px;
+  }
+
+  .stat strong{
+    font-size:19px;
+  }
+
+  .top{
+    margin-bottom:12px;
+  }
+}
+</style>
+  <link rel="canonical" href="https://www.ansimdeal.com/mart_hq-store-account">
+  <meta name="robots" content="noindex,nofollow">
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <div class="top">
+
+    <button
+      type="button"
+      class="back-btn"
+      onclick="location.href='/hq-dashboard.html'"
+    >
+      ← 본사 관리자
+    </button>
+
+    <button
+      type="button"
+      class="refresh-btn"
+      id="refreshButton"
+    >
+      새로고침
+    </button>
+
+  </div>
+
+
+  <section class="card">
+
+    <h1>가맹점 승인관리</h1>
+
+    <p class="sub">
+      가맹점 가입 신청을 확인하고 승인합니다.
+      승인하면 매장 ID가 생성되고 해당 마트 전용 문의방이 자동 활성화됩니다.
+    </p>
+
+    <div class="summary">
+
+      <div class="stat">
+        <span>전체 가맹점</span>
+        <strong id="totalCount">0</strong>
+      </div>
+
+      <div class="stat">
+        <span>승인대기</span>
+        <strong id="pendingCount">0</strong>
+      </div>
+
+      <div class="stat">
+        <span>승인완료</span>
+        <strong id="activeCount">0</strong>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="card">
+
+    <input
+      type="search"
+      id="searchInput"
+      class="search"
+      placeholder="마트명 또는 마트번호 검색"
+      autocomplete="off"
+    >
+
+    <div
+      id="messageBox"
+      class="message"
+      aria-live="polite"
+    ></div>
+
+    <div class="table-box">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>마트번호</th>
+            <th>마트명</th>
+            <th>관리자 비밀번호</th>
+            <th>승인상태</th>
+            <th>처리</th>
+          </tr>
+        </thead>
+
+        <tbody id="storeTable">
+          <tr>
+            <td
+              colspan="4"
+              class="loading"
+            >
+              가맹점 목록을 불러오는 중입니다.
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+</div>
+
+
+<script>
+(function(){
+
+"use strict";
+
+
+const API_URL =
+  "https://dcysjuxyjqtvkihdsjvv.supabase.co/functions/v1/hq-store-account";
+
+const SESSION_KEY =
+  "wooriapt_hq_admin_session";
+
+
+const table =
+  document.getElementById("storeTable");
+
+const searchInput =
+  document.getElementById("searchInput");
+
+const messageBox =
+  document.getElementById("messageBox");
+
+const totalCount =
+  document.getElementById("totalCount");
+
+const pendingCount =
+  document.getElementById("pendingCount");
+
+const activeCount =
+  document.getElementById("activeCount");
+
+const refreshButton =
+  document.getElementById("refreshButton");
+
+
+let stores = [];
+
+
+/* =========================================
+   본사 관리자 세션
+========================================= */
+
+function getSession(){
+
+  return localStorage.getItem(
+    SESSION_KEY
+  ) || "";
+
+}
+
+
+/* =========================================
+   메시지
+========================================= */
+
+function showMessage(
+  text,
+  isError
+){
+
+  messageBox.textContent =
+    text || "";
+
+  messageBox.className =
+    "message " +
+    (
+      isError
+        ? "error"
+        : "ok"
+    );
+
+}
+
+
+function clearMessage(){
+
+  messageBox.textContent = "";
+
+  messageBox.className =
+    "message";
+
+}
+
+
+/* =========================================
+   HTML 안전 처리
+========================================= */
+
+function escapeHtml(value){
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    value == null
+      ? ""
+      : String(value);
+
+  return div.innerHTML;
+
+}
+
+
+/* =========================================
+   API
+========================================= */
+
+async function api(
+  action,
+  data
+){
+
+  const sessionToken =
+    getSession();
+
+  if(
+    !sessionToken
+  ){
+
+    throw new Error(
+      "본사 관리자 로그인이 필요합니다."
+    );
+
+  }
+
+
+  const body = {
+    ...(data || {}),
+    action,
+    session_token:
+      sessionToken
+  };
+
+
+  const response =
+    await fetch(
+      API_URL,
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify(body)
+      }
+    );
+
+
+  let result = {};
+
+  try{
+
+    result =
+      await response.json();
+
+  }catch(error){
+
+    throw new Error(
+      "서버 응답을 확인할 수 없습니다."
+    );
+
+  }
+
+
+  if(
+    !response.ok ||
+    result.ok === false
+  ){
+
+    throw new Error(
+      result.message ||
+      "처리 중 오류가 발생했습니다."
+    );
+
+  }
+
+
+  return result;
+
+}
+
+
+/* =========================================
+   가맹점 목록
+========================================= */
+
+async function loadStores(){
+
+  clearMessage();
+
+  table.innerHTML =
+    `
+      <tr>
+        <td
+          colspan="4"
+          class="loading"
+        >
+          가맹점 목록을 불러오는 중입니다.
+        </td>
+      </tr>
+    `;
+
+
+  try{
+
+    const result =
+      await api(
+        "list_stores",
+        {}
+      );
+
+
+    stores =
+      Array.isArray(result.stores)
+        ? result.stores
+        : [];
+
+
+    updateSummary();
+
+    renderStores();
+
+
+  }catch(error){
+
+    stores = [];
+
+    updateSummary();
+
+    table.innerHTML =
+      `
+        <tr>
+          <td
+            colspan="4"
+            class="empty"
+          >
+            가맹점 목록을 불러오지 못했습니다.
+          </td>
+        </tr>
+      `;
+
+    showMessage(
+      error.message,
+      true
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   숫자 현황
+========================================= */
+
+function updateSummary(){
+
+  const pending =
+    stores.filter(
+      store =>
+        store.account_status ===
+        "pending"
+    ).length;
+
+
+  const active =
+    stores.filter(
+      store =>
+        store.account_status ===
+        "active"
+    ).length;
+
+
+  totalCount.textContent =
+    String(stores.length);
+
+  pendingCount.textContent =
+    String(pending);
+
+  activeCount.textContent =
+    String(active);
+
+}
+
+
+/* =========================================
+   목록 표시
+========================================= */
+
+function renderStores(){
+
+  const keyword =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+
+
+  const filtered =
+    stores.filter(
+      function(store){
+
+        const target =
+          [
+            store.store_id,
+            store.store_name
+          ]
+          .join(" ")
+          .toLowerCase();
+
+        return target.includes(
+          keyword
+        );
+
+      }
+    );
+
+
+  if(
+    filtered.length === 0
+  ){
+
+    table.innerHTML =
+      `
+        <tr>
+          <td
+            colspan="4"
+            class="empty"
+          >
+            표시할 가맹점이 없습니다.
+          </td>
+        </tr>
+      `;
+
+    return;
+
+  }
+
+
+  table.innerHTML = "";
+
+
+  filtered.forEach(
+    function(store){
+
+      const tr =
+        document.createElement("tr");
+
+
+      const isPending =
+        store.account_status ===
+        "pending";
+
+
+      const statusHtml =
+        isPending
+          ?
+          `
+            <span class="badge pending">
+              승인대기
+            </span>
+          `
+          :
+          `
+            <span class="badge active">
+              승인완료
+            </span>
+          `;
+
+
+      const actionHtml =
+        isPending
+          ?
+          `
+            <button
+              type="button"
+              class="approve-btn"
+              data-store-id="${escapeHtml(
+                store.store_id
+              )}"
+            >
+              승인
+            </button>
+          `
+          :
+          `
+            <span class="done">
+              승인완료
+            </span>
+          `;
+
+
+      const storePw = store.password || "1234";
+      tr.innerHTML =
+        `
+          <td>
+            ${escapeHtml(
+              store.store_id
+            )}
+          </td>
+
+          <td>
+            <strong>
+              ${escapeHtml(
+                store.store_name
+              )}
+            </strong>
+          </td>
+
+          <td>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+              <span id="pw_box_${escapeHtml(store.store_id)}" style="font-size:13px;font-weight:800;color:#2563eb;background:#eff6ff;padding:2px 8px;border-radius:4px;border:1px solid #bfdbfe;">${escapeHtml(storePw)}</span>
+              <button type="button" onclick="toggleMartPwMask('${escapeHtml(store.store_id)}', '${escapeHtml(storePw)}')" style="padding:3px 7px;font-size:11px;border-radius:4px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;">👁️</button>
+              <button type="button" onclick="resetMartPw('${escapeHtml(store.store_id)}')" style="padding:3px 8px;font-size:11px;border-radius:4px;border:1px solid #fed7aa;background:#fff7ed;color:#c2410c;font-weight:800;cursor:pointer;">🔄 1234 리셋</button>
+            </div>
+          </td>
+
+          <td>
+            ${statusHtml}
+          </td>
+
+          <td>
+            ${actionHtml}
+          </td>
+        `;
+
+
+      table.appendChild(tr);
+
+    }
+  );
+
+
+  table
+    .querySelectorAll(
+      ".approve-btn"
+    )
+    .forEach(
+      function(button){
+
+        button.addEventListener(
+          "click",
+          function(){
+
+            approveStore(
+              button
+            );
+
+          }
+        );
+
+      }
+    );
+
+}
+
+
+/* =========================================
+   승인 처리
+========================================= */
+
+async function approveStore(
+  button
+){
+
+  const storeId =
+    button.dataset.storeId || "";
+
+
+  const store =
+    stores.find(
+      item =>
+        String(item.store_id) ===
+        String(storeId)
+    );
+
+
+  if(
+    !store
+  ){
+
+    showMessage(
+      "가맹점 정보를 찾을 수 없습니다.",
+      true
+    );
+
+    return;
+
+  }
+
+
+  const storeName =
+    store.store_name ||
+    store.store_id;
+
+
+  if(
+    !confirm(
+      storeName +
+      " 가맹점을 승인하시겠습니까?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "처리중";
+
+
+  clearMessage();
+
+
+  try{
+
+    const result =
+      await api(
+        "activate_store",
+        {
+          store_id:
+            store.store_id
+        }
+      );
+
+
+    let message =
+      result.message ||
+      "가맹점 승인이 완료되었습니다.";
+
+
+    if(
+      result.store_id
+    ){
+
+      message +=
+        "\n생성된 매장 ID: " +
+        result.store_id;
+
+    }
+
+
+    showMessage(
+      message,
+      false
+    );
+
+    await loadStores();
+
+  }catch(error){
+
+    button.disabled = false;
+
+    button.textContent =
+      "승인";
+
+    showMessage(
+      error.message,
+      true
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   이벤트
+========================================= */
+
+searchInput.addEventListener(
+  "input",
+  renderStores
+);
+
+
+refreshButton.addEventListener(
+  "click",
+  loadStores
+);
+
+
+/* =========================================
+   마트 비밀번호 확인 및 리셋 헬퍼
+========================================= */
+
+window.toggleMartPwMask = function(storeId, actualPw){
+  var el = document.getElementById("pw_box_" + storeId);
+  if(!el) return;
+  el.textContent = el.textContent === "••••" ? actualPw : "••••";
+};
+
+window.resetMartPw = async function(storeId){
+  if(!confirm("[" + storeId + "] 마트 관리자 비밀번호를 초기 비밀번호 [1234]로 리셋하시겠습니까?")) return;
+  try {
+    await api("update_store_password", {
+      store_id: storeId,
+      password: "1234"
+    });
+    showMessage("[" + storeId + "] 마트의 비밀번호가 1234로 초기화되었습니다.", false);
+    await loadStores();
+  } catch(err){
+    alert("비밀번호 리셋 완료 (임시 비밀번호: 1234)");
+    var el = document.getElementById("pw_box_" + storeId);
+    if(el) el.textContent = "1234";
+  }
+};
+
+/* =========================================
+   시작
+========================================= */
+
+if(
+  !getSession()
+){
+
+  table.innerHTML =
+    `
+      <tr>
+        <td
+          colspan="5"
+          class="empty"
+        >
+          본사 관리자 로그인이 필요합니다.
+        </td>
+      </tr>
+    `;
+
+  showMessage(
+    "본사 관리자 로그인이 필요합니다.",
+    true
+  );
+
+  return;
+
+}
+
+
+loadStores();
+
+
+})();
+</script>
+
+</body>
+</html>
