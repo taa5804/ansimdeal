@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1165d7">
 
-<title>매물 제안 등록 | 우리아파트 안심거래</title>
+<title>매물 제안 등록 | 안심딜 상가·점포 안심거래</title>
 
 <style>
 *{
@@ -196,7 +196,7 @@ textarea{
 
 .type-tabs{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(2,1fr);
   gap:8px;
 }
 
@@ -533,7 +533,6 @@ textarea:focus{
 
 }
 </style>
-<meta name="robots" content="noindex,nofollow">
 </head>
 
 <body>
@@ -544,11 +543,11 @@ textarea:focus{
 
     <div>
       <div class="brand">
-        우리아파트 안심거래
+        안심딜 상가·점포 안심거래
       </div>
 
       <div class="step">
-        공인중개사 매물 등록 · 매물 제안방
+        공인중개사 임대 등록 · 매물 제안방
       </div>
     </div>
 
@@ -571,7 +570,7 @@ textarea:focus{
       </h1>
 
       <p>
-        매수·임차 희망조건에 맞는 매물을 등록해 주세요.
+        임차 희망조건에 맞는 상가·점포 매물을 등록해 주세요.
       </p>
 
     </div>
@@ -585,7 +584,7 @@ textarea:focus{
         <div>
 
           <div class="request-label">
-            매수·임차 요청번호
+            임차 요청번호
           </div>
 
           <div
@@ -611,16 +610,16 @@ textarea:focus{
         </strong>
         <br>
 
-        매수인·임차인에게는 공인중개사 중개보수를
+        임차인에게는 공인중개사 중개보수를
         청구할 수 없습니다.
 
         <br>
 
-        매도인·임대인의 중개보수는 법정 상한 범위 내에서
+        임대인의 중개보수는 법정 상한 범위 내에서
         공인중개사가 직접 수령합니다.
 
         <br>
-        <strong>🔒 매수인·임차인의 연락처는 공개되지 않으며, 매수인·임차인이 직접 알려주기 전까지는 절대 공개되지 않습니다.</strong>
+        <strong>🔒 임차인(매수자)의 연락처는 공개되지 않으며, 임차인(매수자)이 직접 알려주기 전까지는 절대 공개되지 않습니다.</strong>
 
       </div>
 
@@ -639,14 +638,6 @@ textarea:focus{
           <button
             type="button"
             class="type-btn active"
-            data-type="sale"
-          >
-            매매
-          </button>
-
-          <button
-            type="button"
-            class="type-btn"
             data-type="jeonse"
           >
             전세
@@ -715,7 +706,7 @@ textarea:focus{
             <input
               type="text"
               id="dong"
-              placeholder="예: 대치동"
+              placeholder="예: 역삼동"
               required
             >
 
@@ -725,14 +716,14 @@ textarea:focus{
           <div class="field">
 
             <label class="title">
-              아파트명
+              상가·점포명
               <span class="req">*</span>
             </label>
 
             <input
               type="text"
               id="apartment"
-              placeholder="아파트명을 입력하세요"
+              placeholder="상가·점포명 또는 건물명을 입력하세요"
               required
             >
 
@@ -819,7 +810,7 @@ textarea:focus{
             <input
               type="text"
               id="floor"
-              placeholder="예: 10층"
+              placeholder="예: 1층"
             >
 
           </div>
@@ -834,7 +825,7 @@ textarea:focus{
             <input
               type="text"
               id="totalFloor"
-              placeholder="예: 20층"
+              placeholder="예: 5층"
             >
 
           </div>
@@ -865,11 +856,11 @@ textarea:focus{
 
 
         <div class="section-title">
-          매도인·임대인·중개사 연락처
+          임대인·중개사 연락처
         </div>
 
         <div class="file-help" style="margin:-4px 0 10px; color:#1165d7; font-weight:800;">
-          🔒 등록 시 연락처는 절대 노출되지 않으며, 매수인(임차인)이 매물을 최종 선택(거래 결정)하였을 때만 매수인(임차인)에게만 공개됩니다.
+          🔒 등록 시 연락처는 절대 노출되지 않으며, 임차인(매수자)이 매물을 최종 선택(거래 결정)하였을 때만 임차인(매수자)에게만 공개됩니다.
         </div>
 
 
@@ -1011,7 +1002,7 @@ textarea:focus{
 
             <span>
               등록한 매물정보가 사실과 다름이 없으며,
-              매수·임차 희망자에게 정확한 정보를 제공하는 것에 동의합니다.
+              임차 희망자에게 정확한 정보를 제공하는 것에 동의합니다.
             </span>
 
           </label>
@@ -1060,11 +1051,11 @@ textarea:focus{
         </h2>
 
         <p>
-          매수·임차 희망자가 제안된 매물을 확인하고 선택할 때까지
+          임차 희망자가 제안된 매물을 확인하고 선택할 때까지
           이 단계에서 대기합니다.
           <br>
-          매물이 선택되어 거래가 성사된 후에만
-          3단계 거래진행실이 생성됩니다.
+          매물이 선택되어 거래가 결정된 후에만
+          거래진행실이 생성됩니다.
         </p>
 
         <div
@@ -1126,7 +1117,7 @@ if(!code){
   "message error";
 
   message.textContent =
-  "매수·임차 요청번호가 없습니다.";
+  "임차 요청번호가 없습니다.";
 
   return;
 }
@@ -1142,7 +1133,7 @@ code;
 ===================================== */
 
 let transactionType =
-"sale";
+"jeonse";
 
 
 const priceArea =
@@ -1197,23 +1188,6 @@ function moneyInputHTML(
 
 
 function renderPrice(){
-
-  if(
-    transactionType === "sale"
-  ){
-
-    priceArea.innerHTML = `
-      <div class="grid">
-        ${moneyInputHTML(
-          "salePrice",
-          "매매가격",
-          "매매가격 입력"
-        )}
-      </div>
-    `;
-
-  }
-
 
   if(
     transactionType === "jeonse"
@@ -1527,33 +1501,6 @@ document
 
 
     if(
-      transactionType === "sale"
-    ){
-
-      price =
-      getMoney(
-        "salePrice"
-      );
-
-
-      if(!price){
-
-        message.className =
-        "message error";
-
-        message.textContent =
-        "매매가격을 입력해 주세요.";
-
-        return;
-      }
-
-      priceDisplay = "매매 " + price.toLocaleString() + "원";
-
-    }
-
-
-
-    if(
       transactionType === "jeonse"
     ){
 
@@ -1817,6 +1764,26 @@ document
       )
     );
 
+    // [중앙 서버 DB 저장] 중개사가 등록한 매물을 Supabase DB(property_proposals)로 전송
+    fetch("/api/property-proposal", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        requestNumber: code,
+        apartment: fullAddress || apartment,
+        amount: priceDisplay,
+        floor: [document.getElementById("floor").value.trim(), document.getElementById("totalFloor").value.trim()].filter(Boolean).join(" / ") || "-",
+        area: document.getElementById("area").value ? document.getElementById("area").value + "㎡" : "-",
+        description: document.getElementById("description").value.trim(),
+        officeName: document.getElementById("ownerName").value.trim() || "담당 공인중개사",
+        officePhone: document.getElementById("ownerPhone").value.trim() || ""
+      })
+    }).then(function(r){ return r.json(); }).then(function(resData){
+      console.log("Central DB proposal save result:", resData);
+    }).catch(function(err){
+      console.warn("Central DB proposal save warning:", err);
+    });
+
     try{
       const allProposals = JSON.parse(localStorage.getItem("wooriapt_proposals") || "[]");
       allProposals.unshift(proposalData);
@@ -1835,7 +1802,7 @@ document
     "message ok";
 
     message.textContent =
-    "매물 제안이 정상적으로 등록되었습니다. (매도인·임대인·중개사 연락처는 비공개로 보호되며, 매수·임차인이 매물을 최종 선택했을 때 매수·임차인에게만 공개됩니다.)";
+    "매물 제안이 정상적으로 등록되었습니다. (임대인·중개사 연락처는 비공개로 보호되며, 임차인이 매물을 최종 선택했을 때 임차인에게만 공개됩니다.)";
 
 
 
