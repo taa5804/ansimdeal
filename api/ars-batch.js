@@ -383,6 +383,6 @@ export default async function handler(req, res) {
 
   } catch (err) {
     console.error("ars-batch error:", err);
-    return res.status(500).json({ ok: false, message: "발송 처리 중 오류가 발생했습니다." });
+    return res.status(500).json({ ok: false, message: "발송 처리 중 오류가 발생했습니다.", detail: err.message, stack: err.stack });
   }
 }
