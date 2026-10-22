@@ -288,7 +288,7 @@ export default async function handler(req, res) {
       }
     }
 
-    const requests = await supabaseGet(
+    let requests = await supabaseGet(
       `property_requests?request_number=eq.${encodeURIComponent(requestNumber)}&select=*&limit=1`
     ).catch(() => []);
 
@@ -383,6 +383,6 @@ export default async function handler(req, res) {
 
   } catch (err) {
     console.error("ars-batch error:", err);
-    return res.status(500).json({ ok: false, message: "발송 처리 중 오류가 발생했습니다.", detail: err.message, stack: err.stack });
+    return res.status(500).json({ ok: false, message: "발송 처리 중 오류가 발생했습니다." });
   }
 }
