@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/api/ars-batch",
+      "destination": "https://www.wooriapt.app/api/ars-batch"
+    },
+    {
       "source": "/api/property-request",
       "destination": "https://www.wooriapt.app/api/property-request"
     },
