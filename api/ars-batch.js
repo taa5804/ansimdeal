@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   // Call Flow ID: Ansimdeal vs Wooriapt
   const IS_ANSIMDEAL = true;
   const CLAWOPS_CALL_FLOW_ID = IS_ANSIMDEAL
-    ? (process.env.CLAWOPS_CALL_FLOW_ID_ANSIM || "cmvltbfy3000t01s6g1yjgebw")
+    ? (process.env.CLAWOPS_CALL_FLOW_ID_ANSIM || "cmvitbfy3000t01s6g1yjgebw")
     : (process.env.CLAWOPS_CALL_FLOW_ID || "cmtl15663000t01s6yddn205j");
 
   const supabaseHeaders = {
