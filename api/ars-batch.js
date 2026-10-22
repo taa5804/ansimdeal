@@ -13,8 +13,8 @@ export default async function handler(req, res) {
 
   // ClawOps Voice Config
   const CLAWOPS_ACCOUNT_ID = process.env.CLAWOPS_ACCOUNT_ID || "ACUfJG1cU6IkNZxuxn";
-  const CLAWOPS_API_KEY = process.env.CLAWOPS_API_KEY || "sk_F9lZ_vmdy6VSvBcdY0yEsOjqUbEi7LTl";
-  const CLAWOPS_FROM_NUMBER = process.env.CLAWOPS_FROM_NUMBER || "070-5278-7712";
+  const CLAWOPS_API_KEY = process.env.CLAWOPS_API_KEY || "sk_vuT1vZJtqWMHdjROjqAi1x7XpGGpjSY2";
+  const CLAWOPS_FROM_NUMBER = process.env.CLAWOPS_FROM_NUMBER || "070-5276-7712";
   
   // Call Flow ID: Ansimdeal vs Wooriapt
   const IS_ANSIMDEAL = true;
