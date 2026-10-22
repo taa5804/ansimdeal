@@ -293,7 +293,21 @@ export default async function handler(req, res) {
     ).catch(() => []);
 
     if (!Array.isArray(requests) || requests.length === 0) {
-      return res.status(404).json({ ok: false, message: "매수요청을 찾을 수 없습니다." });
+      if (body.testMode) {
+        requests = [{
+          request_number: requestNumber,
+          request_type: "sale",
+          dong: body.dong || "수완동",
+          apartment: "안심테스트단지",
+          size: "34평",
+          sale_min: 40000,
+          sale_max: 50000,
+          move_date: "2026-11-30",
+          move_flexible: true
+        }];
+      } else {
+        return res.status(404).json({ ok: false, message: "매수요청을 찾을 수 없습니다." });
+      }
     }
 
     const request = requests[0];
