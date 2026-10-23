@@ -598,10 +598,15 @@ textarea:focus{
 
         </div>
 
-        <div class="agree-complete">
+        <div class="agree-complete" id="requestVerifyBadge">
           ✓ 요청번호 확인완료
         </div>
 
+      </div>
+
+      <div id="customerRequestSummary" style="display:none; margin-bottom:18px; padding:16px 18px; border-radius:12px; background:#f8fbff; border:1px solid #cfe0f5; font-size:13.5px; line-height:1.65; color:#1e293b;">
+        <div style="font-weight:900; color:#1165d7; margin-bottom:6px; font-size:14px;">📋 고객 매수·임차 희망조건 요약</div>
+        <div id="customerRequestDetails">불러오는 중...</div>
       </div>
 
 
@@ -871,7 +876,7 @@ textarea:focus{
           <div class="field">
 
             <label class="title">
-              성명(상호)
+              성명(상호) <span class="req">*</span>
             </label>
 
             <input
@@ -886,7 +891,7 @@ textarea:focus{
           <div class="field">
 
             <label class="title">
-              휴대전화번호
+              휴대전화번호 <span class="req">*</span>
             </label>
 
             <input
@@ -1437,7 +1442,7 @@ document
 )
 .addEventListener(
   "submit",
-  function(e){
+  async function(e){
 
     e.preventDefault();
 
@@ -1564,6 +1569,21 @@ document
     }
 
 
+
+    const ownerNameVal = document.getElementById("ownerName").value.trim();
+    const ownerPhoneVal = document.getElementById("ownerPhone").value.replace(/\D/g, "");
+    if (!ownerNameVal) {
+      message.className = "message error";
+      message.textContent = "성명(상호) 또는 중개사무소명을 입력해 주세요.";
+      document.getElementById("ownerName").focus();
+      return;
+    }
+    if (!/^01[016789]\d{7,8}$/.test(ownerPhoneVal)) {
+      message.className = "message error";
+      message.textContent = "담당자(중개사·임대인) 휴대전화번호를 정확히 입력해 주세요.";
+      document.getElementById("ownerPhone").focus();
+      return;
+    }
 
     const finalCheck =
     document.getElementById(
@@ -1767,24 +1787,49 @@ document
     );
 
     // [중앙 서버 DB 저장] 중개사가 등록한 매물을 Supabase DB(property_proposals)로 전송
-    fetch("/api/property-proposal", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        requestNumber: code,
-        apartment: fullAddress || apartment,
-        amount: priceDisplay,
-        floor: [document.getElementById("floor").value.trim(), document.getElementById("totalFloor").value.trim()].filter(Boolean).join(" / ") || "-",
-        area: document.getElementById("area").value ? document.getElementById("area").value + "㎡" : "-",
-        description: document.getElementById("description").value.trim(),
-        officeName: document.getElementById("ownerName").value.trim() || "담당 공인중개사",
-        officePhone: document.getElementById("ownerPhone").value.trim() || ""
-      })
-    }).then(function(r){ return r.json(); }).then(function(resData){
-      console.log("Central DB proposal save result:", resData);
-    }).catch(function(err){
-      console.warn("Central DB proposal save warning:", err);
-    });
+    const submitBtnEl = document.querySelector(".btn-submit");
+    if (submitBtnEl) {
+      submitBtnEl.disabled = true;
+      submitBtnEl.textContent = "매물 제안 등록 중...";
+    }
+
+    try {
+      const apiRes = await fetch("/api/property-proposal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          requestNumber: code,
+          apartment: fullAddress || apartment,
+          amount: priceDisplay,
+          floor: [document.getElementById("floor").value.trim(), document.getElementById("totalFloor").value.trim()].filter(Boolean).join(" / ") || "-",
+          area: document.getElementById("area").value ? document.getElementById("area").value + "㎡" : "-",
+          description: document.getElementById("description").value.trim(),
+          officeName: ownerNameVal,
+          officePhone: ownerPhoneVal
+        })
+      });
+      const resData = await apiRes.json().catch(function(){ return {}; });
+      if (!apiRes.ok || resData.ok === false) {
+        throw new Error(resData.message || "매물 제안 서버 저장에 실패했습니다.");
+      }
+      if (resData.proposal && resData.proposal.id) {
+        proposalData.id = String(resData.proposal.id);
+        proposalData.propertyId = String(resData.proposal.id);
+      }
+    } catch (err) {
+      message.className = "message error";
+      message.textContent = err.message || "매물 등록 중 오류가 발생했습니다.";
+      if (submitBtnEl) {
+        submitBtnEl.disabled = false;
+        submitBtnEl.textContent = "매물 제안 등록";
+      }
+      return;
+    } finally {
+      if (submitBtnEl) {
+        submitBtnEl.disabled = false;
+        submitBtnEl.textContent = "매물 제안 등록";
+      }
+    }
 
     try{
       const allProposals = JSON.parse(localStorage.getItem("wooriapt_proposals") || "[]");
@@ -1798,49 +1843,82 @@ document
       localStorage.setItem("wooriapt_broker_properties", JSON.stringify(brokerProps));
     }catch(e){}
 
-
-
-    message.className =
-    "message ok";
-
+    message.className = "message ok";
     message.textContent =
-    "매물 제안이 정상적으로 등록되었습니다. (임대인·중개사 연락처는 비공개로 보호되며, 임차인이 매물을 최종 선택했을 때 임차인에게만 공개됩니다.)";
+      "매물 제안이 정상적으로 등록되었습니다. (매도인·임대인·중개사 연락처는 비공개로 보호되며, 매수·임차인이 매물을 최종 선택했을 때 매수·임차인에게만 공개됩니다.)";
 
-
-
-    document
-    .getElementById(
-      "completeBox"
-    )
-    .style.display =
-    "block";
-
-
-    document
-    .getElementById(
-      "proposalId"
-    )
-    .textContent =
-    "제안번호 " +
-    proposalNo;
-
-
-
-    document
-    .getElementById(
-      "completeBox"
-    )
-    .scrollIntoView({
-      behavior:"smooth",
-      block:"center"
+    document.getElementById("completeBox").style.display = "block";
+    document.getElementById("proposalId").textContent = "제안번호 " + proposalData.propertyId;
+    document.getElementById("completeBox").scrollIntoView({
+      behavior: "smooth",
+      block: "center"
     });
-
   }
 );
 
-
-
 renderPrice();
+
+// 페이지 로드 시 요청번호(code)에 해당하는 고객 매수·임차 희망조건 자동 조회 및 자동 채움
+(async function loadCustomerRequestInfo() {
+  if (!code || code.length !== 4) return;
+  try {
+    const res = await fetch("/api/property-request-lookup?requestNumber=" + encodeURIComponent(code));
+    const data = await res.json().catch(function(){ return {}; });
+    if (!res.ok || !data.ok || !data.request) return;
+    const req = data.request;
+
+    // 1) 거래유형 탭 자동 선택
+    if (req.requestType) {
+      const targetBtn = document.querySelector('.type-btn[data-type="' + req.requestType + '"]');
+      if (targetBtn) {
+        transactionType = req.requestType;
+        typeButtons.forEach(function(item){
+          item.classList.toggle("active", item.dataset.type === transactionType);
+        });
+        renderPrice();
+      }
+    }
+
+    // 2) 시·도 / 시·군·구 / 읍·면·동 / 단지(건물)명 자동 입력
+    if (req.sido && !document.getElementById("sido").value) {
+      document.getElementById("sido").value = req.sido;
+    }
+    if (req.sigungu && !document.getElementById("sigungu").value) {
+      document.getElementById("sigungu").value = req.sigungu;
+    }
+    if (req.dong && !document.getElementById("dong").value) {
+      document.getElementById("dong").value = req.dong;
+    }
+    if (req.apartment && !document.getElementById("apartment").value) {
+      document.getElementById("apartment").value = req.apartment;
+    }
+
+    // 3) 요약 박스 표시
+    const summaryBox = document.getElementById("customerRequestSummary");
+    const detailsEl = document.getElementById("customerRequestDetails");
+    if (summaryBox && detailsEl) {
+      const typeLabel = req.requestType === "sale" ? "매매" : (req.requestType === "jeonse" ? "전세" : "월세");
+      let budgetStr = "-";
+      if (req.requestType === "sale" && (req.saleMin || req.saleMax)) {
+        budgetStr = (req.saleMin || 0).toLocaleString() + "만원 ~ " + (req.saleMax || 0).toLocaleString() + "만원";
+      } else if (req.requestType === "jeonse" && (req.jeonseMin || req.jeonseMax)) {
+        budgetStr = "보증금 " + (req.jeonseMin || 0).toLocaleString() + "만원 ~ " + (req.jeonseMax || 0).toLocaleString() + "만원";
+      } else if (req.requestType === "monthly") {
+        budgetStr = "보증금 " + (req.monthlyDepositMin || 0).toLocaleString() + "~" + (req.monthlyDepositMax || 0).toLocaleString() + "만원 / 월세 " + (req.monthlyRent || 0).toLocaleString() + "만원";
+      }
+      detailsEl.innerHTML = [
+        "• <b>희망 지역:</b> " + [req.sido, req.sigungu, req.dong].filter(Boolean).join(" "),
+        "• <b>희망 대상/업종:</b> " + (req.apartment || "지역 전체") + " (" + typeLabel + " · " + (req.size || "-") + ")",
+        "• <b>희망 예산:</b> " + budgetStr,
+        "• <b>입주·입점 희망일:</b> " + (req.moveDate || "-") + (req.moveFlexible ? " (날짜 협의 가능)" : ""),
+        req.memo ? "• <b>기타 조건:</b> " + req.memo : ""
+      ].filter(Boolean).join("<br>");
+      summaryBox.style.display = "block";
+    }
+  } catch (e) {
+    console.warn("Request lookup auto-fill warning:", e);
+  }
+})();
 
 })();
 </script>

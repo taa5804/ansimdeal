@@ -14,6 +14,22 @@ export default async function handler(req, res) {
   const SUPABASE_SERVICE_ROLE_KEY =
     process.env.SUPABASE_SERVICE_ROLE_KEY;
 
+  const hostStr = String(req.headers["x-forwarded-host"] || req.headers.host || "");
+  if ((!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) && !hostStr.includes("wooriapt.app")) {
+    try {
+      const upstreamRes = await fetch("https://www.wooriapt.app/api/ars-result", {
+        method: "POST",
+        headers: {
+          "Content-Type": req.headers["content-type"] || "application/json"
+        },
+        body: typeof req.body === "string" ? req.body : JSON.stringify(req.body || {})
+      });
+      const upstreamData = await upstreamRes.json().catch(() => ({}));
+      return res.status(upstreamRes.status).json(upstreamData);
+    } catch (err) {
+      return res.status(200).json({ ok: true, proxiedError: err.message });
+    }
+  }
 
   if (
     !SUPABASE_URL ||

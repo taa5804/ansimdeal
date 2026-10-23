@@ -723,6 +723,11 @@ saveBtn.addEventListener(
       "wooriapt_broker_profile",
       JSON.stringify(profile)
     );
+    fetch("/api/broker-auth", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(profile)
+    }).catch(function(){});
 
 
     showMsg(

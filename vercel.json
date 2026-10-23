@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/sale-admin",
-      "destination": "/sale-admin.html"
+      "destination": "/sale-admin"
     },
     {
       "source": "/head-admin",
@@ -10,19 +10,19 @@
     },
     {
       "source": "/room-manager",
-      "destination": "/room-manager.html"
+      "destination": "/room-manager"
     },
     {
       "source": "/sale-coupon",
-      "destination": "/sale-coupon.html"
+      "destination": "/sale-coupon"
     },
     {
       "source": "/sale-detail",
-      "destination": "/sale-detail.html"
+      "destination": "/sale-detail"
     },
     {
       "source": "/presale",
-      "destination": "/presale.html"
+      "destination": "/presale"
     },
     {
       "source": "/api/sale-save",
@@ -30,27 +30,27 @@
     },
     {
       "source": "/app-install",
-      "destination": "/app-install.html"
+      "destination": "/app-install"
     },
     {
       "source": "/presale-list",
-      "destination": "/presale-list.html"
+      "destination": "/presale-list"
     },
     {
       "source": "/presale-search",
-      "destination": "/presale-search.html"
+      "destination": "/presale-search"
     },
     {
       "source": "/presale-landing",
-      "destination": "/presale-landing.html"
+      "destination": "/presale-landing"
     },
     {
       "source": "/broker-landing",
-      "destination": "/broker-landing.html"
+      "destination": "/broker-landing"
     },
     {
       "source": "/mart-price",
-      "destination": "/mart-price.html"
+      "destination": "/mart-price"
     },
     {
       "source": "/api/property-request",
@@ -62,83 +62,83 @@
     },
     {
       "source": "/mart-store",
-      "destination": "/mart-store.html"
+      "destination": "/mart-store"
     },
     {
       "source": "/74",
-      "destination": "/mart-store.html"
+      "destination": "/mart-store"
     },
     {
       "source": "/map-landing",
-      "destination": "/presale-matcher.html?map=1"
+      "destination": "/presale-matcher?map=1"
     },
     {
       "source": "/presale-matcher",
-      "destination": "/presale-matcher.html"
+      "destination": "/presale-matcher"
     },
     {
       "source": "/matcher",
-      "destination": "/presale-matcher.html"
+      "destination": "/presale-matcher"
     },
     {
       "source": "/utility",
-      "destination": "/tools-center.html"
+      "destination": "/tools-center"
     },
     {
       "source": "/tools",
-      "destination": "/tools-center.html"
+      "destination": "/tools-center"
     },
     {
       "source": "/mart-sales",
-      "destination": "/mart-sales.html"
+      "destination": "/mart-sales"
     },
     {
       "source": "/today",
-      "destination": "/price.html"
+      "destination": "/price"
     },
     {
       "source": "/price",
-      "destination": "/price.html"
+      "destination": "/price"
     },
     {
       "source": "/aura",
-      "destination": "/aura.html"
+      "destination": "/aura"
     },
     {
       "source": "/pension",
-      "destination": "/aura.html"
+      "destination": "/aura"
     },
     {
       "source": "/aurapension",
-      "destination": "/aura.html"
+      "destination": "/aura"
     },
     {
       "source": "/aura-search",
-      "destination": "/aura.html"
+      "destination": "/aura"
     },
     {
       "source": "/check",
-      "destination": "/check.html"
+      "destination": "/check"
     },
     {
       "source": "/factcheck",
-      "destination": "/check.html"
+      "destination": "/check"
     },
     {
       "source": "/mart",
-      "destination": "/mart.html"
+      "destination": "/mart"
     },
     {
       "source": "/mart-calculator",
-      "destination": "/mart.html"
+      "destination": "/mart"
     },
     {
       "source": "/apt",
-      "destination": "/apt.html"
+      "destination": "/apt"
     },
     {
       "source": "/match",
-      "destination": "/apt.html"
+      "destination": "/apt"
     },
     {
       "source": "/apt-search/:region/:city/:place/:apartment/:type",
@@ -190,7 +190,7 @@
     },
     {
       "source": "/map",
-      "destination": "/tools-center.html?tab=map"
+      "destination": "/tools-center?tab=map"
     },
     {
       "source": "/sitemap.xml",

@@ -16,8 +16,24 @@ export default async function handler(req, res) {
   const CLAWOPS_API_KEY = process.env.CLAWOPS_API_KEY || "sk_vuT1vZJtqWMHdjROjqAi1x7XpGGpjSY2";
   const CLAWOPS_FROM_NUMBER = process.env.CLAWOPS_FROM_NUMBER || "070-5276-7712";
   
+  const rawBody = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {});
+  const hostStr = String(req.headers["x-forwarded-host"] || req.headers.host || "");
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY && !hostStr.includes("wooriapt.app")) {
+    try {
+      const upstreamRes = await fetch("https://www.wooriapt.app/api/ars-batch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...rawBody, isAnsimdeal: true })
+      });
+      const upstreamData = await upstreamRes.json().catch(() => ({}));
+      return res.status(upstreamRes.status).json(upstreamData);
+    } catch (err) {
+      return res.status(500).json({ ok: false, message: "서버 연동 오류: " + err.message });
+    }
+  }
+
   // Call Flow ID: Ansimdeal vs Wooriapt
-  const IS_ANSIMDEAL = true;
+  const IS_ANSIMDEAL = rawBody.isAnsimdeal === true || hostStr.includes("ansimdeal");
   const CLAWOPS_CALL_FLOW_ID = IS_ANSIMDEAL
     ? (process.env.CLAWOPS_CALL_FLOW_ID_ANSIM || "cmvitbfy3000t01s6g1yjgebw")
     : (process.env.CLAWOPS_CALL_FLOW_ID || "cmtl15663000t01s6yddn205j");

@@ -1,10 +1,39 @@
 export default async function handler(req, res) {
   const SUPABASE_URL = process.env.SUPABASE_URL || "https://dcysjuxyjqtvkihdsjvv.supabase.co";
-  const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
+  const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const hostStr = String(req.headers["x-forwarded-host"] || req.headers.host || "");
+
+  // SUPABASE_SERVICE_ROLE_KEY가 없는 도메인(ansimdeal.com 등)은 wooriapt.app 본 서버로 프록시
+  if (!SUPABASE_SERVICE_ROLE_KEY && !hostStr.includes("wooriapt.app")) {
+    try {
+      const qs = req.url && req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
+      const targetUrl = `https://www.wooriapt.app/api/trade-decision${qs}`;
+      const fetchOpts = {
+        method: req.method,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        }
+      };
+      if (req.method !== "GET" && req.method !== "HEAD") {
+        fetchOpts.body = typeof req.body === "string" ? req.body : JSON.stringify(req.body || {});
+      }
+      const upstreamRes = await fetch(targetUrl, fetchOpts);
+      const upstreamData = await upstreamRes.json().catch(() => ({}));
+      return res.status(upstreamRes.status).json(upstreamData);
+    } catch (err) {
+      return res.status(500).json({
+        ok: false,
+        message: "서버 연동 오류가 발생했습니다."
+      });
+    }
+  }
+
+  const effectiveKey = SUPABASE_SERVICE_ROLE_KEY || "sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
 
   const headers = {
-    apikey: SUPABASE_SERVICE_ROLE_KEY,
-    Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+    apikey: effectiveKey,
+    Authorization: `Bearer ${effectiveKey}`,
     "Content-Type": "application/json",
     Accept: "application/json"
   };
@@ -20,7 +49,7 @@ export default async function handler(req, res) {
     return {
       tradeRoomCode: match[1],
       transactionNumber: match[2],
-      tradeType: match[3] || "monthly",
+      tradeType: match[3] || "sale",
       feePaid: match[4] === "Y",
       cleanDescription: text.replace(/\n?\[TRADE_ROOM_CODE:[^\]]+\]/g, "").trim()
     };
@@ -29,13 +58,14 @@ export default async function handler(req, res) {
   try {
     /* =========================================================
        GET:
-       1) ?code=4자리거래방코드 -> 거래 확정된 상가 매물 및 거래방 정보 조회
-       2) ?requestNumber=4자리요청번호 또는 ?phone=휴대폰번호 -> 제안 목록 조회
+       1) ?admin=dashboard -> 본사 관리자 대시보드 통합 조회
+       2) ?code=4자리거래방코드 -> 거래 확정된 매물 및 거래방 정보 조회
+       3) ?requestNumber=4자리요청번호 또는 ?phone=휴대폰번호 -> 제안 목록 조회
     ========================================================= */
     if (req.method === "GET") {
       if (clean(req.query.admin) === "dashboard") {
         const [bmRes, reqRes, propRes] = await Promise.all([
-          fetch(`${SUPABASE_URL}/rest/v1/agent_members?select=id,phone,email,representative_name,office_name,office_registration_no,registration_status,membership_status,created_at&order=id.desc&limit=200`, { method: "GET", headers }).catch(() => null),
+          fetch(`${SUPABASE_URL}/rest/v1/safe_brokers?select=id,mobile_phone,office_phone,representative_name,office_name,license_number,sido,sigungu,dong,address,membership_status,is_active,created_at&order=id.desc&limit=200`, { method: "GET", headers }).catch(() => null),
           fetch(`${SUPABASE_URL}/rest/v1/property_requests?select=*&order=id.desc&limit=200`, { method: "GET", headers }).catch(() => null),
           fetch(`${SUPABASE_URL}/rest/v1/property_proposals?select=id,request_number,apartment,amount,floor,area,description,office_name,office_phone,status,created_at&order=id.desc&limit=200`, { method: "GET", headers }).catch(() => null)
         ]);
@@ -43,7 +73,23 @@ export default async function handler(req, res) {
         const requestsRaw = (reqRes && reqRes.ok) ? await reqRes.json().catch(() => []) : [];
         const proposalsRaw = (propRes && propRes.ok) ? await propRes.json().catch(() => []) : [];
 
-        const brokers = Array.isArray(brokersRaw) ? brokersRaw : [];
+        const brokers = (Array.isArray(brokersRaw) ? brokersRaw : []).map((b) => ({
+          id: b.id,
+          phone: b.mobile_phone || b.office_phone || "",
+          mobile_phone: b.mobile_phone || "",
+          office_phone: b.office_phone || "",
+          email: "",
+          representative_name: b.representative_name || "",
+          office_name: b.office_name || "",
+          office_registration_no: b.license_number || "",
+          registration_status: b.is_active === false ? "PENDING" : "APPROVED",
+          membership_status: b.membership_status || "FREE",
+          sido: b.sido || "",
+          sigungu: b.sigungu || "",
+          dong: b.dong || "",
+          address: b.address || "",
+          created_at: b.created_at
+        }));
         const requests = Array.isArray(requestsRaw) ? requestsRaw : [];
         const proposals = [];
         const transactions = [];
@@ -63,7 +109,7 @@ export default async function handler(req, res) {
             status: r.status || "OPEN",
             tradeRoomCode: meta ? meta.tradeRoomCode : null,
             transactionNumber: meta ? meta.transactionNumber : null,
-            tradeType: meta ? meta.tradeType : "monthly",
+            tradeType: meta ? meta.tradeType : "sale",
             feePaid: meta ? !!meta.feePaid : false,
             createdAt: r.created_at
           };
@@ -95,18 +141,18 @@ export default async function handler(req, res) {
               tradeNumber: "TR58040001",
               transactionNumber: "TR58040001",
               tradeRoomCode: "5804",
-              tradeType: "monthly",
+              tradeType: "sale",
               requestNumber: "5804",
               propertyId: "prop-5804-1",
-              propertyName: "[상가 월세] 역삼역 도보 3분 대로변 이면 1층 코너 점포 (전용 22평)",
-              apartment: "[상가 월세] 역삼역 도보 3분 대로변 이면 1층 코너 점포 (전용 22평)",
-              amount: "보증금 3,000만원 / 월세 230만원 · 무권리(0원)",
-              floor: "지상 1층 (전면 통유리 코너)",
-              area: "전용 22평 (약 72.7㎡) · 제2종 근린생활시설",
-              brokerName: "강남안심 공인중개사사무소",
-              brokerOffice: "강남안심 공인중개사사무소",
-              brokerPhone: "010-5804-1234",
-              status: "가계약·인허가 사전확인 및 전자계약 진행 중",
+              propertyName: "[만능키 테스트] 역삼동 래미안 84㎡ (중층)",
+              apartment: "[만능키 테스트] 역삼동 래미안 84㎡ (중층)",
+              amount: "매매 14억 5,000만원",
+              floor: "12층 / 25층",
+              area: "전용 84㎡ (34평)",
+              brokerName: "안심파트너 공인중개사사무소",
+              brokerOffice: "안심파트너 공인중개사사무소",
+              brokerPhone: "010-5804-5804",
+              status: "거래 진행 중",
               buyerConfirmed: true,
               sellerConfirmed: false,
               brokerConfirmed: true
@@ -134,14 +180,14 @@ export default async function handler(req, res) {
         const meta = parseTradeMeta(row.description) || {
           tradeRoomCode: code,
           transactionNumber: "TR" + String(row.id || "0001").padStart(8, "0"),
-          tradeType: "monthly",
+          tradeType: "sale",
           cleanDescription: row.description || ""
         };
 
         let isMemberBroker = false;
         const cleanBrokerPhone = normalizePhone(row.office_phone);
         if (cleanBrokerPhone) {
-          const amUrl = `${SUPABASE_URL}/rest/v1/agent_members?phone=eq.${encodeURIComponent(cleanBrokerPhone)}&select=id,office_name,registration_status&limit=1`;
+          const amUrl = `${SUPABASE_URL}/rest/v1/safe_brokers?mobile_phone=eq.${encodeURIComponent(cleanBrokerPhone)}&select=id,office_name,is_active&limit=1`;
           const amRes = await fetch(amUrl, { method: "GET", headers }).catch(() => null);
           if (amRes && amRes.ok) {
             const amRows = await amRes.json().catch(() => []);
@@ -157,7 +203,7 @@ export default async function handler(req, res) {
             tradeNumber: meta.transactionNumber,
             transactionNumber: meta.transactionNumber,
             tradeRoomCode: code,
-            tradeType: meta.tradeType || "monthly",
+            tradeType: meta.tradeType || "sale",
             feePaid: !!meta.feePaid,
             isMemberBroker,
             requestNumber: row.request_number,
@@ -171,13 +217,13 @@ export default async function handler(req, res) {
             brokerName: row.office_name,
             brokerOffice: row.office_name,
             brokerPhone: row.office_phone,
-            status: "가계약·인허가 사전확인 및 전자계약 진행 중",
+            status: "거래 진행 중",
             createdAt: row.created_at || new Date().toISOString()
           }
         });
       }
 
-      // 2) 임차요청번호 또는 휴대폰번호로 제안 목록 조회
+      // 2) 매수요청번호 또는 휴대폰번호로 제안 목록 조회
       let targetReqNo = requestNumber;
       let requestInfo = null;
 
@@ -228,7 +274,7 @@ export default async function handler(req, res) {
         return {
           propertyId: r.id,
           requestNumber: r.request_number,
-          dealType: (requestInfo && requestInfo.request_type) || (meta && meta.tradeType) || "monthly",
+          dealType: (requestInfo && requestInfo.request_type) || (meta && meta.tradeType) || "sale",
           apartment: r.apartment,
           amount: r.amount,
           floor: r.floor,
@@ -246,18 +292,14 @@ export default async function handler(req, res) {
       return res.status(200).json({
         ok: true,
         requestNumber: targetReqNo,
-        requestType: (requestInfo && requestInfo.request_type) || "monthly",
+        requestType: (requestInfo && requestInfo.request_type) || "sale",
         proposals
       });
     }
 
     /* =========================================================
        POST:
-       임차인(매수자)이 상가 매물 1건을 [거래 결정(확정)] 눌렀을 때:
-       1) 전용 4자리 거래방 코드(tradeRoomCode) 생성
-       2) DB(property_proposals)에 확정 상태 및 거래방 코드 저장
-       3) 선택된 담당 공인중개사 휴대폰(officePhone)으로 4자리 거래방 코드 문자(LMS) 자동 발송
-       4) 임차인(매수자) 휴대폰으로도 4자리 거래방 코드 문자(LMS) 발송
+       매수자(임차인)가 매물 1건을 [거래 결정(확정)] 눌렀을 때
     ========================================================= */
     if (req.method === "POST") {
       const body = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
@@ -268,10 +310,14 @@ export default async function handler(req, res) {
           return res.status(400).json({ ok: false, message: "중개사 ID가 필요합니다." });
         }
         const patchData = {};
-        if (body.registration_status) patchData.registration_status = clean(body.registration_status);
-        if (body.membership_status) patchData.membership_status = clean(body.membership_status);
+        if (body.registration_status) {
+          patchData.is_active = clean(body.registration_status) === "APPROVED";
+        }
+        if (body.membership_status) {
+          patchData.membership_status = clean(body.membership_status);
+        }
 
-        const patchRes = await fetch(`${SUPABASE_URL}/rest/v1/agent_members?id=eq.${encodeURIComponent(brokerId)}`, {
+        const patchRes = await fetch(`${SUPABASE_URL}/rest/v1/safe_brokers?id=eq.${encodeURIComponent(brokerId)}`, {
           method: "PATCH",
           headers: { ...headers, Prefer: "return=representation" },
           body: JSON.stringify(patchData)
@@ -324,20 +370,25 @@ export default async function handler(req, res) {
         }
         return res.status(200).json({ ok: true, feePaid: paidFlag === "Y" });
       }
+
       const propertyId = clean(body.propertyId);
       const requestNumber = clean(body.requestNumber).replace(/\D/g, "").slice(0, 4);
-      const isTest = body.testMode === true || requestNumber === "5804";
+      const isTest =
+        body.testMode === true ||
+        requestNumber === "5804" ||
+        normalizePhone(body.officePhone) === "01000005804" ||
+        normalizePhone(body.buyerPhone) === "01000005804";
 
-      const apartment = clean(body.apartment) || "선택 상가·점포 매물";
+      const apartment = clean(body.apartment) || "선택 매물";
       const amount = clean(body.amount) || "-";
       const floor = clean(body.floor) || "-";
       const area = clean(body.area) || "-";
       const officeName = clean(body.officeName) || "담당 공인중개사";
       const officePhone = normalizePhone(body.officePhone);
-      const tradeType = clean(body.tradeType) || "monthly";
+      const tradeType = clean(body.tradeType) || "sale";
 
       const transactionNumber = clean(body.transactionNumber) || ("TR" + Date.now().toString().slice(-8));
-      const tradeRoomCode = isTest
+      const tradeRoomCode = requestNumber === "5804"
         ? "5804"
         : String(Math.floor(1000 + Math.random() * 9000));
 
@@ -393,31 +444,31 @@ export default async function handler(req, res) {
       // 2) 선택된 중개사에게 전용 4자리 거래방 코드 문자(LMS) 발송
       const protocol = req.headers["x-forwarded-proto"] || "https";
       const host = req.headers.host;
-      const baseUrl = host ? `${protocol}://${host}` : "https://www.ansimdeal.com";
+      const baseUrl = host ? `${protocol}://${host}` : "https://www.wooriapt.app";
 
       let brokerSmsSent = false;
       let buyerSmsSent = false;
 
       if (host && /^01[016789][0-9]{7,8}$/.test(officePhone) && !isTest) {
         const brokerMessage = [
-          "[안심딜 상가·점포 거래결정 확정 안내]",
+          "[우리아파트 안심거래 거래결정 확정 안내]",
           "",
-          "축하합니다! 제안하신 상가·점포 매물이 임차인에게 최종 선택(거래 확정)되었습니다.",
+          "축하합니다! 제안하신 매물이 매수자(임차인)에게 최종 선택(거래 확정)되었습니다.",
           "",
           `■ 선택 매물: ${apartment} (${floor} / ${area})`,
-          `■ 거래 조건: ${amount}`,
+          `■ 거래 금액: ${amount}`,
           `■ 전용 4자리 거래방 코드(진행번호): ${tradeRoomCode}`,
           `■ 거래번호: ${transactionNumber}`,
           "",
           "[중개사 거래 진행 절차 안내]",
-          `1. 안심딜(${baseUrl}) 접속`,
+          `1. 우리아파트 안심거래(${baseUrl}) 접속`,
           `2. 메인화면 [거래 진행 상황 확인] 입력창에 위 4자리 거래방 코드(${tradeRoomCode}) 입력`,
           "3. 중개사 1단계 확인 동의 후 전용 거래진행실 입장",
-          "4. 거래진행실에서 건축물대장·등기부 등 인허가/권리관계 서류 등록 및 전자계약 진행",
+          "4. 거래진행실에서 등기부·건축물대장 등 서류 등록 및 전자계약 진행",
           "",
           "※ 이 4자리 거래방 코드는 선택된 담당 중개사님과 거래 당사자만 입장할 수 있는 전용 보안 코드입니다.",
-          "※ 임차인(매수자)의 연락처는 공개되지 않으며, 임차인(매수자)이 직접 알려주기 전까지는 비공개로 보호됩니다.",
-          "발송자: 안심딜 상가 전월세 안전거래"
+          "※ 매수인(임차인)의 연락처는 공개되지 않으며, 매수인(임차인)이 직접 알려주기 전까지는 비공개로 보호됩니다.",
+          "발송자: 우리아파트 안심거래"
         ].join("\n");
 
         const smsRes = await fetch(`${baseUrl}/api/send-sms`, {
@@ -427,31 +478,31 @@ export default async function handler(req, res) {
             phone: officePhone,
             content: brokerMessage,
             type: "LMS",
-            subject: "[안심딜] 상가 거래결정 확정 및 4자리 거래방 코드 안내"
+            subject: "[우리아파트 안심거래] 거래결정 확정 및 4자리 거래방 코드 안내"
           })
         }).catch(() => null);
 
         brokerSmsSent = !!(smsRes && smsRes.ok);
       }
 
-      // 3) 임차인(매수자)에게도 전용 4자리 거래방 코드 문자(LMS) 발송
+      // 3) 매수자(임차인)에게도 전용 4자리 거래방 코드 문자(LMS) 발송
       if (host && /^01[016789][0-9]{7,8}$/.test(buyerPhone) && !isTest) {
         const buyerMessage = [
-          "[안심딜 상가·점포 거래결정 완료 안내]",
+          "[우리아파트 안심거래 거래결정 완료 안내]",
           "",
-          "선택하신 상가·점포 매물의 거래 결정이 완료되어 전용 거래진행실이 개설되었습니다.",
+          "선택하신 매물의 거래 결정이 완료되어 전용 거래진행실이 개설되었습니다.",
           "",
           `■ 선택 매물: ${apartment} (${floor} / ${area})`,
-          `■ 거래 조건: ${amount}`,
+          `■ 거래 금액: ${amount}`,
           `■ 담당 중개사: ${officeName} (${officePhone})`,
           `■ 전용 4자리 거래방 코드(진행번호): ${tradeRoomCode}`,
           "",
-          "[임차인 진행 절차 안내]",
+          "[매수자(임차인) 진행 절차 안내]",
           `1. 메인화면 [거래 진행 상황 확인]에 4자리 거래방 코드(${tradeRoomCode}) 입력`,
-          "2. 가계약 전 건축물대장 용도·영업 인허가 및 권리관계 서류 확인",
+          "2. 담당 중개사가 등록한 권리관계·확인서류 열람",
           "3. 플랫폼 이용료(50% 절감) 확인 및 전자계약 서명 진행",
           "",
-          "발송자: 안심딜 상가 전월세 안전거래"
+          "발송자: 우리아파트 안심거래"
         ].join("\n");
 
         const buyerSmsRes = await fetch(`${baseUrl}/api/send-sms`, {
@@ -461,7 +512,7 @@ export default async function handler(req, res) {
             phone: buyerPhone,
             content: buyerMessage,
             type: "LMS",
-            subject: "[안심딜] 전용 4자리 거래방 코드 안내"
+            subject: "[우리아파트 안심거래] 전용 4자리 거래방 코드 안내"
           })
         }).catch(() => null);
 
@@ -489,7 +540,7 @@ export default async function handler(req, res) {
           brokerName: officeName,
           brokerOffice: officeName,
           brokerPhone: officePhone,
-          status: "가계약·인허가 사전확인 및 전자계약 진행 중",
+          status: "거래 진행 중",
           createdAt: new Date().toISOString()
         }
       });

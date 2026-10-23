@@ -1368,210 +1368,29 @@ form.addEventListener(
 
 
       /* =============================================
-         기존 회원 확인
+         서버 API(/api/broker-auth)를 통한 중복 확인 및 회원가입 저장
       ============================================= */
+      const passwordData = await makePasswordHash(passwordValue);
 
-      const checkResponse =
-        await fetch(
+      const saveResponse = await fetch("/api/broker-auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: phoneValue,
+          email: emailValue,
+          password_hash: passwordData.hash,
+          password_salt: passwordData.salt,
+          representative_name: representativeValue,
+          office_name: officeValue,
+          office_registration_no: registrationValue
+        })
+      });
 
-          MEMBER_SUPABASE_URL +
-          "/rest/v1/agent_members" +
-          "?select=id,phone" +
-          "&phone=eq." +
-          encodeURIComponent(phoneValue),
-
-          {
-            method:"GET",
-
-            headers:{
-              "apikey":
-                MEMBER_SUPABASE_KEY,
-
-              "Authorization":
-                "Bearer " +
-                MEMBER_SUPABASE_KEY
-            }
-          }
-
-        );
-
-
-      if(!checkResponse.ok){
-
-        throw new Error(
-          "회원정보 확인에 실패했습니다."
-        );
-
-      }
-
-
-      const existing =
-        await checkResponse.json();
-
-
-      if(
-        Array.isArray(existing) &&
-        existing.length > 0
-      ){
-
-        showMessage(
-          "error",
-          "이미 가입된 휴대전화번호입니다."
-        );
-
+      const result = await saveResponse.json().catch(() => ({}));
+      if (!saveResponse.ok || result.ok === false) {
+        showMessage("error", result.message || "회원가입 정보를 저장하지 못했습니다.");
         return;
-
       }
-
-
-      /* =============================================
-         기존 이메일 확인
-      ============================================= */
-
-      const emailCheckResponse =
-        await fetch(
-
-          MEMBER_SUPABASE_URL +
-          "/rest/v1/agent_members" +
-          "?select=id,email" +
-          "&email=eq." +
-          encodeURIComponent(emailValue),
-
-          {
-            method:"GET",
-
-            headers:{
-              "apikey":
-                MEMBER_SUPABASE_KEY,
-
-              "Authorization":
-                "Bearer " +
-                MEMBER_SUPABASE_KEY
-            }
-          }
-
-        );
-
-
-      if(!emailCheckResponse.ok){
-
-        throw new Error(
-          "이메일 확인에 실패했습니다."
-        );
-
-      }
-
-
-      const existingEmail =
-        await emailCheckResponse.json();
-
-
-      if(
-        Array.isArray(existingEmail) &&
-        existingEmail.length > 0
-      ){
-
-        showMessage(
-          "error",
-          "이미 가입에 사용된 이메일입니다."
-        );
-
-        taxEmail.focus();
-
-        return;
-
-      }
-
-
-      /* =============================================
-         비밀번호 해시 생성
-      ============================================= */
-
-      const passwordData =
-        await makePasswordHash(
-          passwordValue
-        );
-
-
-      /* =============================================
-         회원정보 저장
-      ============================================= */
-
-      const saveResponse =
-        await fetch(
-
-          MEMBER_SUPABASE_URL +
-          "/rest/v1/agent_members",
-
-          {
-            method:"POST",
-
-            headers:{
-              "apikey":
-                MEMBER_SUPABASE_KEY,
-
-              "Authorization":
-                "Bearer " +
-                MEMBER_SUPABASE_KEY,
-
-              "Content-Type":
-                "application/json",
-
-              "Prefer":
-                "return=representation"
-            },
-
-            body:
-              JSON.stringify({
-
-                phone:
-                  phoneValue,
-
-                email:
-                  emailValue,
-
-                password_hash:
-                  passwordData.hash,
-
-                password_salt:
-                  passwordData.salt,
-
-                representative_name:
-                  representativeValue,
-
-                office_name:
-                  officeValue,
-
-                office_registration_no:
-                  registrationValue
-
-              })
-          }
-
-        );
-
-
-      const result =
-        await saveResponse
-        .json()
-        .catch(
-          () => null
-        );
-
-
-      if(!saveResponse.ok){
-
-        console.error(
-          "agent_members 저장 오류",
-          result
-        );
-
-        throw new Error(
-          "회원가입 정보를 저장하지 못했습니다."
-        );
-
-      }
-
 
       /* =============================================
          가입 성공

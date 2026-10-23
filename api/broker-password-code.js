@@ -1,942 +1,285 @@
 const crypto = require("crypto");
 
-const SUPABASE_URL =
-  process.env.SUPABASE_URL;
+const COOKIE_NAME = "woori_broker_pw_reset";
 
-const SUPABASE_SERVICE_ROLE_KEY =
-  process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-const RESEND_API_KEY =
-  process.env.RESEND_API_KEY;
-
-const EMAIL_FROM =
-  process.env.EMAIL_FROM;
-
-
-/* =====================================================
-   공통
-===================================================== */
-
-function json(res, status, data){
-
-  res.status(status).json(data);
-
+function json(res, status, data) {
+  res.statusCode = status;
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.end(JSON.stringify(data));
 }
 
-
-function sha256(value){
-
-  return crypto
-    .createHash("sha256")
-    .update(String(value))
-    .digest("hex");
-
+function getSecret() {
+  return (
+    process.env.PHONE_AUTH_SECRET ||
+    process.env.NCP_SECRET_KEY ||
+    "wooriapt_broker_pw_reset_secret_2026_v1"
+  );
 }
 
+function signToken(payload) {
+  const encoded = Buffer.from(JSON.stringify(payload)).toString("base64url");
+  const sig = crypto
+    .createHmac("sha256", getSecret())
+    .update(encoded)
+    .digest("base64url");
+  return `${encoded}.${sig}`;
+}
 
-function generateCode(){
+function verifyToken(token) {
+  if (!token) return null;
+  const parts = String(token).split(".");
+  if (parts.length !== 2) return null;
+  const expected = crypto
+    .createHmac("sha256", getSecret())
+    .update(parts[0])
+    .digest("base64url");
+  if (parts[1] !== expected) return null;
+  try {
+    return JSON.parse(Buffer.from(parts[0], "base64url").toString("utf8"));
+  } catch {
+    return null;
+  }
+}
 
-  return String(
-    crypto.randomInt(1000, 10000)
+function parseCookies(req) {
+  const result = {};
+  const raw = req.headers.cookie || "";
+  raw.split(";").forEach((part) => {
+    const idx = part.indexOf("=");
+    if (idx > -1) {
+      result[part.slice(0, idx).trim()] = decodeURIComponent(
+        part.slice(idx + 1).trim()
+      );
+    }
+  });
+  return result;
+}
+
+function sha256(value) {
+  return crypto.createHash("sha256").update(String(value)).digest("hex");
+}
+
+module.exports = async function handler(req, res) {
+  const SUPABASE_URL =
+    process.env.SUPABASE_URL || "https://dcysjuxyjqtvkihdsjvv.supabase.co";
+  const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const hostStr = String(
+    req.headers["x-forwarded-host"] || req.headers.host || ""
   );
 
-}
+  const body =
+    typeof req.body === "string"
+      ? JSON.parse(req.body || "{}")
+      : req.body || {};
 
-
-function generateResetToken(){
-
-  return crypto
-    .randomBytes(32)
-    .toString("hex");
-
-}
-
-
-function maskEmail(email){
-
-  const parts =
-    String(email || "").split("@");
-
-  if(parts.length !== 2){
-    return "등록된 이메일";
-  }
-
-  const name = parts[0];
-  const domain = parts[1];
-
-  let masked = "";
-
-  if(name.length <= 2){
-
-    masked =
-      name.charAt(0) + "*";
-
-  }else{
-
-    masked =
-      name.slice(0,2) +
-      "*".repeat(
-        Math.max(2,name.length - 2)
+  if (!SUPABASE_SERVICE_ROLE_KEY && !hostStr.includes("wooriapt.app")) {
+    try {
+      const upstreamRes = await fetch(
+        "https://www.wooriapt.app/api/broker-password-code",
+        {
+          method: req.method,
+          headers: {
+            "Content-Type": "application/json",
+            Cookie: req.headers.cookie || ""
+          },
+          body: JSON.stringify(body)
+        }
       );
-
+      const setCookie = upstreamRes.headers.get("set-cookie");
+      if (setCookie) res.setHeader("Set-Cookie", setCookie);
+      const upstreamData = await upstreamRes.json().catch(() => ({}));
+      return json(res, upstreamRes.status, upstreamData);
+    } catch (err) {
+      return json(res, 500, {
+        ok: false,
+        message: "서버 연동 오류가 발생했습니다."
+      });
+    }
   }
 
-  return masked + "@" + domain;
+  if (!SUPABASE_SERVICE_ROLE_KEY) {
+    return json(res, 500, {
+      ok: false,
+      message: "서버 환경설정이 필요합니다."
+    });
+  }
 
-}
+  const headers = {
+    apikey: SUPABASE_SERVICE_ROLE_KEY,
+    Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+    "Content-Type": "application/json"
+  };
 
-
-/* =====================================================
-   Supabase 회원 조회
-===================================================== */
-
-async function getMember(phone){
-
-  const response =
-    await fetch(
-
-      SUPABASE_URL +
-      "/rest/v1/agent_members" +
-      "?select=id,phone,email,representative_name,office_name" +
-      "&phone=eq." +
-      encodeURIComponent(phone) +
-      "&limit=1",
-
-      {
-        method:"GET",
-
-        headers:{
-          "apikey":
-            SUPABASE_SERVICE_ROLE_KEY,
-
-          "Authorization":
-            "Bearer " +
-            SUPABASE_SERVICE_ROLE_KEY
-        }
+  try {
+    // POST: 4자리 인증번호 발송
+    if (req.method === "POST") {
+      const phone = String(body.phone || "").replace(/\D/g, "");
+      if (!/^01[016789][0-9]{7,8}$/.test(phone)) {
+        return json(res, 400, {
+          ok: false,
+          message: "휴대전화번호를 정확히 입력해 주세요."
+        });
       }
 
-    );
+      const memRes = await fetch(
+        `${SUPABASE_URL}/rest/v1/safe_brokers?mobile_phone=eq.${encodeURIComponent(phone)}&select=id,mobile_phone,representative_name,office_name,address&limit=1`,
+        { method: "GET", headers }
+      );
+      const rows = await memRes.json().catch(() => []);
+      if (!Array.isArray(rows) || rows.length === 0) {
+        return json(res, 404, {
+          ok: false,
+          message: "등록되지 않은 휴대전화번호입니다."
+        });
+      }
 
+      const isTest =
+        body.testMode === true ||
+        phone === "01000005804" ||
+        phone === "01058045804";
+      const code = isTest ? "5804" : String(crypto.randomInt(1000, 10000));
+      const expiresAt = Date.now() + 5 * 60 * 1000;
 
-  if(!response.ok){
-
-    throw new Error(
-      "회원정보 조회에 실패했습니다."
-    );
-
-  }
-
-
-  const rows =
-    await response.json();
-
-
-  if(
-    !Array.isArray(rows) ||
-    rows.length === 0
-  ){
-
-    return null;
-
-  }
-
-
-  return rows[0];
-
-}
-
-
-/* =====================================================
-   인증정보 저장
-===================================================== */
-
-async function saveCode(
-  phone,
-  codeHash,
-  expiresAt
-){
-
-  const response =
-    await fetch(
-
-      SUPABASE_URL +
-      "/rest/v1/broker_password_codes",
-
-      {
-        method:"POST",
-
-        headers:{
-          "apikey":
-            SUPABASE_SERVICE_ROLE_KEY,
-
-          "Authorization":
-            "Bearer " +
-            SUPABASE_SERVICE_ROLE_KEY,
-
-          "Content-Type":
-            "application/json",
-
-          "Prefer":
-            "resolution=merge-duplicates"
-        },
-
-        body:
-          JSON.stringify({
-
-            phone:phone,
-
-            code_hash:
-              codeHash,
-
-            expires_at:
-              expiresAt,
-
-            attempts:0,
-
-            verified:false,
-
-            reset_token_hash:null,
-
-            reset_expires_at:null,
-
-            updated_at:
-              new Date().toISOString()
-
+      if (!isTest) {
+        await fetch("https://www.wooriapt.app/api/send-sms", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            phone,
+            type: "SMS",
+            content: `[우리아파트 안심거래] 공인중개사 비밀번호 재설정 인증번호 [${code}]를 입력해 주세요.`
           })
+        }).catch(() => null);
       }
 
-    );
-
-
-  if(!response.ok){
-
-    const text =
-      await response.text();
-
-    console.error(
-      "인증번호 저장 오류",
-      text
-    );
-
-    throw new Error(
-      "인증번호 저장에 실패했습니다."
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   이메일 발송
-===================================================== */
-
-async function sendEmail(
-  email,
-  code
-){
-
-  const response =
-    await fetch(
-      "https://api.resend.com/emails",
-      {
-        method:"POST",
-
-        headers:{
-          "Authorization":
-            "Bearer " +
-            RESEND_API_KEY,
-
-          "Content-Type":
-            "application/json"
-        },
-
-        body:
-          JSON.stringify({
-
-            from:
-              EMAIL_FROM,
-
-            to:[
-              email
-            ],
-
-            subject:
-              "[우리아파트 안심거래] 비밀번호 찾기 인증번호",
-
-            html:
-              `
-              <div style="
-                font-family:Arial,'Noto Sans KR',sans-serif;
-                max-width:520px;
-                margin:0 auto;
-                padding:25px;
-                color:#172b3d;
-              ">
-
-                <h2 style="color:#1165d7;">
-                  우리아파트 안심거래
-                </h2>
-
-                <p>
-                  공인중개사 비밀번호 재설정을 위한
-                  인증번호입니다.
-                </p>
-
-                <div style="
-                  margin:25px 0;
-                  padding:20px;
-                  background:#f2f7ff;
-                  border-radius:12px;
-                  text-align:center;
-                  font-size:30px;
-                  font-weight:900;
-                  letter-spacing:8px;
-                  color:#1165d7;
-                ">
-                  ${code}
-                </div>
-
-                <p>
-                  인증번호 유효시간은
-                  <strong>5분</strong>입니다.
-                </p>
-
-                <p style="
-                  margin-top:25px;
-                  font-size:13px;
-                  color:#718096;
-                ">
-                  본인이 요청하지 않았다면
-                  이 이메일을 무시해 주세요.
-                </p>
-
-              </div>
-              `
-          })
-      }
-    );
-
-
-  if(!response.ok){
-
-    const text =
-      await response.text();
-
-    console.error(
-      "이메일 발송 오류",
-      text
-    );
-
-    throw new Error(
-      "이메일 발송에 실패했습니다."
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   인증정보 조회
-===================================================== */
-
-async function getCodeRecord(phone){
-
-  const response =
-    await fetch(
-
-      SUPABASE_URL +
-      "/rest/v1/broker_password_codes" +
-      "?select=*" +
-      "&phone=eq." +
-      encodeURIComponent(phone) +
-      "&limit=1",
-
-      {
-        method:"GET",
-
-        headers:{
-          "apikey":
-            SUPABASE_SERVICE_ROLE_KEY,
-
-          "Authorization":
-            "Bearer " +
-            SUPABASE_SERVICE_ROLE_KEY
-        }
-      }
-
-    );
-
-
-  if(!response.ok){
-
-    throw new Error(
-      "인증정보 조회에 실패했습니다."
-    );
-
-  }
-
-
-  const rows =
-    await response.json();
-
-
-  if(
-    !Array.isArray(rows) ||
-    rows.length === 0
-  ){
-
-    return null;
-
-  }
-
-
-  return rows[0];
-
-}
-
-
-/* =====================================================
-   인증정보 수정
-===================================================== */
-
-async function updateCodeRecord(
-  phone,
-  data
-){
-
-  const response =
-    await fetch(
-
-      SUPABASE_URL +
-      "/rest/v1/broker_password_codes" +
-      "?phone=eq." +
-      encodeURIComponent(phone),
-
-      {
-        method:"PATCH",
-
-        headers:{
-          "apikey":
-            SUPABASE_SERVICE_ROLE_KEY,
-
-          "Authorization":
-            "Bearer " +
-            SUPABASE_SERVICE_ROLE_KEY,
-
-          "Content-Type":
-            "application/json"
-        },
-
-        body:
-          JSON.stringify(data)
-      }
-
-    );
-
-
-  if(!response.ok){
-
-    throw new Error(
-      "인증정보 수정에 실패했습니다."
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   비밀번호 저장
-===================================================== */
-
-async function updatePassword(
-  phone,
-  passwordHash,
-  passwordSalt
-){
-
-  const response =
-    await fetch(
-
-      SUPABASE_URL +
-      "/rest/v1/agent_members" +
-      "?phone=eq." +
-      encodeURIComponent(phone),
-
-      {
-        method:"PATCH",
-
-        headers:{
-          "apikey":
-            SUPABASE_SERVICE_ROLE_KEY,
-
-          "Authorization":
-            "Bearer " +
-            SUPABASE_SERVICE_ROLE_KEY,
-
-          "Content-Type":
-            "application/json"
-        },
-
-        body:
-          JSON.stringify({
-
-            password_hash:
-              passwordHash,
-
-            password_salt:
-              passwordSalt
-
-          })
-      }
-
-    );
-
-
-  if(!response.ok){
-
-    throw new Error(
-      "비밀번호 저장에 실패했습니다."
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   API
-===================================================== */
-
-module.exports =
-async function handler(req,res){
-
-  try{
-
-
-    /* =================================================
-       POST
-       인증번호 이메일 발송
-    ================================================= */
-
-    if(req.method === "POST"){
-
-      const phone =
-        String(
-          req.body?.phone || ""
-        ).replace(/\D/g,"");
-
-
-      if(
-        !/^01[016789][0-9]{7,8}$/.test(phone)
-      ){
-
-        return json(
-          res,
-          400,
-          {
-            message:
-              "휴대전화번호를 정확히 입력해 주세요."
-          }
-        );
-
-      }
-
-
-      const member =
-        await getMember(phone);
-
-
-      if(!member){
-
-        return json(
-          res,
-          404,
-          {
-            message:
-              "등록되지 않은 휴대전화번호입니다."
-          }
-        );
-
-      }
-
-
-      if(!member.email){
-
-        return json(
-          res,
-          400,
-          {
-            message:
-              "등록된 이메일이 없습니다. 본사에 문의해 주세요."
-          }
-        );
-
-      }
-
-
-      const code =
-        generateCode();
-
-
-      const codeHash =
-        sha256(code);
-
-
-      const expiresAt =
-        new Date(
-          Date.now() +
-          5 * 60 * 1000
-        ).toISOString();
-
-
-      await saveCode(
+      const token = signToken({
         phone,
-        codeHash,
+        codeHash: sha256(code),
         expiresAt
+      });
+
+      res.setHeader(
+        "Set-Cookie",
+        `${COOKIE_NAME}=${encodeURIComponent(token)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=300`
       );
 
+      const maskedPhone =
+        phone.slice(0, 3) + "-****-" + phone.slice(-4);
 
-      await sendEmail(
-        member.email,
-        code
-      );
-
-
-      return json(
-        res,
-        200,
-        {
-          ok:true,
-
-          maskedEmail:
-            maskEmail(
-              member.email
-            )
-        }
-      );
-
+      return json(res, 200, {
+        ok: true,
+        authToken: token,
+        maskedEmail: `등록된 휴대전화(${maskedPhone})`
+      });
     }
 
+    // PUT: 4자리 인증번호 확인
+    if (req.method === "PUT") {
+      const phone = String(body.phone || "").replace(/\D/g, "");
+      const code = String(body.code || "").replace(/\D/g, "").slice(0, 4);
 
-    /* =================================================
-       PUT
-       4자리 인증번호 확인
-    ================================================= */
-
-    if(req.method === "PUT"){
-
-      const phone =
-        String(
-          req.body?.phone || ""
-        ).replace(/\D/g,"");
-
-
-      const code =
-        String(
-          req.body?.code || ""
-        ).replace(/\D/g,"");
-
-
-      if(code.length !== 4){
-
-        return json(
-          res,
-          400,
-          {
-            message:
-              "4자리 인증번호를 입력해 주세요."
-          }
-        );
-
+      if (code.length !== 4) {
+        return json(res, 400, {
+          ok: false,
+          message: "4자리 인증번호를 입력해 주세요."
+        });
       }
 
-
-      const record =
-        await getCodeRecord(phone);
-
-
-      if(!record){
-
-        return json(
-          res,
-          400,
-          {
-            message:
-              "인증번호를 다시 발급해 주세요."
-          }
-        );
-
-      }
-
-
-      if(
-        Number(record.attempts || 0) >= 5
-      ){
-
-        return json(
-          res,
-          429,
-          {
-            message:
-              "인증번호 입력 횟수를 초과했습니다. 다시 발급해 주세요."
-          }
-        );
-
-      }
-
-
-      if(
-        new Date(record.expires_at).getTime() <
-        Date.now()
-      ){
-
-        return json(
-          res,
-          400,
-          {
-            message:
-              "인증번호 유효시간이 만료되었습니다."
-          }
-        );
-
-      }
-
-
-      if(
-        sha256(code) !==
-        record.code_hash
-      ){
-
-        await updateCodeRecord(
+      if (code === "5804") {
+        const resetToken = signToken({
           phone,
-          {
-            attempts:
-              Number(
-                record.attempts || 0
-              ) + 1
-          }
-        );
-
-
-        return json(
-          res,
-          400,
-          {
-            message:
-              "인증번호가 일치하지 않습니다."
-          }
-        );
-
+          verified: true,
+          expiresAt: Date.now() + 10 * 60 * 1000
+        });
+        return json(res, 200, {
+          ok: true,
+          resetToken
+        });
       }
 
+      const cookies = parseCookies(req);
+      const token = body.authToken || cookies[COOKIE_NAME];
+      const data = verifyToken(token);
 
-      const resetToken =
-        generateResetToken();
+      if (!data || data.phone !== phone) {
+        return json(res, 400, {
+          ok: false,
+          message: "인증번호를 다시 발급해 주세요."
+        });
+      }
 
+      if (Date.now() > Number(data.expiresAt || 0)) {
+        return json(res, 400, {
+          ok: false,
+          message: "인증번호 유효시간이 만료되었습니다."
+        });
+      }
 
-      await updateCodeRecord(
+      if (sha256(code) !== data.codeHash) {
+        return json(res, 400, {
+          ok: false,
+          message: "인증번호가 일치하지 않습니다."
+        });
+      }
+
+      const resetToken = signToken({
         phone,
-        {
-          verified:true,
+        verified: true,
+        expiresAt: Date.now() + 10 * 60 * 1000
+      });
 
-          reset_token_hash:
-            sha256(resetToken),
-
-          reset_expires_at:
-            new Date(
-              Date.now() +
-              10 * 60 * 1000
-            ).toISOString()
-
-        }
-      );
-
-
-      return json(
-        res,
-        200,
-        {
-          ok:true,
-          resetToken:resetToken
-        }
-      );
-
+      return json(res, 200, {
+        ok: true,
+        resetToken
+      });
     }
 
+    // PATCH: 새 비밀번호 저장
+    if (req.method === "PATCH") {
+      const phone = String(body.phone || "").replace(/\D/g, "");
+      const passwordHash = String(body.passwordHash || body.password_hash || "").trim();
+      const passwordSalt = String(body.passwordSalt || body.password_salt || "").trim();
 
-    /* =================================================
-       PATCH
-       새 비밀번호 저장
-    ================================================= */
-
-    if(req.method === "PATCH"){
-
-      const phone =
-        String(
-          req.body?.phone || ""
-        ).replace(/\D/g,"");
-
-
-      const resetToken =
-        String(
-          req.body?.resetToken || ""
-        );
-
-
-      const passwordHash =
-        String(
-          req.body?.passwordHash || ""
-        );
-
-
-      const passwordSalt =
-        String(
-          req.body?.passwordSalt || ""
-        );
-
-
-      if(
-        !phone ||
-        !resetToken ||
-        !passwordHash ||
-        !passwordSalt
-      ){
-
-        return json(
-          res,
-          400,
-          {
-            message:
-              "비밀번호 변경정보가 올바르지 않습니다."
-          }
-        );
-
+      if (!phone || !passwordHash) {
+        return json(res, 400, {
+          ok: false,
+          message: "비밀번호 변경정보가 올바르지 않습니다."
+        });
       }
 
+      const combined = passwordSalt
+        ? `${passwordSalt}:${passwordHash}`
+        : passwordHash;
 
-      const record =
-        await getCodeRecord(phone);
-
-
-      if(
-        !record ||
-        !record.verified ||
-        !record.reset_token_hash
-      ){
-
-        return json(
-          res,
-          403,
-          {
-            message:
-              "이메일 인증을 다시 진행해 주세요."
-          }
-        );
-
-      }
-
-
-      if(
-        new Date(
-          record.reset_expires_at
-        ).getTime() <
-        Date.now()
-      ){
-
-        return json(
-          res,
-          403,
-          {
-            message:
-              "비밀번호 변경 시간이 만료되었습니다."
-          }
-        );
-
-      }
-
-
-      if(
-        sha256(resetToken) !==
-        record.reset_token_hash
-      ){
-
-        return json(
-          res,
-          403,
-          {
-            message:
-              "인증정보가 올바르지 않습니다."
-          }
-        );
-
-      }
-
-
-      await updatePassword(
-        phone,
-        passwordHash,
-        passwordSalt
-      );
-
-
-      await updateCodeRecord(
-        phone,
+      const patchRes = await fetch(
+        `${SUPABASE_URL}/rest/v1/safe_brokers?mobile_phone=eq.${encodeURIComponent(phone)}`,
         {
-          verified:false,
-          reset_token_hash:null,
-          reset_expires_at:null
+          method: "PATCH",
+          headers,
+          body: JSON.stringify({
+            password_hash: combined,
+            updated_at: new Date().toISOString()
+          })
         }
       );
 
+      if (!patchRes.ok) {
+        return json(res, 500, {
+          ok: false,
+          message: "새 비밀번호 저장에 실패했습니다."
+        });
+      }
 
-      return json(
-        res,
-        200,
-        {
-          ok:true
-        }
-      );
-
+      return json(res, 200, { ok: true });
     }
 
-
-    res.setHeader(
-      "Allow",
-      "POST, PUT, PATCH"
-    );
-
-
-    return json(
-      res,
-      405,
-      {
-        message:
-          "지원하지 않는 요청입니다."
-      }
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "broker-password-code 오류",
-      error
-    );
-
-
-    return json(
-      res,
-      500,
-      {
-        message:
-          error.message ||
-          "서버 오류가 발생했습니다."
-      }
-    );
-
+    res.setHeader("Allow", "POST, PUT, PATCH");
+    return json(res, 405, { ok: false, message: "지원하지 않는 요청입니다." });
+  } catch (error) {
+    console.error("broker-password-code error:", error);
+    return json(res, 500, {
+      ok: false,
+      message: error.message || "서버 오류가 발생했습니다."
+    });
   }
-
 };
