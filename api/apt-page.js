@@ -1133,8 +1133,8 @@ async function aptHandleApartmentPage(req, res) {
           : `${location} 지역에는 총 ${apartmentNames.length}개 주요 아파트 단지가 국토교통부 공동주택 데이터에 등록되어 있으며, 각 단지별 세대수·준공연도·도로명주소 및 매매·전세·월세 실거래 시세를 본 페이지에서 실시간으로 비교하실 수 있습니다.`
       },
       {
-        q: `${faqTargetName} ${trade} 계약 시 중개수수료 50% 절감은 어떻게 적용되나요?`,
-        a: `우리아파트 안심거래(아파트 안심딜) 플랫폼에 ${faqTargetName} ${trade} 희망 예산과 입주 조건을 무료로 등록하시면, ${city} ${place} 관할 검증된 협력 공인중개사가 조건에 맞는 매물을 1:1 역제안합니다. 매수자·임차인은 법정 표준 중개보수의 절반(50%) 수준만 부담하여 수십만 원에서 수백만 원의 수수료를 합법적으로 절약할 수 있습니다.`
+        q: `${faqTargetName} ${trade} 계약 시 거래비용 최대 50% 절감은 어떻게 적용되나요?`,
+        a: `우리아파트 안심거래(아파트 안심딜) 플랫폼에 ${faqTargetName} ${trade} 희망 예산과 입주 조건을 무료로 등록하시면, ${city} ${place} 관할 검증된 파트너 공인중개사가 조건에 맞는 매물을 1:1 역제안합니다. 매수자·임차인은 파트너 공인중개사와의 협의 요율을 통해 거래비용을 최대 50%까지 합법적으로 절감할 수 있습니다.`
       },
       {
         q: `${place} 아파트 ${trade} 거래 시 전세사기·깡통전세 및 허위매물 예방 시스템은 무엇인가요?`,
@@ -1695,7 +1695,7 @@ p {
 
   <!-- 1. 최상단 검색엔진/사용자 대표 타이틀 및 핵심 정보 카드 -->
   <section class="card hero">
-    <span class="hero-eyebrow">📍 국토교통부 등록 아파트 · 중개수수료 50% 절감 플랫폼</span>
+    <span class="hero-eyebrow">📍 국토교통부 등록 아파트 · 거래비용 최대 50% 절감 안심 매칭</span>
     <h1>${aptHtml(subject)}</h1>
     ${
       apartment
@@ -1703,11 +1703,11 @@ p {
             <strong>${aptHtml(location)} ${aptHtml(apartment)}</strong> 단지의 <strong>${aptHtml(trade)}</strong> 실거래 매칭 및 단지 상세 스펙 안내 페이지입니다.
             ${primaryRoadAddr ? `도로명주소는 <strong>${aptHtml(primaryRoadAddr)}</strong>이며, ` : ""}
             ${primaryHouseholds ? `총 <strong>${aptHtml(primaryHouseholds)}세대</strong> 규모` : "국토교통부 정식 등록 단지"}입니다.
-            원하시는 ${aptHtml(trade)} 희망조건(예산·층수·입주일)을 등록하시면 ${aptHtml(place)} 관할 검증된 공인중개사가 맞춤 매물을 1:1 제안하며, <strong>중개수수료 50% 절감 혜택</strong>으로 안전하게 계약하실 수 있습니다.
+            원하시는 ${aptHtml(trade)} 희망조건(예산·층수·입주일)을 등록하시면 ${aptHtml(place)} 관할 검증된 파트너 공인중개사가 맞춤 매물을 1:1 제안하며, <strong>파트너 공인중개사 협의를 통한 거래비용 최대 50% 절감 혜택</strong>으로 안전하게 계약하실 수 있습니다.
           </p>`
         : `<p>
             <strong>${aptHtml(location)}</strong> 지역에 등록된 총 <strong>${apartmentNames.length}개 아파트 단지</strong>의 <strong>${aptHtml(trade)}</strong> 실거래 매칭 및 단지별 상세정보 안내 페이지입니다.
-            아래 실거래 매칭기 또는 단지 목록에서 원하는 아파트를 선택하고 희망조건을 등록하시면, ${aptHtml(city)} ${aptHtml(place)} 전문 공인중개사의 맞춤 매물 제안과 <strong>중개수수료 50% 절감 혜택</strong>을 받으실 수 있습니다.
+            아래 실거래 매칭기 또는 단지 목록에서 원하는 아파트를 선택하고 희망조건을 등록하시면, ${aptHtml(city)} ${aptHtml(place)} 전문 공인중개사의 맞춤 매물 제안과 <strong>거래비용 최대 50% 절감 혜택</strong>을 받으실 수 있습니다.
           </p>`
     }
 
@@ -1737,7 +1737,7 @@ p {
       : ""
   }
 
-  <!-- 2-1. 단지별 심층 분석 리포트 및 중개수수료 50% 절감 시뮬레이션 -->
+  <!-- 2-1. 단지별 심층 분석 리포트 및 거래비용 최대 50% 절감 시뮬레이션 -->
   <section class="card">
     <h2>📊 ${aptHtml(subject)} 단지 심층 분석 및 수수료 50% 절감 가이드</h2>
     ${
@@ -2636,7 +2636,7 @@ async function handleBrokerPage(req, res) {
       },
       {
         q: `${place} 공인중개사에게 아파트 매수·전세·월세 매물을 1:1로 제안받으려면 어떻게 하나요?`,
-        a: `우리아파트 안심거래 플랫폼에서 희망하는 ${place} 아파트 단지(또는 상가·점포)와 예산·입주 조건을 등록하시면, ${city} ${place} 관할 등록 공인중개사들이 검증된 실제 매물을 직접 역제안하며 중개수수료 50% 절감 혜택을 받으실 수 있습니다.`
+        a: `우리아파트 안심거래 플랫폼에서 희망하는 ${place} 아파트 단지(또는 상가·점포)와 예산·입주 조건을 등록하시면, ${city} ${place} 관할 등록 공인중개사들이 검증된 실제 매물을 직접 역제안하며 파트너 공인중개사 협의를 통한 거래비용 최대 50% 절감 혜택을 받으실 수 있습니다.`
       }
     ];
 
