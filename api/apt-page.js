@@ -887,8 +887,8 @@ async function aptHandleApartmentPage(req, res) {
       : (hhCountNum >= 500 ? "중대형 주거 선호 단지" : (hhCountNum >= 200 ? "실거주 중심 알짜 단지" : "실속형 공동주택 단지"));
 
     const description = apartment
-      ? `${subject} 실거래가·매물·시세 및 단지 정보(${primaryHouseholds ? primaryHouseholds + "세대" : "국토부 등록"}${builtYear ? "·" + builtYear + "년 준공" : ""}). 전세사기·깡통전세·중개사고 걱정 없는 [아파트 안심딜]에서 아파트 매수·임차 희망조건을 등록하고 매칭수수료 및 중개수수료 50% 절감 혜택과 검증된 공인중개사 1:1 맞춤 제안을 받아보세요.`
-      : `${subject} 실거래가·시세 및 ${place} 아파트 단지 정보. 전세사기·깡통전세 방지 [아파트 안심딜]에서 매매(매수)·전월세(임차) 조건을 등록하면 수수료 및 매칭수수료 50% 반값으로 안전하게 계약할 수 있습니다.`;
+      ? `${subject} 실거래가·매물·시세 및 단지 정보(${primaryHouseholds ? primaryHouseholds + "세대" : "국토부 등록"}${builtYear ? "·" + builtYear + "년 준공" : ""}). 전세사기·깡통전세 걱정 없는 [아파트 안심딜]에서 아파트 매수·임차 희망조건을 등록하고 파트너 공인중개사 협의를 통한 거래비용 최대 50% 절감 혜택과 1:1 맞춤 안심 매칭을 받아보세요.`
+      : `${subject} 실거래가·시세 및 ${place} 아파트 단지 정보. 전세사기·깡통전세 방지 [아파트 안심딜]에서 매매(매수)·전월세(임차) 조건을 등록하면 거래비용 최대 50% 절감 혜택으로 안전하게 매칭됩니다.`;
 
     // Unique apartment rows in current 동 by 단지명
     const uniqueAptMap = new Map();
@@ -1177,15 +1177,15 @@ async function aptHandleApartmentPage(req, res) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>[아파트 안심딜] ${aptHtml(subject)} 실거래가·시세 | 매칭수수료 50% 절감 · 전세사기 예방</title>
+<title>[아파트 안심딜] ${aptHtml(subject)} 실거래가·시세 | 거래비용 최대 50% 절감 · 파트너 공인중개사 안심 매칭</title>
 <meta name="description" content="${aptHtml(description)}">
-<meta name="keywords" content="${aptHtml(location + " 아파트, " + subject + ", " + place + " 아파트 매매, " + place + " 아파트 전세, " + place + " 아파트 월세, " + place + " 아파트 매수, " + place + " 아파트 임차, " + (apartment ? apartment + " 실거래가, " + apartment + " 매매, " : "") + "아파트 안심딜, 안심딜, 전세사기 예방, 깡통전세 방지, 중개사고 보증, 수수료 50%, 매칭수수료 50%, 매칭수수료 반값")}">
+<meta name="keywords" content="${aptHtml(location + " 아파트, " + subject + ", " + place + " 아파트 매매, " + place + " 아파트 전세, " + place + " 아파트 월세, " + place + " 아파트 매수, " + place + " 아파트 임차, " + (apartment ? apartment + " 실거래가, " + apartment + " 매매, " : "") + "아파트 안심딜, 안심딜, 전세사기 예방, 깡통전세 방지, 수수료 50%, 거래비용 50%, 거래비용 50% 절감, 매칭수수료 50%, 파트너 공인중개사 협의요율")}">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="${aptHtml(canonical)}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="아파트 안심딜">
 <meta property="og:locale" content="ko_KR">
-<meta property="og:title" content="[아파트 안심딜] ${aptHtml(subject)} | 매칭수수료 50% 절감">
+<meta property="og:title" content="[아파트 안심딜] ${aptHtml(subject)} | 거래비용 최대 50% 절감 매칭">
 <meta property="og:description" content="${aptHtml(description)}">
 <meta property="og:url" content="${aptHtml(canonical)}">
 <meta property="og:image" content="${SITE_ORIGIN}/apt-hero.png">
@@ -2682,9 +2682,9 @@ async function handleBrokerPage(req, res) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>[아파트 안심딜] ${html(title)} | 안심중개·수수료 50% 절감</title>
+<title>[아파트 안심딜] ${html(title)} | 파트너 공인중개사 안심 매칭 · 거래비용 최대 50% 절감</title>
 <meta name="description" content="${html(description)}">
-<meta name="keywords" content="${html(location + " 공인중개사, " + location + " 부동산, " + place + " 공인중개사, " + (broker ? broker + ", " : "") + place + " 아파트 매수, " + place + " 아파트 임차, 아파트 안심딜, 안심딜, 수수료 50%, 매칭수수료 50%, 전세사기 예방, 중개사고 보증")}">
+<meta name="keywords" content="${html(location + " 공인중개사, " + location + " 부동산, " + place + " 공인중개사, " + (broker ? broker + ", " : "") + place + " 아파트 매수, " + place + " 아파트 임차, 아파트 안심딜, 안심딜, 수수료 50%, 거래비용 50%, 거래비용 최대 50% 절감, 매칭수수료 50%, 전세사기 예방, 파트너 공인중개사 협의요율")}">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="${html(canonical)}">
 <meta property="og:type" content="website">
