@@ -2959,6 +2959,289 @@ async function handleBrokerSitemap(req, res) {
 }
 
 /* =========================================
+   상가·점포 안심딜 자동 검색 페이지 (/store-search/:region/:city/:place)
+========================================= */
+
+async function handleStorePage(req, res) {
+  res.setHeader("Content-Type", "text/html; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800");
+
+  try {
+    const region = clean(req.query.region || "서울특별시");
+    const city = clean(req.query.city || "강남구");
+    const place = clean(req.query.place || "역삼동");
+
+    const location = [region, city, place].filter(Boolean).join(" ");
+    const canonical =
+      SITE_ORIGIN +
+      "/store-search/" +
+      [region, city, place].map(pathEncode).join("/");
+
+    const title =
+      location +
+      " 상가 권리금 계약서 · 전기수도 공과금 일할 정산 · 상권분석 · 복비 50% 절감 | 안심딜";
+    const description =
+      location +
+      " 상가·점포 임대차 및 양도양수 시 중개수수료(복비) 50% 절감 혜택, 반경 300m 배후세대·유동인구 정밀 상권분석 지도, 전기요금·수도요금·도시가스 일할 정산 계산기, 상가 권리금 계약서 특약 체크리스트를 무료로 확인하세요.";
+
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: location + " 상가 점포 인수인계 시 전기요금·수도요금·도시가스 일할 정산은 어떻게 하나요?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "잔금 당일 상가 계량기 지침을 촬영한 뒤 한전(국번없이 123), 관할 수도사업소, 도시가스 고객센터에 당일 검침 수치를 불러주면 직전 검침일부터 잔금일까지의 일할 요금을 즉시 정산할 수 있습니다. 안심딜 무료 공과금 계산기를 이용하면 1톤당·kWh당 정산 금액을 바로 계산할 수 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          name: location + " 상가 권리금 계약서 작성 시 사기 예방 필수 특약은 무엇인가요?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "임대인(건물주)과의 신규 임대차 계약이 체결되지 않을 경우 권리금 계약을 무효로 하고 계약금 전액을 즉시 반환한다는 특약과, 행정처분·영업정지 이력 및 시설물 하자에 대한 매도인 담보책임 조항을 반드시 명시해야 합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          name: location + " 상가 중개수수료(복비)를 50% 아끼는 방법은 무엇인가요?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "안심딜(ansimdeal.com)에서 희망 조건이나 점포 매물을 등록하면 중개수수료 50% 절감에 동의한 지역 협력 공인중개사 및 직거래 매칭을 통해 상가 복비 부담을 절반으로 줄일 수 있습니다."
+          }
+        }
+      ]
+    };
+
+    const encodedPath = [region, city, place].map(pathEncode).join("/");
+    const brokerListUrl = "/broker-search/" + encodedPath;
+    const martListUrl = "/mart-search/" + encodedPath;
+    const aptSaleUrl = "/apt-search/" + encodedPath + "/sale";
+
+    return res.status(200).send(`<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${html(title)}</title>
+<meta name="description" content="${html(description)}">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="${html(canonical)}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="${html(title)}">
+<meta property="og:description" content="${html(description)}">
+<meta property="og:url" content="${html(canonical)}">
+<meta property="og:site_name" content="상가·점포 안심딜">
+<script type="application/ld+json">${JSON.stringify(faqSchema)}</script>
+<style>
+body {
+  margin: 0;
+  background: #f4f7fa;
+  color: #172b3d;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Arial, sans-serif;
+}
+.wrap {
+  max-width: 780px;
+  margin: auto;
+  padding: 18px 14px 55px;
+}
+.breadcrumb {
+  font-size: 12.5px;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+.breadcrumb a { color: #0f766e; text-decoration: none; font-weight: 700; }
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 26px rgba(20,55,90,.08);
+  border: 1px solid #e2e8f0;
+}
+h1 { margin: 0 0 12px; font-size: 25px; line-height: 1.38; color: #0f172a; }
+h2 { margin: 0 0 12px; font-size: 19px; color: #0f172a; }
+p, li { line-height: 1.7; color: #334155; font-size: 14.5px; }
+ul { padding-left: 20px; margin: 8px 0; }
+.cta {
+  display: block;
+  margin-top: 16px;
+  padding: 15px;
+  border-radius: 12px;
+  background: #0f766e;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 15.5px;
+}
+.box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-top: 10px;
+}
+.cross-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+.cross-link {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  font-size: 12.5px;
+  font-weight: 800;
+  text-decoration: none;
+  text-align: center;
+}
+.cross-link:hover { background: #f0fdfa; border-color: #5eead4; color: #0f766e; }
+</style>
+</head>
+<body>
+<main class="wrap">
+<nav class="breadcrumb" aria-label="현재 위치">
+  <a href="https://www.ansimdeal.com">🏪 안심딜 홈</a> &gt;
+  <a href="https://www.ansimdeal.com/map">상권분석 지도</a> &gt;
+  <strong>${html(location)} 상가·점포 안심딜</strong>
+</nav>
+
+<section class="card">
+  <h1>🏪 ${html(location)} 상가 권리금 · 공과금 일할 정산 · 상권분석 (복비 50% 절감)</h1>
+  <p>${html(description)}</p>
+  <a class="cta" href="https://www.ansimdeal.com">
+    👉 ${html(place)} 상가·점포 중개수수료 50% 절감 &amp; 무료 상권분석 바로가기
+  </a>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+    <a href="https://www.ansimdeal.com/map" style="display:block;padding:13px 10px;border-radius:12px;background:#1e293b;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">🗺️ ${html(place)} 300m 상권분석 지도 ›</a>
+    <a href="https://www.ansimdeal.com/tools-center" style="display:block;padding:13px 10px;border-radius:12px;background:#1d4ed8;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">⚡ 전기·수도·복비 자동 계산기 ›</a>
+  </div>
+</section>
+
+<section class="card">
+  <h2>⚡ 1. ${html(location)} 상가 양도양수 시 전기·수도·도시가스 일할 정산법</h2>
+  <p>${html(place)} 상가나 점포를 인수인계·폐업할 때 잔금 당일 분쟁을 막는 3단계 공과금 정산 공식입니다.</p>
+  <div class="box">
+    <ul>
+      <li><strong>전기요금 일할 정산 (한전 국번없이 123):</strong> 상가 분전함 계량기 현재 지침 숫자를 촬영한 뒤 한전(123)에 주소와 고객번호, 당일 지침을 불러주면 오늘까지의 요금을 즉시 가상계좌로 정산할 수 있습니다.</li>
+      <li><strong>수도요금 일할 정산:</strong> <code>(오늘 계량기 지침 - 직전 달 검침 지침) × 직전 고지서 1톤당 평균 단가</code>를 계산하여 기존 임차인이 신규 임차인에게 정산합니다.</li>
+      <li><strong>도시가스 정산:</strong> 잔금 전날 관할 도시가스 고객센터에 전출·철거 검침을 예약하여 현장 카드결제 또는 가상계좌로 즉시 완납합니다.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="card">
+  <h2>📋 2. ${html(location)} 상가 권리금 계약서 필수 특약 체크리스트</h2>
+  <p>상가 권리금 계약 시 계약금 사고와 분쟁을 예방하기 위해 반드시 특약사항에 넣어야 할 핵심 조항입니다.</p>
+  <div class="box">
+    <ul>
+      <li><strong>임대차 계약 연동 특약:</strong> "임대인(건물주)과의 신규 상가임대차계약이 체결되지 않을 경우 본 권리금 계약은 조건 없이 무효로 하며, 양도인은 수령한 계약금 전액을 즉시 반환한다."</li>
+      <li><strong>행정처분 및 법적 하자 담보:</strong> "잔금일 이전 발생한 영업정지, 과징금 등 행정처분 및 건축물 위법사항은 양도인이 전적으로 책임진다."</li>
+      <li><strong>시설·집기 목록 및 공과금 완납:</strong> "양도인은 잔금일 기준 전기·수도·가스·관리비를 일할 정산하여 완납하고 주요 시설물 정상 작동을 확인 후 인도한다."</li>
+    </ul>
+  </div>
+</section>
+
+<section class="card">
+  <h2>🗺️ 3. ${html(location)} 반경 300m 정밀 상권분석 &amp; 중개수수료 50% 절약</h2>
+  <p>안심딜에서는 ${html(location)} 일대의 배후 아파트 단지 세대수, 유동인구, 주변 경쟁 업종 현황을 지도 위에서 무료로 제공하며, 상가 임대차·권리금 중개수수료를 50% 아낄 수 있는 안심 매칭을 지원합니다.</p>
+  <div class="cross-links">
+    <a class="cross-link" href="https://www.ansimdeal.com">🏪 안심딜 메인 바로가기</a>
+    <a class="cross-link" href="https://www.ansimdeal.com/map">🗺️ ${html(place)} 상권분석 지도</a>
+    <a class="cross-link" href="https://www.ansimdeal.com/tools-center">🧮 공과금·복비 계산기</a>
+    <a class="cross-link" href="${html(brokerListUrl)}">🤝 ${html(place)} 공인중개사 목록</a>
+    <a class="cross-link" href="${html(aptSaleUrl)}">🏠 ${html(place)} 배후 아파트 시세</a>
+    <a class="cross-link" href="${html(martListUrl)}">🛒 ${html(place)} 동네마트 정보</a>
+  </div>
+</section>
+</main>
+</body>
+</html>`);
+  } catch (error) {
+    console.error("STORE PAGE ERROR:", error);
+    return res.status(500).send("상가 안심딜 페이지 생성 중 오류가 발생했습니다.");
+  }
+}
+
+/* =========================================
+   상가·점포 사이트맵 (/store-sitemap.xml)
+========================================= */
+
+async function handleStoreSitemap(req, res) {
+  res.setHeader("Content-Type", "application/xml; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800");
+
+  try {
+    const locationSet = new Set();
+
+    const aptOffsets = Array.from({ length: 22 }, function(_, i) { return i * 1000; });
+    const aptLocPromises = aptOffsets.map(function(start) {
+      return fetch(
+        APT_SUPABASE_URL + "/rest/v1/safe_apartments?select=%EC%8B%9C%EB%8F%84,%EC%8B%9C%EA%B5%B0%EA%B5%AC,%EC%9D%8D%EB%A9%B4,%EB%8F%99%EB%A6%AC&order=%EC%8B%9C%EB%8F%84.asc,%EC%8B%9C%EA%B5%B0%EA%B5%AC.asc,%EB%8F%99%EB%A6%AC.asc",
+        {
+          headers: {
+            apikey: APT_SUPABASE_KEY,
+            Authorization: "Bearer " + APT_SUPABASE_KEY,
+            Range: start + "-" + (start + 999)
+          }
+        }
+      ).then(async function(r) {
+        if (!r.ok) return [];
+        const data = await r.json();
+        return Array.isArray(data) ? data : [];
+      }).catch(function() { return []; });
+    });
+
+    const aptBatches = await Promise.all(aptLocPromises);
+
+    for (const row of aptBatches.flat()) {
+      const region = clean(row && row["시도"]);
+      const city = clean(row && row["시군구"]);
+      const place = clean(row && (row["동리"] || row["읍면"]));
+      if (region && city && place) {
+        locationSet.add([region, city, place].map(pathEncode).join("/"));
+      }
+    }
+
+    const lastmod = new Date().toISOString().split("T")[0];
+    const urls = [];
+
+    for (const encodedPath of locationSet) {
+      const url = SITE_ORIGIN + "/store-search/" + encodedPath;
+      urls.push(
+        "  <url>" +
+          "<loc>" + xmlEscape(url) + "</loc>" +
+          "<lastmod>" + lastmod + "</lastmod>" +
+          "<changefreq>weekly</changefreq>" +
+          "<priority>0.85</priority>" +
+        "</url>"
+      );
+    }
+
+    const xml =
+      '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+      urls.join("\n") +
+      "\n</urlset>";
+
+    return res.status(200).send(xml);
+  } catch (error) {
+    console.error("STORE SITEMAP ERROR:", error);
+    return res.status(500).send(
+      '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      "<error>store sitemap generation failed</error>"
+    );
+  }
+}
+
+/* =========================================
    통합 진입점
 ========================================= */
 
@@ -2994,6 +3277,14 @@ async function handler(req, res) {
 
   if (req.method !== "GET") {
     return res.status(405).send("Method Not Allowed");
+  }
+
+  if (mode === "store-page") {
+    return handleStorePage(req, res);
+  }
+
+  if (mode === "store-sitemap") {
+    return handleStoreSitemap(req, res);
   }
 
   if (mode === "broker-page") {

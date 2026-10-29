@@ -173,6 +173,14 @@
       "destination": "/api/apt-page?mode=broker-sitemap"
     },
     {
+      "source": "/store-search/:region/:city/:place",
+      "destination": "/api/apt-page?mode=store-page&region=:region&city=:city&place=:place"
+    },
+    {
+      "source": "/store-sitemap.xml",
+      "destination": "/api/apt-page?mode=store-sitemap"
+    },
+    {
       "source": "/mart-search/:region/:city/:place/:mart",
       "destination": "/api/mart-page?mode=mart-page&region=:region&city=:city&place=:place&mart=:mart"
     },

@@ -92,7 +92,8 @@ module.exports = async function handler(req, res) {
 
   const rawHost = (req && req.headers && req.headers.host) ? String(req.headers.host).toLowerCase() : "";
   const isAnsim = rawHost.includes("ansimdeal.com");
-  const reqHost = isAnsim ? "www.ansimdeal.com" : "www.wooriapt.app";
+  const isMartDomain = rawHost.includes("wooriapt.ai.kr");
+  const reqHost = isAnsim ? "www.ansimdeal.com" : isMartDomain ? "wooriapt.ai.kr" : "www.wooriapt.app";
   const SITE_ORIGIN = "https://" + reqHost;
   const lastmod = new Date().toISOString().split("T")[0];
 
@@ -145,11 +146,14 @@ module.exports = async function handler(req, res) {
       SITE_ORIGIN + "/pages-sitemap.xml"
     ];
 
-    for (let page = 1; page <= pages; page += 1) {
-      sitemapUrls.push(SITE_ORIGIN + "/sitemaps/apartments-" + page + ".xml");
-    }
+    if (!isMartDomain) {
+      for (let page = 1; page <= pages; page += 1) {
+        sitemapUrls.push(SITE_ORIGIN + "/sitemaps/apartments-" + page + ".xml");
+      }
 
-    sitemapUrls.push(SITE_ORIGIN + "/broker-sitemap.xml");
+      sitemapUrls.push(SITE_ORIGIN + "/broker-sitemap.xml");
+      sitemapUrls.push(SITE_ORIGIN + "/store-sitemap.xml");
+    }
 
     for (let m = 1; m <= MART_SITEMAP_COUNT; m += 1) {
       sitemapUrls.push(SITE_ORIGIN + "/sitemaps/marts-" + m + ".xml");

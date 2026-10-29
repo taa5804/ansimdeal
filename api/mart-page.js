@@ -713,7 +713,9 @@ module.exports = async function handler(req, res) {
   const rawHost = (req && req.headers && req.headers.host) ? String(req.headers.host).toLowerCase() : "";
   const reqHost = rawHost.includes("ansimdeal.com")
     ? "www.ansimdeal.com"
-    : "www.wooriapt.app";
+    : rawHost.includes("wooriapt.ai.kr")
+      ? "wooriapt.ai.kr"
+      : "www.wooriapt.app";
   BASE_URL = "https://" + reqHost;
 
   const mode = String(req.query.mode || "mart-page").trim();
