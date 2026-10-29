@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   // ClawOps Voice Config
   const CLAWOPS_ACCOUNT_ID = process.env.CLAWOPS_ACCOUNT_ID || "ACUfJGlcU6IkNZxuxn";
   const CLAWOPS_API_KEY = process.env.CLAWOPS_API_KEY || "sk_vuT1vZJtqWMHdjROjqAi1x7XpGGpjSY2";
-  const CLAWOPS_FROM_NUMBER = process.env.CLAWOPS_FROM_NUMBER || "070-5276-7712";
+  const CLAWOPS_FROM_NUMBER = String(process.env.CLAWOPS_FROM_NUMBER || "07052767712").replace(/\D/g, "");
   
   const rawBody = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {});
   const hostStr = String(req.headers["x-forwarded-host"] || req.headers.host || "");
@@ -270,9 +270,9 @@ export default async function handler(req, res) {
           },
           body: JSON.stringify({
             Name: `${IS_ANSIMDEAL ? "안심딜" : "안심거래"}-${request.request_number}`,
-            From: CLAWOPS_FROM_NUMBER,
+            From: normalizePhone(CLAWOPS_FROM_NUMBER),
             CallFlowId: CLAWOPS_CALL_FLOW_ID,
-            Status: "paused",
+            Status: "running",
             MachineDetection: "Enable",
             Tasks: tasks
           })
@@ -379,7 +379,7 @@ export default async function handler(req, res) {
 
     // 2) 일반 유선전화 보유자 ➔ ClawOps ARS 음성 전화 발송
     const batch = await createClawOpsBatch(voiceRecipients, request);
-    const batchId = batch?.Id || batch?.id || batch?.BatchId || null;
+    const batchId = batch?.batchId || batch?.BatchId || batch?.Id || batch?.id || null;
 
     const now = new Date().toISOString();
     const logRows = [
@@ -402,8 +402,8 @@ export default async function handler(req, res) {
         broker_office: broker.office_name || null,
         round_no: round,
         clawops_batch_id: batchId ? String(batchId) : null,
-        call_status: batchId ? "PAUSED" : "VOICE_QUEUED",
-        sent_at: null
+        call_status: batchId ? "VOICE_SENT" : "VOICE_QUEUED",
+        sent_at: batchId ? now : null
       }))
     ];
 
