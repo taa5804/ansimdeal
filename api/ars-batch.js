@@ -249,44 +249,46 @@ export default async function handler(req, res) {
   }
 
   /*
-    ClawOps ARS 음성전화 배치 (비회원 유선전화 대상)
+    ClawOps ARS 음성전화 즉시 발신 (비회원 유선전화 대상 - /calls 직통 엔드포인트)
   */
   async function createClawOpsBatch(brokers, request) {
-    if (!brokers.length) return null;
+    if (!brokers.length) return [];
     const details = requestDetails(request);
-    const tasks = brokers.map(b => ({
-      To: normalizePhone(b.phone),
-      Variables: details
-    }));
+    const fromPhone = normalizePhone(CLAWOPS_FROM_NUMBER);
 
-    try {
-      const response = await fetch(
-        `https://api.claw-ops.com/v1/accounts/${CLAWOPS_ACCOUNT_ID}/call-batches`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${CLAWOPS_API_KEY}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            Name: `${IS_ANSIMDEAL ? "안심딜" : "안심거래"}-${request.request_number}`,
-            From: normalizePhone(CLAWOPS_FROM_NUMBER),
-            CallFlowId: CLAWOPS_CALL_FLOW_ID,
-            Status: "running",
-            MachineDetection: "Enable",
-            Tasks: tasks
-          })
+    const results = await Promise.all(
+      brokers.map(async (b) => {
+        const toPhone = normalizePhone(b.phone);
+        try {
+          const response = await fetch(
+            `https://api.claw-ops.com/v1/accounts/${CLAWOPS_ACCOUNT_ID}/calls`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${CLAWOPS_API_KEY}`,
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                From: fromPhone,
+                To: toPhone,
+                CallFlowId: CLAWOPS_CALL_FLOW_ID,
+                Variables: details
+              })
+            }
+          );
+          if (!response.ok) {
+            console.warn("ClawOps call warning (status " + response.status + "):", await response.text());
+            return { broker: b, ok: false, callId: null };
+          }
+          const data = await response.json();
+          return { broker: b, ok: true, callId: data?.callId || data?.id || null };
+        } catch (e) {
+          console.warn("ClawOps call exception:", e);
+          return { broker: b, ok: false, callId: null };
         }
-      );
-      if (!response.ok) {
-        console.warn("ClawOps batch warning (status " + response.status + "):", await response.text());
-        return null;
-      }
-      return await response.json();
-    } catch (e) {
-      console.warn("ClawOps batch exception:", e);
-      return null;
-    }
+      })
+    );
+    return results;
   }
 
   try {
@@ -377,9 +379,8 @@ export default async function handler(req, res) {
       })
     );
 
-    // 2) 일반 유선전화 보유자 ➔ ClawOps ARS 음성 전화 발송
-    const batch = await createClawOpsBatch(voiceRecipients, request);
-    const batchId = batch?.batchId || batch?.BatchId || batch?.Id || batch?.id || null;
+    // 2) 일반 유선전화 보유자 ➔ ClawOps ARS 음성 전화 즉시 발송
+    const voiceResults = (await createClawOpsBatch(voiceRecipients, request)) || [];
 
     const now = new Date().toISOString();
     const logRows = [
@@ -394,16 +395,16 @@ export default async function handler(req, res) {
         call_status: item.ok ? "LMS_SENT" : "LMS_FAILED",
         sent_at: item.ok ? now : null
       })),
-      ...voiceRecipients.map(broker => ({
+      ...voiceResults.map(item => ({
         request_number: requestNumber,
-        broker_id: broker.id ? String(broker.id) : null,
+        broker_id: item.broker.id ? String(item.broker.id) : null,
         broker_type: "NONMEMBER",
-        broker_phone: normalizePhone(broker.phone),
-        broker_office: broker.office_name || null,
+        broker_phone: normalizePhone(item.broker.phone),
+        broker_office: item.broker.office_name || null,
         round_no: round,
-        clawops_batch_id: batchId ? String(batchId) : null,
-        call_status: batchId ? "VOICE_SENT" : "VOICE_QUEUED",
-        sent_at: batchId ? now : null
+        clawops_batch_id: item.callId ? String(item.callId) : null,
+        call_status: item.ok ? "VOICE_SENT" : "VOICE_FAILED",
+        sent_at: item.ok ? now : null
       }))
     ];
 
