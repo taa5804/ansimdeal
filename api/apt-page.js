@@ -572,7 +572,8 @@ async function aptHandleSitemap(req, res) {
     const batchResults = await Promise.all(batchPromises);
     const rows = batchResults.flat();
     const urlSet = new Set();
-    const tradeTypes = ["sale", "jeonse", "monthly"];
+    // 매매·전세·월세 페이지는 같은 내용이므로 사이트맵에는 대표 주소(sale) 1개만 제출 (중복 색인 방지)
+    const tradeTypes = ["sale"];
 
     for (const row of rows) {
       const region = String(row["시도"] || "").trim();
@@ -848,15 +849,17 @@ async function aptHandleApartmentPage(req, res) {
     const canonicalRegion = rawRegion || aptClean(firstRow["시도"]) || "서울특별시";
     const trade = aptTypeName(type);
     const location = [canonicalRegion, city, place].filter(Boolean).join(" ");
-    const subject = [location, apartment || "아파트", trade].filter(Boolean).join(" ");
+    // 한 페이지에서 매매·전세·월세를 모두 다루므로 제목에 세 가지를 함께 표기
+    const subject = [location, apartment || "아파트", "매매·전세·월세"].filter(Boolean).join(" ");
 
+    // 매매·전세·월세 3개 주소의 표준(canonical) 주소를 sale 하나로 통일 (중복 색인 방지)
     const canonical =
       SITE_ORIGIN +
       "/apt-search/" +
       (
         apartment
-          ? [canonicalRegion, city, place, apartment, type]
-          : [canonicalRegion, city, place, type]
+          ? [canonicalRegion, city, place, apartment, "sale"]
+          : [canonicalRegion, city, place, "sale"]
       )
         .map(encodeURIComponent)
         .join("/");
@@ -2685,7 +2688,7 @@ async function handleBrokerPage(req, res) {
 <title>[아파트 안심딜] ${html(title)} | 파트너 공인중개사 안심 매칭 · 거래비용 최대 50% 절감</title>
 <meta name="description" content="${html(description)}">
 <meta name="keywords" content="${html(location + " 공인중개사, " + location + " 부동산, " + place + " 공인중개사, " + (broker ? broker + ", " : "") + place + " 아파트 매수, " + place + " 아파트 임차, 아파트 안심딜, 안심딜, 수수료 50%, 거래비용 50%, 거래비용 최대 50% 절감, 매칭수수료 50%, 전세사기 예방, 파트너 공인중개사 협의요율")}">
-<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="robots" content="${broker ? "noindex,follow" : "index,follow,max-image-preview:large,max-snippet:-1"}">
 <link rel="canonical" href="${html(canonical)}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${html(title)}">
