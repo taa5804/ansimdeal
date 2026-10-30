@@ -57,7 +57,7 @@ export default async function handler(req, res) {
     return arr;
   }
 
-  function pickTenNonMembers(nonMembers, alreadySentPhones, countNeeded = 10) {
+  function pickTenNonMembers(nonMembers, alreadySentPhones, countNeeded = 20) {
     const sent = new Set(alreadySentPhones.map(normalizePhone));
     const eligible = (Array.isArray(nonMembers) ? nonMembers : []).filter(item => {
       const phone = normalizePhone(item.phone);
@@ -345,7 +345,20 @@ export default async function handler(req, res) {
     ).catch(() => []);
 
     if ((!Array.isArray(nonMembers) || nonMembers.length === 0) && localBrokersDirectory) {
-      const list = localBrokersDirectory[request.dong] || [];
+      let list = localBrokersDirectory[request.dong] || [];
+      if (list.length === 0) {
+        const adjacentDongMap = {
+          "세종로": ["당주동", "청진동", "수송동", "내수동", "종로1가", "관철동", "사직동", "공평동"],
+          "태평로1가": ["소공동", "북창동", "무교동", "다동"],
+          "태평로2가": ["소공동", "북창동", "남대문로4가"]
+        };
+        const adjDongs = adjacentDongMap[request.dong] || [];
+        for (const adj of adjDongs) {
+          if (Array.isArray(localBrokersDirectory[adj])) {
+            list = list.concat(localBrokersDirectory[adj]);
+          }
+        }
+      }
       nonMembers = list.map((item, idx) => ({
         id: "local-" + encodeURIComponent(request.dong) + "-" + idx,
         office_name: item[0],
@@ -354,6 +367,7 @@ export default async function handler(req, res) {
       }));
     }
 
+    const targetCount = Number(body.count) || 20;
     let selected = [];
     if (body.testMode) {
       // [안전 잠금] 테스트 시 실제 부동산 발송 절대 차단 -> 대표님 테스트 번호로만 발송
@@ -362,7 +376,7 @@ export default async function handler(req, res) {
         { id: "test-landline", office_name: "테스트(회사 전화)", phone: "062-952-4150", receive_blocked: false }
       ];
     } else {
-      selected = pickTenNonMembers(nonMembers, alreadySentPhones, 10);
+      selected = pickTenNonMembers(nonMembers, alreadySentPhones, targetCount);
     }
     const mobileRecipients = selected.filter(item => isMobilePhone(item.phone));
     const voiceRecipients = selected.filter(item => !isMobilePhone(item.phone));
