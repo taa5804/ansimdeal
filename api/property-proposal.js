@@ -177,6 +177,33 @@ export default async function handler(req, res) {
       ).catch((err) => console.error("proposal count update error:", err));
     }
 
+    /* 대표님(010-2286-4150) 실시간 문자 알림 발송 */
+    try {
+      const adminMsg = [
+        `[우리아파트/안심딜 매물제안 접수]`,
+        `공인중개사가 고객 요청에 매물을 제안했습니다!`,
+        ``,
+        `• 요청번호: #${requestNumber} (누적 ${proposalCount}건)`,
+        `• 제안매물: ${apartment} (${area} / ${floor})`,
+        `• 제안금액: ${amount}`,
+        `• 중개사무소: ${officeName} (${officePhone})`,
+        description ? `• 상세설명: ${description}` : ``
+      ].filter(Boolean).join("\n");
+
+      await fetch("https://www.wooriapt.app/api/send-sms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: "01022864150",
+          type: "LMS",
+          subject: `[중개사 매물제안 #${requestNumber}]`,
+          content: adminMsg
+        })
+      });
+    } catch (smsErr) {
+      console.error("admin proposal sms error:", smsErr);
+    }
+
     return res.status(200).json({
       ok: true,
       message: "매물이 등록되었습니다.",

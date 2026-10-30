@@ -192,6 +192,38 @@ export default async function handler(req, res) {
       }
 
       const member = Array.isArray(savedRows) && savedRows.length > 0 ? mapBrokerRow(savedRows[0]) : null;
+
+      try {
+        const formattedPhone =
+          phone.length === 11
+            ? `${phone.slice(0, 3)}-${phone.slice(3, 7)}-${phone.slice(7)}`
+            : phone;
+        const adminMsg = [
+          `[공인중개사 신규 회원가입 알림]`,
+          `새로운 공인중개사 가입 신청이 접수되었습니다!`,
+          ``,
+          `• 상호명: ${insertPayload.office_name}`,
+          `• 대표자: ${insertPayload.representative_name}`,
+          `• 휴대전화: ${formattedPhone}`,
+          `• 사무실전화: ${insertPayload.office_phone}`,
+          `• 지역: ${insertPayload.sido} ${insertPayload.sigungu} ${insertPayload.dong}`,
+          `• 등록번호: ${insertPayload.license_number}`
+        ].join("\n");
+
+        await fetch("https://www.wooriapt.app/api/send-sms", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            phone: "01022864150",
+            type: "LMS",
+            subject: `[공인중개사 신규 가입신청]`,
+            content: adminMsg
+          })
+        });
+      } catch (smsErr) {
+        console.error("admin broker signup sms error:", smsErr);
+      }
+
       return res.status(200).json({
         ok: true,
         message: "회원가입 신청이 접수되었습니다.",
