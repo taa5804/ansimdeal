@@ -367,7 +367,11 @@ export default async function handler(req, res) {
       }));
     }
 
-    const targetCount = Number(body.count) || 20;
+    // [대표님 비즈니스 룰] 상가: 1회 40건 (4시간 간격) / 아파트: 1회 20건 (6시간 간격)
+    const isCommercial = IS_ANSIMDEAL || (request.apartment && (request.apartment.includes('음식') || request.apartment.includes('상가') || request.apartment.includes('근린') || request.apartment.includes('사무실')));
+    const defaultBatchCount = isCommercial ? 40 : 20;
+    const intervalHours = isCommercial ? 4 : 6;
+    const targetCount = Number(body.count) || defaultBatchCount;
     let selected = [];
     if (body.testMode) {
       // [안전 잠금] 테스트 시 실제 부동산 발송 절대 차단 -> 대표님 테스트 번호로만 발송
@@ -424,6 +428,13 @@ export default async function handler(req, res) {
 
     if (logRows.length > 0) {
       await supabaseInsert("ars_dispatch_logs", logRows).catch(() => null);
+      
+      // 다음 발송 예정 시각 업데이트 (상가: 4시간 뒤, 아파트: 6시간 뒤)
+      const nextDispatchTime = new Date(Date.now() + intervalHours * 60 * 60 * 1000).toISOString();
+      await supabasePatch(`property_requests?request_number=eq.${encodeURIComponent(requestNumber)}`, {
+        ars_round: (Number(request.ars_round) || 0) + 1,
+        next_ars_at: nextDispatchTime
+      }).catch(() => null);
     }
 
     return res.status(200).json({
