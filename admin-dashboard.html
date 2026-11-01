@@ -1,2221 +1,4442 @@
 <!doctype html>
+
 <html lang="ko">
+
 <head>
+
 <meta charset="utf-8">
+
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <meta name="theme-color" content="#1165d7">
 
-<title>본사 관리자 | 우리아파트 안심거래</title>
-<meta name="description" content="본사 관리자 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+
+
+<title>본사 관리자 | 점포·상가 안심딜</title>
+
+<meta name="description" content="본사 관리자 | 점포·상가 안심딜 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+
+
 
 <style>
+
 *{
+
   box-sizing:border-box;
+
 }
+
+
 
 html,body{
+
   margin:0;
+
   width:100%;
+
   min-height:100%;
+
 }
+
+
 
 body{
+
   background:#f4f6f8;
+
   color:#172b3d;
+
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif;
+
 }
+
+
 
 button,
+
 input,
+
 select{
+
   font:inherit;
+
 }
+
+
 
 button{
+
   cursor:pointer;
+
 }
+
+
 
 a{
+
   color:inherit;
+
   text-decoration:none;
+
 }
+
+
 
 .wrap{
+
   width:100%;
+
   max-width:650px;
+
   margin:0 auto;
+
   padding:24px 14px 55px;
+
 }
 
 
+
+
+
 /* =========================================
+
    상단
+
 ========================================= */
+
+
 
 .header{
+
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
+
   gap:12px;
+
   margin-bottom:18px;
+
 }
+
+
 
 .brand{
+
   font-size:20px;
+
   font-weight:900;
+
   color:#173a59;
+
 }
+
+
 
 .brand strong{
+
   color:#1165d7;
+
 }
+
+
 
 .top-btn{
+
   border:1px solid #d5e0e8;
+
   border-radius:10px;
+
   background:#fff;
+
   color:#284b66;
+
   padding:9px 12px;
+
   font-size:13px;
+
   font-weight:800;
+
 }
 
 
+
+
+
 /* =========================================
+
    카드
+
 ========================================= */
+
+
 
 .card{
+
   background:#fff;
+
   border:1px solid #dce5ec;
+
   border-radius:18px;
+
   padding:22px 16px;
+
   box-shadow:0 6px 18px rgba(26,61,88,.05);
+
 }
+
+
 
 h1{
+
   margin:0 0 7px;
+
   font-size:27px;
+
   color:#143b61;
+
 }
+
+
 
 .desc{
+
   margin:0 0 20px;
+
   color:#667d8e;
+
   font-size:14px;
+
   line-height:1.6;
+
 }
 
 
+
+
+
 /* =========================================
+
    메인 메뉴
+
 ========================================= */
+
+
 
 .menu{
+
   display:grid;
+
   gap:10px;
+
 }
+
+
 
 .menu-button{
+
   width:100%;
+
   min-height:68px;
+
   border:1px solid #d8e3eb;
+
   border-radius:13px;
+
   background:#fff;
+
   padding:13px 15px;
 
+
+
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
+
   gap:12px;
 
+
+
   text-align:left;
+
 }
+
+
 
 .menu-button:hover{
+
   border-color:#a9c8de;
+
   background:#f8fbfd;
+
 }
+
+
 
 .menu-text{
+
   min-width:0;
+
 }
+
+
 
 .menu-title{
+
   display:block;
+
   color:#173e60;
+
   font-size:17px;
+
   font-weight:900;
+
 }
+
+
 
 .menu-desc{
+
   display:block;
+
   margin-top:4px;
+
   color:#718596;
+
   font-size:12px;
+
   font-weight:600;
+
   line-height:1.4;
+
 }
 
+
+
 .arrow{
+
   color:#1165d7;
+
   font-size:23px;
+
   font-weight:900;
+
 }
+
+
+
 
 
 /* =========================================
+
    상세 화면
+
 ========================================= */
 
+
+
 .panel{
+
   display:none;
+
 }
+
+
 
 .panel.active{
+
   display:block;
+
 }
 
+
+
 .back-button{
+
   display:inline-flex;
+
   align-items:center;
+
   gap:5px;
+
   margin:0 0 18px;
 
+
+
   border:1px solid #d7e2ea;
+
   border-radius:9px;
+
   background:#fff;
+
+
 
   padding:8px 11px;
 
+
+
   color:#315875;
+
   font-size:13px;
+
   font-weight:800;
+
 }
+
+
 
 .panel-title{
+
   margin:0 0 6px;
+
   color:#143b61;
+
   font-size:23px;
+
 }
+
+
 
 .panel-desc{
+
   margin:0 0 18px;
+
   color:#718596;
+
   font-size:13px;
+
   line-height:1.55;
+
 }
 
 
+
+
+
 /* =========================================
+
    요약 카드
+
 ========================================= */
+
+
 
 .summary-grid{
+
   display:grid;
+
   grid-template-columns:repeat(2,1fr);
+
   gap:9px;
+
   margin-bottom:18px;
+
 }
+
+
 
 .summary{
+
   border:1px solid #dce6ed;
+
   border-radius:12px;
+
   background:#f8fbfd;
+
   padding:13px;
+
 }
+
+
 
 .summary-label{
+
   color:#718596;
+
   font-size:11px;
+
   font-weight:700;
+
 }
+
+
 
 .summary-value{
+
   margin-top:5px;
+
   color:#173e60;
+
   font-size:21px;
+
   font-weight:900;
+
 }
 
 
+
+
+
 /* =========================================
+
    검색/필터
+
 ========================================= */
+
+
 
 .filters{
+
   display:grid;
+
   grid-template-columns:1fr 1fr;
+
   gap:8px;
+
   margin-bottom:14px;
+
 }
+
+
 
 .filters input,
+
 .filters select{
+
   width:100%;
+
   height:42px;
+
   padding:0 11px;
 
+
+
   border:1px solid #d2dee7;
+
   border-radius:9px;
+
   background:#fff;
+
+
 
   color:#263f52;
+
   font-size:13px;
+
   outline:none;
+
 }
+
+
 
 .filters input:focus,
+
 .filters select:focus{
+
   border-color:#1165d7;
+
 }
 
 
+
+
+
 /* =========================================
+
    목록
+
 ========================================= */
+
+
 
 .list{
+
   display:grid;
+
   gap:8px;
+
 }
+
+
 
 .list-item{
+
   border:1px solid #dce5ec;
+
   border-radius:12px;
+
   padding:13px;
+
   background:#fff;
+
 }
+
+
 
 .list-top{
+
   display:flex;
+
   justify-content:space-between;
+
   align-items:flex-start;
+
   gap:10px;
+
 }
+
+
 
 .list-title{
+
   color:#173e60;
+
   font-size:14px;
+
   font-weight:900;
+
 }
+
+
 
 .list-sub{
+
   margin-top:4px;
+
   color:#718596;
+
   font-size:11px;
+
   line-height:1.5;
+
 }
+
+
 
 .status{
+
   flex:0 0 auto;
+
   border-radius:999px;
+
   padding:5px 8px;
+
   font-size:10px;
+
   font-weight:900;
+
 }
+
+
 
 .status.wait{
+
   background:#fff4dc;
+
   color:#9b6511;
+
 }
+
+
 
 .status.ok{
+
   background:#e8f7ef;
+
   color:#16704a;
+
 }
+
+
 
 .status.off{
+
   background:#f1f3f5;
+
   color:#66727c;
+
 }
 
 
+
+
+
 /* =========================================
+
    버튼
+
 ========================================= */
+
+
 
 .action-row{
+
   display:flex;
+
   gap:7px;
+
   margin-top:10px;
+
 }
+
+
 
 .action-btn{
+
   flex:1;
+
   min-height:36px;
+
   border:0;
+
   border-radius:8px;
 
+
+
   background:#1165d7;
+
   color:#fff;
 
+
+
   font-size:12px;
+
   font-weight:800;
+
 }
+
+
 
 .action-btn.gray{
+
   background:#eef2f5;
+
   color:#415b6e;
+
 }
+
+
 
 .action-btn.green{
+
   background:#16865b;
+
 }
 
 
+
+
+
 /* =========================================
+
    설정
+
 ========================================= */
+
+
 
 .setting-box{
+
   border:1px solid #dce5ec;
+
   border-radius:12px;
+
   padding:14px;
+
   margin-bottom:10px;
+
 }
+
+
 
 .setting-title{
+
   margin-bottom:5px;
+
   color:#173e60;
+
   font-size:14px;
+
   font-weight:900;
+
 }
+
+
 
 .setting-desc{
+
   margin-bottom:10px;
+
   color:#718596;
+
   font-size:11px;
+
   line-height:1.5;
+
 }
+
+
 
 .setting-input{
+
   display:flex;
+
   align-items:center;
+
   gap:8px;
+
 }
+
+
 
 .setting-input input,
+
 .setting-input select{
+
   flex:1;
+
   min-width:0;
+
   height:40px;
+
   padding:0 10px;
 
+
+
   border:1px solid #d2dee7;
+
   border-radius:8px;
 
+
+
   font-size:13px;
+
 }
+
+
 
 .save-btn{
+
   width:100%;
+
   height:46px;
+
   margin-top:10px;
 
+
+
   border:0;
+
   border-radius:10px;
 
+
+
   background:#1165d7;
+
   color:#fff;
 
+
+
   font-size:14px;
+
   font-weight:900;
+
 }
 
 
+
+
+
 /* =========================================
+
    안내
+
 ========================================= */
+
+
 
 .empty{
+
   padding:22px 14px;
+
   border:1px dashed #cddbe5;
+
   border-radius:12px;
+
   background:#fafcfd;
 
+
+
   text-align:center;
+
   color:#758997;
 
+
+
   font-size:12px;
+
   line-height:1.6;
+
 }
 
 
+
+
+
 /* =========================================
+
    하단
+
 ========================================= */
+
+
 
 .footer{
+
   margin-top:20px;
+
   text-align:center;
+
   color:#81909b;
+
   font-size:11px;
+
 }
 
 
+
+
+
 /* =========================================
+
    모바일
+
 ========================================= */
+
+
 
 @media(max-width:520px){
 
+
+
   .wrap{
+
     padding:16px 10px 45px;
+
   }
+
+
 
   .brand{
+
     font-size:17px;
+
   }
+
+
 
   .card{
+
     padding:18px 12px;
+
   }
+
+
 
   h1{
+
     font-size:23px;
+
   }
+
+
 
   .menu-button{
+
     min-height:62px;
+
     padding:11px 12px;
+
   }
+
+
 
   .menu-title{
+
     font-size:15px;
+
   }
+
+
 
   .menu-desc{
+
     font-size:10px;
+
   }
+
+
 
   .summary-value{
+
     font-size:18px;
+
   }
+
+
 
   .filters{
+
     grid-template-columns:1fr;
+
   }
+
 }
+
 </style>
+
 <link rel="canonical" href="https://www.wooriapt.app/admin-dashboard">
+
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+
 <meta property="og:type" content="website">
+
 <meta property="og:site_name" content="우리아파트">
-<meta property="og:title" content="본사 관리자 | 우리아파트 안심거래">
-<meta property="og:description" content="본사 관리자 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+
+<meta property="og:title" content="본사 관리자 | 점포·상가 안심딜">
+
+<meta property="og:description" content="본사 관리자 | 점포·상가 안심딜 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.">
+
 <meta property="og:url" content="https://www.wooriapt.app/admin-dashboard">
+
 <meta property="og:image" content="https://www.wooriapt.app/apt-hero.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"본사 관리자 | 우리아파트 안심거래","description":"본사 관리자 | 우리아파트 안심거래 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.","url":"https://www.wooriapt.app/admin-dashboard.html","isPartOf":{"@type":"WebSite","name":"우리아파트","url":"https://www.wooriapt.app/"}}</script>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"본사 관리자 | 점포·상가 안심딜","description":"본사 관리자 | 점포·상가 안심딜 - 국토부 실거래 기반 우리아파트 안심거래 매칭 및 중개수수료 반값 혜택 서비스를 확인하세요.","url":"https://www.wooriapt.app/admin-dashboard.html","isPartOf":{"@type":"WebSite","name":"우리아파트","url":"https://www.wooriapt.app/"}}</script>
+
 </head>
 
+
+
 <body>
+
+
 
 <div class="wrap">
 
 
+
+
+
 <!-- =========================================
+
      상단
+
 ========================================= -->
+
+
 
 <header class="header">
 
+
+
   <a class="brand" href="/">
-    🏠 우리아파트 <strong>안심거래</strong>
+
+    🏪 점포·상가 <strong>안심딜</strong>
+
   </a>
 
+
+
   <button
+
     class="top-btn"
+
     type="button"
+
     onclick="showHome()">
+
     통합관리
+
   </button>
+
+
 
 </header>
 
 
+
+
+
 <!-- =========================================
+
      메인 메뉴
+
 ========================================= -->
 
+
+
 <main
+
   id="homePanel"
+
   class="card panel active">
 
+
+
   <h1>
+
     본사 관리자
+
   </h1>
 
+
+
   <p class="desc">
-    우리아파트 안심거래 전체 운영현황을 관리합니다.
+
+    점포·상가 안심딜 전체 운영현황을 관리합니다.
+
   </p>
 
+
+
   <!-- 본사 공식 수납 및 정산 지정 계좌 안내 카드 -->
+
   <div style="background:linear-gradient(135deg, #10332c 0%, #175438 100%); color:#ffffff; border-radius:16px; padding:18px 20px; margin-bottom:20px; box-shadow:0 8px 20px rgba(16,51,44,0.18);">
+
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.2); padding-bottom:8px;">
+
       <strong style="font-size:15px; color:#a7f3d0; display:flex; align-items:center; gap:6px;">
+
         🏛️ 본사 공식 수납 및 정산 지정 계좌
+
       </strong>
+
       <span style="font-size:11.5px; background:rgba(255,255,255,0.2); padding:3px 8px; border-radius:999px; font-weight:700;">실시간 수납 통제</span>
+
     </div>
+
     <div style="font-size:17px; font-weight:900; letter-spacing:0.5px; margin-bottom:6px; color:#ffffff;">
+
       농협은행 <span style="color:#fef08a;">199-02-289684</span>
+
     </div>
+
     <div style="font-size:13.5px; opacity:0.95; font-weight:700;">
+
       예금주: <strong>송해석</strong> <span style="font-size:12px; opacity:0.85; margin-left:6px;">(정산관리: (주)뉴알에너지 대표이사)</span>
+
     </div>
+
     <div style="font-size:11.5px; opacity:0.8; margin-top:8px; line-height:1.4;">
+
       ※ 고객·공인중개사·마트·분양사 입금 시 위 농협 계좌로 수납되며, 아래 [거래 관리] 및 [회원비 관리]에서 [입금 확인 완료] 버튼을 눌러 승인합니다.
+
     </div>
+
   </div>
+
+
 
   <div class="menu">
 
 
 
+
+
+
+
     <!-- 공인중개사 관리 -->
 
+
+
     <button
+
       class="menu-button"
+
       type="button"
+
       onclick="openPanel('brokerPanel')">
+
+
 
       <span class="menu-text">
 
+
+
         <span class="menu-title">
+
           공인중개사 관리
+
         </span>
 
+
+
         <span class="menu-desc">
+
           회원가입·승인·회원상태 관리
+
         </span>
+
+
 
       </span>
 
+
+
       <span class="arrow">›</span>
 
+
+
     </button>
+
+
+
 
 
     <!-- 요청 관리 -->
 
+
+
     <button
+
       class="menu-button"
+
       type="button"
+
       onclick="openPanel('requestPanel')">
+
+
 
       <span class="menu-text">
 
+
+
         <span class="menu-title">
+
           매수·임차 요청 관리
+
         </span>
 
+
+
         <span class="menu-desc">
-          매매·전세·월세 요청현황 관리
+
+          상가 임차·월세·전세 요청현황 관리
+
         </span>
+
+
 
       </span>
 
+
+
       <span class="arrow">›</span>
 
+
+
     </button>
+
+
+
 
 
     <!-- 제안 관리 -->
 
+
+
     <button
+
       class="menu-button"
+
       type="button"
+
       onclick="openPanel('proposalPanel')">
+
+
 
       <span class="menu-text">
 
+
+
         <span class="menu-title">
+
           제안 관리
+
         </span>
 
+
+
         <span class="menu-desc">
+
           공인중개사 제안 및 진행현황 관리
+
         </span>
+
+
 
       </span>
 
+
+
       <span class="arrow">›</span>
 
+
+
     </button>
+
+
+
 
 
     <!-- 거래 관리 -->
 
+
+
     <button
+
       class="menu-button"
+
       type="button"
+
       onclick="openPanel('transactionPanel')">
+
+
 
       <span class="menu-text">
 
+
+
         <span class="menu-title">
+
           거래 관리
+
         </span>
 
+
+
         <span class="menu-desc">
+
           계약 진행중·거래완료 관리
+
         </span>
+
+
 
       </span>
 
+
+
       <span class="arrow">›</span>
 
+
+
     </button>
+
+
+
 
 
     <!-- 회원비 -->
 
+
+
     <button
+
       class="menu-button"
+
       type="button"
+
       onclick="openPanel('membershipPanel')">
+
+
 
       <span class="menu-text">
 
+
+
         <span class="menu-title">
+
           회원비 관리
+
         </span>
 
+
+
         <span class="menu-desc">
+
           공인중개사 회원비 및 이용상태 관리
+
         </span>
+
+
 
       </span>
 
+
+
       <span class="arrow">›</span>
 
+
+
     </button>
+
+
+
 
 
     <!-- 문자 ARS -->
 
+
+
     <button
+
       class="menu-button"
+
       type="button"
+
       onclick="openPanel('messagePanel')">
+
+
 
       <span class="menu-text">
 
+
+
         <span class="menu-title">
+
           문자·ARS 관리
+
         </span>
 
+
+
         <span class="menu-desc">
+
           공인중개사 알림 및 발송현황 관리
+
         </span>
+
+
 
       </span>
 
+
+
       <span class="arrow">›</span>
 
+
+
     </button>
+
+
+
 
 
     <!-- 설정 -->
 
+
+
     <button
+
       class="menu-button"
+
       type="button"
+
       onclick="openPanel('settingPanel')">
+
+
 
       <span class="menu-text">
 
+
+
         <span class="menu-title">
+
           시스템 설정
+
         </span>
 
+
+
         <span class="menu-desc">
+
           서비스 운영 기본설정
+
         </span>
+
+
 
       </span>
 
+
+
       <span class="arrow">›</span>
+
+
 
     </button>
 
 
+
+
+
   </div>
+
+
 
 </main>
 
 
 
+
+
+
+
 <!-- =========================================
+
      1. 공인중개사 관리
+
 ========================================= -->
 
+
+
 <section
+
   id="brokerPanel"
+
   class="card panel">
 
+
+
   <button
+
     class="back-button"
+
     type="button"
+
     onclick="showHome()">
+
     ← 본사 관리자 메뉴
+
   </button>
 
+
+
   <h2 class="panel-title">
+
     공인중개사 관리
+
   </h2>
 
+
+
   <p class="panel-desc">
+
     공인중개사 회원가입 신청, 승인상태와 회원 이용상태를 관리합니다.
+
   </p>
+
+
+
 
 
   <div class="summary-grid">
 
+
+
     <div class="summary">
+
       <div class="summary-label">전체 공인중개사</div>
+
       <div class="summary-value" id="brokerTotal">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">승인대기</div>
+
       <div class="summary-value" id="brokerWaiting">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">정상회원</div>
+
       <div class="summary-value" id="brokerActive">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">이용정지</div>
+
       <div class="summary-value" id="brokerStopped">0</div>
+
     </div>
+
+
 
   </div>
+
+
+
 
 
   <div class="filters">
 
+
+
     <select id="brokerStatusFilter" onchange="renderBrokers()">
+
       <option value="">전체 상태</option>
+
       <option value="PENDING">승인대기</option>
+
       <option value="ACTIVE">정상회원</option>
+
       <option value="STOPPED">이용정지</option>
+
     </select>
 
+
+
     <input
+
       id="brokerSearch"
+
       type="search"
+
       oninput="renderBrokers()"
+
       placeholder="사무소명·대표자·전화번호">
 
+
+
   </div>
+
+
+
 
 
   <div id="brokerList" class="list">
+
     <div class="empty">등록된 공인중개사 정보를 불러오는 중입니다.</div>
+
   </div>
+
+
 
 </section>
 
 
 
+
+
+
+
 <!-- =========================================
+
      2. 매수·임차 요청 관리
+
 ========================================= -->
 
+
+
 <section
+
   id="requestPanel"
+
   class="card panel">
 
+
+
   <button
+
     class="back-button"
+
     type="button"
+
     onclick="showHome()">
+
     ← 본사 관리자 메뉴
+
   </button>
 
+
+
   <h2 class="panel-title">
+
     매수·임차 요청 관리
+
   </h2>
 
+
+
   <p class="panel-desc">
-    등록된 매매·전세·월세 희망조건 요청현황을 확인합니다.
+
+    등록된 상가 임차·월세·전세 희망조건 요청현황을 확인합니다.
+
   </p>
+
+
+
 
 
   <div class="summary-grid">
 
+
+
     <div class="summary">
+
       <div class="summary-label">전체 요청</div>
+
       <div class="summary-value" id="reqTotal">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">매매</div>
+
       <div class="summary-value" id="reqSale">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">전세</div>
+
       <div class="summary-value" id="reqJeonse">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">월세</div>
+
       <div class="summary-value" id="reqMonthly">0</div>
+
     </div>
+
+
 
   </div>
+
+
+
 
 
   <div class="filters">
 
+
+
     <select id="requestTypeFilter" onchange="renderRequests()">
+
       <option value="">전체 거래유형</option>
+
       <option value="sale">매매</option>
+
       <option value="jeonse">전세</option>
+
       <option value="monthly">월세</option>
+
     </select>
 
+
+
     <input
+
       id="requestSearch"
+
       type="search"
+
       oninput="renderRequests()"
-      placeholder="지역·아파트·요청번호">
+
+      placeholder="지역·상가점포·요청번호">
+
+
 
   </div>
+
+
+
 
 
   <div id="requestList" class="list">
+
     <div class="empty">등록된 매수·임차 요청이 이곳에 표시됩니다.</div>
+
   </div>
+
+
 
 </section>
 
 
 
+
+
+
+
 <!-- =========================================
+
      3. 제안 관리
+
 ========================================= -->
 
+
+
 <section
+
   id="proposalPanel"
+
   class="card panel">
 
+
+
   <button
+
     class="back-button"
+
     type="button"
+
     onclick="showHome()">
+
     ← 본사 관리자 메뉴
+
   </button>
 
+
+
   <h2 class="panel-title">
+
     제안 관리
+
   </h2>
 
+
+
   <p class="panel-desc">
+
     공인중개사가 등록한 매물 제안과 고객 선택 진행상태를 확인합니다.
+
   </p>
+
+
+
 
 
   <div class="summary-grid">
 
+
+
     <div class="summary">
+
       <div class="summary-label">전체 제안</div>
+
       <div class="summary-value" id="propTotal">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">오늘 제안</div>
+
       <div class="summary-value" id="propToday">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">고객 확인</div>
+
       <div class="summary-value" id="propConfirmed">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">선택 완료</div>
+
       <div class="summary-value" id="propSelected">0</div>
+
     </div>
+
+
 
   </div>
+
+
+
 
 
   <div class="filters">
 
+
+
     <select id="proposalStatusFilter" onchange="renderProposals()">
+
       <option value="">전체 상태</option>
+
       <option value="OPEN">제안 등록</option>
+
       <option value="SELECTED">선택 완료</option>
+
     </select>
 
+
+
     <input
+
       id="proposalSearch"
+
       type="search"
+
       oninput="renderProposals()"
+
       placeholder="요청번호·공인중개사">
 
+
+
   </div>
+
+
+
 
 
   <div id="proposalList" class="list">
+
     <div class="empty">공인중개사 매물 제안 현황이 이곳에 표시됩니다.</div>
+
   </div>
+
+
 
 </section>
 
 
 
+
+
+
+
 <!-- =========================================
+
      4. 거래 관리
+
 ========================================= -->
 
+
+
 <section
+
   id="transactionPanel"
+
   class="card panel">
 
+
+
   <button
+
     class="back-button"
+
     type="button"
+
     onclick="showHome()">
+
     ← 본사 관리자 메뉴
+
   </button>
 
+
+
   <h2 class="panel-title">
+
     거래 관리
+
   </h2>
 
+
+
   <p class="panel-desc">
+
     계약 진행중 거래의 플랫폼 이용료 입금 확인 및 완료된 거래를 확인합니다.
+
   </p>
+
+
+
 
 
   <div class="summary-grid">
 
+
+
     <div class="summary">
+
       <div class="summary-label">전체 거래</div>
+
       <div class="summary-value" id="txTotal">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">계약 진행중</div>
+
       <div class="summary-value" id="txActive">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">이용료 입금완료</div>
+
       <div class="summary-value" id="txPaid">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">거래완료</div>
+
       <div class="summary-value" id="txCompleted">0</div>
+
     </div>
+
+
 
   </div>
+
+
+
 
 
   <div class="filters">
 
+
+
     <select id="txStatusFilter" onchange="renderTransactions()">
+
       <option value="">전체 상태</option>
+
       <option value="ACTIVE">계약 진행중</option>
+
       <option value="PAID">이용료 입금완료</option>
+
       <option value="COMPLETED">거래완료</option>
+
     </select>
 
+
+
     <input
+
       id="txSearch"
+
       type="search"
+
       oninput="renderTransactions()"
+
       placeholder="4자리 거래 진행 코드·아파트명">
 
+
+
   </div>
+
+
+
 
 
   <div id="transactionList" class="list">
+
     <div class="empty">거래 진행 현황이 이곳에 표시됩니다.</div>
+
   </div>
+
+
 
 </section>
 
 
 
+
+
+
+
 <!-- =========================================
+
      5. 회원비 관리
+
 ========================================= -->
 
+
+
 <section
+
   id="membershipPanel"
+
   class="card panel">
 
+
+
   <button
+
     class="back-button"
+
     type="button"
+
     onclick="showHome()">
+
     ← 본사 관리자 메뉴
+
   </button>
 
+
+
   <h2 class="panel-title">
+
     회원비 관리
+
   </h2>
 
+
+
   <p class="panel-desc">
+
     공인중개사 월 회원비 납부상태와 이용상태를 관리합니다.
+
   </p>
+
+
+
 
 
   <div class="summary-grid">
 
+
+
     <div class="summary">
+
       <div class="summary-label">정상회원</div>
+
       <div class="summary-value" id="memActive">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">납부대기</div>
+
       <div class="summary-value" id="memPending">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">만료회원</div>
+
       <div class="summary-value" id="memExpired">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">월 회원비 (VAT 별도)</div>
+
       <div class="summary-value" id="memMonthlyFee">30,000원</div>
+
     </div>
+
+
 
   </div>
+
+
+
 
 
   <div class="filters">
 
+
+
     <select id="membershipStatusFilter" onchange="renderMemberships()">
+
       <option value="">전체 상태</option>
+
       <option value="ACTIVE">정상</option>
+
       <option value="PENDING">납부대기</option>
+
       <option value="EXPIRED">만료</option>
+
     </select>
 
+
+
     <input
+
       id="membershipSearch"
+
       type="search"
+
       oninput="renderMemberships()"
+
       placeholder="공인중개사 검색">
 
+
+
   </div>
+
+
+
 
 
   <div id="membershipList" class="list">
+
     <div class="empty">공인중개사 회원비 납부내역이 이곳에 표시됩니다.</div>
+
   </div>
+
+
 
 </section>
 
 
 
+
+
+
+
 <!-- =========================================
+
      6. 문자·ARS 관리
+
 ========================================= -->
 
+
+
 <section
+
   id="messagePanel"
+
   class="card panel">
 
+
+
   <button
+
     class="back-button"
+
     type="button"
+
     onclick="showHome()">
+
     ← 본사 관리자 메뉴
+
   </button>
 
+
+
   <h2 class="panel-title">
+
     문자·ARS 관리
+
   </h2>
 
+
+
   <p class="panel-desc">
+
     공인중개사 알림 문자와 ARS 발송현황을 관리합니다.
+
   </p>
+
+
+
 
 
   <div class="summary-grid">
 
+
+
     <div class="summary">
+
       <div class="summary-label">오늘 문자</div>
+
       <div class="summary-value" id="smsToday">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">오늘 ARS</div>
+
       <div class="summary-value" id="arsToday">0</div>
+
     </div>
 
+
+
     <div class="summary">
+
       <div class="summary-label">발송 성공</div>
+
       <div class="summary-value" id="msgSuccess">0</div>
+
     </div>
+
+
 
     <div class="summary">
+
       <div class="summary-label">발송 실패</div>
+
       <div class="summary-value" id="msgFail">0</div>
+
     </div>
+
+
 
   </div>
 
 
+
+
+
   <div class="setting-box">
 
+
+
     <div class="setting-title">
+
       1차 알림
+
     </div>
 
+
+
     <div class="setting-desc">
+
       관할 지역 전 회원 우선 발송 (초기 회원이 부족할 시: 해당 동 휴대폰 비회원 문자 + 일반전화 비회원 ARS로 10건 패키지 발송)
+
     </div>
+
+
 
     <div class="setting-input">
 
+
+
       <select>
+
         <option>문자</option>
+
       </select>
 
+
+
     </div>
+
+
 
   </div>
 
 
+
+
+
   <div class="setting-box">
 
+
+
     <div class="setting-title">
+
       2차 알림
+
     </div>
 
+
+
     <div class="setting-desc">
+
       서로 다른 물건이 3개 미만인 경우 비회원 10군데 추가 발송 (휴대폰 문자 + 일반전화 ARS)
+
     </div>
+
+
 
     <div class="setting-input">
 
+
+
       <select>
+
         <option>문자</option>
+
       </select>
+
+
 
     </div>
 
+
+
   </div>
+
+
+
 
 
   <div class="setting-box">
 
+
+
     <div class="setting-title">
+
       3차 알림
+
     </div>
 
+
+
     <div class="setting-desc">
+
       여전히 서로 다른 물건이 3개 미만인 경우 비회원 10군데 3차 발송 (휴대폰 문자 + 일반전화 ARS)
+
     </div>
+
+
 
     <div class="setting-input">
 
+
+
       <select>
+
         <option>ARS</option>
+
       </select>
+
+
 
     </div>
 
+
+
   </div>
+
+
+
 
 
   <div id="messageList" class="list">
+
     <div class="empty">문자·ARS 발송내역이 이곳에 표시됩니다.</div>
+
   </div>
 
+
+
 </section>
+
+
+
+
 
 
 
 <!-- =========================================
+
      7. 시스템 설정
+
 ========================================= -->
 
+
+
 <section
+
   id="settingPanel"
+
   class="card panel">
 
+
+
   <button
+
     class="back-button"
+
     type="button"
+
     onclick="showHome()">
+
     ← 본사 관리자 메뉴
+
   </button>
 
+
+
   <h2 class="panel-title">
+
     시스템 설정
+
   </h2>
 
+
+
   <p class="panel-desc">
-    우리아파트 안심거래의 기본 운영값을 설정합니다.
+
+    점포·상가 안심딜의 기본 운영값을 설정합니다.
+
   </p>
 
 
+
+
+
   <div class="setting-box">
 
+
+
     <div class="setting-title">
+
       공인중개사 월 회원비 (VAT 별도)
+
     </div>
 
+
+
     <div class="setting-desc">
+
       회원 공인중개사 월 이용료 공급가액입니다. (실제 입금 시 부가세 10%가 가산된 33,000원이 입금되며, 전자세금계산서가 100% 발행됩니다.)
+
     </div>
+
+
 
     <div class="setting-input">
 
+
+
       <input
+
         id="monthlyFee"
+
         type="number"
+
         value="30000">
+
+
 
       <span>원 (VAT 별도)</span>
 
+
+
     </div>
+
+
 
   </div>
 
 
+
+
+
   <div class="setting-box">
 
+
+
     <div class="setting-title">
+
       매수·임차 요청 유효시간
+
     </div>
 
+
+
     <div class="setting-desc">
+
       요청 등록 후 기본 유효시간입니다.
+
     </div>
+
+
 
     <div class="setting-input">
 
+
+
       <input
+
         id="requestHours"
+
         type="number"
+
         value="72">
+
+
 
       <span>시간</span>
 
+
+
     </div>
+
+
 
   </div>
 
 
+
+
+
   <div class="setting-box">
 
+
+
     <div class="setting-title">
+
       1차 회원 알림 대기시간
+
     </div>
 
+
+
     <div class="setting-desc">
+
       회원 공인중개사 우선 제안을 기다리는 시간입니다.
+
     </div>
+
+
 
     <div class="setting-input">
 
+
+
       <input
+
         id="phase1Minutes"
+
         type="number"
+
         value="60">
+
+
 
       <span>분</span>
 
+
+
     </div>
 
+
+
   </div>
+
+
+
 
 
   <div class="setting-box">
 
+
+
     <div class="setting-title">
+
       최소 제안 수
+
     </div>
 
+
+
     <div class="setting-desc">
+
       이 숫자보다 제안이 적으면 비회원 알림 확대 대상이 됩니다.
+
     </div>
+
+
 
     <div class="setting-input">
 
+
+
       <input
+
         id="minimumProposals"
+
         type="number"
+
         value="3">
+
+
 
       <span>건</span>
 
+
+
     </div>
 
+
+
   </div>
+
+
+
 
 
   <button
+
     class="save-btn"
+
     type="button"
+
     onclick="saveSettings()">
+
     설정 저장
+
   </button>
 
 
+
+
+
   <div
+
     id="settingMessage"
+
     class="list-sub"
+
     style="margin-top:10px;text-align:center;">
+
   </div>
 
+
+
 </section>
+
+
+
+
 
 
 
 <div class="footer">
-  © 우리아파트 안심거래
-</div>
+
+  © 점포·상가 안심딜
 
 </div>
+
+
+
+</div>
+
+
+
 
 
 <script>
+
 (function(){
+
+
 
 "use strict";
 
+
+
 const state = {
+
   brokers: [],
+
   requests: [],
+
   proposals: [],
+
   transactions: []
+
 };
+
+
 
 function esc(v){
+
   return String(v || "")
+
     .replace(/&/g, "&amp;")
+
     .replace(/</g, "&lt;")
+
     .replace(/>/g, "&gt;")
+
     .replace(/"/g, "&quot;");
+
 }
+
+
 
 function fmtDate(iso){
+
   if(!iso) return "-";
+
   const d = new Date(iso);
+
   if(isNaN(d.getTime())) return String(iso).slice(0,10);
+
   return d.getFullYear() + "-" +
+
     String(d.getMonth() + 1).padStart(2, "0") + "-" +
+
     String(d.getDate()).padStart(2, "0");
+
 }
+
+
 
 function isToday(iso){
+
   if(!iso) return false;
+
   return fmtDate(iso) === fmtDate(new Date().toISOString());
+
 }
 
+
+
 /* =========================================
+
    화면 전환
+
 ========================================= */
+
+
 
 const panels =
+
   Array.from(
+
     document.querySelectorAll(".panel")
+
   );
 
+
+
 window.openPanel =
+
 function(panelId){
 
+
+
   panels.forEach(function(panel){
+
     panel.classList.remove("active");
+
   });
+
+
 
   const target =
+
     document.getElementById(panelId);
 
+
+
   if(target){
+
     target.classList.add("active");
+
   }
 
+
+
   window.scrollTo({
+
     top:0,
+
     behavior:"smooth"
+
   });
 
+
+
   renderAll();
+
 };
+
+
 
 window.showHome =
+
 function(){
 
+
+
   panels.forEach(function(panel){
+
     panel.classList.remove("active");
+
   });
+
+
 
   document
+
     .getElementById("homePanel")
+
     .classList.add("active");
 
+
+
   window.scrollTo({
+
     top:0,
+
     behavior:"smooth"
+
   });
+
+
 
 };
 
+
+
 /* =========================================
+
    서버 데이터 조회 + 로컬 거래 병합
+
 ========================================= */
+
+
 
 async function loadDashboardData(){
+
   try{
+
     const res = await fetch("/api/trade-decision?admin=dashboard");
+
     const data = await res.json().catch(() => ({}));
+
     if(res.ok && data && data.ok){
+
       state.brokers = Array.isArray(data.brokers) ? data.brokers : [];
+
       state.requests = Array.isArray(data.requests) ? data.requests : [];
+
       state.proposals = Array.isArray(data.proposals) ? data.proposals : [];
+
       state.transactions = Array.isArray(data.transactions) ? data.transactions : [];
+
     }else{
+
       const sbUrl = "https://dcysjuxyjqtvkihdsjvv.supabase.co/rest/v1";
+
       const sbKey = "sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
+
       const sbHeaders = { apikey: sbKey, Authorization: "Bearer " + sbKey };
+
       const [reqR, propR, brkR] = await Promise.all([
+
         fetch(sbUrl + "/property_requests?select=*&order=id.desc&limit=200", { headers: sbHeaders }).catch(() => null),
+
         fetch(sbUrl + "/property_proposals?select=*&order=id.desc&limit=200", { headers: sbHeaders }).catch(() => null),
+
         fetch(sbUrl + "/safe_brokers?select=*&order=id.desc&limit=200", { headers: sbHeaders }).catch(() => null)
+
       ]);
+
       if(reqR && reqR.ok) state.requests = await reqR.json().catch(() => []);
+
       if(brkR && brkR.ok) state.brokers = await brkR.json().catch(() => []);
+
       if(propR && propR.ok){
+
         const rawProps = await propR.json().catch(() => []);
+
         state.proposals = [];
+
         state.transactions = [];
+
         (Array.isArray(rawProps) ? rawProps : []).forEach(function(r){
+
           const text = String(r.description || "");
+
           const m = text.match(/\[TRADE_ROOM_CODE:(\d{4})\|TX:([A-Z0-9_-]+)(?:\|TYPE:([a-z]+))?(?:\|PAID:([YN]))?\]/);
+
           const item = {
+
             id: r.id,
+
             requestNumber: r.request_number,
+
             apartment: r.apartment,
+
             amount: r.amount,
+
             floor: r.floor,
+
             area: r.area,
+
             description: text.replace(/\n?\[TRADE_ROOM_CODE:[^\]]+\]/g, "").trim(),
+
             officeName: r.office_name,
+
             officePhone: r.office_phone,
+
             status: r.status || "OPEN",
+
             tradeRoomCode: m ? m[1] : null,
+
             transactionNumber: m ? m[2] : null,
+
             tradeType: m ? (m[3] || "sale") : "sale",
+
             feePaid: m ? m[4] === "Y" : false,
+
             createdAt: r.created_at
+
           };
+
           state.proposals.push(item);
+
           if(m && m[1]) state.transactions.push(item);
+
         });
+
       }
+
     }
+
   }catch(err){
+
     console.warn("admin load error:", err);
+
   }
+
+
 
   mergeLocalTransactions();
+
   renderAll();
+
 }
+
+
 
 function isLocalPaid(code, txNo){
+
   if(code && (localStorage.getItem("woori_fee_paid_" + code) === "Y" || localStorage.getItem("wooriapt_payment_" + code))) return true;
+
   if(txNo && (localStorage.getItem("woori_fee_paid_" + txNo) === "Y" || localStorage.getItem("wooriapt_payment_" + txNo))) return true;
+
   return false;
+
 }
+
+
 
 function mergeLocalTransactions(){
+
   if(state.brokers.length === 0){
+
     const savedBrokerSt = JSON.parse(localStorage.getItem("wooriapt_admin_broker_5804") || "{}");
+
     state.brokers.push({
+
       id: "master-5804",
+
       office_name: "안심파트너 공인중개사사무소",
+
       representative_name: "홍길동 (마스터키 회원)",
+
       phone: "010-5804-5804",
+
       office_registration_no: "11680-2024-05804",
+
       email: "ansim@wooriapt.app",
+
       registration_status: savedBrokerSt.registration_status || "ACTIVE",
+
       membership_status: savedBrokerSt.membership_status || "ACTIVE",
+
       created_at: new Date().toISOString()
+
     });
+
   }
+
+
 
   const byCode = new Map();
+
   state.transactions.forEach(function(t){
+
     const code = String(t.tradeRoomCode || "");
+
     const txNo = String(t.transactionNumber || "");
+
     if(isLocalPaid(code, txNo)) t.feePaid = true;
+
     byCode.set(code || txNo, t);
+
   });
+
+
 
   for(let i = 0; i < localStorage.length; i++){
+
     const k = localStorage.key(i);
+
     if(k && k.startsWith("woori_trade_data_")){
+
       try{
+
         const d = JSON.parse(localStorage.getItem(k) || "{}");
+
         const code = String(d.code || k.replace("woori_trade_data_", ""));
+
         if(code && !byCode.has(code)){
+
           byCode.set(code, {
+
             id: "local-" + code,
+
             requestNumber: code,
+
             apartment: d.aptName || "아파트 매물",
+
             amount: d.price ? (Number(d.price).toLocaleString() + "원") : "-",
+
             floor: d.dongHo || "-",
+
             area: "-",
+
             officeName: (d.broker && d.broker.office) || "담당 공인중개사",
+
             officePhone: (d.broker && d.broker.phone) || "-",
+
             status: d.completed ? "COMPLETED" : "OPEN",
+
             tradeRoomCode: code,
+
             transactionNumber: "TR" + code + "0001",
+
             tradeType: d.dealType || "sale",
+
             feePaid: !!d.feePaid || isLocalPaid(code, "TR" + code + "0001"),
+
             createdAt: new Date().toISOString()
+
           });
+
         }
+
       }catch(e){}
+
     }
+
   }
+
+
 
   if(!byCode.has("5804")){
+
     byCode.set("5804", {
+
       id: "prop-5804-1",
+
       requestNumber: "5804",
+
       apartment: "[만능키 테스트] 역삼동 래미안 84㎡ (중층)",
+
       amount: "매매 14억 5,000만원",
+
       floor: "12층 / 25층",
+
       area: "전용 84㎡ (34평)",
+
       officeName: "안심파트너 공인중개사사무소",
+
       officePhone: "010-5804-5804",
+
       status: "OPEN",
+
       tradeRoomCode: "5804",
+
       transactionNumber: "TR58040001",
+
       tradeType: "sale",
+
       feePaid: isLocalPaid("5804", "TR58040001"),
+
       createdAt: new Date().toISOString()
+
     });
+
   }
+
+
 
   state.transactions = Array.from(byCode.values());
+
 }
+
+
 
 function renderAll(){
+
   renderBrokers();
+
   renderRequests();
+
   renderProposals();
+
   renderTransactions();
+
   renderMemberships();
+
   renderMessages();
+
 }
 
+
+
 /* =========================================
+
    1. 공인중개사 관리 렌더링 및 승인/정지
+
 ========================================= */
+
+
 
 window.renderBrokers = function(){
+
   const list = state.brokers;
+
   const total = list.length;
+
   const waiting = list.filter(b => (b.registration_status || "PENDING").toUpperCase() === "PENDING").length;
+
   const active = list.filter(b => ["ACTIVE", "APPROVED"].includes((b.registration_status || "").toUpperCase())).length;
+
   const stopped = list.filter(b => ["STOPPED", "REJECTED"].includes((b.registration_status || "").toUpperCase())).length;
 
+
+
   document.getElementById("brokerTotal").textContent = total;
+
   document.getElementById("brokerWaiting").textContent = waiting;
+
   document.getElementById("brokerActive").textContent = active;
+
   document.getElementById("brokerStopped").textContent = stopped;
 
+
+
   const statusFilter = (document.getElementById("brokerStatusFilter").value || "").toUpperCase();
+
   const keyword = (document.getElementById("brokerSearch").value || "").trim().toLowerCase();
 
+
+
   const filtered = list.filter(function(b){
+
     const st = (b.registration_status || "PENDING").toUpperCase();
+
     const normSt = st === "APPROVED" ? "ACTIVE" : (st === "REJECTED" ? "STOPPED" : st);
+
     if(statusFilter && normSt !== statusFilter) return false;
+
     if(keyword){
+
       const hay = [b.office_name, b.representative_name, b.phone, b.office_registration_no, b.email].join(" ").toLowerCase();
+
       if(!hay.includes(keyword)) return false;
+
     }
+
     return true;
+
   });
+
+
 
   const box = document.getElementById("brokerList");
+
   if(filtered.length === 0){
+
     box.innerHTML = '<div class="empty">조건에 맞는 공인중개사 내역이 없습니다.</div>';
+
     return;
+
   }
+
+
 
   box.innerHTML = filtered.map(function(b){
+
     const st = (b.registration_status || "PENDING").toUpperCase();
+
     const isOk = st === "ACTIVE" || st === "APPROVED";
+
     const isStop = st === "STOPPED" || st === "REJECTED";
+
     const badgeClass = isOk ? "ok" : (isStop ? "off" : "wait");
+
     const badgeLabel = isOk ? "정상회원" : (isStop ? "이용정지" : "승인대기");
 
+
+
     return `
+
       <div class="list-item">
+
         <div class="list-top">
+
           <div>
+
             <div class="list-title">${esc(b.office_name || "중개사무소")} (${esc(b.representative_name || "-")})</div>
+
             <div class="list-sub">
+
               연락처: ${esc(b.phone || "-")} | 등록번호: ${esc(b.office_registration_no || "-")}<br>
+
               이메일: ${esc(b.email || "-")} | 가입일: ${fmtDate(b.created_at)}
+
             </div>
+
           </div>
+
           <span class="status ${badgeClass}">${badgeLabel}</span>
+
         </div>
+
         <div class="action-row">
+
           <button type="button" class="action-btn green" onclick="updateBrokerStatus('${esc(b.id)}','ACTIVE')">회원 승인</button>
+
           <button type="button" class="action-btn gray" onclick="updateBrokerStatus('${esc(b.id)}','PENDING')">승인 대기</button>
+
           <button type="button" class="action-btn gray" onclick="updateBrokerStatus('${esc(b.id)}','STOPPED')">이용 정지</button>
+
         </div>
+
       </div>
+
     `;
+
   }).join("");
+
 };
+
+
 
 window.updateBrokerStatus = async function(id, nextStatus){
+
   const target = state.brokers.find(b => String(b.id) === String(id));
+
   if(target) target.registration_status = nextStatus;
+
   renderBrokers();
 
+
+
   await fetch("/api/trade-decision", {
+
     method: "POST",
+
     headers: { "Content-Type": "application/json" },
+
     body: JSON.stringify({
+
       action: "admin_update_broker",
+
       id: id,
+
       registration_status: nextStatus
+
     })
+
   }).catch(() => null);
+
 };
+
+
 
 /* =========================================
+
    2. 매수·임차 요청 관리 렌더링
+
 ========================================= */
 
+
+
 window.isCommercialRequest = function(r){
+
   const text = String((r.apartment || "") + " " + (r.memo || "")).toLowerCase();
+
   return text.includes("[") || text.includes("상가") || text.includes("점포") || text.includes("프라자") || text.includes("안심딜") || text.includes("음식") || text.includes("카페");
+
 };
+
+
 
 window.renderRequests = function(){
+
   const isAnsimdeal = (window.location.hostname || "").includes("ansimdeal") || document.title.includes("점포·상가");
+
   const list = (state.requests || []).filter(function(r){
+
     const comm = window.isCommercialRequest(r);
+
     return isAnsimdeal ? comm : !comm;
+
   });
+
   document.getElementById("reqTotal").textContent = list.length;
+
   document.getElementById("reqSale").textContent = list.filter(r => r.request_type === "sale").length;
+
   document.getElementById("reqJeonse").textContent = list.filter(r => r.request_type === "jeonse").length;
+
   document.getElementById("reqMonthly").textContent = list.filter(r => r.request_type === "monthly").length;
 
+
+
   const typeFilter = document.getElementById("requestTypeFilter").value;
+
   const keyword = (document.getElementById("requestSearch").value || "").trim().toLowerCase();
 
+
+
   const filtered = list.filter(function(r){
+
     if(typeFilter && r.request_type !== typeFilter) return false;
+
     if(keyword){
+
       const hay = [r.request_number, r.sido, r.sigungu, r.dong, r.apartment, r.phone].join(" ").toLowerCase();
+
       if(!hay.includes(keyword)) return false;
+
     }
+
     return true;
+
   });
 
+
+
   const box = document.getElementById("requestList");
+
   if(filtered.length === 0){
+
     box.innerHTML = '<div class="empty">등록된 매수·임차 요청이 없습니다.</div>';
+
     return;
+
   }
 
+
+
   box.innerHTML = filtered.map(function(r){
+
     const tLabel = r.request_type === "sale" ? "매매" : (r.request_type === "jeonse" ? "전세" : "월세");
+
     const isOpen = (r.status || "OPEN").toUpperCase() === "OPEN";
+
     return `
+
       <div class="list-item">
+
         <div class="list-top">
+
           <div>
-            <div class="list-title">[요청번호 ${esc(r.request_number)}] ${esc(r.sido)} ${esc(r.sigungu)} ${esc(r.dong)} · ${esc(r.apartment || "희망단지 전체")}</div>
+
+            <div class="list-title">[요청번호 ${esc(r.request_number)}] ${esc(r.sido)} ${esc(r.sigungu)} ${esc(r.dong)} · ${esc(r.apartment || "희망상가 전체")}</div>
+
             <div class="list-sub">
+
               유형: ${tLabel} | 희망면적: ${esc(r.size || "-")} | 입주희망일: ${esc(r.move_date || "-")}<br>
+
               신청자 연락처: ${esc(r.phone || "-")} | 등록일: ${fmtDate(r.created_at)}
+
             </div>
+
           </div>
+
           <span class="status ${isOpen ? "ok" : "off"}">${isOpen ? "진행중" : "종료"}</span>
+
         </div>
+
         <div class="action-row">
+
           <button type="button" class="action-btn" onclick="filterProposalsByReq('${esc(r.request_number)}')">접수 제안 보기</button>
+
           <button type="button" class="action-btn" style="background:#ef4444;color:#fff;border-color:#dc2626;margin-left:6px;" onclick="adminDeleteRequest(${r.id}, '${esc(r.request_number)}')">🗑️ 삭제</button>
+
         </div>
+
       </div>
+
     `;
+
   }).join("");
+
 };
+
+
+
 
 
 window.adminDeleteRequest = async function(id, reqNo){
+
   if(!confirm(`[요청번호 #${reqNo}] 물건을 정말 삭제하시겠습니까?\n관련된 제안 및 발송 내역도 함께 삭제됩니다.`)) return;
+
   try{
+
     const res = await fetch("/api/trade-decision", {
+
       method: "POST",
+
       headers: { "Content-Type": "application/json" },
+
       body: JSON.stringify({ action: "admin_delete_request", id: id, requestNumber: reqNo })
+
     });
+
     const data = await res.json().catch(() => ({}));
+
     if(res.ok && data.ok){
+
       alert("삭제되었습니다.");
+
       loadDashboardData();
+
     }else{
+
       alert("삭제 실패: " + (data.message || "오류가 발생했습니다."));
+
     }
+
   }catch(e){
+
     alert("오류: " + e.message);
+
   }
+
 };
+
+
 
 window.filterProposalsByReq = function(reqNo){
+
   document.getElementById("proposalSearch").value = reqNo;
+
   openPanel("proposalPanel");
+
 };
 
+
+
 /* =========================================
+
    3. 제안 관리 렌더링
+
 ========================================= */
+
+
 
 window.renderProposals = function(){
+
   const list = state.proposals;
+
   const total = list.length;
+
   const todayCount = list.filter(p => isToday(p.createdAt)).length;
+
   const selectedCount = list.filter(p => !!p.tradeRoomCode).length;
 
+
+
   document.getElementById("propTotal").textContent = total;
+
   document.getElementById("propToday").textContent = todayCount;
+
   document.getElementById("propConfirmed").textContent = total;
+
   document.getElementById("propSelected").textContent = selectedCount;
 
+
+
   const statusFilter = document.getElementById("proposalStatusFilter").value;
+
   const keyword = (document.getElementById("proposalSearch").value || "").trim().toLowerCase();
 
+
+
   const filtered = list.filter(function(p){
+
     if(statusFilter === "SELECTED" && !p.tradeRoomCode) return false;
+
     if(statusFilter === "OPEN" && p.tradeRoomCode) return false;
+
     if(keyword){
+
       const hay = [p.requestNumber, p.apartment, p.officeName, p.officePhone, p.tradeRoomCode].join(" ").toLowerCase();
+
       if(!hay.includes(keyword)) return false;
+
     }
+
     return true;
+
   });
+
+
 
   const box = document.getElementById("proposalList");
+
   if(filtered.length === 0){
+
     box.innerHTML = '<div class="empty">조건에 맞는 공인중개사 매물 제안이 없습니다.</div>';
+
     return;
+
   }
+
+
 
   box.innerHTML = filtered.map(function(p){
+
     const isSel = !!p.tradeRoomCode;
+
     return `
+
       <div class="list-item">
+
         <div class="list-top">
+
           <div>
+
             <div class="list-title">[요청 ${esc(p.requestNumber)}] ${esc(p.apartment || "-")} (${esc(p.amount || "-")})</div>
+
             <div class="list-sub">
+
               층수/면적: ${esc(p.floor || "-")} / ${esc(p.area || "-")}<br>
+
               제안 중개사: ${esc(p.officeName || "-")} (${esc(p.officePhone || "-")}) | 등록일: ${fmtDate(p.createdAt)}
+
               ${isSel ? `<br><strong style="color:#1165d7;">전용 4자리 거래방 코드: ${esc(p.tradeRoomCode)}</strong>` : ""}
+
             </div>
+
           </div>
+
           <span class="status ${isSel ? "ok" : "wait"}">${isSel ? "선택 완료" : "제안 등록"}</span>
+
         </div>
+
       </div>
+
     `;
+
   }).join("");
+
 };
 
+
+
 /* =========================================
+
    4. 거래 관리 렌더링 및 입금확인 처리
+
 ========================================= */
+
+
 
 window.renderTransactions = function(){
+
   const list = state.transactions;
+
   const total = list.length;
+
   const completed = list.filter(t => (t.status || "").toUpperCase() === "COMPLETED").length;
+
   const active = total - completed;
+
   const paid = list.filter(t => !!t.feePaid).length;
 
+
+
   document.getElementById("txTotal").textContent = total;
+
   document.getElementById("txActive").textContent = active;
+
   document.getElementById("txPaid").textContent = paid;
+
   document.getElementById("txCompleted").textContent = completed;
 
+
+
   const statusFilter = document.getElementById("txStatusFilter").value;
+
   const keyword = (document.getElementById("txSearch").value || "").trim().toLowerCase();
 
+
+
   const filtered = list.filter(function(t){
+
     const isComp = (t.status || "").toUpperCase() === "COMPLETED";
+
     if(statusFilter === "ACTIVE" && isComp) return false;
+
     if(statusFilter === "COMPLETED" && !isComp) return false;
+
     if(statusFilter === "PAID" && !t.feePaid) return false;
+
     if(keyword){
+
       const hay = [t.tradeRoomCode, t.transactionNumber, t.apartment, t.officeName, t.officePhone].join(" ").toLowerCase();
+
       if(!hay.includes(keyword)) return false;
+
     }
+
     return true;
+
   });
+
+
 
   const box = document.getElementById("transactionList");
+
   if(filtered.length === 0){
+
     box.innerHTML = '<div class="empty">조건에 맞는 거래 내역이 없습니다.</div>';
+
     return;
+
   }
+
+
 
   box.innerHTML = filtered.map(function(t){
+
     const isComp = (t.status || "").toUpperCase() === "COMPLETED";
+
     const isPaid = !!t.feePaid;
+
     const code = String(t.tradeRoomCode || "");
+
     const txNo = String(t.transactionNumber || "");
 
+
+
     return `
+
       <div class="list-item">
+
         <div class="list-top">
+
           <div>
+
             <div class="list-title">[4자리 코드: ${esc(code)}] ${esc(t.apartment || "-")}</div>
+
             <div class="list-sub">
+
               거래번호: ${esc(txNo)} | 거래금액: ${esc(t.amount || "-")}<br>
+
               담당 중개사: ${esc(t.officeName || "-")} (${esc(t.officePhone || "-")})<br>
+
               플랫폼 서비스 이용료: <strong style="color:${isPaid ? '#16704a' : '#b45309'};">${isPaid ? '입금 완료 (전자계약·문자발송 활성화됨)' : '입금 대기'}</strong>
+
             </div>
+
           </div>
+
           <span class="status ${isComp ? "ok" : (isPaid ? "ok" : "wait")}">${isComp ? "거래완료" : (isPaid ? "입금완료·진행중" : "입금대기·진행중")}</span>
+
         </div>
+
         <div class="action-row">
+
           <button type="button" class="action-btn ${isPaid ? 'gray' : 'green'}" onclick="toggleFeePaid('${esc(code)}','${esc(txNo)}',${!isPaid})">
+
             ${isPaid ? "입금대기로 변경" : "입금 확인 (잠금 해제)"}
+
           </button>
+
           <button type="button" class="action-btn" onclick="openTradeRoom('${esc(code)}')">
+
             거래진행방 열기
+
           </button>
+
           <button type="button" class="action-btn gray" onclick="toggleTradeComplete('${esc(t.id)}','${esc(code)}','${isComp ? "OPEN" : "COMPLETED"}')">
+
             ${isComp ? "진행중 복귀" : "거래완료 처리"}
+
           </button>
+
         </div>
+
       </div>
+
     `;
+
   }).join("");
+
 };
+
+
 
 window.toggleFeePaid = async function(code, txNo, nextPaid){
+
   const target = state.transactions.find(t => String(t.tradeRoomCode) === String(code));
+
   if(target) target.feePaid = nextPaid;
 
+
+
   if(nextPaid){
+
     if(code){
+
       localStorage.setItem("woori_fee_paid_" + code, "Y");
+
       localStorage.setItem("wooriapt_payment_" + code, JSON.stringify({ status: "PAID", confirmedAt: new Date().toISOString() }));
+
     }
+
     if(txNo){
+
       localStorage.setItem("woori_fee_paid_" + txNo, "Y");
+
       localStorage.setItem("wooriapt_payment_" + txNo, JSON.stringify({ status: "PAID", confirmedAt: new Date().toISOString() }));
+
     }
+
   }else{
+
     if(code){
+
       localStorage.removeItem("woori_fee_paid_" + code);
+
       localStorage.removeItem("wooriapt_payment_" + code);
+
     }
+
     if(txNo){
+
       localStorage.removeItem("woori_fee_paid_" + txNo);
+
       localStorage.removeItem("wooriapt_payment_" + txNo);
+
     }
+
   }
+
+
 
   try{
+
     const raw = localStorage.getItem("woori_trade_data_" + code);
+
     if(raw){
+
       const parsed = JSON.parse(raw);
+
       parsed.feePaid = nextPaid;
+
       localStorage.setItem("woori_trade_data_" + code, JSON.stringify(parsed));
+
     }
+
   }catch(e){}
 
+
+
   renderTransactions();
 
+
+
   await fetch("/api/trade-decision", {
+
     method: "POST",
+
     headers: { "Content-Type": "application/json" },
+
     body: JSON.stringify({
+
       action: "confirm_payment",
+
       code: code,
+
       tradeNo: txNo,
+
       paid: nextPaid
+
     })
+
   }).catch(() => null);
+
 };
+
+
 
 window.openTradeRoom = function(code){
+
   location.href = "/transaction-room.html?code=" + encodeURIComponent(code);
+
 };
+
+
 
 window.toggleTradeComplete = async function(id, code, nextStatus){
+
   const target = state.transactions.find(t => String(t.tradeRoomCode) === String(code));
+
   if(target) target.status = nextStatus;
+
   renderTransactions();
 
+
+
   await fetch("/api/trade-decision", {
+
     method: "POST",
+
     headers: { "Content-Type": "application/json" },
+
     body: JSON.stringify({
+
       action: "admin_update_trade_status",
+
       id: id,
+
       status: nextStatus
+
     })
+
   }).catch(() => null);
+
 };
 
+
+
 /* =========================================
+
    5. 회원비 관리 렌더링
+
 ========================================= */
+
+
 
 window.renderMemberships = function(){
+
   const list = state.brokers;
+
   const active = list.filter(b => (b.membership_status || "PENDING").toUpperCase() === "ACTIVE").length;
+
   const pending = list.filter(b => (b.membership_status || "PENDING").toUpperCase() === "PENDING").length;
+
   const expired = list.filter(b => (b.membership_status || "").toUpperCase() === "EXPIRED").length;
 
+
+
   document.getElementById("memActive").textContent = active;
+
   document.getElementById("memPending").textContent = pending;
+
   document.getElementById("memExpired").textContent = expired;
 
+
+
   const statusFilter = (document.getElementById("membershipStatusFilter").value || "").toUpperCase();
+
   const keyword = (document.getElementById("membershipSearch").value || "").trim().toLowerCase();
 
+
+
   const filtered = list.filter(function(b){
+
     const st = (b.membership_status || "PENDING").toUpperCase();
+
     if(statusFilter && st !== statusFilter) return false;
+
     if(keyword){
+
       const hay = [b.office_name, b.representative_name, b.phone].join(" ").toLowerCase();
+
       if(!hay.includes(keyword)) return false;
+
     }
+
     return true;
+
   });
+
+
 
   const box = document.getElementById("membershipList");
+
   if(filtered.length === 0){
+
     box.innerHTML = '<div class="empty">조건에 맞는 공인중개사 회원비 내역이 없습니다.</div>';
+
     return;
+
   }
+
+
 
   box.innerHTML = filtered.map(function(b){
+
     const st = (b.membership_status || "PENDING").toUpperCase();
+
     const badgeClass = st === "ACTIVE" ? "ok" : (st === "EXPIRED" ? "off" : "wait");
+
     const badgeLabel = st === "ACTIVE" ? "정상" : (st === "EXPIRED" ? "만료" : "납부대기");
 
+
+
     return `
+
       <div class="list-item">
+
         <div class="list-top">
+
           <div>
+
             <div class="list-title">${esc(b.office_name || "중개사무소")} (${esc(b.representative_name || "-")})</div>
+
             <div class="list-sub">
+
               연락처: ${esc(b.phone || "-")} | 월 회원비: 30,000원 (VAT 별도 / 실결제 33,000원)
+
             </div>
+
           </div>
+
           <span class="status ${badgeClass}">${badgeLabel}</span>
+
         </div>
+
         <div class="action-row">
+
           <button type="button" class="action-btn green" onclick="updateMembershipStatus('${esc(b.id)}','ACTIVE')">납부 확인 (정상)</button>
+
           <button type="button" class="action-btn gray" onclick="updateMembershipStatus('${esc(b.id)}','PENDING')">납부 대기</button>
+
           <button type="button" class="action-btn gray" onclick="updateMembershipStatus('${esc(b.id)}','EXPIRED')">만료 처리</button>
+
         </div>
+
       </div>
+
     `;
+
   }).join("");
+
 };
+
+
 
 window.updateMembershipStatus = async function(id, nextStatus){
+
   const target = state.brokers.find(b => String(b.id) === String(id));
+
   if(target) target.membership_status = nextStatus;
+
   renderMemberships();
 
+
+
   await fetch("/api/trade-decision", {
+
     method: "POST",
+
     headers: { "Content-Type": "application/json" },
+
     body: JSON.stringify({
+
       action: "admin_update_broker",
+
       id: id,
+
       membership_status: nextStatus
+
     })
+
   }).catch(() => null);
+
 };
 
+
+
 /* =========================================
+
    6. 문자·ARS 관리 렌더링
+
 ========================================= */
+
+
 
 window.renderMessages = function(){
+
   const reqs = state.requests;
+
   const txs = state.transactions;
+
   const arsTotal = reqs.reduce((acc, r) => acc + Number(r.ars_round || 0), 0);
+
   const smsTotal = txs.length * 2 + reqs.length;
 
+
+
   document.getElementById("smsToday").textContent = smsTotal;
+
   document.getElementById("arsToday").textContent = arsTotal;
+
   document.getElementById("msgSuccess").textContent = smsTotal + arsTotal;
+
   document.getElementById("msgFail").textContent = 0;
 
+
+
   const box = document.getElementById("messageList");
+
   const logs = [];
 
+
+
   txs.slice(0, 10).forEach(function(t){
+
     logs.push({
+
       title: `[거래방 코드 안내 문자] 4자리 코드 ${t.tradeRoomCode}`,
+
       sub: `수신 중개사: ${t.officeName || "-"} (${t.officePhone || "-"}) | 매물: ${t.apartment || "-"}`,
+
       status: "발송 성공"
+
     });
+
   });
+
+
 
   reqs.slice(0, 10).forEach(function(r){
+
     if(Number(r.ars_round || 0) > 0){
+
       logs.push({
+
         title: `[${r.ars_round}차 공인중개사 알림] 요청번호 ${r.request_number}`,
+
         sub: `지역: ${r.sido} ${r.sigungu} ${r.dong} | 단지: ${r.apartment || "전체"}`,
+
         status: "발송 성공"
+
       });
+
     }
+
   });
 
+
+
   if(logs.length === 0){
+
     box.innerHTML = '<div class="empty">문자·ARS 발송내역이 이곳에 표시됩니다.</div>';
+
     return;
+
   }
 
+
+
   box.innerHTML = logs.map(function(l){
+
     return `
+
       <div class="list-item">
+
         <div class="list-top">
+
           <div>
+
             <div class="list-title">${esc(l.title)}</div>
+
             <div class="list-sub">${esc(l.sub)}</div>
+
           </div>
+
           <span class="status ok">${esc(l.status)}</span>
+
         </div>
+
       </div>
+
     `;
+
   }).join("");
+
 };
 
+
+
 /* =========================================
+
    7. 시스템 설정 임시 저장
+
 ========================================= */
+
+
 
 function loadSettings(){
 
+
+
   try{
 
+
+
     const saved =
+
       JSON.parse(
+
         localStorage.getItem(
+
           "wooriapt_admin_settings"
+
         ) || "{}"
+
       );
 
+
+
     if(saved.monthlyFee){
+
       document.getElementById(
+
         "monthlyFee"
+
       ).value = saved.monthlyFee;
+
       const memFeeEl = document.getElementById("memMonthlyFee");
+
       if(memFeeEl){
+
         memFeeEl.textContent = Number(saved.monthlyFee).toLocaleString() + "원";
+
       }
+
     }
+
+
 
     if(saved.requestHours){
+
       document.getElementById(
+
         "requestHours"
+
       ).value = saved.requestHours;
+
     }
+
+
 
     if(saved.phase1Minutes){
+
       document.getElementById(
+
         "phase1Minutes"
+
       ).value = saved.phase1Minutes;
+
     }
+
+
 
     if(saved.minimumProposals){
+
       document.getElementById(
+
         "minimumProposals"
+
       ).value = saved.minimumProposals;
+
     }
 
+
+
   }catch(error){
+
     console.warn(error);
+
   }
+
+
 
 }
 
 
+
+
+
 window.saveSettings =
+
 function(){
+
+
 
   const data = {
 
+
+
     monthlyFee:
+
       document.getElementById(
+
         "monthlyFee"
+
       ).value,
+
+
 
     requestHours:
+
       document.getElementById(
+
         "requestHours"
+
       ).value,
+
+
 
     phase1Minutes:
+
       document.getElementById(
+
         "phase1Minutes"
+
       ).value,
 
+
+
     minimumProposals:
+
       document.getElementById(
+
         "minimumProposals"
+
       ).value
+
+
 
   };
 
 
+
+
+
   localStorage.setItem(
+
     "wooriapt_admin_settings",
+
     JSON.stringify(data)
+
   );
 
+
+
   const memFeeEl = document.getElementById("memMonthlyFee");
+
   if(memFeeEl && data.monthlyFee){
+
     memFeeEl.textContent = Number(data.monthlyFee).toLocaleString() + "원";
+
   }
 
+
+
   const msg =
+
     document.getElementById(
+
       "settingMessage"
+
     );
 
+
+
   msg.textContent =
+
     "설정이 저장되었습니다.";
+
+
 
 };
 
 
+
+
+
 loadSettings();
+
 loadDashboardData();
 
+
+
 })();
+
 </script>
 
+
+
 </body>
+
 </html>
+
