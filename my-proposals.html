@@ -410,12 +410,6 @@ h1{
 </style>
   <link rel="canonical" href="https://www.ansimdeal.com/my-proposals">
   <meta name="robots" content="noindex,nofollow">
-
-  <!-- Vercel Web Analytics -->
-  <script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-  </script>
-  <script defer src="/_vercel/insights/script.js"></script>
 </head>
 
 <body>
@@ -978,9 +972,15 @@ setInterval(updateRequestButtonsState, 30000);
         "/api/trade-decision?requestNumber=" +
         encodeURIComponent(requestNumber || "") +
         "&phone=" +
-        encodeURIComponent(buyerPhone || "")
+        encodeURIComponent(buyerPhone || "") +
+        "&service=ansimdeal"
       );
       const data = await res.json().catch(function(){ return null; });
+      if(data && data.isApartment){
+        alert("입력하신 [" + (data.requestNumber || requestNumber) + "] 번호는 [우리아파트] 아파트 매수요청번호입니다.\n우리아파트 안심거래(wooriapt.app)로 이동하여 확인해 주세요.");
+        location.href = "https://www.wooriapt.app/my-proposals.html?request=" + encodeURIComponent(data.requestNumber || requestNumber);
+        return;
+      }
       if(res.ok && data && data.ok){
         if(data.requestNumber && !requestNumber){
           requestNumber = String(data.requestNumber);
