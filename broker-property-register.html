@@ -1862,8 +1862,13 @@ renderPrice();
 (async function loadCustomerRequestInfo() {
   if (!code || code.length !== 4) return;
   try {
-    const res = await fetch("/api/property-request-lookup?requestNumber=" + encodeURIComponent(code));
+    const res = await fetch("/api/property-request-lookup?requestNumber=" + encodeURIComponent(code) + "&service=ansimdeal");
     const data = await res.json().catch(function(){ return {}; });
+    if (data && data.isApartment) {
+      alert("입력하신 [" + code + "] 번호는 [우리아파트 안심거래] 아파트 매수요청 건입니다.\n안심딜(상가·점포)에서는 매물을 등록할 수 없습니다.\n우리아파트 안심거래(wooriapt.app)로 이동합니다.");
+      location.href = "https://www.wooriapt.app/broker-property-register?request=" + encodeURIComponent(code);
+      return;
+    }
     if (!res.ok || !data.ok || !data.request) return;
     const req = data.request;
 
