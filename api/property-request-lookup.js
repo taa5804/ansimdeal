@@ -110,6 +110,29 @@ export default async function handler(req, res) {
 
     const item = data[0];
 
+    // [중요: 상가 vs 아파트 도메인 분리 검증]
+    const serviceParam = String(req.query.service || "");
+    const isAnsimdealReq = host.includes("ansimdeal") || serviceParam === "ansimdeal";
+    const aptText = String(item.apartment || "");
+    const typeText = String(item.request_type || "");
+    const isStore = typeText.includes("commercial") || typeText.includes("store") || aptText.includes("상가") || aptText.includes("점포");
+
+    if (isAnsimdealReq && !isStore) {
+      return res.status(400).json({
+        ok: false,
+        isApartment: true,
+        message: "해당 번호는 [우리아파트 안심거래] 아파트 매수요청번호입니다. 상가·점포 안심딜에서는 조회 및 등록할 수 없습니다."
+      });
+    }
+
+    if (!isAnsimdealReq && isStore) {
+      return res.status(400).json({
+        ok: false,
+        isStore: true,
+        message: "해당 번호는 [점포·상가 안심딜] 상가 임차요청번호입니다. 점포·상가 안심딜(ansimdeal.com)에서 확인해 주세요."
+      });
+    }
+
     return res.status(200).json({
       ok: true,
       request: {
