@@ -260,6 +260,23 @@ export default async function handler(req, res) {
         });
       }
 
+      // [분리 조치] 안심딜(상가)에서 아파트 매수요청번호를 입력했을 때 아파트가 노출되지 않도록 차단
+      const isFromAnsimdeal = hostStr.includes("ansimdeal") || clean(req.query.service) === "ansimdeal";
+      if (isFromAnsimdeal && requestInfo) {
+        const aptText = String(requestInfo.apartment || "");
+        const typeText = String(requestInfo.request_type || "");
+        const isStore = typeText.includes("commercial") || typeText.includes("store") || aptText.includes("상가") || aptText.includes("점포");
+        if (!isStore) {
+          return res.status(200).json({
+            ok: false,
+            isApartment: true,
+            requestNumber: targetReqNo,
+            message: "입력하신 번호는 [우리아파트 안심거래] 아파트 매수요청번호입니다. 우리아파트(wooriapt.app)에서 확인해 주세요.",
+            proposals: []
+          });
+        }
+      }
+
       const listUrl =
         `${SUPABASE_URL}/rest/v1/property_proposals` +
         `?request_number=eq.${encodeURIComponent(targetReqNo)}` +
