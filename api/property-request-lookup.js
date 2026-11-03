@@ -55,7 +55,7 @@ export default async function handler(req, res) {
   if ((!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) && !host.includes("wooriapt.app")) {
     try {
       const upstreamRes = await fetch(
-        `https://www.wooriapt.app/api/property-request-lookup?requestNumber=${encodeURIComponent(requestNumber)}`,
+        `https://www.wooriapt.app/api/property-request-lookup?requestNumber=${encodeURIComponent(requestNumber)}&service=ansimdeal`,
         { method: "GET", headers: { Accept: "application/json" } }
       );
       const upstreamData = await upstreamRes.json().catch(() => ({}));
