@@ -2182,7 +2182,7 @@ button, input {
 
     try{
       const response = await fetch(
-        "/api/property-request-lookup?requestNumber=" + encodeURIComponent(requestNumber),
+        "/api/property-request-lookup?requestNumber=" + encodeURIComponent(requestNumber) + "&service=ansimdeal",
         {
           method: "GET",
           headers: { "Accept": "application/json" }
