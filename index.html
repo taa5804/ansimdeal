@@ -1476,12 +1476,15 @@ button, input {
   <div class="return-access">
     <div class="access-panels">
       <div class="access-panel">
-        <div class="return-access-title">나의 제안 확인하기</div>
-        <div class="return-access-desc">등록하신 전화번호로 공인중개사가 제안한 상가 매물을 확인합니다.</div>
+        <div class="return-access-title">나의 제안</div>
+        <div class="return-access-desc">신청 시 문자로 전송된 4자리 임차요청번호로 제안받은 매물을 확인하세요.</div>
         <div class="return-access-row">
-          <input id="accessInput" type="tel" inputmode="numeric" autocomplete="off" placeholder="등록한 휴대폰 번호 (- 없이)">
-          <button id="accessBtn" type="button">조회</button>
+          <input id="accessInput" type="text" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="4자리 임차요청번호" aria-label="4자리 임차요청번호">
+          <button id="accessBtn" type="button">확인</button>
         </div>
+        <p class="return-access-help" style="margin:8px 0 0; font-size:11px; color:#64748b; line-height:1.5;">
+          신청 시 문자로 전송된 4자리 임차요청번호를 입력하고 확인을 눌러주세요.
+        </p>
       </div>
       <div class="access-panel transaction-panel">
         <div class="return-access-title">거래 진행 상황 확인</div>
@@ -2004,7 +2007,7 @@ button, input {
     accessBtn.addEventListener("click", function(){
       const value = normalizeAccessValue(accessInput.value);
       if(!value){
-        alert("휴대전화번호를 입력해 주세요.");
+        alert("4자리 임차요청번호를 입력해 주세요.");
         accessInput.focus();
         return;
       }
@@ -2013,13 +2016,18 @@ button, input {
         location.href = "my-proposals.html?test=5804";
         return;
       }
-      if(!/^01[016789][0-9]{7,8}$/.test(value)){
-        alert("휴대전화번호를 정확히 입력해 주세요.");
-        accessInput.focus();
+      if(value.length === 4 && /^\d{4}$/.test(value)){
+        localStorage.setItem("ansimdeal_request_number", value);
+        location.href = "my-proposals.html?request=" + encodeURIComponent(value);
         return;
       }
-      localStorage.setItem("wooriapt_buyer_phone", value);
-      location.href = "my-proposals.html?phone=" + encodeURIComponent(value);
+      if(/^01[016789][0-9]{7,8}$/.test(value)){
+        localStorage.setItem("wooriapt_buyer_phone", value);
+        location.href = "my-proposals.html?phone=" + encodeURIComponent(value);
+        return;
+      }
+      alert("4자리 임차요청번호를 정확히 입력해 주세요.");
+      accessInput.focus();
     });
     accessInput.addEventListener("keydown", function(e){
       if(e.key === "Enter"){ e.preventDefault(); accessBtn.click(); }
