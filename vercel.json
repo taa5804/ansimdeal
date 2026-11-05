@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/p/:code",
-      "destination": "/quick-proposal.html"
+      "destination": "/quick-proposal?code=:code"
     },
     {
       "source": "/sale-admin",
