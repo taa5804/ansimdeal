@@ -20,7 +20,8 @@ export default async function handler(req, res) {
   /* 🔑 대표님 만능 마스터키 (5804) 즉시 응답 */
   if (requestNumber === "5804") {
     const host = String(req.headers["x-forwarded-host"] || req.headers.host || "");
-    const isAnsimdeal = host.includes("ansimdeal");
+    const serviceParam = String(req.query.service || "");
+    const isAnsimdeal = host.includes("ansimdeal") || serviceParam === "ansimdeal";
     return res.status(200).json({
       ok: true,
       request: {
@@ -30,8 +31,8 @@ export default async function handler(req, res) {
         sigungu: "강남구",
         dong: "역삼동",
         apartment: isAnsimdeal
-          ? "역삼역·선릉역 인근 1층 코너/대로변 상가 (카페·베이커리·일반음식점)"
-          : "래미안역삼 (전용 84㎡·34평)",
+          ? "[음식 > 카페/디저트] 1층"
+          : "래미안역삼",
         size: isAnsimdeal ? "전용 18평 이상 (1층 희망)" : "84㎡ (34평형)",
         saleMin: 135000,
         saleMax: 150000,
@@ -109,32 +110,22 @@ export default async function handler(req, res) {
     }
 
     const item = data[0];
-
-    // [중요: 상가 vs 아파트 도메인 분리 검증]
-    const serviceParam = String(req.query.service || "");
-    const isAnsimdealReq = host.includes("ansimdeal") || serviceParam === "ansimdeal";
     const aptText = String(item.apartment || "");
     const typeText = String(item.request_type || "");
-    const isStore = typeText.includes("commercial") || typeText.includes("store") || aptText.includes("상가") || aptText.includes("점포");
-
-    if (isAnsimdealReq && !isStore) {
-      return res.status(400).json({
-        ok: false,
-        isApartment: true,
-        message: "해당 번호는 [우리아파트 안심거래] 아파트 매수요청번호입니다. 상가·점포 안심딜에서는 조회 및 등록할 수 없습니다."
-      });
-    }
-
-    if (!isAnsimdealReq && isStore) {
-      return res.status(400).json({
-        ok: false,
-        isStore: true,
-        message: "해당 번호는 [점포·상가 안심딜] 상가 임차요청번호입니다. 점포·상가 안심딜(ansimdeal.com)에서 확인해 주세요."
-      });
-    }
+    const memoText = String(item.memo || "");
+    const isStore =
+      typeText.includes("commercial") ||
+      typeText.includes("store") ||
+      aptText.includes("상가") ||
+      aptText.includes("점포") ||
+      aptText.startsWith("[") ||
+      aptText.includes(">") ||
+      memoText.includes("권리금") ||
+      memoText.includes("업종");
 
     return res.status(200).json({
       ok: true,
+      isStore: isStore,
       request: {
         requestNumber: item.request_number,
         requestType: item.request_type,
