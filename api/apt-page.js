@@ -640,6 +640,8 @@ async function aptHandleSitemap(req, res) {
    아파트 자동 검색페이지 (/apt-search/...)
 ========================================= */
 
+const NATIONAL_SIGUNGU_HUBS = [["서울특별시", "강남구", "도곡동"], ["서울특별시", "강동구", "천호동"], ["서울특별시", "강북구", "미아동"], ["서울특별시", "강서구", "염창동"], ["서울특별시", "관악구", "봉천동"], ["서울특별시", "광진구", "자양동"], ["서울특별시", "구로구", "구로동"], ["서울특별시", "금천구", "시흥동"], ["서울특별시", "노원구", "상계동"], ["서울특별시", "도봉구", "창동"], ["서울특별시", "동대문구", "답십리동"], ["서울특별시", "동작구", "상도동"], ["서울특별시", "마포구", "공덕동"], ["서울특별시", "서대문구", "홍제동"], ["서울특별시", "서초구", "서초동"], ["서울특별시", "성동구", "성수동1가"], ["서울특별시", "성북구", "정릉동"], ["서울특별시", "송파구", "가락동"], ["서울특별시", "양천구", "신정동"], ["서울특별시", "영등포구", "신길동"], ["서울특별시", "용산구", "이촌동"], ["서울특별시", "은평구", "진관동"], ["서울특별시", "종로구", "무악동"], ["서울특별시", "중구", "신당동"], ["서울특별시", "중랑구", "면목동"], ["경기도", "가평군", "읍내리"], ["경기도", "고양시 덕양구", "행신동"], ["경기도", "고양일산동구", "중산동"], ["경기도", "고양일산서구", "일산동"], ["경기도", "과천시", "갈현동"], ["경기도", "광명시", "소하동"], ["경기도", "광주시", "태전동"], ["경기도", "구리시", "인창동"], ["경기도", "군포시", "산본동"], ["경기도", "김포시", "장기동"], ["경기도", "남양주시", "다산동"], ["경기도", "동두천시", "생연동"], ["경기도", "부천시 소사구", "송내동"], ["경기도", "부천오정구", "원종동"], ["경기도", "부천원미구", "중동"], ["경기도", "성남분당구", "야탑동"], ["경기도", "성남수정구", "창곡동"], ["경기도", "성남중원구", "금광동"], ["경기도", "수원권선구", "권선동"], ["경기도", "수원영통구", "영통동"], ["경기도", "수원장안구", "정자동"], ["경기도", "수원팔달구", "화서동"], ["경기도", "시흥시", "정왕동"], ["경기도", "안산단원구", "고잔동"], ["경기도", "안산상록구", "사동"], ["경기도", "안성시", "만정리"], ["경기도", "안양동안구", "호계동"], ["경기도", "안양만안구", "안양동"], ["경기도", "양주시", "옥정동"], ["경기도", "양평군", "양근리"], ["경기도", "여주시", "교동"], ["경기도", "연천군", "전곡리"], ["경기도", "오산시", "원동"], ["경기도", "용인기흥구", "영덕동"], ["경기도", "용인수지구", "죽전동"], ["경기도", "용인처인구", "고림동"], ["경기도", "의왕시", "오전동"], ["경기도", "의정부시", "호원동"], ["경기도", "이천시", "증포동"], ["경기도", "파주시", "금촌동"], ["경기도", "평택시", "비전동"], ["경기도", "포천시", "송우리"], ["경기도", "하남시", "덕풍동"], ["경기도", "화성시", "병점동"], ["인천광역시", "강화군", "창리"], ["인천광역시", "계양구", "작전동"], ["인천광역시", "남동구", "만수동"], ["인천광역시", "동구", "송림동"], ["인천광역시", "미추홀구", "학익동"], ["인천광역시", "부평구", "산곡동"], ["인천광역시", "서구", "청라동"], ["인천광역시", "연수구", "송도동"], ["인천광역시", "옹진군", "외리"], ["인천광역시", "중구", "운서동"], ["부산광역시", "강서구", "명지동"], ["부산광역시", "금정구", "부곡동"], ["부산광역시", "기장군", "삼성리"], ["부산광역시", "남구", "대연동"], ["부산광역시", "동구", "초량동"], ["부산광역시", "동래구", "온천동"], ["부산광역시", "부산진구", "부암동"], ["부산광역시", "북구", "화명동"], ["부산광역시", "사상구", "주례동"], ["부산광역시", "사하구", "괴정동"], ["부산광역시", "서구", "암남동"], ["부산광역시", "수영구", "광안동"], ["부산광역시", "연제구", "연산동"], ["부산광역시", "영도구", "동삼동"], ["부산광역시", "중구", "영주동"], ["부산광역시", "해운대구", "우동"], ["대구광역시", "군위군", "서부리"], ["대구광역시", "남구", "대명동"], ["대구광역시", "달서구", "상인동"], ["대구광역시", "달성군", "매곡리"], ["대구광역시", "동구", "신천동"], ["대구광역시", "북구", "침산동"], ["대구광역시", "서구", "내당동"], ["대구광역시", "수성구", "범어동"], ["대구광역시", "중구", "남산동"], ["광주광역시", "광산구", "월계동"], ["광주광역시", "남구", "봉선동"], ["광주광역시", "동구", "학동"], ["광주광역시", "북구", "운암동"], ["광주광역시", "서구", "화정동"], ["대전광역시", "대덕구", "법동"], ["대전광역시", "동구", "가양동"], ["대전광역시", "서구", "둔산동"], ["대전광역시", "유성구", "봉명동"], ["대전광역시", "중구", "문화동"], ["울산광역시", "남구", "신정동"], ["울산광역시", "동구", "전하동"], ["울산광역시", "북구", "중산동"], ["울산광역시", "울주군", "구영리"], ["울산광역시", "중구", "복산동"], ["강원특별자치도", "강릉시", "교동"], ["강원특별자치도", "고성군", "신안리"], ["강원특별자치도", "동해시", "천곡동"], ["강원특별자치도", "삼척시", "교동"], ["강원특별자치도", "속초시", "조양동"], ["강원특별자치도", "양구군", "상리"], ["강원특별자치도", "양양군", "내곡리"], ["강원특별자치도", "영월군", "하송리"], ["강원특별자치도", "원주시", "태장동"], ["강원특별자치도", "인제군", "원통리"], ["강원특별자치도", "정선군", "사북리"], ["강원특별자치도", "철원군", "이평리"], ["강원특별자치도", "춘천시", "후평동"], ["강원특별자치도", "태백시", "황지동"], ["강원특별자치도", "평창군", "무이리"], ["강원특별자치도", "홍천군", "갈마곡리"], ["강원특별자치도", "화천군", "신읍리"], ["강원특별자치도", "횡성군", "읍하리"], ["충청북도", "괴산군", "동부리"], ["충청북도", "단양군", "상진리"], ["충청북도", "보은군", "이평리"], ["충청북도", "영동군", "설계리"], ["충청북도", "옥천군", "문정리"], ["충청북도", "음성군", "무극리"], ["충청북도", "제천시", "장락동"], ["충청북도", "증평군", "송산리"], ["충청북도", "진천군", "광혜원리"], ["충청북도", "청주상당구", "용암동"], ["충청북도", "청주서원구", "개신동"], ["충청북도", "청주청원구", "율량동"], ["충청북도", "청주흥덕구", "가경동"], ["충청북도", "충주시", "연수동"], ["충청남도", "계룡시", "엄사리"], ["충청남도", "공주시", "신관동"], ["충청남도", "금산군", "상리"], ["충청남도", "논산시", "내동"], ["충청남도", "당진시", "읍내동"], ["충청남도", "보령시", "명천동"], ["충청남도", "부여군", "쌍북리"], ["충청남도", "서산시", "동문동"], ["충청남도", "서천군", "사곡리"], ["충청남도", "아산시", "공수리"], ["충청남도", "예산군", "목리"], ["충청남도", "천안동남구", "신방동"], ["충청남도", "천안서북구", "쌍용동"], ["충청남도", "청양군", "읍내리"], ["충청남도", "태안군", "남문리"], ["충청남도", "홍성군", "신경리"], ["전북특별자치도", "고창군", "읍내리"], ["전북특별자치도", "군산시", "나운동"], ["전북특별자치도", "김제시", "검산동"], ["전북특별자치도", "남원시", "월락동"], ["전북특별자치도", "무주군", "읍내리"], ["전북특별자치도", "부안군", "봉덕리"], ["전북특별자치도", "순창군", "남계리"], ["전북특별자치도", "완주군", "삼례리"], ["전북특별자치도", "익산시", "부송동"], ["전북특별자치도", "임실군", "이도리"], ["전북특별자치도", "장수군", "장수리"], ["전북특별자치도", "전주덕진구", "송천동2가"], ["전북특별자치도", "전주완산구", "삼천동1가"], ["전북특별자치도", "정읍시", "상동"], ["전북특별자치도", "진안군", "군상리"], ["전라남도", "강진군", "호계리"], ["전라남도", "고흥군", "봉암리"], ["전라남도", "광양시", "중동"], ["전라남도", "구례군", "백련리"], ["전라남도", "나주시", "빛가람동"], ["전라남도", "담양군", "백동리"], ["전라남도", "목포시", "옥암동"], ["전라남도", "무안군", "남악리"], ["전라남도", "보성군", "회정리"], ["전라남도", "순천시", "조례동"], ["전라남도", "여수시", "웅천동"], ["전라남도", "영광군", "녹사리"], ["전라남도", "영암군", "용앙리"], ["전라남도", "완도군", "가용리"], ["전라남도", "장성군", "영천리"], ["전라남도", "장흥군", "건산리"], ["전라남도", "진도군", "동외리"], ["전라남도", "함평군", "내교리"], ["전라남도", "해남군", "해리"], ["전라남도", "화순군", "대리"], ["경상북도", "경산시", "사동"], ["경상북도", "경주시", "황성동"], ["경상북도", "고령군", "상곡리"], ["경상북도", "구미시", "옥계동"], ["경상북도", "김천시", "신음동"], ["경상북도", "문경시", "모전동"], ["경상북도", "상주시", "냉림동"], ["경상북도", "성주군", "경산리"], ["경상북도", "안동시", "용상동"], ["경상북도", "영덕군", "우곡리"], ["경상북도", "영양군", "동부리"], ["경상북도", "영주시", "휴천동"], ["경상북도", "영천시", "야사동"], ["경상북도", "예천군", "산합리"], ["경상북도", "울진군", "읍내리"], ["경상북도", "의성군", "상리리"], ["경상북도", "청도군", "범곡리"], ["경상북도", "청송군", "덕리"], ["경상북도", "칠곡군", "왜관리"], ["경상북도", "포항남구", "대잠동"], ["경상북도", "포항북구", "우현동"], ["경상남도", "거제시", "옥포동"], ["경상남도", "거창군", "상림리"], ["경상남도", "고성군", "동외리"], ["경상남도", "김해시", "삼계동"], ["경상남도", "남해군", "아산리"], ["경상남도", "밀양시", "삼문동"], ["경상남도", "사천시", "고읍리"], ["경상남도", "산청군", "옥산리"], ["경상남도", "양산시", "범어리"], ["경상남도", "의령군", "서동리"], ["경상남도", "진주시", "평거동"], ["경상남도", "창녕군", "남지리"], ["경상남도", "창원마산합포구", "월영동"], ["경상남도", "창원마산회원구", "양덕동"], ["경상남도", "창원성산구", "대방동"], ["경상남도", "창원의창구", "감계리"], ["경상남도", "창원진해구", "자은동"], ["경상남도", "통영시", "죽림리"], ["경상남도", "하동군", "읍내리"], ["경상남도", "함안군", "도항리"], ["경상남도", "함양군", "교산리"], ["경상남도", "합천군", "합천리"], ["제주특별자치도", "서귀포시", "동홍동"], ["제주특별자치도", "제주시", "노형동"], ["서울특��시", "구로구", "구로동"], ["���상북도", "포항북구", "장성동"]];
+
 const ALL_SIDO_OPTIONS = [
   "서울특별시",
   "경기도",
@@ -722,7 +724,7 @@ async function aptHandleApartmentPage(req, res) {
 
   // 동일 시·군·구 내 인근 동(읍·면) 및 주변 단지 크롤링 허브 구성을 위한 병렬 쿼리
   const cityQuery = new URLSearchParams();
-  cityQuery.set("select", "시도,시군구,읍면,동리,단지명,세대수,동수,최고층수,시공사,단지 주소(도로명),주소");
+  cityQuery.set("select", "시도,시군구,읍면,동리,단지명,세대수,동수,최고층수,시공사,주소");
   cityQuery.set("order", "동리.asc,단지명.asc");
   if (rawRegion) {
     cityQuery.set("시도", "in.(" + getRegionVariants(rawRegion).join(",") + ")");
@@ -752,7 +754,7 @@ async function aptHandleApartmentPage(req, res) {
                 apikey: APT_SUPABASE_KEY,
                 Authorization: "Bearer " + APT_SUPABASE_KEY,
                 Accept: "application/json",
-                Range: "0-249"
+                Range: "0-999"
               }
             }
           ).catch(function() { return null; })
@@ -851,6 +853,9 @@ async function aptHandleApartmentPage(req, res) {
     const location = [canonicalRegion, city, place].filter(Boolean).join(" ");
     // 한 페이지에서 매매·전세·월세를 모두 다루므로 제목에 세 가지를 함께 표기
     const subject = [location, apartment || "아파트", "매매·전세·월세"].filter(Boolean).join(" ");
+    const pageTitle = apartment
+      ? `${apartment} 실거래가·시세 조회 | 복비 50% 반값 - 우리아파트`
+      : `${place || city} 아파트 실거래가·시세 비교 | 복비 50% 반값 - 우리아파트`;
 
     // 매매·전세·월세 3개 주소의 표준(canonical) 주소를 sale 하나로 통일 (중복 색인 방지)
     const canonical =
@@ -890,8 +895,8 @@ async function aptHandleApartmentPage(req, res) {
       : (hhCountNum >= 500 ? "중대형 주거 선호 단지" : (hhCountNum >= 200 ? "실거주 중심 알짜 단지" : "실속형 공동주택 단지"));
 
     const description = apartment
-      ? `${subject} 실거래가·매물·시세 및 단지 정보(${primaryHouseholds ? primaryHouseholds + "세대" : "국토부 등록"}${builtYear ? "·" + builtYear + "년 준공" : ""}). 전세사기·깡통전세 걱정 없는 [아파트 안심딜]에서 아파트 매수·임차 희망조건을 등록하고 파트너 공인중개사 협의를 통한 거래비용 최대 50% 절감 혜택과 1:1 맞춤 안심 매칭을 받아보세요.`
-      : `${subject} 실거래가·시세 및 ${place} 아파트 단지 정보. 전세사기·깡통전세 방지 [아파트 안심딜]에서 매매(매수)·전월세(임차) 조건을 등록하면 거래비용 최대 50% 절감 혜택으로 안전하게 매칭됩니다.`;
+      ? `${apartment}(${place}) 최신 실거래가와 급매 시세를 1초 만에 확인하세요. 매매·전세 거래 시 중개수수료 최대 50% 반값 할인과 안심 공인중개사 1:1 매칭 혜택을 제공합니다. (총 ${primaryHouseholds ? primaryHouseholds + "세대" : "국토부 등록"}${builtYear ? "·" + builtYear + "년 준공" : ""})`
+      : `${location} 아파트 단지별 최신 실거래가와 매매·전세 시세를 비교하세요. 안심 거래 등록 시 중개수수료 최대 50% 할인 및 1:1 맞춤 안심 매칭 지원.`;
 
     // Unique apartment rows in current 동 by 단지명
     const uniqueAptMap = new Map();
@@ -922,7 +927,7 @@ async function aptHandleApartmentPage(req, res) {
         siblingDongSet.add(dName);
       }
     }
-    const siblingDongs = Array.from(siblingDongSet).slice(0, 36);
+    const siblingDongs = Array.from(siblingDongSet).slice(0, 120);
 
     const siblingDongsHtml = siblingDongs.length > 0
       ? siblingDongs.map(function(dName) {
@@ -949,7 +954,7 @@ async function aptHandleApartmentPage(req, res) {
 
     // Build rich apartment list HTML for neighborhood pages (or related list)
     const listHtml = uniqueAptRows
-      .slice(0, 120)
+      .slice(0, 300)
       .map(function(r) {
         const name = aptClean(r["단지명"]);
         const rPlace = aptClean(r["동리"] || r["읍면"]) || place;
@@ -1180,15 +1185,15 @@ async function aptHandleApartmentPage(req, res) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>[아파트 안심딜] ${aptHtml(subject)} 실거래가·시세 | 거래비용 최대 50% 절감 · 파트너 공인중개사 안심 매칭</title>
+<title>${aptHtml(pageTitle)}</title>
 <meta name="description" content="${aptHtml(description)}">
-<meta name="keywords" content="${aptHtml(location + " 아파트, " + subject + ", " + place + " 아파트 매매, " + place + " 아파트 전세, " + place + " 아파트 월세, " + place + " 아파트 매수, " + place + " 아파트 임차, " + (apartment ? apartment + " 실거래가, " + apartment + " 매매, " : "") + "아파트 안심딜, 안심딜, 전세사기 예방, 깡통전세 방지, 수수료 50%, 거래비용 50%, 거래비용 50% 절감, 매칭수수료 50%, 파트너 공인중개사 협의요율")}">
+<meta name="keywords" content="${aptHtml(apartment ? (apartment + ", " + apartment + " 실거래가, " + apartment + " 시세, " + apartment + " 매매, " + place + " 아파트, 우리아파트, 아파트 안심거래, 복비 50%, 중개수수료 반값") : (place + " 아파트, " + location + " 실거래가, 우리아파트, 안심거래, 중개수수료 50%"))}">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="${aptHtml(canonical)}">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="아파트 안심딜">
+<meta property="og:site_name" content="우리아파트 안심거래">
 <meta property="og:locale" content="ko_KR">
-<meta property="og:title" content="[아파트 안심딜] ${aptHtml(subject)} | 거래비용 최대 50% 절감 매칭">
+<meta property="og:title" content="${aptHtml(pageTitle)}">
 <meta property="og:description" content="${aptHtml(description)}">
 <meta property="og:url" content="${aptHtml(canonical)}">
 <meta property="og:image" content="${SITE_ORIGIN}/apt-hero.png">
@@ -1963,30 +1968,25 @@ p {
     </div>
   </section>
 
-  <!-- 7. 전국 17개 시·도 대표 아파트 실거래 허브 바로가기 -->
+  <!-- 7. 동일 시·도 내 시·군·구 및 전국 249개 시·군·구 전체 아파트 실거래 허브 바로가기 -->
   <section class="card">
-    <h2>🗺️ 전국 17개 시·도 대표 아파트 실거래 · 안심매칭 허브</h2>
-    <div class="quick-links-grid">
-      <a class="quick-link-btn" href="/apt-search/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C/%EA%B0%95%EB%82%A8%EA%B5%AC/%EB%8C%80%EC%B9%98%EB%8F%99/sale">서울 강남구 대치동 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C/%EC%84%9C%EC%B4%88%EA%B5%AC/%EB%B0%98%ED%8F%AC%EB%8F%99/sale">서울 서초구 반포동 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C/%EC%86%A1%ED%8C%8C%EA%B5%AC/%EC%9E%A0%EC%8B%A4%EB%8F%99/sale">서울 송파구 잠실동 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EA%B2%BD%EA%B8%B0%EB%8F%84/%EC%84%B1%EB%82%A8%EC%8B%9C%20%EB%B6%84%EB%8B%B9%EA%B5%AC/%EC%A0%95%EC%9E%90%EB%8F%99/sale">경기 분당구 정자동 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EA%B2%BD%EA%B8%B0%EB%8F%84/%EC%88%98%EC%9B%90%EC%8B%9C%20%EC%98%81%ED%86%B5%EA%B5%AC/%EC%9D%B4%EC%9D%98%EB%8F%99/sale">경기 수원 영통구 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C/%EC%97%B0%EC%88%98%EA%B5%AC/%EC%86%A1%EB%8F%84%EB%8F%99/sale">인천 연수구 송도동 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EB%B6%80%EC%82%B0%EA%B4%91%EC%97%AD%EC%8B%9C/%ED%95%B4%EC%9A%B4%EB%8C%80%EA%B5%AC/%EC%9A%B0%EB%8F%99/sale">부산 해운대구 우동 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EB%8C%80%EA%B5%AC%EA%B4%91%EC%97%AD%EC%8B%9C/%EC%88%98%EC%84%B1%EA%B5%AC/%EB%B2%94%EC%96%B4%EB%8F%99/sale">대구 수성구 범어동 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EB%8C%80%EC%A0%84%EA%B4%91%EC%97%AD%EC%8B%9C/%EC%9C%A0%EC%84%B1%EA%B5%AC/%EC%83%81%EB%8C%80%EB%8F%99/sale">대전 유성구 상대동 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EA%B4%91%EC%A3%BC%EA%B4%91%EC%97%AD%EC%8B%9C/%EA%B4%91%EC%82%B0%EA%B5%AC/%EC%88%98%EC%99%84%EB%8F%99/sale">광주 광산구 수완동 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EC%9A%B8%EC%82%B0%EA%B4%91%EC%97%AD%EC%8B%9C/%EB%82%A8%EA%B5%AC/%EC%8B%A0%EC%A0%95%EB%8F%99/sale">울산 남구 신정동 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EC%84%B8%EC%A2%85%ED%8A%B9%EB%B3%84%EC%9E%90%EC%B9%98%EC%8B%9C/%EC%84%B8%EC%A2%85%EC%8B%9C/%EC%83%88%EB%A1%AC%EB%8F%99/sale">세종시 새롬동 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EA%B0%95%EC%9B%90%ED%8A%B9%EB%B3%84%EC%9E%90%EC%B9%98%EB%8F%84/%EA%B0%95%EB%A6%89%EC%8B%9C/%EA%B5%90%EB%8F%99/sale">강원 강릉시 교동 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EC%B6%A9%EC%B2%AD%EB%B6%81%EB%8F%84/%EC%B2%AD%EC%A3%BC%EC%8B%9C%20%ED%9D%A5%EB%8D%95%EA%B5%AC/%EB%B3%B5%EB%8C%80%EB%8F%99/sale">충북 청주 흥덕구 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EC%B6%A9%EC%B2%AD%EB%82%A8%EB%8F%84/%EC%B2%9C%EC%95%88%EC%8B%9C%20%EC%84%9C%EB%B6%81%EA%B5%AC/%EB%B6%88%EB%8B%B9%EB%8F%99/sale">충남 천안 불당동 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EC%A0%84%EB%B6%81%ED%8A%B9%EB%B3%84%EC%9E%90%EC%B9%98%EB%8F%84/%EC%A0%84%EC%A3%BC%EC%8B%9C%20%EC%99%84%EC%82%B0%EA%B5%AC/%ED%9A%A8%EC%9E%90%EB%8F%993%EA%B0%80/sale">전북 전주 완산구 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EC%A0%84%EB%9D%BC%EB%82%A8%EB%8F%84/%EC%88%9C%EC%B2%9C%EC%8B%9C/%EC%97%B0%ED%96%A5%EB%8F%99/sale">전남 순천시 연향동 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EA%B2%BD%EC%83%81%EB%B6%81%EB%8F%84/%ED%8F%AC%ED%95%AD%EC%8B%9C%20%EB%B6%81%EA%B5%AC/%EC%9E%A5%EC%84%B1%EB%8F%99/sale">경북 포항시 북구 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EA%B2%BD%EC%83%81%EB%82%A8%EB%8F%84/%EC%B0%BD%EC%9B%90%EC%8B%9C%20%EC%84%B1%EC%82%B0%EA%B5%AC/%EC%9A%A9%ED%98%B8%EB%8F%99/sale">경남 창원 성산구 아파트</a>
-      <a class="quick-link-btn" href="/apt-search/%EC%A0%9C%EC%A3%BC%ED%8A%B9%EB%B3%84%EC%9E%90%EC%B9%98%EB%8F%84/%EC%A0%9C%EC%A3%BC%EC%8B%9C/%EB%85%B8%ED%98%95%EB%8F%99/sale">제주 제주시 노형동 아파트</a>
+    <h2>🗺️ ${aptHtml(canonicalRegion)} 전체 시·군·구 및 전국 249개 시·군·구 아파트 실거래 허브</h2>
+    <p>${aptHtml(canonicalRegion)} 내 다른 시·군·구 및 전국 249개 시·군·구 대표 법정동 아파트 실거래가·시세 페이지로 바로 이동할 수 있습니다.</p>
+    <div class="quick-links-grid" style="margin-bottom:14px;">
+      ${NATIONAL_SIGUNGU_HUBS.filter(function(h) { return h[0] === canonicalRegion || (canonicalRegion === "전남광주통합특별시" && (h[0] === "광주광역시" || h[0] === "전라남도")); }).map(function(h) {
+        const u = "/apt-search/" + [h[0], h[1], h[2], "sale"].map(encodeURIComponent).join("/");
+        return '<a class="quick-link-btn" href="' + u + '"' + (h[1] === city ? ' style="background:#eff6ff;border-color:#93c5fd;color:#1d4ed8;"' : '') + '>📍 ' + aptHtml(h[1] + " " + h[2] + " 아파트") + '</a>';
+      }).join("")}
+    </div>
+    <div style="padding:12px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;max-height:220px;overflow-y:auto;">
+      <div style="font-size:12.5px;font-weight:900;color:#0f172a;margin-bottom:8px;">🏢 전국 17개 시·도 249개 시·군·구 아파트 매매·전세·시세 전체 디렉토리</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:11.5px;font-weight:700;">
+        ${NATIONAL_SIGUNGU_HUBS.map(function(h) {
+          const u = "/apt-search/" + [h[0], h[1], h[2], "sale"].map(encodeURIComponent).join("/");
+          const sShort = h[0].replace(/특별자치도|특별자치시|특별시|광역시/g, "");
+          return '<a href="' + u + '" style="padding:4px 8px;border-radius:6px;background:#ffffff;border:1px solid #cbd5e1;color:#1e293b;text-decoration:none;">' + aptHtml(sShort + " " + h[1] + "(" + h[2] + ")") + '</a>';
+        }).join("")}
+      </div>
     </div>
   </section>
 
@@ -2591,8 +2591,8 @@ async function handleBrokerPage(req, res) {
 
     const brokerCount = rows.length;
     const title = broker
-      ? `${location} ${broker} 공인중개사 | 아파트·상가 안심거래`
-      : `${location} 공인중개사 ${brokerCount}곳 목록·연락처 | 우리아파트 안심거래`;
+      ? `${broker} (${place}) 공인중개사 연락처·매물 | 우리아파트 안심거래`
+      : `${place} 공인중개사 ${brokerCount}곳 목록·연락처 | 우리아파트 안심거래`;
 
     const description = broker
       ? `${location} ${broker} 공인중개사 상세 주소·전화번호 및 아파트 매매·전세·월세 안심거래 매물 제안 안내 페이지입니다. 우리아파트 안심거래에서 수수료 50% 절감 혜택을 확인하세요.`
@@ -2685,7 +2685,7 @@ async function handleBrokerPage(req, res) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>[아파트 안심딜] ${html(title)} | 파트너 공인중개사 안심 매칭 · 거래비용 최대 50% 절감</title>
+<title>${html(title)}</title>
 <meta name="description" content="${html(description)}">
 <meta name="keywords" content="${html(location + " 공인중개사, " + location + " 부동산, " + place + " 공인중개사, " + (broker ? broker + ", " : "") + place + " 아파트 매수, " + place + " 아파트 임차, 아파트 안심딜, 안심딜, 수수료 50%, 거래비용 50%, 거래비용 최대 50% 절감, 매칭수수료 50%, 전세사기 예방, 파트너 공인중개사 협의요율")}">
 <meta name="robots" content="${broker ? "noindex,follow" : "index,follow,max-image-preview:large,max-snippet:-1"}">
@@ -3162,6 +3162,18 @@ ul { padding-left: 20px; margin: 8px 0; }
     <a class="cross-link" href="${html(brokerListUrl)}">🤝 ${html(place)} 공인중개사 목록</a>
     <a class="cross-link" href="${html(aptSaleUrl)}">🏠 ${html(place)} 배후 아파트 시세</a>
     <a class="cross-link" href="${html(martListUrl)}">🛒 ${html(place)} 동네마트 정보</a>
+  </div>
+</section>
+<section class="card">
+  <h2>🏪 전국 249개 시·군·구 상가·점포 상권분석 전체 허브</h2>
+  <div style="padding:12px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;max-height:220px;overflow-y:auto;">
+    <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:11.5px;font-weight:700;">
+      ${NATIONAL_SIGUNGU_HUBS.map(function(h) {
+        const su = "/store-search/" + [h[0], h[1], h[2]].map(pathEncode).join("/");
+        const sShort = h[0].replace(/특별자치도|특별자치시|특별시|광역시/g, "");
+        return '<a href="' + su + '" style="padding:4px 8px;border-radius:6px;background:#ffffff;border:1px solid #cbd5e1;color:#0f766e;text-decoration:none;">' + html(sShort + " " + h[1] + " 상가(" + h[2] + ")") + '</a>';
+      }).join("")}
+    </div>
   </div>
 </section>
 </main>
