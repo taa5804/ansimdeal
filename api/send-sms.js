@@ -44,10 +44,11 @@ module.exports = async function handler(req, res) {
     const normalizedContent = String(content || "").trim();
     const normalizedType = String(type || "LMS").trim().toUpperCase();
 
-    if (!/^01[016789][0-9]{7,8}$/.test(normalizedPhone)) {
+    // 휴대폰(010 등) 및 전국 일반전화(02, 031~064, 070 - KT통화매니저/PC연동 문자수신) 모두 허용
+    if (!/^0(1[016789]|2|[3-6][1-5]|70)[0-9]{7,8}$/.test(normalizedPhone)) {
       return res.status(400).json({
         ok: false,
-        message: "수신 휴대전화번호를 확인해 주세요."
+        message: "수신 전화번호 형식을 확인해 주세요."
       });
     }
 
@@ -148,13 +149,14 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({
       ok: true,
       message: "LMS 발송 요청이 완료되었습니다.",
-      result: data
+      data
     });
   } catch (error) {
-    console.error("SEND LMS ERROR:", error);
+    console.error("SEND SMS SERVER ERROR:", error);
     return res.status(500).json({
       ok: false,
-      message: "문자 발송 중 오류가 발생했습니다."
+      message: "서버 오류가 발생했습니다.",
+      error: String(error && error.message ? error.message : error)
     });
   }
 };
