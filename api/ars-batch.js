@@ -11,11 +11,6 @@ export default async function handler(req, res) {
   const SUPABASE_URL = process.env.SUPABASE_URL || "https://dcysjuxyjqtvkihdsjvv.supabase.co";
   const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
 
-  // ClawOps Voice Config
-  const CLAWOPS_ACCOUNT_ID = process.env.CLAWOPS_ACCOUNT_ID || "ACUfJGlcU6IkNZxuxn";
-  const CLAWOPS_API_KEY = process.env.CLAWOPS_API_KEY || "sk_vuT1vZJtqWMHdjROjqAi1x7XpGGpjSY2";
-  const CLAWOPS_FROM_NUMBER = String(process.env.CLAWOPS_FROM_NUMBER || "07052767712").replace(/\D/g, "");
-  
   const rawBody = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {});
   const hostStr = String(req.headers["x-forwarded-host"] || req.headers.host || "");
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY && !hostStr.includes("wooriapt.app")) {
@@ -32,11 +27,7 @@ export default async function handler(req, res) {
     }
   }
 
-  // Call Flow ID: Ansimdeal vs Wooriapt
   const IS_ANSIMDEAL = rawBody.isAnsimdeal === true || hostStr.includes("ansimdeal");
-  const CLAWOPS_CALL_FLOW_ID = IS_ANSIMDEAL
-    ? (process.env.CLAWOPS_CALL_FLOW_ID_ANSIM || "cmvitbfy3000t01s6g1yjgebw")
-    : (process.env.CLAWOPS_CALL_FLOW_ID || "cmtl15663000t01s6yddn205j");
 
   const supabaseHeaders = {
     apikey: SUPABASE_SERVICE_ROLE_KEY,
@@ -57,7 +48,7 @@ export default async function handler(req, res) {
     return arr;
   }
 
-  function pickTenNonMembers(nonMembers, alreadySentPhones, countNeeded = 20) {
+  function pickNonMembers(nonMembers, alreadySentPhones, countNeeded = 20) {
     const sent = new Set(alreadySentPhones.map(normalizePhone));
     const eligible = (Array.isArray(nonMembers) ? nonMembers : []).filter(item => {
       const phone = normalizePhone(item.phone);
@@ -134,7 +125,7 @@ export default async function handler(req, res) {
     if (!minText) return `${maxText} 이하`;
     if (!maxText) return `${minText} 이상`;
     if (Number(min) === Number(max)) return minText;
-    return `${minText}부터 ${maxText}까지`;
+    return `${minText} ~ ${maxText}`;
   }
 
   function desiredPriceText(request) {
@@ -149,14 +140,14 @@ export default async function handler(req, res) {
   }
 
   function formatMoveDate(dateString, isFlexible) {
-    if (!dateString) return isFlexible ? "협의 가능" : "";
+    if (!dateString) return isFlexible ? "조율 가능" : "";
     const d = new Date(dateString);
-    if (Number.isNaN(d.getTime())) return isFlexible ? "협의 가능" : "";
+    if (Number.isNaN(d.getTime())) return isFlexible ? "조율 가능" : "";
     const y = d.getFullYear();
     const m = d.getMonth() + 1;
     const day = d.getDate();
     const base = `${y}년 ${m}월 ${day}일`;
-    return isFlexible ? `${base} (협의 가능)` : base;
+    return isFlexible ? `${base} (조율 가능)` : base;
   }
 
   function formatArea(size) {
@@ -173,63 +164,86 @@ export default async function handler(req, res) {
       desired_area: formatArea(request.size),
       desired_price: desiredPriceText(request),
       move_in_date: formatMoveDate(request.move_date, request.move_flexible === true),
+      memo: cleanText(request.memo),
       request_number: cleanText(request.request_number)
     };
   }
 
   /*
-    LMS 문자 문구 (우리아파트 vs 안심딜 100% 완전 분리)
+    LMS 문자 문구 (휴대폰 010 및 일반전화 PC 통화매니저 모두 동일하게 LMS 문자 발송)
   */
-  function buildLmsContent(request) {
+  function buildLmsContent(request, isStoreReq) {
     const d = requestDetails(request);
     const reqNum = d.request_number;
+    const targetTitle = d.apartment_name || d.dong || "희망지역";
 
-    if (IS_ANSIMDEAL) {
-      // 안심딜 상가·점포 임차 전용 문구
+    if (isStoreReq) {
       const lines = [
-        "[안심딜] 상가·점포 임차 희망조건 전달",
+        `[${d.dong} ${targetTitle} ${d.desired_area} 임차손님 대기]`,
         "",
-        `사장님, [${d.dong}]에 ${d.apartment_name ? d.apartment_name + " " : ""}${d.trade_type} 희망 고객이 등록되었습니다!`
+        "사장님 안녕하십니까, 상가 매칭센터 '안심딜'입니다.",
+        "본인인증 완료된 실임차 고객이 아래 조건의 상가를 찾고 있어 공동중개 요청드립니다.",
+        "",
+        `■ 임차 고객 조건 (#${reqNum})`,
+        `• 희망지역: ${d.dong}`,
+        d.apartment_name ? `• 희망업종/층: ${d.apartment_name} / ${d.desired_area}` : `• 희망평형: ${d.desired_area}`,
+        d.desired_price ? `• 희망예산: ${d.desired_price}` : "",
+        d.move_in_date ? `• 입점희망: ${d.move_in_date}` : "",
+        d.memo ? `• 고객메모: "${d.memo}"` : "",
+        "",
+        "■ 공동중개 핵심 안내",
+        "1. [임대측 중개보수 100%] 임대인 측 중개보수는 전액 사장님께서 수령하십니다.",
+        "2. [상세 호수 비공개] 매물 보호를 위해 고객에게는 [상가건물명·층수·금액]만 안내됩니다.",
+        "3. [선착순 3건 마감] 매물 제안 3건 접수 시 자동 마감되며, 계약은 임차인 선택으로 진행됩니다.",
+        "4. [실매물 등록 원칙] 고객 신뢰를 위해 임대인 확인된 실매물만 제안 부탁드립니다. (기계약 매물이나 현장 타 매물 유도 시 서비스 이용이 영구 제한됩니다.)",
+        "",
+        "■ 10초 간편 매물 제안 (회원가입 없음)",
+        "아래 링크를 누르시면 5칸 입력으로 10초 만에 제안이 완료됩니다.",
+        `▶ 바로 제안하기: https://www.ansimdeal.com/p/${reqNum}`,
+        "",
+        "무료수신거부: 080-156-4359"
       ];
-      if (d.desired_area) lines.push(`희망평수: ${d.desired_area}`);
-      if (d.desired_price) lines.push(`희망예산: ${d.desired_price}`);
-      if (d.move_in_date) lines.push(`입점희망: ${d.move_in_date}`);
-      lines.push(
-        "",
-        "조건에 맞는 점포·상가 매물이 있으면 지금 바로 제안해 주세요.",
-        `임차요청번호: ${reqNum}`,
-        `바로 제안하기: https://www.ansimdeal.com/broker-property-register.html?code=${reqNum}`,
-        "",
-        "발송자: 점포·상가 안심딜"
-      );
-      return lines.join("\n");
+      return lines.filter(l => l !== null && l !== undefined).join("\n").replace(/\n{3,}/g, "\n\n");
     } else {
-      // 우리아파트 아파트 매매·전월세 전용 문구
+      const isSale = request.request_type === "sale";
+      const sideLabel = isSale ? "매도측" : "임대측";
+      const ownerLabel = isSale ? "매도인" : "임대인";
+      const clientLabel = isSale ? "매수" : d.trade_type;
       const lines = [
-        "[우리아파트] 아파트 매수 희망조건 전달",
+        `[${targetTitle} ${d.desired_area} ${clientLabel}손님 대기 / 공동중개]`,
         "",
-        `사장님, [${d.dong}] ${d.apartment_name ? d.apartment_name + " " : ""}아파트 ${d.trade_type} 희망 고객이 있습니다.`
+        "사장님 안녕하십니까, '우리아파트 안심거래' 매칭센터입니다.",
+        `본인인증 완료된 실${clientLabel} 고객이 아래 조건의 매물을 찾고 있어 공동중개 요청드립니다.`,
+        "",
+        `■ ${clientLabel} 고객 조건 (#${reqNum})`,
+        `• 희망단지: ${d.apartment_name ? d.apartment_name : d.dong + " 인근 아파트"} (${d.desired_area} / ${d.trade_type})`,
+        d.desired_price ? `• 희망예산: ${d.desired_price}` : "",
+        d.move_in_date ? `• 입주희망: ${d.move_in_date}` : "",
+        d.memo ? `• 고객메모: "${d.memo}"` : "",
+        "",
+        "■ 공동중개 핵심 안내",
+        `1. [${sideLabel} 중개보수 100%] ${ownerLabel} 측 중개보수는 전액 사장님께서 수령하십니다.`,
+        "2. [동·호수 비공개 보호] 매물 보호를 위해 고객에게는 [아파트명·층수·금액]만 안내됩니다.",
+        `3. [선착순 3건 마감] 매물 제안 3건 접수 시 자동 마감되며, 계약은 ${isSale ? "매수자" : "임차인"} 선택으로 진행됩니다.`,
+        "4. [실매물 등록 원칙] 고객 신뢰를 위해 소유자 확인된 실매물만 제안 부탁드립니다. (기계약 매물이나 현장 타 매물 유도 시 서비스 이용이 영구 제한됩니다.)",
+        "",
+        "■ 10초 간편 매물 제안 (회원가입 없음)",
+        "아래 링크를 누르시면 5칸 입력으로 10초 만에 제안이 완료됩니다.",
+        `▶ 바로 제안하기: https://www.wooriapt.app/p/${reqNum}`,
+        "",
+        "무료수신거부: 080-156-4359"
       ];
-      if (d.desired_area) lines.push(`희망평수: ${d.desired_area}`);
-      if (d.desired_price) lines.push(`희망가격: ${d.desired_price}`);
-      if (d.move_in_date) lines.push(`입주시점: ${d.move_in_date}`);
-      lines.push(
-        "",
-        "조건에 맞는 매물이 있으면 바로 제안해 주세요. (수수료 50% 절약 안심매칭)",
-        `매수요청번호: ${reqNum}`,
-        `바로 제안하기: https://www.wooriapt.app/broker-property-register.html?code=${reqNum}`,
-        "",
-        "발송자: 우리아파트 안심거래"
-      );
-      return lines.join("\n");
+      return lines.filter(l => l !== null && l !== undefined).join("\n").replace(/\n{3,}/g, "\n\n");
     }
   }
 
-  async function sendLms(phone, request) {
-    const content = buildLmsContent(request);
-    const subject = IS_ANSIMDEAL ? "[안심딜] 상가 임차조건 전달" : "[우리아파트] 매수조건 전달";
+  async function sendLms(phone, request, isStoreReq) {
+    const content = buildLmsContent(request, isStoreReq);
+    const d = requestDetails(request);
+    const subject = isStoreReq
+      ? `[${d.dong} 상가 임차손님 대기 / 공동중개]`
+      : `[${d.apartment_name || d.dong} ${d.trade_type}손님 대기 / 공동중개]`;
 
-    // Direct call to send-sms logic
     const smsRes = await fetch("https://www.wooriapt.app/api/send-sms", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -248,49 +262,6 @@ export default async function handler(req, res) {
     return { ok: false };
   }
 
-  /*
-    ClawOps ARS 음성전화 즉시 발신 (비회원 유선전화 대상 - /calls 직통 엔드포인트)
-  */
-  async function createClawOpsBatch(brokers, request) {
-    if (!brokers.length) return [];
-    const details = requestDetails(request);
-    const fromPhone = normalizePhone(CLAWOPS_FROM_NUMBER);
-
-    const results = await Promise.all(
-      brokers.map(async (b) => {
-        const toPhone = normalizePhone(b.phone);
-        try {
-          const response = await fetch(
-            `https://api.claw-ops.com/v1/accounts/${CLAWOPS_ACCOUNT_ID}/calls`,
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${CLAWOPS_API_KEY}`,
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                From: fromPhone,
-                To: toPhone,
-                CallFlowId: CLAWOPS_CALL_FLOW_ID,
-                Variables: details
-              })
-            }
-          );
-          if (!response.ok) {
-            console.warn("ClawOps call warning (status " + response.status + "):", await response.text());
-            return { broker: b, ok: false, callId: null };
-          }
-          const data = await response.json();
-          return { broker: b, ok: true, callId: data?.callId || data?.id || null };
-        } catch (e) {
-          console.warn("ClawOps call exception:", e);
-          return { broker: b, ok: false, callId: null };
-        }
-      })
-    );
-    return results;
-  }
-
   try {
     const body = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
     const requestNumber = String(body.requestNumber || "").replace(/\D/g, "").slice(0, 4);
@@ -300,7 +271,6 @@ export default async function handler(req, res) {
       return res.status(400).json({ ok: false, message: "4자리 매수요청번호를 확인해 주세요." });
     }
 
-    // 발송 시간 확인 (09:00 ~ 21:00 KST) - testMode인 경우 통과
     if (!body.testMode) {
       const kstHour = new Date(Date.now() + 9 * 60 * 60 * 1000).getUTCHours();
       if (kstHour < 9 || kstHour >= 21) {
@@ -339,7 +309,6 @@ export default async function handler(req, res) {
     ).catch(() => []);
     const alreadySentPhones = (Array.isArray(previousLogs) ? previousLogs : []).map(r => r.broker_phone);
 
-    // 대상 동네 중개사 선별
     let nonMembers = await supabaseGet(
       `agent_nonmembers?dong=eq.${encodeURIComponent(request.dong)}&select=id,phone,office_name,receive_blocked`
     ).catch(() => []);
@@ -367,29 +336,25 @@ export default async function handler(req, res) {
       }));
     }
 
-    // [대표님 비즈니스 룰] 상가: 1회 40건 (4시간 간격) / 아파트: 1회 20건 (6시간 간격)
-    const isCommercial = IS_ANSIMDEAL || (request.apartment && (request.apartment.includes('음식') || request.apartment.includes('상가') || request.apartment.includes('근린') || request.apartment.includes('사무실')));
+    const isCommercial = IS_ANSIMDEAL || (request.apartment && (request.apartment.includes("음식") || request.apartment.includes("상가") || request.apartment.includes("근린") || request.apartment.includes("사무실") || (request.apartment.startsWith("[") && request.apartment.includes(">"))));
     const defaultBatchCount = isCommercial ? 40 : 20;
     const intervalHours = isCommercial ? 4 : 6;
     const targetCount = Number(body.count) || defaultBatchCount;
     let selected = [];
     if (body.testMode) {
-      // [안전 잠금] 테스트 시 실제 부동산 발송 절대 차단 -> 대표님 테스트 번호로만 발송
       selected = [
         { id: "test-mobile", office_name: "테스트(대표님 휴대폰)", phone: "010-2286-4150", receive_blocked: false },
         { id: "test-landline", office_name: "테스트(회사 전화)", phone: "062-952-4150", receive_blocked: false }
       ];
     } else {
-      selected = pickTenNonMembers(nonMembers, alreadySentPhones, targetCount);
+      selected = pickNonMembers(nonMembers, alreadySentPhones, targetCount);
     }
-    const mobileRecipients = selected.filter(item => isMobilePhone(item.phone));
-    const voiceRecipients = selected.filter(item => !isMobilePhone(item.phone));
 
-    // 1) 휴대폰 번호 보유자 ➔ LMS 문자 발송
+    // 휴대폰(010) 및 일반전화(PC 통화매니저 연동) 모두 LMS 문자 방식으로 발송 (ARS 음성 미사용)
     const lmsResults = await Promise.all(
-      mobileRecipients.map(async broker => {
+      selected.map(async broker => {
         try {
-          const r = await sendLms(broker.phone, request);
+          const r = await sendLms(broker.phone, request, isCommercial);
           return { broker, ok: !!(r && r.ok) };
         } catch (e) {
           return { broker, ok: false };
@@ -397,39 +362,22 @@ export default async function handler(req, res) {
       })
     );
 
-    // 2) 일반 유선전화 보유자 ➔ ClawOps ARS 음성 전화 즉시 발송
-    const voiceResults = (await createClawOpsBatch(voiceRecipients, request)) || [];
-
     const now = new Date().toISOString();
-    const logRows = [
-      ...lmsResults.map(item => ({
-        request_number: requestNumber,
-        broker_id: item.broker.id ? String(item.broker.id) : null,
-        broker_type: "NONMEMBER",
-        broker_phone: normalizePhone(item.broker.phone),
-        broker_office: item.broker.office_name || null,
-        round_no: round,
-        clawops_batch_id: null,
-        call_status: item.ok ? "LMS_SENT" : "LMS_FAILED",
-        sent_at: item.ok ? now : null
-      })),
-      ...voiceResults.map(item => ({
-        request_number: requestNumber,
-        broker_id: item.broker.id ? String(item.broker.id) : null,
-        broker_type: "NONMEMBER",
-        broker_phone: normalizePhone(item.broker.phone),
-        broker_office: item.broker.office_name || null,
-        round_no: round,
-        clawops_batch_id: item.callId ? String(item.callId) : null,
-        call_status: item.ok ? "VOICE_SENT" : "VOICE_FAILED",
-        sent_at: item.ok ? now : null
-      }))
-    ];
+    const logRows = lmsResults.map(item => ({
+      request_number: requestNumber,
+      broker_id: item.broker.id ? String(item.broker.id) : null,
+      broker_type: "NONMEMBER",
+      broker_phone: normalizePhone(item.broker.phone),
+      broker_office: item.broker.office_name || null,
+      round_no: round,
+      clawops_batch_id: null,
+      call_status: item.ok ? "LMS_SENT" : "LMS_FAILED",
+      sent_at: item.ok ? now : null
+    }));
 
     if (logRows.length > 0) {
       await supabaseInsert("ars_dispatch_logs", logRows).catch(() => null);
-      
-      // 다음 발송 예정 시각 업데이트 (상가: 4시간 뒤, 아파트: 6시간 뒤)
+
       const nextDispatchTime = new Date(Date.now() + intervalHours * 60 * 60 * 1000).toISOString();
       await supabasePatch(`property_requests?request_number=eq.${encodeURIComponent(requestNumber)}`, {
         ars_round: (Number(request.ars_round) || 0) + 1,
@@ -437,13 +385,16 @@ export default async function handler(req, res) {
       }).catch(() => null);
     }
 
+    const mobileCnt = selected.filter(item => isMobilePhone(item.phone)).length;
+    const landlineCnt = selected.length - mobileCnt;
+
     return res.status(200).json({
       ok: true,
-      message: `총 ${selected.length}곳 중개사에 발송 완료 (문자: ${mobileRecipients.length}건, ARS음성: ${voiceRecipients.length}건)`,
+      message: `총 ${selected.length}곳 중개사에 문자(LMS) 발송 완료 (휴대폰: ${mobileCnt}건, PC연동 일반전화: ${landlineCnt}건)`,
       counts: {
         total: selected.length,
-        mobile: mobileRecipients.length,
-        landline: voiceRecipients.length
+        mobile: mobileCnt,
+        landline: landlineCnt
       }
     });
 
