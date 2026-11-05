@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/p/:code",
+      "destination": "/quick-proposal.html"
+    },
+    {
       "source": "/sale-admin",
       "destination": "/sale-admin"
     },
