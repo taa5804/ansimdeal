@@ -249,8 +249,8 @@ async function handleMartPage(req, res) {
       : `${locationText} 마트·슈퍼마켓 총정리 | 오늘의 장보기 시세·할인쿠폰 | 우리아파트`;
 
     const description = dbMart
-      ? `${locationText} 소재 ${dbMart}(${dbAddress}) 매장 정보와 오늘의 장보기 시세 비교, 반값 할인쿠폰, 신규고객 유치·QR 단골등록·문자비용 0원 우리아파트 마트 플랫폼을 확인하세요.`
-      : `${locationText} 지역 동네마트·식자재마트·슈퍼마켓 주소 및 연락처 디렉토리입니다. 우리동네 마트 특가 정보와 60개 생필품 오늘의 시세를 한눈에 비교하세요.`;
+      ? `${locationText} 소재 ${dbMart}(${dbAddress}) 매장 정보와 오늘의 장보기 시세 비교, 반값 할인쿠폰, 행사문자 38원➔15원 파격 인하 및 디지털 마트 플랫폼 무료 개방 솔루션을 확인하세요.`
+      : `${locationText} 지역 동네마트·식자재마트·슈퍼마켓 주소 및 연락처 디렉토리입니다. 우리동네 마트 특가 정보와 60개 생필품 오늘의 시세, 마트 행사문자 38원➔15원 절감 및 디지털 플랫폼 무료 개설 혜택을 확인하세요.`;
 
     const breadcrumbSchema = {
       "@context": "https://schema.org",
@@ -416,45 +416,45 @@ h1{margin:0 0 12px;font-size:28px;line-height:1.35;color:#0f172a;letter-spacing:
         </tr>
         <tr>
           <th>플랫폼 지원 서비스</th>
-          <td>오늘의 장보기 시세 비교 · QR 반값 쿠폰북 · 온라인/배달 주문 · 문자비용 0원 단골 알림</td>
+          <td>행사문자 38원➔15원 파격 인하 · 모바일 사진전단 플랫폼 무료 개방 · 안심주차 QR 단골확보 · 온라인/배달 주문</td>
         </tr>
       </tbody>
     </table>
 
     <div class="info-box">
-      <h2>🛒 ${esc(dbMart || locationText)} 장보기 & 단골 혜택 안내</h2>
+      <h2>🛒 ${esc(dbMart || locationText)} 장보기 & 디지털 전단 혜택 안내</h2>
       <p>
         우리아파트 마트 플랫폼은 <strong>${esc(locationText)}</strong> 아파트 입주민과 동네 마트를 직접 연결하여
-        농축수산물·신선식품·생필품 60개 핵심 품목의 오늘 시세와 매장 특가 정보를 제공합니다.
+        농축수산물·신선식품·생필품 60개 핵심 품목의 오늘 시세와 모바일 사진 전단 특가 정보를 실시간으로 제공합니다.
       </p>
       <p>
-        매장 방문 전 오늘의 장보기 물가를 비교하고, QR 스캔 한 번으로 우리동네 마트 단골 회원 등록 및 반값 할인쿠폰 혜택을 받아보세요.
+        매장 방문 전 스마트폰 디지털 전단지로 오늘의 타임세일·반값 특가를 한눈에 확인하고, 터치 한 번으로 장바구니 배달·픽업 주문 및 안심주차 QR 단골 혜택을 받아보세요.
       </p>
     </div>
 
     <div class="features">
-      <div class="feature">📊 60개 품목 오늘의 시세</div>
-      <div class="feature">🎟️ 우리동네 반값 쿠폰북</div>
+      <div class="feature">💬 행사문자 38원➔15원 인하</div>
+      <div class="feature">📱 디지털 사진전단 무료개방</div>
       <div class="feature">🛵 마트 온라인·배달주문</div>
-      <div class="feature">📱 QR 스캔 1초 단골등록</div>
-      <div class="feature">💬 문자발송비 0원 푸시알림</div>
-      <div class="feature">🥕 아파트 단지 타겟 홍보</div>
+      <div class="feature">🚗 안심주차 QR 단골확보</div>
+      <div class="feature">📊 60개 품목 오늘의 시세</div>
+      <div class="feature">🥕 아파트 단지 단골 연동</div>
     </div>
 
     <div class="owner-box">
-      <h2>💡 ${esc(dbMart || `${locationText} 마트`)} 사장님이신가요? (매출·신규고객 유치 솔루션)</h2>
+      <h2>💡 ${esc(dbMart || `${locationText} 마트`)} 대표님이신가요? (문자비 38원➔15원 인하 + 디지털 플랫폼 무료 개방)</h2>
       <p>
-        매월 수십만~수백만 원씩 나가는 문자 발송비와 종이 전단지 비용을 <strong>0원</strong>으로 절감하세요!
-        우리아파트 마트 플랫폼은 매장 반경 내 아파트 입주민(30~50대 주부 핵심 타겟)에게 오늘의 특가와 반값 쿠폰을 실시간으로 전달합니다.
+        매주 단골 고객에게 보내시는 행사 문자, 아직도 건당 <strong>38원</strong>씩 내고 계십니까?
+        우리아파트 마트 플랫폼은 기존 문자 그대로 <strong>건당 15원(60% 이상 즉시 절감)</strong>으로 낮춰드리고, 문자를 누르면 바로 스마트폰 전단지로 열리는 <strong>[우리 마트 전용 디지털 플랫폼]을 무료로 개설</strong>해 드립니다!
       </p>
       <p>
-        도입 및 제휴 문의: <strong>010-9850-3388</strong> (우리아파트 마트 디지털전환 지원센터)
+        무료 개설 및 지원 상담: <strong>010-2286-4150</strong> (우리아파트 마트 플랫폼 본사) · <a href="https://wooriapt.ai.kr" target="_blank" style="color:#075b32;font-weight:800;text-decoration:underline;">공식 안내 바로가기 (wooriapt.ai.kr) →</a>
       </p>
     </div>
 
     <div class="cta-grid">
-      <a class="cta" href="/mart-landing">🏪 마트 사장님 고객유치·도입 안내</a>
-      <a class="cta secondary" href="/price">🥦 오늘의 장보기 60대 생필품 시세표</a>
+      <a class="cta" href="https://wooriapt.ai.kr" target="_blank">🏪 문자 15원 + 디지털 플랫폼 무료개설 신청</a>
+      <a class="cta secondary" href="/mart">🧮 우리 마트 문자비 절감액 1초 계산기</a>
     </div>
   </section>
 
