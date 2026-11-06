@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/api/daily-price",
+      "destination": "/api/daily-price.js"
+    },
+    {
       "source": "/p/:code",
       "destination": "/quick-proposal?code=:code"
     },
