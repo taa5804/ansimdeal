@@ -321,6 +321,79 @@ export default async function handler(req, res) {
     if (req.method === "POST") {
       const body = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
 
+            if (body.action === "admin_update_request") {
+        const reqNo = clean(body.requestNumber).replace(/\D/g, "").slice(0, 4);
+        if (!reqNo) {
+          return res.status(400).json({ ok: false, message: "requestNumber 필요" });
+        }
+        const patchData = {};
+        if (body.sale_min !== undefined) patchData.sale_min = body.sale_min;
+        if (body.sale_max !== undefined) patchData.sale_max = body.sale_max;
+        if (body.jeonse_min !== undefined) patchData.jeonse_min = body.jeonse_min;
+        if (body.jeonse_max !== undefined) patchData.jeonse_max = body.jeonse_max;
+        if (body.move_date !== undefined) patchData.move_date = body.move_date;
+        if (body.memo !== undefined) patchData.memo = body.memo;
+        patchData.updated_at = new Date().toISOString();
+
+        const patchRes = await fetch(`${SUPABASE_URL}/rest/v1/property_requests?request_number=eq.${encodeURIComponent(reqNo)}`, {
+          method: "PATCH",
+          headers: { ...headers, Prefer: "return=representation" },
+          body: JSON.stringify(patchData)
+        });
+        const rows = await patchRes.json().catch(() => []);
+        return res.status(200).json({ ok: patchRes.ok, updated: rows.length, rows });
+      }
+
+      if (body.action === "trade_request") {
+        const reqNo = clean(body.requestNumber).replace(/\D/g, "").slice(0, 4);
+        const items = Array.isArray(body.items) ? body.items : [];
+        let reqPhone = normalizePhone(body.buyerPhone);
+        if (reqNo && !reqPhone) {
+          const rRes = await fetch(`${SUPABASE_URL}/rest/v1/property_requests?request_number=eq.${encodeURIComponent(reqNo)}&select=phone&limit=1`, { method: "GET", headers }).catch(() => null);
+          if (rRes && rRes.ok) {
+            const rRows = await rRes.json().catch(() => []);
+            if (Array.isArray(rRows) && rRows.length > 0) reqPhone = normalizePhone(rRows[0].phone);
+          }
+        }
+        const fmtBuyer = reqPhone && reqPhone.length === 11 ? `${reqPhone.slice(0,3)}-${reqPhone.slice(3,7)}-${reqPhone.slice(7)}` : (reqPhone || "확인필요");
+        for (const it of items) {
+          const bPhone = normalizePhone(it.officePhone);
+          const bOffice = clean(it.officeName) || "중개사무소";
+          const bApt = clean(it.apartment) || "제안매물";
+          const bFloor = clean(it.floor) || "-";
+          const bAmt = clean(it.amount) || "-";
+          if (/^01[016789][0-9]{7,8}$/.test(bPhone) && reqNo !== "5804") {
+            const bMsg = [
+              `[우리아파트/안심딜 고객 거래·상담 요청 알림]`,
+              ``,
+              `소장님! 제안하신 매물(#${reqNo} ${bApt} ${bFloor} ${bAmt})을 확인한 고객님이 [거래·상담 요청]을 눌렀습니다!`,
+              ``,
+              `■ 고객 직통 연락처: ${fmtBuyer}`,
+              `■ 요청 매물: ${bApt} (${bFloor} / ${bAmt})`,
+              ``,
+              `지금 바로 고객님께 전화하셔서 상세 브리핑 및 방문 일정을 잡아보세요!`,
+              `(※ 제안 매물은 국토부 실거래가 시스템과 자동 대조되며, 플랫폼 외 개별 계약 유도 시 고객 수수료 0원 면제 제보제가 작동합니다.)`
+            ].join("\n");
+            await fetch("https://www.wooriapt.app/api/send-sms", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ phone: bPhone, type: "LMS", subject: `[고객 상담요청 도착 #${reqNo}]`, content: bMsg })
+            }).catch(() => null);
+          }
+        }
+        await fetch("https://www.wooriapt.app/api/send-sms", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            phone: "01022864150",
+            type: "LMS",
+            subject: `[고객 거래요청 클릭 #${reqNo}]`,
+            content: `[우리아파트/안심딜 거래요청 알림]\n고객(${fmtBuyer})이 #${reqNo} 매물 ${items.length}건에 [거래 요청]을 클릭하여 중개사에게 즉시 연락 요청 문자를 발송했습니다.`
+          })
+        }).catch(() => null);
+        return res.status(200).json({ ok: true });
+      }
+
       if (body.action === "admin_update_broker") {
         const brokerId = clean(body.id);
         if (!brokerId) {
