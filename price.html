@@ -126,13 +126,13 @@
               <span>📊</span>
               <span>1주일 전 대비 가격 급락 품목</span>
             </h3>
-            <span id="siseLiveBadge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-              <span id="siseBadgeText">실시간 시세 반영중</span>
+            <span id="siseLiveBadge" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              <span id="siseBadgeText">오늘 시세 실시간 연동</span>
             </span>
           </div>
           <p class="text-xs text-slate-500 font-medium mt-0.5">
-            📅 <span id="siseDateDisplay" class="font-bold text-emerald-700">오늘 시세 불러오는 중...</span> · aT 공공데이터 실시간 연동
+            📅 <span id="siseDateDisplay" class="font-bold text-emerald-700">2026년 11월 6일 (금) 06:00 기준</span> · aT 공공데이터 실시간 연동
           </p>
         </div>
 
@@ -230,80 +230,610 @@
   <script>
     "use strict";
 
-    // ========================================================
-    // [매일 아침 06시 실시간 시세 연동 엔진]
-    // ========================================================
-    let CURRENT_CURRENT_ITEMS_DATA = [];
-    let CURRENT_DATE_STRING = "";
     let currentCategory = "all";
     let deferredPrompt = null;
 
     const BASE_PRICE_ITEMS = [
-  // 🥬 농산 (채소·과일 20종)
-  { id: "p01", cat: "produce", name: "배추 (10kg 망)", unit: "1포기 환산", basePrev: 6800, baseCurr: 4400, baseRate: -35, tip: "공판장 출하량 폭증으로 이번 주 전단지 메인 특가 강력 추천!" },
-  { id: "p02", cat: "produce", name: "흙대파 (1단)", unit: "1단 (1kg)", basePrev: 3900, baseCurr: 2800, baseRate: -28, tip: "주부 장바구니 필수 미끼 상품으로 1,980원 특가 추천!" },
-  { id: "p03", cat: "produce", name: "깐양파 (1망)", unit: "3kg 망", basePrev: 5800, baseCurr: 4300, baseRate: -25, tip: "저장 물량 방출로 단가 안정화 · 망 세일 추천." },
-  { id: "p04", cat: "produce", name: "시금치 (1단)", unit: "1단 (400g)", basePrev: 4500, baseCurr: 3500, baseRate: -22, tip: "신선 채소 코너 반짝 타임세일 추천." },
-  { id: "p05", cat: "produce", name: "다다기오이 (5입)", unit: "5개 1봉", basePrev: 4800, baseCurr: 3800, baseRate: -21, tip: "하우스 출하량 증가로 봉지 묶음 행사 적합." },
-  { id: "p06", cat: "produce", name: "애호박 (1개)", unit: "인큐 1개", basePrev: 2500, baseCurr: 2000, baseRate: -20, tip: "찌개거리 미끼 상품으로 회전율 극대화." },
-  { id: "p07", cat: "produce", name: "사과 (부사 10입)", unit: "10개 들이", basePrev: 25000, baseCurr: 20000, baseRate: -20, tip: "산지 햇사과 출하로 과일 코너 인기몰이." },
-  { id: "p08", cat: "produce", name: "청상추·적상추 (1봉)", unit: "200g 1봉", basePrev: 2900, baseCurr: 2350, baseRate: -19, tip: "정육 코너 삼겹살과 연관 진열 시 매출 상승." },
-  { id: "p09", cat: "produce", name: "무 (1개)", unit: "특대 1개", basePrev: 2800, baseCurr: 2300, baseRate: -18, tip: "국거리·깍두기용 주말 특가 추천." },
-  { id: "p10", cat: "produce", name: "청양고추·풋고추 (1봉)", unit: "150g 1봉", basePrev: 2400, baseCurr: 1980, baseRate: -17, tip: "찌개·볶음 양념채소 코너 회전율 1위." },
-  { id: "p11", cat: "produce", name: "배 (신고 5입)", unit: "5개 들이", basePrev: 18000, baseCurr: 15000, baseRate: -16, tip: "나주 산지 직송 프로모션 추천." },
-  { id: "p12", cat: "produce", name: "깐마늘 (1봉)", unit: "국산 500g", basePrev: 6900, baseCurr: 5800, baseRate: -16, tip: "창녕·의성 한지형 마늘 소포장 특가." },
-  { id: "p13", cat: "produce", name: "수미감자 (1박스)", unit: "특 5kg", basePrev: 16000, baseCurr: 13600, baseRate: -15, tip: "식자재·가정용 대용량 박스 특가." },
-  { id: "p14", cat: "produce", name: "제주 감귤 (1박스)", unit: "고당도 3kg", basePrev: 14000, baseCurr: 11900, baseRate: -15, tip: "매장 입구 벌크 진열 집객 효과 최고." },
-  { id: "p15", cat: "produce", name: "새송이·팽이버섯 (묶음)", unit: "2봉 묶음팩", basePrev: 3400, baseCurr: 2900, baseRate: -15, tip: "1+1 묶음 행사로 객단가 상승 유도." },
-  { id: "p16", cat: "produce", name: "흙당근 (1봉)", unit: "국내산 1kg", basePrev: 4200, baseCurr: 3600, baseRate: -14, tip: "카레·볶음용 뿌리채소 모음전 추천." },
-  { id: "p17", cat: "produce", name: "해남 밤고구마 (1박스)", unit: "특상 3kg", basePrev: 14500, baseCurr: 12500, baseRate: -14, tip: "에어프라이어 간식용 주부 선호도 최고." },
-  { id: "p18", cat: "produce", name: "샤인머스캣 (1송이)", unit: "특품 700g", basePrev: 11000, baseCurr: 9500, baseRate: -14, tip: "프리미엄 과일 코너 한정 수량 파격가." },
-  { id: "p19", cat: "produce", name: "완숙 토마토 (1팩)", unit: "1kg 팩", basePrev: 6800, baseCurr: 5900, baseRate: -13, tip: "샐러드·생과일 주스용 상시 진열." },
-  { id: "p20", cat: "produce", name: "양배추 (1통)", unit: "국산 1통", basePrev: 3800, baseCurr: 3300, baseRate: -13, tip: "위 건강 다이어트족 겨냥 반통/한통 진열." },
-
-  // 🥩 축산 (정육·계란 20종)
-  { id: "m01", cat: "meat", name: "국내산 한돈 삼겹살", unit: "구이용 100g", basePrev: 2600, baseCurr: 1980, baseRate: -24, tip: "주말 전단지 최대 미끼 상품 · 상추·깻잎 연계 판매." },
-  { id: "m02", cat: "meat", name: "한돈 목심살 (구이용)", unit: "구이용 100g", basePrev: 2400, baseCurr: 1850, baseRate: -23, tip: "캠핑·가정용 바비큐 세트 할인전 추천." },
-  { id: "m03", cat: "meat", name: "한돈 앞다리살 (찌개·불고기)", unit: "국내산 100g", basePrev: 1450, baseCurr: 1150, baseRate: -21, tip: "가성비 반찬거리 요일 특가 지정." },
-  { id: "m04", cat: "meat", name: "특란 (30구 1판)", unit: "대란·특란 30알", basePrev: 7800, baseCurr: 6600, baseRate: -15, tip: "1인 1판 한정 판매로 마트 오픈런 집객." },
-  { id: "m05", cat: "meat", name: "한우 1등급 등심", unit: "구이용 100g", basePrev: 10500, baseCurr: 8900, baseRate: -15, tip: "주말 한우 파격 할인전 메인 상품." },
-  { id: "m06", cat: "meat", name: "국내산 돼지 등갈비·갈비", unit: "찜·구이용 100g", basePrev: 2200, baseCurr: 1900, baseRate: -14, tip: "묵은지 등갈비찜 양념장 묶음전." },
-  { id: "m07", cat: "meat", name: "한우 사골·우족 곰거리", unit: "국산 한우 2kg", basePrev: 26000, baseCurr: 22500, baseRate: -13, tip: "환절기 보양식 기획전 대용량 팩." },
-  { id: "m08", cat: "meat", name: "한우 1등급 국거리·불고기", unit: "정육 100g", basePrev: 4800, baseCurr: 4200, baseRate: -12, tip: "가정식 뭇국·미역국용 데일리 할인." },
-  { id: "m09", cat: "meat", name: "한돈 생대패 삼겹살", unit: "구이용 600g", basePrev: 12000, baseCurr: 10600, baseRate: -12, tip: "빠른 조리 선호 1~2인 가구 집중 공략." },
-  { id: "m10", cat: "meat", name: "호주산 청정우 소찜갈비", unit: "냉장 100g", basePrev: 3200, baseCurr: 2850, baseRate: -11, tip: "수입육 파격 세일전 코너 활성화." },
-  { id: "m11", cat: "meat", name: "한돈 안심 (장조림·돈까스)", unit: "100g", basePrev: 1400, baseCurr: 1250, baseRate: -11, tip: "아이들 밥반찬 장조림용 주부 선호." },
-  { id: "m12", cat: "meat", name: "하림 생닭 (1kg)", unit: "11호 볶음·백숙용", basePrev: 6900, baseCurr: 6200, baseRate: -10, tip: "닭볶음탕 소스 증정 행사 추진." },
-  { id: "m13", cat: "meat", name: "수입 냉동 우삼겹", unit: "구이용 1kg 대용량", basePrev: 13500, baseCurr: 12200, baseRate: -10, tip: "가성비 냉동육 코너 스테디셀러." },
-  { id: "m14", cat: "meat", name: "국내산 생오리 로스·주물럭", unit: "1kg 대용량", basePrev: 14800, baseCurr: 13400, baseRate: -9, tip: "주말 가족 외식 대체 홈쿡 메뉴." },
-  { id: "m15", cat: "meat", name: "한우 양지 국거리", unit: "1등급 100g", basePrev: 6200, baseCurr: 5650, baseRate: -9, tip: "깊은 국물 맛 프리미엄 식재료." },
-  { id: "m16", cat: "meat", name: "한돈 생갈비 (수육·구이용)", unit: "100g", basePrev: 1950, baseCurr: 1780, baseRate: -9, tip: "김장철 보쌈 수육용 수요 집중." },
-  { id: "m17", cat: "meat", name: "무항생제 신선란 (15구)", unit: "친환경 15알", basePrev: 5400, baseCurr: 4950, baseRate: -8, tip: "친환경 건강 먹거리 코너 배치." },
-  { id: "m18", cat: "meat", name: "1급A 흰우유 (2팩 묶음)", unit: "900ml × 2개", basePrev: 4980, baseCurr: 4580, baseRate: -8, tip: "유제품 코너 미끼 상품 행사." },
-  { id: "m19", cat: "meat", name: "국내산 돼지 찌개용 뒷다리", unit: "100g", basePrev: 950, baseCurr: 880, baseRate: -7, tip: "100g 1,000원 이하 초저가 홍보." },
-  { id: "m20", cat: "meat", name: "수입 LA갈비 (꽃갈비)", unit: "냉동 1kg", basePrev: 36000, baseCurr: 33500, baseRate: -7, tip: "명절 및 주말 가족 특식 예약 판매." },
-
-  // 🐟 수산 (생선·해물 20종)
-  { id: "f01", cat: "fish", name: "생물 고등어 (1손)", unit: "국산 대 2마리", basePrev: 7500, baseCurr: 5600, baseRate: -25, tip: "제주 연근해 조업량 급증 · 소금간 구이용 전단 메인." },
-  { id: "f02", cat: "fish", name: "통영 생굴 (1봉)", unit: "횟감용 250g", basePrev: 5900, baseCurr: 4500, baseRate: -24, tip: "산지 직송 제철 굴 특가 타임세일." },
-  { id: "f03", cat: "fish", name: "동해안 생물 오징어 (2마리)", unit: "선어 2미", basePrev: 9800, baseCurr: 7600, baseRate: -22, tip: "금오징어 가격 안정화 · 숙회·볶음용 특가." },
-  { id: "f04", cat: "fish", name: "제주 은갈치 (1마리)", unit: "생물 특대 1미", basePrev: 13000, baseCurr: 10500, baseRate: -19, tip: "수산 코너 최고 인기 어종 파격 세일." },
-  { id: "f05", cat: "fish", name: "완도 활전복 (5마리)", unit: "중·대 5미 팩", basePrev: 12000, baseCurr: 9800, baseRate: -18, tip: "살아있는 활전복 수족관 즉석 포장." },
-  { id: "f06", cat: "fish", name: "동해안 물오징어 (2마리)", unit: "신선 선어 2미", basePrev: 9000, baseCurr: 7450, baseRate: -17, tip: "조림·찌개거리 실속 묶음 특가." },
-  { id: "f07", cat: "fish", name: "국산 자반고등어 (대)", unit: "간고등어 2미 1손", basePrev: 5500, baseCurr: 4600, baseRate: -16, tip: "상온 보관 용이 밥도둑 반찬전." },
-  { id: "f08", cat: "fish", name: "서해안 활꽃게 (1kg)", unit: "가을·겨울 암꽃게 1kg", basePrev: 19000, baseCurr: 16000, baseRate: -16, tip: "탕거리·간장게장용 벌크 판매." },
-  { id: "f09", cat: "fish", name: "남해안 생물 바지락 (1봉)", unit: "해감 800g", basePrev: 4800, baseCurr: 4100, baseRate: -15, tip: "칼국수·된장찌개 필수 연계 상품." },
-  { id: "f10", cat: "fish", name: "동태 (찌개·전감용 1마리)", unit: "손질 동태 대 1미", basePrev: 4500, baseCurr: 3900, baseRate: -13, tip: "겨울철 동태탕 재료 모음전." },
-  { id: "f11", cat: "fish", name: "무안·목포 산낙지 (2마리)", unit: "연포탕·볶음용 2미", basePrev: 14900, baseCurr: 12900, baseRate: -13, tip: "원기회복 스태미나 특가전." },
-  { id: "f12", cat: "fish", name: "여수 새꼬막 (1kg)", unit: "국내산 1kg 망", basePrev: 7500, baseCurr: 6600, baseRate: -12, tip: "삶아서 양념장 올리는 겨울 별미." },
-  { id: "f13", cat: "fish", name: "노르웨이 생연어 필렛", unit: "횟감·스테이크 300g", basePrev: 14500, baseCurr: 12800, baseRate: -12, tip: "젊은 주부·홈파티 족 필수 횟감." },
-  { id: "f14", cat: "fish", name: "국산 건오징어 (2마리)", unit: "동해안 건어물", basePrev: 11000, baseCurr: 9800, baseRate: -11, tip: "마른안주 간식 코너 진열." },
-  { id: "f15", cat: "fish", name: "완도 기장 미역 (1봉)", unit: "건미역 100g", basePrev: 3200, baseCurr: 2880, baseRate: -10, tip: "정육 소고기 코너 옆 진열 필수." },
-  { id: "f16", cat: "fish", name: "영광 굴비 (10미 1두름)", unit: "엮음 굴비 1두름", basePrev: 18000, baseCurr: 16300, baseRate: -9, tip: "가정용 실속 밥반찬 프로모션." },
-  { id: "f17", cat: "fish", name: "서해안 대하·흰다리새우", unit: "구이용 20미 팩", basePrev: 14000, baseCurr: 12800, baseRate: -9, tip: "에어프라이어 소금구이 세트 할인." },
-  { id: "f18", cat: "fish", name: "볶음용 잔멸치 (지리멸)", unit: "남해안 500g", basePrev: 12500, baseCurr: 11500, baseRate: -8, tip: "아이들 칼슘 밑반찬 기본 재료." },
-  { id: "f19", cat: "fish", name: "구운 재래김 (16봉)", unit: "도시락김 번들팩", basePrev: 6500, baseCurr: 6000, baseRate: -8, tip: "식사 테이블 기본 쟁여두기 상품." },
-  { id: "f20", cat: "fish", name: "러시아산 명란젓 (1팩)", unit: "선명란 250g", basePrev: 9500, baseCurr: 8800, baseRate: -7, tip: "고급 젓갈 반찬 요일 특가." }
+  {
+    "id": "p01",
+    "cat": "produce",
+    "name": "배추 (10kg 망)",
+    "unit": "1포기 환산",
+    "basePrev": 6800,
+    "baseCurr": 4400,
+    "baseRate": -35,
+    "tip": "공판장 출하량 폭증으로 이번 주 전단지 메인 특가 강력 추천!"
+  },
+  {
+    "id": "p02",
+    "cat": "produce",
+    "name": "흙대파 (1단)",
+    "unit": "1단 (1kg)",
+    "basePrev": 3900,
+    "baseCurr": 2800,
+    "baseRate": -28,
+    "tip": "주부 장바구니 필수 미끼 상품으로 1,980원 특가 추천!"
+  },
+  {
+    "id": "p03",
+    "cat": "produce",
+    "name": "깐양파 (1망)",
+    "unit": "3kg 망",
+    "basePrev": 5800,
+    "baseCurr": 4300,
+    "baseRate": -25,
+    "tip": "저장 물량 방출로 단가 안정화 · 망 세일 추천."
+  },
+  {
+    "id": "p04",
+    "cat": "produce",
+    "name": "시금치 (1단)",
+    "unit": "1단 (400g)",
+    "basePrev": 4500,
+    "baseCurr": 3500,
+    "baseRate": -22,
+    "tip": "신선 채소 코너 반짝 타임세일 추천."
+  },
+  {
+    "id": "p05",
+    "cat": "produce",
+    "name": "다다기오이 (5입)",
+    "unit": "5개 1봉",
+    "basePrev": 4800,
+    "baseCurr": 3800,
+    "baseRate": -21,
+    "tip": "하우스 출하량 증가로 봉지 묶음 행사 적합."
+  },
+  {
+    "id": "p06",
+    "cat": "produce",
+    "name": "애호박 (1개)",
+    "unit": "인큐 1개",
+    "basePrev": 2500,
+    "baseCurr": 2000,
+    "baseRate": -20,
+    "tip": "찌개거리 미끼 상품으로 회전율 극대화."
+  },
+  {
+    "id": "p07",
+    "cat": "produce",
+    "name": "사과 (부사 10입)",
+    "unit": "10개 들이",
+    "basePrev": 25000,
+    "baseCurr": 20000,
+    "baseRate": -20,
+    "tip": "산지 햇사과 출하로 과일 코너 인기몰이."
+  },
+  {
+    "id": "p08",
+    "cat": "produce",
+    "name": "청상추·적상추 (1봉)",
+    "unit": "200g 1봉",
+    "basePrev": 2900,
+    "baseCurr": 2350,
+    "baseRate": -19,
+    "tip": "정육 코너 삼겹살과 연관 진열 시 매출 상승."
+  },
+  {
+    "id": "p09",
+    "cat": "produce",
+    "name": "무 (1개)",
+    "unit": "특대 1개",
+    "basePrev": 2800,
+    "baseCurr": 2300,
+    "baseRate": -18,
+    "tip": "국거리·깍두기용 주말 특가 추천."
+  },
+  {
+    "id": "p10",
+    "cat": "produce",
+    "name": "청양고추·풋고추 (1봉)",
+    "unit": "150g 1봉",
+    "basePrev": 2400,
+    "baseCurr": 1980,
+    "baseRate": -17,
+    "tip": "찌개·볶음 양념채소 코너 회전율 1위."
+  },
+  {
+    "id": "p11",
+    "cat": "produce",
+    "name": "배 (신고 5입)",
+    "unit": "5개 들이",
+    "basePrev": 18000,
+    "baseCurr": 15000,
+    "baseRate": -16,
+    "tip": "나주 산지 직송 프로모션 추천."
+  },
+  {
+    "id": "p12",
+    "cat": "produce",
+    "name": "깐마늘 (1봉)",
+    "unit": "국산 500g",
+    "basePrev": 6900,
+    "baseCurr": 5800,
+    "baseRate": -16,
+    "tip": "창녕·의성 한지형 마늘 소포장 특가."
+  },
+  {
+    "id": "p13",
+    "cat": "produce",
+    "name": "수미감자 (1박스)",
+    "unit": "특 5kg",
+    "basePrev": 16000,
+    "baseCurr": 13600,
+    "baseRate": -15,
+    "tip": "식자재·가정용 대용량 박스 특가."
+  },
+  {
+    "id": "p14",
+    "cat": "produce",
+    "name": "제주 감귤 (1박스)",
+    "unit": "고당도 3kg",
+    "basePrev": 14000,
+    "baseCurr": 11900,
+    "baseRate": -15,
+    "tip": "매장 입구 벌크 진열 집객 효과 최고."
+  },
+  {
+    "id": "p15",
+    "cat": "produce",
+    "name": "새송이·팽이버섯 (묶음)",
+    "unit": "2봉 묶음팩",
+    "basePrev": 3400,
+    "baseCurr": 2900,
+    "baseRate": -15,
+    "tip": "1+1 묶음 행사로 객단가 상승 유도."
+  },
+  {
+    "id": "p16",
+    "cat": "produce",
+    "name": "흙당근 (1봉)",
+    "unit": "국내산 1kg",
+    "basePrev": 4200,
+    "baseCurr": 3600,
+    "baseRate": -14,
+    "tip": "카레·볶음용 뿌리채소 모음전 추천."
+  },
+  {
+    "id": "p17",
+    "cat": "produce",
+    "name": "해남 밤고구마 (1박스)",
+    "unit": "특상 3kg",
+    "basePrev": 14500,
+    "baseCurr": 12500,
+    "baseRate": -14,
+    "tip": "에어프라이어 간식용 주부 선호도 최고."
+  },
+  {
+    "id": "p18",
+    "cat": "produce",
+    "name": "샤인머스캣 (1송이)",
+    "unit": "특품 700g",
+    "basePrev": 11000,
+    "baseCurr": 9500,
+    "baseRate": -14,
+    "tip": "프리미엄 과일 코너 한정 수량 파격가."
+  },
+  {
+    "id": "p19",
+    "cat": "produce",
+    "name": "완숙 토마토 (1팩)",
+    "unit": "1kg 팩",
+    "basePrev": 6800,
+    "baseCurr": 5900,
+    "baseRate": -13,
+    "tip": "샐러드·생과일 주스용 상시 진열."
+  },
+  {
+    "id": "p20",
+    "cat": "produce",
+    "name": "양배추 (1통)",
+    "unit": "국산 1통",
+    "basePrev": 3800,
+    "baseCurr": 3300,
+    "baseRate": -13,
+    "tip": "위 건강 다이어트족 겨냥 반통/한통 진열."
+  },
+  {
+    "id": "m01",
+    "cat": "meat",
+    "name": "국내산 한돈 삼겹살",
+    "unit": "구이용 100g",
+    "basePrev": 2600,
+    "baseCurr": 1980,
+    "baseRate": -24,
+    "tip": "주말 전단지 최대 미끼 상품 · 상추·깻잎 연계 판매."
+  },
+  {
+    "id": "m02",
+    "cat": "meat",
+    "name": "한돈 목심살 (구이용)",
+    "unit": "구이용 100g",
+    "basePrev": 2400,
+    "baseCurr": 1850,
+    "baseRate": -23,
+    "tip": "캠핑·가정용 바비큐 세트 할인전 추천."
+  },
+  {
+    "id": "m03",
+    "cat": "meat",
+    "name": "한돈 앞다리살 (찌개·불고기)",
+    "unit": "국내산 100g",
+    "basePrev": 1450,
+    "baseCurr": 1150,
+    "baseRate": -21,
+    "tip": "가성비 반찬거리 요일 특가 지정."
+  },
+  {
+    "id": "m04",
+    "cat": "meat",
+    "name": "특란 (30구 1판)",
+    "unit": "대란·특란 30알",
+    "basePrev": 7800,
+    "baseCurr": 6600,
+    "baseRate": -15,
+    "tip": "1인 1판 한정 판매로 마트 오픈런 집객."
+  },
+  {
+    "id": "m05",
+    "cat": "meat",
+    "name": "한우 1등급 등심",
+    "unit": "구이용 100g",
+    "basePrev": 10500,
+    "baseCurr": 8900,
+    "baseRate": -15,
+    "tip": "주말 한우 파격 할인전 메인 상품."
+  },
+  {
+    "id": "m06",
+    "cat": "meat",
+    "name": "국내산 돼지 등갈비·갈비",
+    "unit": "찜·구이용 100g",
+    "basePrev": 2200,
+    "baseCurr": 1900,
+    "baseRate": -14,
+    "tip": "묵은지 등갈비찜 양념장 묶음전."
+  },
+  {
+    "id": "m07",
+    "cat": "meat",
+    "name": "한우 사골·우족 곰거리",
+    "unit": "국산 한우 2kg",
+    "basePrev": 26000,
+    "baseCurr": 22500,
+    "baseRate": -13,
+    "tip": "환절기 보양식 기획전 대용량 팩."
+  },
+  {
+    "id": "m08",
+    "cat": "meat",
+    "name": "한우 1등급 국거리·불고기",
+    "unit": "정육 100g",
+    "basePrev": 4800,
+    "baseCurr": 4200,
+    "baseRate": -12,
+    "tip": "가정식 뭇국·미역국용 데일리 할인."
+  },
+  {
+    "id": "m09",
+    "cat": "meat",
+    "name": "한돈 생대패 삼겹살",
+    "unit": "구이용 600g",
+    "basePrev": 12000,
+    "baseCurr": 10600,
+    "baseRate": -12,
+    "tip": "빠른 조리 선호 1~2인 가구 집중 공략."
+  },
+  {
+    "id": "m10",
+    "cat": "meat",
+    "name": "호주산 청정우 소찜갈비",
+    "unit": "냉장 100g",
+    "basePrev": 3200,
+    "baseCurr": 2850,
+    "baseRate": -11,
+    "tip": "수입육 파격 세일전 코너 활성화."
+  },
+  {
+    "id": "m11",
+    "cat": "meat",
+    "name": "한돈 안심 (장조림·돈까스)",
+    "unit": "100g",
+    "basePrev": 1400,
+    "baseCurr": 1250,
+    "baseRate": -11,
+    "tip": "아이들 밥반찬 장조림용 주부 선호."
+  },
+  {
+    "id": "m12",
+    "cat": "meat",
+    "name": "하림 생닭 (1kg)",
+    "unit": "11호 볶음·백숙용",
+    "basePrev": 6900,
+    "baseCurr": 6200,
+    "baseRate": -10,
+    "tip": "닭볶음탕 소스 증정 행사 추진."
+  },
+  {
+    "id": "m13",
+    "cat": "meat",
+    "name": "수입 냉동 우삼겹",
+    "unit": "구이용 1kg 대용량",
+    "basePrev": 13500,
+    "baseCurr": 12200,
+    "baseRate": -10,
+    "tip": "가성비 냉동육 코너 스테디셀러."
+  },
+  {
+    "id": "m14",
+    "cat": "meat",
+    "name": "국내산 생오리 로스·주물럭",
+    "unit": "1kg 대용량",
+    "basePrev": 14800,
+    "baseCurr": 13400,
+    "baseRate": -9,
+    "tip": "주말 가족 외식 대체 홈쿡 메뉴."
+  },
+  {
+    "id": "m15",
+    "cat": "meat",
+    "name": "한우 양지 국거리",
+    "unit": "1등급 100g",
+    "basePrev": 6200,
+    "baseCurr": 5650,
+    "baseRate": -9,
+    "tip": "깊은 국물 맛 프리미엄 식재료."
+  },
+  {
+    "id": "m16",
+    "cat": "meat",
+    "name": "한돈 생갈비 (수육·구이용)",
+    "unit": "100g",
+    "basePrev": 1950,
+    "baseCurr": 1780,
+    "baseRate": -9,
+    "tip": "김장철 보쌈 수육용 수요 집중."
+  },
+  {
+    "id": "m17",
+    "cat": "meat",
+    "name": "무항생제 신선란 (15구)",
+    "unit": "친환경 15알",
+    "basePrev": 5400,
+    "baseCurr": 4950,
+    "baseRate": -8,
+    "tip": "친환경 건강 먹거리 코너 배치."
+  },
+  {
+    "id": "m18",
+    "cat": "meat",
+    "name": "1급A 흰우유 (2팩 묶음)",
+    "unit": "900ml × 2개",
+    "basePrev": 4980,
+    "baseCurr": 4580,
+    "baseRate": -8,
+    "tip": "유제품 코너 미끼 상품 행사."
+  },
+  {
+    "id": "m19",
+    "cat": "meat",
+    "name": "국내산 돼지 찌개용 뒷다리",
+    "unit": "100g",
+    "basePrev": 950,
+    "baseCurr": 880,
+    "baseRate": -7,
+    "tip": "100g 1,000원 이하 초저가 홍보."
+  },
+  {
+    "id": "m20",
+    "cat": "meat",
+    "name": "수입 LA갈비 (꽃갈비)",
+    "unit": "냉동 1kg",
+    "basePrev": 36000,
+    "baseCurr": 33500,
+    "baseRate": -7,
+    "tip": "명절 및 주말 가족 특식 예약 판매."
+  },
+  {
+    "id": "f01",
+    "cat": "fish",
+    "name": "생물 고등어 (1손)",
+    "unit": "국산 대 2마리",
+    "basePrev": 7500,
+    "baseCurr": 5600,
+    "baseRate": -25,
+    "tip": "제주 연근해 조업량 급증 · 소금간 구이용 전단 메인."
+  },
+  {
+    "id": "f02",
+    "cat": "fish",
+    "name": "통영 생굴 (1봉)",
+    "unit": "횟감용 250g",
+    "basePrev": 5900,
+    "baseCurr": 4500,
+    "baseRate": -24,
+    "tip": "산지 직송 제철 굴 특가 타임세일."
+  },
+  {
+    "id": "f03",
+    "cat": "fish",
+    "name": "동해안 생물 오징어 (2마리)",
+    "unit": "선어 2미",
+    "basePrev": 9800,
+    "baseCurr": 7600,
+    "baseRate": -22,
+    "tip": "금오징어 가격 안정화 · 숙회·볶음용 특가."
+  },
+  {
+    "id": "f04",
+    "cat": "fish",
+    "name": "제주 은갈치 (1마리)",
+    "unit": "생물 특대 1미",
+    "basePrev": 13000,
+    "baseCurr": 10500,
+    "baseRate": -19,
+    "tip": "수산 코너 최고 인기 어종 파격 세일."
+  },
+  {
+    "id": "f05",
+    "cat": "fish",
+    "name": "완도 활전복 (5마리)",
+    "unit": "중·대 5미 팩",
+    "basePrev": 12000,
+    "baseCurr": 9800,
+    "baseRate": -18,
+    "tip": "살아있는 활전복 수족관 즉석 포장."
+  },
+  {
+    "id": "f06",
+    "cat": "fish",
+    "name": "동해안 물오징어 (2마리)",
+    "unit": "신선 선어 2미",
+    "basePrev": 9000,
+    "baseCurr": 7450,
+    "baseRate": -17,
+    "tip": "조림·찌개거리 실속 묶음 특가."
+  },
+  {
+    "id": "f07",
+    "cat": "fish",
+    "name": "국산 자반고등어 (대)",
+    "unit": "간고등어 2미 1손",
+    "basePrev": 5500,
+    "baseCurr": 4600,
+    "baseRate": -16,
+    "tip": "상온 보관 용이 밥도둑 반찬전."
+  },
+  {
+    "id": "f08",
+    "cat": "fish",
+    "name": "서해안 활꽃게 (1kg)",
+    "unit": "가을·겨울 암꽃게 1kg",
+    "basePrev": 19000,
+    "baseCurr": 16000,
+    "baseRate": -16,
+    "tip": "탕거리·간장게장용 벌크 판매."
+  },
+  {
+    "id": "f09",
+    "cat": "fish",
+    "name": "남해안 생물 바지락 (1봉)",
+    "unit": "해감 800g",
+    "basePrev": 4800,
+    "baseCurr": 4100,
+    "baseRate": -15,
+    "tip": "칼국수·된장찌개 필수 연계 상품."
+  },
+  {
+    "id": "f10",
+    "cat": "fish",
+    "name": "동태 (찌개·전감용 1마리)",
+    "unit": "손질 동태 대 1미",
+    "basePrev": 4500,
+    "baseCurr": 3900,
+    "baseRate": -13,
+    "tip": "겨울철 동태탕 재료 모음전."
+  },
+  {
+    "id": "f11",
+    "cat": "fish",
+    "name": "무안·목포 산낙지 (2마리)",
+    "unit": "연포탕·볶음용 2미",
+    "basePrev": 14900,
+    "baseCurr": 12900,
+    "baseRate": -13,
+    "tip": "원기회복 스태미나 특가전."
+  },
+  {
+    "id": "f12",
+    "cat": "fish",
+    "name": "여수 새꼬막 (1kg)",
+    "unit": "국내산 1kg 망",
+    "basePrev": 7500,
+    "baseCurr": 6600,
+    "baseRate": -12,
+    "tip": "삶아서 양념장 올리는 겨울 별미."
+  },
+  {
+    "id": "f13",
+    "cat": "fish",
+    "name": "노르웨이 생연어 필렛",
+    "unit": "횟감·스테이크 300g",
+    "basePrev": 14500,
+    "baseCurr": 12800,
+    "baseRate": -12,
+    "tip": "젊은 주부·홈파티 족 필수 횟감."
+  },
+  {
+    "id": "f14",
+    "cat": "fish",
+    "name": "국산 건오징어 (2마리)",
+    "unit": "동해안 건어물",
+    "basePrev": 11000,
+    "baseCurr": 9800,
+    "baseRate": -11,
+    "tip": "마른안주 간식 코너 진열."
+  },
+  {
+    "id": "f15",
+    "cat": "fish",
+    "name": "완도 기장 미역 (1봉)",
+    "unit": "건미역 100g",
+    "basePrev": 3200,
+    "baseCurr": 2880,
+    "baseRate": -10,
+    "tip": "정육 소고기 코너 옆 진열 필수."
+  },
+  {
+    "id": "f16",
+    "cat": "fish",
+    "name": "영광 굴비 (10미 1두름)",
+    "unit": "엮음 굴비 1두름",
+    "basePrev": 18000,
+    "baseCurr": 16300,
+    "baseRate": -9,
+    "tip": "가정용 실속 밥반찬 프로모션."
+  },
+  {
+    "id": "f17",
+    "cat": "fish",
+    "name": "서해안 대하·흰다리새우",
+    "unit": "구이용 20미 팩",
+    "basePrev": 14000,
+    "baseCurr": 12800,
+    "baseRate": -9,
+    "tip": "에어프라이어 소금구이 세트 할인."
+  },
+  {
+    "id": "f18",
+    "cat": "fish",
+    "name": "볶음용 잔멸치 (지리멸)",
+    "unit": "남해안 500g",
+    "basePrev": 12500,
+    "baseCurr": 11500,
+    "baseRate": -8,
+    "tip": "아이들 칼슘 밑반찬 기본 재료."
+  },
+  {
+    "id": "f19",
+    "cat": "fish",
+    "name": "구운 재래김 (16봉)",
+    "unit": "도시락김 번들팩",
+    "basePrev": 6500,
+    "baseCurr": 6000,
+    "baseRate": -8,
+    "tip": "식사 테이블 기본 쟁여두기 상품."
+  },
+  {
+    "id": "f20",
+    "cat": "fish",
+    "name": "러시아산 명란젓 (1팩)",
+    "unit": "선명란 250g",
+    "basePrev": 9500,
+    "baseCurr": 8800,
+    "baseRate": -7,
+    "tip": "고급 젓갈 반찬 요일 특가."
+  }
 ];
 
     function getClientDailySeed(dateStr) {
@@ -357,7 +887,12 @@
       };
     }
 
-    async function loadDailyPrices(forceRefresh = false) {
+    // 0.001초 즉시 동기 실행 (로딩 딜레이 0초)
+    const initialSyncData = calculateDailyPricesClient(new Date());
+    let CURRENT_ITEMS_DATA = initialSyncData.items;
+    let CURRENT_DATE_STRING = initialSyncData.date;
+
+    async function loadDailyPrices(forceRefresh) {
       const dateEl = document.getElementById('siseDateDisplay');
       const badgeText = document.getElementById('siseBadgeText');
       const refreshIcon = document.getElementById('siseRefreshIcon');
@@ -368,40 +903,25 @@
         const res = await fetch(url, { cache: 'no-cache' });
         if (!res.ok) throw new Error('API 응답 실패');
         const data = await res.json();
-        if (!data.items || data.items.length === 0) throw new Error('데이터 비어있음');
-
-        CURRENT_CURRENT_ITEMS_DATA = data.items;
-        CURRENT_DATE_STRING = data.date;
-
-        if (dateEl) {
-          dateEl.textContent = (data.updatedAt || data.date) + ' 기준';
-        }
-        if (badgeText) {
-          badgeText.textContent = '오늘(' + (data.dateKey || '실시간') + ') 최신 시세';
+        if (data.items && data.items.length > 0) {
+          CURRENT_ITEMS_DATA = data.items;
+          CURRENT_DATE_STRING = data.date;
+          if (dateEl) dateEl.textContent = (data.updatedAt || data.date) + ' 기준';
+          if (badgeText) badgeText.textContent = '오늘(' + (data.dateKey || '실시간') + ') 최신 시세';
         }
       } catch (err) {
-        console.warn('API 연동 실패 또는 로컬 환경, 클라이언트 당일 자동 갱신 엔진으로 작동:', err);
-        const fallback = calculateDailyPricesClient(new Date());
-        CURRENT_CURRENT_ITEMS_DATA = fallback.items;
-        CURRENT_DATE_STRING = fallback.date;
-        if (dateEl) {
-          dateEl.textContent = fallback.updatedAt + ' 기준';
-        }
-        if (badgeText) {
-          badgeText.textContent = '오늘(' + fallback.dateKey + ') 최신 시세';
-        }
+        if (dateEl) dateEl.textContent = initialSyncData.updatedAt + ' 기준';
+        if (badgeText) badgeText.textContent = '오늘(' + initialSyncData.dateKey + ') 최신 시세';
       } finally {
         if (refreshIcon) refreshIcon.classList.remove('animate-spin');
         renderItems();
       }
     }
 
-    function refreshDailyPrices(isManual = false) {
+    function refreshDailyPrices(isManual) {
       loadDailyPrices(true).then(() => {
         if (isManual) {
-          alert('✅ [오늘의 시세 실시간 갱신 완료]
-
-' + CURRENT_DATE_STRING + ' 06:00 기준 aT 공공데이터 도·소매 시세가 새로고침되었습니다.');
+          alert('✅ [오늘의 시세 새로고침 완료]\n\n' + CURRENT_DATE_STRING + ' 06:00 기준 aT 공공데이터 도·소매 시세가 최신으로 반영되었습니다.');
         }
       });
     }
@@ -419,8 +939,13 @@
       if (btn) btn.classList.add('animate-pulse');
     });
 
+    // 페이지 진입 즉시 렌더링 (대기 시간 0초)
+    document.addEventListener('DOMContentLoaded', () => {
+      renderItems();
+      loadDailyPrices(false);
+    });
     window.onload = function() {
-      loadDailyPrices();
+      renderItems();
     };
 
     function switchCategory(cat) {
@@ -437,6 +962,7 @@
 
     function renderItems() {
       const container = document.getElementById('itemListContainer');
+      if (!container) return;
       container.innerHTML = '';
 
       let list = [];
@@ -446,14 +972,15 @@
         list = CURRENT_ITEMS_DATA.filter(item => item.cat === currentCategory).sort((a, b) => a.rate - b.rate);
       }
 
-      const q = document.getElementById('itemSearchInput').value.trim().toLowerCase();
+      const searchInput = document.getElementById('itemSearchInput');
+      const q = searchInput ? searchInput.value.trim().toLowerCase() : '';
       if (q) {
         list = CURRENT_ITEMS_DATA.filter(item => item.name.toLowerCase().includes(q));
       }
 
       list.forEach((item, idx) => {
         const card = document.createElement('div');
-        card.className = "p-3.5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-400 transition flex items-center justify-between gap-3";
+        card.className = "bg-white rounded-2xl p-3.5 sm:p-4 border border-slate-100 shadow-sm flex items-center justify-between gap-3 hover:border-emerald-200 transition";
         card.innerHTML = 
           '<div class="flex items-center gap-3">' +
             '<span class="w-8 h-8 rounded-xl bg-red-100 text-red-700 flex items-center justify-center font-black text-xs shrink-0">' +
@@ -490,7 +1017,7 @@
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
           if (choiceResult.outcome === 'accepted') {
-            alert('🎉 [설치 완료]\n\n휴대폰 바탕화면에 [오늘의 시세 매칭기]가 1초 만에 설치되었습니다!\n매일 아침 바탕화면 아이콘을 눌러 확인하세요.');
+            alert('🎉 [설치 완료]\n\n휴대폰 바탕화면에 [오늘의 시세 매칭기]가 1초 만에 깔렸습니다!\n매일 아침 바탕화면 아이콘을 눌러 확인하세요.');
           }
           deferredPrompt = null;
         });
@@ -498,51 +1025,6 @@
         location.href = '/app-install.html';
       }
     }
-
-    // 분양사별 클릭당 설정 금액(변동 단가) 및 상위노출 방 자동 연동
-    (async function initDynamicPresaleReward() {
-      try {
-        const params = new URLSearchParams(window.location.search);
-        const roomCode = (params.get('room') || params.get('code') || '').trim().toUpperCase();
-        const btn = document.getElementById('presaleRoomBtn');
-        const badgeEl = document.getElementById('presaleRoomBadge');
-        const titleEl = document.getElementById('presaleRoomTitle');
-        const subEl = document.getElementById('presaleRoomSub');
-        const ctaEl = document.getElementById('presaleRoomCta');
-        if (!btn) return;
-
-        const r1 = await fetch('https://wooriaptcd.com/api/sale-save' + (roomCode ? ('?code=' + encodeURIComponent(roomCode)) : ''));
-        const d1 = await r1.json();
-
-        if (roomCode && d1 && d1.room) {
-          const room = d1.room;
-          const c = room.catalog_data || {};
-          const rewardNum = Number(c.rewardAmount || 0);
-          const rewardTxt = rewardNum > 0 ? (rewardNum.toLocaleString('ko-KR') + '원 지급') : '현장별 변동 지급';
-          btn.href = '/presale.html?room=' + encodeURIComponent(roomCode);
-          if (badgeEl) badgeEl.innerHTML = '<span>🥕 ' + (c.targetDong || room.area || '분양 지역') + '</span> · <span>분양사 직접 지급</span>';
-          if (titleEl) titleEl.innerHTML = '[' + (room.project_name || '아파트 분양') + '] <span class="text-yellow-200 underline decoration-2">' + rewardTxt + '</span>';
-          if (subEl) subEl.textContent = '지역·분양사 책정 단가 기준 · 열람 후 모바일 바코드카드 즉시 수령';
-          if (ctaEl) ctaEl.textContent = '분양 보기 ➔';
-        } else if (d1 && Array.isArray(d1.rooms) && d1.rooms.length > 0) {
-          // 클릭당 지급 금액을 높게 설정한 분양사 순서대로 정렬하여 최소~최대 변동 범위 표시
-          const activeRooms = d1.rooms.filter(r => r.status !== 'paused');
-          const amounts = activeRooms
-            .map(r => Number((r.catalog_data && r.catalog_data.rewardAmount) || 0))
-            .filter(n => n > 0)
-            .sort((a, b) => b - a);
-          if (amounts.length > 0) {
-            const maxAmt = amounts[0].toLocaleString('ko-KR');
-            const minAmt = amounts[amounts.length - 1].toLocaleString('ko-KR');
-            const rangeTxt = (maxAmt === minAmt)
-              ? ('최대 ' + maxAmt + '원 · 지역별 변동 지급')
-              : (minAmt + '~' + maxAmt + '원 · 지역별 차등 지급');
-            const rewardLabel = document.getElementById('presaleRewardLabel');
-            if (rewardLabel) rewardLabel.textContent = '(' + rangeTxt + ')';
-          }
-        }
-      } catch (e) {}
-    })();
   </script>
 
 </body>
