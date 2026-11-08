@@ -2893,7 +2893,7 @@ async function handleBrokerSitemap(req, res) {
     });
 
     // 2. safe_apartments에서 전국 시도/시군구/동리 병렬 수집 (RPC 1,000건 제한 및 환경변수 미설정 완벽 보완)
-    const aptOffsets = Array.from({ length: 22 }, function(_, i) { return i * 1000; });
+    const aptOffsets = Array.from({ length: 27 }, function(_, i) { return i * 1000; });
     const aptLocPromises = aptOffsets.map(function(start) {
       return fetch(
         APT_SUPABASE_URL + "/rest/v1/safe_apartments?select=%EC%8B%9C%EB%8F%84,%EC%8B%9C%EA%B5%B0%EA%B5%AC,%EC%9D%8D%EB%A9%B4,%EB%8F%99%EB%A6%AC&order=%EC%8B%9C%EB%8F%84.asc,%EC%8B%9C%EA%B5%B0%EA%B5%AC.asc,%EB%8F%99%EB%A6%AC.asc",
@@ -3340,7 +3340,7 @@ async function handleStoreSitemap(req, res) {
   try {
     const locationSet = new Set();
 
-    const aptOffsets = Array.from({ length: 22 }, function(_, i) { return i * 1000; });
+    const aptOffsets = Array.from({ length: 27 }, function(_, i) { return i * 1000; });
     const aptLocPromises = aptOffsets.map(function(start) {
       return fetch(
         APT_SUPABASE_URL + "/rest/v1/safe_apartments?select=%EC%8B%9C%EB%8F%84,%EC%8B%9C%EA%B5%B0%EA%B5%AC,%EC%9D%8D%EB%A9%B4,%EB%8F%99%EB%A6%AC&order=%EC%8B%9C%EB%8F%84.asc,%EC%8B%9C%EA%B5%B0%EA%B5%AC.asc,%EB%8F%99%EB%A6%AC.asc",
@@ -3378,8 +3378,8 @@ async function handleStoreSitemap(req, res) {
         "  <url>" +
           "<loc>" + xmlEscape(url) + "</loc>" +
           "<lastmod>" + lastmod + "</lastmod>" +
-          "<changefreq>weekly</changefreq>" +
-          "<priority>0.85</priority>" +
+          "<changefreq>daily</changefreq>" +
+          "<priority>1.0</priority>" +
         "</url>"
       );
     }
@@ -3479,7 +3479,7 @@ async function handleAptHubSitemap(req, res) {
 
   try {
     const locationSet = new Set();
-    const aptOffsets = Array.from({ length: 22 }, function(_, i) { return i * 1000; });
+    const aptOffsets = Array.from({ length: 27 }, function(_, i) { return i * 1000; });
     const aptLocPromises = aptOffsets.map(function(start) {
       return fetch(
         APT_SUPABASE_URL + "/rest/v1/safe_apartments?select=%EC%8B%9C%EB%8F%84,%EC%8B%9C%EA%B5%B0%EA%B5%AC,%EC%9D%8D%EB%A9%B4,%EB%8F%99%EB%A6%AC&order=%EC%8B%9C%EB%8F%84.asc,%EC%8B%9C%EA%B5%B0%EA%B5%AC.asc,%EB%8F%99%EB%A6%AC.asc",
@@ -3516,7 +3516,7 @@ async function handleAptHubSitemap(req, res) {
           "<loc>" + xmlEscape(saleUrl) + "</loc>" +
           "<lastmod>" + lastmod + "</lastmod>" +
           "<changefreq>daily</changefreq>" +
-          "<priority>0.9</priority>" +
+          "<priority>1.0</priority>" +
         "</url>"
       );
     }
