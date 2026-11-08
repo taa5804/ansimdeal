@@ -2995,18 +2995,18 @@ async function handleStorePage(req, res) {
 
     // 실제 DB에서 해당 동(place) 및 시군구(city)의 배후 아파트 단지·세대수 데이터 실시간 조회 (유사문서 판정 원천 차단!)
     const dongAptQuery = new URLSearchParams();
-    dongAptQuery.set("select", "시도,시군구,읍면,동리,단지명,세대수,동수,최고층수,사용승인일,단지 주소(도로명)");
-    if (region) dongAptQuery.set("시도", "eq." + region);
+    dongAptQuery.set("select", "*");
+    if (region) dongAptQuery.set("시도", "in.(" + getRegionVariants(region).join(",") + ")");
     if (city) dongAptQuery.set("시군구", "eq." + city);
     if (place) aptAddPlaceFilter(dongAptQuery, place);
-    dongAptQuery.set("order", "세대수.desc.nullslast,단지명.asc");
+    dongAptQuery.set("order", "단지명.asc");
     dongAptQuery.set("limit", "100");
 
     const cityAptQuery = new URLSearchParams();
-    cityAptQuery.set("select", "시도,시군구,읍면,동리,단지명,세대수,동수,최고층수,사용승인일,단지 주소(도로명)");
-    if (region) cityAptQuery.set("시도", "eq." + region);
+    cityAptQuery.set("select", "*");
+    if (region) cityAptQuery.set("시도", "in.(" + getRegionVariants(region).join(",") + ")");
     if (city) cityAptQuery.set("시군구", "eq." + city);
-    cityAptQuery.set("order", "세대수.desc.nullslast");
+    cityAptQuery.set("order", "단지명.asc");
     cityAptQuery.set("limit", "120");
 
     const [dongAptRows, cityAptRows] = await Promise.all([
