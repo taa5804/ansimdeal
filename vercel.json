@@ -215,6 +215,18 @@
     {
       "source": "/pages-sitemap.xml",
       "destination": "/api/sitemap?mode=pages"
+    },
+    {
+      "source": "/google-hub-sitemap.xml",
+      "destination": "/api/sitemap?mode=google-hub"
+    },
+    {
+      "source": "/mart-hub-sitemap.xml",
+      "destination": "/api/mart-page?mode=mart-hub-sitemap"
+    },
+    {
+      "source": "/apt-hub-sitemap.xml",
+      "destination": "/api/apt-page?mode=apt-hub-sitemap"
     }
   ],
   "headers": [
