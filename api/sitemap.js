@@ -97,6 +97,34 @@ module.exports = async function handler(req, res) {
   const SITE_ORIGIN = "https://" + reqHost;
   const lastmod = new Date().toISOString().split("T")[0];
 
+  if (req.query && req.query.mode === "google-hub") {
+    const hubSitemaps = [
+      SITE_ORIGIN + "/pages-sitemap.xml",
+      SITE_ORIGIN + "/mart-hub-sitemap.xml"
+    ];
+    if (!isMartDomain) {
+      hubSitemaps.push(SITE_ORIGIN + "/apt-hub-sitemap.xml");
+      hubSitemaps.push(SITE_ORIGIN + "/broker-sitemap.xml");
+      hubSitemaps.push(SITE_ORIGIN + "/store-sitemap.xml");
+    }
+    const items = hubSitemaps.map(function(loc) {
+      return (
+        "  <sitemap>\n" +
+        "    <loc>" + loc + "</loc>\n" +
+        "    <lastmod>" + lastmod + "</lastmod>\n" +
+        "  </sitemap>"
+      );
+    }).join("\n");
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400");
+    return res.status(200).send(
+      '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+      items + "\n" +
+      "</sitemapindex>"
+    );
+  }
+
   if (req.query && req.query.mode === "pages") {
     const list = isAnsim ? ANSIM_PAGES_LIST : WOORI_PAGES_LIST;
     let urlItems = "";
@@ -143,8 +171,12 @@ module.exports = async function handler(req, res) {
     const pages = Math.max(1, Math.ceil(totalCount / ROWS_PER_SITEMAP));
 
     const sitemapUrls = [
-      SITE_ORIGIN + "/pages-sitemap.xml"
+      SITE_ORIGIN + "/pages-sitemap.xml",
+      SITE_ORIGIN + "/mart-hub-sitemap.xml"
     ];
+    if (!isMartDomain) {
+      sitemapUrls.push(SITE_ORIGIN + "/apt-hub-sitemap.xml");
+    }
 
     if (!isMartDomain) {
       for (let page = 1; page <= pages; page += 1) {
