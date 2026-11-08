@@ -524,6 +524,7 @@ h1{margin:0 0 12px;font-size:28px;line-height:1.35;color:#0f172a;letter-spacing:
       <a class="cross-pill" href="${esc(aptSaleUrl)}" style="background:#eff6ff;border-color:#93c5fd;color:#1d4ed8;">🏢 ${esc(dbPlace)} 아파트 매매 복비 50% 반값</a>
       <a class="cross-pill" href="${esc(aptJeonseUrl)}" style="background:#eff6ff;border-color:#93c5fd;color:#1d4ed8;">🏠 ${esc(dbPlace)} 아파트 전세 복비 50% 반값</a>
       <a class="cross-pill" href="${esc(storeHubUrl)}" style="background:#f0fdfa;border-color:#5eead4;color:#0f766e;">🏪 ${esc(dbPlace)} 상가·점포 상권분석 (안심딜)</a>
+        <a href="https://www.momkok.co.kr" target="_blank" rel="noopener" style="display:block;padding:12px 14px;border-radius:12px;background:#7c3aed;color:#fff;text-decoration:none;font-weight:900;font-size:13.5px;text-align:center;">🪔 [3순위 학부모 필수] 고등학교·대학전공 AI 엔지니어 빅데이터 진단 (알라딘 맘콕) ›</a>
       <a class="cross-pill" href="${esc(brokerHubUrl)}">🤝 ${esc(dbPlace)} 등록 공인중개사 찾기</a>
       <a class="cross-pill" href="/price">📈 오늘의 장보기 물가 시세</a>
       <a class="cross-pill" href="/mart">🧮 마트 문자비용 절감 계산기</a>
