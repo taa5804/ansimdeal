@@ -13,10 +13,16 @@ Disallow: /charge-history
 Disallow: /charge-management
 Disallow: /inquiry-status
 
-User-agent: Yeti
+User-agent: Googlebot
+Allow: /store-search/
+Allow: /apt-search/
+Allow: /broker-search/
 Allow: /
 
-User-agent: Googlebot
+User-agent: Yeti
+Allow: /store-search/
+Allow: /apt-search/
+Allow: /broker-search/
 Allow: /
 
 User-agent: Daumoa
@@ -26,5 +32,9 @@ User-agent: bingbot
 Allow: /
 
 Sitemap: https://www.ansimdeal.com/sitemap.xml
-Sitemap: https://www.ansimdeal.com/pages-sitemap.xml
+Sitemap: https://www.ansimdeal.com/google-hub-sitemap.xml
+Sitemap: https://www.ansimdeal.com/store-sitemap.xml
+Sitemap: https://www.ansimdeal.com/apt-hub-sitemap.xml
+Sitemap: https://www.ansimdeal.com/apt-sitemap.xml
 Sitemap: https://www.ansimdeal.com/broker-sitemap.xml
+Sitemap: https://www.ansimdeal.com/pages-sitemap.xml
