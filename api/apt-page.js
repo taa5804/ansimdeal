@@ -3322,7 +3322,74 @@ async function handler(req, res) {
     return aptHandleSitemap(req, res);
   }
 
+  if (mode === "apt-hub-sitemap") {
+    return handleAptHubSitemap(req, res);
+  }
+
   return aptHandleApartmentPage(req, res);
+}
+
+async function handleAptHubSitemap(req, res) {
+  res.setHeader("Content-Type", "application/xml; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800");
+
+  try {
+    const locationSet = new Set();
+    const aptOffsets = Array.from({ length: 22 }, function(_, i) { return i * 1000; });
+    const aptLocPromises = aptOffsets.map(function(start) {
+      return fetch(
+        APT_SUPABASE_URL + "/rest/v1/safe_apartments?select=%EC%8B%9C%EB%8F%84,%EC%8B%9C%EA%B5%B0%EA%B5%AC,%EC%9D%8D%EB%A9%B4,%EB%8F%99%EB%A6%AC&order=%EC%8B%9C%EB%8F%84.asc,%EC%8B%9C%EA%B5%B0%EA%B5%AC.asc,%EB%8F%99%EB%A6%AC.asc",
+        {
+          headers: {
+            apikey: APT_SUPABASE_KEY,
+            Authorization: "Bearer " + APT_SUPABASE_KEY,
+            Range: start + "-" + (start + 999)
+          }
+        }
+      ).then(async function(r) {
+        if (!r.ok) return [];
+        const data = await r.json();
+        return Array.isArray(data) ? data : [];
+      }).catch(function() { return []; });
+    });
+
+    const aptBatches = await Promise.all(aptLocPromises);
+    for (const row of aptBatches.flat()) {
+      const region = clean(row && row["시도"]);
+      const city = clean(row && row["시군구"]);
+      const place = clean(row && (row["동리"] || row["읍면"]));
+      if (region && city && place) {
+        locationSet.add([region, city, place].map(pathEncode).join("/"));
+      }
+    }
+
+    const lastmod = new Date().toISOString().split("T")[0];
+    const urls = [];
+    for (const encodedPath of locationSet) {
+      const saleUrl = SITE_ORIGIN + "/apt-search/" + encodedPath + "/sale";
+      urls.push(
+        "  <url>" +
+          "<loc>" + xmlEscape(saleUrl) + "</loc>" +
+          "<lastmod>" + lastmod + "</lastmod>" +
+          "<changefreq>daily</changefreq>" +
+          "<priority>0.9</priority>" +
+        "</url>"
+      );
+    }
+
+    const xml =
+      '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+      urls.join("\n") +
+      "\n</urlset>";
+
+    return res.status(200).send(xml);
+  } catch (error) {
+    console.error("APT HUB SITEMAP ERROR:", error);
+    return res.status(500).send(
+      '<?xml version="1.0" encoding="UTF-8"?>\n<error>apt hub sitemap generation failed</error>'
+    );
+  }
 }
 
 module.exports = handler;
