@@ -1,7 +1,7 @@
 "use strict";
 
-const SUPABASE_URL = "https://wpshlmijsscmlasqtapa.supabase.co";
-const SUPABASE_KEY = process.env.SUPABASE_SECRET_KEY || "sb_publishable_3QLYewR-TXBd1mNfte6OJg_kre42L7K";
+const SUPABASE_URL = "https://dcysjuxyjqtvkihdsjvv.supabase.co";
+const SUPABASE_KEY = "sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
 const ROWS_PER_SITEMAP = 2000;
 const MART_SITEMAP_COUNT = 6;
 
@@ -151,7 +151,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    let totalCount = 26151;
+    let totalCount = 21437;
     try {
       const response = await fetch(
         SUPABASE_URL + "/rest/v1/safe_apartments?select=%EB%8B%A8%EC%A7%80%EB%AA%85&limit=1",
