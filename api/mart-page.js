@@ -278,17 +278,19 @@ async function handleMartPage(req, res) {
 
     const locationText = [dbRegion, dbCity, dbPlace].filter(Boolean).join(" ");
 
+    const storeHubUrl = `${BASE_URL}/store-search/${[dbRegion, dbCity, dbPlace].filter(Boolean).map(encodePart).join("/")}`;
+
     const pageSubject = dbMart
-      ? `${locationText} ${dbMart} 전화번호·위치 및 오늘의 시세`
-      : `${locationText} 동네마트·식자재마트 전체 전화번호·위치 총정리 (${sortedNearby.length || 1}곳)`;
+      ? `${dbPlace} ${dbMart} 오늘의 할인 전단지·특가 시세표 및 매장 전화번호·위치 안내`
+      : `${locationText} 동네마트·식자재마트 할인 전단지·특가 시세표 총정리 (${sortedNearby.length || 1}곳)`;
 
     const title = dbMart
-      ? `${dbMart} (${dbPlace}) 전화번호·위치 안내 및 오늘의 할인 전단지·장보기 시세 | ${locationText} 우리아파트`
-      : `${locationText} 동네마트·식자재마트·슈퍼마켓 전체 전화번호·위치·전단지 총정리 (${sortedNearby.length || 1}곳) | 우리아파트`;
+      ? `${dbMart} (${dbPlace}) 오늘의 할인 전단지·특가 시세표 & 전화번호·영업정보 확인 | 모바일 마트·안심거래`
+      : `${locationText} 식자재마트·동네마트 오늘의 할인 전단지·특가 시세표 & 전화번호 총정리 (${sortedNearby.length || 1}곳)`;
 
     const description = dbMart
-      ? `📍 주소: ${dbAddress} · 📞 전화번호: ${dbPhone || "매장 상세 안내"} | ${locationText} ${dbMart} 매장 위치·연락처 및 오늘의 모바일 할인 전단지와 농·축·수산물 60종 실시간 장보기 시세(행사문자 38원➔15원 디지털 마트 플랫폼)를 확인하세요.`
-      : `${locationText} 동네마트·식자재마트·슈퍼마켓(${sampleMartNames || "우리동네 마트"} 등 ${sortedNearby.length || 1}곳) 전체 전화번호·도로명주소·할인전단지 총정리 디렉토리입니다. 오늘의 장보기 60대 생필품 시세와 마트 디지털 전단 혜택을 한눈에 확인하세요.`;
+      ? `🛒 [${locationText} ${dbMart}] 오늘의 모바일 할인 전단지(한우·삼겹살·계란·제철과일·채소 60종 실시간 특가 시세표)와 매장 직통 전화번호·도로명주소·배달 정보를 지금 클릭해 확인하세요. ★마트 사장님 전용 행사문자 38원➔15원 인하 & 모바일 사진전단 무료 개설 및 ${dbPlace} 아파트·상가 복비 50% 반값 안심매칭 지원.`
+      : `🛒 [${locationText} 마트·식자재마트 ${sortedNearby.length || 1}곳 총정리] (${sampleMartNames || "우리동네 마트"} 등) 매장별 오늘의 할인 전단지·60종 생필품 실시간 특가 시세표와 전화번호·위치를 한눈에 확인하세요. ★마트 행사문자 15원 플랫폼 무료 개설 및 ${dbPlace} 아파트·상가 복비 50% 반값 매칭.`;
 
     const breadcrumbSchema = {
       "@context": "https://schema.org",
@@ -428,11 +430,17 @@ h1{margin:0 0 12px;font-size:28px;line-height:1.35;color:#0f172a;letter-spacing:
   </nav>
 
   <section class="card">
-    <div class="badge">우리아파트 동네마트·장보기 시세 플랫폼</div>
+    <div class="badge">🛒 우리동네 모바일 할인 전단지 & 아파트·상가 안심거래 허브</div>
     <h1>${esc(pageSubject)}</h1>
     <p class="sub-lead">
-      ${esc(locationText)} 주민을 위한 우리동네 마트 상세 정보와 60개 핵심 생필품 오늘의 장보기 시세, QR 단골 할인쿠폰 및 온라인 배달주문 연결 페이지입니다.
+      <strong>${esc(locationText)} ${esc(dbMart || "우리동네 마트")}</strong>의 오늘의 장보기 60종 특가 시세표·모바일 전단지와 매장 연락처 안내 페이지입니다.
     </p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:0 0 18px;padding:14px;border-radius:14px;background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:1.5px solid #93c5fd;">
+      <a href="${esc(aptSaleUrl)}" style="display:block;padding:12px 14px;border-radius:10px;background:#1d4ed8;color:#fff;font-weight:800;font-size:14px;text-align:center;">🏢 ${esc(dbPlace)} 아파트 매매·전세 복비 50% 반값 매칭 ›</a>
+      <a href="${esc(storeHubUrl)}" style="display:block;padding:12px 14px;border-radius:10px;background:#0f766e;color:#fff;font-weight:800;font-size:14px;text-align:center;">🏪 ${esc(dbPlace)} 상가·점포 권리금·상권분석 (안심딜) ›</a>
+      <a href="/price" style="display:block;padding:12px 14px;border-radius:10px;background:#075b32;color:#fff;font-weight:800;font-size:14px;text-align:center;">📊 오늘의 농축수산물 60종 실시간 시세표 보기 ›</a>
+    </div>
 
     <table class="spec-table" aria-label="매장 기본 정보">
       <tbody>
@@ -513,8 +521,9 @@ h1{margin:0 0 12px;font-size:28px;line-height:1.35;color:#0f172a;letter-spacing:
     </p>
     <div class="cross-links">
       <a class="cross-pill" href="${esc(dongHubUrl)}">🛒 ${esc(dbPlace)} 마트 전체보기</a>
-      <a class="cross-pill" href="${esc(aptSaleUrl)}">🏢 ${esc(dbPlace)} 아파트 매매 안심매칭</a>
-      <a class="cross-pill" href="${esc(aptJeonseUrl)}">🏠 ${esc(dbPlace)} 아파트 전세 안심매칭</a>
+      <a class="cross-pill" href="${esc(aptSaleUrl)}" style="background:#eff6ff;border-color:#93c5fd;color:#1d4ed8;">🏢 ${esc(dbPlace)} 아파트 매매 복비 50% 반값</a>
+      <a class="cross-pill" href="${esc(aptJeonseUrl)}" style="background:#eff6ff;border-color:#93c5fd;color:#1d4ed8;">🏠 ${esc(dbPlace)} 아파트 전세 복비 50% 반값</a>
+      <a class="cross-pill" href="${esc(storeHubUrl)}" style="background:#f0fdfa;border-color:#5eead4;color:#0f766e;">🏪 ${esc(dbPlace)} 상가·점포 상권분석 (안심딜)</a>
       <a class="cross-pill" href="${esc(brokerHubUrl)}">🤝 ${esc(dbPlace)} 등록 공인중개사 찾기</a>
       <a class="cross-pill" href="/price">📈 오늘의 장보기 물가 시세</a>
       <a class="cross-pill" href="/mart">🧮 마트 문자비용 절감 계산기</a>
