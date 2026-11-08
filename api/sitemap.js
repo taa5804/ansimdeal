@@ -1,7 +1,7 @@
 "use strict";
 
-const SUPABASE_URL = "https://dcysjuxyjqtvkihdsjvv.supabase.co";
-const SUPABASE_KEY = "sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
+const SUPABASE_URL = "https://wpshlmijsscmlasqtapa.supabase.co";
+const SUPABASE_KEY = process.env.SUPABASE_SECRET_KEY || "sb_publishable_3QLYewR-TXBd1mNfte6OJg_kre42L7K";
 const ROWS_PER_SITEMAP = 2000;
 const MART_SITEMAP_COUNT = 6;
 
@@ -99,14 +99,16 @@ module.exports = async function handler(req, res) {
 
   if (req.query && req.query.mode === "google-hub") {
     const hubSitemaps = [
-      SITE_ORIGIN + "/pages-sitemap.xml",
-      SITE_ORIGIN + "/mart-hub-sitemap.xml"
+      SITE_ORIGIN + "/pages-sitemap.xml"
     ];
     if (!isMartDomain) {
+      // 구글 크롤링 1순위: 우리아파트 안심거래 & 상가·점포 안심딜 최우선 배치
       hubSitemaps.push(SITE_ORIGIN + "/apt-hub-sitemap.xml");
-      hubSitemaps.push(SITE_ORIGIN + "/broker-sitemap.xml");
       hubSitemaps.push(SITE_ORIGIN + "/store-sitemap.xml");
+      hubSitemaps.push(SITE_ORIGIN + "/apt-sitemap.xml");
+      hubSitemaps.push(SITE_ORIGIN + "/broker-sitemap.xml");
     }
+    hubSitemaps.push(SITE_ORIGIN + "/mart-hub-sitemap.xml");
     const items = hubSitemaps.map(function(loc) {
       return (
         "  <sitemap>\n" +
@@ -149,7 +151,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    let totalCount = 21437;
+    let totalCount = 26151;
     try {
       const response = await fetch(
         SUPABASE_URL + "/rest/v1/safe_apartments?select=%EB%8B%A8%EC%A7%80%EB%AA%85&limit=1",
@@ -171,22 +173,24 @@ module.exports = async function handler(req, res) {
     const pages = Math.max(1, Math.ceil(totalCount / ROWS_PER_SITEMAP));
 
     const sitemapUrls = [
-      SITE_ORIGIN + "/pages-sitemap.xml",
-      SITE_ORIGIN + "/mart-hub-sitemap.xml"
+      SITE_ORIGIN + "/pages-sitemap.xml"
     ];
-    if (!isMartDomain) {
-      sitemapUrls.push(SITE_ORIGIN + "/apt-hub-sitemap.xml");
-    }
 
     if (!isMartDomain) {
+      // 구글 & 네이버 1순위: 우리아파트 안심거래 허브 및 상가·점포 안심딜 허브 최상단 배치
+      sitemapUrls.push(SITE_ORIGIN + "/apt-hub-sitemap.xml");
+      sitemapUrls.push(SITE_ORIGIN + "/store-sitemap.xml");
+
+      // 전국 26,151개 아파트 단지 전체 (1~14페이지)
       for (let page = 1; page <= pages; page += 1) {
         sitemapUrls.push(SITE_ORIGIN + "/sitemaps/apartments-" + page + ".xml");
       }
 
       sitemapUrls.push(SITE_ORIGIN + "/broker-sitemap.xml");
-      sitemapUrls.push(SITE_ORIGIN + "/store-sitemap.xml");
     }
 
+    // 마트 사이트맵은 안심거래·안심딜 뒤에 후순위로 배치
+    sitemapUrls.push(SITE_ORIGIN + "/mart-hub-sitemap.xml");
     for (let m = 1; m <= MART_SITEMAP_COUNT; m += 1) {
       sitemapUrls.push(SITE_ORIGIN + "/sitemaps/marts-" + m + ".xml");
     }
