@@ -2437,6 +2437,8 @@ p {
     });
   }
 </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>`);
   } catch (error) {
@@ -2851,6 +2853,8 @@ p { line-height: 1.7; color: #334155; font-size: 14.5px; margin: 8px 0; }
 </section>
 
 </main>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>`);
   } catch (error) {
@@ -3321,6 +3325,8 @@ ${siblingStoreHtml ? `<section class="card">
   </div>
 </section>
 </main>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>`);
   } catch (error) {
