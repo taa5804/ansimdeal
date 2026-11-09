@@ -615,8 +615,8 @@ async function aptHandleSitemap(req, res) {
           "  <url>",
           "    <loc>" + aptXmlEscape(url) + "</loc>",
           "    <lastmod>" + lastmod + "</lastmod>",
-          "    <changefreq>weekly</changefreq>",
-          "    <priority>0.8</priority>",
+          "    <changefreq>daily</changefreq>",
+          "    <priority>1.0</priority>",
           "  </url>"
         ].join("\n");
       })
