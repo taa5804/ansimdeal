@@ -740,7 +740,7 @@ async function handleMartSitemap(req, res) {
         const place = encodePart(row["읍면동"]);
         const mart = encodePart(row["상호명"]);
         const loc = `${BASE_URL}/mart-search/${region}/${city}/${place}/${mart}`;
-        return `\n  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`;
+        return `\n  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.3</priority>\n  </url>`;
       })
       .join("");
 
@@ -878,7 +878,7 @@ async function handleMartHubSitemap(req, res) {
 
     const urls = Array.from(dongSet).map(p => {
       const loc = `${BASE_URL}/mart-search/${p}`;
-      return `\n  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.65</priority>\n  </url>`;
+      return `\n  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.35</priority>\n  </url>`;
     }).join("");
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}\n</urlset>`;
