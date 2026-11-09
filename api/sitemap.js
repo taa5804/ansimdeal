@@ -177,9 +177,9 @@ module.exports = async function handler(req, res) {
     ];
 
     if (!isMartDomain) {
-      // 구글 & 네이버 1순위: 우리아파트 안심거래 허브 및 상가·점포 안심딜 허브 최상단 배치
-      sitemapUrls.push(SITE_ORIGIN + "/apt-hub-sitemap.xml");
+      // 안심딜 최우선 순위: 상가·점포 안심딜 1순위, 우리아파트 안심거래 2순위, 마트는 맨 끝
       sitemapUrls.push(SITE_ORIGIN + "/store-sitemap.xml");
+      sitemapUrls.push(SITE_ORIGIN + "/apt-hub-sitemap.xml");
 
       // 전국 26,151개 아파트 단지 전체 (1~14페이지)
       for (let page = 1; page <= pages; page += 1) {
