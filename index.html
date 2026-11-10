@@ -1281,366 +1281,482 @@ button, input {
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
 
-<style id="master-safe-balanced-css">
-/* =========================================
-   [폭 통일 & 오와 열 칼정렬] wrap 100% 완벽 바운더리
-========================================= */
-* {
-  box-sizing: border-box;
-}
-
+<style id="perfect-layout-v2-style">
+/* === 1. CONTAINER & WIDTH ALIGNMENT === */
 .wrap {
   width: 100% !important;
   max-width: 1140px !important;
   margin: 0 auto !important;
-  padding: 0 16px 24px !important;
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+}
+.hero, .trade, .fee-calc-section, .guarantee-section,
+.single-transaction-section, .broker-partner-banner-section,
+.process-section, .safe-promises, .quick-tools, .hero-safe-lock-banner {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
   box-sizing: border-box !important;
 }
 
-/* 1. 메인 최상단 0% & 5배 배상 특허 3중 잠금 플래그십 배너 */
-.hero-safe-lock-banner {
+/* === 2. SLIM NON-INTIMIDATING TRUST BAR === */
+.hero-safe-lock-banner.slim-trust-bar {
   width: 100% !important;
   max-width: 100% !important;
-  margin: 12px 0 14px !important;
-  background: linear-gradient(135deg, #091e42 0%, #0f2b5c 50%, #172554 100%) !important;
-  border: 2px solid #38bdf8 !important;
-  border-radius: 18px !important;
-  padding: 20px 22px !important;
-  box-shadow: 0 8px 24px rgba(9, 30, 66, 0.18) !important;
+  margin: 10px 0 14px !important;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+  border: 1.5px solid #334155 !important;
+  border-radius: 14px !important;
+  padding: 12px 18px !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.10) !important;
   color: #ffffff !important;
   box-sizing: border-box !important;
 }
-.lock-header-row {
+.trust-bar-top {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  margin-bottom: 14px !important;
-  padding-bottom: 10px !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
-  flex-wrap: wrap !important;
-  gap: 8px !important;
+  margin-bottom: 8px !important;
+  padding-bottom: 6px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
-.lock-main-badge {
-  display: inline-flex !important;
+.trust-title-group {
+  display: flex !important;
   align-items: center !important;
-  gap: 6px !important;
-  background: rgba(56, 189, 248, 0.22) !important;
-  border: 1px solid #38bdf8 !important;
-  color: #7dd3fc !important;
-  font-size: 13px !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+}
+.trust-shield-icon {
+  font-size: 16px !important;
+  line-height: 1 !important;
+}
+.trust-main-title {
+  font-size: 13.5px !important;
   font-weight: 800 !important;
-  padding: 5px 14px !important;
-  border-radius: 999px !important;
+  color: #f8fafc !important;
   letter-spacing: -0.3px !important;
 }
-.lock-sub-note {
-  font-size: 12.5px !important;
-  color: #cbd5e1 !important;
-  font-weight: 600 !important;
+.trust-pill {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.15) !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  padding: 2px 8px !important;
+  border-radius: 999px !important;
 }
-.lock-grid-2 {
+.trust-dual-pills {
   display: grid !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 14px !important;
-  align-items: stretch !important;
+  gap: 10px !important;
 }
-.lock-col-card {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
-  border-radius: 14px !important;
-  padding: 16px 18px !important;
+.trust-item {
   display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important;
-  align-items: flex-start !important;
-  text-align: left !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 8px !important;
+  padding: 7px 12px !important;
   box-sizing: border-box !important;
-  height: 100% !important;
 }
-.lock-col-card .lock-card-tag {
-  display: inline-block !important;
-  font-size: 11.5px !important;
-  font-weight: 800 !important;
-  padding: 3px 10px !important;
-  border-radius: 6px !important;
-  margin-bottom: 8px !important;
-  text-align: left !important;
-}
-.lock-col-card.lock-buyer-card .lock-card-tag {
+.trust-badge-buyer {
   background: #059669 !important;
   color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  padding: 2px 7px !important;
+  border-radius: 5px !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
 }
-.lock-col-card.lock-broker-card .lock-card-tag {
-  background: #dc2626 !important;
+.trust-badge-broker {
+  background: #2563eb !important;
   color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  padding: 2px 7px !important;
+  border-radius: 5px !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
 }
-.lock-col-card .lock-card-title {
-  font-size: 18px !important;
-  font-weight: 900 !important;
-  color: #ffffff !important;
-  margin: 0 0 8px 0 !important;
-  letter-spacing: -0.4px !important;
-  line-height: 1.4 !important;
-  text-align: left !important;
-  width: 100% !important;
-}
-.highlight-zero {
-  color: #34d399 !important;
-  font-size: 21px !important;
-  font-weight: 950 !important;
-  text-decoration: underline !important;
-  text-underline-offset: 4px !important;
-}
-.highlight-five {
-  color: #f87171 !important;
-  font-size: 21px !important;
-  font-weight: 950 !important;
-  text-decoration: underline !important;
-  text-underline-offset: 4px !important;
-}
-.lock-col-card .lock-card-desc {
+.trust-text {
   font-size: 12.5px !important;
   color: #e2e8f0 !important;
-  line-height: 1.6 !important;
-  margin: 0 !important;
-  word-break: keep-all !important;
-  text-align: left !important;
+  letter-spacing: -0.3px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.trust-text strong {
+  color: #fef08a !important;
+  font-weight: 800 !important;
 }
 
-/* 2. 매칭 수수료 계산기 (100% 폭 일치) */
-.fee-widget {
+/* === 3. EXPANDED PREMIUM QUICK TOOLS (지도 & 정산기 큼직하게) === */
+.quick-tools.premium-quick-tools {
   width: 100% !important;
   max-width: 100% !important;
-  margin: 14px 0 !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-}
-.fee-head {
-  margin-top: 10px !important;
-  padding: 22px 24px !important;
-  background: #ffffff !important;
-  border: 1px solid #dce6ee !important;
-  border-radius: 18px !important;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04) !important;
-  box-sizing: border-box !important;
-}
-.fee-head h2 {
-  margin: 0 !important;
-  font-size: 24px !important;
-  color: #173f67 !important;
-  letter-spacing: -0.6px !important;
-}
-.fee-head p {
-  margin: 8px 0 0 !important;
-  color: #64748b !important;
-  font-size: 13.5px !important;
-  line-height: 1.55 !important;
-}
-.calculator {
-  margin-top: 10px !important;
-  padding: 22px 24px !important;
-  background: #ffffff !important;
-  border: 1px solid #dce6ee !important;
-  border-radius: 18px !important;
-  box-sizing: border-box !important;
-}
-.result {
-  margin-top: 10px !important;
-  box-sizing: border-box !important;
-}
-.compare {
   display: grid !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   gap: 14px !important;
-}
-
-/* 3. 3대 안심 보증 카드 (100% 폭 일치) */
-.safe-guarantees-section {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 16px 0 14px !important;
-  padding: 0 !important;
+  margin-top: 14px !important;
+  margin-bottom: 14px !important;
   box-sizing: border-box !important;
 }
-.guarantee-header {
-  text-align: center !important;
-  margin-bottom: 14px !important;
+.quick-tool-card {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  min-height: 94px !important;
+  padding: 18px 22px !important;
+  border-radius: 16px !important;
+  text-decoration: none !important;
+  color: #0f172a !important;
+  box-sizing: border-box !important;
+  transition: all 0.2s ease !important;
+  position: relative !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05) !important;
 }
-.guarantee-badge {
-  display: inline-block !important;
-  background: #eff6ff !important;
-  color: #1d4ed8 !important;
-  border: 1px solid #bfdbfe !important;
-  font-size: 12.5px !important;
-  font-weight: 800 !important;
-  padding: 4px 14px !important;
-  border-radius: 999px !important;
-  margin-bottom: 8px !important;
+.quick-tool-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.10) !important;
 }
-.guarantee-main-title {
-  font-size: 23px !important;
+.map-tool-card {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 65%, #ffffff 100%) !important;
+  border: 1.5px solid #93c5fd !important;
+}
+.meter-tool-card {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 65%, #ffffff 100%) !important;
+  border: 1.5px solid #6ee7b7 !important;
+}
+.tool-icon-wrapper {
+  width: 54px !important;
+  height: 54px !important;
+  border-radius: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+.map-icon-wrapper {
+  background: #2563eb !important;
+}
+.meter-icon-wrapper {
+  background: #059669 !important;
+}
+.tool-icon-large {
+  font-size: 28px !important;
+  line-height: 1 !important;
+}
+.tool-content-box {
+  flex: 1 !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+.tool-header-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-bottom: 4px !important;
+  flex-wrap: wrap !important;
+}
+.tool-title-large {
+  font-size: 17px !important;
   font-weight: 900 !important;
   color: #0f172a !important;
-  margin: 0 0 6px !important;
-  letter-spacing: -0.5px !important;
+  letter-spacing: -0.4px !important;
+  line-height: 1.25 !important;
 }
-.guarantee-sub-title {
-  font-size: 14px !important;
+.tool-tag-pill {
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  padding: 2px 7px !important;
+  border-radius: 999px !important;
+  white-space: nowrap !important;
+}
+.map-tag {
+  background: #dbeafe !important;
+  color: #1d4ed8 !important;
+  border: 1px solid #bfdbfe !important;
+}
+.meter-tag {
+  background: #d1fae5 !important;
+  color: #047857 !important;
+  border: 1px solid #a7f3d0 !important;
+}
+.tool-desc-large {
+  font-size: 13px !important;
   color: #475569 !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.3px !important;
+}
+.tool-arrow-btn {
+  font-size: 12.5px !important;
+  font-weight: 800 !important;
+  color: #334155 !important;
+  padding: 6px 12px !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: 8px !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+/* === 4. MATCHING FEE CALCULATOR === */
+.fee-calc-section {
+  background: #ffffff !important;
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 18px !important;
+  padding: 24px 28px !important;
+  margin: 22px 0 !important;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05) !important;
+  box-sizing: border-box !important;
+}
+.fee-calc-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 18px !important;
+  border-bottom: 1.5px solid #f1f5f9 !important;
+  padding-bottom: 14px !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+}
+.fee-calc-title {
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  color: #0f172a !important;
+  letter-spacing: -0.5px !important;
   margin: 0 !important;
 }
-.guarantee-cards-grid {
+.fee-badge-50 {
+  display: inline-flex !important;
+  align-items: center !important;
+  background: #eff6ff !important;
+  color: #2563eb !important;
+  border: 1.5px solid #bfdbfe !important;
+  font-size: 12.5px !important;
+  font-weight: 800 !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+}
+.fee-input-grid {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 14px !important;
-  margin-top: 12px !important;
+  margin-bottom: 18px !important;
+}
+.fee-input-item {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+.fee-input-item label {
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  color: #334155 !important;
+}
+.fee-input-item select,
+.fee-input-item input {
+  height: 46px !important;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 10px !important;
+  padding: 0 14px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  background: #f8fafc !important;
+  box-sizing: border-box !important;
+}
+.fee-input-item select:focus,
+.fee-input-item input:focus {
+  outline: none !important;
+  border-color: #2563eb !important;
+  background: #ffffff !important;
+}
+.fee-result-container {
+  background: #f8fafc !important;
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 14px !important;
+  padding: 16px 20px !important;
+}
+.fee-result-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 6px 0 !important;
+  font-size: 14.5px !important;
+  color: #475569 !important;
+  font-weight: 700 !important;
+}
+.fee-result-row.total-row {
+  border-top: 1.5px dashed #cbd5e1 !important;
+  margin-top: 8px !important;
+  padding-top: 12px !important;
+  font-size: 17px !important;
+  color: #0f172a !important;
+  font-weight: 900 !important;
+}
+.fee-saved-val {
+  color: #dc2626 !important;
+  font-weight: 900 !important;
+}
+.fee-final-val {
+  color: #2563eb !important;
+  font-size: 22px !important;
+  font-weight: 900 !important;
+}
+
+/* === 5. GUARANTEE GRID (3대 약속) === */
+.guarantee-section {
+  margin: 24px 0 !important;
+}
+.guarantee-grid-3 {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
 }
 .guarantee-card {
   background: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 18px !important;
-  padding: 22px 18px !important;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  text-align: center !important;
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 16px !important;
+  padding: 20px 22px !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04) !important;
   box-sizing: border-box !important;
 }
-.guarantee-icon {
-  font-size: 32px !important;
-  margin-bottom: 8px !important;
-}
-.guarantee-step-tag {
-  font-size: 11px !important;
-  font-weight: 800 !important;
-  color: #1e40af !important;
-  background: #dbeafe !important;
-  padding: 3px 12px !important;
-  border-radius: 999px !important;
+.guarantee-card-icon {
+  font-size: 28px !important;
   margin-bottom: 10px !important;
 }
 .guarantee-card-title {
   font-size: 16.5px !important;
   font-weight: 800 !important;
   color: #0f172a !important;
-  line-height: 1.45 !important;
-  margin: 0 0 8px !important;
+  margin: 0 0 6px 0 !important;
 }
 .guarantee-card-desc {
-  font-size: 12.5px !important;
-  color: #475569 !important;
-  line-height: 1.6 !important;
+  font-size: 13px !important;
+  color: #64748b !important;
+  line-height: 1.5 !important;
   margin: 0 !important;
-  word-break: keep-all !important;
 }
 
-/* 4. 1:1 안심 거래 진행방 입장 (100% 폭 일치) */
+/* === 6. 1:1 TRANSACTION ROOM === */
 .single-transaction-section {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 14px 0 !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
+  margin: 24px 0 !important;
 }
 .single-transaction-card {
-  width: 100% !important;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
+  background: #ffffff !important;
   border: 2px solid #2563eb !important;
-  border-radius: 18px !important;
-  padding: 26px 24px !important;
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.10) !important;
+  border-radius: 20px !important;
+  padding: 30px 24px !important;
   text-align: center !important;
+  box-shadow: 0 8px 26px rgba(37, 99, 235, 0.10) !important;
   box-sizing: border-box !important;
 }
 .trans-card-badge {
   display: inline-block !important;
-  background: #2563eb !important;
-  color: #ffffff !important;
-  font-size: 11.5px !important;
+  background: #eff6ff !important;
+  color: #2563eb !important;
+  border: 1px solid #bfdbfe !important;
+  font-size: 12px !important;
   font-weight: 800 !important;
-  padding: 3px 12px !important;
+  padding: 4px 14px !important;
   border-radius: 999px !important;
-  margin-bottom: 8px !important;
+  margin-bottom: 12px !important;
 }
 .trans-card-title {
-  font-size: 22px !important;
+  font-size: 23px !important;
   font-weight: 900 !important;
   color: #0f172a !important;
-  margin: 0 0 6px !important;
+  margin: 0 0 8px 0 !important;
 }
 .trans-card-desc {
-  font-size: 14px !important;
-  color: #334155 !important;
-  margin: 0 0 16px !important;
+  font-size: 14.5px !important;
+  color: #475569 !important;
+  margin: 0 0 20px 0 !important;
 }
 .trans-input-row {
   display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
   gap: 10px !important;
   max-width: 480px !important;
-  margin: 0 auto 12px !important;
+  margin: 0 auto 14px auto !important;
 }
 .trans-input-row input {
   flex: 1 !important;
-  height: 50px !important;
+  height: 52px !important;
   border: 2px solid #cbd5e1 !important;
   border-radius: 12px !important;
   padding: 0 16px !important;
-  font-size: 17px !important;
-  font-weight: 700 !important;
-  color: #0f172a !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
   text-align: center !important;
   letter-spacing: 2px !important;
-  outline: none !important;
+  color: #0f172a !important;
   box-sizing: border-box !important;
+}
+.trans-input-row input:focus {
+  outline: none !important;
+  border-color: #2563eb !important;
 }
 .trans-input-row button {
-  height: 50px !important;
-  padding: 0 26px !important;
+  height: 52px !important;
+  padding: 0 24px !important;
   background: #2563eb !important;
   color: #ffffff !important;
-  font-size: 15.5px !important;
-  font-weight: 800 !important;
   border: none !important;
   border-radius: 12px !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
   cursor: pointer !important;
   white-space: nowrap !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35) !important;
+}
+.trans-help-text {
+  font-size: 12.5px !important;
+  color: #64748b !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
 }
 
-/* 5. 공인중개사 우선배정 파트너 간편등록 배너 (100% 폭 일치) */
+/* === 7. BROKER PARTNER BANNER === */
 .broker-partner-banner-section {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 14px 0 !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
+  margin: 22px 0 !important;
 }
 .broker-partner-card {
-  width: 100% !important;
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
-  border: 1px solid #334155 !important;
+  background: linear-gradient(135deg, #091e42 0%, #1e3a8a 100%) !important;
   border-radius: 18px !important;
-  padding: 20px 24px !important;
+  padding: 22px 28px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  gap: 16px !important;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px rgba(9, 30, 66, 0.16) !important;
   flex-wrap: wrap !important;
+  gap: 16px !important;
   box-sizing: border-box !important;
 }
 .broker-partner-left {
   flex: 1 !important;
-  min-width: 260px !important;
-  text-align: left !important;
+  min-width: 280px !important;
 }
 .partner-tag {
   display: inline-block !important;
-  background: #f59e0b !important;
-  color: #000000 !important;
-  font-size: 11px !important;
-  font-weight: 900 !important;
-  padding: 3px 9px !important;
+  background: rgba(251, 191, 36, 0.2) !important;
+  color: #fbbf24 !important;
+  border: 1px solid rgba(251, 191, 36, 0.4) !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  padding: 2px 10px !important;
   border-radius: 6px !important;
   margin-bottom: 6px !important;
 }
@@ -1648,31 +1764,31 @@ button, input {
   font-size: 18px !important;
   font-weight: 900 !important;
   color: #ffffff !important;
-  margin: 0 0 5px !important;
+  margin: 0 0 6px 0 !important;
 }
 .partner-title .highlight {
-  color: #38bdf8 !important;
+  color: #60a5fa !important;
 }
 .partner-desc {
-  font-size: 12.5px !important;
-  color: #94a3b8 !important;
+  font-size: 13px !important;
+  color: #cbd5e1 !important;
   margin: 0 !important;
-  line-height: 1.5 !important;
+  line-height: 1.4 !important;
 }
 .partner-open-btn {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  background: #2563eb !important;
   color: #ffffff !important;
+  border: 1px solid #60a5fa !important;
+  border-radius: 12px !important;
+  padding: 12px 20px !important;
   font-size: 14.5px !important;
   font-weight: 800 !important;
-  border: none !important;
-  border-radius: 11px !important;
-  padding: 13px 22px !important;
   cursor: pointer !important;
   white-space: nowrap !important;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3) !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4) !important;
 }
 
-/* 파트너 팝업 모달 (절대 화면에 인라인으로 보이지 않고 클릭 시에만 팝업) */
+/* === 8. PARTNER MODAL (기본 완전 숨김) === */
 .partner-modal-backdrop {
   display: none !important;
   position: fixed !important;
@@ -1680,9 +1796,9 @@ button, input {
   left: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
-  background: rgba(15, 23, 42, 0.75) !important;
+  background: rgba(15, 23, 42, 0.65) !important;
   backdrop-filter: blur(4px) !important;
-  z-index: 999999 !important;
+  z-index: 99999 !important;
   align-items: center !important;
   justify-content: center !important;
   padding: 16px !important;
@@ -1694,46 +1810,45 @@ button, input {
 .partner-modal-box {
   background: #ffffff !important;
   border-radius: 20px !important;
-  max-width: 440px !important;
+  max-width: 480px !important;
   width: 100% !important;
-  padding: 28px 24px !important;
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.3) !important;
+  padding: 28px !important;
   position: relative !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25) !important;
   box-sizing: border-box !important;
-  text-align: left !important;
 }
 .partner-modal-close {
   position: absolute !important;
-  top: 16px !important;
+  top: 18px !important;
   right: 18px !important;
-  background: transparent !important;
-  border: none !important;
   font-size: 24px !important;
-  color: #64748b !important;
+  background: none !important;
+  border: none !important;
   cursor: pointer !important;
-  line-height: 1 !important;
+  color: #64748b !important;
 }
 .partner-modal-title {
   font-size: 20px !important;
   font-weight: 900 !important;
   color: #0f172a !important;
-  margin: 0 0 6px !important;
+  margin: 0 0 6px 0 !important;
 }
 .partner-modal-subtitle {
-  font-size: 13px !important;
-  color: #64748b !important;
-  margin: 0 0 18px !important;
-  line-height: 1.5 !important;
+  font-size: 13.5px !important;
+  color: #475569 !important;
+  margin: 0 0 18px 0 !important;
+  line-height: 1.45 !important;
 }
 .partner-input-group {
-  margin-bottom: 12px !important;
+  margin-bottom: 14px !important;
+  text-align: left !important;
 }
 .partner-input-group label {
   display: block !important;
-  font-size: 13px !important;
+  font-size: 12.5px !important;
   font-weight: 800 !important;
   color: #334155 !important;
-  margin-bottom: 5px !important;
+  margin-bottom: 6px !important;
 }
 .partner-input-group input {
   width: 100% !important;
@@ -1741,159 +1856,76 @@ button, input {
   border: 1.5px solid #cbd5e1 !important;
   border-radius: 10px !important;
   padding: 0 14px !important;
-  font-size: 15px !important;
-  font-weight: 700 !important;
-  color: #0f172a !important;
+  font-size: 14.5px !important;
   box-sizing: border-box !important;
-  outline: none !important;
 }
 .partner-submit-btn {
   width: 100% !important;
-  height: 48px !important;
+  height: 50px !important;
   background: #2563eb !important;
   color: #ffffff !important;
-  font-size: 16px !important;
-  font-weight: 900 !important;
   border: none !important;
-  border-radius: 11px !important;
-  cursor: pointer !important;
-  margin-top: 8px !important;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25) !important;
-}
-
-/* 6. 4단계 안심 진행 절차 (100% 폭 일치 & 밑에도 좁히기) */
-.new-process-section {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 14px 0 12px !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-}
-.process-header {
-  text-align: center !important;
-  margin-bottom: 14px !important;
-}
-.process-header .title {
-  font-size: 21px !important;
-  font-weight: 900 !important;
-  color: #0f172a !important;
-  margin: 0 0 4px !important;
-  letter-spacing: -0.4px !important;
-}
-.process-header .subtitle {
-  font-size: 13px !important;
-  color: #64748b !important;
-  margin: 0 !important;
-}
-.steps-grid-4 {
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  gap: 14px !important;
-}
-.step-card {
-  background: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 16px !important;
-  padding: 18px 14px !important;
-  text-align: center !important;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
-  position: relative !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  box-sizing: border-box !important;
-  height: 100% !important;
-}
-.step-icon-wrap {
-  font-size: 28px !important;
-  margin-bottom: 8px !important;
-}
-.step-num-badge {
-  position: absolute !important;
-  top: 10px !important;
-  left: 10px !important;
-  width: 20px !important;
-  height: 20px !important;
-  background: #eff6ff !important;
-  color: #1d4ed8 !important;
-  font-size: 10.5px !important;
-  font-weight: 900 !important;
-  border-radius: 50% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  border: 1px solid #bfdbfe !important;
-}
-.step-title {
-  font-size: 14.5px !important;
+  border-radius: 12px !important;
+  font-size: 16px !important;
   font-weight: 800 !important;
-  color: #0f172a !important;
-  margin-bottom: 4px !important;
-}
-.step-desc {
-  font-size: 11.5px !important;
-  color: #475569 !important;
-  line-height: 1.5 !important;
-  margin: 0 !important;
-  word-break: keep-all !important;
+  cursor: pointer !important;
+  margin-top: 10px !important;
 }
 
-/* 7. 약속 & FAQ & 푸터 (100% 폭 일치 & 밑에도 좁히기) */
-.promise {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 14px 0 !important;
-  box-sizing: border-box !important;
-}
-.faq-accordion-section {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 12px 0 14px !important;
-  padding: 14px 16px !important;
-  box-sizing: border-box !important;
-}
-.footer, footer {
-  width: 100% !important;
-  max-width: 100% !important;
-  padding-top: 18px !important;
-  padding-bottom: 22px !important;
-  box-sizing: border-box !important;
-}
-
-/* 모바일 반응형 */
+/* === 9. RESPONSIVE FOR MOBILE === */
 @media (max-width: 768px) {
-  .wrap {
-    padding: 0 12px 20px !important;
+  .hero-safe-lock-banner.slim-trust-bar {
+    padding: 10px 14px !important;
   }
-  .lock-grid-2 {
+  .trust-dual-pills {
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+  }
+  .trust-text {
+    white-space: normal !important;
+    font-size: 11.5px !important;
+  }
+  .quick-tools.premium-quick-tools {
     grid-template-columns: 1fr !important;
     gap: 10px !important;
   }
-  .steps-grid-4 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
+  .quick-tool-card {
+    min-height: 80px !important;
+    padding: 14px 16px !important;
+    gap: 12px !important;
   }
-  .guarantee-cards-grid {
+  .tool-icon-wrapper {
+    width: 44px !important;
+    height: 44px !important;
+  }
+  .tool-icon-large {
+    font-size: 24px !important;
+  }
+  .tool-title-large {
+    font-size: 15.5px !important;
+  }
+  .tool-desc-large {
+    font-size: 12px !important;
+  }
+  .tool-arrow-btn {
+    display: none !important;
+  }
+  .fee-input-grid,
+  .guarantee-grid-3 {
     grid-template-columns: 1fr !important;
-    gap: 10px !important;
-  }
-  .compare {
-    grid-template-columns: 1fr !important;
-    gap: 8px !important;
-  }
-  .broker-partner-card {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    padding: 18px 16px !important;
-  }
-  .partner-open-btn {
-    width: 100% !important;
-    text-align: center !important;
   }
   .trans-input-row {
     flex-direction: column !important;
   }
   .trans-input-row button {
+    width: 100% !important;
+  }
+  .broker-partner-card {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    text-align: left !important;
+  }
+  .partner-open-btn {
     width: 100% !important;
   }
 }
@@ -1975,29 +2007,26 @@ button, input {
   </section>
 
 <!-- =========================================
-     [메인 최상단] 상가·점포 0% & 5배 배상 특허 3중 잠금 플래그십 배너
+     [메인 최상단] 특허 3중 안심 거래 보장 슬림 바 (0% 면제 & 5배 배상 약관)
 ========================================= -->
-<div class="hero-safe-lock-banner">
-  <div class="lock-header-row">
-    <span class="lock-main-badge">🛡️ 상업용 부동산 대한민국 1호 특허 3중 안심 잠금</span>
-    <span class="lock-sub-note">국토교통부 실거래가 자동 대조 · 1:1 비공개 안심거래방 운영</span>
-  </div>
-  <div class="lock-grid-2">
-    <!-- 임차인 0% -->
-    <div class="lock-col-card lock-buyer-card">
-      <span class="lock-card-tag">상가 임차인 100% 안심</span>
-      <h3 class="lock-card-title">직거래 유도 제보 시 <span class="highlight-zero">수수료 0원 (0%)</span></h3>
-      <p class="lock-card-desc">
-        중개사가 수수료 할인 등을 이유로 플랫폼 외 직거래를 유도할 경우, <b>통화녹음 제보 시 고객 이용료 100% 전액 0원(무료)</b>으로 면제됩니다.
-      </p>
+<div class="hero-safe-lock-banner slim-trust-bar">
+  <div class="trust-bar-top">
+    <div class="trust-title-group">
+      <span class="trust-shield-icon">🛡️</span>
+      <span class="trust-main-title">상업용 부동산 대한민국 1호 특허 3중 안심 잠금 시스템</span>
+      <span class="trust-pill">국토교통부 실거래가 자동 대조 연동</span>
     </div>
-    <!-- 공인중개사 5배 -->
-    <div class="lock-col-card lock-broker-card">
-      <span class="lock-card-tag">공인중개사 뒷거래 방지</span>
-      <h3 class="lock-card-title">플랫폼 우회 적발 시 <span class="highlight-five">5배 위약벌 배상</span></h3>
-      <p class="lock-card-desc">
-        국토부 실거래가 자동 대조 시스템 추적! 개별 계약 유도 적발 시 <b>약관에 따라 법정 중개보수 5배 위약벌 손해배상 청구 및 영구 제명</b>됩니다.
-      </p>
+  </div>
+  <div class="trust-dual-pills">
+    <!-- 상가 임차인 0원 보상 -->
+    <div class="trust-item trust-item-buyer">
+      <span class="trust-badge-buyer">임차인 0원 혜택</span>
+      <span class="trust-text">직거래 유도 제보 시 <strong>플랫폼 중개 매칭 수수료 0원 (0%)</strong></span>
+    </div>
+    <!-- 공인중개사 5배 위약벌 -->
+    <div class="trust-item trust-item-broker">
+      <span class="trust-badge-broker">약관 5배 위약벌</span>
+      <span class="trust-text">국토부 대조 플랫폼 우회 시 <strong>약관 기준 5배 위약벌 청구</strong></span>
     </div>
   </div>
 </div>
@@ -2020,34 +2049,38 @@ button, input {
     </a>
   </div>
 
-  <!-- 3-1. 핵심 바로가기 2종: 상권분석 지도 & 전기·수도·가스 입주연결·해지정산 -->
-  <div class="quick-tools">
-    <!-- 버튼 1: 상권분석 지도 말풍선 (선명한 로열 블루 테마) -->
-    <div class="quick-tool-btn map-tool" onclick="location.href='tools-center.html?tab=map'">
-      <div class="quick-tool-ico">🗺️</div>
-      <div class="quick-tool-text">
-        <strong>
-          <span>소상공인진흥공단 DB 상권분석 지도 말풍선</span>
-          <span class="quick-tool-badge blue">실시간 300m</span>
-        </strong>
-        <span>시·구·동 선택 · 반경 300m 전 업종 유동인구 · 경쟁점포 · 매출추이 팩트</span>
-      </div>
+  
+<!-- 3-1. 핵심 바로가기 2종: 상권분석 지도 & 전기·수도·가스 입주연결·해지정산 (높이 확장형 프리미엄) -->
+<div class="quick-tools premium-quick-tools">
+  <a href="tools-center.html?tab=map" class="quick-tool-card map-tool-card">
+    <div class="tool-icon-wrapper map-icon-wrapper">
+      <span class="tool-icon-large">🗺️</span>
     </div>
-
-    <!-- 버튼 2: 전기·수도·가스 입주연결·해지정산 매칭기 (에메랄드 그린 테마) -->
-    <div class="quick-tool-btn meter-tool" onclick="location.href='tools-center.html?tab=utility'">
-      <div class="quick-tool-ico">⚡</div>
-      <div class="quick-tool-text">
-        <strong>
-          <span>전기·수도·가스 입주연결·해지정산</span>
-          <span class="quick-tool-badge green">원스톱 매칭</span>
-        </strong>
-        <span>계량기 숫자 입력 시 당일 요금 자동 정산 & 공급업체 즉시 연결</span>
+    <div class="tool-content-box">
+      <div class="tool-header-row">
+        <span class="tool-title-large">소상공인진흥공단 DB 상권분석 지도</span>
+        <span class="tool-tag-pill map-tag">정부DB 실시간</span>
       </div>
+      <p class="tool-desc-large">시·구·동 선택 · 반경 300m 전 업종 유동인구 · 경쟁점포 · 매출추이 팩트</p>
     </div>
-  </div>
+    <div class="tool-arrow-btn">지도 보기 ›</div>
+  </a>
 
-  <!-- [3대 법적 안심 보증 팩트 배지] -->
+  <a href="tools-center.html?tab=utility" class="quick-tool-card meter-tool-card">
+    <div class="tool-icon-wrapper meter-icon-wrapper">
+      <span class="tool-icon-large">⚡</span>
+    </div>
+    <div class="tool-content-box">
+      <div class="tool-header-row">
+        <span class="tool-title-large">전기·수도·가스 입주연결·해지정산</span>
+        <span class="tool-tag-pill meter-tag">원터치 자동정산</span>
+      </div>
+      <p class="tool-desc-large">계량기 숫자 입력 시 당일 요금 자동 정산 & 공과금 공급업체 즉시 연결</p>
+    </div>
+    <div class="tool-arrow-btn">정산기 열기 ›</div>
+  </a>
+</div>
+<!-- [3대 법적 안심 보증 팩트 배지] -->
   <section style="width:100%; margin: 14px 0 0; background:#ffffff; border:1px solid #dce5ed; border-radius:14px; padding:14px 16px; box-shadow:0 3px 12px rgba(15,23,42,0.03);">
     <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #edf2f7;">
       <span style="font-size:16px;">🛡️</span>
