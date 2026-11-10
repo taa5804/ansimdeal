@@ -1284,583 +1284,521 @@ button, input {
 
 
 
+
 <style id="master-safe-balanced-css">
 /* =========================================
-   1. 메인 최상단 0% & 5배 배상 특허 3중 잠금 플래그십 배너
+   [오와 열 통일] 전 구간 100% 동일 폭 & 균형 정렬
 ========================================= */
+.wrap {
+  width: 100% !important;
+  max-width: 1180px !important;
+  margin: 0 auto !important;
+  padding: 0 20px 30px !important;
+  box-sizing: border-box !important;
+}
+
+/* 1. 메인 최상단 0% & 5배 배상 특허 3중 잠금 플래그십 배너 */
 .hero-safe-lock-banner {
-  width: 100%;
-  max-width: 1060px;
-  margin: 14px auto 18px;
-  background: linear-gradient(135deg, #091e42 0%, #0f2b5c 50%, #172554 100%);
-  border: 2px solid #38bdf8;
-  border-radius: 18px;
-  padding: 22px 20px;
-  box-shadow: 0 10px 28px rgba(9, 30, 66, 0.22);
-  color: #ffffff;
-  box-sizing: border-box;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 12px 0 14px !important;
+  background: linear-gradient(135deg, #091e42 0%, #0f2b5c 50%, #172554 100%) !important;
+  border: 2px solid #38bdf8 !important;
+  border-radius: 18px !important;
+  padding: 20px 22px !important;
+  box-shadow: 0 8px 24px rgba(9, 30, 66, 0.18) !important;
+  color: #ffffff !important;
+  box-sizing: border-box !important;
 }
 .lock-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  flex-wrap: wrap;
-  gap: 8px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 14px !important;
+  padding-bottom: 10px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
 }
 .lock-main-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(56, 189, 248, 0.22);
-  border: 1px solid #38bdf8;
-  color: #7dd3fc;
-  font-size: 13px;
-  font-weight: 800;
-  padding: 5px 14px;
-  border-radius: 999px;
-  letter-spacing: -0.3px;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background: rgba(56, 189, 248, 0.22) !important;
+  border: 1px solid #38bdf8 !important;
+  color: #7dd3fc !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  padding: 5px 14px !important;
+  border-radius: 999px !important;
+  letter-spacing: -0.3px !important;
 }
 .lock-sub-note {
-  font-size: 12.5px;
-  color: #cbd5e1;
-  font-weight: 600;
+  font-size: 12.5px !important;
+  color: #cbd5e1 !important;
+  font-weight: 600 !important;
 }
 .lock-grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+  align-items: stretch !important;
 }
-.lock-card {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 14px;
-  padding: 16px 18px;
-  display: flex;
-  flex-direction: column;
+.lock-col-card {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: 14px !important;
+  padding: 16px 18px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  box-sizing: border-box !important;
+  height: 100% !important;
 }
-.lock-card-tag {
-  display: inline-block;
-  align-self: flex-start;
-  font-size: 11.5px;
-  font-weight: 800;
-  padding: 3px 10px;
-  border-radius: 6px;
-  margin-bottom: 8px;
+.lock-col-card .lock-card-tag {
+  display: inline-block !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  padding: 3px 10px !important;
+  border-radius: 6px !important;
+  margin-bottom: 8px !important;
+  text-align: left !important;
 }
-.lock-card.buyer .lock-card-tag {
-  background: #059669;
-  color: #ffffff;
+.lock-col-card.lock-buyer-card .lock-card-tag {
+  background: #059669 !important;
+  color: #ffffff !important;
 }
-.lock-card.broker .lock-card-tag {
-  background: #dc2626;
-  color: #ffffff;
+.lock-col-card.lock-broker-card .lock-card-tag {
+  background: #dc2626 !important;
+  color: #ffffff !important;
 }
-.lock-card-title {
-  font-size: 18px;
-  font-weight: 900;
-  color: #ffffff;
-  margin: 0 0 8px;
-  letter-spacing: -0.4px;
-  line-height: 1.4;
+.lock-col-card .lock-card-title {
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  margin: 0 0 8px 0 !important;
+  letter-spacing: -0.4px !important;
+  line-height: 1.4 !important;
+  text-align: left !important;
+  width: 100% !important;
 }
 .highlight-zero {
-  color: #34d399;
-  font-size: 21px;
-  font-weight: 950;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  color: #34d399 !important;
+  font-size: 21px !important;
+  font-weight: 950 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 4px !important;
 }
 .highlight-five {
-  color: #f87171;
-  font-size: 21px;
-  font-weight: 950;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  color: #f87171 !important;
+  font-size: 21px !important;
+  font-weight: 950 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 4px !important;
 }
-.lock-card-desc {
-  font-size: 12.5px;
-  color: #e2e8f0;
-  line-height: 1.6;
-  margin: 0;
-  word-break: keep-all;
+.lock-col-card .lock-card-desc {
+  font-size: 12.5px !important;
+  color: #e2e8f0 !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+  word-break: keep-all !important;
+  text-align: left !important;
 }
 
-/* =========================================
-   2. 3대 안심 보증 카드
-========================================= */
+/* 2. 매칭 수수료 계산기 (100% 정렬) */
+.fee-widget {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 14px 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+.fee-head {
+  margin-top: 10px !important;
+  padding: 22px 24px !important;
+  background: #ffffff !important;
+  border: 1px solid #dce6ee !important;
+  border-radius: 18px !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04) !important;
+  box-sizing: border-box !important;
+}
+.fee-head h2 {
+  margin: 0 !important;
+  font-size: 24px !important;
+  color: #173f67 !important;
+  letter-spacing: -0.6px !important;
+}
+.fee-head p {
+  margin: 8px 0 0 !important;
+  color: #64748b !important;
+  font-size: 13.5px !important;
+  line-height: 1.55 !important;
+}
+.calculator {
+  margin-top: 10px !important;
+  padding: 22px 24px !important;
+  background: #ffffff !important;
+  border: 1px solid #dce6ee !important;
+  border-radius: 18px !important;
+  box-sizing: border-box !important;
+}
+.result {
+  margin-top: 10px !important;
+  box-sizing: border-box !important;
+}
+.compare {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+/* 3. 3대 안심 보증 카드 (100% 정렬) */
 .safe-guarantees-section {
-  width: 100%;
-  max-width: 1060px;
-  margin: 32px auto 20px;
-  padding: 0 16px;
-  box-sizing: border-box;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 16px 0 14px !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
 }
 .guarantee-header {
-  text-align: center;
-  margin-bottom: 22px;
+  text-align: center !important;
+  margin-bottom: 14px !important;
 }
 .guarantee-badge {
-  display: inline-block;
-  background: #eff6ff;
-  color: #1d4ed8;
-  border: 1px solid #bfdbfe;
-  font-size: 13px;
-  font-weight: 800;
-  padding: 6px 18px;
-  border-radius: 999px;
-  margin-bottom: 12px;
-  letter-spacing: -0.3px;
+  display: inline-block !important;
+  background: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border: 1px solid #bfdbfe !important;
+  font-size: 12.5px !important;
+  font-weight: 800 !important;
+  padding: 4px 14px !important;
+  border-radius: 999px !important;
+  margin-bottom: 8px !important;
 }
 .guarantee-main-title {
-  font-size: 26px;
-  font-weight: 900;
-  color: #0f172a;
-  margin: 0 0 8px;
-  letter-spacing: -0.6px;
+  font-size: 23px !important;
+  font-weight: 900 !important;
+  color: #0f172a !important;
+  margin: 0 0 6px !important;
+  letter-spacing: -0.5px !important;
 }
 .guarantee-sub-title {
-  font-size: 15px;
-  color: #475569;
-  margin: 0;
-  letter-spacing: -0.3px;
+  font-size: 14px !important;
+  color: #475569 !important;
+  margin: 0 !important;
 }
 .guarantee-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  margin-top: 18px;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+  margin-top: 12px !important;
 }
 .guarantee-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 18px;
-  padding: 26px 20px;
-  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.guarantee-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.09);
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 18px !important;
+  padding: 22px 18px !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
 }
 .guarantee-icon {
-  font-size: 34px;
-  margin-bottom: 10px;
+  font-size: 32px !important;
+  margin-bottom: 8px !important;
 }
 .guarantee-step-tag {
-  font-size: 11px;
-  font-weight: 800;
-  color: #1e40af;
-  background: #dbeafe;
-  padding: 3px 12px;
-  border-radius: 999px;
-  margin-bottom: 12px;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  color: #1e40af !important;
+  background: #dbeafe !important;
+  padding: 3px 12px !important;
+  border-radius: 999px !important;
+  margin-bottom: 10px !important;
 }
 .guarantee-card-title {
-  font-size: 17px;
-  font-weight: 800;
-  color: #0f172a;
-  line-height: 1.45;
-  margin: 0 0 10px;
-  letter-spacing: -0.4px;
+  font-size: 16.5px !important;
+  font-weight: 800 !important;
+  color: #0f172a !important;
+  line-height: 1.45 !important;
+  margin: 0 0 8px !important;
 }
 .guarantee-card-desc {
-  font-size: 13px;
-  color: #475569;
-  line-height: 1.6;
-  margin: 0;
-  word-break: keep-all;
-}
-.highlight-blue {
-  color: #1d4ed8;
-}
-.highlight-green {
-  color: #059669;
+  font-size: 12.5px !important;
+  color: #475569 !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+  word-break: keep-all !important;
 }
 
-/* =========================================
-   3. 1:1 안심 거래 진행 단일 창구
-========================================= */
+/* 4. 1:1 안심 거래 진행방 입장 (100% 정렬) */
 .single-transaction-section {
-  width: 100%;
-  max-width: 680px;
-  margin: 26px auto 32px;
-  padding: 0 16px;
-  box-sizing: border-box;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 14px 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
 }
 .single-transaction-card {
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  border: 2px solid #2563eb;
-  border-radius: 22px;
-  padding: 34px 28px;
-  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.12);
-  text-align: center;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
+  border: 2px solid #2563eb !important;
+  border-radius: 18px !important;
+  padding: 26px 24px !important;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.10) !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
 }
 .trans-card-badge {
-  display: inline-block;
-  background: #2563eb;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 800;
-  padding: 4px 14px;
-  border-radius: 999px;
-  margin-bottom: 12px;
-  letter-spacing: -0.2px;
+  display: inline-block !important;
+  background: #2563eb !important;
+  color: #ffffff !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  padding: 3px 12px !important;
+  border-radius: 999px !important;
+  margin-bottom: 8px !important;
 }
 .trans-card-title {
-  font-size: 24px;
-  font-weight: 900;
-  color: #0f172a;
-  margin: 0 0 8px;
-  letter-spacing: -0.5px;
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  color: #0f172a !important;
+  margin: 0 0 6px !important;
 }
 .trans-card-desc {
-  font-size: 14.5px;
-  color: #334155;
-  margin: 0 0 22px;
-  letter-spacing: -0.3px;
+  font-size: 14px !important;
+  color: #334155 !important;
+  margin: 0 0 16px !important;
 }
 .trans-input-row {
-  display: flex;
-  gap: 10px;
-  max-width: 480px;
-  margin: 0 auto 16px;
+  display: flex !important;
+  gap: 10px !important;
+  max-width: 480px !important;
+  margin: 0 auto 12px !important;
 }
 .trans-input-row input {
-  flex: 1;
-  height: 52px;
-  border: 2px solid #cbd5e1;
-  border-radius: 12px;
-  padding: 0 18px;
-  font-size: 17px;
-  font-weight: 700;
-  color: #0f172a;
-  text-align: center;
-  letter-spacing: 2px;
-  outline: none;
-  transition: border-color 0.2s;
-  box-sizing: border-box;
-}
-.trans-input-row input:focus {
-  border-color: #2563eb;
+  flex: 1 !important;
+  height: 50px !important;
+  border: 2px solid #cbd5e1 !important;
+  border-radius: 12px !important;
+  padding: 0 16px !important;
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  text-align: center !important;
+  letter-spacing: 2px !important;
+  outline: none !important;
+  box-sizing: border-box !important;
 }
 .trans-input-row button {
-  height: 52px;
-  padding: 0 28px;
-  background: #2563eb;
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 800;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
-  white-space: nowrap;
-}
-.trans-input-row button:hover {
-  background: #1d4ed8;
-}
-.trans-input-row button:active {
-  transform: scale(0.98);
-}
-.trans-help-text {
-  font-size: 12.5px;
-  color: #64748b;
-  line-height: 1.6;
-  margin: 0;
-  word-break: keep-all;
+  height: 50px !important;
+  padding: 0 26px !important;
+  background: #2563eb !important;
+  color: #ffffff !important;
+  font-size: 15.5px !important;
+  font-weight: 800 !important;
+  border: none !important;
+  border-radius: 12px !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
 }
 
-/* =========================================
-   4. 공인중개사 우선배정 파트너 간편등록 배너 & 모달
-========================================= */
+/* 5. 공인중개사 우선배정 파트너 간편등록 배너 (100% 정렬) */
 .broker-partner-banner-section {
-  width: 100%;
-  max-width: 1060px;
-  margin: 24px auto 30px;
-  padding: 0 16px;
-  box-sizing: border-box;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 14px 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
 }
 .broker-partner-card {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  border: 1px solid #334155;
-  border-radius: 18px;
-  padding: 22px 26px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
-  flex-wrap: wrap;
+  width: 100% !important;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+  border: 1px solid #334155 !important;
+  border-radius: 18px !important;
+  padding: 20px 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08) !important;
+  flex-wrap: wrap !important;
+  box-sizing: border-box !important;
 }
 .broker-partner-left {
-  flex: 1;
-  min-width: 260px;
+  flex: 1 !important;
+  min-width: 260px !important;
+  text-align: left !important;
 }
 .partner-tag {
-  display: inline-block;
-  background: #f59e0b;
-  color: #000;
-  font-size: 11.5px;
-  font-weight: 900;
-  padding: 3px 10px;
-  border-radius: 6px;
-  margin-bottom: 8px;
+  display: inline-block !important;
+  background: #f59e0b !important;
+  color: #000000 !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  padding: 3px 9px !important;
+  border-radius: 6px !important;
+  margin-bottom: 6px !important;
 }
 .partner-title {
-  font-size: 19px;
-  font-weight: 900;
-  color: #ffffff;
-  margin: 0 0 6px;
-  letter-spacing: -0.4px;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  margin: 0 0 5px !important;
 }
 .partner-title .highlight {
-  color: #38bdf8;
+  color: #38bdf8 !important;
 }
 .partner-desc {
-  font-size: 13px;
-  color: #94a3b8;
-  margin: 0;
-  line-height: 1.5;
-  word-break: keep-all;
+  font-size: 12.5px !important;
+  color: #94a3b8 !important;
+  margin: 0 !important;
+  line-height: 1.5 !important;
 }
 .partner-open-btn {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 800;
-  border: none;
-  border-radius: 12px;
-  padding: 14px 24px;
-  cursor: pointer;
-  white-space: nowrap;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-  transition: transform 0.15s, background 0.2s;
-}
-.partner-open-btn:hover {
-  transform: translateY(-2px);
-  background: #1e40af;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  color: #ffffff !important;
+  font-size: 14.5px !important;
+  font-weight: 800 !important;
+  border: none !important;
+  border-radius: 11px !important;
+  padding: 13px 22px !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3) !important;
 }
 
-/* 파트너 모달 */
-.partner-modal-backdrop {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(4px);
-  z-index: 99999;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  box-sizing: border-box;
-}
-.partner-modal-box {
-  background: #ffffff;
-  border-radius: 20px;
-  max-width: 440px;
-  width: 100%;
-  padding: 28px 24px;
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
-  position: relative;
-  box-sizing: border-box;
-}
-.partner-modal-close {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  background: transparent;
-  border: none;
-  font-size: 22px;
-  color: #64748b;
-  cursor: pointer;
-}
-.partner-modal-title {
-  font-size: 20px;
-  font-weight: 900;
-  color: #0f172a;
-  margin: 0 0 6px;
-  letter-spacing: -0.5px;
-}
-.partner-modal-subtitle {
-  font-size: 13px;
-  color: #64748b;
-  margin: 0 0 20px;
-  line-height: 1.5;
-}
-.partner-input-group {
-  margin-bottom: 14px;
-}
-.partner-input-group label {
-  display: block;
-  font-size: 13px;
-  font-weight: 800;
-  color: #334155;
-  margin-bottom: 6px;
-}
-.partner-input-group input {
-  width: 100%;
-  height: 48px;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 10px;
-  padding: 0 14px;
-  font-size: 15px;
-  font-weight: 700;
-  color: #0f172a;
-  box-sizing: border-box;
-  outline: none;
-}
-.partner-input-group input:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-}
-.partner-submit-btn {
-  width: 100%;
-  height: 50px;
-  background: #2563eb;
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 900;
-  border: none;
-  border-radius: 11px;
-  cursor: pointer;
-  margin-top: 8px;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
-}
-.partner-submit-btn:hover {
-  background: #1d4ed8;
-}
-
-/* =========================================
-   5. 4단계 안심 진행 절차
-========================================= */
+/* 6. 4단계 안심 진행 절차 (100% 정렬 & 밑에도 좁히기) */
 .new-process-section {
-  width: 100%;
-  max-width: 1060px;
-  margin: 36px auto;
-  padding: 0 16px;
-  box-sizing: border-box;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 14px 0 12px !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
 }
 .process-header {
-  text-align: center;
-  margin-bottom: 26px;
+  text-align: center !important;
+  margin-bottom: 14px !important;
 }
 .process-header .title {
-  font-size: 22px;
-  font-weight: 900;
-  color: #0f172a;
-  margin: 0 0 6px;
-  letter-spacing: -0.5px;
+  font-size: 21px !important;
+  font-weight: 900 !important;
+  color: #0f172a !important;
+  margin: 0 0 4px !important;
+  letter-spacing: -0.4px !important;
 }
 .process-header .subtitle {
-  font-size: 14px;
-  color: #64748b;
-  margin: 0;
+  font-size: 13px !important;
+  color: #64748b !important;
+  margin: 0 !important;
 }
 .steps-grid-4 {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 14px !important;
 }
 .step-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 24px 16px;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 16px !important;
+  padding: 18px 14px !important;
+  text-align: center !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
 }
 .step-icon-wrap {
-  font-size: 30px;
-  margin-bottom: 10px;
+  font-size: 28px !important;
+  margin-bottom: 8px !important;
 }
 .step-num-badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  width: 22px;
-  height: 22px;
-  background: #eff6ff;
-  color: #1d4ed8;
-  font-size: 11px;
-  font-weight: 900;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #bfdbfe;
+  position: absolute !important;
+  top: 10px !important;
+  left: 10px !important;
+  width: 20px !important;
+  height: 20px !important;
+  background: #eff6ff !important;
+  color: #1d4ed8 !important;
+  font-size: 10.5px !important;
+  font-weight: 900 !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid #bfdbfe !important;
 }
 .step-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: #0f172a;
-  margin-bottom: 6px;
-  letter-spacing: -0.3px;
+  font-size: 14.5px !important;
+  font-weight: 800 !important;
+  color: #0f172a !important;
+  margin-bottom: 4px !important;
 }
 .step-desc {
-  font-size: 12px;
-  color: #475569;
-  line-height: 1.55;
-  margin: 0;
-  word-break: keep-all;
+  font-size: 11.5px !important;
+  color: #475569 !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  word-break: keep-all !important;
 }
 
+/* 7. FAQ 아코디언 및 푸터 (밑에도 좁히기) */
+.faq-accordion-section {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 12px 0 14px !important;
+  padding: 14px 16px !important;
+  box-sizing: border-box !important;
+}
+.footer, footer {
+  padding-top: 20px !important;
+  padding-bottom: 24px !important;
+}
+
+/* 모바일 반응형 */
 @media (max-width: 768px) {
+  .wrap {
+    padding: 0 12px 24px !important;
+  }
   .lock-grid-2 {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  .lock-card-title {
-    font-size: 16.5px;
-  }
-  .highlight-zero, .highlight-five {
-    font-size: 18.5px;
-  }
-  .broker-partner-card {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 20px 18px;
-  }
-  .partner-open-btn {
-    width: 100%;
-    text-align: center;
-  }
-  .guarantee-cards-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
   }
   .steps-grid-4 {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
   }
-  .single-transaction-card {
-    padding: 24px 18px;
+  .guarantee-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
   }
-  .trans-card-title {
-    font-size: 20px;
+  .compare {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+  .broker-partner-card {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 18px 16px !important;
+  }
+  .partner-open-btn {
+    width: 100% !important;
+    text-align: center !important;
   }
   .trans-input-row {
-    flex-direction: column;
+    flex-direction: column !important;
   }
   .trans-input-row button {
-    width: 100%;
+    width: 100% !important;
   }
 }
 </style>
+
 
 </head>
 <body>
@@ -1937,6 +1875,9 @@ button, input {
 <!-- =========================================
      [메인 최상단] 상가·점포 0% & 5배 배상 특허 3중 잠금 플래그십 배너
 ========================================= -->
+<!-- =========================================
+     [메인 최상단] 상가·점포 0% & 5배 배상 특허 3중 잠금 플래그십 배너
+========================================= -->
 <div class="hero-safe-lock-banner">
   <div class="lock-header-row">
     <span class="lock-main-badge">🛡️ 상업용 부동산 대한민국 1호 특허 3중 안심 잠금</span>
@@ -1944,7 +1885,7 @@ button, input {
   </div>
   <div class="lock-grid-2">
     <!-- 임차인 0% -->
-    <div class="lock-card buyer">
+    <div class="lock-col-card lock-buyer-card">
       <span class="lock-card-tag">상가 임차인 100% 안심</span>
       <h3 class="lock-card-title">직거래 유도 제보 시 <span class="highlight-zero">수수료 0원 (0%)</span></h3>
       <p class="lock-card-desc">
@@ -1952,7 +1893,7 @@ button, input {
       </p>
     </div>
     <!-- 공인중개사 5배 -->
-    <div class="lock-card broker">
+    <div class="lock-col-card lock-broker-card">
       <span class="lock-card-tag">공인중개사 뒷거래 방지</span>
       <h3 class="lock-card-title">플랫폼 우회 적발 시 <span class="highlight-five">5배 위약벌 배상</span></h3>
       <p class="lock-card-desc">
