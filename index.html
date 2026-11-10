@@ -1281,14 +1281,120 @@ button, input {
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
 
-<style id="new-safe-architecture-style">
+
+
+
+<style id="master-safe-balanced-css">
 /* =========================================
-   우리아파트 / 안심딜 3대 보증 & 1:1 안심거래 균형 배치
+   1. 메인 최상단 0% & 5배 배상 특허 3중 잠금 플래그십 배너
+========================================= */
+.hero-safe-lock-banner {
+  width: 100%;
+  max-width: 1060px;
+  margin: 14px auto 18px;
+  background: linear-gradient(135deg, #091e42 0%, #0f2b5c 50%, #172554 100%);
+  border: 2px solid #38bdf8;
+  border-radius: 18px;
+  padding: 22px 20px;
+  box-shadow: 0 10px 28px rgba(9, 30, 66, 0.22);
+  color: #ffffff;
+  box-sizing: border-box;
+}
+.lock-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.lock-main-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(56, 189, 248, 0.22);
+  border: 1px solid #38bdf8;
+  color: #7dd3fc;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 5px 14px;
+  border-radius: 999px;
+  letter-spacing: -0.3px;
+}
+.lock-sub-note {
+  font-size: 12.5px;
+  color: #cbd5e1;
+  font-weight: 600;
+}
+.lock-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.lock-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+}
+.lock-card-tag {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 11.5px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.lock-card.buyer .lock-card-tag {
+  background: #059669;
+  color: #ffffff;
+}
+.lock-card.broker .lock-card-tag {
+  background: #dc2626;
+  color: #ffffff;
+}
+.lock-card-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 8px;
+  letter-spacing: -0.4px;
+  line-height: 1.4;
+}
+.highlight-zero {
+  color: #34d399;
+  font-size: 21px;
+  font-weight: 950;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.highlight-five {
+  color: #f87171;
+  font-size: 21px;
+  font-weight: 950;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.lock-card-desc {
+  font-size: 12.5px;
+  color: #e2e8f0;
+  line-height: 1.6;
+  margin: 0;
+  word-break: keep-all;
+}
+
+/* =========================================
+   2. 3대 안심 보증 카드
 ========================================= */
 .safe-guarantees-section {
   width: 100%;
   max-width: 1060px;
-  margin: 28px auto 20px;
+  margin: 32px auto 20px;
   padding: 0 16px;
   box-sizing: border-box;
 }
@@ -1379,11 +1485,13 @@ button, input {
   color: #059669;
 }
 
-/* 1:1 안심 거래 진행 단일 창구 */
+/* =========================================
+   3. 1:1 안심 거래 진행 단일 창구
+========================================= */
 .single-transaction-section {
   width: 100%;
   max-width: 680px;
-  margin: 26px auto 36px;
+  margin: 26px auto 32px;
   padding: 0 16px;
   box-sizing: border-box;
 }
@@ -1470,7 +1578,172 @@ button, input {
   word-break: keep-all;
 }
 
-/* 신규 4단계 진행 순서 */
+/* =========================================
+   4. 공인중개사 우선배정 파트너 간편등록 배너 & 모달
+========================================= */
+.broker-partner-banner-section {
+  width: 100%;
+  max-width: 1060px;
+  margin: 24px auto 30px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+.broker-partner-card {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid #334155;
+  border-radius: 18px;
+  padding: 22px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+  flex-wrap: wrap;
+}
+.broker-partner-left {
+  flex: 1;
+  min-width: 260px;
+}
+.partner-tag {
+  display: inline-block;
+  background: #f59e0b;
+  color: #000;
+  font-size: 11.5px;
+  font-weight: 900;
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.partner-title {
+  font-size: 19px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 6px;
+  letter-spacing: -0.4px;
+}
+.partner-title .highlight {
+  color: #38bdf8;
+}
+.partner-desc {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+.partner-open-btn {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 24px;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  transition: transform 0.15s, background 0.2s;
+}
+.partner-open-btn:hover {
+  transform: translateY(-2px);
+  background: #1e40af;
+}
+
+/* 파트너 모달 */
+.partner-modal-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+.partner-modal-box {
+  background: #ffffff;
+  border-radius: 20px;
+  max-width: 440px;
+  width: 100%;
+  padding: 28px 24px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+  position: relative;
+  box-sizing: border-box;
+}
+.partner-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  color: #64748b;
+  cursor: pointer;
+}
+.partner-modal-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: #0f172a;
+  margin: 0 0 6px;
+  letter-spacing: -0.5px;
+}
+.partner-modal-subtitle {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+.partner-input-group {
+  margin-bottom: 14px;
+}
+.partner-input-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  color: #334155;
+  margin-bottom: 6px;
+}
+.partner-input-group input {
+  width: 100%;
+  height: 48px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  box-sizing: border-box;
+  outline: none;
+}
+.partner-input-group input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+.partner-submit-btn {
+  width: 100%;
+  height: 50px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 900;
+  border: none;
+  border-radius: 11px;
+  cursor: pointer;
+  margin-top: 8px;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+}
+.partner-submit-btn:hover {
+  background: #1d4ed8;
+}
+
+/* =========================================
+   5. 4단계 안심 진행 절차
+========================================= */
 .new-process-section {
   width: 100%;
   max-width: 1060px;
@@ -1547,6 +1820,25 @@ button, input {
 }
 
 @media (max-width: 768px) {
+  .lock-grid-2 {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .lock-card-title {
+    font-size: 16.5px;
+  }
+  .highlight-zero, .highlight-five {
+    font-size: 18.5px;
+  }
+  .broker-partner-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px 18px;
+  }
+  .partner-open-btn {
+    width: 100%;
+    text-align: center;
+  }
   .guarantee-cards-grid {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -1642,6 +1934,35 @@ button, input {
     </div>
   </section>
 
+<!-- =========================================
+     [메인 최상단] 상가·점포 0% & 5배 배상 특허 3중 잠금 플래그십 배너
+========================================= -->
+<div class="hero-safe-lock-banner">
+  <div class="lock-header-row">
+    <span class="lock-main-badge">🛡️ 상업용 부동산 대한민국 1호 특허 3중 안심 잠금</span>
+    <span class="lock-sub-note">국토교통부 실거래가 자동 대조 · 1:1 비공개 안심거래방 운영</span>
+  </div>
+  <div class="lock-grid-2">
+    <!-- 임차인 0% -->
+    <div class="lock-card buyer">
+      <span class="lock-card-tag">상가 임차인 100% 안심</span>
+      <h3 class="lock-card-title">직거래 유도 제보 시 <span class="highlight-zero">수수료 0원 (0%)</span></h3>
+      <p class="lock-card-desc">
+        중개사가 수수료 할인 등을 이유로 플랫폼 외 직거래를 유도할 경우, <b>통화녹음 제보 시 고객 이용료 100% 전액 0원(무료)</b>으로 면제됩니다.
+      </p>
+    </div>
+    <!-- 공인중개사 5배 -->
+    <div class="lock-card broker">
+      <span class="lock-card-tag">공인중개사 뒷거래 방지</span>
+      <h3 class="lock-card-title">플랫폼 우회 적발 시 <span class="highlight-five">5배 위약벌 배상</span></h3>
+      <p class="lock-card-desc">
+        국토부 실거래가 자동 대조 시스템 추적! 개별 계약 유도 적발 시 <b>약관에 따라 법정 중개보수 5배 위약벌 손해배상 청구 및 영구 제명</b>됩니다.
+      </p>
+    </div>
+  </div>
+</div>
+
+
   <!-- 3. 메인 2대 카드 ([전세 임차 등록] / [월세 임차 등록]) -->
   <div class="trade">
     <!-- 카드 1: 전세 임차 등록 -->
@@ -1715,7 +2036,277 @@ button, input {
   </section>
 
   <!-- [컴팩트 Q&A 아코디언] 안심 매칭 꼭 확인하세요! -->
-  <section class="faq-accordion-section" style="width:100%; margin: 12px 0 6px; background:#ffffff; border:1px solid #dce5ed; border-radius:14px; padding:14px 16px; box-shadow:0 3px 12px rgba(15,23,42,0.03);">
+  <div id="requestResultGrid"></div>
+  <button id="requestRegisterBtn" type="button"></button>
+  <button id="requestExitBtn" type="button"></button>
+</div>
+
+
+<!-- 10. 상세 푸터 (.footer) -->
+  
+
+
+
+
+<!-- =========================================
+     [상가·점포 전용] 매칭 수수료 50% 계산기
+========================================= -->
+<section class="fee-widget" id="ansimFeeWidget">
+  <div style="margin-bottom:12px; padding:16px 20px; border-radius:16px; background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color:#fff; text-align:center; box-shadow:0 6px 20px rgba(2,132,199,0.22);">
+    <div style="font-size:17px; font-weight:900; letter-spacing:-0.5px; line-height:1.4;">💡 상가·점포 전월세 임차 매칭 수수료 50%에 계약하세요!</div>
+    <div style="font-size:12px; opacity:0.92; margin-top:5px; font-weight:600;">아래 계산기에서 내가 아낄 수 있는 비용을 직접 확인해 보세요 (추가 중개보수 0원)</div>
+  </div>
+
+  <section class="fee-head">
+    <h2>상가·점포 매칭 수수료 50% 계산기</h2>
+    <p>
+      거래 유형과 금액을 입력하면 법정 상한 요율(0.9%) 기준 금액과 안심딜 50% 매칭 수수료를 한눈에 비교 확인할 수 있습니다.
+    </p>
+  </section>
+
+  <!-- 거래유형 -->
+  <div class="type-tabs" style="grid-template-columns: 1fr 1fr;">
+    <button type="button" class="type-btn active" id="ansimTabJeonse">상가 전세</button>
+    <button type="button" class="type-btn" id="ansimTabMonthly">상가 월세</button>
+  </div>
+
+  <!-- 계산기 -->
+  <section class="calculator">
+    <!-- 상가 전세 -->
+    <div id="ansimJeonseFields" class="field-area">
+      <div class="input-group">
+        <label for="ansimJeonsePrice">전세보증금</label>
+        <div class="money-box">
+          <input id="ansimJeonsePrice" type="text" inputmode="numeric" placeholder="예: 100,000,000">
+          <span class="unit">원</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 상가 월세 -->
+    <div id="ansimMonthlyFields" class="field-area hidden">
+      <div class="input-group">
+        <label for="ansimMonthlyDeposit">보증금</label>
+        <div class="money-box">
+          <input id="ansimMonthlyDeposit" type="text" inputmode="numeric" placeholder="예: 30,000,000">
+          <span class="unit">원</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label for="ansimMonthlyRent">월세</label>
+        <div class="money-box">
+          <input id="ansimMonthlyRent" type="text" inputmode="numeric" placeholder="예: 1,500,000">
+          <span class="unit">원</span>
+        </div>
+      </div>
+    </div>
+
+    <button id="ansimCalcBtn" class="calc-btn" type="button">매칭 수수료 확인</button>
+  </section>
+
+  <!-- 결과 -->
+  <section id="ansimResult" class="result">
+    <h2 class="result-title">상가 임차 예상 비용 비교</h2>
+    <div class="compare">
+      <div class="compare-card">
+        <div class="compare-label">일반 상가 공인중개사<br>법정 중개수수료 (0.9%)</div>
+        <div id="ansimNormalPrice" class="price">0원</div>
+        <div class="vat">부가세 포함</div>
+      </div>
+      <div class="compare-card platform">
+        <div class="compare-label">안심딜 임차인<br>매칭 수수료 (50% 반값)</div>
+        <div id="ansimPlatformPrice" class="price">0원</div>
+        <div class="vat">부가세 포함</div>
+      </div>
+    </div>
+
+    <div class="detail">
+      <strong>상가 임차인은 별도의 중개보수를 일체 지급하지 않습니다.<br>표시된 50% 매칭 수수료만 지급합니다.</strong>
+      <div style="margin-top:7px; color:#059669; font-weight:800; font-size:12px;">
+        ※ 중개사의 직거래 유도 제보 시 고객 이용료 100% 전액 0원(0%)으로 면제됩니다.
+      </div>
+    </div>
+  </section>
+</section>
+
+
+<!-- =========================================
+     안심딜 3대 안심 보증 (0% & 5배 배상 전면 노출)
+========================================= -->
+<section class="safe-guarantees-section">
+  <div class="guarantee-header">
+    <span class="guarantee-badge">국토교통부 실거래가 연동 상업용 부동산 안심거래 플랫폼</span>
+    <h2 class="guarantee-main-title">안심딜 3대 안심 보증</h2>
+    <p class="guarantee-sub-title">공인중개사와 임차인이 모두 안심하는 투명하고 안전한 상가 거래</p>
+  </div>
+  <div class="guarantee-cards-grid">
+    <div class="guarantee-card">
+      <div class="guarantee-icon">🛡️</div>
+      <span class="guarantee-step-tag">보증 01</span>
+      <h3 class="guarantee-card-title">공인중개사 법정 중개보수<br><span class="highlight-blue">100% 전액 보장</span></h3>
+      <p class="guarantee-card-desc">수수료 할인 강요 없는 정당한 법정 중개보수 전액을 플랫폼이 확실하게 보장합니다.</p>
+    </div>
+    <div class="guarantee-card">
+      <div class="guarantee-icon">🏛️</div>
+      <span class="guarantee-step-tag">보증 02</span>
+      <h3 class="guarantee-card-title">국토교통부 실거래가<br><span class="highlight-blue">자동 대조 전산 연동</span></h3>
+      <p class="guarantee-card-desc">체결된 모든 거래는 국토교통부 실거래가 공개 전산망과 자동 연동되어 투명하게 검증됩니다.</p>
+    </div>
+    <div class="guarantee-card">
+      <div class="guarantee-icon">🎁</div>
+      <span class="guarantee-step-tag">보증 03</span>
+      <h3 class="guarantee-card-title">우회 직거래 방지 안심 보상제<br><span class="highlight-green">수수료 0% & 5배 배상</span></h3>
+      <p class="guarantee-card-desc">중개사의 직거래 유도 제보 시 고객 수수료 100% 전액 0원 면제 (적발 중개사 법정 보수 5배 위약벌 청구 및 영구제명)</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================================
+     1:1 안심 거래 진행방 입장 (단일 메인 창구)
+========================================= -->
+<section class="single-transaction-section">
+  <div class="single-transaction-card">
+    <div class="trans-card-badge">1:1 비공개 안심 거래방</div>
+    <h2 class="trans-card-title">안심 거래 진행방 입장</h2>
+    <p class="trans-card-desc">문자로 발송된 부동산별 <b>전용 4자리 거래방 코드</b>를 입력하세요.</p>
+    
+    <div class="trans-input-row">
+      <input
+        id="transactionCode"
+        type="text"
+        inputmode="numeric"
+        autocomplete="off"
+        maxlength="4"
+        placeholder="4자리 거래방 코드 (예: 2108)"
+        aria-label="4자리 거래방 코드"
+      >
+      <button id="transactionBtn" type="button">
+        거래방 입장
+      </button>
+    </div>
+    
+    <p class="trans-help-text">
+      담당 공인중개사와 상가 임차 고객 간 1:1 안심 거래 진행방으로 즉시 연결됩니다.<br>
+      (합의된 조건 확인 및 국토부 실거래가 대조 안심 계약이 진행됩니다)
+    </p>
+  </div>
+</section>
+
+<!-- 레거시 호환용 히든 더미 엘리먼트 (스크립트 오류 방지) -->
+<div style="display:none !important;" aria-hidden="true">
+  <input id="accessInput" type="hidden">
+  <button id="accessBtn" type="button"></button>
+  <input id="requestNumberInput" type="hidden">
+  <button id="requestNumberBtn" type="button"></button>
+  <div id="requestResult"></div>
+  <div id="requestResultGrid"></div>
+  <button id="requestRegisterBtn" type="button"></button>
+  <button id="requestExitBtn" type="button"></button>
+</div>
+
+
+<!-- =========================================
+     [공인중개사 전용] 담당 상권 고객 우선배정 간편등록 (10초 등록)
+========================================= -->
+<section class="broker-partner-banner-section">
+  <div class="broker-partner-card">
+    <div class="broker-partner-left">
+      <span class="partner-tag">공인중개사 소장님 전용 혜택</span>
+      <h3 class="partner-title">담당 상권 <span class="highlight">상가·점포 고객 1순위 우선 배정</span></h3>
+      <p class="partner-desc">
+        아이디/비밀번호 가입 없이 10초 등록! 고객 희망조건 접수 시 관할 상가 전문 소장님께 가장 먼저 문자를 발송해 드립니다.
+      </p>
+    </div>
+    <div class="broker-partner-right">
+      <button type="button" class="partner-open-btn" onclick="openPartnerModal()">
+        우선배정 파트너 등록 (10초) ›
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- 파트너 모달 -->
+<div id="partnerModal" class="partner-modal-backdrop" onclick="if(event.target === this) closePartnerModal()">
+  <div class="partner-modal-box">
+    <button type="button" class="partner-modal-close" onclick="closePartnerModal()" aria-label="닫기">×</button>
+    <div class="partner-tag" style="margin-bottom:8px;">10초 간편등록</div>
+    <h3 class="partner-modal-title">상가 전문 공인중개사 우선배정</h3>
+    <p class="partner-modal-subtitle">
+      담당 상권명과 연락처를 남겨주시면, 고객 접수 시 <b>소장님께 1순위로 즉시 문자가 발송</b>됩니다.
+    </p>
+
+    <div class="partner-input-group">
+      <label for="partnerComplexInput">담당 상권명 (또는 동/지역명)</label>
+      <input id="partnerComplexInput" type="text" placeholder="예: 강남역 상권 / 일곡동 상가">
+    </div>
+
+    <div class="partner-input-group">
+      <label for="partnerOfficeInput">부동산 중개사무소 상호</label>
+      <input id="partnerOfficeInput" type="text" placeholder="예: 제일공인중개사사무소">
+    </div>
+
+    <div class="partner-input-group">
+      <label for="partnerPhoneInput">소장님 직통 휴대폰 번호 (010)</label>
+      <input id="partnerPhoneInput" type="tel" inputmode="numeric" maxlength="13" placeholder="010-XXXX-XXXX">
+    </div>
+
+    <button type="button" class="partner-submit-btn" onclick="submitPartnerRegistration()">
+      우선배정 파트너 신청 완료
+    </button>
+  </div>
+</div>
+
+
+<!-- =========================================
+     상업용 실전 4단계 안심 진행 절차
+========================================= -->
+<section class="process new-process-section">
+  <div class="process-header">
+    <h2 class="title">상가·점포 의뢰부터 안전한 계약까지, 이렇게 진행됩니다</h2>
+    <p class="subtitle">복잡한 절차 없이 검증된 전문 공인중개사와 다이렉트로 안전하게 체결됩니다.</p>
+  </div>
+
+  <div class="steps-grid-4">
+    <div class="step-card">
+      <div class="step-icon-wrap">🏢</div>
+      <div class="step-num-badge">1</div>
+      <b class="step-title">희망 상권·조건 등록</b>
+      <p class="step-desc">
+        원하는 지역, 상권, 업종, 예산 조건을 간편하게 등록합니다.
+      </p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-icon-wrap">📞</div>
+      <div class="step-num-badge">2</div>
+      <b class="step-title">상가 전문 중개사 매칭</b>
+      <p class="step-desc">
+        1초 이용동의를 마친 해당 상권 전문 소장님이 010 전화로 매물을 브리핑합니다.
+      </p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-icon-wrap">🔐</div>
+      <div class="step-num-badge">3</div>
+      <b class="step-title">1:1 안심 거래 진행</b>
+      <p class="step-desc">
+        현장 미팅 후 조건이 합의되면 전용 4자리 코드로 거래방에 입장하여 상호 확인합니다.
+      </p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-icon-wrap">🤝</div>
+      <div class="step-num-badge">4</div>
+      <b class="step-title">안전한 계약 체결</b>
+      <p class="step-desc">
+        공인중개사 책임하에 계약을 체결하며, 법정 보수 및 국토부 전산 대조로 종결됩니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="faq-accordion-section" style="width:100%; margin: 12px 0 6px; background:#ffffff; border:1px solid #dce5ed; border-radius:14px; padding:14px 16px; box-shadow:0 3px 12px rgba(15,23,42,0.03);">
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #edf2f7;">
       <div style="display:flex; align-items:center; gap:6px;">
         <span style="font-size:16px;">💡</span>
@@ -1786,135 +2377,6 @@ button, input {
       </details>
     </div>
   </section>
-
-  
-<!-- =========================================
-     상업용 부동산 안심딜 3대 보증 (전면 상단 전면 노출)
-========================================= -->
-<section class="safe-guarantees-section">
-  <div class="guarantee-header">
-    <span class="guarantee-badge">국토교통부 실거래가 연동 상업용 부동산 안심거래 플랫폼</span>
-    <h2 class="guarantee-main-title">안심딜 3대 안심 보증</h2>
-    <p class="guarantee-sub-title">공인중개사와 매수·임차인이 모두 안심하는 투명하고 안전한 상업용 부동산 거래</p>
-  </div>
-  <div class="guarantee-cards-grid">
-    <div class="guarantee-card">
-      <div class="guarantee-icon">🛡️</div>
-      <span class="guarantee-step-tag">보증 01</span>
-      <h3 class="guarantee-card-title">공인중개사 법정 중개보수<br><span class="highlight-blue">100% 전액 보장</span></h3>
-      <p class="guarantee-card-desc">수수료 할인 강요 없는 정당한 법정 중개보수 전액을 플랫폼이 확실하게 보장합니다.</p>
-    </div>
-    <div class="guarantee-card">
-      <div class="guarantee-icon">🏛️</div>
-      <span class="guarantee-step-tag">보증 02</span>
-      <h3 class="guarantee-card-title">국토교통부 실거래가<br><span class="highlight-blue">자동 대조 전산 연동</span></h3>
-      <p class="guarantee-card-desc">체결된 모든 거래는 국토교통부 실거래가 공개 전산망과 자동 연동되어 투명하게 검증됩니다.</p>
-    </div>
-    <div class="guarantee-card">
-      <div class="guarantee-icon">🎁</div>
-      <span class="guarantee-step-tag">보증 03</span>
-      <h3 class="guarantee-card-title">우회 직거래 방지 안심 보상제<br><span class="highlight-green">통화녹음 시 수수료 0원</span></h3>
-      <p class="guarantee-card-desc">중개사의 플랫폼 외 직거래 유도 제보 시 고객 이용료 100% 전액 0원 면제 (적발 중개사 5배 위약벌 청구)</p>
-    </div>
-  </div>
-</section>
-
-<!-- =========================================
-     1:1 안심 거래 진행방 입장 (단일 메인 창구)
-========================================= -->
-<section class="single-transaction-section">
-  <div class="single-transaction-card">
-    <div class="trans-card-badge">1:1 비공개 안심 거래방</div>
-    <h2 class="trans-card-title">안심 거래 진행방 입장</h2>
-    <p class="trans-card-desc">문자로 발송된 부동산별 <b>전용 4자리 거래방 코드</b>를 입력하세요.</p>
-    
-    <div class="trans-input-row">
-      <input
-        id="transactionCode"
-        type="text"
-        inputmode="numeric"
-        autocomplete="off"
-        maxlength="4"
-        placeholder="4자리 거래방 코드 (예: 2108)"
-        aria-label="4자리 거래방 코드"
-      >
-      <button id="transactionBtn" type="button">
-        거래방 입장
-      </button>
-    </div>
-    
-    <p class="trans-help-text">
-      담당 공인중개사와 매수·임차 고객 간 1:1 안심 거래 진행방으로 즉시 연결됩니다.<br>
-      (합의된 조건 확인 및 국토부 실거래가 대조 안심 계약이 진행됩니다)
-    </p>
-  </div>
-</section>
-
-<!-- 레거시 호환용 히든 더미 엘리먼트 (스크립트 오류 방지) -->
-<div style="display:none !important;" aria-hidden="true">
-  <input id="accessInput" type="hidden">
-  <button id="accessBtn" type="button"></button>
-  <input id="requestNumberInput" type="hidden">
-  <button id="requestNumberBtn" type="button"></button>
-  <div id="requestResult"></div>
-  <div id="requestResultGrid"></div>
-  <button id="requestRegisterBtn" type="button"></button>
-  <button id="requestExitBtn" type="button"></button>
-</div>
-
-
-<!-- =========================================
-     상업용 실전 4단계 안심 진행 절차
-========================================= -->
-<section class="process new-process-section">
-  <div class="process-header">
-    <h2 class="title">상가·상업용 의뢰부터 안전한 계약까지, 이렇게 진행됩니다</h2>
-    <p class="subtitle">복잡한 절차 없이 검증된 전문 공인중개사와 다이렉트로 안전하게 체결됩니다.</p>
-  </div>
-
-  <div class="steps-grid-4">
-    <div class="step-card">
-      <div class="step-icon-wrap">🏢</div>
-      <div class="step-num-badge">1</div>
-      <b class="step-title">희망 상권·조건 등록</b>
-      <p class="step-desc">
-        원하는 지역, 상권, 업종, 예산 조건을 간편하게 등록합니다.
-      </p>
-    </div>
-
-    <div class="step-card">
-      <div class="step-icon-wrap">📞</div>
-      <div class="step-num-badge">2</div>
-      <b class="step-title">상가 전문 중개사 매칭</b>
-      <p class="step-desc">
-        1초 이용동의를 마친 해당 상권 전문 소장님이 010 전화로 매물을 브리핑합니다.
-      </p>
-    </div>
-
-    <div class="step-card">
-      <div class="step-icon-wrap">🔐</div>
-      <div class="step-num-badge">3</div>
-      <b class="step-title">1:1 안심 거래 진행</b>
-      <p class="step-desc">
-        현장 미팅 후 조건이 합의되면 전용 4자리 코드로 거래방에 입장하여 상호 확인합니다.
-      </p>
-    </div>
-
-    <div class="step-card">
-      <div class="step-icon-wrap">🤝</div>
-      <div class="step-num-badge">4</div>
-      <b class="step-title">안전한 계약 체결</b>
-      <p class="step-desc">
-        공인중개사 책임하에 계약을 체결하며, 법정 보수 및 국토부 전산 대조로 종결됩니다.
-      </p>
-    </div>
-  </div>
-</section>
-<!-- 10. 상세 푸터 (.footer) -->
-  
-
-
-
 <footer class="footer">
     <p>
       <strong>안심딜 (ansimdeal)</strong> | 상가·점포 전월세 안심거래 플랫폼<br>
