@@ -1281,19 +1281,19 @@ button, input {
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
 
-
-
-
-
 <style id="master-safe-balanced-css">
 /* =========================================
-   [오와 열 통일] 전 구간 100% 동일 폭 & 균형 정렬
+   [폭 통일 & 오와 열 칼정렬] wrap 100% 완벽 바운더리
 ========================================= */
+* {
+  box-sizing: border-box;
+}
+
 .wrap {
   width: 100% !important;
-  max-width: 1180px !important;
+  max-width: 1140px !important;
   margin: 0 auto !important;
-  padding: 0 20px 30px !important;
+  padding: 0 16px 24px !important;
   box-sizing: border-box !important;
 }
 
@@ -1407,7 +1407,7 @@ button, input {
   text-align: left !important;
 }
 
-/* 2. 매칭 수수료 계산기 (100% 정렬) */
+/* 2. 매칭 수수료 계산기 (100% 폭 일치) */
 .fee-widget {
   width: 100% !important;
   max-width: 100% !important;
@@ -1454,7 +1454,7 @@ button, input {
   gap: 14px !important;
 }
 
-/* 3. 3대 안심 보증 카드 (100% 정렬) */
+/* 3. 3대 안심 보증 카드 (100% 폭 일치) */
 .safe-guarantees-section {
   width: 100% !important;
   max-width: 100% !important;
@@ -1535,7 +1535,7 @@ button, input {
   word-break: keep-all !important;
 }
 
-/* 4. 1:1 안심 거래 진행방 입장 (100% 정렬) */
+/* 4. 1:1 안심 거래 진행방 입장 (100% 폭 일치) */
 .single-transaction-section {
   width: 100% !important;
   max-width: 100% !important;
@@ -1544,6 +1544,7 @@ button, input {
   box-sizing: border-box !important;
 }
 .single-transaction-card {
+  width: 100% !important;
   background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
   border: 2px solid #2563eb !important;
   border-radius: 18px !important;
@@ -1606,7 +1607,7 @@ button, input {
   white-space: nowrap !important;
 }
 
-/* 5. 공인중개사 우선배정 파트너 간편등록 배너 (100% 정렬) */
+/* 5. 공인중개사 우선배정 파트너 간편등록 배너 (100% 폭 일치) */
 .broker-partner-banner-section {
   width: 100% !important;
   max-width: 100% !important;
@@ -1671,7 +1672,96 @@ button, input {
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3) !important;
 }
 
-/* 6. 4단계 안심 진행 절차 (100% 정렬 & 밑에도 좁히기) */
+/* 파트너 팝업 모달 (절대 화면에 인라인으로 보이지 않고 클릭 시에만 팝업) */
+.partner-modal-backdrop {
+  display: none !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(15, 23, 42, 0.75) !important;
+  backdrop-filter: blur(4px) !important;
+  z-index: 999999 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px !important;
+  box-sizing: border-box !important;
+}
+.partner-modal-backdrop.show-modal {
+  display: flex !important;
+}
+.partner-modal-box {
+  background: #ffffff !important;
+  border-radius: 20px !important;
+  max-width: 440px !important;
+  width: 100% !important;
+  padding: 28px 24px !important;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.3) !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+  text-align: left !important;
+}
+.partner-modal-close {
+  position: absolute !important;
+  top: 16px !important;
+  right: 18px !important;
+  background: transparent !important;
+  border: none !important;
+  font-size: 24px !important;
+  color: #64748b !important;
+  cursor: pointer !important;
+  line-height: 1 !important;
+}
+.partner-modal-title {
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  color: #0f172a !important;
+  margin: 0 0 6px !important;
+}
+.partner-modal-subtitle {
+  font-size: 13px !important;
+  color: #64748b !important;
+  margin: 0 0 18px !important;
+  line-height: 1.5 !important;
+}
+.partner-input-group {
+  margin-bottom: 12px !important;
+}
+.partner-input-group label {
+  display: block !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  color: #334155 !important;
+  margin-bottom: 5px !important;
+}
+.partner-input-group input {
+  width: 100% !important;
+  height: 46px !important;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 10px !important;
+  padding: 0 14px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  box-sizing: border-box !important;
+  outline: none !important;
+}
+.partner-submit-btn {
+  width: 100% !important;
+  height: 48px !important;
+  background: #2563eb !important;
+  color: #ffffff !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  border: none !important;
+  border-radius: 11px !important;
+  cursor: pointer !important;
+  margin-top: 8px !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25) !important;
+}
+
+/* 6. 4단계 안심 진행 절차 (100% 폭 일치 & 밑에도 좁히기) */
 .new-process-section {
   width: 100% !important;
   max-width: 100% !important;
@@ -1712,6 +1802,7 @@ button, input {
   flex-direction: column !important;
   align-items: center !important;
   box-sizing: border-box !important;
+  height: 100% !important;
 }
 .step-icon-wrap {
   font-size: 28px !important;
@@ -1747,7 +1838,13 @@ button, input {
   word-break: keep-all !important;
 }
 
-/* 7. FAQ 아코디언 및 푸터 (밑에도 좁히기) */
+/* 7. 약속 & FAQ & 푸터 (100% 폭 일치 & 밑에도 좁히기) */
+.promise {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 14px 0 !important;
+  box-sizing: border-box !important;
+}
 .faq-accordion-section {
   width: 100% !important;
   max-width: 100% !important;
@@ -1756,14 +1853,17 @@ button, input {
   box-sizing: border-box !important;
 }
 .footer, footer {
-  padding-top: 20px !important;
-  padding-bottom: 24px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-top: 18px !important;
+  padding-bottom: 22px !important;
+  box-sizing: border-box !important;
 }
 
 /* 모바일 반응형 */
 @media (max-width: 768px) {
   .wrap {
-    padding: 0 12px 24px !important;
+    padding: 0 12px 20px !important;
   }
   .lock-grid-2 {
     grid-template-columns: 1fr !important;
@@ -1798,7 +1898,6 @@ button, input {
   }
 }
 </style>
-
 
 </head>
 <body>
@@ -1851,7 +1950,10 @@ button, input {
         <span>안심거래 이용안내</span>
         <span>›</span>
       </a>
-      
+      <a href="/broker-signup">
+        <span>공인중개사 회원가입</span>
+        <span>›</span>
+      </a>
       <a href="broker-login.html">
         <span>공인중개사 로그인</span>
         <span>›</span>
@@ -1872,9 +1974,6 @@ button, input {
     </div>
   </section>
 
-<!-- =========================================
-     [메인 최상단] 상가·점포 0% & 5배 배상 특허 3중 잠금 플래그십 배너
-========================================= -->
 <!-- =========================================
      [메인 최상단] 상가·점포 0% & 5배 배상 특허 3중 잠금 플래그십 배너
 ========================================= -->
@@ -1977,18 +2076,79 @@ button, input {
   </section>
 
   <!-- [컴팩트 Q&A 아코디언] 안심 매칭 꼭 확인하세요! -->
-  <div id="requestResultGrid"></div>
-  <button id="requestRegisterBtn" type="button"></button>
-  <button id="requestExitBtn" type="button"></button>
-</div>
+  <section class="faq-accordion-section" style="width:100%; margin: 12px 0 6px; background:#ffffff; border:1px solid #dce5ed; border-radius:14px; padding:14px 16px; box-shadow:0 3px 12px rgba(15,23,42,0.03);">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #edf2f7;">
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span style="font-size:16px;">💡</span>
+        <h2 style="margin:0; font-size:14px; font-weight:900; color:#173f67; letter-spacing:-0.3px;">안심 매칭 꼭 확인하세요!</h2>
+      </div>
+      <span style="font-size:11px; color:#64748b; font-weight:700;">질문을 누르면 답변이 나옵니다</span>
+    </div>
 
+    <div class="faq-accordion-list" style="display:flex; flex-direction:column; gap:6px;">
+      <!-- Q1 -->
+      <details style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:9px; overflow:hidden;">
+        <summary style="padding:10px 12px; font-size:13px; font-weight:800; color:#1e293b; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; user-select:none;">
+          <span><b style="color:#1165d7;">Q1.</b> 매칭 수수료 50% 외에 부동산에 별도로 또 내야 하나요?</span>
+          <span class="arrow-ico" style="font-size:11px; color:#64748b; transition:transform 0.2s;">▼</span>
+        </summary>
+        <div style="padding:10px 12px; background:#ffffff; border-top:1px solid #e2e8f0; font-size:12px; color:#334155; line-height:1.65; word-break:keep-all;">
+          <strong style="color:#0f172a; display:block; margin-bottom:4px;">절대 아닙니다. (추가 중개보수 0원)</strong>
+          안심딜 제휴 공인중개사와 사전 협약되어 법정 상가 중개 요율 기준의 <b>매칭 수수료 50%만</b> 적용됩니다. 현장 부동산이나 중개사에게 별도로 100%를 더 내는 이중 청구는 일체 없으니 안심하세요.
+        </div>
+      </details>
 
-<!-- 10. 상세 푸터 (.footer) -->
+      <!-- Q2 -->
+      <details style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:9px; overflow:hidden;">
+        <summary style="padding:10px 12px; font-size:13px; font-weight:800; color:#1e293b; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; user-select:none;">
+          <span><b style="color:#1165d7;">Q2.</b> 매칭 수수료 50%는 언제 지급하나요?</span>
+          <span class="arrow-ico" style="font-size:11px; color:#64748b; transition:transform 0.2s;">▼</span>
+        </summary>
+        <div style="padding:10px 12px; background:#ffffff; border-top:1px solid #e2e8f0; font-size:12px; color:#334155; line-height:1.65; word-break:keep-all;">
+          <strong style="color:#0f172a; display:block; margin-bottom:4px;">원하는 상가·점포를 최종 선택 확정하고, 전자계약서에 서명하기 직전에 지급합니다.</strong>
+          상가 희망조건 등록, 중개사 맞춤 매물 제안, 현장 점포 방문 및 상담 등 계약 이전의 모든 과정은 <b>100% 전액 무료</b>이며, 마음에 드는 점포를 최종 확정하여 전자계약서에 서명하기 전 단계에서만 매칭 수수료 50%를 결제하시면 됩니다.
+        </div>
+      </details>
+
+      <!-- Q3 -->
+      <details style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:9px; overflow:hidden;">
+        <summary style="padding:10px 12px; font-size:13px; font-weight:800; color:#1e293b; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; user-select:none;">
+          <span><b style="color:#1165d7;">Q3.</b> 마음에 드는 점포 제안이 없으면 어떻게 되나요?</span>
+          <span class="arrow-ico" style="font-size:11px; color:#64748b; transition:transform 0.2s;">▼</span>
+        </summary>
+        <div style="padding:10px 12px; background:#ffffff; border-top:1px solid #e2e8f0; font-size:12px; color:#334155; line-height:1.65; word-break:keep-all;">
+          <strong style="color:#0f172a; display:block; margin-bottom:4px;">어떠한 비용이나 페널티도 발생하지 않습니다.</strong>
+          제휴 공인중개사가 제안한 상가 매물 중 마음에 드는 조건이 없으면 언제든지 자유롭게 종료하실 수 있으며, 비용은 단 1원도 청구되지 않습니다.
+        </div>
+      </details>
+
+      <!-- Q4 -->
+      <details style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:9px; overflow:hidden;">
+        <summary style="padding:10px 12px; font-size:13px; font-weight:800; color:#1e293b; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; user-select:none;">
+          <span><b style="color:#1165d7;">Q4.</b> 희망조건을 등록하면 내 번호가 여러 상가 부동산에 유출되나요?</span>
+          <span class="arrow-ico" style="font-size:11px; color:#64748b; transition:transform 0.2s;">▼</span>
+        </summary>
+        <div style="padding:10px 12px; background:#ffffff; border-top:1px solid #e2e8f0; font-size:12px; color:#334155; line-height:1.65; word-break:keep-all;">
+          <strong style="color:#0f172a; display:block; margin-bottom:4px;">절대 유출되지 않습니다.</strong>
+          고객님의 연락처는 불특정 다수의 부동산에 노출되지 않으며, 도착한 점포 제안을 확인하신 후 고객님이 상담을 수락한 <b>단 1곳의 전담 공인중개사에게만 1:1로 안전하게 연결</b>됩니다.
+        </div>
+      </details>
+
+      <!-- Q5 -->
+      <details style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:9px; overflow:hidden;">
+        <summary style="padding:10px 12px; font-size:13px; font-weight:800; color:#1e293b; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; user-select:none;">
+          <span><b style="color:#1165d7;">Q5.</b> 사기나 권리금 분쟁 위험이 있는 직거래인가요?</span>
+          <span class="arrow-ico" style="font-size:11px; color:#64748b; transition:transform 0.2s;">▼</span>
+        </summary>
+        <div style="padding:10px 12px; background:#ffffff; border-top:1px solid #e2e8f0; font-size:12px; color:#334155; line-height:1.65; word-break:keep-all;">
+          <strong style="color:#0f172a; display:block; margin-bottom:4px;">아닙니다. 100% 공인중개사 책임 안심 계약입니다.</strong>
+          상가·점포 거래 시 위험한 당사자 간 직거래가 아니며, 한국공인중개사협회 <b>2억 원 공제증서</b>가 발급되는 전문 제휴 공인중개사가 건축물대장 위반 여부, 등기부 권리분석부터 계약 체결까지 전 과정을 안전하게 책임집니다.
+        </div>
+      </details>
+    </div>
+  </section>
+
   
-
-
-
-
 <!-- =========================================
      [상가·점포 전용] 매칭 수수료 50% 계산기
 ========================================= -->
@@ -2134,18 +2294,6 @@ button, input {
   </div>
 </section>
 
-<!-- 레거시 호환용 히든 더미 엘리먼트 (스크립트 오류 방지) -->
-<div style="display:none !important;" aria-hidden="true">
-  <input id="accessInput" type="hidden">
-  <button id="accessBtn" type="button"></button>
-  <input id="requestNumberInput" type="hidden">
-  <button id="requestNumberBtn" type="button"></button>
-  <div id="requestResult"></div>
-  <div id="requestResultGrid"></div>
-  <button id="requestRegisterBtn" type="button"></button>
-  <button id="requestExitBtn" type="button"></button>
-</div>
-
 
 <!-- =========================================
      [공인중개사 전용] 담당 상권 고객 우선배정 간편등록 (10초 등록)
@@ -2166,37 +2314,6 @@ button, input {
     </div>
   </div>
 </section>
-
-<!-- 파트너 모달 -->
-<div id="partnerModal" class="partner-modal-backdrop" onclick="if(event.target === this) closePartnerModal()">
-  <div class="partner-modal-box">
-    <button type="button" class="partner-modal-close" onclick="closePartnerModal()" aria-label="닫기">×</button>
-    <div class="partner-tag" style="margin-bottom:8px;">10초 간편등록</div>
-    <h3 class="partner-modal-title">상가 전문 공인중개사 우선배정</h3>
-    <p class="partner-modal-subtitle">
-      담당 상권명과 연락처를 남겨주시면, 고객 접수 시 <b>소장님께 1순위로 즉시 문자가 발송</b>됩니다.
-    </p>
-
-    <div class="partner-input-group">
-      <label for="partnerComplexInput">담당 상권명 (또는 동/지역명)</label>
-      <input id="partnerComplexInput" type="text" placeholder="예: 강남역 상권 / 일곡동 상가">
-    </div>
-
-    <div class="partner-input-group">
-      <label for="partnerOfficeInput">부동산 중개사무소 상호</label>
-      <input id="partnerOfficeInput" type="text" placeholder="예: 제일공인중개사사무소">
-    </div>
-
-    <div class="partner-input-group">
-      <label for="partnerPhoneInput">소장님 직통 휴대폰 번호 (010)</label>
-      <input id="partnerPhoneInput" type="tel" inputmode="numeric" maxlength="13" placeholder="010-XXXX-XXXX">
-    </div>
-
-    <button type="button" class="partner-submit-btn" onclick="submitPartnerRegistration()">
-      우선배정 파트너 신청 완료
-    </button>
-  </div>
-</div>
 
 
 <!-- =========================================
@@ -2247,77 +2364,11 @@ button, input {
   </div>
 </section>
 
-<section class="faq-accordion-section" style="width:100%; margin: 12px 0 6px; background:#ffffff; border:1px solid #dce5ed; border-radius:14px; padding:14px 16px; box-shadow:0 3px 12px rgba(15,23,42,0.03);">
-    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #edf2f7;">
-      <div style="display:flex; align-items:center; gap:6px;">
-        <span style="font-size:16px;">💡</span>
-        <h2 style="margin:0; font-size:14px; font-weight:900; color:#173f67; letter-spacing:-0.3px;">안심 매칭 꼭 확인하세요!</h2>
-      </div>
-      <span style="font-size:11px; color:#64748b; font-weight:700;">질문을 누르면 답변이 나옵니다</span>
-    </div>
+<!-- 10. 상세 푸터 (.footer) -->
+  
 
-    <div class="faq-accordion-list" style="display:flex; flex-direction:column; gap:6px;">
-      <!-- Q1 -->
-      <details style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:9px; overflow:hidden;">
-        <summary style="padding:10px 12px; font-size:13px; font-weight:800; color:#1e293b; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; user-select:none;">
-          <span><b style="color:#1165d7;">Q1.</b> 매칭 수수료 50% 외에 부동산에 별도로 또 내야 하나요?</span>
-          <span class="arrow-ico" style="font-size:11px; color:#64748b; transition:transform 0.2s;">▼</span>
-        </summary>
-        <div style="padding:10px 12px; background:#ffffff; border-top:1px solid #e2e8f0; font-size:12px; color:#334155; line-height:1.65; word-break:keep-all;">
-          <strong style="color:#0f172a; display:block; margin-bottom:4px;">절대 아닙니다. (추가 중개보수 0원)</strong>
-          안심딜 제휴 공인중개사와 사전 협약되어 법정 상가 중개 요율 기준의 <b>매칭 수수료 50%만</b> 적용됩니다. 현장 부동산이나 중개사에게 별도로 100%를 더 내는 이중 청구는 일체 없으니 안심하세요.
-        </div>
-      </details>
 
-      <!-- Q2 -->
-      <details style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:9px; overflow:hidden;">
-        <summary style="padding:10px 12px; font-size:13px; font-weight:800; color:#1e293b; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; user-select:none;">
-          <span><b style="color:#1165d7;">Q2.</b> 매칭 수수료 50%는 언제 지급하나요?</span>
-          <span class="arrow-ico" style="font-size:11px; color:#64748b; transition:transform 0.2s;">▼</span>
-        </summary>
-        <div style="padding:10px 12px; background:#ffffff; border-top:1px solid #e2e8f0; font-size:12px; color:#334155; line-height:1.65; word-break:keep-all;">
-          <strong style="color:#0f172a; display:block; margin-bottom:4px;">원하는 상가·점포를 최종 선택 확정하고, 전자계약서에 서명하기 직전에 지급합니다.</strong>
-          상가 희망조건 등록, 중개사 맞춤 매물 제안, 현장 점포 방문 및 상담 등 계약 이전의 모든 과정은 <b>100% 전액 무료</b>이며, 마음에 드는 점포를 최종 확정하여 전자계약서에 서명하기 전 단계에서만 매칭 수수료 50%를 결제하시면 됩니다.
-        </div>
-      </details>
 
-      <!-- Q3 -->
-      <details style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:9px; overflow:hidden;">
-        <summary style="padding:10px 12px; font-size:13px; font-weight:800; color:#1e293b; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; user-select:none;">
-          <span><b style="color:#1165d7;">Q3.</b> 마음에 드는 점포 제안이 없으면 어떻게 되나요?</span>
-          <span class="arrow-ico" style="font-size:11px; color:#64748b; transition:transform 0.2s;">▼</span>
-        </summary>
-        <div style="padding:10px 12px; background:#ffffff; border-top:1px solid #e2e8f0; font-size:12px; color:#334155; line-height:1.65; word-break:keep-all;">
-          <strong style="color:#0f172a; display:block; margin-bottom:4px;">어떠한 비용이나 페널티도 발생하지 않습니다.</strong>
-          제휴 공인중개사가 제안한 상가 매물 중 마음에 드는 조건이 없으면 언제든지 자유롭게 종료하실 수 있으며, 비용은 단 1원도 청구되지 않습니다.
-        </div>
-      </details>
-
-      <!-- Q4 -->
-      <details style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:9px; overflow:hidden;">
-        <summary style="padding:10px 12px; font-size:13px; font-weight:800; color:#1e293b; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; user-select:none;">
-          <span><b style="color:#1165d7;">Q4.</b> 희망조건을 등록하면 내 번호가 여러 상가 부동산에 유출되나요?</span>
-          <span class="arrow-ico" style="font-size:11px; color:#64748b; transition:transform 0.2s;">▼</span>
-        </summary>
-        <div style="padding:10px 12px; background:#ffffff; border-top:1px solid #e2e8f0; font-size:12px; color:#334155; line-height:1.65; word-break:keep-all;">
-          <strong style="color:#0f172a; display:block; margin-bottom:4px;">절대 유출되지 않습니다.</strong>
-          고객님의 연락처는 불특정 다수의 부동산에 노출되지 않으며, 도착한 점포 제안을 확인하신 후 고객님이 상담을 수락한 <b>단 1곳의 전담 공인중개사에게만 1:1로 안전하게 연결</b>됩니다.
-        </div>
-      </details>
-
-      <!-- Q5 -->
-      <details style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:9px; overflow:hidden;">
-        <summary style="padding:10px 12px; font-size:13px; font-weight:800; color:#1e293b; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; user-select:none;">
-          <span><b style="color:#1165d7;">Q5.</b> 사기나 권리금 분쟁 위험이 있는 직거래인가요?</span>
-          <span class="arrow-ico" style="font-size:11px; color:#64748b; transition:transform 0.2s;">▼</span>
-        </summary>
-        <div style="padding:10px 12px; background:#ffffff; border-top:1px solid #e2e8f0; font-size:12px; color:#334155; line-height:1.65; word-break:keep-all;">
-          <strong style="color:#0f172a; display:block; margin-bottom:4px;">아닙니다. 100% 공인중개사 책임 안심 계약입니다.</strong>
-          상가·점포 거래 시 위험한 당사자 간 직거래가 아니며, 한국공인중개사협회 <b>2억 원 공제증서</b>가 발급되는 전문 제휴 공인중개사가 건축물대장 위반 여부, 등기부 권리분석부터 계약 체결까지 전 과정을 안전하게 책임집니다.
-        </div>
-      </details>
-    </div>
-  </section>
 <footer class="footer">
     <p>
       <strong>안심딜 (ansimdeal)</strong> | 상가·점포 전월세 안심거래 플랫폼<br>
@@ -2716,6 +2767,171 @@ button, input {
       lookupRequest();
     }
   });
+</script>
+
+
+<!-- 공인중개사 우선배정 파트너 팝업 모달 (기본 hidden, 팝업시에만 표시) -->
+<div id="partnerModal" class="partner-modal-backdrop" onclick="if(event.target === this) closePartnerModal()">
+  <div class="partner-modal-box">
+    <button type="button" class="partner-modal-close" onclick="closePartnerModal()" aria-label="닫기">×</button>
+    <div class="partner-tag" style="margin-bottom:8px;">10초 간편등록</div>
+    <h3 class="partner-modal-title">공인중개사 우선배정 신청</h3>
+    <p class="partner-modal-subtitle">
+      담당 단지명(상권명)과 연락처를 남겨주시면, 고객 접수 시 <b>소장님께 1순위로 즉시 문자가 발송</b>됩니다.
+    </p>
+
+    <div class="partner-input-group">
+      <label for="partnerComplexInput">담당 아파트 단지명 (또는 상권명)</label>
+      <input id="partnerComplexInput" type="text" placeholder="예: 첨단 힐스테이트 / 반포자이">
+    </div>
+
+    <div class="partner-input-group">
+      <label for="partnerOfficeInput">부동산 중개사무소 상호</label>
+      <input id="partnerOfficeInput" type="text" placeholder="예: 황금공인중개사사무소">
+    </div>
+
+    <div class="partner-input-group">
+      <label for="partnerPhoneInput">소장님 직통 휴대폰 번호 (010)</label>
+      <input id="partnerPhoneInput" type="tel" inputmode="numeric" maxlength="13" placeholder="010-XXXX-XXXX">
+    </div>
+
+    <button type="button" class="partner-submit-btn" onclick="submitPartnerRegistration()">
+      우선배정 파트너 신청 완료
+    </button>
+  </div>
+</div>
+
+<!-- 레거시 호환용 히든 더미 엘리먼트 (스크립트 오류 방지) -->
+<div id="legacyDummies" style="display:none !important;" aria-hidden="true">
+  <input id="accessInput" type="hidden">
+  <button id="accessBtn" type="button"></button>
+  <input id="requestNumberInput" type="hidden">
+  <button id="requestNumberBtn" type="button"></button>
+  <div id="requestResult"></div>
+  <div id="requestResultGrid"></div>
+  <button id="requestRegisterBtn" type="button"></button>
+  <button id="requestExitBtn" type="button"></button>
+</div>
+
+
+<script>
+function openPartnerModal() {
+  var m = document.getElementById('partnerModal');
+  if (m) m.classList.add('show-modal');
+}
+function closePartnerModal() {
+  var m = document.getElementById('partnerModal');
+  if (m) m.classList.remove('show-modal');
+}
+function submitPartnerRegistration() {
+  var c = document.getElementById('partnerComplexInput').value.trim();
+  var o = document.getElementById('partnerOfficeInput').value.trim();
+  var p = document.getElementById('partnerPhoneInput').value.trim();
+  if (!c) { alert('담당 단지명(상권명)을 입력해 주세요.'); return; }
+  if (!o) { alert('중개사무소 상호를 입력해 주세요.'); return; }
+  if (!p || p.replace(/[^0-9]/g, '').length < 10) { alert('올바른 소장님 휴대폰 번호(010)를 입력해 주세요.'); return; }
+  
+  try {
+    var list = JSON.parse(localStorage.getItem('broker_partners') || '[]');
+    list.push({ complex: c, office: o, phone: p, date: new Date().toISOString() });
+    localStorage.setItem('broker_partners', JSON.stringify(list));
+  } catch(e) {}
+
+  alert('우선배정 파트너 신청이 완료되었습니다!\\n\\n담당 단지(' + c + ')에 고객 접수 시 소장님께 1순위로 즉시 연결 문자를 발송해 드립니다.');
+  closePartnerModal();
+}
+
+var phoneInp = document.getElementById('partnerPhoneInput');
+if (phoneInp) {
+  phoneInp.addEventListener('input', function(e) {
+    var val = e.target.value.replace(/[^0-9]/g, '');
+    if (val.length > 3 && val.length <= 7) {
+      e.target.value = val.slice(0, 3) + '-' + val.slice(3);
+    } else if (val.length > 7) {
+      e.target.value = val.slice(0, 3) + '-' + val.slice(3, 7) + '-' + val.slice(7, 11);
+    } else {
+      e.target.value = val;
+    }
+  });
+}
+</script>
+
+
+<script>
+/* =========================================
+   안심딜 상가·점포 매칭 수수료 50% 계산기 스크립트
+========================================= */
+(function(){
+  var ansimCurrentType = 'jeonse';
+  var tabJeonse = document.getElementById('ansimTabJeonse');
+  var tabMonthly = document.getElementById('ansimTabMonthly');
+  var jeonseFields = document.getElementById('ansimJeonseFields');
+  var monthlyFields = document.getElementById('ansimMonthlyFields');
+  var calcBtn = document.getElementById('ansimCalcBtn');
+  var jeonsePriceInp = document.getElementById('ansimJeonsePrice');
+  var monthlyDepositInp = document.getElementById('ansimMonthlyDeposit');
+  var monthlyRentInp = document.getElementById('ansimMonthlyRent');
+  var normalPriceEl = document.getElementById('ansimNormalPrice');
+  var platformPriceEl = document.getElementById('ansimPlatformPrice');
+
+  function num(val) {
+    return Number(String(val || '').replace(/[^0-9]/g, '')) || 0;
+  }
+  function formatWon(val) {
+    return Math.round(val).toLocaleString('ko-KR') + '원';
+  }
+  function formatInput(inp) {
+    var n = num(inp.value);
+    inp.value = n ? n.toLocaleString('ko-KR') : '';
+  }
+
+  if (jeonsePriceInp) jeonsePriceInp.addEventListener('input', function(){ formatInput(this); });
+  if (monthlyDepositInp) monthlyDepositInp.addEventListener('input', function(){ formatInput(this); });
+  if (monthlyRentInp) monthlyRentInp.addEventListener('input', function(){ formatInput(this); });
+
+  if (tabJeonse && tabMonthly) {
+    tabJeonse.addEventListener('click', function(){
+      ansimCurrentType = 'jeonse';
+      tabJeonse.classList.add('active');
+      tabMonthly.classList.remove('active');
+      jeonseFields.classList.remove('hidden');
+      monthlyFields.classList.add('hidden');
+    });
+    tabMonthly.addEventListener('click', function(){
+      ansimCurrentType = 'monthly';
+      tabMonthly.classList.add('active');
+      tabJeonse.classList.remove('active');
+      monthlyFields.classList.remove('hidden');
+      jeonseFields.classList.add('hidden');
+    });
+  }
+
+  if (calcBtn) {
+    calcBtn.addEventListener('click', function(){
+      var total = 0;
+      if (ansimCurrentType === 'jeonse') {
+        total = num(jeonsePriceInp.value);
+      } else {
+        var dep = num(monthlyDepositInp.value);
+        var rent = num(monthlyRentInp.value);
+        var converted = dep + (rent * 100);
+        if (converted < 50000000) {
+          converted = dep + (rent * 70);
+        }
+        total = converted;
+      }
+      if (!total) {
+        alert('금액을 입력해 주세요.');
+        return;
+      }
+      // 상가 법정 상한 요율 0.9%
+      var legalFee = total * 0.009 * 1.1; // 부가세 10%
+      var halfFee = legalFee * 0.5;
+      if (normalPriceEl) normalPriceEl.textContent = formatWon(legalFee);
+      if (platformPriceEl) platformPriceEl.textContent = formatWon(halfFee);
+    });
+  }
+})();
 </script>
 
 </body>
