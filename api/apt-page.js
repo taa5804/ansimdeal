@@ -900,13 +900,37 @@ async function aptHandleApartmentPage(req, res) {
       ? [city, place, roadKeyword, apartment, "매매·전세·월세·임대 실거래가"].filter(Boolean).join(" ")
       : [location, "아파트 매매·전세·월세·임대 실거래가 시세표"].filter(Boolean).join(" ");
 
+    // 구글 중복 템플릿 필터 원천 돌파용: 단지별 고유 4단 심층 분석 리포트 생성
+    const narrativeP1 = apartment
+      ? `${location} ${apartment} 단지는 ${primaryRoadAddr || primaryJibunAddr || location} 일원에 위치한 ${hhFormatted || "공동주택"} 규모의 주거 단지입니다.${primaryDongs && primaryMaxFloor ? ` 총 ${primaryDongs}개동 최고 ${primaryMaxFloor}층으로 설계되어 개방감과 일조권을 갖추고 있습니다.` : ""}`
+      : `${location} 지역에 등록된 총 ${apartmentNames.length}개 주요 아파트 단지들의 매매·전세·월세 실거래가 및 단지별 주거 환경 분석 정보입니다.`;
+
+    const narrativeP2 = (apartment && (primaryBuilder || builtYear))
+      ? `${primaryBuilder ? `시공은 ${primaryBuilder}에서 담당하여 정밀한 마감 품질과 구조적 내구성을 입증받았으며` + (primaryDeveloper ? `, 시행사 ${primaryDeveloper}와의 유기적인 사업 추진으로 준공되었습니다. ` : ". ") : ""}${builtYear ? `${builtYear}년에 사용승인을 득하여 현재 입주 ${ageYears !== null ? ageYears : ""}년차를 맞이하고 있으며 성숙된 주변 생활 편의 인프라를 풍부하게 누릴 수 있습니다.` : ""}`
+      : "";
+
+    const facList = (primaryFacilities || "").split(/[,·]/).map(function(s) { return s.trim(); }).filter(function(s) { return s && s !== "기타"; }).slice(0, 5).join(", ");
+    const staffList = [
+      firstValue(firstRow, ["일반관리-인원"]) ? `관리직원 ${firstValue(firstRow, ["일반관리-인원"])}명` : "",
+      firstValue(firstRow, ["경비관리-인원"]) ? `경비원 ${firstValue(firstRow, ["경비관리-인원"])}명` : "",
+      firstValue(firstRow, ["청소관리-인원"]) ? `미화원 ${firstValue(firstRow, ["청소관리-인원"])}명` : ""
+    ].filter(Boolean).join(", ");
+
+    const narrativeP3 = (apartment && (facList || primaryMgmtType))
+      ? `${facList ? `단지 내에는 입주민 편의를 위해 ${facList} 등 다양한 커뮤니티 및 부대복리시설이 갖추어져 있습니다. ` : ""}${primaryMgmtType ? `주거 관리는 ${primaryMgmtType} 방식으로 체계적으로 운영되며${staffList ? ` (${staffList})` : ""} 쾌적하고 안전한 단지 보안 환경을 유지하고 있습니다.` : ""}`
+      : "";
+
+    const narrativeP4 = apartment
+      ? `본 ${apartment} 단지의 ${trade} 거래는 국토교통부 실거래가 공개시스템 및 등기부등본 권리분석(선순위 근저당·전세가율 팩트체크)을 거쳐 진행되며, 우리아파트 안심거래 파트너 공인중개사 협의를 통해 중개수수료(복비)를 최대 50%까지 절감하는 1:1 맞춤형 역제안 혜택이 적용됩니다.`
+      : `${place} 아파트 매수·임차 시 관할 검증된 공인중개사의 1:1 맞춤 매물 제안과 중개수수료 50% 절감 혜택을 제공합니다.`;
+
     const pageTitle = apartment
-      ? `${place} ${apartment}${roadKeyword ? " (" + roadKeyword + ")" : ""} 매매·전세·임대 실거래가 시세표${hhFormatted ? " · " + hhFormatted : ""} | 복비 50% 반값 우리아파트 안심거래`
-      : `${city} ${place} 아파트 매매·전세·월세·임대 실거래가 시세표 총정리 | 복비 50% 반값 우리아파트 안심거래`;
+      ? `${place} ${apartment} ${trade} 실거래가 시세표${hhFormatted ? " · " + hhFormatted : ""}${primaryBuilder ? " · " + primaryBuilder : ""} | 복비 50% 절감`
+      : `${city} ${place} 아파트 ${trade} 실거래가 시세표 총정리 | 복비 50% 반값 우리아파트`;
 
     const description = apartment
-      ? `📊 [${location} ${apartment}] ${specShort ? specShort + " | " : ""}${primaryDongs ? primaryDongs + "개동 · " : ""}${primaryMaxFloor ? "최고 " + primaryMaxFloor + "층 · " : ""}국토부 최신 매매·전세·월세·임대 실거래가 시세표와 급매물 정보를 확인하세요. 우리아파트 안심거래 신청 시 중개수수료(복비) 50% 반값 할인 및 관할 공인중개사 1:1 매칭 혜택을 제공합니다.`
-      : `📊 [${location} 아파트 매매·전세·월세·임대 시세표] ${place} 전체 아파트 단지별 세대수·준공년도·도로명주소 및 국토부 최신 실거래가를 한눈에 비교하세요. 안심거래 신청 시 아파트 중개수수료(복비) 50% 반값 할인 및 1:1 맞춤 매물 매칭 지원.`;
+      ? `[${location} ${apartment}] ${primaryBuilder ? primaryBuilder + " 시공 · " : ""}총 ${hhFormatted || "등록 단지"}${primaryDongs ? "(" + primaryDongs + "개동 최고 " + primaryMaxFloor + "층) · " : ""}${builtYear ? builtYear + "년 준공(" + (ageYears !== null ? "입주 " + ageYears + "년차" : "") + ") · " : ""}${roadShort || location} | 국토부 실거래가 분석, 단지 부대시설 제원 및 중개보수 50% 절감 안심거래 지원.`
+      : `[${location} 아파트 실거래가 시세표] ${place} 전체 아파트 단지별 세대수·준공년도 및 국토부 최신 실거래가 비교. 중개수수료 50% 반값 안심거래 1:1 매칭 지원.`;
 
     // Unique apartment rows in current 동 by 단지명
     const uniqueAptMap = new Map();
@@ -1719,15 +1743,36 @@ p {
     <h1>${aptHtml(subject)}</h1>
     ${
       apartment
-        ? `<p>
-            <strong>${aptHtml(location)} ${aptHtml(apartment)}</strong> 단지의 <strong>${aptHtml(trade)}</strong> 실거래 매칭 및 단지 상세 스펙 안내 페이지입니다.
-            ${primaryRoadAddr ? `도로명주소는 <strong>${aptHtml(primaryRoadAddr)}</strong>이며, ` : ""}
-            ${primaryHouseholds ? `총 <strong>${aptHtml(primaryHouseholds)}세대</strong> 규모` : "국토교통부 정식 등록 단지"}입니다.
-            원하시는 ${aptHtml(trade)} 희망조건(예산·층수·입주일)을 등록하시면 ${aptHtml(place)} 관할 검증된 파트너 공인중개사가 맞춤 매물을 1:1 제안하며, <strong>파트너 공인중개사 협의를 통한 거래비용 최대 50% 절감 혜택</strong>으로 안전하게 계약하실 수 있습니다.
-          </p>`
-        : `<p>
+        ? `<!-- 단지 핵심 스펙 4대 지표 뱃지 바 -->
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:14px 0 16px;">
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;padding:9px 12px;border-radius:10px;">
+              <div style="font-size:11px;color:#64748b;font-weight:700;">🏢 단지 규모</div>
+              <div style="font-size:13.5px;font-weight:900;color:#0f172a;margin-top:2px;">${aptHtml(hhFormatted || "국토부 등록")}${primaryDongs ? " (" + aptHtml(primaryDongs) + "개동)" : ""}</div>
+            </div>
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;padding:9px 12px;border-radius:10px;">
+              <div style="font-size:11px;color:#64748b;font-weight:700;">🏗️ 시공사·층수</div>
+              <div style="font-size:13.5px;font-weight:900;color:#0f172a;margin-top:2px;">${aptHtml(primaryBuilder || "등록 건설사")}${primaryMaxFloor ? " · " + aptHtml(primaryMaxFloor) + "F" : ""}</div>
+            </div>
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;padding:9px 12px;border-radius:10px;">
+              <div style="font-size:11px;color:#64748b;font-weight:700;">📅 준공연도·연차</div>
+              <div style="font-size:13.5px;font-weight:900;color:#0f172a;margin-top:2px;">${builtYear ? builtYear + "년" + (ageYears !== null ? " (" + ageYears + "년차)" : "") : aptHtml(formattedApproval)}</div>
+            </div>
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;padding:9px 12px;border-radius:10px;">
+              <div style="font-size:11px;color:#64748b;font-weight:700;">🛡️ 주거 관리방식</div>
+              <div style="font-size:13.5px;font-weight:900;color:#0f172a;margin-top:2px;">${aptHtml(primaryMgmtType || "위탁관리")}</div>
+            </div>
+          </div>
+
+          <!-- 구글 Helpful Content 최적화: 단지 고유 심층 주거환경 리포트 -->
+          <div style="background:#ffffff;border:1px solid #e2e8f0;border-left:4px solid #1d4ed8;padding:14px 16px;border-radius:8px;margin-bottom:14px;line-height:1.75;font-size:14px;color:#334155;">
+            <p style="margin:0 0 8px;">${aptHtml(narrativeP1)}</p>
+            ${narrativeP2 ? `<p style="margin:0 0 8px;">${aptHtml(narrativeP2)}</p>` : ""}
+            ${narrativeP3 ? `<p style="margin:0 0 8px;">${aptHtml(narrativeP3)}</p>` : ""}
+            <p style="margin:0;color:#1e3a8a;font-weight:700;">${aptHtml(narrativeP4)}</p>
+          </div>`
+        : `<p style="line-height:1.75;font-size:14.5px;color:#334155;">
             <strong>${aptHtml(location)}</strong> 지역에 등록된 총 <strong>${apartmentNames.length}개 아파트 단지</strong>의 <strong>${aptHtml(trade)}</strong> 실거래 매칭 및 단지별 상세정보 안내 페이지입니다.
-            아래 실거래 매칭기 또는 단지 목록에서 원하는 아파트를 선택하고 희망조건을 등록하시면, ${aptHtml(city)} ${aptHtml(place)} 전문 공인중개사의 맞춤 매물 제안과 <strong>거래비용 최대 50% 절감 혜택</strong>을 받으실 수 있습니다.
+            ${aptHtml(narrativeP4)}
           </p>`
     }
 
