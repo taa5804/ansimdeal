@@ -704,7 +704,9 @@ async function aptHandleApartmentPage(req, res) {
     : "sale";
 
   if (!place) {
-    return res.status(404).send("페이지를 찾을 수 없습니다.");
+    if (!city && !rawRegion) {
+      return res.status(404).send("페이지를 찾을 수 없습니다.");
+    }
   }
 
   const query = new URLSearchParams();
@@ -720,7 +722,9 @@ async function aptHandleApartmentPage(req, res) {
     query.set("시군구", "eq." + city);
   }
 
-  aptAddPlaceFilter(query, place);
+  if (place) {
+    aptAddPlaceFilter(query, place);
+  }
 
   // 동일 시·군·구 내 인근 동(읍·면) 및 주변 단지 크롤링 허브 구성을 위한 병렬 쿼리
   const cityQuery = new URLSearchParams();
@@ -895,6 +899,27 @@ async function aptHandleApartmentPage(req, res) {
     const hhFormatted = hhCountNum > 0 ? hhCountNum.toLocaleString("ko-KR") + "세대" : "";
     const specShort = [hhFormatted, builtYear ? builtYear + "년 준공" : "", roadShort].filter(Boolean).join(" · ");
 
+    // Unique apartment rows in current 동/시군구 by 단지명 (리포트 생성 전 조기 계산)
+    const uniqueAptMap = new Map();
+    for (const r of rows) {
+      const n = aptClean(r["단지명"]);
+      if (n && !uniqueAptMap.has(n)) {
+        uniqueAptMap.set(n, r);
+      }
+    }
+    // 만약 해당 지역에 단지가 적을 경우, 동일 시군구 내 인근 단지들도 함께 결합하여 내부 링크 및 매칭기 풍성도 극대화
+    if (uniqueAptMap.size < 12 && cityRows.length > 0) {
+      for (const cr of cityRows) {
+        const cn = aptClean(cr["단지명"]);
+        if (cn && !uniqueAptMap.has(cn)) {
+          uniqueAptMap.set(cn, cr);
+          if (uniqueAptMap.size >= 30) break;
+        }
+      }
+    }
+    const uniqueAptRows = Array.from(uniqueAptMap.values());
+    const apartmentNames = Array.from(uniqueAptMap.keys());
+
     // 한 페이지에서 매매·전세·월세·임대를 모두 다루므로 롱테일 검색어(동이름+도로명+단지명+매매/전세/임대)가 모두 걸리도록 구성
     const subject = apartment
       ? [city, place, roadKeyword, apartment, "매매·전세·월세·임대 실거래가"].filter(Boolean).join(" ")
@@ -922,36 +947,15 @@ async function aptHandleApartmentPage(req, res) {
 
     const narrativeP4 = apartment
       ? `본 ${apartment} 단지의 ${trade} 거래는 국토교통부 실거래가 공개시스템 및 등기부등본 권리분석(선순위 근저당·전세가율 팩트체크)을 거쳐 진행되며, 우리아파트 안심거래 파트너 공인중개사 협의를 통해 중개수수료(복비)를 최대 50%까지 절감하는 1:1 맞춤형 역제안 혜택이 적용됩니다.`
-      : `${place} 아파트 매수·임차 시 관할 검증된 공인중개사의 1:1 맞춤 매물 제안과 중개수수료 50% 절감 혜택을 제공합니다.`;
+      : `${place || city} 아파트 매수·임차 시 관할 검증된 공인중개사의 1:1 맞춤 매물 제안과 중개수수료 50% 절감 혜택을 제공합니다.`;
 
     const pageTitle = apartment
       ? `${place} ${apartment} ${trade} 실거래가 시세표${hhFormatted ? " · " + hhFormatted : ""}${primaryBuilder ? " · " + primaryBuilder : ""} | 복비 50% 절감`
-      : `${city} ${place} 아파트 ${trade} 실거래가 시세표 총정리 | 복비 50% 반값 우리아파트`;
+      : (place ? `${city} ${place} 아파트 ${trade} 실거래가 시세표 총정리 | 복비 50% 반값 우리아파트` : `${city} 아파트 ${trade} 실거래가 시세표 총정리 (${apartmentNames.length}개 단지) | 복비 50% 반값 우리아파트`);
 
     const description = apartment
       ? `[${location} ${apartment}] ${primaryBuilder ? primaryBuilder + " 시공 · " : ""}총 ${hhFormatted || "등록 단지"}${primaryDongs ? "(" + primaryDongs + "개동 최고 " + primaryMaxFloor + "층) · " : ""}${builtYear ? builtYear + "년 준공(" + (ageYears !== null ? "입주 " + ageYears + "년차" : "") + ") · " : ""}${roadShort || location} | 국토부 실거래가 분석, 단지 부대시설 제원 및 중개보수 50% 절감 안심거래 지원.`
-      : `[${location} 아파트 실거래가 시세표] ${place} 전체 아파트 단지별 세대수·준공년도 및 국토부 최신 실거래가 비교. 중개수수료 50% 반값 안심거래 1:1 매칭 지원.`;
-
-    // Unique apartment rows in current 동 by 단지명
-    const uniqueAptMap = new Map();
-    for (const r of rows) {
-      const n = aptClean(r["단지명"]);
-      if (n && !uniqueAptMap.has(n)) {
-        uniqueAptMap.set(n, r);
-      }
-    }
-    // 만약 해당 동에 단지가 적을 경우(5개 미만), 동일 시군구 내 인근 단지들도 함께 결합하여 내부 링크 및 매칭기 풍성도 극대화
-    if (uniqueAptMap.size < 12 && cityRows.length > 0) {
-      for (const cr of cityRows) {
-        const cn = aptClean(cr["단지명"]);
-        if (cn && !uniqueAptMap.has(cn)) {
-          uniqueAptMap.set(cn, cr);
-          if (uniqueAptMap.size >= 30) break;
-        }
-      }
-    }
-    const uniqueAptRows = Array.from(uniqueAptMap.values());
-    const apartmentNames = Array.from(uniqueAptMap.keys());
+      : (place ? `[${location} 아파트 실거래가 시세표] ${place} 전체 아파트 단지별 세대수·준공년도 및 국토부 최신 실거래가 비교. 중개수수료 50% 반값 안심거래 1:1 매칭 지원.` : `[${location} 아파트 실거래가 총정리] ${city} 관내 ${apartmentNames.length}개 주요 단지별 세대수·준공년도 및 국토부 최신 실거래가 비교. 중개보수 50% 반값 안심거래 지원.`);
 
     // 동일 시·군·구 내 다른 법정동(읍·면·동) 허브 링크 추출 (46,727개 미수집 페이지 크롤링 돌파용 거미줄 링크)
     const siblingDongSet = new Set();
