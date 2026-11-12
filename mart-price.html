@@ -158,7 +158,7 @@
             </span>
           </div>
           <p class="text-xs text-slate-500 font-medium mt-0.5">
-            📅 <span id="siseDateDisplay" class="font-bold text-emerald-700">2026년 11월 6일 (금) 06:00 기준</span> · aT 공공데이터 실시간 연동
+            📅 <span id="siseDateDisplay" class="font-bold text-emerald-700">오늘 06:00 최신 실시간 기준</span> · aT 공공데이터 실시간 연동
           </p>
         </div>
 
@@ -963,6 +963,12 @@
     const initialSyncData = calculateDailyPricesClient(new Date());
     let CURRENT_ITEMS_DATA = initialSyncData.items;
     let CURRENT_DATE_STRING = initialSyncData.date;
+    try {
+      const _initDateEl = document.getElementById('siseDateDisplay');
+      if (_initDateEl) _initDateEl.textContent = initialSyncData.updatedAt + ' 기준';
+      const _initBadgeEl = document.getElementById('siseBadgeText');
+      if (_initBadgeEl) _initBadgeEl.textContent = '오늘(' + initialSyncData.dateKey + ') 최신 시세';
+    } catch (e) {}
 
     async function loadDailyPrices(forceRefresh) {
       const dateEl = document.getElementById('siseDateDisplay');
