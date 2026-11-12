@@ -1,6 +1,34 @@
 {
   "rewrites": [
     {
+      "source": "/apt-search/:region/:city/:place/:apartment/:type",
+      "destination": "/api/apt-page?region=:region&city=:city&place=:place&apartment=:apartment&type=:type"
+    },
+    {
+      "source": "/apt-search/:region/:city/:place/:type",
+      "destination": "/api/apt-page?region=:region&city=:city&place=:place&type=:type"
+    },
+    {
+      "source": "/apt-search/:region/:city/:place",
+      "destination": "/api/apt-page?region=:region&city=:city&place=:place&type=sale"
+    },
+    {
+      "source": "/apt-search/:region/:city/:type",
+      "destination": "/api/apt-page?region=:region&city=:city&type=:type"
+    },
+    {
+      "source": "/apt-search/:region/:city",
+      "destination": "/api/apt-page?region=:region&city=:city&type=sale"
+    },
+    {
+      "source": "/store-search/:region/:city/:place",
+      "destination": "/api/apt-page?mode=store-page&region=:region&city=:city&place=:place"
+    },
+    {
+      "source": "/store-search/:region/:city",
+      "destination": "/api/apt-page?mode=store-page&region=:region&city=:city"
+    },
+    {
       "source": "/api/daily-price",
       "destination": "/api/daily-price.js"
     },
@@ -149,14 +177,6 @@
       "destination": "/apt"
     },
     {
-      "source": "/apt-search/:region/:city/:place/:apartment/:type",
-      "destination": "/api/apt-page?region=:region&city=:city&place=:place&apartment=:apartment&type=:type"
-    },
-    {
-      "source": "/apt-search/:region/:city/:place/:type",
-      "destination": "/api/apt-page?region=:region&city=:city&place=:place&type=:type"
-    },
-    {
       "source": "/api/apt-list",
       "destination": "/api/apt-page?mode=list"
     },
@@ -179,10 +199,6 @@
     {
       "source": "/broker-sitemap.xml",
       "destination": "/api/apt-page?mode=broker-sitemap"
-    },
-    {
-      "source": "/store-search/:region/:city/:place",
-      "destination": "/api/apt-page?mode=store-page&region=:region&city=:city&place=:place"
     },
     {
       "source": "/store-sitemap.xml",
