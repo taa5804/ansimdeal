@@ -209,6 +209,10 @@
       "destination": "/api/mart-page?mode=mart-page&region=:region&city=:city&place=:place&mart=:mart"
     },
     {
+      "source": "/mart-search/:region/:city",
+      "destination": "/api/mart-page?mode=mart-page&region=:region&city=:city"
+    },
+    {
       "source": "/mart-search/:region/:city/:place",
       "destination": "/api/mart-page?mode=mart-page&region=:region&city=:city&place=:place"
     },
