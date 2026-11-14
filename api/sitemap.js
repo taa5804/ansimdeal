@@ -32,23 +32,23 @@ const WOORI_PAGES_LIST = [
   { path: "/tools-center", priority: "0.92", changefreq: "daily" },
 
   // [3순위] 알라딘맘콕 분양·미분양 매칭 플랫폼 (priority: 0.85)
-  { path: "/presale", priority: "0.85", changefreq: "daily" },
-  { path: "/presale-landing", priority: "0.85", changefreq: "daily" },
-  { path: "/presale-search", priority: "0.85", changefreq: "daily" },
-  { path: "/presale-matcher", priority: "0.85", changefreq: "daily" },
-  { path: "/presale-proposal", priority: "0.85", changefreq: "weekly" },
-  { path: "/sale-detail", priority: "0.85", changefreq: "daily" },
+  { path: "/presale", priority: "0.95", changefreq: "daily" },
+  { path: "/presale-landing", priority: "0.95", changefreq: "daily" },
+  { path: "/presale-search", priority: "0.95", changefreq: "daily" },
+  { path: "/presale-matcher", priority: "0.95", changefreq: "daily" },
+  { path: "/presale-proposal", priority: "0.95", changefreq: "weekly" },
+  { path: "/sale-detail", priority: "0.95", changefreq: "daily" },
 
   // [4순위] 동네마트 플랫폼 (priority: 0.75)
-  { path: "/mart", priority: "0.75", changefreq: "weekly" },
-  { path: "/mart-price", priority: "0.75", changefreq: "weekly" },
-  { path: "/mart-landing", priority: "0.75", changefreq: "weekly" },
-  { path: "/mart-sales", priority: "0.75", changefreq: "weekly" },
-  { path: "/mart-store", priority: "0.75", changefreq: "weekly" },
-  { path: "/mart-customer", priority: "0.72", changefreq: "weekly" },
-  { path: "/mart-promotion", priority: "0.72", changefreq: "weekly" },
-  { path: "/mart-cost", priority: "0.72", changefreq: "weekly" },
-  { path: "/mart-db", priority: "0.72", changefreq: "weekly" },
+  { path: "/mart", priority: "0.2", changefreq: "monthly" },
+  { path: "/mart-price", priority: "0.2", changefreq: "monthly" },
+  { path: "/mart-landing", priority: "0.2", changefreq: "monthly" },
+  { path: "/mart-sales", priority: "0.2", changefreq: "monthly" },
+  { path: "/mart-store", priority: "0.2", changefreq: "monthly" },
+  { path: "/mart-customer", priority: "0.2", changefreq: "monthly" },
+  { path: "/mart-promotion", priority: "0.2", changefreq: "monthly" },
+  { path: "/mart-cost", priority: "0.2", changefreq: "monthly" },
+  { path: "/mart-db", priority: "0.2", changefreq: "monthly" },
   { path: "/app-install", priority: "0.70", changefreq: "weekly" }
 ];
 
@@ -71,15 +71,15 @@ const ANSIM_PAGES_LIST = [
   { path: "/broker-sales", priority: "0.92", changefreq: "weekly" },
 
   // [3순위] 알라딘맘콕 분양·미분양 매칭 플랫폼 (priority: 0.85)
-  { path: "/presale", priority: "0.85", changefreq: "daily" },
-  { path: "/presale-landing", priority: "0.85", changefreq: "daily" },
-  { path: "/presale-search", priority: "0.85", changefreq: "daily" },
-  { path: "/presale-matcher", priority: "0.85", changefreq: "daily" },
-  { path: "/sale-detail", priority: "0.85", changefreq: "daily" },
+  { path: "/presale", priority: "0.95", changefreq: "daily" },
+  { path: "/presale-landing", priority: "0.95", changefreq: "daily" },
+  { path: "/presale-search", priority: "0.95", changefreq: "daily" },
+  { path: "/presale-matcher", priority: "0.95", changefreq: "daily" },
+  { path: "/sale-detail", priority: "0.95", changefreq: "daily" },
 
   // [4순위] 동네마트 플랫폼 (priority: 0.75)
-  { path: "/mart", priority: "0.75", changefreq: "weekly" },
-  { path: "/mart-price", priority: "0.75", changefreq: "weekly" },
+  { path: "/mart", priority: "0.2", changefreq: "monthly" },
+  { path: "/mart-price", priority: "0.2", changefreq: "monthly" },
   { path: "/app-install", priority: "0.70", changefreq: "weekly" }
 ];
 

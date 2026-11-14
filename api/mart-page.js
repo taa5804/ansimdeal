@@ -688,7 +688,7 @@ async function handleMartSitemap(req, res) {
         const place = encodePart(row["읍면동"]);
         const mart = encodePart(row["상호명"]);
         const loc = `${BASE_URL}/mart-search/${region}/${city}/${place}/${mart}`;
-        return `\n  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.75</priority>\n  </url>`;
+        return `\n  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.2</priority>\n  </url>`;
       })
       .join("");
 
