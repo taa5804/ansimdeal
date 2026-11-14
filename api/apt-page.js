@@ -2734,14 +2734,16 @@ p { line-height: 1.7; color: #334155; font-size: 14.5px; margin: 8px 0; }
 </section>
 
 <section class="card">
-  <h2>🔗 우리아파트 안심거래(1순위) & 안심딜(2순위) 부동산업자 바로가기</h2>
+  <h2>🔗 플랫폼별 바로가기 (1순위 안심거래 · 2순위 안심딜 · 3순위 알라딘맘콕 · 4순위 마트)</h2>
   <div class="cross-links">
-    <a class="cross-link" href="https://www.wooriapt.app/home#brokerListingRoomSection">🏠 안심거래 중개사 매물등록방</a>
-    <a class="cross-link" href="https://www.ansimdeal.com/home#brokerListingRoomSection">🏪 안심딜 중개사 매물등록방</a>
+    <a class="cross-link" href="https://www.wooriapt.app/home#brokerListingRoomSection">🏠 [1순위] 안심거래 매물등록방</a>
+    <a class="cross-link" href="${html(aptSearchSaleUrl)}">🏢 [1순위] ${html(place)} 아파트 안심거래</a>
+    <a class="cross-link" href="https://www.ansimdeal.com/home#brokerListingRoomSection">🏪 [2순위] 안심딜 매물등록방</a>
+    <a class="cross-link" href="${html(storeSearchUrl)}">🏬 [2순위] ${html(place)} 상가·점포 안심딜</a>
+    <a class="cross-link" href="/presale-landing">🧞 [3순위] 알라딘맘콕 분양·미분양</a>
+    <a class="cross-link" href="/presale-matcher">🎯 [3순위] 알라딘맘콕 조건매칭</a>
+    <a class="cross-link" href="/mart-search/${[region, city, place].map(pathEncode).join("/")}">🛒 [4순위] ${html(place)} 동네마트</a>
     <a class="cross-link" href="/broker-landing">📢 공인중개사 전용 랜딩페이지</a>
-    <a class="cross-link" href="${html(regionBrokerListUrl)}">🤝 ${html(place)} 중개사 전체보기</a>
-    <a class="cross-link" href="${html(aptSearchSaleUrl)}">🏢 ${html(place)} 아파트 안심거래</a>
-    <a class="cross-link" href="${html(storeSearchUrl)}">🏬 ${html(place)} 상가·점포 안심딜</a>
   </div>
 </section>
 

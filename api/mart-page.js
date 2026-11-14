@@ -322,7 +322,7 @@ async function handleMartPage(req, res) {
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${esc(canonical)}">
-<meta name="robots" content="noindex,nofollow">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="우리아파트 마트 플랫폼">
 <meta property="og:title" content="${esc(title)}">
@@ -688,7 +688,7 @@ async function handleMartSitemap(req, res) {
         const place = encodePart(row["읍면동"]);
         const mart = encodePart(row["상호명"]);
         const loc = `${BASE_URL}/mart-search/${region}/${city}/${place}/${mart}`;
-        return `\n  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`;
+        return `\n  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.75</priority>\n  </url>`;
       })
       .join("");
 
