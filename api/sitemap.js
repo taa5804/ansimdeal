@@ -84,6 +84,11 @@ const ANSIM_PAGES_LIST = [
 ];
 
 module.exports = async function handler(req, res) {
+  if (req.query && req.query.naver) {
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    return res.status(200).send("naver-site-verification: naver" + String(req.query.naver).replace(/\.html$/i, "") + ".html");
+  }
+
   if (req.method !== "GET") {
     return res.status(405).send("Method Not Allowed");
   }

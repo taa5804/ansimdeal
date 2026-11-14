@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/naver183863f2e1aadcd1fe8643f06f2cbafa.html",
+      "destination": "/api/sitemap?naver=183863f2e1aadcd1fe8643f06f2cbafa"
+    },
+    {
+      "source": "/naver:code",
+      "destination": "/api/sitemap?naver=:code"
+    },
+    {
       "source": "/google-hub-sitemap.xml",
       "destination": "/api/sitemap"
     },
