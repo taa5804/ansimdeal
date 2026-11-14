@@ -2,7 +2,15 @@
   "rewrites": [
     {
       "source": "/google-hub-sitemap.xml",
+      "destination": "/api/sitemap"
+    },
+    {
+      "source": "/apt-hub-sitemap.xml",
       "destination": "/api/apt-page?mode=broker-sitemap"
+    },
+    {
+      "source": "/mart-hub-sitemap.xml",
+      "destination": "/api/mart-page?mode=mart-sitemap&page=1"
     },
     {
       "source": "/p/:code",
