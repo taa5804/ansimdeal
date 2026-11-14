@@ -2095,7 +2095,1342 @@ button, input {
     </div>
   </div>
 
-  <!-- [3대 법적 안심 보증 팩트 배지] -->
+  
+
+
+<!-- =========================================================
+     [공인중개사 전용 부동산 매물 등록방]
+     - ID: 중개사 핸드폰 번호 (010) 입력 시 자동 방 오픈
+     - 최초 등록: 상호, 이름, 전화번호, 주소(동별), 중개사 등록번호, 비밀번호 4자리 + 비밀번호 확인
+     - 정식 방: 동별 매물 등록, 최대 10개, 7일 후 자동삭제, 선택사항 사진 3장 초간편 업로드
+     - 과금 원칙: 가입 무료! 미거래 시 무조건 무료(0원), 1건~10건 거래 성사 시에만 33,000원(VAT포함)
+========================================================= -->
+<style>
+  .br-room-section {
+    width: 100%;
+    margin: 14px 0 18px;
+    background: #ffffff;
+    border: 2px solid #0284c7;
+    border-radius: 20px;
+    padding: 20px 18px;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+    box-sizing: border-box;
+  }
+  .br-room-top-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .br-room-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #0f172a, #1e3a8a);
+    color: #facc15;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+  .br-room-rule-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .br-room-rule-pill {
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+  }
+  .br-room-title {
+    font-size: 21px;
+    font-weight: 900;
+    color: #0f172a;
+    margin: 0 0 6px;
+    letter-spacing: -0.4px;
+    line-height: 1.35;
+  }
+  .br-room-sub {
+    font-size: 13.5px;
+    color: #334155;
+    margin: 0 0 12px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .br-free-policy-banner {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border: 1.5px solid #f59e0b;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: #78350f;
+    line-height: 1.55;
+    font-weight: 800;
+  }
+  .br-free-policy-banner strong {
+    color: #b45309;
+    font-weight: 900;
+  }
+  .br-free-policy-banner .highlight-free {
+    color: #dc2626;
+    font-weight: 900;
+    text-decoration: underline;
+  }
+  .br-id-entry-box {
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 16px;
+    padding: 16px;
+  }
+  .br-id-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 900;
+    color: #0f172a;
+    margin-bottom: 8px;
+  }
+  .br-id-input-row {
+    display: flex;
+    gap: 8px;
+  }
+  .br-id-input {
+    flex: 1;
+    height: 50px;
+    border: 2px solid #0284c7;
+    border-radius: 12px;
+    padding: 0 14px;
+    font-size: 17px;
+    font-weight: 900;
+    color: #0f172a;
+    background: #ffffff;
+    outline: none;
+    letter-spacing: 0.5px;
+  }
+  .br-id-btn {
+    height: 50px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0284c7, #1e40af);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 900;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(17, 101, 215, 0.25);
+  }
+  .br-step-panel {
+    display: none;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 2px dashed #cbd5e1;
+    animation: brFadeIn 0.2s ease-out;
+  }
+  .br-step-panel.open {
+    display: block;
+  }
+  @keyframes brFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .br-panel-box {
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 16px;
+    padding: 18px 16px;
+  }
+  .br-panel-title {
+    font-size: 17px;
+    font-weight: 900;
+    color: #0f172a;
+    margin: 0 0 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .br-panel-desc {
+    font-size: 12.5px;
+    color: #475569;
+    margin: 0 0 14px;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+  .br-form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .br-form-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .br-field {
+    margin-bottom: 12px;
+  }
+  .br-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 900;
+    color: #1e293b;
+    margin-bottom: 5px;
+  }
+  .br-field label .req {
+    color: #dc2626;
+    margin-left: 2px;
+  }
+  .br-input, .br-select {
+    width: 100%;
+    height: 46px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 0 12px;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #0f172a;
+    background: #ffffff;
+    box-sizing: border-box;
+    outline: none;
+  }
+  .br-input:focus, .br-select:focus {
+    border-color: #0284c7;
+    box-shadow: 0 0 0 3px rgba(17, 101, 215, 0.12);
+  }
+  .br-pw-input {
+    text-align: center;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    letter-spacing: 6px;
+  }
+  .br-submit-btn {
+    width: 100%;
+    height: 52px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #059669, #047857);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(5, 150, 105, 0.25);
+    margin-top: 6px;
+  }
+  .br-submit-btn.blue {
+    background: linear-gradient(135deg, #0284c7, #1e40af);
+    box-shadow: 0 6px 18px rgba(17, 101, 215, 0.25);
+  }
+  /* 정식 매물 등록방 내부 슬롯 바 */
+  .br-slot-header-card {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: #ffffff;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .br-slot-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .br-slot-gauge {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+    margin-bottom: 8px;
+  }
+  .br-slot-box {
+    height: 24px;
+    border-radius: 6px;
+    border: 1.5px dashed rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.65);
+  }
+  .br-slot-box.used {
+    border-style: solid;
+    border-color: #34d399;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #ffffff;
+  }
+  .br-type-chips {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .br-type-chip {
+    height: 42px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #334155;
+    font-size: 13.5px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .br-type-chip.active {
+    border-color: #0284c7;
+    background: #eff6ff;
+    color: #0284c7;
+    font-weight: 900;
+    box-shadow: 0 2px 8px rgba(17, 101, 215, 0.12);
+  }
+  /* 초간편 3칸 사진 업로드 */
+  .br-photo-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .br-photo-slot {
+    position: relative;
+    height: 104px;
+    border: 2px dashed #94a3b8;
+    border-radius: 12px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.15s;
+  }
+  .br-photo-slot:hover {
+    border-color: #0284c7;
+    background: #f0f9ff;
+  }
+  .br-photo-slot.has-img {
+    border-style: solid;
+    border-color: #10b981;
+  }
+  .br-photo-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .br-photo-slot .br-photo-del {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.82);
+    color: #ffffff;
+    border: none;
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .br-my-item-card {
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 640px) {
+    .br-form-grid-2, .br-form-grid-3 {
+      grid-template-columns: 1fr;
+    }
+    .br-id-input-row {
+      flex-direction: column;
+    }
+    .br-id-btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<section class="br-room-section" id="brokerListingRoomSection">
+  <div class="br-room-top-head">
+    <span class="br-room-badge">🏢 공인중개사 전용 부동산 매물 등록방</span>
+    <div class="br-room-rule-pills">
+      <span class="br-room-rule-pill">✓ 최대 10개 등록</span>
+      <span class="br-room-rule-pill">⏱️ 7일 후 자동삭제</span>
+      <span class="br-room-rule-pill">📍 동별 간편등록</span>
+      <span class="br-room-rule-pill">📷 사진 3장 선택업로드</span>
+    </div>
+  </div>
+
+  <h2 class="br-room-title">공인중개사 동별 매물 등록방 (10개 슬롯 · 7일 자동삭제)</h2>
+  <p class="br-room-sub">
+    중개사님의 <b>핸드폰 번호(ID)</b>를 입력하시면 자동으로 방이 열립니다. (최초 입장 시 기본정보 및 비밀번호 4자리 등록 후 정식 매물 등록방 오픈)
+  </p>
+
+  <!-- 가입 무료 & 거래 성사 시에만 33,000원(VAT포함) 안내 배너 -->
+  <div class="br-free-policy-banner">
+    🎁 <b>가입비 0원(무료) · 매물 10개 등록 무료!</b><br>
+    • 거래가 되지 않으면 <span class="highlight-free">무조건 무료(0원)</span>로 사용합니다.<br>
+    • <b>1건 이상 (10건까지도) 거래가 성사될 때만 33,000원(VAT포함)</b>을 받습니다.
+  </div>
+
+  <!-- STEP 1: 중개사 핸드폰 번호 (ID) 입력 -->
+  <div class="br-id-entry-box">
+    <label class="br-id-label" for="brPhoneIdInput">
+      📱 중개사 ID (핸드폰 번호 11자리를 넣으면 자동으로 방이 열립니다)
+    </label>
+    <div class="br-id-input-row">
+      <input
+        type="tel"
+        id="brPhoneIdInput"
+        class="br-id-input"
+        inputmode="numeric"
+        maxlength="13"
+        placeholder="010-XXXX-XXXX (핸드폰 번호 입력)"
+        autocomplete="tel"
+      />
+      <button type="button" class="br-id-btn" id="brOpenRoomBtn" onclick="handleBrokerPhoneEnter()">
+        방 열기 ›
+      </button>
+    </div>
+    <div id="brPhoneStatusMsg" style="margin-top:7px; font-size:12.5px; font-weight:800; color:#1d4ed8; min-height:18px;"></div>
+  </div>
+
+  <!-- STEP 2-A: 최초 입장 시 [중개사 정보 5가지 + 비밀번호 4자리 + 비밀번호 확인] 등록창 -->
+  <div class="br-step-panel" id="brStepSignupPanel">
+    <div class="br-panel-box">
+      <div class="br-panel-title">📝 공인중개사 전용 방 개설 (최초 1회 무료 등록)</div>
+      <p class="br-panel-desc">
+        상호, 이름, 전화번호, 주소(동별 선택), 중개사 등록번호와 비밀번호 4자리를 입력하시면 <b>정식으로 매물을 10개까지 올릴 수 있는 전용 방</b>이 즉시 열립니다.
+      </p>
+
+      <div class="br-form-grid-2">
+        <div class="br-field" style="margin-bottom:0;">
+          <label for="brRegOffice">1. 상호 (중개사무소명)<span class="req">*</span></label>
+          <input type="text" id="brRegOffice" class="br-input" placeholder="예: 황금공인중개사사무소" />
+        </div>
+        <div class="br-field" style="margin-bottom:0;">
+          <label for="brRegName">2. 이름 (대표 중개사 성명)<span class="req">*</span></label>
+          <input type="text" id="brRegName" class="br-input" placeholder="예: 홍길동" />
+        </div>
+      </div>
+
+      <div class="br-form-grid-2">
+        <div class="br-field" style="margin-bottom:0;">
+          <label for="brRegPhone">3. 전화번호 (ID · 010 휴대폰)<span class="req">*</span></label>
+          <input type="tel" id="brRegPhone" class="br-input" readonly style="background:#eff6ff; color:#1e40af;" />
+        </div>
+        <div class="br-field" style="margin-bottom:0;">
+          <label for="brRegLicense">5. 중개사 등록번호<span class="req">*</span></label>
+          <input type="text" id="brRegLicense" class="br-input" placeholder="예: 제11680-2023-00001호" />
+        </div>
+      </div>
+
+      <div class="br-field">
+        <label>4. 주소 (도로명 주소 아님 · 시·도 / 시·군·구 / 동 선택)<span class="req">*</span></label>
+        <div class="br-form-grid-3" style="margin-bottom:0;">
+          <select id="brRegSido" class="br-select" onchange="onBrRegionSidoChange('brReg')">
+            <option value="">시·도 선택</option>
+          </select>
+          <select id="brRegSigungu" class="br-select" onchange="onBrRegionSigunguChange('brReg')" disabled>
+            <option value="">시·군·구 선택</option>
+          </select>
+          <select id="brRegDong" class="br-select" disabled>
+            <option value="">읍·면·동 선택</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="br-form-grid-2">
+        <div class="br-field" style="margin-bottom:0;">
+          <label for="brRegPw">6. 비밀번호 4자리 입력<span class="req">*</span></label>
+          <input type="password" id="brRegPw" class="br-input br-pw-input" inputmode="numeric" maxlength="4" placeholder="••••" />
+        </div>
+        <div class="br-field" style="margin-bottom:0;">
+          <label for="brRegPwConfirm">비밀번호 4자리 확인<span class="req">*</span></label>
+          <input type="password" id="brRegPwConfirm" class="br-input br-pw-input" inputmode="numeric" maxlength="4" placeholder="••••" />
+        </div>
+      </div>
+
+      <button type="button" class="br-submit-btn" onclick="submitBrokerRoomSignup()">
+        🔓 무료 등록 완료 및 정식 매물 등록방 열기 ›
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 2-B: 이미 등록된 중개사 번호인 경우 [비밀번호 4자리 입력] 창 -->
+  <div class="br-step-panel" id="brStepLoginPanel">
+    <div class="br-panel-box">
+      <div class="br-panel-title">🔐 등록된 중개사 전용 방 비밀번호 확인</div>
+      <p class="br-panel-desc" id="brLoginWelcomeDesc">
+        등록된 중개사 계정입니다. 설정하신 <b>비밀번호 4자리</b>를 입력하시면 정식 매물 등록방이 즉시 열립니다.
+      </p>
+      <div style="display:flex; gap:8px; max-width:420px; align-items:center;">
+        <input
+          type="password"
+          id="brLoginPwInput"
+          class="br-input br-pw-input"
+          inputmode="numeric"
+          maxlength="4"
+          placeholder="4자리"
+          style="flex:1; height:50px;"
+        />
+        <button type="button" class="br-id-btn" onclick="verifyBrokerRoomPassword()">
+          정식 방 열기 ›
+        </button>
+      </div>
+      <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+        <span style="font-size:12px; color:#64748b; font-weight:700;">※ 비밀번호 4자리 입력 시 자동으로 방이 열립니다.</span>
+        <button type="button" onclick="openBrokerEditMode()" style="background:none; border:none; color:#2563eb; font-size:12px; font-weight:800; cursor:pointer; text-decoration:underline;">
+          중개사 정보 수정 / 비밀번호 재설정 ›
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: 정식 매물 등록방 (최대 10개 · 7일 후 자동삭제 · 동별 등록 · 사진 3장 선택 업로드) -->
+  <div class="br-step-panel" id="brStepFormalRoomPanel">
+    <!-- 상단 슬롯 현황판 -->
+    <div class="br-slot-header-card">
+      <div class="br-slot-top-row">
+        <div>
+          <div style="font-size:16px; font-weight:900; color:#ffffff;" id="brFormalRoomTitle">🏢 내 부동산 정식 매물 등록방</div>
+          <div style="font-size:12px; color:#cbd5e1; font-weight:700; margin-top:2px;" id="brFormalRoomMeta">-</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span id="brFormalSlotCountPill" style="background:#10b981; color:#fff; font-size:12.5px; font-weight:900; padding:5px 12px; border-radius:999px;">
+            0 / 10개 등록 중
+          </span>
+          <button type="button" onclick="openBrokerEditMode()" style="background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.3); border-radius:8px; padding:5px 9px; font-size:11.5px; font-weight:800; cursor:pointer;">
+            정보수정
+          </button>
+        </div>
+      </div>
+
+      <div class="br-slot-gauge" id="brFormalSlotGauge">
+        <div class="br-slot-box">1</div>
+        <div class="br-slot-box">2</div>
+        <div class="br-slot-box">3</div>
+        <div class="br-slot-box">4</div>
+        <div class="br-slot-box">5</div>
+        <div class="br-slot-box">6</div>
+        <div class="br-slot-box">7</div>
+        <div class="br-slot-box">8</div>
+        <div class="br-slot-box">9</div>
+        <div class="br-slot-box">10</div>
+      </div>
+
+      <div style="font-size:12px; color:#fde68a; font-weight:800; display:flex; flex-wrap:wrap; gap:10px;">
+        <span>✓ 최대 10개까지 무료 등록</span>
+        <span>✓ 등록일로부터 7일 후 자동 삭제</span>
+        <span>✓ 미거래 시 무조건 0원 · 1~10건 거래 성사 시에만 33,000원(VAT포함)</span>
+      </div>
+    </div>
+
+    <!-- 매물 등록 입력 폼 -->
+    <div class="br-panel-box" style="background:#ffffff; border:2px solid #e2e8f0;">
+      <div class="br-panel-title">➕ 새 매물 동별 등록하기 (도로명 주소 아님 · 동별 선택)</div>
+      <p class="br-panel-desc">
+        동별로 매물을 올릴 수 있으며, 사진은 선택사항으로 최대 3장까지 터치 한 번으로 쉽게 올라갑니다.
+      </p>
+
+      <!-- 1. 동별 선택 -->
+      <div class="br-field">
+        <label>1. 매물 지역 선택 (시·도 / 시·군·구 / 읍·면·동)<span class="req">*</span></label>
+        <div class="br-form-grid-3" style="margin-bottom:0;">
+          <select id="brItemSido" class="br-select" onchange="onBrRegionSidoChange('brItem')">
+            <option value="">시·도 선택</option>
+          </select>
+          <select id="brItemSigungu" class="br-select" onchange="onBrRegionSigunguChange('brItem')" disabled>
+            <option value="">시·군·구 선택</option>
+          </select>
+          <select id="brItemDong" class="br-select" disabled>
+            <option value="">읍·면·동 선택</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 2. 거래유형 -->
+      <div class="br-field">
+        <label>2. 거래유형 선택<span class="req">*</span></label>
+        <div class="br-type-chips" id="brTypeChips">
+          
+              <button type="button" class="br-type-chip active" data-cat="store" data-type="monthly" onclick="selectBrTradeType(this)">🏪 상가 월세</button>
+              <button type="button" class="br-type-chip" data-cat="store" data-type="jeonse" onclick="selectBrTradeType(this)">🔑 상가 전세</button>
+              <button type="button" class="br-type-chip" data-cat="store" data-type="sale" onclick="selectBrTradeType(this)">🏢 상가 매매</button>
+        
+        </div>
+      </div>
+
+      <!-- 3. 단지명/상가명 & 평형 & 층수 -->
+      <div class="br-field">
+        <label for="brItemTitle">3. 상가·점포명 (또는 위치)<span class="req">*</span></label>
+        <input type="text" id="brItemTitle" class="br-input" placeholder="예: 수완지구 먹자골목 1층 상가 / 역삼역 대로변 점포" />
+      </div>
+
+      <div class="br-form-grid-2">
+        <div class="br-field" style="margin-bottom:0;">
+          <label for="brItemArea">4. 전용면적 (평수)<span class="req">*</span></label>
+          <input type="text" id="brItemArea" class="br-input" placeholder="예: 전용 25평 (82㎡)" />
+        </div>
+        <div class="br-field" style="margin-bottom:0;">
+          <label for="brItemFloor">5. 해당 층수<span class="req">*</span></label>
+          <input type="text" id="brItemFloor" class="br-input" placeholder="예: 지상 1층 / 2층" />
+        </div>
+      </div>
+
+      <!-- 4. 거래 금액 & 설명 -->
+      <div class="br-field">
+        <label for="brItemAmount">6. 보증금 / 월세 / 권리금 (또는 매매가)<span class="req">*</span></label>
+        <input type="text" id="brItemAmount" class="br-input" placeholder="예: 보증금 3,000만 / 월 150만 / 무권리" />
+      </div>
+
+      <div class="br-field">
+        <label for="brItemDesc">7. 매물 핵심 설명 (선택사항)</label>
+        <input type="text" id="brItemDesc" class="br-input" placeholder="예: 코너 1층 / 주차 편리 / 즉시 입점 가능" />
+      </div>
+
+      <!-- 5. 사진 3개 이내 초간편 업로드 (선택사항) -->
+      <div class="br-field">
+        <label>
+          8. 매물 사진 업로드 <span style="color:#059669; font-weight:800;">(선택사항 · 최대 3장 이내 · 터치 1번으로 간편 첨부)</span>
+        </label>
+        <input type="file" id="brHiddenPhotoInput" accept="image/*" multiple style="display:none;" onchange="handleBrEasyPhotoFiles(this.files)" />
+        <div class="br-photo-grid-3" id="brPhotoSlotsGrid">
+          <div class="br-photo-slot" onclick="triggerBrPhotoSlot(0)" id="brPhotoSlot0">
+            <span style="font-size:24px;">📷</span>
+            <span style="font-size:12px; font-weight:800; color:#475569; margin-top:4px;">사진 1 추가 (선택)</span>
+            <span style="font-size:10.5px; color:#94a3b8;">터치하여 바로 선택</span>
+          </div>
+          <div class="br-photo-slot" onclick="triggerBrPhotoSlot(1)" id="brPhotoSlot1">
+            <span style="font-size:24px;">📷</span>
+            <span style="font-size:12px; font-weight:800; color:#475569; margin-top:4px;">사진 2 추가 (선택)</span>
+            <span style="font-size:10.5px; color:#94a3b8;">터치하여 바로 선택</span>
+          </div>
+          <div class="br-photo-slot" onclick="triggerBrPhotoSlot(2)" id="brPhotoSlot2">
+            <span style="font-size:24px;">📷</span>
+            <span style="font-size:12px; font-weight:800; color:#475569; margin-top:4px;">사진 3 추가 (선택)</span>
+            <span style="font-size:10.5px; color:#94a3b8;">터치하여 바로 선택</span>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="br-submit-btn blue" id="brRegisterListingBtn" onclick="submitBrokerFormalListing()">
+        ➕ 내 전용 방에 매물 등록하기 (최대 10개 · 7일 후 자동삭제)
+      </button>
+    </div>
+
+    <!-- 내 방에 등록된 매물 리스트 (1~10개) -->
+    <div style="margin-top:16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <strong style="font-size:15px; color:#0f172a;">📋 내 방에 등록된 매물 목록 (<span id="brMyActiveCountTxt">0</span> / 10개 · 7일 자동삭제)</strong>
+        <span style="font-size:12px; color:#059669; font-weight:800;">거래완료/삭제 시 즉시 새 매물 등록 가능</span>
+      </div>
+      <div id="brMyListingsContainer"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var BR_SUPABASE_URL = "https://dcysjuxyjqtvkihdsjvv.supabase.co";
+  var BR_SUPABASE_KEY = "sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
+  var brCurrentCategory = "store";
+  var brCurrentTradeType = "monthly";
+  var brCurrentBroker = null;
+  var brPhotos = [null, null, null];
+  var brActivePhotoSlotIdx = 0;
+
+  var FALLBACK_SIDO = [
+    "서울특별시","경기도","인천광역시","부산광역시","대구광역시","광주광역시","대전광역시","울산광역시","세종특별자치시",
+    "강원특별자치도","충청북도","충청남도","전북특별자치도","전라남도","경상북도","경상남도","제주특별자치도"
+  ];
+
+  function mapBrDbSido(sidoVal) {
+    if (sidoVal === "광주광역시" || sidoVal === "전라남도") return "전남광주통합특별시";
+    return sidoVal;
+  }
+
+  function brNormPhone(v) {
+    return String(v || "").replace(/[^0-9]/g, "").slice(0, 11);
+  }
+
+  function brFmtPhone(v) {
+    var d = brNormPhone(v);
+    if (d.length > 3 && d.length <= 7) return d.slice(0, 3) + "-" + d.slice(3);
+    if (d.length > 7) return d.slice(0, 3) + "-" + d.slice(3, 7) + "-" + d.slice(7, 11);
+    return d;
+  }
+
+  async function brRegionApi(table, query) {
+    var res = await fetch(BR_SUPABASE_URL + "/rest/v1/" + table + "?" + query, {
+      headers: { apikey: BR_SUPABASE_KEY }
+    });
+    if (!res.ok) throw new Error("region fetch error");
+    return await res.json();
+  }
+
+  async function initBrSidoSelect(prefix, defaultSido, defaultSgg, defaultDong) {
+    var sidoEl = document.getElementById(prefix + "Sido");
+    if (!sidoEl) return;
+    sidoEl.innerHTML = '<option value="">시·도 선택</option>';
+    FALLBACK_SIDO.forEach(function(s) {
+      var opt = document.createElement("option");
+      opt.value = s;
+      opt.textContent = s;
+      sidoEl.appendChild(opt);
+    });
+    if (defaultSido) {
+      sidoEl.value = defaultSido;
+      await onBrRegionSidoChange(prefix, defaultSgg, defaultDong);
+    }
+  }
+
+  window.onBrRegionSidoChange = async function(prefix, targetSgg, targetDong) {
+    var sidoEl = document.getElementById(prefix + "Sido");
+    var sggEl = document.getElementById(prefix + "Sigungu");
+    var dongEl = document.getElementById(prefix + "Dong");
+    if (!sidoEl || !sggEl || !dongEl) return;
+
+    var sido = sidoEl.value;
+    sggEl.innerHTML = '<option value="">시·군·구 선택</option>';
+    dongEl.innerHTML = '<option value="">읍·면·동 선택</option>';
+    sggEl.disabled = true;
+    dongEl.disabled = true;
+    if (!sido) return;
+
+    try {
+      var rows = await brRegionApi(
+        "safe_region_sigungu",
+        "select=sigungu&sido=eq." + encodeURIComponent(mapBrDbSido(sido)) + "&order=sigungu.asc"
+      );
+      var seen = {};
+      (Array.isArray(rows) ? rows : []).forEach(function(r) {
+        if (!r.sigungu || seen[r.sigungu]) return;
+        seen[r.sigungu] = true;
+        var opt = document.createElement("option");
+        opt.value = r.sigungu;
+        opt.textContent = r.sigungu;
+        sggEl.appendChild(opt);
+      });
+      sggEl.disabled = false;
+      if (targetSgg) {
+        sggEl.value = targetSgg;
+        await onBrRegionSigunguChange(prefix, targetDong);
+      }
+    } catch (e) {
+      sggEl.disabled = false;
+    }
+  };
+
+  window.onBrRegionSigunguChange = async function(prefix, targetDong) {
+    var sidoEl = document.getElementById(prefix + "Sido");
+    var sggEl = document.getElementById(prefix + "Sigungu");
+    var dongEl = document.getElementById(prefix + "Dong");
+    if (!sidoEl || !sggEl || !dongEl) return;
+
+    var sido = sidoEl.value;
+    var sgg = sggEl.value;
+    dongEl.innerHTML = '<option value="">읍·면·동 선택</option>';
+    dongEl.disabled = true;
+    if (!sido || !sgg) return;
+
+    try {
+      var rows = await brRegionApi(
+        "safe_region_dong",
+        "select=eupmyeondong&sido=eq." + encodeURIComponent(mapBrDbSido(sido)) +
+        "&sigungu=eq." + encodeURIComponent(sgg) + "&order=eupmyeondong.asc"
+      );
+      var seen = {};
+      (Array.isArray(rows) ? rows : []).forEach(function(r) {
+        if (!r.eupmyeondong || seen[r.eupmyeondong]) return;
+        seen[r.eupmyeondong] = true;
+        var opt = document.createElement("option");
+        opt.value = r.eupmyeondong;
+        opt.textContent = r.eupmyeondong;
+        dongEl.appendChild(opt);
+      });
+      dongEl.disabled = false;
+      if (targetDong) {
+        dongEl.value = targetDong;
+      }
+    } catch (e) {
+      dongEl.disabled = false;
+    }
+  };
+
+  function getLocalBrokerMap() {
+    try {
+      return JSON.parse(localStorage.getItem("woori_ansim_broker_rooms_v1") || "{}");
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveLocalBroker(phone, brokerObj) {
+    try {
+      var map = getLocalBrokerMap();
+      map[brNormPhone(phone)] = brokerObj;
+      localStorage.setItem("woori_ansim_broker_rooms_v1", JSON.stringify(map));
+    } catch (e) {}
+  }
+
+  function showBrPanel(panelId) {
+    ["brStepSignupPanel", "brStepLoginPanel", "brStepFormalRoomPanel"].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.classList.toggle("open", id === panelId);
+    });
+  }
+
+  /* 핸드폰 번호 입력 시 자동으로 방 열기 */
+  var phoneInputEl = document.getElementById("brPhoneIdInput");
+  if (phoneInputEl) {
+    phoneInputEl.addEventListener("input", function() {
+      this.value = brFmtPhone(this.value);
+      var raw = brNormPhone(this.value);
+      if (raw.length === 11 && /^01[016789]/.test(raw)) {
+        handleBrokerPhoneEnter();
+      }
+    });
+  }
+
+  var loginPwEl = document.getElementById("brLoginPwInput");
+  if (loginPwEl) {
+    loginPwEl.addEventListener("input", function() {
+      this.value = this.value.replace(/[^0-9]/g, "").slice(0, 4);
+      if (this.value.length === 4) {
+        verifyBrokerRoomPassword();
+      }
+    });
+  }
+
+  window.handleBrokerPhoneEnter = async function() {
+    var phoneEl = document.getElementById("brPhoneIdInput");
+    var msgEl = document.getElementById("brPhoneStatusMsg");
+    var rawPhone = brNormPhone(phoneEl ? phoneEl.value : "");
+    if (!/^01[016789][0-9]{7,8}$/.test(rawPhone)) {
+      alert("공인중개사 010 핸드폰 번호를 정확히 입력해 주세요.");
+      if (phoneEl) phoneEl.focus();
+      return;
+    }
+
+    if (msgEl) msgEl.textContent = "⏳ 핸드폰 번호(ID)로 전용 방 정보를 확인하고 있습니다...";
+
+    var localMap = getLocalBrokerMap();
+    var foundBroker = localMap[rawPhone] || null;
+
+    if (!foundBroker) {
+      try {
+        var res = await fetch("/api/broker-auth?phone=" + encodeURIComponent(rawPhone));
+        var data = await res.json().catch(function() { return null; });
+        if (res.ok && data && data.ok && data.member) {
+          var m = data.member;
+          foundBroker = {
+            phone: rawPhone,
+            officeName: m.office_name || "",
+            repName: m.representative_name || "",
+            licenseNo: m.office_registration_no || "",
+            sido: m.sido || "광주광역시",
+            sigungu: m.sigungu || "북구",
+            dong: m.dong || "본촌동",
+            addrDetail: m.address || "",
+            pin: m.password_hash || ""
+          };
+          saveLocalBroker(rawPhone, foundBroker);
+        }
+      } catch (e) {}
+    }
+
+    if (foundBroker && foundBroker.officeName && foundBroker.pin && foundBroker.pin.length === 4) {
+      brCurrentBroker = foundBroker;
+      if (msgEl) msgEl.textContent = "✅ 등록된 중개사 계정(" + foundBroker.officeName + ")이 확인되었습니다. 비밀번호 4자리를 입력해 주세요.";
+      var descEl = document.getElementById("brLoginWelcomeDesc");
+      if (descEl) {
+        descEl.innerHTML = "<b>" + foundBroker.officeName + " (" + (foundBroker.repName || "소장") + "님)</b> 전용 방입니다. 설정하신 <b>비밀번호 4자리</b>를 입력하시면 정식 매물 등록방이 즉시 열립니다.";
+      }
+      showBrPanel("brStepLoginPanel");
+      var pwInp = document.getElementById("brLoginPwInput");
+      if (pwInp) {
+        pwInp.value = "";
+        pwInp.focus();
+      }
+    } else {
+      if (msgEl) msgEl.textContent = "✨ 처음 입장하시는 번호입니다. 아래 기본정보와 비밀번호 4자리를 입력하시면 정식 매물 등록방이 열립니다!";
+      document.getElementById("brRegPhone").value = brFmtPhone(rawPhone);
+      await initBrSidoSelect("brReg", "광주광역시", "북구", "본촌동");
+      showBrPanel("brStepSignupPanel");
+      var offInp = document.getElementById("brRegOffice");
+      if (offInp) offInp.focus();
+    }
+  };
+
+  window.openBrokerEditMode = async function() {
+    var rawPhone = brNormPhone(document.getElementById("brPhoneIdInput").value);
+    var b = brCurrentBroker || getLocalBrokerMap()[rawPhone] || {};
+    document.getElementById("brRegPhone").value = brFmtPhone(rawPhone);
+    document.getElementById("brRegOffice").value = b.officeName || "";
+    document.getElementById("brRegName").value = b.repName || "";
+    document.getElementById("brRegLicense").value = b.licenseNo || "";
+    document.getElementById("brRegPw").value = "";
+    document.getElementById("brRegPwConfirm").value = "";
+    await initBrSidoSelect("brReg", b.sido || "광주광역시", b.sigungu || "북구", b.dong || "본촌동");
+    showBrPanel("brStepSignupPanel");
+  };
+
+  window.submitBrokerRoomSignup = async function() {
+    var rawPhone = brNormPhone(document.getElementById("brRegPhone").value || document.getElementById("brPhoneIdInput").value);
+    var officeName = (document.getElementById("brRegOffice").value || "").trim();
+    var repName = (document.getElementById("brRegName").value || "").trim();
+    var licenseNo = (document.getElementById("brRegLicense").value || "").trim();
+    var sido = document.getElementById("brRegSido").value;
+    var sigungu = document.getElementById("brRegSigungu").value;
+    var dong = document.getElementById("brRegDong").value;
+    var addrDetail = "";
+    var pw = (document.getElementById("brRegPw").value || "").replace(/[^0-9]/g, "");
+    var pwConfirm = (document.getElementById("brRegPwConfirm").value || "").replace(/[^0-9]/g, "");
+
+    if (!officeName) { alert("상호(중개사무소명)를 입력해 주세요."); document.getElementById("brRegOffice").focus(); return; }
+    if (!repName) { alert("이름(대표 중개사 성명)을 입력해 주세요."); document.getElementById("brRegName").focus(); return; }
+    if (!/^01[016789][0-9]{7,8}$/.test(rawPhone)) { alert("전화번호(010)를 확인해 주세요."); return; }
+    if (!sido || !sigungu || !dong) { alert("주소(시·도 / 시·군·구 / 읍·면·동)를 동별로 선택해 주세요."); return; }
+    if (!licenseNo) { alert("중개사 등록번호를 입력해 주세요."); document.getElementById("brRegLicense").focus(); return; }
+    if (pw.length !== 4) { alert("비밀번호 4자리 숫자를 입력해 주세요."); document.getElementById("brRegPw").focus(); return; }
+    if (pw !== pwConfirm) { alert("비밀번호 4자리와 비밀번호 확인이 일치하지 않습니다."); document.getElementById("brRegPwConfirm").focus(); return; }
+
+    var brokerObj = {
+      phone: rawPhone,
+      officeName: officeName,
+      repName: repName,
+      licenseNo: licenseNo,
+      sido: sido,
+      sigungu: sigungu,
+      dong: dong,
+      addrDetail: addrDetail,
+      pin: pw
+    };
+
+    saveLocalBroker(rawPhone, brokerObj);
+    brCurrentBroker = brokerObj;
+
+    try {
+      await fetch("/api/broker-auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          allowUpsert: true,
+          mobile_phone: rawPhone,
+          office_phone: rawPhone,
+          office_name: officeName,
+          representative_name: repName,
+          office_registration_no: licenseNo,
+          sido: sido,
+          sigungu: sigungu,
+          dong: dong,
+          address: [sido, sigungu, dong, addrDetail].filter(Boolean).join(" "),
+          password_hash: pw
+        })
+      });
+    } catch (e) {}
+
+    openFormalBrokerRoom(brokerObj);
+  };
+
+  window.verifyBrokerRoomPassword = function() {
+    var pw = (document.getElementById("brLoginPwInput").value || "").replace(/[^0-9]/g, "");
+    if (pw.length !== 4) {
+      alert("비밀번호 4자리를 입력해 주세요.");
+      return;
+    }
+    if (!brCurrentBroker) {
+      var rawPhone = brNormPhone(document.getElementById("brPhoneIdInput").value);
+      brCurrentBroker = getLocalBrokerMap()[rawPhone];
+    }
+    if (brCurrentBroker && brCurrentBroker.pin && brCurrentBroker.pin !== pw) {
+      alert("비밀번호 4자리가 일치하지 않습니다. 다시 확인해 주세요.");
+      document.getElementById("brLoginPwInput").value = "";
+      document.getElementById("brLoginPwInput").focus();
+      return;
+    }
+    openFormalBrokerRoom(brCurrentBroker);
+  };
+
+  async function openFormalBrokerRoom(broker) {
+    if (!broker) return;
+    brCurrentBroker = broker;
+    localStorage.setItem("broker_phone", broker.phone);
+    localStorage.setItem("broker_office_name", broker.officeName);
+
+    document.getElementById("brFormalRoomTitle").textContent =
+      "🏢 " + broker.officeName + " (" + broker.repName + " 소장님) 정식 매물 등록방";
+    document.getElementById("brFormalRoomMeta").textContent =
+      "ID: " + brFmtPhone(broker.phone) + " | 동별 주소: " + [broker.sido, broker.sigungu, broker.dong].filter(Boolean).join(" ") + " | 등록번호: " + broker.licenseNo;
+
+    var msgEl = document.getElementById("brPhoneStatusMsg");
+    if (msgEl) msgEl.textContent = "🔓 정식 매물 등록방이 열렸습니다! (동별로 최대 10개 등록 · 7일 후 자동삭제)";
+
+    showBrPanel("brStepFormalRoomPanel");
+    await initBrSidoSelect("brItem", broker.sido || "광주광역시", broker.sigungu || "북구", broker.dong || "본촌동");
+    await loadBrMyFormalListings();
+  }
+
+  window.selectBrTradeType = function(btn) {
+    document.querySelectorAll("#brTypeChips .br-type-chip").forEach(function(b) {
+      b.classList.remove("active");
+    });
+    btn.classList.add("active");
+    brCurrentCategory = btn.getAttribute("data-cat") || "store";
+    brCurrentTradeType = btn.getAttribute("data-type") || "monthly";
+  };
+
+  /* 초간편 사진 업로드 (최대 3장 · 자동 압축 리사이즈) */
+  window.triggerBrPhotoSlot = function(idx) {
+    brActivePhotoSlotIdx = idx;
+    var inp = document.getElementById("brHiddenPhotoInput");
+    if (inp) {
+      inp.value = "";
+      inp.click();
+    }
+  };
+
+  function compressImageFile(file) {
+    return new Promise(function(resolve) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement("canvas");
+          var maxW = 720;
+          var scale = img.width > maxW ? maxW / img.width : 1;
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          resolve(canvas.toDataURL("image/jpeg", 0.78));
+        };
+        img.onerror = function() { resolve(e.target.result); };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  window.handleBrEasyPhotoFiles = async function(files) {
+    if (!files || !files.length) return;
+    var fileArr = Array.from(files).slice(0, 3);
+    for (var i = 0; i < fileArr.length; i++) {
+      var targetIdx = (fileArr.length === 1) ? brActivePhotoSlotIdx : i;
+      if (targetIdx > 2) break;
+      var dataUrl = await compressImageFile(fileArr[i]);
+      brPhotos[targetIdx] = dataUrl;
+    }
+    renderBrPhotoSlots();
+  };
+
+  window.removeBrPhotoSlot = function(ev, idx) {
+    if (ev) ev.stopPropagation();
+    brPhotos[idx] = null;
+    renderBrPhotoSlots();
+  };
+
+  function renderBrPhotoSlots() {
+    for (var i = 0; i < 3; i++) {
+      var slotEl = document.getElementById("brPhotoSlot" + i);
+      if (!slotEl) continue;
+      if (brPhotos[i]) {
+        slotEl.classList.add("has-img");
+        slotEl.innerHTML =
+          '<img src="' + brPhotos[i] + '" alt="매물사진 ' + (i + 1) + '" />' +
+          '<button type="button" class="br-photo-del" onclick="removeBrPhotoSlot(event, ' + i + ')">✕</button>';
+      } else {
+        slotEl.classList.remove("has-img");
+        slotEl.innerHTML =
+          '<span style="font-size:24px;">📷</span>' +
+          '<span style="font-size:12px; font-weight:800; color:#475569; margin-top:4px;">사진 ' + (i + 1) + ' 추가 (선택)</span>' +
+          '<span style="font-size:10.5px; color:#94a3b8;">터치하여 바로 선택</span>';
+      }
+    }
+  }
+
+  function getLocalBrokerListings(phone) {
+    try {
+      var all = JSON.parse(localStorage.getItem("woori_ansim_broker_listings_v1") || "[]");
+      var now = Date.now();
+      // 7일 자동삭제 필터링
+      var valid = all.filter(function(item) {
+        return item && item.expiresAt && new Date(item.expiresAt).getTime() > now && item.status !== "DELETED";
+      });
+      if (valid.length !== all.length) {
+        localStorage.setItem("woori_ansim_broker_listings_v1", JSON.stringify(valid));
+      }
+      if (!phone) return valid;
+      var raw = brNormPhone(phone);
+      return valid.filter(function(item) { return brNormPhone(item.officePhone) === raw; });
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveLocalBrokerListing(newItem) {
+    try {
+      var all = JSON.parse(localStorage.getItem("woori_ansim_broker_listings_v1") || "[]");
+      all.unshift(newItem);
+      localStorage.setItem("woori_ansim_broker_listings_v1", JSON.stringify(all));
+    } catch (e) {}
+  }
+
+  window.submitBrokerFormalListing = async function() {
+    if (!brCurrentBroker) {
+      alert("먼저 핸드폰 번호(ID)로 방을 열어주세요.");
+      return;
+    }
+    var sido = document.getElementById("brItemSido").value;
+    var sigungu = document.getElementById("brItemSigungu").value;
+    var dong = document.getElementById("brItemDong").value;
+    var title = (document.getElementById("brItemTitle").value || "").trim();
+    var area = (document.getElementById("brItemArea").value || "").trim();
+    var floor = (document.getElementById("brItemFloor").value || "").trim();
+    var amount = (document.getElementById("brItemAmount").value || "").trim();
+    var desc = (document.getElementById("brItemDesc").value || "").trim();
+
+    if (!sido || !sigungu || !dong) {
+      alert("매물 지역(시·도 / 시·군·구 / 읍·면·동)을 동별로 선택해 주세요.");
+      return;
+    }
+    if (!title) {
+      alert("상가·점포명 (또는 위치)을(를) 입력해 주세요.");
+      document.getElementById("brItemTitle").focus();
+      return;
+    }
+    if (!area) {
+      alert("전용면적 (평수)을(를) 입력해 주세요.");
+      document.getElementById("brItemArea").focus();
+      return;
+    }
+    if (!floor) {
+      alert("해당 층수를 입력해 주세요.");
+      document.getElementById("brItemFloor").focus();
+      return;
+    }
+    if (!amount) {
+      alert("거래 희망금액을 입력해 주세요.");
+      document.getElementById("brItemAmount").focus();
+      return;
+    }
+
+    var myCurrent = getLocalBrokerListings(brCurrentBroker.phone);
+    if (myCurrent.length >= 10) {
+      alert("최대 10개 매물까지 등록할 수 있습니다. 기존 매물을 삭제하시면 즉시 추가 등록이 가능합니다.");
+      return;
+    }
+
+    var validPhotos = brPhotos.filter(Boolean).slice(0, 3);
+    var now = new Date();
+    var exp = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+    var localId = "L-" + Date.now();
+
+    var newItem = {
+      id: localId,
+      officePhone: brCurrentBroker.phone,
+      officeName: brCurrentBroker.officeName,
+      repName: brCurrentBroker.repName,
+      licenseNo: brCurrentBroker.licenseNo,
+      sido: sido,
+      sigungu: sigungu,
+      dong: dong,
+      category: brCurrentCategory,
+      tradeType: brCurrentTradeType,
+      apartment: title,
+      area: area,
+      floor: floor,
+      amount: amount,
+      description: desc,
+      photos: validPhotos,
+      registeredAt: now.toISOString(),
+      expiresAt: exp.toISOString(),
+      status: "ACTIVE"
+    };
+
+    var btn = document.getElementById("brRegisterListingBtn");
+    if (btn) btn.disabled = true;
+
+    try {
+      var res = await fetch("/api/property-proposal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "REGISTER_MAP_SLOT",
+          officePhone: brCurrentBroker.phone,
+          officeName: brCurrentBroker.officeName,
+          sido: sido,
+          sigungu: sigungu,
+          dong: dong,
+          category: brCurrentCategory,
+          tradeType: brCurrentTradeType,
+          apartment: title,
+          area: area,
+          floor: floor,
+          amount: amount,
+          description: desc,
+          photos: validPhotos
+        })
+      });
+      var data = await res.json().catch(function() { return null; });
+      if (res.ok && data && data.ok && data.item && data.item.id) {
+        newItem.id = data.item.id;
+      }
+    } catch (e) {}
+
+    saveLocalBrokerListing(newItem);
+
+    // 입력칸 초기화
+    document.getElementById("brItemTitle").value = "";
+    document.getElementById("brItemArea").value = "";
+    document.getElementById("brItemFloor").value = "";
+    document.getElementById("brItemAmount").value = "";
+    document.getElementById("brItemDesc").value = "";
+    brPhotos = [null, null, null];
+    renderBrPhotoSlots();
+
+    if (btn) btn.disabled = false;
+    await loadBrMyFormalListings();
+    alert("매물이 [" + sido + " " + sigungu + " " + dong + "]에 정식 등록되었습니다! (7일 후 자동삭제)");
+  };
+
+  window.deleteBrFormalListing = async function(itemId) {
+    if (!confirm("해당 매물을 삭제(또는 거래완료) 처리하시겠습니까?\n삭제 즉시 슬롯 1개가 비워집니다.")) return;
+    try {
+      var all = JSON.parse(localStorage.getItem("woori_ansim_broker_listings_v1") || "[]");
+      var updated = all.filter(function(item) { return String(item.id) !== String(itemId); });
+      localStorage.setItem("woori_ansim_broker_listings_v1", JSON.stringify(updated));
+    } catch (e) {}
+
+    if (typeof itemId === "number" || (!String(itemId).startsWith("L-"))) {
+      try {
+        await fetch("/api/property-proposal", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "DELETE_SLOT", id: itemId })
+        });
+      } catch (e) {}
+    }
+    await loadBrMyFormalListings();
+  };
+
+  async function loadBrMyFormalListings() {
+    if (!brCurrentBroker) return;
+    var items = getLocalBrokerListings(brCurrentBroker.phone);
+
+    try {
+      var res = await fetch("/api/property-proposal?mode=broker_slots&phone=" + encodeURIComponent(brCurrentBroker.phone));
+      var data = await res.json().catch(function() { return null; });
+      if (res.ok && data && data.ok && Array.isArray(data.activeSlots) && data.activeSlots.length > 0) {
+        var seenIds = {};
+        items.forEach(function(it) { seenIds[String(it.id)] = true; });
+        data.activeSlots.forEach(function(srv) {
+          if (!seenIds[String(srv.id)]) items.push(srv);
+        });
+      }
+    } catch (e) {}
+
+    items = items.slice(0, 10);
+    var used = items.length;
+    var remain = Math.max(0, 10 - used);
+
+    var pillEl = document.getElementById("brFormalSlotCountPill");
+    if (pillEl) pillEl.textContent = used + " / 10개 등록 중 (잔여 " + remain + "개)";
+
+    var countTxt = document.getElementById("brMyActiveCountTxt");
+    if (countTxt) countTxt.textContent = String(used);
+
+    var boxes = document.querySelectorAll("#brFormalSlotGauge .br-slot-box");
+    boxes.forEach(function(box, idx) {
+      box.classList.toggle("used", idx < used);
+      box.textContent = idx < used ? "✓" : String(idx + 1);
+    });
+
+    var container = document.getElementById("brMyListingsContainer");
+    if (!container) return;
+    if (used === 0) {
+      container.innerHTML =
+        '<div style="padding:18px; text-align:center; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:12px; color:#64748b; font-size:13px; font-weight:700;">' +
+        '현재 등록된 매물이 없습니다. 위 입력창에서 동별로 최대 10개까지 무료로 등록해 보세요!' +
+        '</div>';
+      return;
+    }
+
+    var typeMap = { sale: "매매", jeonse: "전세", monthly: "월세", store: "상가" };
+    container.innerHTML = items.map(function(it, idx) {
+      var remainDays = 7;
+      if (it.expiresAt) {
+        var diff = new Date(it.expiresAt).getTime() - Date.now();
+        remainDays = Math.max(1, Math.ceil(diff / (24 * 60 * 60 * 1000)));
+      }
+      var photosHtml = "";
+      if (Array.isArray(it.photos) && it.photos.length > 0) {
+        photosHtml = '<div style="display:flex; gap:6px; margin-top:8px;">' +
+          it.photos.map(function(p) {
+            return '<img src="' + p + '" style="width:58px; height:58px; border-radius:8px; object-fit:cover; border:1px solid #cbd5e1;" />';
+          }).join("") +
+          '</div>';
+      }
+      return (
+        '<div class="br-my-item-card">' +
+          '<div style="flex:1; min-width:220px;">' +
+            '<div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:4px;">' +
+              '<span style="background:#eff6ff; color:#1d4ed8; font-size:11.5px; font-weight:900; padding:3px 8px; border-radius:6px; border:1px solid #bfdbfe;">📍 ' +
+                [it.sido, it.sigungu, it.dong].filter(Boolean).join(" ") +
+              '</span>' +
+              '<span style="background:#ecfdf5; color:#047857; font-size:11.5px; font-weight:900; padding:3px 8px; border-radius:6px;">' +
+                (typeMap[it.tradeType] || "매물") +
+              '</span>' +
+              '<span style="background:#fef3c7; color:#b45309; font-size:11.5px; font-weight:900; padding:3px 8px; border-radius:6px;">⏱️ ' +
+                remainDays + '일 후 자동삭제' +
+              '</span>' +
+            '</div>' +
+            '<div style="font-size:15.5px; font-weight:900; color:#0f172a;">' + (idx + 1) + '. ' + (it.apartment || "-") + ' <span style="color:#dc2626;">(' + (it.amount || "-") + ')</span></div>' +
+            '<div style="font-size:12.5px; color:#475569; font-weight:700; margin-top:2px;">면적: ' + (it.area || "-") + ' · 층수: ' + (it.floor || "-") + (it.description ? ' · ' + it.description : '') + '</div>' +
+            photosHtml +
+          '</div>' +
+          '<button type="button" onclick="deleteBrFormalListing(\'' + it.id + '\')" style="height:38px; padding:0 14px; border-radius:10px; border:1px solid #fecaca; background:#fef2f2; color:#dc2626; font-size:12.5px; font-weight:900; cursor:pointer; white-space:nowrap;">' +
+            '삭제 / 거래완료' +
+          '</button>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  // 기존 하단 파트너 모달 버튼 클릭 시에도 이 매물 등록방으로 즉시 스크롤 및 포커스 연결
+  window.openPartnerModal = function() {
+    var sec = document.getElementById("brokerListingRoomSection");
+    if (sec) {
+      sec.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(function() {
+        var inp = document.getElementById("brPhoneIdInput");
+        if (inp) inp.focus();
+      }, 350);
+    }
+  };
+})();
+</script>
+
+<!-- [3대 법적 안심 보증 팩트 배지] -->
   <section style="width:100%; margin: 14px 0 0; background:#ffffff; border:1px solid #dce5ed; border-radius:14px; padding:14px 16px; box-shadow:0 3px 12px rgba(15,23,42,0.03);">
     <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #edf2f7;">
       <span style="font-size:16px;">🛡️</span>
