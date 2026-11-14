@@ -2179,6 +2179,14 @@ function setAnalysisRadius(meters, btn) {
   const badgeEl = document.getElementById("radiusIndicatorBadge");
   if (badgeEl) badgeEl.textContent = "반경 " + rLabel;
 
+  // [실시간 동기화] 상단 반경 변경 시 하단 현재 중심 텍스트도 즉시 (반경 1km / 500m / 300m)로 동적 변경!
+  const coordEl = document.getElementById("currentCoordText");
+  if (coordEl) {
+    const curAddr = (currentCenter && currentCenter.address) ? currentCenter.address : "광주광역시 북구 양산동";
+    const cleanAddr = curAddr.replace(/전남광주통합특별시/g, "광주광역시");
+    coordEl.innerHTML = "현재 중심: " + cleanAddr + " <span style='color:#ef4444; font-weight:900;'>(반경 " + rLabel + ")</span>";
+  }
+
   // 즉시 지도 및 통계 100% 실시간 자동 재연산 트리거!
   const targetLevel = meters === 300 ? 4 : (meters === 500 ? 5 : 6);
   if (kakaoMap) {
