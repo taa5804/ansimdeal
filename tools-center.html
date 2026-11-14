@@ -1270,18 +1270,21 @@
 
     <div class="header-actions">
       <a class="back-btn-deal" href="https://wooriapt.app">🏠 우리아파트 안심거래 메인</a>
-      <a class="back-btn-deal" href="index.html">🏪 점포·상가 안심딜 메인</a>
+      <a class="back-btn-deal" href="/home.html">🏪 매수,매물 등록 바로가기</a>
     </div>
   </header>
 
-  <!-- 상단 2대 핵심 도구 전환 탭 -->
-  <nav class="tool-tabs" aria-label="핵심 도구 선택">
+  <!-- 상단 2대 핵심 도구 전환 탭 + 매수,매물 등록 바로가기 -->
+  <nav class="tool-tabs" aria-label="핵심 도구 선택" style="max-width:calc(100vw - 20px) !important;overflow-x:auto !important;">
     <button type="button" id="tabBtnMap" class="tool-tab-btn map-tab active" onclick="switchToolTab('map')">
       <span>🗺️ 상권분석 지도</span>
     </button>
     <button type="button" id="tabBtnUtility" class="tool-tab-btn util-tab" onclick="switchToolTab('utility')">
       <span>⚡ 전기·수도·가스 입주연결·해지정산</span>
     </button>
+    <a href="/home.html" class="tool-tab-btn" style="background:linear-gradient(135deg,#1165d7,#1d4ed8) !important;color:#ffffff !important;box-shadow:0 2px 8px rgba(17,101,215,0.32) !important;text-decoration:none !important;">
+      <span>매수,매물 등록 바로가기 ›</span>
+    </a>
   </nav>
 
   <!-- =====================================================================
@@ -1658,7 +1661,7 @@
           <a href="https://wooriapt.app" class="platform-home-btn apt">
             <span>🏠 우리아파트 안심거래 메인화면 바로가기</span>
           </a>
-          <a href="https://ansimdeal.com" class="platform-home-btn store">
+          <a href="/home.html" class="platform-home-btn store">
             <span>🏪 점포·상가 안심딜 메인화면 바로가기</span>
           </a>
         </div>
