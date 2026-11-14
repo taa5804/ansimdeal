@@ -1367,7 +1367,7 @@
       </div>
 
       <div class="search-hint" style="margin-top:10px;">
-        <span id="currentCoordText" style="font-weight:800; color:#1165d7;">현재 중심: 광주광역시 북구 양산동 (반경 300m)</span>
+        <span id="currentCoordText" style="font-weight:800; color:#1165d7;">현재 중심: 광주광역시 북구 양산동 <span style="color:#ef4444; font-weight:900;">(반경 300m)</span></span>
       </div>
 
       <!-- 3단계: 실시간 상권 팩트 6대 지표 (유동인구, 고정인구, 점포수, 폐업률, 매출추이) -->
@@ -2760,7 +2760,7 @@ async function renderRadiusAndBubble(lat, lng, address, moveView) {
   }
 
   const cleanAddr = (address || "").replace(/전남광주통합특별시/g, "광주광역시");
-  document.getElementById("currentCoordText").textContent = "현재 중심: " + cleanAddr + " (🔴 카카오맵 반경 " + radiusLabel + " 권역)";
+  document.getElementById("currentCoordText").innerHTML = "현재 중심: " + cleanAddr + " <span style='color:#ef4444; font-weight:900;'>(반경 " + radiusLabel + ")</span>";
   document.getElementById("sumLocation").textContent = cleanAddr;
   document.getElementById("sumIndustry").textContent = ind.full;
   if (document.getElementById("sumPop")) document.getElementById("sumPop").textContent = dailyPopText;
