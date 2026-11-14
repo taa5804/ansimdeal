@@ -3,86 +3,57 @@
 const SUPABASE_URL = "https://dcysjuxyjqtvkihdsjvv.supabase.co";
 const SUPABASE_KEY = "sb_publishable_RZBX7u1v8MLBCfEJT0-eRg_jPcIulG2";
 const ROWS_PER_SITEMAP = 2000;
-const MART_SITEMAP_COUNT = 6;
 
 const WOORI_PAGES_LIST = [
   { path: "/", priority: "1.0", changefreq: "daily" },
+  { path: "/home", priority: "1.0", changefreq: "daily" },
+  { path: "/broker-landing", priority: "1.0", changefreq: "daily" },
+  { path: "/broker-guide", priority: "0.95", changefreq: "daily" },
+  { path: "/broker-signup", priority: "0.95", changefreq: "daily" },
+  { path: "/broker-buyer", priority: "0.90", changefreq: "weekly" },
+  { path: "/broker-customer", priority: "0.90", changefreq: "weekly" },
+  { path: "/broker-local", priority: "0.90", changefreq: "weekly" },
+  { path: "/broker-proposal", priority: "0.90", changefreq: "weekly" },
+  { path: "/broker-sales", priority: "0.90", changefreq: "weekly" },
   { path: "/apt", priority: "1.0", changefreq: "daily" },
-  { path: "/check", priority: "1.0", changefreq: "daily" },
   { path: "/map", priority: "0.95", changefreq: "daily" },
+  { path: "/check", priority: "0.95", changefreq: "daily" },
   { path: "/price", priority: "0.95", changefreq: "daily" },
-  { path: "/mart", priority: "0.95", changefreq: "daily" },
-  { path: "/mart-price", priority: "0.95", changefreq: "daily" },
-  { path: "/mart-landing", priority: "0.95", changefreq: "daily" },
-  { path: "/mart-sales", priority: "0.90", changefreq: "weekly" },
-  { path: "/mart-store", priority: "0.90", changefreq: "daily" },
-  { path: "/mart-customer", priority: "0.85", changefreq: "weekly" },
-  { path: "/mart-promotion", priority: "0.85", changefreq: "weekly" },
-  { path: "/mart-cost", priority: "0.85", changefreq: "weekly" },
-  { path: "/mart-db", priority: "0.85", changefreq: "weekly" },
-  { path: "/broker-landing", priority: "0.95", changefreq: "daily" },
-  { path: "/broker-guide", priority: "0.90", changefreq: "weekly" },
-  { path: "/broker-signup", priority: "0.85", changefreq: "weekly" },
-  { path: "/broker-buyer", priority: "0.85", changefreq: "weekly" },
-  { path: "/broker-customer", priority: "0.85", changefreq: "weekly" },
-  { path: "/broker-local", priority: "0.85", changefreq: "weekly" },
-  { path: "/broker-proposal", priority: "0.85", changefreq: "weekly" },
-  { path: "/broker-sales", priority: "0.85", changefreq: "weekly" },
-  { path: "/presale", priority: "0.95", changefreq: "daily" },
-  { path: "/presale-landing", priority: "0.95", changefreq: "daily" },
-  { path: "/presale-search", priority: "0.95", changefreq: "daily" },
-  { path: "/presale-matcher", priority: "0.95", changefreq: "daily" },
-  { path: "/presale-proposal", priority: "0.90", changefreq: "weekly" },
-  { path: "/sale-detail", priority: "0.90", changefreq: "daily" },
   { path: "/tools-center", priority: "0.95", changefreq: "daily" },
-  { path: "/aura", priority: "0.95", changefreq: "daily" },
-  { path: "/app-install", priority: "0.85", changefreq: "weekly" },
+  { path: "/presale", priority: "0.90", changefreq: "daily" },
+  { path: "/presale-landing", priority: "0.90", changefreq: "daily" },
+  { path: "/presale-search", priority: "0.90", changefreq: "daily" },
+  { path: "/presale-matcher", priority: "0.90", changefreq: "daily" },
   { path: "/request", priority: "0.90", changefreq: "daily" },
   { path: "/apt-buy", priority: "0.85", changefreq: "weekly" },
   { path: "/apt-jeonse", priority: "0.85", changefreq: "weekly" },
   { path: "/apt-monthly", priority: "0.85", changefreq: "weekly" },
   { path: "/apt-find", priority: "0.85", changefreq: "weekly" },
   { path: "/apt-condition", priority: "0.85", changefreq: "weekly" },
-  { path: "/service-fee", priority: "0.80", changefreq: "monthly" },
-  { path: "/card", priority: "0.85", changefreq: "weekly" },
-  { path: "/detail", priority: "0.85", changefreq: "weekly" },
-  { path: "/en", priority: "0.80", changefreq: "weekly" },
-  { path: "/china", priority: "0.80", changefreq: "weekly" },
-  { path: "/global", priority: "0.80", changefreq: "weekly" },
-  { path: "/tech", priority: "0.80", changefreq: "weekly" },
-  { path: "/flamepure", priority: "0.75", changefreq: "weekly" },
-  { path: "/freshpure", priority: "0.75", changefreq: "weekly" },
-  { path: "/generator", priority: "0.75", changefreq: "weekly" },
-  { path: "/marine", priority: "0.75", changefreq: "weekly" },
-  { path: "/emulsion", priority: "0.75", changefreq: "weekly" },
-  { path: "/oilpure", priority: "0.75", changefreq: "weekly" },
-  { path: "/oxypure", priority: "0.75", changefreq: "weekly" }
+  { path: "/app-install", priority: "0.85", changefreq: "weekly" }
 ];
 
 const ANSIM_PAGES_LIST = [
   { path: "/", priority: "1.0", changefreq: "daily" },
-  { path: "/apt", priority: "1.0", changefreq: "daily" },
+  { path: "/home", priority: "1.0", changefreq: "daily" },
+  { path: "/broker-landing", priority: "1.0", changefreq: "daily" },
+  { path: "/broker-guide", priority: "0.95", changefreq: "daily" },
+  { path: "/broker-signup", priority: "0.95", changefreq: "daily" },
+  { path: "/broker-buyer", priority: "0.90", changefreq: "weekly" },
+  { path: "/broker-customer", priority: "0.90", changefreq: "weekly" },
+  { path: "/broker-local", priority: "0.90", changefreq: "weekly" },
+  { path: "/broker-proposal", priority: "0.90", changefreq: "weekly" },
+  { path: "/broker-sales", priority: "0.90", changefreq: "weekly" },
   { path: "/tools-center", priority: "1.0", changefreq: "daily" },
+  { path: "/apt", priority: "0.95", changefreq: "daily" },
   { path: "/map", priority: "0.95", changefreq: "daily" },
   { path: "/price", priority: "0.95", changefreq: "daily" },
-  { path: "/mart", priority: "0.95", changefreq: "daily" },
-  { path: "/mart-price", priority: "0.95", changefreq: "daily" },
-  { path: "/broker-landing", priority: "0.95", changefreq: "daily" },
-  { path: "/broker-guide", priority: "0.90", changefreq: "weekly" },
-  { path: "/broker-signup", priority: "0.85", changefreq: "weekly" },
-  { path: "/broker-proposal", priority: "0.85", changefreq: "weekly" },
-  { path: "/presale", priority: "0.95", changefreq: "daily" },
-  { path: "/presale-landing", priority: "0.95", changefreq: "daily" },
-  { path: "/presale-search", priority: "0.95", changefreq: "daily" },
-  { path: "/presale-matcher", priority: "0.95", changefreq: "daily" },
-  { path: "/sale-detail", priority: "0.90", changefreq: "daily" },
-  { path: "/app-install", priority: "0.85", changefreq: "weekly" },
+  { path: "/presale", priority: "0.90", changefreq: "daily" },
+  { path: "/presale-landing", priority: "0.90", changefreq: "daily" },
+  { path: "/presale-search", priority: "0.90", changefreq: "daily" },
+  { path: "/presale-matcher", priority: "0.90", changefreq: "daily" },
   { path: "/request", priority: "0.90", changefreq: "daily" },
-  { path: "/apt-jeonse", priority: "0.85", changefreq: "weekly" },
-  { path: "/apt-monthly", priority: "0.85", changefreq: "weekly" },
-  { path: "/promise-detail", priority: "0.85", changefreq: "weekly" },
-  { path: "/service-fee", priority: "0.80", changefreq: "monthly" },
-  { path: "/card", priority: "0.85", changefreq: "weekly" }
+  { path: "/app-install", priority: "0.85", changefreq: "weekly" }
 ];
 
 module.exports = async function handler(req, res) {
@@ -92,40 +63,9 @@ module.exports = async function handler(req, res) {
 
   const rawHost = (req && req.headers && req.headers.host) ? String(req.headers.host).toLowerCase() : "";
   const isAnsim = rawHost.includes("ansimdeal.com");
-  const isMartDomain = rawHost.includes("wooriapt.ai.kr");
-  const reqHost = isAnsim ? "www.ansimdeal.com" : isMartDomain ? "wooriapt.ai.kr" : "www.wooriapt.app";
+  const reqHost = isAnsim ? "www.ansimdeal.com" : "www.wooriapt.app";
   const SITE_ORIGIN = "https://" + reqHost;
   const lastmod = new Date().toISOString().split("T")[0];
-
-  if (req.query && req.query.mode === "google-hub") {
-    const hubSitemaps = [
-      SITE_ORIGIN + "/pages-sitemap.xml"
-    ];
-    if (!isMartDomain) {
-      // 구글 크롤링 1순위: 우리아파트 안심거래 & 상가·점포 안심딜 최우선 배치
-      hubSitemaps.push(SITE_ORIGIN + "/apt-hub-sitemap.xml");
-      hubSitemaps.push(SITE_ORIGIN + "/store-sitemap.xml");
-      hubSitemaps.push(SITE_ORIGIN + "/apt-sitemap.xml");
-      hubSitemaps.push(SITE_ORIGIN + "/broker-sitemap.xml");
-    }
-    hubSitemaps.push(SITE_ORIGIN + "/mart-hub-sitemap.xml");
-    const items = hubSitemaps.map(function(loc) {
-      return (
-        "  <sitemap>\n" +
-        "    <loc>" + loc + "</loc>\n" +
-        "    <lastmod>" + lastmod + "</lastmod>\n" +
-        "  </sitemap>"
-      );
-    }).join("\n");
-    res.setHeader("Content-Type", "application/xml; charset=utf-8");
-    res.setHeader("Cache-Control", "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400");
-    return res.status(200).send(
-      '<?xml version="1.0" encoding="UTF-8"?>\n' +
-      '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-      items + "\n" +
-      "</sitemapindex>"
-    );
-  }
 
   if (req.query && req.query.mode === "pages") {
     const list = isAnsim ? ANSIM_PAGES_LIST : WOORI_PAGES_LIST;
@@ -172,27 +112,15 @@ module.exports = async function handler(req, res) {
 
     const pages = Math.max(1, Math.ceil(totalCount / ROWS_PER_SITEMAP));
 
+    // 1순위: 핵심 페이지 & 부동산업자(공인중개사) 자동검색 사이트맵 -> 2순위: 안심거래 아파트 / 안심딜 상가 사이트맵 (마트 완전 제외!)
     const sitemapUrls = [
-      SITE_ORIGIN + "/pages-sitemap.xml"
+      SITE_ORIGIN + "/pages-sitemap.xml",
+      SITE_ORIGIN + "/broker-sitemap.xml",
+      SITE_ORIGIN + "/store-sitemap.xml"
     ];
 
-    if (!isMartDomain) {
-      // 안심딜 최우선 순위: 상가·점포 안심딜 1순위, 우리아파트 안심거래 2순위, 마트는 맨 끝
-      sitemapUrls.push(SITE_ORIGIN + "/store-sitemap.xml");
-      sitemapUrls.push(SITE_ORIGIN + "/apt-hub-sitemap.xml");
-
-      // 전국 26,151개 아파트 단지 전체 (1~14페이지)
-      for (let page = 1; page <= pages; page += 1) {
-        sitemapUrls.push(SITE_ORIGIN + "/sitemaps/apartments-" + page + ".xml");
-      }
-
-      sitemapUrls.push(SITE_ORIGIN + "/broker-sitemap.xml");
-    }
-
-    // 마트 사이트맵은 안심거래·안심딜 뒤에 후순위로 배치
-    sitemapUrls.push(SITE_ORIGIN + "/mart-hub-sitemap.xml");
-    for (let m = 1; m <= MART_SITEMAP_COUNT; m += 1) {
-      sitemapUrls.push(SITE_ORIGIN + "/sitemaps/marts-" + m + ".xml");
+    for (let page = 1; page <= pages; page += 1) {
+      sitemapUrls.push(SITE_ORIGIN + "/sitemaps/apartments-" + page + ".xml");
     }
 
     const sitemapItems = sitemapUrls

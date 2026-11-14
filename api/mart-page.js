@@ -133,9 +133,7 @@ async function handleMartPage(req, res) {
     res.statusCode = 404;
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     return res.end(
-      `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>마트 정보를 찾을 수 없습니다</title></head><body><h1>마트 정보를 찾을 수 없습니다.</h1>  <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/_vercel/speed-insights/script.js"></script>
-</body></html>`
+      `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>마트 정보를 찾을 수 없습니다</title></head><body><h1>마트 정보를 찾을 수 없습니다.</h1></body></html>`
     );
   }
 
@@ -170,63 +168,31 @@ async function handleMartPage(req, res) {
       }
     }
 
-    // 주변 마트 / 동네 마트 목록 조회 (해당 읍면동 전체 우선 조회 + 동일 시군구 보조 조회)
+    // 주변 마트 / 동네 마트 목록 조회 (동일 시도 + 시군구 기준 최대 40개)
     if (region) {
-      const dongFetchPromise = place
-        ? (async () => {
-            const p = new URLSearchParams();
-            p.set("select", "시도,시군구,읍면동,상호명,주소,전화번호");
-            p.set("시도", `eq.${region}`);
-            if (city) p.set("시군구", `eq.${city}`);
-            p.set("읍면동", `eq.${place}`);
-            p.set("order", "상호명.asc");
-            p.set("limit", "80");
-            const r = await fetch(`${SUPABASE_URL}/rest/v1/mart_directory?${p.toString()}`, {
-              method: "GET",
-              headers: {
-                apikey: SUPABASE_KEY,
-                Authorization: `Bearer ${SUPABASE_KEY}`,
-                Accept: "application/json"
-              }
-            });
-            if (!r.ok) return [];
-            const d = await r.json();
-            return Array.isArray(d) ? d : [];
-          })()
-        : Promise.resolve([]);
+      const nearParams = new URLSearchParams();
+      nearParams.set("select", "시도,시군구,읍면동,상호명,주소,전화번호");
+      nearParams.set("시도", `eq.${region}`);
+      if (city) nearParams.set("시군구", `eq.${city}`);
+      nearParams.set("order", "읍면동.asc,상호명.asc");
+      nearParams.set("limit", "40");
 
-      const cityFetchPromise = (async () => {
-        const nearParams = new URLSearchParams();
-        nearParams.set("select", "시도,시군구,읍면동,상호명,주소,전화번호");
-        nearParams.set("시도", `eq.${region}`);
-        if (city) nearParams.set("시군구", `eq.${city}`);
-        nearParams.set("order", "읍면동.asc,상호명.asc");
-        nearParams.set("limit", "40");
-        const nearRes = await fetch(`${SUPABASE_URL}/rest/v1/mart_directory?${nearParams.toString()}`, {
-          method: "GET",
-          headers: {
-            apikey: SUPABASE_KEY,
-            Authorization: `Bearer ${SUPABASE_KEY}`,
-            Accept: "application/json"
-          }
-        });
-        if (!nearRes.ok) return [];
-        const d = await nearRes.json();
-        return Array.isArray(d) ? d : [];
-      })();
+      const nearUrl = `${SUPABASE_URL}/rest/v1/mart_directory?${nearParams.toString()}`;
+      const nearRes = await fetch(nearUrl, {
+        method: "GET",
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          Accept: "application/json"
+        }
+      });
 
-      const [dongRows, cityRows] = await Promise.all([dongFetchPromise, cityFetchPromise]);
-      const seenKeys = new Set();
-      const merged = [];
-      for (const item of [...dongRows, ...cityRows]) {
-        if (!item || !item["상호명"]) continue;
-        const k = `${item["읍면동"] || ""}|${item["상호명"] || ""}`;
-        if (!seenKeys.has(k)) {
-          seenKeys.add(k);
-          merged.push(item);
+      if (nearRes.ok) {
+        const list = await nearRes.json();
+        if (Array.isArray(list)) {
+          nearbyRows = list;
         }
       }
-      nearbyRows = merged;
     }
 
     // 만약 특정 마트 조회였는데 정확 일치 행이 없더라도 URL 파라미터로 폴백 렌더링 지원 (404 방지 또는 동네 허브 안내)
@@ -248,7 +214,7 @@ async function handleMartPage(req, res) {
     const dbAddress = String((targetRow && targetRow["주소"]) || [dbRegion, dbCity, dbPlace].filter(Boolean).join(" ")).trim();
     const dbPhone = String((targetRow && targetRow["전화번호"]) || "").trim();
 
-    // 같은 동네 마트를 우선 정렬 (동네 허브 페이지는 최대 80개 전체 수록)
+    // 같은 동네 마트를 우선 정렬
     const sortedNearby = nearbyRows
       .filter(r => r && r["상호명"] && r["상호명"] !== dbMart)
       .sort((a, b) => {
@@ -257,13 +223,7 @@ async function handleMartPage(req, res) {
         if (aSameDong !== bSameDong) return aSameDong - bSameDong;
         return String(a["상호명"] || "").localeCompare(String(b["상호명"] || ""), "ko");
       })
-      .slice(0, dbMart ? 24 : 80);
-
-    const sampleMartNames = sortedNearby
-      .slice(0, 6)
-      .map(r => String(r["상호명"] || "").trim())
-      .filter(Boolean)
-      .join(", ");
+      .slice(0, 20);
 
     const pathParts = (dbMart
       ? [dbRegion, dbCity, dbPlace, dbMart]
@@ -280,19 +240,17 @@ async function handleMartPage(req, res) {
 
     const locationText = [dbRegion, dbCity, dbPlace].filter(Boolean).join(" ");
 
-    const storeHubUrl = `${BASE_URL}/store-search/${[dbRegion, dbCity, dbPlace].filter(Boolean).map(encodePart).join("/")}`;
-
     const pageSubject = dbMart
-      ? `${dbPlace} ${dbMart} 오늘의 할인 전단지·특가 시세표 및 매장 전화번호·위치 안내`
-      : `${locationText} 동네마트·식자재마트 할인 전단지·특가 시세표 총정리 (${sortedNearby.length || 1}곳)`;
+      ? `${locationText} ${dbMart}`
+      : `${locationText} 동네마트·식자재마트 디렉토리`;
 
     const title = dbMart
-      ? `${dbMart} (${dbPlace}) 오늘의 할인 전단지·특가 시세표 & 전화번호·영업정보 확인 | 모바일 마트·안심거래`
-      : `${locationText} 식자재마트·동네마트 오늘의 할인 전단지·특가 시세표 & 전화번호 총정리 (${sortedNearby.length || 1}곳)`;
+      ? `${locationText} ${dbMart} | 오늘의 마트 시세·온라인 주문·고객유치 | 우리아파트`
+      : `${locationText} 마트·슈퍼마켓 총정리 | 오늘의 장보기 시세·할인쿠폰 | 우리아파트`;
 
     const description = dbMart
-      ? `🛒 [${locationText} ${dbMart}] 오늘의 모바일 할인 전단지(한우·삼겹살·계란·제철과일·채소 60종 실시간 특가 시세표)와 매장 직통 전화번호·도로명주소·배달 정보를 지금 클릭해 확인하세요. ★마트 사장님 전용 행사문자 38원➔15원 인하 & 모바일 사진전단 무료 개설 및 ${dbPlace} 아파트·상가 복비 50% 반값 안심매칭 지원.`
-      : `🛒 [${locationText} 마트·식자재마트 ${sortedNearby.length || 1}곳 총정리] (${sampleMartNames || "우리동네 마트"} 등) 매장별 오늘의 할인 전단지·60종 생필품 실시간 특가 시세표와 전화번호·위치를 한눈에 확인하세요. ★마트 행사문자 15원 플랫폼 무료 개설 및 ${dbPlace} 아파트·상가 복비 50% 반값 매칭.`;
+      ? `${locationText} 소재 ${dbMart}(${dbAddress}) 매장 정보와 오늘의 장보기 시세 비교, 반값 할인쿠폰, 행사문자 38원➔15원 파격 인하 및 디지털 마트 플랫폼 무료 개방 솔루션을 확인하세요.`
+      : `${locationText} 지역 동네마트·식자재마트·슈퍼마켓 주소 및 연락처 디렉토리입니다. 우리동네 마트 특가 정보와 60개 생필품 오늘의 시세, 마트 행사문자 38원➔15원 절감 및 디지털 플랫폼 무료 개설 혜택을 확인하세요.`;
 
     const breadcrumbSchema = {
       "@context": "https://schema.org",
@@ -364,7 +322,7 @@ async function handleMartPage(req, res) {
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${esc(canonical)}">
-<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="robots" content="noindex,nofollow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="우리아파트 마트 플랫폼">
 <meta property="og:title" content="${esc(title)}">
@@ -432,17 +390,11 @@ h1{margin:0 0 12px;font-size:28px;line-height:1.35;color:#0f172a;letter-spacing:
   </nav>
 
   <section class="card">
-    <div class="badge">🛒 우리동네 모바일 할인 전단지 & 아파트·상가 안심거래 허브</div>
+    <div class="badge">우리아파트 동네마트·장보기 시세 플랫폼</div>
     <h1>${esc(pageSubject)}</h1>
     <p class="sub-lead">
-      <strong>${esc(locationText)} ${esc(dbMart || "우리동네 마트")}</strong>의 오늘의 장보기 60종 특가 시세표·모바일 전단지와 매장 연락처 안내 페이지입니다.
+      ${esc(locationText)} 주민을 위한 우리동네 마트 상세 정보와 60개 핵심 생필품 오늘의 장보기 시세, QR 단골 할인쿠폰 및 온라인 배달주문 연결 페이지입니다.
     </p>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:0 0 18px;padding:14px;border-radius:14px;background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:1.5px solid #93c5fd;">
-      <a href="${esc(aptSaleUrl)}" style="display:block;padding:12px 14px;border-radius:10px;background:#1d4ed8;color:#fff;font-weight:800;font-size:14px;text-align:center;">🏢 ${esc(dbPlace)} 아파트 매매·전세 복비 50% 반값 매칭 ›</a>
-      <a href="${esc(storeHubUrl)}" style="display:block;padding:12px 14px;border-radius:10px;background:#0f766e;color:#fff;font-weight:800;font-size:14px;text-align:center;">🏪 ${esc(dbPlace)} 상가·점포 권리금·상권분석 (안심딜) ›</a>
-      <a href="/price" style="display:block;padding:12px 14px;border-radius:10px;background:#075b32;color:#fff;font-weight:800;font-size:14px;text-align:center;">📊 오늘의 농축수산물 60종 실시간 시세표 보기 ›</a>
-    </div>
 
     <table class="spec-table" aria-label="매장 기본 정보">
       <tbody>
@@ -523,10 +475,8 @@ h1{margin:0 0 12px;font-size:28px;line-height:1.35;color:#0f172a;letter-spacing:
     </p>
     <div class="cross-links">
       <a class="cross-pill" href="${esc(dongHubUrl)}">🛒 ${esc(dbPlace)} 마트 전체보기</a>
-      <a class="cross-pill" href="${esc(aptSaleUrl)}" style="background:#eff6ff;border-color:#93c5fd;color:#1d4ed8;">🏢 ${esc(dbPlace)} 아파트 매매 복비 50% 반값</a>
-      <a class="cross-pill" href="${esc(aptJeonseUrl)}" style="background:#eff6ff;border-color:#93c5fd;color:#1d4ed8;">🏠 ${esc(dbPlace)} 아파트 전세 복비 50% 반값</a>
-      <a class="cross-pill" href="${esc(storeHubUrl)}" style="background:#f0fdfa;border-color:#5eead4;color:#0f766e;">🏪 ${esc(dbPlace)} 상가·점포 상권분석 (안심딜)</a>
-        <a href="https://www.momkok.co.kr" target="_blank" rel="noopener" style="display:block;padding:12px 14px;border-radius:12px;background:#7c3aed;color:#fff;text-decoration:none;font-weight:900;font-size:13.5px;text-align:center;">🪔 [3순위 학부모 필수] 고등학교·대학전공 AI 엔지니어 빅데이터 진단 (알라딘 맘콕) ›</a>
+      <a class="cross-pill" href="${esc(aptSaleUrl)}">🏢 ${esc(dbPlace)} 아파트 매매 안심매칭</a>
+      <a class="cross-pill" href="${esc(aptJeonseUrl)}">🏠 ${esc(dbPlace)} 아파트 전세 안심매칭</a>
       <a class="cross-pill" href="${esc(brokerHubUrl)}">🤝 ${esc(dbPlace)} 등록 공인중개사 찾기</a>
       <a class="cross-pill" href="/price">📈 오늘의 장보기 물가 시세</a>
       <a class="cross-pill" href="/mart">🧮 마트 문자비용 절감 계산기</a>
@@ -539,8 +489,6 @@ h1{margin:0 0 12px;font-size:28px;line-height:1.35;color:#0f172a;letter-spacing:
     © 우리아파트 (wooriapt.app) · 전국 아파트 안심거래 & 우리동네 마트 디지털 전환 플랫폼
   </footer>
 </div>
-  <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>`;
 
@@ -740,7 +688,7 @@ async function handleMartSitemap(req, res) {
         const place = encodePart(row["읍면동"]);
         const mart = encodePart(row["상호명"]);
         const loc = `${BASE_URL}/mart-search/${region}/${city}/${place}/${mart}`;
-        return `\n  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.3</priority>\n  </url>`;
+        return `\n  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`;
       })
       .join("");
 
@@ -828,65 +776,5 @@ module.exports = async function handler(req, res) {
     return handleMartSitemapIndex(req, res);
   }
 
-  if (mode === "mart-hub-sitemap") {
-    return handleMartHubSitemap(req, res);
-  }
-
   return handleMartPage(req, res);
 };
-
-async function handleMartHubSitemap(req, res) {
-  res.setHeader("Content-Type", "application/xml; charset=utf-8");
-  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800");
-
-  const lastmod = new Date().toISOString().split("T")[0];
-  try {
-    const params = new URLSearchParams();
-    params.set("select", "시도,시군구,읍면동");
-    params.set("order", "시도.asc,시군구.asc,읍면동.asc");
-    const apiUrl = `${SUPABASE_URL}/rest/v1/mart_directory?${params.toString()}`;
-
-    const batchPromises = [];
-    for (let i = 0; i < 30; i++) {
-      const bStart = i * 1000;
-      const bEnd = bStart + 999;
-      batchPromises.push(
-        fetch(apiUrl, {
-          method: "GET",
-          headers: {
-            apikey: SUPABASE_KEY,
-            Authorization: `Bearer ${SUPABASE_KEY}`,
-            Accept: "application/json",
-            Range: `${bStart}-${bEnd}`
-          }
-        }).then(async (r) => {
-          if (!r.ok) return [];
-          const d = await r.json();
-          return Array.isArray(d) ? d : [];
-        }).catch(() => [])
-      );
-    }
-
-    const batches = await Promise.all(batchPromises);
-    const dongSet = new Set();
-    for (const row of batches.flat()) {
-      if (row && row["시도"] && row["시군구"] && row["읍면동"]) {
-        const p = [row["시도"], row["시군구"], row["읍면동"]].map(encodePart).join("/");
-        dongSet.add(p);
-      }
-    }
-
-    const urls = Array.from(dongSet).map(p => {
-      const loc = `${BASE_URL}/mart-search/${p}`;
-      return `\n  <url>\n    <loc>${xmlEscape(loc)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.35</priority>\n  </url>`;
-    }).join("");
-
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}\n</urlset>`;
-    res.statusCode = 200;
-    return res.end(xml);
-  } catch (err) {
-    console.error("MART HUB SITEMAP ERROR:", err);
-    res.statusCode = 500;
-    return res.end("Mart hub sitemap error");
-  }
-}

@@ -5,36 +5,29 @@ Disallow: /head-admin
 Disallow: /sale-admin
 Disallow: /room-manager
 Disallow: /system-settings
-Disallow: /mart_admin
-Disallow: /mart_hq-dashboard
-Disallow: /mart_hq-store-account
+Disallow: /mart
+Disallow: /mart-
+Disallow: /mart_
+Disallow: /sitemaps/marts-
 Disallow: /point-settlement
 Disallow: /charge-history
 Disallow: /charge-management
 Disallow: /inquiry-status
 
-User-agent: Googlebot
-Allow: /store-search/
-Allow: /apt-search/
-Allow: /broker-search/
-Allow: /
-
 User-agent: Yeti
-Allow: /store-search/
-Allow: /apt-search/
-Allow: /broker-search/
 Allow: /
+Disallow: /mart
+Disallow: /mart-
+Disallow: /sitemaps/marts-
 
-User-agent: Daumoa
+User-agent: Googlebot
 Allow: /
-
-User-agent: bingbot
-Allow: /
+Disallow: /mart
+Disallow: /mart-
+Disallow: /sitemaps/marts-
 
 Sitemap: https://www.ansimdeal.com/sitemap.xml
-Sitemap: https://www.ansimdeal.com/google-hub-sitemap.xml
-Sitemap: https://www.ansimdeal.com/store-sitemap.xml
-Sitemap: https://www.ansimdeal.com/apt-hub-sitemap.xml
-Sitemap: https://www.ansimdeal.com/apt-sitemap.xml
-Sitemap: https://www.ansimdeal.com/broker-sitemap.xml
 Sitemap: https://www.ansimdeal.com/pages-sitemap.xml
+Sitemap: https://www.ansimdeal.com/broker-sitemap.xml
+Sitemap: https://www.ansimdeal.com/apt-sitemap.xml
+Sitemap: https://www.ansimdeal.com/store-sitemap.xml

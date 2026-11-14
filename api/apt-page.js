@@ -615,8 +615,8 @@ async function aptHandleSitemap(req, res) {
           "  <url>",
           "    <loc>" + aptXmlEscape(url) + "</loc>",
           "    <lastmod>" + lastmod + "</lastmod>",
-          "    <changefreq>daily</changefreq>",
-          "    <priority>1.0</priority>",
+          "    <changefreq>weekly</changefreq>",
+          "    <priority>0.8</priority>",
           "  </url>"
         ].join("\n");
       })
@@ -704,9 +704,7 @@ async function aptHandleApartmentPage(req, res) {
     : "sale";
 
   if (!place) {
-    if (!city && !rawRegion) {
-      return res.status(404).send("페이지를 찾을 수 없습니다.");
-    }
+    return res.status(404).send("페이지를 찾을 수 없습니다.");
   }
 
   const query = new URLSearchParams();
@@ -722,9 +720,7 @@ async function aptHandleApartmentPage(req, res) {
     query.set("시군구", "eq." + city);
   }
 
-  if (place) {
-    aptAddPlaceFilter(query, place);
-  }
+  aptAddPlaceFilter(query, place);
 
   // 동일 시·군·구 내 인근 동(읍·면) 및 주변 단지 크롤링 허브 구성을 위한 병렬 쿼리
   const cityQuery = new URLSearchParams();
@@ -855,6 +851,11 @@ async function aptHandleApartmentPage(req, res) {
     const canonicalRegion = rawRegion || aptClean(firstRow["시도"]) || "서울특별시";
     const trade = aptTypeName(type);
     const location = [canonicalRegion, city, place].filter(Boolean).join(" ");
+    // 한 페이지에서 매매·전세·월세를 모두 다루므로 제목에 세 가지를 함께 표기
+    const subject = [location, apartment || "아파트", "매매·전세·월세"].filter(Boolean).join(" ");
+    const pageTitle = apartment
+      ? `${apartment} 실거래가·시세 조회 | 복비 50% 반값 - 우리아파트`
+      : `${place || city} 아파트 실거래가·시세 비교 | 복비 50% 반값 - 우리아파트`;
 
     // 매매·전세·월세 3개 주소의 표준(canonical) 주소를 sale 하나로 통일 (중복 색인 방지)
     const canonical =
@@ -893,13 +894,11 @@ async function aptHandleApartmentPage(req, res) {
       ? "대단지 프리미엄 공동주택"
       : (hhCountNum >= 500 ? "중대형 주거 선호 단지" : (hhCountNum >= 200 ? "실거주 중심 알짜 단지" : "실속형 공동주택 단지"));
 
-    const roadMatch = String(primaryRoadAddr || "").match(/([가-힣0-9]+(?:로|길)\s*\d*(?:-\d+)?)/);
-    const roadShort = roadMatch ? roadMatch[1].trim() : "";
-    const roadKeyword = roadShort ? roadShort.split(/\s+/)[0] : "";
-    const hhFormatted = hhCountNum > 0 ? hhCountNum.toLocaleString("ko-KR") + "세대" : "";
-    const specShort = [hhFormatted, builtYear ? builtYear + "년 준공" : "", roadShort].filter(Boolean).join(" · ");
+    const description = apartment
+      ? `${apartment}(${place}) 최신 실거래가와 급매 시세를 1초 만에 확인하세요. 매매·전세 거래 시 중개수수료 최대 50% 반값 할인과 안심 공인중개사 1:1 매칭 혜택을 제공합니다. (총 ${primaryHouseholds ? primaryHouseholds + "세대" : "국토부 등록"}${builtYear ? "·" + builtYear + "년 준공" : ""})`
+      : `${location} 아파트 단지별 최신 실거래가와 매매·전세 시세를 비교하세요. 안심 거래 등록 시 중개수수료 최대 50% 할인 및 1:1 맞춤 안심 매칭 지원.`;
 
-    // Unique apartment rows in current 동/시군구 by 단지명 (리포트 생성 전 조기 계산)
+    // Unique apartment rows in current 동 by 단지명
     const uniqueAptMap = new Map();
     for (const r of rows) {
       const n = aptClean(r["단지명"]);
@@ -907,7 +906,7 @@ async function aptHandleApartmentPage(req, res) {
         uniqueAptMap.set(n, r);
       }
     }
-    // 만약 해당 지역에 단지가 적을 경우, 동일 시군구 내 인근 단지들도 함께 결합하여 내부 링크 및 매칭기 풍성도 극대화
+    // 만약 해당 동에 단지가 적을 경우(5개 미만), 동일 시군구 내 인근 단지들도 함께 결합하여 내부 링크 및 매칭기 풍성도 극대화
     if (uniqueAptMap.size < 12 && cityRows.length > 0) {
       for (const cr of cityRows) {
         const cn = aptClean(cr["단지명"]);
@@ -919,43 +918,6 @@ async function aptHandleApartmentPage(req, res) {
     }
     const uniqueAptRows = Array.from(uniqueAptMap.values());
     const apartmentNames = Array.from(uniqueAptMap.keys());
-
-    // 한 페이지에서 매매·전세·월세·임대를 모두 다루므로 롱테일 검색어(동이름+도로명+단지명+매매/전세/임대)가 모두 걸리도록 구성
-    const subject = apartment
-      ? [city, place, roadKeyword, apartment, "매매·전세·월세·임대 실거래가"].filter(Boolean).join(" ")
-      : [location, "아파트 매매·전세·월세·임대 실거래가 시세표"].filter(Boolean).join(" ");
-
-    // 구글 중복 템플릿 필터 원천 돌파용: 단지별 고유 4단 심층 분석 리포트 생성
-    const narrativeP1 = apartment
-      ? `${location} ${apartment} 단지는 ${primaryRoadAddr || primaryJibunAddr || location} 일원에 위치한 ${hhFormatted || "공동주택"} 규모의 주거 단지입니다.${primaryDongs && primaryMaxFloor ? ` 총 ${primaryDongs}개동 최고 ${primaryMaxFloor}층으로 설계되어 개방감과 일조권을 갖추고 있습니다.` : ""}`
-      : `${location} 지역에 등록된 총 ${apartmentNames.length}개 주요 아파트 단지들의 매매·전세·월세 실거래가 및 단지별 주거 환경 분석 정보입니다.`;
-
-    const narrativeP2 = (apartment && (primaryBuilder || builtYear))
-      ? `${primaryBuilder ? `시공은 ${primaryBuilder}에서 담당하여 정밀한 마감 품질과 구조적 내구성을 입증받았으며` + (primaryDeveloper ? `, 시행사 ${primaryDeveloper}와의 유기적인 사업 추진으로 준공되었습니다. ` : ". ") : ""}${builtYear ? `${builtYear}년에 사용승인을 득하여 현재 입주 ${ageYears !== null ? ageYears : ""}년차를 맞이하고 있으며 성숙된 주변 생활 편의 인프라를 풍부하게 누릴 수 있습니다.` : ""}`
-      : "";
-
-    const facList = (primaryFacilities || "").split(/[,·]/).map(function(s) { return s.trim(); }).filter(function(s) { return s && s !== "기타"; }).slice(0, 5).join(", ");
-    const staffList = [
-      firstValue(firstRow, ["일반관리-인원"]) ? `관리직원 ${firstValue(firstRow, ["일반관리-인원"])}명` : "",
-      firstValue(firstRow, ["경비관리-인원"]) ? `경비원 ${firstValue(firstRow, ["경비관리-인원"])}명` : "",
-      firstValue(firstRow, ["청소관리-인원"]) ? `미화원 ${firstValue(firstRow, ["청소관리-인원"])}명` : ""
-    ].filter(Boolean).join(", ");
-
-    const narrativeP3 = (apartment && (facList || primaryMgmtType))
-      ? `${facList ? `단지 내에는 입주민 편의를 위해 ${facList} 등 다양한 커뮤니티 및 부대복리시설이 갖추어져 있습니다. ` : ""}${primaryMgmtType ? `주거 관리는 ${primaryMgmtType} 방식으로 체계적으로 운영되며${staffList ? ` (${staffList})` : ""} 쾌적하고 안전한 단지 보안 환경을 유지하고 있습니다.` : ""}`
-      : "";
-
-    const narrativeP4 = apartment
-      ? `본 ${apartment} 단지의 ${trade} 거래는 국토교통부 실거래가 공개시스템 및 등기부등본 권리분석(선순위 근저당·전세가율 팩트체크)을 거쳐 진행되며, 우리아파트 안심거래 파트너 공인중개사 협의를 통해 중개수수료(복비)를 최대 50%까지 절감하는 1:1 맞춤형 역제안 혜택이 적용됩니다.`
-      : `${place || city} 아파트 매수·임차 시 관할 검증된 공인중개사의 1:1 맞춤 매물 제안과 중개수수료 50% 절감 혜택을 제공합니다.`;
-
-    const pageTitle = apartment
-      ? `${place} ${apartment} ${trade} 실거래가 시세표${hhFormatted ? " · " + hhFormatted : ""}${primaryBuilder ? " · " + primaryBuilder : ""} | 복비 50% 절감`
-      : (place ? `${city} ${place} 아파트 ${trade} 실거래가 시세표 총정리 | 복비 50% 반값 우리아파트` : `${city} 아파트 ${trade} 실거래가 시세표 총정리 (${apartmentNames.length}개 단지) | 복비 50% 반값 우리아파트`);
-
-    const description = apartment
-      ? `[${location} ${apartment}] ${primaryBuilder ? primaryBuilder + " 시공 · " : ""}총 ${hhFormatted || "등록 단지"}${primaryDongs ? "(" + primaryDongs + "개동 최고 " + primaryMaxFloor + "층) · " : ""}${builtYear ? builtYear + "년 준공(" + (ageYears !== null ? "입주 " + ageYears + "년차" : "") + ") · " : ""}${roadShort || location} | 국토부 실거래가 분석, 단지 부대시설 제원 및 중개보수 50% 절감 안심거래 지원.`
-      : (place ? `[${location} 아파트 실거래가 시세표] ${place} 전체 아파트 단지별 세대수·준공년도 및 국토부 최신 실거래가 비교. 중개수수료 50% 반값 안심거래 1:1 매칭 지원.` : `[${location} 아파트 실거래가 총정리] ${city} 관내 ${apartmentNames.length}개 주요 단지별 세대수·준공년도 및 국토부 최신 실거래가 비교. 중개보수 50% 반값 안심거래 지원.`);
 
     // 동일 시·군·구 내 다른 법정동(읍·면·동) 허브 링크 추출 (46,727개 미수집 페이지 크롤링 돌파용 거미줄 링크)
     const siblingDongSet = new Set();
@@ -970,20 +932,18 @@ async function aptHandleApartmentPage(req, res) {
     const siblingDongsHtml = siblingDongs.length > 0
       ? siblingDongs.map(function(dName) {
           const dUrl = "/apt-search/" + [canonicalRegion, city, dName, type].map(encodeURIComponent).join("/");
-          const sUrl = "/store-search/" + [canonicalRegion, city, dName].map(encodeURIComponent).join("/");
           const bUrl = "/broker-search/" + [canonicalRegion, city, dName].map(encodeURIComponent).join("/");
           const mUrl = "/mart-search/" + [canonicalRegion, city, dName].map(encodeURIComponent).join("/");
           return (
             '<div class="apt-dir-item" style="padding:10px 13px;">' +
               '<div class="apt-dir-main">' +
-                '<a class="apt-dir-title" href="' + dUrl + '">📍 ' + aptHtml(city + " " + dName + " 아파트·상가 안심거래") + '</a>' +
-                '<span class="apt-dir-meta">' + aptHtml(canonicalRegion + " " + city + " " + dName + " 아파트 실거래·상가 안심딜·중개사 허브") + '</span>' +
+                '<a class="apt-dir-title" href="' + dUrl + '">📍 ' + aptHtml(city + " " + dName + " 아파트 " + trade) + '</a>' +
+                '<span class="apt-dir-meta">' + aptHtml(canonicalRegion + " " + city + " " + dName + " 실거래·중개사·마트 허브") + '</span>' +
               '</div>' +
               '<div class="apt-dir-links">' +
                 '<a href="/apt-search/' + [canonicalRegion, city, dName, "sale"].map(encodeURIComponent).join("/") + '"' + (type === "sale" ? ' class="active"' : '') + '>매매</a>' +
                 '<a href="/apt-search/' + [canonicalRegion, city, dName, "jeonse"].map(encodeURIComponent).join("/") + '"' + (type === "jeonse" ? ' class="active"' : '') + '>전세</a>' +
                 '<a href="/apt-search/' + [canonicalRegion, city, dName, "monthly"].map(encodeURIComponent).join("/") + '"' + (type === "monthly" ? ' class="active"' : '') + '>월세</a>' +
-                '<a href="' + sUrl + '" style="color:#0f766e;font-weight:900;">상가·점포</a>' +
                 '<a href="' + bUrl + '">중개사</a>' +
                 '<a href="' + mUrl + '">마트</a>' +
               '</div>' +
@@ -1227,7 +1187,7 @@ async function aptHandleApartmentPage(req, res) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${aptHtml(pageTitle)}</title>
 <meta name="description" content="${aptHtml(description)}">
-<meta name="keywords" content="${aptHtml(apartment ? (place + " " + apartment + ", " + (roadKeyword ? roadKeyword + " " + apartment + ", " : "") + apartment + " 매매, " + apartment + " 전세, " + apartment + " 월세, " + apartment + " 임대, " + apartment + " 실거래가, " + apartment + " 시세표, " + apartment + " 급매물, " + place + " 아파트 복비 반값, 우리아파트 안심거래") : (location + " 아파트 매매, " + place + " 아파트 전세, " + place + " 아파트 월세, " + place + " 아파트 임대, " + place + " 아파트 실거래가, 우리아파트 안심거래, 중개수수료 50% 반값"))}">
+<meta name="keywords" content="${aptHtml(apartment ? (apartment + ", " + apartment + " 실거래가, " + apartment + " 시세, " + apartment + " 매매, " + place + " 아파트, 우리아파트, 아파트 안심거래, 복비 50%, 중개수수료 반값") : (place + " 아파트, " + location + " 실거래가, 우리아파트, 안심거래, 중개수수료 50%"))}">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="${aptHtml(canonical)}">
 <meta property="og:type" content="website">
@@ -1747,36 +1707,15 @@ p {
     <h1>${aptHtml(subject)}</h1>
     ${
       apartment
-        ? `<!-- 단지 핵심 스펙 4대 지표 뱃지 바 -->
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:14px 0 16px;">
-            <div style="background:#f8fafc;border:1px solid #e2e8f0;padding:9px 12px;border-radius:10px;">
-              <div style="font-size:11px;color:#64748b;font-weight:700;">🏢 단지 규모</div>
-              <div style="font-size:13.5px;font-weight:900;color:#0f172a;margin-top:2px;">${aptHtml(hhFormatted || "국토부 등록")}${primaryDongs ? " (" + aptHtml(primaryDongs) + "개동)" : ""}</div>
-            </div>
-            <div style="background:#f8fafc;border:1px solid #e2e8f0;padding:9px 12px;border-radius:10px;">
-              <div style="font-size:11px;color:#64748b;font-weight:700;">🏗️ 시공사·층수</div>
-              <div style="font-size:13.5px;font-weight:900;color:#0f172a;margin-top:2px;">${aptHtml(primaryBuilder || "등록 건설사")}${primaryMaxFloor ? " · " + aptHtml(primaryMaxFloor) + "F" : ""}</div>
-            </div>
-            <div style="background:#f8fafc;border:1px solid #e2e8f0;padding:9px 12px;border-radius:10px;">
-              <div style="font-size:11px;color:#64748b;font-weight:700;">📅 준공연도·연차</div>
-              <div style="font-size:13.5px;font-weight:900;color:#0f172a;margin-top:2px;">${builtYear ? builtYear + "년" + (ageYears !== null ? " (" + ageYears + "년차)" : "") : aptHtml(formattedApproval)}</div>
-            </div>
-            <div style="background:#f8fafc;border:1px solid #e2e8f0;padding:9px 12px;border-radius:10px;">
-              <div style="font-size:11px;color:#64748b;font-weight:700;">🛡️ 주거 관리방식</div>
-              <div style="font-size:13.5px;font-weight:900;color:#0f172a;margin-top:2px;">${aptHtml(primaryMgmtType || "위탁관리")}</div>
-            </div>
-          </div>
-
-          <!-- 구글 Helpful Content 최적화: 단지 고유 심층 주거환경 리포트 -->
-          <div style="background:#ffffff;border:1px solid #e2e8f0;border-left:4px solid #1d4ed8;padding:14px 16px;border-radius:8px;margin-bottom:14px;line-height:1.75;font-size:14px;color:#334155;">
-            <p style="margin:0 0 8px;">${aptHtml(narrativeP1)}</p>
-            ${narrativeP2 ? `<p style="margin:0 0 8px;">${aptHtml(narrativeP2)}</p>` : ""}
-            ${narrativeP3 ? `<p style="margin:0 0 8px;">${aptHtml(narrativeP3)}</p>` : ""}
-            <p style="margin:0;color:#1e3a8a;font-weight:700;">${aptHtml(narrativeP4)}</p>
-          </div>`
-        : `<p style="line-height:1.75;font-size:14.5px;color:#334155;">
+        ? `<p>
+            <strong>${aptHtml(location)} ${aptHtml(apartment)}</strong> 단지의 <strong>${aptHtml(trade)}</strong> 실거래 매칭 및 단지 상세 스펙 안내 페이지입니다.
+            ${primaryRoadAddr ? `도로명주소는 <strong>${aptHtml(primaryRoadAddr)}</strong>이며, ` : ""}
+            ${primaryHouseholds ? `총 <strong>${aptHtml(primaryHouseholds)}세대</strong> 규모` : "국토교통부 정식 등록 단지"}입니다.
+            원하시는 ${aptHtml(trade)} 희망조건(예산·층수·입주일)을 등록하시면 ${aptHtml(place)} 관할 검증된 파트너 공인중개사가 맞춤 매물을 1:1 제안하며, <strong>파트너 공인중개사 협의를 통한 거래비용 최대 50% 절감 혜택</strong>으로 안전하게 계약하실 수 있습니다.
+          </p>`
+        : `<p>
             <strong>${aptHtml(location)}</strong> 지역에 등록된 총 <strong>${apartmentNames.length}개 아파트 단지</strong>의 <strong>${aptHtml(trade)}</strong> 실거래 매칭 및 단지별 상세정보 안내 페이지입니다.
-            ${aptHtml(narrativeP4)}
+            아래 실거래 매칭기 또는 단지 목록에서 원하는 아파트를 선택하고 희망조건을 등록하시면, ${aptHtml(city)} ${aptHtml(place)} 전문 공인중개사의 맞춤 매물 제안과 <strong>거래비용 최대 50% 절감 혜택</strong>을 받으실 수 있습니다.
           </p>`
     }
 
@@ -1784,7 +1723,6 @@ p {
       <a href="${basePagePrefix}/sale" class="type-pill ${type === "sale" ? "active" : ""}">🏠 ${aptHtml(apartment || place)} 매매</a>
       <a href="${basePagePrefix}/jeonse" class="type-pill ${type === "jeonse" ? "active" : ""}">🔑 ${aptHtml(apartment || place)} 전세</a>
       <a href="${basePagePrefix}/monthly" class="type-pill ${type === "monthly" ? "active" : ""}">🏢 ${aptHtml(apartment || place)} 월세</a>
-      <a href="/store-search/${encodeURIComponent(canonicalRegion)}/${encodeURIComponent(city)}/${encodeURIComponent(place)}" class="type-pill" style="background:#ecfdf5;color:#0f766e;border-color:#99f6e4;font-weight:900;">🏪 ${aptHtml(place)} 상가·점포 권리금·상권분석 (안심딜)</a>
       <a href="/map" class="type-pill" style="background:#fef3c7;color:#b45309;border-color:#fde68a;">💬 아파트 지도 위 시세·매물 말풍선 보기</a>
       <a href="${brokerSearchUrl}" class="type-pill broker-link">🤝 ${aptHtml(place)} 공인중개사 목록 보기</a>
     </div>
@@ -2017,7 +1955,7 @@ p {
     <h2>🔗 ${aptHtml(location)} 연관 부동산·생활 서비스 바로가기</h2>
     <div class="quick-links-grid">
       <a class="quick-link-btn" href="${brokerSearchUrl}">🤝 ${aptHtml(place)} 공인중개사 찾기</a>
-      <a class="quick-link-btn" href="/mart-search/${[canonicalRegion, city, place].map(encodeURIComponent).join("/")}">🛒 ${aptHtml(place)} 동네마트 디렉토리</a>
+      
       <a class="quick-link-btn" href="https://www.wooriapt.app/map">💬 아파트 지도 위 시세·매물 말풍선</a>
       <a class="quick-link-btn" href="https://www.ansimdeal.com/map">🏪 점포·상가 상권분석 지도 매칭기</a>
       <a class="quick-link-btn" href="https://www.ansimdeal.com/">🏢 대지·건물·점포·상가 안심딜</a>
@@ -2486,8 +2424,6 @@ p {
     });
   }
 </script>
-  <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>`);
   } catch (error) {
@@ -2530,119 +2466,47 @@ async function handleBrokerPage(req, res) {
     return res.status(404).send("지역 정보가 없습니다.");
   }
 
-  function buildBrokerQuery(rCol, cCol, pCol, includePlace) {
-    const q = new URLSearchParams();
-    q.set("select", "*");
-    if (region) {
-      const rVars = getRegionVariants(region);
-      q.set(rCol, "in.(" + rVars.join(",") + ")");
-    }
-    if (city) q.set(cCol, "eq." + city);
-    if (includePlace && place) q.set(pCol, "eq." + place);
-    if (broker) q.set("상호명", "eq." + broker);
-    return q.toString();
-  }
-
   try {
     let rows = [];
-    let response = await fetch(
-      SUPABASE_URL + "/rest/v1/agent_directory?" + buildBrokerQuery("지역명", "시군구", "동", true),
-      {
-        method: "GET",
-        headers: {
-          apikey: SUPABASE_KEY,
-          Authorization: "Bearer " + SUPABASE_KEY,
-          Accept: "application/json",
-          Range: "0-999"
-        }
-      }
-    );
-
-    if (!response.ok && response.status === 400) {
-      const fallbackRes = await fetch(
-        SUPABASE_URL + "/rest/v1/agent_directory?" + buildBrokerQuery("시도", "시군구", "동리", true),
-        {
-          method: "GET",
-          headers: {
-            apikey: SUPABASE_KEY,
-            Authorization: "Bearer " + SUPABASE_KEY,
-            Accept: "application/json",
-            Range: "0-999"
-          }
-        }
-      );
-      if (fallbackRes.ok) {
-        response = fallbackRes;
-      }
-    }
-
-    if (response.ok) {
-      rows = await response.json();
-    }
-
-    // 만약 해당 동에 정확히 일치하는 중개사가 없으면 동일 시·군·구 내 등록 공인중개사 목록으로 폴백
-    if (!Array.isArray(rows) || rows.length === 0) {
-      const cityFallbackRes = await fetch(
-        SUPABASE_URL + "/rest/v1/agent_directory?" + buildBrokerQuery("지역명", "시군구", "동", false),
-        {
-          method: "GET",
-          headers: {
-            apikey: SUPABASE_KEY,
-            Authorization: "Bearer " + SUPABASE_KEY,
-            Accept: "application/json",
-            Range: "0-59"
-          }
-        }
-      );
-      if (cityFallbackRes.ok) {
-        rows = await cityFallbackRes.json();
-      }
-    }
-
-    if ((!Array.isArray(rows) || rows.length === 0) && SITE_ORIGIN.includes("ansimdeal.com")) {
-      // Fallback proxy from wooriapt.app if SUPABASE_SECRET_KEY is not set on ansimdeal
-      const proxyPath =
-        "/broker-search/" +
-        [region, city, place].concat(broker ? [broker] : []).map(pathEncode).join("/");
-      const proxyRes = await fetch("https://www.wooriapt.app" + proxyPath);
-      if (proxyRes.ok) {
-        let proxyHtml = await proxyRes.text();
-        proxyHtml = proxyHtml.replace(/https:\/\/(www\.)?wooriapt\.app/g, SITE_ORIGIN);
-        res.setHeader("Content-Type", "text/html; charset=utf-8");
-        res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800");
-        return res.status(200).send(proxyHtml);
-      }
-    }
-
-    if (!Array.isArray(rows) || rows.length === 0) {
-      try {
-        const fs = require("fs");
-        const path = require("path");
-        const dispatchPath = path.join(__dirname, "brokers_dispatch_directory.json");
-        if (fs.existsSync(dispatchPath)) {
-          const dispatchMap = JSON.parse(fs.readFileSync(dispatchPath, "utf8"));
-          const matchedList = dispatchMap[place] || dispatchMap[place.replace(/동$/, "") + "동"] || [];
-          if (Array.isArray(matchedList) && matchedList.length > 0) {
-            rows = matchedList.slice(0, 60).map(function(entry) {
+    try {
+      const fs = require("fs");
+      const path = require("path");
+      const dispatchPath = path.join(__dirname, "brokers_dispatch_directory.json");
+      if (fs.existsSync(dispatchPath)) {
+        const dispatchMap = JSON.parse(fs.readFileSync(dispatchPath, "utf8"));
+        const matchedList = dispatchMap[place] || dispatchMap[place.replace(/동$/, "") + "동"] || [];
+        if (Array.isArray(matchedList) && matchedList.length > 0) {
+          let listToUse = matchedList;
+          if (broker) {
+            const exact = matchedList.filter(function(entry) {
               const bName = Array.isArray(entry) ? entry[0] : (entry && entry.name);
-              const bTel = Array.isArray(entry) ? entry[1] : (entry && entry.phone);
-              return {
-                "상호명": bName || (place + " 공인중개사사무소"),
-                "주소": [region, city, place].filter(Boolean).join(" "),
-                "전화번호": bTel || ""
-              };
+              return bName === broker || (bName && bName.includes(broker));
             });
+            const others = matchedList.filter(function(entry) {
+              const bName = Array.isArray(entry) ? entry[0] : (entry && entry.name);
+              return !(bName === broker || (bName && bName.includes(broker)));
+            });
+            listToUse = (exact.length > 0 ? exact : [[broker, "", 1]]).concat(others);
           }
+          rows = listToUse.slice(0, 100).map(function(entry) {
+            const bName = Array.isArray(entry) ? entry[0] : (entry && entry.name);
+            const bTel = Array.isArray(entry) ? entry[1] : (entry && entry.phone);
+            return {
+              "상호명": bName || (place + " 공인중개사사무소"),
+              "주소": [region, city, place].filter(Boolean).join(" "),
+              "전화번호": bTel || ""
+            };
+          });
         }
-      } catch (_) {}
-    }
+      }
+    } catch (_) {}
 
     if (!Array.isArray(rows) || rows.length === 0) {
       rows = [
         {
-          "상호명": broker || `${place} 안심거래 협력 공인중개사 센터`,
-          "주소": `${region} ${city} ${place} 일원`,
-          "전화번호": "010-9850-3388"
+          "상호명": broker || `${place} 공인중개사사무소`,
+          "주소": `${region} ${city} ${place}`,
+          "전화번호": "062-952-4150"
         }
       ];
     }
@@ -2655,20 +2519,19 @@ async function handleBrokerPage(req, res) {
 
     const brokerCount = rows.length;
     const title = broker
-      ? `${place} ${broker} 부동산·공인중개사 아파트·상가 매물 접수 | 복비 50% 반값 안심거래`
-      : `${city} ${place} 부동산·공인중개사 ${brokerCount}곳 추천 목록 & 아파트·상가 급매물 매칭 | 복비 50% 반값`;
+      ? `${broker} (${place}) 공인중개사 전용 매물 10개 무료 등록방 | 우리아파트 안심거래 · 안심딜`
+      : `${location} 공인중개사 매물 10개 무료 등록방 (${brokerCount}곳 전용) | 우리아파트 안심거래 · 안심딜`;
 
     const description = broker
-      ? `🤝 [${location} ${broker}] 아파트 매매·전세·월세 및 상가·점포 급매물 1:1 매칭 안내 페이지입니다. 우리아파트 안심거래 & 안심딜을 통해 중개수수료(복비) 50% 반값 절감 혜택과 직통 매물 제안을 받아보세요.`
-      : `🤝 [${location} 등록 공인중개사 ${brokerCount}곳 총정리] ${place} 아파트 매매·전세·임대 및 상가·점포 계약 시 중개수수료(복비) 최대 50% 반값 할인! 희망 예산만 등록하면 ${place} 관할 공인중개사에게 10초 만에 급매물 제안을 받으실 수 있습니다.`;
+      ? `${location} ${broker} 대표님 전용 동별 매물 10개 무료 등록방입니다. ID(중개사 핸드폰번호 010)와 비밀번호 4자리만 입력하면 정식 매물 등록방이 즉시 열립니다. 가입·등록 무료, 미거래 시 무조건 0원, 1건~10건 거래 성사 시에만 33,000원(VAT포함).`
+      : `${location} 개업 공인중개사(${brokerCount}곳) 전용 동별 매물 10개 무료 등록방입니다. 핸드폰번호(ID) 입력 시 전용 방이 즉시 열리며, 동별 매물 10개(7일 후 자동삭제·사진 3장 선택 업로드)를 무료로 등록하세요. 미거래 시 무조건 0원, 1~10건 거래 시 33,000원(VAT포함).`;
 
     const brokerItems = rows
-      .slice(0, 120)
+      .slice(0, 100)
       .map(function(row) {
         const officeName = firstValue(row, ["상호명", "중개사무소명", "사무소명", "업체명"]);
         const address = firstValue(row, ["주소", "도로명주소", "소재지"]);
         const phone = firstValue(row, ["전화번호", "대표전화", "연락처"]);
-        const homepage = safeUrl(firstValue(row, ["홈페이지", "홈페이지URL", "website", "url"]));
         const brokerUrl = officeName
           ? "/broker-search/" + [region, city, place, officeName].map(pathEncode).join("/")
           : "";
@@ -2681,29 +2544,27 @@ async function handleBrokerPage(req, res) {
                   ? `<a class="broker-name" href="${html(brokerUrl)}"><strong>${html(officeName || "공인중개사")}</strong></a>`
                   : `<strong class="broker-name">${html(officeName || "공인중개사")}</strong>`
               }
-              <span class="broker-badge">${html(place)} 공인중개사</span>
+              <a href="/home#brokerListingRoomSection" class="broker-badge" style="text-decoration:none;">🔑 사장님 매물방 열기 ›</a>
             </div>
-            ${address ? `<div class="broker-meta">📍 주소: ${html(address)}</div>` : ""}
-            ${phone ? `<div class="broker-meta">📞 전화: <a href="tel:${html(phone.replace(/[^0-9]/g, ""))}">${html(phone)}</a></div>` : ""}
-            ${homepage ? `<div class="broker-meta">🌐 <a href="${html(homepage)}" rel="nofollow noopener" target="_blank">홈페이지 바로가기</a></div>` : ""}
+            ${address ? `<div class="broker-meta">📍 관할 동: ${html(address)} (동별 매물 10개 무료 등록 대상)</div>` : ""}
+            ${phone ? `<div class="broker-meta">📞 등록 연락처: ${html(phone)}</div>` : ""}
           </li>
         `;
       })
       .join("");
 
     const aptSearchSaleUrl = "/apt-search/" + [region, city, place, "sale"].map(pathEncode).join("/");
-    const aptSearchJeonseUrl = "/apt-search/" + [region, city, place, "jeonse"].map(pathEncode).join("/");
-    const aptSearchMonthlyUrl = "/apt-search/" + [region, city, place, "monthly"].map(pathEncode).join("/");
+    const storeSearchUrl = "/store-search/" + [region, city, place].map(pathEncode).join("/");
     const regionBrokerListUrl = "/broker-search/" + [region, city, place].map(pathEncode).join("/");
 
     const brokerFaqItems = [
       {
-        q: `${location} 공인중개사 사무소는 총 몇 곳이 등록되어 있나요?`,
-        a: `현재 ${location} 지역에는 총 ${brokerCount}곳의 공인중개사 사무소가 디렉토리에 등록되어 있으며, 각 중개사무소의 상호명, 소재지 주소, 대표 연락처 및 아파트·상가 안심거래 매칭 정보를 본 페이지에서 확인하실 수 있습니다.`
+        q: `${location} 공인중개사 매물 등록방은 어떻게 여나요?`,
+        a: `우리아파트 안심거래(1순위) 및 안심딜(2순위) 매물 등록방에서 중개사 핸드폰 번호(010)를 ID로 입력하시면 방이 즉시 열립니다. 최초 1회 상호, 이름, 전화번호, 주소(동별), 중개사 등록번호, 비밀번호 4자리(및 확인)를 입력하시면 정식 매물 등록방이 즉시 개설됩니다.`
       },
       {
-        q: `${place} 공인중개사에게 아파트 매수·전세·월세 매물을 1:1로 제안받으려면 어떻게 하나요?`,
-        a: `우리아파트 안심거래 플랫폼에서 희망하는 ${place} 아파트 단지(또는 상가·점포)와 예산·입주 조건을 등록하시면, ${city} ${place} 관할 등록 공인중개사들이 검증된 실제 매물을 직접 역제안하며 파트너 공인중개사 협의를 통한 거래비용 최대 50% 절감 혜택을 받으실 수 있습니다.`
+        q: `${place} 공인중개사 매물 등록 비용과 이용 요금은 얼마인가요?`,
+        a: `회원가입과 매물 등록(동별 최대 10개, 7일 후 자동삭제, 사진 3장 이내 선택 업로드)은 100% 무료입니다. 거래가 성사되지 않으면 무조건 0원(무료)이며, 1건 이상 10건까지 거래가 성사될 때만 33,000원(VAT포함)으로 이용하실 수 있습니다.`
       }
     ];
 
@@ -2712,9 +2573,9 @@ async function handleBrokerPage(req, res) {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "우리아파트 안심거래 홈", "item": SITE_ORIGIN + "/" },
-          { "@type": "ListItem", "position": 2, "name": "공인중개사 플랫폼", "item": SITE_ORIGIN + "/broker-landing" },
-          { "@type": "ListItem", "position": 3, "name": location + " 공인중개사", "item": SITE_ORIGIN + regionBrokerListUrl }
+          { "@type": "ListItem", "position": 1, "name": "우리아파트 안심거래 · 안심딜", "item": SITE_ORIGIN + "/" },
+          { "@type": "ListItem", "position": 2, "name": "공인중개사 매물 10개 무료 등록방", "item": SITE_ORIGIN + "/broker-landing" },
+          { "@type": "ListItem", "position": 3, "name": location + " 공인중개사 등록방", "item": SITE_ORIGIN + regionBrokerListUrl }
         ].concat(broker ? [{ "@type": "ListItem", "position": 4, "name": broker, "item": canonical }] : [])
       },
       {
@@ -2730,17 +2591,6 @@ async function handleBrokerPage(req, res) {
       }
     ];
 
-    if (broker && rows[0]) {
-      jsonLd.push({
-        "@context": "https://schema.org",
-        "@type": "RealEstateAgent",
-        "name": broker,
-        "address": firstValue(rows[0], ["주소", "도로명주소", "소재지"]) || location,
-        "telephone": firstValue(rows[0], ["전화번호", "대표전화", "연락처"]) || undefined,
-        "url": canonical
-      });
-    }
-
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800");
 
@@ -2751,8 +2601,8 @@ async function handleBrokerPage(req, res) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${html(title)}</title>
 <meta name="description" content="${html(description)}">
-<meta name="keywords" content="${html(location + " 공인중개사, " + location + " 부동산, " + place + " 공인중개사, " + (broker ? broker + ", " : "") + place + " 아파트 매수, " + place + " 아파트 임차, 아파트 안심딜, 안심딜, 수수료 50%, 거래비용 50%, 거래비용 최대 50% 절감, 매칭수수료 50%, 전세사기 예방, 파트너 공인중개사 협의요율")}">
-<meta name="robots" content="${broker ? "noindex,follow" : "index,follow,max-image-preview:large,max-snippet:-1"}">
+<meta name="keywords" content="${html(location + " 공인중개사, " + place + " 부동산 중개사 매물등록, " + (broker ? broker + ", " : "") + "우리아파트 안심거래 중개사, 안심딜 공인중개사, 부동산 매물 무료 등록, 공인중개사 플랫폼")}">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="${html(canonical)}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${html(title)}">
@@ -2764,12 +2614,12 @@ async function handleBrokerPage(req, res) {
 * { box-sizing: border-box; }
 body {
   margin: 0;
-  background: #f4f7fa;
-  color: #172b3d;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Arial, sans-serif;
+  background: #f1f5f9;
+  color: #0f172a;
+  font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Noto Sans KR", Arial, sans-serif;
 }
 .wrap {
-  max-width: 780px;
+  max-width: 820px;
   margin: auto;
   padding: 18px 14px 55px;
 }
@@ -2784,11 +2634,11 @@ body {
   border-radius: 18px;
   padding: 22px;
   margin-bottom: 16px;
-  box-shadow: 0 8px 26px rgba(20,55,90,.08);
+  box-shadow: 0 8px 26px rgba(15,23,42,.08);
   border: 1px solid #e2e8f0;
 }
-h1 { margin: 0 0 12px; font-size: 26px; line-height: 1.38; color: #0f172a; }
-h2 { margin: 0 0 12px; font-size: 20px; color: #0f172a; }
+h1 { margin: 0 0 12px; font-size: 24px; line-height: 1.38; color: #0f172a; font-weight: 900; }
+h2 { margin: 0 0 12px; font-size: 19px; color: #0f172a; font-weight: 800; }
 p { line-height: 1.7; color: #334155; font-size: 14.5px; margin: 8px 0; }
 .broker-list { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 10px; }
 .broker-item {
@@ -2808,40 +2658,28 @@ p { line-height: 1.7; color: #334155; font-size: 14.5px; margin: 8px 0; }
 .broker-name { font-size: 16px; color: #0f172a; text-decoration: none; }
 .broker-name:hover { color: #1d4ed8; text-decoration: underline; }
 .broker-badge {
-  font-size: 11px;
-  font-weight: 800;
-  padding: 3px 8px;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 5px 10px;
   border-radius: 999px;
-  background: #eff6ff;
-  color: #1d4ed8;
+  background: #1d4ed8;
+  color: #ffffff;
 }
 .broker-meta { font-size: 13.5px; color: #475569; line-height: 1.6; }
-.broker-meta a { color: #1557a5; font-weight: 700; text-decoration: none; }
-.cta {
-  display: block;
-  margin-top: 16px;
-  padding: 15px;
-  border-radius: 12px;
-  background: #1267d6;
-  color: #ffffff;
-  text-align: center;
-  text-decoration: none;
-  font-weight: 900;
-}
 .cross-links {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
   gap: 8px;
   margin-top: 12px;
 }
 .cross-link {
   display: block;
-  padding: 10px 12px;
+  padding: 11px 12px;
   border-radius: 10px;
   background: #f8fafc;
   border: 1px solid #cbd5e1;
   color: #1e293b;
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 800;
   text-decoration: none;
   text-align: center;
@@ -2853,57 +2691,61 @@ p { line-height: 1.7; color: #334155; font-size: 14.5px; margin: 8px 0; }
 <main class="wrap">
 
 <nav class="breadcrumb" aria-label="현재 위치">
-  <a href="/">🏠 홈</a> &gt;
-  <a href="/broker-landing">공인중개사 플랫폼</a> &gt;
+  <a href="/home">🏠 공인중개사 매물등록 홈</a> &gt;
+  <a href="/broker-landing">공인중개사 전용 안내</a> &gt;
   <a href="${html(regionBrokerListUrl)}">${html(location)} 공인중개사</a>
   ${broker ? ` &gt; <strong>${html(broker)}</strong>` : ""}
 </nav>
 
-<section class="card">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-    <a href="/" style="font-weight:900;color:#173a59;text-decoration:none;font-size:16px;">🏠 우리아파트 · 안심딜 홈</a>
-    <a href="/app-install" style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;border:1.5px solid #93c5fd;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:900;color:#1d4ed8;text-decoration:none;">📲 앱 다운로드 · 설치</a>
+<section class="card" style="background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 100%);color:#fff;border:none;">
+  <div style="display:inline-block;background:#facc15;color:#0f172a;font-size:12px;font-weight:900;padding:4px 10px;border-radius:999px;margin-bottom:10px;">
+    개업 공인중개사(부동산업자) 전용 · 가입비/등록비 0원 무료
+  </div>
+  <h1 style="color:#fff;margin-bottom:10px;">
+    ${html(broker ? `${broker} (${place}) 사장님 전용 매물 10개 무료 등록방` : `${location} 공인중개사 전용 매물 10개 무료 등록방`)}
+  </h1>
+  <p style="color:#e2e8f0;font-size:14.5px;margin-bottom:14px;">
+    소모적인 매물 광고비 걱정 없이 <strong>${html(place)}</strong> 아파트·상가·점포 알짜 매물을 동별로 10개까지 무료 등록하세요!
+  </p>
+
+  <div style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:14px;padding:14px 16px;margin-bottom:16px;font-size:13.5px;line-height:1.75;color:#f8fafc;">
+    ✅ <strong>1. ID = 중개사 핸드폰 번호(010)</strong> 입력 시 즉시 방 오픈 (비밀번호 4자리 + 확인)<br>
+    ✅ <strong>2. 정식 등록방 개설 입력란(6항목):</strong> 상호 · 이름 · 전화번호 · 동별 주소(도로명 아님) · 중개사 등록번호 · 비밀번호 4자리<br>
+    ✅ <strong>3. 동별 매물 10개 무료 등록:</strong> 등록 후 <strong>7일 뒤 자동삭제</strong> · 사진은 선택사항으로 <strong>3장 이내 간편 업로드</strong><br>
+    ✅ <strong>4. 완전 무료 & 합리적 정산:</strong> <strong>거래가 되지 않으면 무조건 무료(0원)!</strong> 1건 이상~10건 거래 성사 시에만 <strong>33,000원(VAT포함)</strong>
   </div>
 
-  <h1>${html( broker ? (location + " " + broker + " 공인중개사") : (location + " 공인중개사 목록 (" + brokerCount + "곳)") )}</h1>
-  <p>${html(description)}</p>
-
-  <a class="cta" href="/apt">
-    ✍️ ${html(place)} 아파트 매수·전세·월세 희망조건 등록하기 (수수료 50% 절약)
-  </a>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
-    <a href="https://www.wooriapt.app/map" style="display:block;padding:13px 10px;border-radius:12px;background:#17387d;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">💬 아파트 지도 위 말풍선 ›</a>
-    <a href="https://www.ansimdeal.com/map" style="display:block;padding:13px 10px;border-radius:12px;background:#0f766e;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">🏪 점포·상가 상권분석 지도 ›</a>
+  <div style="display:grid;gap:10px;">
+    <a href="https://www.wooriapt.app/home#brokerListingRoomSection" style="display:block;padding:16px;border-radius:12px;background:#22c55e;color:#052e16;text-align:center;text-decoration:none;font-weight:900;font-size:16px;box-shadow:0 6px 18px rgba(34,197,94,0.35);">
+      🏠 [1순위] 우리아파트 안심거래 — ${html(place)} 아파트 매물 10개 무료 등록방 열기 ›
+    </a>
+    <a href="https://www.ansimdeal.com/home#brokerListingRoomSection" style="display:block;padding:15px;border-radius:12px;background:#38bdf8;color:#082f49;text-align:center;text-decoration:none;font-weight:900;font-size:15.5px;box-shadow:0 6px 18px rgba(56,189,248,0.3);">
+      🏪 [2순위] 점포·상가 안심딜 — ${html(place)} 상가·점포 매물 10개 무료 등록방 열기 ›
+    </a>
   </div>
 </section>
 
 <section class="card">
-  <h2>📋 ${html(location)} 등록 공인중개사 상세정보</h2>
+  <h2>📋 ${html(location)} 매물 무료 등록방 배정 공인중개사 (${brokerCount}곳)</h2>
+  <p style="font-size:13.5px;color:#475569;">아래 목록에서 본인 중개사무소를 확인하시거나 우측 <strong>[사장님 매물방 열기]</strong> 버튼을 눌러 핸드폰 번호(010)로 즉시 매물 10개를 등록하세요.</p>
   <ul class="broker-list">
     ${brokerItems}
   </ul>
 </section>
 
 <section class="card">
-  <h2>🏘️ ${html(location)} 아파트 시세·매물 및 중개사 서비스 바로가기</h2>
-  <p>${html(location)} 지역의 아파트 매매·전세·월세 실거래 매칭 페이지와 공인중개사 전용 안내 페이지를 함께 확인해 보세요.</p>
+  <h2>🔗 우리아파트 안심거래(1순위) & 안심딜(2순위) 부동산업자 바로가기</h2>
   <div class="cross-links">
-    <a class="cross-link" href="${html(aptSearchSaleUrl)}">🏠 ${html(place)} 아파트 매매</a>
-    <a class="cross-link" href="${html(aptSearchJeonseUrl)}">🔑 ${html(place)} 아파트 전세</a>
-    <a class="cross-link" href="${html(aptSearchMonthlyUrl)}">🏢 ${html(place)} 아파트 월세</a>
+    <a class="cross-link" href="https://www.wooriapt.app/home#brokerListingRoomSection">🏠 안심거래 중개사 매물등록방</a>
+    <a class="cross-link" href="https://www.ansimdeal.com/home#brokerListingRoomSection">🏪 안심딜 중개사 매물등록방</a>
+    <a class="cross-link" href="/broker-landing">📢 공인중개사 전용 랜딩페이지</a>
     <a class="cross-link" href="${html(regionBrokerListUrl)}">🤝 ${html(place)} 중개사 전체보기</a>
-    <a class="cross-link" href="/mart-search/${[region, city, place].map(pathEncode).join("/")}">🛒 ${html(place)} 동네마트 보기</a>
-    <a class="cross-link" href="https://www.wooriapt.app/map">💬 아파트 지도 위 시세·매물 말풍선</a>
-    <a class="cross-link" href="https://www.ansimdeal.com/map">🏪 점포·상가 상권분석 지도 매칭기</a>
-    <a class="cross-link" href="/broker-landing">📢 공인중개사 플랫폼 안내</a>
-    <a class="cross-link" href="/check">🚫 허위매물 1초 팩트체크</a>
+    <a class="cross-link" href="${html(aptSearchSaleUrl)}">🏢 ${html(place)} 아파트 안심거래</a>
+    <a class="cross-link" href="${html(storeSearchUrl)}">🏬 ${html(place)} 상가·점포 안심딜</a>
   </div>
 </section>
 
 </main>
-  <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>`);
   } catch (error) {
@@ -2923,33 +2765,11 @@ async function handleBrokerSitemap(req, res) {
   try {
     const locationSet = new Set();
 
-    // 1. agent_directory RPC 병렬 페이지네이션 조회 (최대 5,000개 동)
-    const rpcPromises = [0, 1000, 2000, 3000, 4000].map(function(start) {
+    // 전국 법정·행정동 DB (safe_region_dong: 5,067개 동) 병렬 조회
+    const dongOffsets = [0, 1000, 2000, 3000, 4000, 5000];
+    const dongPromises = dongOffsets.map(function(start) {
       return fetch(
-        SUPABASE_URL + "/rest/v1/rpc/get_broker_sitemap_locations",
-        {
-          method: "POST",
-          headers: {
-            apikey: SUPABASE_KEY,
-            Authorization: "Bearer " + SUPABASE_KEY,
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Range: start + "-" + (start + 999)
-          },
-          body: JSON.stringify({})
-        }
-      ).then(async function(r) {
-        if (!r.ok) return [];
-        const data = await r.json();
-        return Array.isArray(data) ? data : [];
-      }).catch(function() { return []; });
-    });
-
-    // 2. safe_apartments에서 전국 시도/시군구/동리 병렬 수집 (RPC 1,000건 제한 및 환경변수 미설정 완벽 보완)
-    const aptOffsets = Array.from({ length: 27 }, function(_, i) { return i * 1000; });
-    const aptLocPromises = aptOffsets.map(function(start) {
-      return fetch(
-        APT_SUPABASE_URL + "/rest/v1/safe_apartments?select=%EC%8B%9C%EB%8F%84,%EC%8B%9C%EA%B5%B0%EA%B5%AC,%EC%9D%8D%EB%A9%B4,%EB%8F%99%EB%A6%AC&order=%EC%8B%9C%EB%8F%84.asc,%EC%8B%9C%EA%B5%B0%EA%B5%AC.asc,%EB%8F%99%EB%A6%AC.asc",
+        APT_SUPABASE_URL + "/rest/v1/safe_region_dong?select=sido,sigungu,eupmyeondong&order=sido.asc,sigungu.asc,eupmyeondong.asc",
         {
           headers: {
             apikey: APT_SUPABASE_KEY,
@@ -2964,24 +2784,11 @@ async function handleBrokerSitemap(req, res) {
       }).catch(function() { return []; });
     });
 
-    const [rpcBatches, aptBatches] = await Promise.all([
-      Promise.all(rpcPromises),
-      Promise.all(aptLocPromises)
-    ]);
-
-    for (const row of rpcBatches.flat()) {
-      const region = clean(row && row.region);
-      const city = clean(row && row.city);
-      const place = clean(row && row.place);
-      if (region && city && place) {
-        locationSet.add([region, city, place].map(pathEncode).join("/"));
-      }
-    }
-
-    for (const row of aptBatches.flat()) {
-      const region = clean(row && row["시도"]);
-      const city = clean(row && row["시군구"]);
-      const place = clean(row && (row["동리"] || row["읍면"]));
+    const dongBatches = await Promise.all(dongPromises);
+    for (const row of dongBatches.flat()) {
+      const region = clean(row && row.sido);
+      const city = clean(row && row.sigungu);
+      const place = clean(row && row.eupmyeondong);
       if (region && city && place) {
         locationSet.add([region, city, place].map(pathEncode).join("/"));
       }
@@ -2994,8 +2801,8 @@ async function handleBrokerSitemap(req, res) {
       "  <url>" +
         "<loc>" + xmlEscape(SITE_ORIGIN + "/broker-landing") + "</loc>" +
         "<lastmod>" + lastmod + "</lastmod>" +
-        "<changefreq>weekly</changefreq>" +
-        "<priority>0.9</priority>" +
+        "<changefreq>daily</changefreq>" +
+        "<priority>1.0</priority>" +
       "</url>"
     );
 
@@ -3005,8 +2812,8 @@ async function handleBrokerSitemap(req, res) {
         "  <url>" +
           "<loc>" + xmlEscape(url) + "</loc>" +
           "<lastmod>" + lastmod + "</lastmod>" +
-          "<changefreq>weekly</changefreq>" +
-          "<priority>0.8</priority>" +
+          "<changefreq>daily</changefreq>" +
+          "<priority>0.95</priority>" +
         "</url>"
       );
     }
@@ -3046,108 +2853,17 @@ async function handleStorePage(req, res) {
       "/store-search/" +
       [region, city, place].map(pathEncode).join("/");
 
-    // 실제 DB에서 해당 동(place) 및 시군구(city)의 배후 아파트 단지·세대수 데이터 실시간 조회 (유사문서 판정 원천 차단!)
-    const dongAptQuery = new URLSearchParams();
-    dongAptQuery.set("select", "*");
-    if (region) dongAptQuery.set("시도", "in.(" + getRegionVariants(region).join(",") + ")");
-    if (city) dongAptQuery.set("시군구", "eq." + city);
-    if (place) aptAddPlaceFilter(dongAptQuery, place);
-    dongAptQuery.set("order", "단지명.asc");
-    dongAptQuery.set("limit", "100");
-
-    const cityAptQuery = new URLSearchParams();
-    cityAptQuery.set("select", "*");
-    if (region) cityAptQuery.set("시도", "in.(" + getRegionVariants(region).join(",") + ")");
-    if (city) cityAptQuery.set("시군구", "eq." + city);
-    cityAptQuery.set("order", "단지명.asc");
-    cityAptQuery.set("limit", "120");
-
-    const [dongAptRows, cityAptRows] = await Promise.all([
-      fetch(APT_SUPABASE_URL + "/rest/v1/safe_apartments?" + dongAptQuery.toString(), {
-        headers: { apikey: APT_SUPABASE_KEY, Authorization: "Bearer " + APT_SUPABASE_KEY, Accept: "application/json" }
-      }).then(async function(r) { return r.ok ? (await r.json()) : []; }).catch(function() { return []; }),
-      fetch(APT_SUPABASE_URL + "/rest/v1/safe_apartments?" + cityAptQuery.toString(), {
-        headers: { apikey: APT_SUPABASE_KEY, Authorization: "Bearer " + APT_SUPABASE_KEY, Accept: "application/json" }
-      }).then(async function(r) { return r.ok ? (await r.json()) : []; }).catch(function() { return []; })
-    ]);
-
-    const activeAptRows = (Array.isArray(dongAptRows) && dongAptRows.length > 0)
-      ? dongAptRows
-      : (Array.isArray(cityAptRows) ? cityAptRows : []);
-
-    const uniqueComplexMap = new Map();
-    let totalHouseholds = 0;
-    for (const r of activeAptRows) {
-      const cName = aptClean(r && r["단지명"]);
-      if (cName && !uniqueComplexMap.has(cName)) {
-        uniqueComplexMap.set(cName, r);
-        const hh = Number(String(r["세대수"] || "0").replace(/[^0-9]/g, "")) || 0;
-        totalHouseholds += hh;
-      }
-    }
-    const complexList = Array.from(uniqueComplexMap.values());
-    const complexCount = complexList.length;
-    const estResidentPop = totalHouseholds > 0 ? Math.round(totalHouseholds * 2.55) : (complexCount * 650);
-    const estDailySpendPop = Math.round(estResidentPop * 0.68);
-    const topComplexNames = complexList.slice(0, 5).map(function(r) { return aptClean(r["단지명"]); }).filter(Boolean).join(", ");
-
-    // 동일 시군구 내 인접 동 상권 링크 생성
-    const siblingStoreSet = new Set();
-    if (Array.isArray(cityAptRows)) {
-      for (const cr of cityAptRows) {
-        const dName = aptClean(cr && (cr["동리"] || cr["읍면"]));
-        if (dName && dName !== place) siblingStoreSet.add(dName);
-      }
-    }
-    const siblingStoreDongs = Array.from(siblingStoreSet).slice(0, 60);
-
-    const hhTitleBadge = totalHouseholds > 0
-      ? " (배후 " + totalHouseholds.toLocaleString("ko-KR") + "세대·" + complexCount + "개 단지)"
-      : (complexCount > 0 ? " (배후 " + complexCount + "개 단지)" : "");
-
     const title =
-      `${city} ${place} 상가 임대·점포 매매·권리금 시세 및 상권분석${hhTitleBadge} | 복비 50% 반값 안심딜`;
-
+      location +
+      " 상가 권리금 계약서 · 전기수도 공과금 일할 정산 · 상권분석 · 복비 50% 절감 | 안심딜";
     const description =
-      `🏪 [${location} 상가·점포 상권분석 리포트] 배후 아파트 ${complexCount || "핵심"}개 단지${totalHouseholds > 0 ? "(총 " + totalHouseholds.toLocaleString("ko-KR") + "세대 · 추정 상주인구 약 " + estResidentPop.toLocaleString("ko-KR") + "명)" : ""} 실데이터 기반 유동인구·배후세대 검증! ${place} 무권리 상가·1층 점포 임대·양도양수 계약 시 중개수수료(복비) 50% 반값 혜택과 권리금 계약서 특약·전기수도 일할정산 계산기를 무료로 확인하세요.`;
-
-    const backingComplexHtml = complexList.length > 0
-      ? complexList.slice(0, 20).map(function(r) {
-          const cName = aptClean(r["단지명"]);
-          const cDong = aptClean(r["동리"] || r["읍면"]) || place;
-          const cHh = r["세대수"] ? Number(String(r["세대수"]).replace(/[^0-9]/g, "")).toLocaleString("ko-KR") + "세대" : "국토부 등록";
-          const cFl = r["최고층수"] ? "최고 " + r["최고층수"] + "층" : "";
-          const cAddr = r["단지 주소(도로명)"] || "";
-          const cUrl = "/apt-search/" + [region, city, cDong, cName, "sale"].map(pathEncode).join("/");
-          return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid #e2e8f0;font-size:13.5px;gap:8px;flex-wrap:wrap;">
-            <div>
-              <a href="${html(cUrl)}" style="font-weight:800;color:#0f172a;text-decoration:none;">🏢 [${html(cDong)}] ${html(cName)}</a>
-              ${cAddr ? `<span style="color:#64748b;font-size:12px;margin-left:6px;">📍 ${html(cAddr)}</span>` : ""}
-            </div>
-            <div style="font-weight:800;color:#0f766e;font-size:13px;">${html([cHh, cFl].filter(Boolean).join(" · "))}</div>
-          </div>`;
-        }).join("")
-      : `<div style="padding:12px;color:#475569;font-size:13.5px;">${html(location)} 일대 주거 및 상업 배후세대 상권 데이터가 연동되어 있습니다.</div>`;
-
-    const siblingStoreHtml = siblingStoreDongs.length > 0
-      ? siblingStoreDongs.map(function(dName) {
-          const su = "/store-search/" + [region, city, dName].map(pathEncode).join("/");
-          return `<a href="${html(su)}" style="padding:6px 10px;border-radius:8px;background:#f0fdfa;border:1px solid #99f6e4;color:#0f766e;font-size:12.5px;font-weight:800;text-decoration:none;">🏪 ${html(city + " " + dName + " 상가·상권분석")}</a>`;
-        }).join("")
-      : "";
+      location +
+      " 상가·점포 임대차 및 양도양수 시 중개수수료(복비) 50% 절감 혜택, 반경 300m 배후세대·유동인구 정밀 상권분석 지도, 전기요금·수도요금·도시가스 일할 정산 계산기, 상가 권리금 계약서 특약 체크리스트를 무료로 확인하세요.";
 
     const faqSchema = {
       "@context": "https://schema.org",
       "@type": "FAQPage",
       mainEntity: [
-        {
-          "@type": "Question",
-          name: `${location} 상권의 실제 배후 아파트 세대수와 예상 상주인구는 얼마나 되나요?`,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: `국토교통부 공동주택 등록 데이터 기준 ${location} 상권의 핵심 배후 아파트 단지는 ${topComplexNames || place + " 주요 단지"} 등 총 ${complexCount}개 단지이며, 합산 배후 세대수는 약 ${totalHouseholds.toLocaleString("ko-KR")}세대(추정 배후 상주인구 약 ${estResidentPop.toLocaleString("ko-KR")}명) 규모입니다. 안심딜 상권분석 지도에서 반경 300m 세부 유동인구를 무료로 확인하실 수 있습니다.`
-          }
-        },
         {
           "@type": "Question",
           name: location + " 상가 점포 인수인계 시 전기요금·수도요금·도시가스 일할 정산은 어떻게 하나요?",
@@ -3158,10 +2874,18 @@ async function handleStorePage(req, res) {
         },
         {
           "@type": "Question",
-          name: location + " 상가 권리금 계약서 작성 시 사기 예방 필수 특약과 복비 50% 절감 방법은 무엇인가요?",
+          name: location + " 상가 권리금 계약서 작성 시 사기 예방 필수 특약은 무엇인가요?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "임대인(건물주)과의 신규 임대차 계약이 체결되지 않을 경우 권리금 계약을 무효로 하고 계약금 전액을 즉시 반환한다는 특약을 반드시 명시해야 하며, 안심딜(ansimdeal.com)에서 희망 조건을 등록하면 중개수수료(복비) 50% 반값 절감 혜택을 받으실 수 있습니다."
+            text: "임대인(건물주)과의 신규 임대차 계약이 체결되지 않을 경우 권리금 계약을 무효로 하고 계약금 전액을 즉시 반환한다는 특약과, 행정처분·영업정지 이력 및 시설물 하자에 대한 매도인 담보책임 조항을 반드시 명시해야 합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          name: location + " 상가 중개수수료(복비)를 50% 아끼는 방법은 무엇인가요?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "안심딜(ansimdeal.com)에서 희망 조건이나 점포 매물을 등록하면 중개수수료 50% 절감에 동의한 지역 협력 공인중개사 및 직거래 매칭을 통해 상가 복비 부담을 절반으로 줄일 수 있습니다."
           }
         }
       ]
@@ -3179,8 +2903,7 @@ async function handleStorePage(req, res) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${html(title)}</title>
 <meta name="description" content="${html(description)}">
-<meta name="keywords" content="${html(location + " 상가 임대, " + place + " 상가 임대, " + place + " 점포 매매, " + place + " 무권리 상가, " + place + " 상가 권리금, " + place + " 상권분석, " + place + " 유동인구, " + place + " 상가 복비 반값, 안심딜")}">
-<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="robots" content="index,follow">
 <link rel="canonical" href="${html(canonical)}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${html(title)}">
@@ -3230,21 +2953,6 @@ ul { padding-left: 20px; margin: 8px 0; }
   font-weight: 900;
   font-size: 15.5px;
 }
-.stat-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin: 14px 0;
-}
-.stat-box {
-  background: #f0fdfa;
-  border: 1px solid #99f6e4;
-  border-radius: 12px;
-  padding: 12px 10px;
-  text-align: center;
-}
-.stat-label { font-size: 12px; color: #0f766e; font-weight: 800; }
-.stat-val { font-size: 18px; color: #0f172a; font-weight: 900; margin-top: 4px; }
 .box {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
@@ -3278,48 +2986,23 @@ ul { padding-left: 20px; margin: 8px 0; }
 <nav class="breadcrumb" aria-label="현재 위치">
   <a href="https://www.ansimdeal.com">🏪 안심딜 홈</a> &gt;
   <a href="https://www.ansimdeal.com/map">상권분석 지도</a> &gt;
-  <strong>${html(location)} 상가·점포 상권분석 &amp; 안심딜</strong>
+  <strong>${html(location)} 상가·점포 안심딜</strong>
 </nav>
 
 <section class="card">
-  <div style="display:inline-block;padding:5px 11px;border-radius:999px;background:#ecfdf5;color:#0f766e;font-size:12.5px;font-weight:900;margin-bottom:10px;">📊 국토부 배후세대 실데이터 연동 · 상가 중개수수료 50% 반값</div>
-  <h1>🏪 ${html(location)} 상가 임대·점포 매매·권리금 시세 및 배후세대 상권분석</h1>
+  <h1>🏪 ${html(location)} 상가 권리금 · 공과금 일할 정산 · 상권분석 (복비 50% 절감)</h1>
   <p>${html(description)}</p>
-
-  <div class="stat-grid">
-    <div class="stat-box">
-      <div class="stat-label">배후 아파트 단지</div>
-      <div class="stat-val">${html(complexCount.toLocaleString("ko-KR"))}개 단지</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-label">합산 배후 세대수</div>
-      <div class="stat-val">${html(totalHouseholds > 0 ? totalHouseholds.toLocaleString("ko-KR") + "세대" : "상권 연동")}</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-label">추정 상주 배후인구</div>
-      <div class="stat-val">약 ${html(estResidentPop.toLocaleString("ko-KR"))}명</div>
-    </div>
-  </div>
-
   <a class="cta" href="https://www.ansimdeal.com">
-    👉 ${html(place)} 상가·점포 희망조건 등록하고 중개수수료 50% 반값에 구하기 ›
+    👉 ${html(place)} 상가·점포 중개수수료 50% 절감 &amp; 무료 상권분석 바로가기
   </a>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
     <a href="https://www.ansimdeal.com/map" style="display:block;padding:13px 10px;border-radius:12px;background:#1e293b;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">🗺️ ${html(place)} 300m 상권분석 지도 ›</a>
-    <a href="${html(aptSaleUrl)}" style="display:block;padding:13px 10px;border-radius:12px;background:#1d4ed8;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">🏢 ${html(place)} 아파트 복비 50% 반값 ›</a>
+    <a href="https://www.ansimdeal.com/tools-center" style="display:block;padding:13px 10px;border-radius:12px;background:#1d4ed8;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">⚡ 전기·수도·복비 자동 계산기 ›</a>
   </div>
 </section>
 
 <section class="card">
-  <h2>🏢 1. ${html(location)} 상권 핵심 배후 아파트 단지 (${html(String(complexCount))}곳) 실데이터</h2>
-  <p>창업·점포 계약 전 반드시 확인해야 할 <strong>${html(location)}</strong> 실제 거주 배후세대 현황입니다. (유효 소비인구 일평균 약 ${html(estDailySpendPop.toLocaleString("ko-KR"))}명 추산)</p>
-  <div style="border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-top:10px;background:#f8fafc;">
-    ${backingComplexHtml}
-  </div>
-</section>
-
-<section class="card">
-  <h2>⚡ 2. ${html(location)} 상가 양도양수 시 전기·수도·도시가스 일할 정산법</h2>
+  <h2>⚡ 1. ${html(location)} 상가 양도양수 시 전기·수도·도시가스 일할 정산법</h2>
   <p>${html(place)} 상가나 점포를 인수인계·폐업할 때 잔금 당일 분쟁을 막는 3단계 공과금 정산 공식입니다.</p>
   <div class="box">
     <ul>
@@ -3331,7 +3014,7 @@ ul { padding-left: 20px; margin: 8px 0; }
 </section>
 
 <section class="card">
-  <h2>📋 3. ${html(location)} 상가 권리금 계약서 필수 특약 체크리스트</h2>
+  <h2>📋 2. ${html(location)} 상가 권리금 계약서 필수 특약 체크리스트</h2>
   <p>상가 권리금 계약 시 계약금 사고와 분쟁을 예방하기 위해 반드시 특약사항에 넣어야 할 핵심 조항입니다.</p>
   <div class="box">
     <ul>
@@ -3342,15 +3025,8 @@ ul { padding-left: 20px; margin: 8px 0; }
   </div>
 </section>
 
-${siblingStoreHtml ? `<section class="card">
-  <h2>📍 ${html(city)} 인접 동네 상가 임대·권리금·상권분석 둘러보기</h2>
-  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">
-    ${siblingStoreHtml}
-  </div>
-</section>` : ""}
-
 <section class="card">
-  <h2>🗺️ 4. ${html(location)} 반경 300m 정밀 상권분석 &amp; 중개수수료 50% 절약</h2>
+  <h2>🗺️ 3. ${html(location)} 반경 300m 정밀 상권분석 &amp; 중개수수료 50% 절약</h2>
   <p>안심딜에서는 ${html(location)} 일대의 배후 아파트 단지 세대수, 유동인구, 주변 경쟁 업종 현황을 지도 위에서 무료로 제공하며, 상가 임대차·권리금 중개수수료를 50% 아낄 수 있는 안심 매칭을 지원합니다.</p>
   <div class="cross-links">
     <a class="cross-link" href="https://www.ansimdeal.com">🏪 안심딜 메인 바로가기</a>
@@ -3374,8 +3050,6 @@ ${siblingStoreHtml ? `<section class="card">
   </div>
 </section>
 </main>
-  <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>`);
   } catch (error) {
@@ -3395,7 +3069,7 @@ async function handleStoreSitemap(req, res) {
   try {
     const locationSet = new Set();
 
-    const aptOffsets = Array.from({ length: 27 }, function(_, i) { return i * 1000; });
+    const aptOffsets = Array.from({ length: 22 }, function(_, i) { return i * 1000; });
     const aptLocPromises = aptOffsets.map(function(start) {
       return fetch(
         APT_SUPABASE_URL + "/rest/v1/safe_apartments?select=%EC%8B%9C%EB%8F%84,%EC%8B%9C%EA%B5%B0%EA%B5%AC,%EC%9D%8D%EB%A9%B4,%EB%8F%99%EB%A6%AC&order=%EC%8B%9C%EB%8F%84.asc,%EC%8B%9C%EA%B5%B0%EA%B5%AC.asc,%EB%8F%99%EB%A6%AC.asc",
@@ -3433,8 +3107,8 @@ async function handleStoreSitemap(req, res) {
         "  <url>" +
           "<loc>" + xmlEscape(url) + "</loc>" +
           "<lastmod>" + lastmod + "</lastmod>" +
-          "<changefreq>daily</changefreq>" +
-          "<priority>1.0</priority>" +
+          "<changefreq>weekly</changefreq>" +
+          "<priority>0.85</priority>" +
         "</url>"
       );
     }
@@ -3521,74 +3195,7 @@ async function handler(req, res) {
     return aptHandleSitemap(req, res);
   }
 
-  if (mode === "apt-hub-sitemap") {
-    return handleAptHubSitemap(req, res);
-  }
-
   return aptHandleApartmentPage(req, res);
-}
-
-async function handleAptHubSitemap(req, res) {
-  res.setHeader("Content-Type", "application/xml; charset=utf-8");
-  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800");
-
-  try {
-    const locationSet = new Set();
-    const aptOffsets = Array.from({ length: 27 }, function(_, i) { return i * 1000; });
-    const aptLocPromises = aptOffsets.map(function(start) {
-      return fetch(
-        APT_SUPABASE_URL + "/rest/v1/safe_apartments?select=%EC%8B%9C%EB%8F%84,%EC%8B%9C%EA%B5%B0%EA%B5%AC,%EC%9D%8D%EB%A9%B4,%EB%8F%99%EB%A6%AC&order=%EC%8B%9C%EB%8F%84.asc,%EC%8B%9C%EA%B5%B0%EA%B5%AC.asc,%EB%8F%99%EB%A6%AC.asc",
-        {
-          headers: {
-            apikey: APT_SUPABASE_KEY,
-            Authorization: "Bearer " + APT_SUPABASE_KEY,
-            Range: start + "-" + (start + 999)
-          }
-        }
-      ).then(async function(r) {
-        if (!r.ok) return [];
-        const data = await r.json();
-        return Array.isArray(data) ? data : [];
-      }).catch(function() { return []; });
-    });
-
-    const aptBatches = await Promise.all(aptLocPromises);
-    for (const row of aptBatches.flat()) {
-      const region = clean(row && row["시도"]);
-      const city = clean(row && row["시군구"]);
-      const place = clean(row && (row["동리"] || row["읍면"]));
-      if (region && city && place) {
-        locationSet.add([region, city, place].map(pathEncode).join("/"));
-      }
-    }
-
-    const lastmod = new Date().toISOString().split("T")[0];
-    const urls = [];
-    for (const encodedPath of locationSet) {
-      const saleUrl = SITE_ORIGIN + "/apt-search/" + encodedPath + "/sale";
-      urls.push(
-        "  <url>" +
-          "<loc>" + xmlEscape(saleUrl) + "</loc>" +
-          "<lastmod>" + lastmod + "</lastmod>" +
-          "<changefreq>daily</changefreq>" +
-          "<priority>1.0</priority>" +
-        "</url>"
-      );
-    }
-
-    const xml =
-      '<?xml version="1.0" encoding="UTF-8"?>\n' +
-      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-      urls.join("\n") +
-      "\n</urlset>";
-
-    return res.status(200).send(xml);
-  } catch (error) {
-    console.error("APT HUB SITEMAP ERROR:", error);
-    return res.status(500).send(
-      '<?xml version="1.0" encoding="UTF-8"?>\n<error>apt hub sitemap generation failed</error>'
-    );
-  }
 }
 
 module.exports = handler;
