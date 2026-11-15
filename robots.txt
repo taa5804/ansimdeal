@@ -27,7 +27,4 @@ Allow: /
 
 Sitemap: https://www.ansimdeal.com/sitemap.xml
 Sitemap: https://www.ansimdeal.com/pages-sitemap.xml
-Sitemap: https://www.ansimdeal.com/broker-sitemap.xml
-Sitemap: https://www.ansimdeal.com/apt-sitemap.xml
 Sitemap: https://www.ansimdeal.com/store-sitemap.xml
-Sitemap: https://www.ansimdeal.com/mart-sitemap.xml
