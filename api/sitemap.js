@@ -146,20 +146,24 @@ module.exports = async function handler(req, res) {
     const pages = Math.max(1, Math.ceil(totalCount / ROWS_PER_SITEMAP));
 
     // 노출 순위: 1순위 안심거래·부동산업자 -> 2순위 안심딜 -> 3순위 알라딘맘콕(pages-sitemap 내 포함) -> 4순위 마트
-    const sitemapUrls = [
+    const sitemapUrls = isAnsim ? [
+      SITE_ORIGIN + "/pages-sitemap.xml",
+      SITE_ORIGIN + "/store-sitemap.xml"
+    ] : [
       SITE_ORIGIN + "/pages-sitemap.xml",
       SITE_ORIGIN + "/broker-sitemap.xml"
     ];
 
-    if (!isMartDomain) {
+    if (!isAnsim && !isMartDomain) {
       for (let page = 1; page <= pages; page += 1) {
         sitemapUrls.push(SITE_ORIGIN + "/sitemaps/apartments-" + page + ".xml");
       }
-      sitemapUrls.push(SITE_ORIGIN + "/store-sitemap.xml");
     }
 
-    for (let m = 1; m <= MART_SITEMAP_COUNT; m += 1) {
-      sitemapUrls.push(SITE_ORIGIN + "/sitemaps/marts-" + m + ".xml");
+    if (!isAnsim) {
+      for (let m = 1; m <= MART_SITEMAP_COUNT; m += 1) {
+        sitemapUrls.push(SITE_ORIGIN + "/sitemaps/marts-" + m + ".xml");
+      }
     }
 
     const sitemapItems = sitemapUrls
