@@ -1,10 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/apt-search",
-      "destination": "/api/apt-page?mode=apt-page&region=서울특별시&city=강남구&place=역삼동"
-    },
-    {
       "source": "/store-search",
       "destination": "/api/apt-page?mode=store-page&region=서울특별시&city=강남구&place=역삼동"
     },
@@ -177,20 +173,8 @@
       "destination": "/apt"
     },
     {
-      "source": "/apt-search/:region/:city/:place/:apartment/:type",
-      "destination": "/api/apt-page?region=:region&city=:city&place=:place&apartment=:apartment&type=:type"
-    },
-    {
-      "source": "/apt-search/:region/:city/:place/:type",
-      "destination": "/api/apt-page?region=:region&city=:city&place=:place&type=:type"
-    },
-    {
       "source": "/api/apt-list",
       "destination": "/api/apt-page?mode=list"
-    },
-    {
-      "source": "/sitemaps/apartments-:page.xml",
-      "destination": "/api/apt-page?mode=sitemap&page=:page"
     },
     {
       "source": "/apt-sitemap.xml",
@@ -333,5 +317,17 @@
       "schedule": "0 0 * * *"
     }
   ],
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/apt-search/:path*",
+      "destination": "https://www.wooriapt.app/apt-search/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/apt-search",
+      "destination": "https://www.wooriapt.app/apt-search",
+      "permanent": true
+    }
+  ]
 }
