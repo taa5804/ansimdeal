@@ -3067,6 +3067,87 @@ ul { padding-left: 20px; margin: 8px 0; }
     <a class="cross-link" href="${html(martListUrl)}">🛒 ${html(place)} 동네마트 정보</a>
   </div>
 </section>
+
+<section class="card">
+  <h2>🏷️ 4. ${html(location)} 8대 핵심 업종별 권리금 및 점포 인수인계 핵심 가이드</h2>
+  <p>${html(place)} 일대에서 가장 거래가 활발한 8대 핵심 업종의 권리금 산정 기준과 계약 시 필수 주의사항입니다.</p>
+  
+  <div style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px;">
+    <div class="box" style="border-left:4px solid #0f766e;">
+      <h3 style="margin:0 0 6px;font-size:16px;color:#0f766e;">☕ ① 카페·디저트·베이커리 점포 권리금 양도양수</h3>
+      <p style="margin:0;font-size:13.5px;color:#475569;">
+        • 에스프레소 머신, 그라인더, 제빙기, 쇼케이스 등 주요 장비 잔존가치 평가<br>
+        • 프랜차이즈 가맹점 본사 가맹비·교육비·명의개서료 및 리뉴얼 의무 조건 사전 확인<br>
+        • 테이크아웃 전면창 및 외부 테라스 불법건축물 적발 여부(이행강제금 승계 방지)
+      </p>
+    </div>
+
+    <div class="box" style="border-left:4px solid #0f766e;">
+      <h3 style="margin:0 0 6px;font-size:16px;color:#0f766e;">🍲 ② 일반음식점·식당·고깃집 상가 점포 임대차</h3>
+      <p style="margin:0;font-size:13.5px;color:#475569;">
+        • 주방 닥트·배기 후드(옥상 입상 여부) 및 배수 트렌치/그리스타랩 악취 누수 점검<br>
+        • 도시가스 인입 등급 및 전기 기본 계약전력(최소 20~30kW 증설 필요 여부) 실측<br>
+        • 영업신고증 즉시 승계 및 위생과 행정처분(영업정지/과태료) 승계 방지 특약
+      </p>
+    </div>
+
+    <div class="box" style="border-left:4px solid #0f766e;">
+      <h3 style="margin:0 0 6px;font-size:16px;color:#0f766e;">🍺 ③ 주점·포차·이자카야 야간 상권 권리금</h3>
+      <p style="margin:0;font-size:13.5px;color:#475569;">
+        • 목요일~일요일 야간 피크타임(20시~02시) 유동인구 및 2차 고객 유입 동선 분석<br>
+        • 주류도매상 대여금(주류대출) 잔액 승계 여부 및 주류 판매 면허 요건 확인<br>
+        • 인근 주거지/아파트 단지 민원(소음·흡연) 발생 이력 체크
+      </p>
+    </div>
+
+    <div class="box" style="border-left:4px solid #0f766e;">
+      <h3 style="margin:0 0 6px;font-size:16px;color:#0f766e;">💇 ④ 미용실·헤어샵·네일·뷰티샵 상가 매매</h3>
+      <p style="margin:0;font-size:13.5px;color:#475569;">
+        • 샴푸대 온수탱크(순간온수기 용량), 미용 의자·경대 인테리어 인수인계<br>
+        • 기존 단골 고객 선불권·회원권 잔액에 대한 매도인 전액 정산 특약 필수<br>
+        • 담당 디자이너 동반 잔류 여부 및 반경 1km 이내 동종업종 경업금지 약정
+      </p>
+    </div>
+
+    <div class="box" style="border-left:4px solid #0f766e;">
+      <h3 style="margin:0 0 6px;font-size:16px;color:#0f766e;">🏋️ ⑤ 헬스·피트니스·필라테스·PT샵 점포 인수</h3>
+      <p style="margin:0;font-size:13.5px;color:#475569;">
+        • 고가 웨이트 머신 렌탈/리스 계약 잔여기간 및 양도양수 승인 조건 점검<br>
+        • 장기 등록 회원들의 환불 요구 발생 시 전 임차인의 법적 배상 책임 명시<br>
+        • 샤워실 누수 하자 방수 공사 이력 및 건물 하중 구조 확인
+      </p>
+    </div>
+
+    <div class="box" style="border-left:4px solid #0f766e;">
+      <h3 style="margin:0 0 6px;font-size:16px;color:#0f766e;">📚 ⑥ 학원·교습소·독서실·스터디카페 양도</h3>
+      <p style="margin:0;font-size:13.5px;color:#475569;">
+        • 교육청 학원 설립 인가 면적(강의실 순수 전용면적) 기준 적합성 검토<br>
+        • 직통계단 2개소 보유 여부 및 소방안전시설 완비증명서 승계 확인<br>
+        • 키오스크 좌석 프로그램 라이선스 및 회원 DB 인수인계
+      </p>
+    </div>
+
+    <div class="box" style="border-left:4px solid #0f766e;">
+      <h3 style="margin:0 0 6px;font-size:16px;color:#0f766e;">🏥 ⑦ 병의원·약국·치과·한의원 메디컬 상가</h3>
+      <p style="margin:0;font-size:13.5px;color:#475569;">
+        • 일평균 처방전 조제 건수 및 국민건강보험공단 심사평가원 통계 실사 검증<br>
+        • 의료기기 방사선 차폐시설 및 폐수배출시설 인허가 승계 여부<br>
+        • 건물 내 동일 진료과목 중복 입점 방지 독점권 특약 확인
+      </p>
+    </div>
+
+    <div class="box" style="border-left:4px solid #0f766e;">
+      <h3 style="margin:0 0 6px;font-size:16px;color:#0f766e;">🏪 ⑧ 편의점·무인창업(아이스크림/세탁) 상가</h3>
+      <p style="margin:0;font-size:13.5px;color:#475569;">
+        • 포스(POS) 시스템 1년치 원천 데이터(매출/객단가/반품율) 위변조 포렌식 대조<br>
+        • 본사 가맹계약 잔여 기간 및 조기 해지 시 위약금(지원금 반환) 전가 방지<br>
+        • 무인 보안 CCTV, 출입인증기, 셀프 결제 키오스크 소유권 이전 확인
+      </p>
+    </div>
+  </div>
+</section>
+
+
 <section class="card">
   <h2>🏪 전국 249개 시·군·구 상가·점포 상권분석 전체 허브</h2>
   <div style="padding:12px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;max-height:220px;overflow-y:auto;">
