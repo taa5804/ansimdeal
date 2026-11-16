@@ -2893,6 +2893,32 @@ async function handleStorePage(req, res) {
       ]
     };
 
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "안심딜", "item": "https://www.ansimdeal.com" },
+        { "@type": "ListItem", "position": 2, "name": region + " 상가", "item": "https://www.ansimdeal.com/map" },
+        { "@type": "ListItem", "position": 3, "name": location + " 상가 권리금 안심딜", "item": canonical }
+      ]
+    };
+
+    const localBusinessSchema = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": location + " 상가·점포 안심딜",
+      "description": description,
+      "url": canonical,
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": region,
+        "addressLocality": city,
+        "streetAddress": place
+      },
+      "priceRange": "중개수수료 50% 절감",
+      "telephone": "062-952-4150"
+    };
+
     const encodedPath = [region, city, place].map(pathEncode).join("/");
     const brokerListUrl = "/broker-search/" + encodedPath;
     const martListUrl = "/mart-search/" + encodedPath;
@@ -2913,6 +2939,8 @@ async function handleStorePage(req, res) {
 <meta property="og:url" content="${html(canonical)}">
 <meta property="og:site_name" content="상가·점포 안심딜">
 <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>
+<script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>
+<script type="application/ld+json">${JSON.stringify(localBusinessSchema)}</script>
 <style>
 body {
   margin: 0;
