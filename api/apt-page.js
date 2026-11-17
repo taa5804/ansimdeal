@@ -62,7 +62,7 @@ async function submitIndexNow(urls) {
   }
 
   const response = await fetch(
-    "https://searchadvisor.naver.com/indexnow",
+    "https://api.indexnow.org/indexnow",
     {
       method: "POST",
       headers: {
