@@ -89,7 +89,7 @@ module.exports = async function handler(req, res) {
     return res.status(200).send("naver-site-verification: naver" + String(req.query.naver).replace(/\.html$/i, "") + ".html");
   }
 
-  if (req.method !== "GET") {
+  if (req.method !== "GET" && req.method !== "HEAD") {
     return res.status(405).send("Method Not Allowed");
   }
 
@@ -146,24 +146,20 @@ module.exports = async function handler(req, res) {
     const pages = Math.max(1, Math.ceil(totalCount / ROWS_PER_SITEMAP));
 
     // 노출 순위: 1순위 안심거래·부동산업자 -> 2순위 안심딜 -> 3순위 알라딘맘콕(pages-sitemap 내 포함) -> 4순위 마트
-    const sitemapUrls = isAnsim ? [
-      SITE_ORIGIN + "/pages-sitemap.xml",
-      SITE_ORIGIN + "/store-sitemap.xml"
-    ] : [
+    const sitemapUrls = [
       SITE_ORIGIN + "/pages-sitemap.xml",
       SITE_ORIGIN + "/broker-sitemap.xml"
     ];
 
-    if (!isAnsim && !isMartDomain) {
+    if (!isMartDomain) {
       for (let page = 1; page <= pages; page += 1) {
         sitemapUrls.push(SITE_ORIGIN + "/sitemaps/apartments-" + page + ".xml");
       }
+      sitemapUrls.push(SITE_ORIGIN + "/store-sitemap.xml");
     }
 
-    if (!isAnsim) {
-      for (let m = 1; m <= MART_SITEMAP_COUNT; m += 1) {
-        sitemapUrls.push(SITE_ORIGIN + "/sitemaps/marts-" + m + ".xml");
-      }
+    for (let m = 1; m <= MART_SITEMAP_COUNT; m += 1) {
+      sitemapUrls.push(SITE_ORIGIN + "/sitemaps/marts-" + m + ".xml");
     }
 
     const sitemapItems = sitemapUrls

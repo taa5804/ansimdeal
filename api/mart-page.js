@@ -755,7 +755,7 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  if (req.method !== "GET") {
+  if (req.method !== "GET" && req.method !== "HEAD") {
     res.statusCode = 405;
     return res.end("Method Not Allowed");
   }
