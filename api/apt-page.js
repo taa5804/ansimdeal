@@ -2845,9 +2845,18 @@ async function handleStorePage(req, res) {
   res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800");
 
   try {
-    const region = clean(req.query.region || "서울특별시");
-    const city = clean(req.query.city || "강남구");
-    const place = clean(req.query.place || "역삼동");
+    const region = clean(req.query.region || "");
+    const city = clean(req.query.city || "");
+    const place = clean(req.query.place || "");
+
+    const VALID_SIDO = [
+      "서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종",
+      "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"
+    ];
+
+    if (!region || !city || !place || !VALID_SIDO.some(s => region.includes(s))) {
+      return res.status(404).send("존재하지 않는 상가·점포 지역입니다.");
+    }
 
     const location = [region, city, place].filter(Boolean).join(" ");
     const canonical =
