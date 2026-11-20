@@ -53,34 +53,20 @@ const WOORI_PAGES_LIST = [
 ];
 
 const ANSIM_PAGES_LIST = [
-  // [1순위 & 2순위] 안심딜 & 우리아파트 안심거래 & 공인중개사 매물등록방 (priority: 1.0 ~ 0.95)
+  // 안심딜 고유 상가·점포 안심거래 핵심 페이지
   { path: "/", priority: "1.0", changefreq: "daily" },
   { path: "/home", priority: "1.0", changefreq: "daily" },
-  { path: "/broker-landing", priority: "1.0", changefreq: "daily" },
-  { path: "/broker-guide", priority: "1.0", changefreq: "daily" },
-  { path: "/broker-signup", priority: "1.0", changefreq: "daily" },
-  { path: "/tools-center", priority: "1.0", changefreq: "daily" },
-  { path: "/apt", priority: "0.95", changefreq: "daily" },
-  { path: "/map", priority: "0.95", changefreq: "daily" },
-  { path: "/price", priority: "0.95", changefreq: "daily" },
+  { path: "/tools-center", priority: "0.95", changefreq: "daily" },
   { path: "/request", priority: "0.95", changefreq: "daily" },
-  { path: "/broker-buyer", priority: "0.92", changefreq: "weekly" },
-  { path: "/broker-customer", priority: "0.92", changefreq: "weekly" },
-  { path: "/broker-local", priority: "0.92", changefreq: "weekly" },
-  { path: "/broker-proposal", priority: "0.92", changefreq: "weekly" },
-  { path: "/broker-sales", priority: "0.92", changefreq: "weekly" },
-
-  // [3순위] 알라딘맘콕 분양·미분양 매칭 플랫폼 (priority: 0.85)
-  { path: "/presale", priority: "0.95", changefreq: "daily" },
-  { path: "/presale-landing", priority: "0.95", changefreq: "daily" },
-  { path: "/presale-search", priority: "0.95", changefreq: "daily" },
-  { path: "/presale-matcher", priority: "0.95", changefreq: "daily" },
-  { path: "/sale-detail", priority: "0.95", changefreq: "daily" },
-
-  // [4순위] 동네마트 플랫폼 (priority: 0.75)
-  { path: "/mart", priority: "0.2", changefreq: "monthly" },
-  { path: "/mart-price", priority: "0.2", changefreq: "monthly" },
-  { path: "/app-install", priority: "0.70", changefreq: "weekly" }
+  { path: "/broker-landing", priority: "0.95", changefreq: "daily" },
+  { path: "/broker-guide", priority: "0.90", changefreq: "weekly" },
+  { path: "/broker-signup", priority: "0.90", changefreq: "weekly" },
+  { path: "/broker-proposal", priority: "0.90", changefreq: "weekly" },
+  { path: "/presale-landing", priority: "0.90", changefreq: "weekly" },
+  { path: "/presale-search", priority: "0.90", changefreq: "weekly" },
+  { path: "/presale-matcher", priority: "0.90", changefreq: "weekly" },
+  { path: "/sale-detail", priority: "0.90", changefreq: "weekly" },
+  { path: "/app-install", priority: "0.80", changefreq: "weekly" }
 ];
 
 module.exports = async function handler(req, res) {
@@ -146,20 +132,34 @@ module.exports = async function handler(req, res) {
     const pages = Math.max(1, Math.ceil(totalCount / ROWS_PER_SITEMAP));
 
     // 노출 순위: 1순위 안심거래·부동산업자 -> 2순위 안심딜 -> 3순위 알라딘맘콕(pages-sitemap 내 포함) -> 4순위 마트
-    const sitemapUrls = [
-      SITE_ORIGIN + "/pages-sitemap.xml",
-      SITE_ORIGIN + "/broker-sitemap.xml"
-    ];
+        let sitemapUrls = [];
 
-    if (!isMartDomain) {
+    if (isAnsim) {
+      // 안심딜은 상가·점포 안심거래 전용 사이트맵만 인덱싱 (우리아파트 중복 배제 & 404 제거)
+      sitemapUrls = [
+        SITE_ORIGIN + "/pages-sitemap.xml",
+        SITE_ORIGIN + "/store-sitemap.xml"
+      ];
+    } else if (isMartDomain) {
+      sitemapUrls = [
+        SITE_ORIGIN + "/pages-sitemap.xml"
+      ];
+      for (let m = 1; m <= MART_SITEMAP_COUNT; m += 1) {
+        sitemapUrls.push(SITE_ORIGIN + "/sitemaps/marts-" + m + ".xml");
+      }
+    } else {
+      // 우리아파트 메인 도메인
+      sitemapUrls = [
+        SITE_ORIGIN + "/pages-sitemap.xml",
+        SITE_ORIGIN + "/broker-sitemap.xml"
+      ];
       for (let page = 1; page <= pages; page += 1) {
         sitemapUrls.push(SITE_ORIGIN + "/sitemaps/apartments-" + page + ".xml");
       }
       sitemapUrls.push(SITE_ORIGIN + "/store-sitemap.xml");
-    }
-
-    for (let m = 1; m <= MART_SITEMAP_COUNT; m += 1) {
-      sitemapUrls.push(SITE_ORIGIN + "/sitemaps/marts-" + m + ".xml");
+      for (let m = 1; m <= MART_SITEMAP_COUNT; m += 1) {
+        sitemapUrls.push(SITE_ORIGIN + "/sitemaps/marts-" + m + ".xml");
+      }
     }
 
     const sitemapItems = sitemapUrls
