@@ -53,28 +53,12 @@
       "destination": "/sale-detail"
     },
     {
-      "source": "/presale",
-      "destination": "/presale"
-    },
-    {
       "source": "/api/sale-save",
       "destination": "https://wooriaptcd.com/api/sale-save"
     },
     {
       "source": "/app-install",
       "destination": "/app-install"
-    },
-    {
-      "source": "/presale-list",
-      "destination": "/presale-list"
-    },
-    {
-      "source": "/presale-search",
-      "destination": "/presale-search"
-    },
-    {
-      "source": "/presale-landing",
-      "destination": "/presale-landing"
     },
     {
       "source": "/broker-landing",
@@ -99,18 +83,6 @@
     {
       "source": "/74",
       "destination": "/mart-store"
-    },
-    {
-      "source": "/map-landing",
-      "destination": "/presale-matcher?map=1"
-    },
-    {
-      "source": "/presale-matcher",
-      "destination": "/presale-matcher"
-    },
-    {
-      "source": "/matcher",
-      "destination": "/presale-matcher"
     },
     {
       "source": "/utility",
