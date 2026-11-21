@@ -1963,7 +1963,7 @@ p {
       <a class="quick-link-btn" href="/tools-center">⚡ 전기·수도·가스 이사정산</a>
       <a class="quick-link-btn" href="/price">🥬 농·축·수산물 60종 오늘의 시세</a>
       <a class="quick-link-btn" href="/mart">🛒 동네마트 장보기·경영 계산기</a>
-      <a class="quick-link-btn" href="/presale-search">🏢 전국 아파트 분양현장 자동검색</a>
+      
       <a class="quick-link-btn" href="/aura">🌊 신안 아우라 한옥펜션 자동검색</a>
     </div>
   </section>
@@ -2740,8 +2740,8 @@ p { line-height: 1.7; color: #334155; font-size: 14.5px; margin: 8px 0; }
     <a class="cross-link" href="${html(aptSearchSaleUrl)}">🏢 [1순위] ${html(place)} 아파트 안심거래</a>
     <a class="cross-link" href="https://www.ansimdeal.com/home#brokerListingRoomSection">🏪 [2순위] 안심딜 매물등록방</a>
     <a class="cross-link" href="${html(storeSearchUrl)}">🏬 [2순위] ${html(place)} 상가·점포 안심딜</a>
-    <a class="cross-link" href="/presale-landing">🧞 [3순위] 알라딘맘콕 분양·미분양</a>
-    <a class="cross-link" href="/presale-matcher">🎯 [3순위] 알라딘맘콕 조건매칭</a>
+    
+    
     <a class="cross-link" href="/mart-search/${[region, city, place].map(pathEncode).join("/")}">🛒 [4순위] ${html(place)} 동네마트</a>
     <a class="cross-link" href="/broker-landing">📢 공인중개사 전용 랜딩페이지</a>
   </div>
