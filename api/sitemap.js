@@ -70,6 +70,77 @@ module.exports = async function handler(req, res) {
     return res.status(405).send("Method Not Allowed");
   }
 
+  // 매일 자동 강제수집(IndexNow) 크론: /api/sitemap?cron=indexnow
+  if (req.query && req.query.cron === "indexnow") {
+    try {
+      const INDEXNOW_HOST = "www.ansimdeal.com";
+      const INDEXNOW_KEY = "fc1e3ad82010475381daf9846e627fdd";
+      const INDEXNOW_KEY_LOCATION = "https://www.ansimdeal.com/fc1e3ad82010475381daf9846e627fdd.txt";
+
+      const coreUrls = ANSIM_PAGES_LIST.map(function(item) {
+        return "https://www.ansimdeal.com" + item.path;
+      });
+
+      let storeUrls = [];
+      try {
+        const smRes = await fetch("https://www.ansimdeal.com/store-sitemap.xml", {
+          headers: { "User-Agent": "AnsimdealAutoIndexNow/1.0" }
+        });
+        if (smRes.ok) {
+          const xmlText = await smRes.text();
+          const matches = xmlText.match(/<loc>(https:\/\/www\.ansimdeal\.com\/[^<]+)<\/loc>/g) || [];
+          storeUrls = matches.map(function(m) {
+            return m.replace(/^<loc>|<\/loc>$/g, "").replace(/&amp;/g, "&");
+          });
+        }
+      } catch (e) {
+        console.error("AUTO INDEXNOW SITEMAP FETCH ERR:", e);
+      }
+
+      const urlList = Array.from(new Set(coreUrls.concat(storeUrls))).slice(0, 10000);
+      const bodyJson = JSON.stringify({
+        host: INDEXNOW_HOST,
+        key: INDEXNOW_KEY,
+        keyLocation: INDEXNOW_KEY_LOCATION,
+        urlList: urlList
+      });
+
+      const endpoints = [
+        { name: "naver", url: "https://searchadvisor.naver.com/indexnow" },
+        { name: "indexnow", url: "https://api.indexnow.org/indexnow" },
+        { name: "bing", url: "https://www.bing.com/indexnow" }
+      ];
+
+      const results = {};
+      await Promise.all(endpoints.map(async function(ep) {
+        try {
+          const r = await fetch(ep.url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            body: bodyJson
+          });
+          results[ep.name] = r.status;
+        } catch (err) {
+          results[ep.name] = "ERR:" + (err && err.message ? err.message : "unknown");
+        }
+      }));
+
+      res.setHeader("Content-Type", "application/json; charset=utf-8");
+      res.setHeader("Cache-Control", "no-store");
+      return res.status(200).json({
+        ok: results.naver === 200 || results.naver === 202 || results.indexnow === 200 || results.indexnow === 202,
+        host: INDEXNOW_HOST,
+        submitted: urlList.length,
+        results: results,
+        ranAt: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error("AUTO INDEXNOW CRON ERROR:", error);
+      return res.status(500).json({ ok: false, error: error.message || "cron failed" });
+    }
+  }
+
+
   const rawHost = (req && req.headers && req.headers.host) ? String(req.headers.host).toLowerCase() : "";
   const isAnsim = rawHost.includes("ansimdeal.com");
   const isMartDomain = rawHost.includes("wooriapt.ai.kr");

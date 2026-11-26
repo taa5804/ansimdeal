@@ -285,7 +285,7 @@
   ],
   "crons": [
     {
-      "path": "/api/sitemap",
+      "path": "/api/sitemap?cron=indexnow",
       "schedule": "0 0 * * *"
     }
   ],
