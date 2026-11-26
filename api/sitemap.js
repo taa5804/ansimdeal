@@ -127,13 +127,12 @@ module.exports = async function handler(req, res) {
         let sitemapUrls = [];
 
     if (isAnsim) {
-      // 안심딜 구글 검색 노출 극대화: 상가점포 + 공인중개사 매물등록방 결합
+      // 안심딜 구글·네이버 검색 노출 극대화: 상가점포 + 공인중개사 매물등록방 결합
       sitemapUrls = [
-        SITE_ORIGIN + '/pages-sitemap.xml',
-        SITE_ORIGIN + '/store-sitemap.xml',
-        SITE_ORIGIN + '/broker-sitemap.xml'
+        SITE_ORIGIN + "/pages-sitemap.xml",
+        SITE_ORIGIN + "/store-sitemap.xml",
+        SITE_ORIGIN + "/broker-sitemap.xml"
       ];
-    }
     } else if (isMartDomain) {
       sitemapUrls = [
         SITE_ORIGIN + "/pages-sitemap.xml"
