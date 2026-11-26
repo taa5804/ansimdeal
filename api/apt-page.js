@@ -2840,6 +2840,118 @@ async function handleBrokerSitemap(req, res) {
    상가·점포 안심딜 자동 검색 페이지 (/store-search/:region/:city/:place)
 ========================================= */
 
+let _CACHED_BROKERS_DIR = null;
+function getCachedBrokersDirectory() {
+  if (_CACHED_BROKERS_DIR !== null) return _CACHED_BROKERS_DIR;
+  try {
+    const fs = require("fs");
+    const path = require("path");
+    const dispatchPath = path.join(__dirname, "brokers_dispatch_directory.json");
+    if (fs.existsSync(dispatchPath)) {
+      _CACHED_BROKERS_DIR = JSON.parse(fs.readFileSync(dispatchPath, "utf8"));
+      return _CACHED_BROKERS_DIR;
+    }
+  } catch (e) {
+    console.error("BROKER DIR LOAD ERROR:", e);
+  }
+  _CACHED_BROKERS_DIR = {};
+  return _CACHED_BROKERS_DIR;
+}
+
+async function fetchStoreLocalContext(region, city, place) {
+  const result = {
+    dongApts: [],
+    cityNeighborDongs: [],
+    totalHouseholds: 0,
+    totalBuildings: 0,
+    newestYear: 0,
+    oldestYear: 0
+  };
+
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(function() { controller.abort(); }, 3500);
+
+    const dongParams = new URLSearchParams();
+    dongParams.set("select", "단지명,세대수,동수,사용승인일,최고층수,주소,동리,읍면");
+    dongParams.set("시도", "eq." + region);
+    dongParams.set("시군구", "eq." + city);
+    dongParams.set("or", "(동리.eq." + place + ",읍면.eq." + place + ")");
+    dongParams.set("order", "세대수.desc.nullslast");
+    dongParams.set("limit", "40");
+
+    const cityParams = new URLSearchParams();
+    cityParams.set("select", "동리,읍면,세대수");
+    cityParams.set("시도", "eq." + region);
+    cityParams.set("시군구", "eq." + city);
+    cityParams.set("limit", "400");
+
+    const hdrs = {
+      apikey: APT_SUPABASE_KEY,
+      Authorization: "Bearer " + APT_SUPABASE_KEY
+    };
+
+    const [dongRes, cityRes] = await Promise.all([
+      fetch(APT_SUPABASE_URL + "/rest/v1/safe_apartments?" + dongParams.toString(), { headers: hdrs, signal: controller.signal }).catch(function() { return null; }),
+      fetch(APT_SUPABASE_URL + "/rest/v1/safe_apartments?" + cityParams.toString(), { headers: hdrs, signal: controller.signal }).catch(function() { return null; })
+    ]);
+    clearTimeout(timer);
+
+    if (dongRes && dongRes.ok) {
+      const rows = await dongRes.json();
+      if (Array.isArray(rows)) {
+        result.dongApts = rows;
+        let sumH = 0;
+        let sumB = 0;
+        let maxY = 0;
+        let minY = 9999;
+        for (const r of rows) {
+          const h = Number(r["세대수"]) || 0;
+          const b = Number(r["동수"]) || 0;
+          sumH += h;
+          sumB += b;
+          const rawDate = String(r["사용승인일"] || "").replace(/[^0-9]/g, "");
+          if (rawDate.length >= 4) {
+            const yr = Number(rawDate.slice(0, 4));
+            if (yr >= 1960 && yr <= 2030) {
+              if (yr > maxY) maxY = yr;
+              if (yr < minY) minY = yr;
+            }
+          }
+        }
+        result.totalHouseholds = sumH;
+        result.totalBuildings = sumB;
+        result.newestYear = maxY;
+        result.oldestYear = minY === 9999 ? 0 : minY;
+      }
+    }
+
+    if (cityRes && cityRes.ok) {
+      const crows = await cityRes.json();
+      if (Array.isArray(crows)) {
+        const dongMap = new Map();
+        for (const r of crows) {
+          const d = clean(r["동리"] || r["읍면"]);
+          if (!d || d === place) continue;
+          const prev = dongMap.get(d) || { count: 0, households: 0 };
+          prev.count += 1;
+          prev.households += Number(r["세대수"]) || 0;
+          dongMap.set(d, prev);
+        }
+        result.cityNeighborDongs = Array.from(dongMap.entries())
+          .sort(function(a, b) { return b[1].households - a[1].households; })
+          .slice(0, 16)
+          .map(function(entry) {
+            return { place: entry[0], count: entry[1].count, households: entry[1].households };
+          });
+      }
+    }
+  } catch (e) {
+    console.error("STORE LOCAL CONTEXT ERR:", e && e.message ? e.message : e);
+  }
+  return result;
+}
+
 async function handleStorePage(req, res) {
   res.setHeader("Content-Type", "text/html; charset=utf-8");
   res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800");
@@ -2858,18 +2970,96 @@ async function handleStorePage(req, res) {
       return res.status(404).send("존재하지 않는 상가·점포 지역입니다.");
     }
 
+    const regionShort = region.replace(/특별자치도|특별자치시|특별시|광역시/g, "");
     const location = [region, city, place].filter(Boolean).join(" ");
+    const shortLocation = [regionShort, city, place].filter(Boolean).join(" ");
     const canonical =
       SITE_ORIGIN +
       "/store-search/" +
       [region, city, place].map(pathEncode).join("/");
 
-    const title =
-      location +
-      " 상가 임대 월세 · 1층 카페 식당 점포 양도양수 매물 (복비 50% 절감) | 안심딜";
-    const description =
-      location +
-      " 상가·점포 임대차 및 양도양수 시 중개수수료(복비) 50% 절감 혜택, 반경 300m 배후세대·유동인구 정밀 상권분석 지도, 전기요금·수도요금·도시가스 일할 정산 계산기, 상가 권리금 계약서 특약 체크리스트를 무료로 확인하세요.";
+    // 1) Fetch real per-dong residential catchment & neighbor dongs
+    const localCtx = await fetchStoreLocalContext(region, city, place);
+    const aptCount = localCtx.dongApts.length;
+    const totalHouseholds = localCtx.totalHouseholds;
+    const estPopulation = Math.round(totalHouseholds * 2.3);
+
+    // 2) Lookup real per-dong brokers from cached directory
+    const bDir = getCachedBrokersDirectory();
+    const rawBrokers = bDir[place] || bDir[place.replace(/동$/, "") + "동"] || [];
+    const brokerTotal = Array.isArray(rawBrokers) ? rawBrokers.length : 0;
+    const mobileBrokerCount = Array.isArray(rawBrokers)
+      ? rawBrokers.filter(function(b) { return Array.isArray(b) && Number(b[2]) === 1; }).length
+      : 0;
+    const sampleBrokerNames = Array.isArray(rawBrokers)
+      ? rawBrokers
+          .map(function(b) { return Array.isArray(b) ? clean(b[0]) : ""; })
+          .filter(Boolean)
+          .slice(0, 24)
+      : [];
+
+    // 3) Derive real commercial district profile based on hard numbers
+    let zoneType = "";
+    let zoneStrategy = "";
+    let recCategories = [];
+    if (totalHouseholds >= 5000) {
+      zoneType = "대규모 배후주거 밀집 상권";
+      zoneStrategy = place + " 일대는 공동주택 " + aptCount.toLocaleString() + "개 단지, 총 " + totalHouseholds.toLocaleString() + "세대(추정 배후인구 약 " + estPopulation.toLocaleString() + "명)가 고정 소비층을 형성하는 대형 주거밀집 상권입니다. 평일 저녁과 주말 가족 단위 수요가 안정적이어서 단지 주출입구·학원가 인접 1층·2층 점포의 공실 리스크가 상대적으로 낮습니다.";
+      recCategories = ["학원·교습소·스터디카페", "병의원·약국·생활의료", "디저트 카페·베이커리", "가족 외식·배달 전문점", "무인판매·생활편의 업종"];
+    } else if (totalHouseholds >= 1500) {
+      zoneType = "중형 아파트 배후 근린상권";
+      zoneStrategy = place + " 상권은 반경 내 아파트 " + aptCount.toLocaleString() + "개 단지(" + totalHouseholds.toLocaleString() + "세대, 추정 거주인구 약 " + estPopulation.toLocaleString() + "명)를 기반으로 일상 소비가 꾸준히 발생하는 근린형 상권입니다. 보증금·임대료 대비 단골 회전율이 높은 생활밀착 업종과 테이크아웃·배달 복합 점포에 유리합니다.";
+      recCategories = ["동네 카페·테이크아웃 커피", "치킨·분식·배달 외식업", "헤어샵·네일·뷰티 업종", "편의점·반찬·식자재 매장", "세탁소·생활수리 서비스"];
+    } else if (totalHouseholds > 0) {
+      zoneType = "소규모 주거·대로변 혼합 상권";
+      zoneStrategy = place + " 일대는 확인된 배후 아파트 " + aptCount.toLocaleString() + "개 단지(" + totalHouseholds.toLocaleString() + "세대, 추정 약 " + estPopulation.toLocaleString() + "명)와 인근 빌라·단독주택·대로변 유동인구가 결합된 혼합 상권입니다. 권리금 부담이 적은 1층 소형 평수나 목적성 방문 업종으로 초기 투자비를 낮추는 전략이 효과적입니다.";
+      recCategories = ["소자본 1인 카페·공방", "예약제 미용·피부·필라테스", "특화 맛집·주점·포장 전문", "사무실·공유오피스·창고형 매장"];
+    } else {
+      zoneType = "도심 상업·업무·역세권 중심 상권";
+      zoneStrategy = place + " 지역은 대규모 아파트 단지보다 업무시설·상업빌딩·유동인구 비중이 높은 도심 상업형 상권입니다. 점심시간 직장인 수요와 퇴근 후 회식·약속 수요, 주말 방문객 동선을 반경 300m 상권분석 지도에서 업종별로 정밀 비교한 뒤 입지를 선정하는 것이 핵심입니다.";
+      recCategories = ["점심 회전율 높은 한식·분식", "오피스 테이크아웃 저가·스페셜티 카페", "저녁 주점·이자카야·고기집", "쇼룸·무인매장·서비스 업종"];
+    }
+
+    const largestApt = localCtx.dongApts.length > 0 ? localCtx.dongApts[0] : null;
+    const largestAptText = largestApt
+      ? clean(largestApt["단지명"]) + " (" + (Number(largestApt["세대수"]) || 0).toLocaleString() + "세대)"
+      : "";
+
+    // 4) Concise high-CTR SEO title (~32-38 chars) aligned 100% with H1 & body
+    const title = shortLocation + " 상가 상권분석 · 임대 복비 50% 절감 | 안심딜";
+
+    const descParts = [shortLocation + " 상가·점포 " + zoneType + " 분석."];
+    if (totalHouseholds > 0) {
+      descParts.push("배후 아파트 " + aptCount + "개 단지(" + totalHouseholds.toLocaleString() + "세대, 추정인구 " + estPopulation.toLocaleString() + "명)");
+    }
+    if (brokerTotal > 0) {
+      descParts.push("지역 공인중개사 " + brokerTotal.toLocaleString() + "곳 현황");
+    }
+    descParts.push("반경 300m 상권지도·상가 복비 50% 절감·권리금 및 전기·수도·가스 일할 정산 가이드를 확인하세요.");
+    const description = descParts.join(" ");
+
+    const h1Text = totalHouseholds > 0
+      ? location + " 상가 상권분석 (배후 " + totalHouseholds.toLocaleString() + "세대 · 복비 50% 절감)"
+      : location + " 상가 상권분석 · 임대 복비 50% 절감";
+
+    const encodedPath = [region, city, place].map(pathEncode).join("/");
+    const brokerListUrl = "/broker-search/" + encodedPath;
+
+    // 5) Same-region hubs only (no 249 identical national link spam!)
+    const sameRegionHubs = NATIONAL_SIGUNGU_HUBS.filter(function(h) {
+      return h[0] === region && !(h[1] === city && h[2] === place);
+    }).slice(0, 18);
+
+    // 6) Structured data: BreadcrumbList + local-data FAQPage
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "안심딜 홈", item: "https://www.ansimdeal.com/" },
+        { "@type": "ListItem", position: 2, name: regionShort + " 상가 상권분석", item: "https://www.ansimdeal.com/tools-center" },
+        { "@type": "ListItem", position: 3, name: shortLocation + " 상가", item: canonical }
+      ]
+    };
 
     const faqSchema = {
       "@context": "https://schema.org",
@@ -2877,35 +3067,73 @@ async function handleStorePage(req, res) {
       mainEntity: [
         {
           "@type": "Question",
-          name: location + " 상가 점포 인수인계 시 전기요금·수도요금·도시가스 일할 정산은 어떻게 하나요?",
+          name: shortLocation + " 상권의 배후 세대수와 상권 특성은 어떤가요?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "잔금 당일 상가 계량기 지침을 촬영한 뒤 한전(국번없이 123), 관할 수도사업소, 도시가스 고객센터에 당일 검침 수치를 불러주면 직전 검침일부터 잔금일까지의 일할 요금을 즉시 정산할 수 있습니다. 안심딜 무료 공과금 계산기를 이용하면 1톤당·kWh당 정산 금액을 바로 계산할 수 있습니다."
+            text: totalHouseholds > 0
+              ? shortLocation + " 일대는 " + zoneType + "으로, 확인된 배후 아파트 " + aptCount + "개 단지 총 " + totalHouseholds.toLocaleString() + "세대(추정 배후인구 약 " + estPopulation.toLocaleString() + "명)가 분포합니다." + (largestAptText ? " 대표 배후단지는 " + largestAptText + "입니다." : "")
+              : shortLocation + " 일대는 " + zoneType + "으로 분류되며, 안심딜 반경 300m 상권분석 지도에서 업종별 점포 분포와 유동인구 흐름을 무료로 확인할 수 있습니다."
           }
         },
         {
           "@type": "Question",
-          name: location + " 상가 권리금 계약서 작성 시 사기 예방 필수 특약은 무엇인가요?",
+          name: shortLocation + " 상가 임대·양도양수 시 중개수수료(복비)를 50% 아낄 수 있나요?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "임대인(건물주)과의 신규 임대차 계약이 체결되지 않을 경우 권리금 계약을 무효로 하고 계약금 전액을 즉시 반환한다는 특약과, 행정처분·영업정지 이력 및 시설물 하자에 대한 매도인 담보책임 조항을 반드시 명시해야 합니다."
+            text: "안심딜(ansimdeal.com)에 희망 상가 조건(보증금·월세·업종)을 등록하면 " + (brokerTotal > 0 ? place + " 일대 공인중개사 " + brokerTotal + "곳을 포함한 " : "") + "지역 협력 중개사가 협의 요율(최대 50% 절감)로 맞춤 상가 매물을 제안합니다."
           }
         },
         {
           "@type": "Question",
-          name: location + " 상가 중개수수료(복비)를 50% 아끼는 방법은 무엇인가요?",
+          name: shortLocation + " 점포 인수인계 시 권리금 특약과 전기·수도·가스 정산은 어떻게 하나요?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "안심딜(ansimdeal.com)에서 희망 조건이나 점포 매물을 등록하면 중개수수료 50% 절감에 동의한 지역 협력 공인중개사 및 직거래 매칭을 통해 상가 복비 부담을 절반으로 줄일 수 있습니다."
+            text: "권리금 계약서에 '임대인과의 신규 임대차계약 미체결 시 무효 및 계약금 전액 반환' 특약을 반드시 넣고, 잔금 당일 계량기 지침을 촬영해 한전(123)·수도사업소·도시가스에 일할 정산을 신청하세요. 안심딜 공과금 계산기에서 예상 정산액을 즉시 산출할 수 있습니다."
           }
         }
       ]
     };
 
-    const encodedPath = [region, city, place].map(pathEncode).join("/");
-    const brokerListUrl = "/broker-search/" + encodedPath;
-    const martListUrl = "/mart-search/" + encodedPath;
-    const aptSaleUrl = "/apt-search/" + encodedPath + "/sale";
+    // Build real apartment catchment table rows
+    const aptRowsHtml = localCtx.dongApts.slice(0, 15).map(function(a) {
+      const name = clean(a["단지명"]) || "-";
+      const hh = Number(a["세대수"]) || 0;
+      const bld = Number(a["동수"]) || 0;
+      const flr = Number(a["최고층수"]) || 0;
+      const rawDt = String(a["사용승인일"] || "").replace(/[^0-9]/g, "");
+      const yr = rawDt.length >= 4 ? rawDt.slice(0, 4) + "년" : "-";
+      const addr = clean(a["주소"]) || (city + " " + place);
+      return (
+        "<tr>" +
+          "<td><strong>" + html(name) + "</strong><div class=\"sub-addr\">" + html(addr) + "</div></td>" +
+          "<td class=\"num\">" + (hh > 0 ? hh.toLocaleString() + "세대" : "-") + "</td>" +
+          "<td class=\"num\">" + (bld > 0 ? bld + "동" : "-") + (flr > 0 ? " / " + flr + "층" : "") + "</td>" +
+          "<td class=\"num\">" + html(yr) + "</td>" +
+        "</tr>"
+      );
+    }).join("");
+
+    // Build real local broker chips
+    const brokerChipsHtml = sampleBrokerNames.map(function(name) {
+      return '<span class="chip">' + html(name) + "</span>";
+    }).join("");
+
+    // Build same-city neighbor dong links
+    const neighborLinksHtml = localCtx.cityNeighborDongs.map(function(n) {
+      const nu = "/store-search/" + [region, city, n.place].map(pathEncode).join("/");
+      const sub = n.households > 0 ? " (" + n.households.toLocaleString() + "세대)" : "";
+      return '<a class="hub-chip" href="' + nu + '">' + html(city + " " + n.place + " 상가" + sub) + "</a>";
+    }).join("");
+
+    // Build same-region city hub links
+    const regionHubLinksHtml = sameRegionHubs.map(function(h) {
+      const su = "/store-search/" + [h[0], h[1], h[2]].map(pathEncode).join("/");
+      return '<a class="hub-chip" href="' + su + '">' + html(h[1] + " " + h[2] + " 상가") + "</a>";
+    }).join("");
+
+    const yearRangeText = (localCtx.oldestYear > 0 && localCtx.newestYear > 0)
+      ? (localCtx.oldestYear === localCtx.newestYear ? localCtx.newestYear + "년" : localCtx.oldestYear + "~" + localCtx.newestYear + "년")
+      : "집계 중";
 
     return res.status(200).send(`<!DOCTYPE html>
 <html lang="ko">
@@ -2914,152 +3142,160 @@ async function handleStorePage(req, res) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${html(title)}</title>
 <meta name="description" content="${html(description)}">
-<meta name="robots" content="index,follow">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="${html(canonical)}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${html(title)}">
 <meta property="og:description" content="${html(description)}">
 <meta property="og:url" content="${html(canonical)}">
-<meta property="og:site_name" content="상가·점포 안심딜">
+<meta property="og:site_name" content="안심딜">
+<script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>
 <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>
 <style>
-body {
-  margin: 0;
-  background: #f4f7fa;
-  color: #172b3d;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Arial, sans-serif;
-}
-.wrap {
-  max-width: 780px;
-  margin: auto;
-  padding: 18px 14px 55px;
-}
-.breadcrumb {
-  font-size: 12.5px;
-  color: #64748b;
-  margin-bottom: 12px;
-}
-.breadcrumb a { color: #0f766e; text-decoration: none; font-weight: 700; }
-.card {
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 22px;
-  margin-bottom: 16px;
-  box-shadow: 0 8px 26px rgba(20,55,90,.08);
-  border: 1px solid #e2e8f0;
-}
-h1 { margin: 0 0 12px; font-size: 25px; line-height: 1.38; color: #0f172a; }
-h2 { margin: 0 0 12px; font-size: 19px; color: #0f172a; }
-p, li { line-height: 1.7; color: #334155; font-size: 14.5px; }
-ul { padding-left: 20px; margin: 8px 0; }
-.cta {
-  display: block;
-  margin-top: 16px;
-  padding: 15px;
-  border-radius: 12px;
-  background: #0f766e;
-  color: #ffffff;
-  text-align: center;
-  text-decoration: none;
-  font-weight: 900;
-  font-size: 15.5px;
-}
-.box {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 14px 16px;
-  margin-top: 10px;
-}
-.cross-links {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  gap: 8px;
-  margin-top: 12px;
-}
-.cross-link {
-  display: block;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
-  color: #1e293b;
-  font-size: 12.5px;
-  font-weight: 800;
-  text-decoration: none;
-  text-align: center;
-}
-.cross-link:hover { background: #f0fdfa; border-color: #5eead4; color: #0f766e; }
+*{box-sizing:border-box}
+body{margin:0;background:#f4f7fa;color:#172b3d;font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Segoe UI","Noto Sans KR",Arial,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:18px 14px 56px}
+.breadcrumb{font-size:12.5px;color:#64748b;margin-bottom:12px}
+.breadcrumb a{color:#0f766e;text-decoration:none;font-weight:700}
+.card{background:#fff;border-radius:16px;padding:22px 20px;margin-bottom:16px;box-shadow:0 6px 20px rgba(15,23,42,.06);border:1px solid #e2e8f0}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;background:#ccfbf1;color:#0f766e;font-size:12px;font-weight:800;margin-bottom:8px}
+h1{margin:0 0 10px;font-size:23px;line-height:1.38;color:#0f172a;letter-spacing:-0.4px}
+h2{margin:0 0 10px;font-size:18px;color:#0f172a;letter-spacing:-0.3px}
+p,li{line-height:1.72;color:#334155;font-size:14.5px;margin:0 0 8px}
+ul{padding-left:20px;margin:8px 0}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 6px}
+@media(max-width:640px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px 10px;text-align:center}
+.kpi .k-label{font-size:11.5px;color:#64748b;font-weight:700}
+.kpi .k-val{font-size:17px;font-weight:900;color:#0f766e;margin-top:4px}
+.cta{display:block;margin-top:14px;padding:14px;border-radius:12px;background:#0f766e;color:#fff;text-align:center;text-decoration:none;font-weight:900;font-size:15px}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.btn-sub{display:block;padding:12px 10px;border-radius:12px;color:#fff;text-align:center;text-decoration:none;font-weight:800;font-size:13.5px}
+.box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;margin-top:10px}
+.tbl-wrap{overflow-x:auto;margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{padding:10px 8px;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:top}
+th{background:#f8fafc;color:#475569;font-weight:800;white-space:nowrap}
+td.num{text-align:right;white-space:nowrap;font-weight:700;color:#0f172a}
+.sub-addr{font-size:11.5px;color:#64748b;margin-top:2px;font-weight:400}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{display:inline-block;padding:5px 10px;border-radius:8px;background:#f8fafc;border:1px solid #cbd5e1;font-size:12.5px;color:#1e293b;font-weight:600}
+.cat-chip{display:inline-block;padding:6px 11px;border-radius:999px;background:#f0fdfa;border:1px solid #99f6e4;font-size:12.5px;color:#0f766e;font-weight:800}
+.hub-chip{display:inline-block;padding:6px 10px;border-radius:8px;background:#fff;border:1px solid #cbd5e1;color:#0f766e;font-size:12.5px;font-weight:700;text-decoration:none}
+.hub-chip:hover{background:#f0fdfa;border-color:#14b8a6}
+.cross-links{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:8px;margin-top:12px}
+.cross-link{display:block;padding:10px 12px;border-radius:10px;background:#f8fafc;border:1px solid #cbd5e1;color:#1e293b;font-size:13px;font-weight:800;text-decoration:none;text-align:center}
+.cross-link:hover{background:#f0fdfa;border-color:#5eead4;color:#0f766e}
 </style>
 </head>
 <body>
 <main class="wrap">
 <nav class="breadcrumb" aria-label="현재 위치">
-  <a href="https://www.ansimdeal.com">🏪 안심딜 홈</a> &gt;
-  <a href="https://www.ansimdeal.com/map">상권분석 지도</a> &gt;
-  <strong>${html(location)} 상가·점포 안심딜</strong>
+  <a href="https://www.ansimdeal.com/">안심딜 홈</a> &gt;
+  <a href="https://www.ansimdeal.com/tools-center">${html(regionShort)} 상권분석</a> &gt;
+  <strong>${html(shortLocation)} 상가</strong>
 </nav>
 
 <section class="card">
-  <h1>🏪 ${html(location)} 상가 권리금 · 공과금 일할 정산 · 상권분석 (복비 50% 절감)</h1>
-  <p>${html(description)}</p>
-  <a class="cta" href="https://www.ansimdeal.com">
-    👉 ${html(place)} 상가·점포 중개수수료 50% 절감 &amp; 무료 상권분석 바로가기
-  </a>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
-    <a href="https://www.ansimdeal.com/map" style="display:block;padding:13px 10px;border-radius:12px;background:#1e293b;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">🗺️ ${html(place)} 300m 상권분석 지도 ›</a>
-    <a href="https://www.ansimdeal.com/tools-center" style="display:block;padding:13px 10px;border-radius:12px;background:#1d4ed8;color:#ffffff;text-align:center;text-decoration:none;font-weight:900;font-size:13.5px;">⚡ 전기·수도·복비 자동 계산기 ›</a>
-  </div>
-</section>
-
-<section class="card">
-  <h2>⚡ 1. ${html(location)} 상가 양도양수 시 전기·수도·도시가스 일할 정산법</h2>
-  <p>${html(place)} 상가나 점포를 인수인계·폐업할 때 잔금 당일 분쟁을 막는 3단계 공과금 정산 공식입니다.</p>
-  <div class="box">
-    <ul>
-      <li><strong>전기요금 일할 정산 (한전 국번없이 123):</strong> 상가 분전함 계량기 현재 지침 숫자를 촬영한 뒤 한전(123)에 주소와 고객번호, 당일 지침을 불러주면 오늘까지의 요금을 즉시 가상계좌로 정산할 수 있습니다.</li>
-      <li><strong>수도요금 일할 정산:</strong> <code>(오늘 계량기 지침 - 직전 달 검침 지침) × 직전 고지서 1톤당 평균 단가</code>를 계산하여 기존 임차인이 신규 임차인에게 정산합니다.</li>
-      <li><strong>도시가스 정산:</strong> 잔금 전날 관할 도시가스 고객센터에 전출·철거 검침을 예약하여 현장 카드결제 또는 가상계좌로 즉시 완납합니다.</li>
-    </ul>
-  </div>
-</section>
-
-<section class="card">
-  <h2>📋 2. ${html(location)} 상가 권리금 계약서 필수 특약 체크리스트</h2>
-  <p>상가 권리금 계약 시 계약금 사고와 분쟁을 예방하기 위해 반드시 특약사항에 넣어야 할 핵심 조항입니다.</p>
-  <div class="box">
-    <ul>
-      <li><strong>임대차 계약 연동 특약:</strong> "임대인(건물주)과의 신규 상가임대차계약이 체결되지 않을 경우 본 권리금 계약은 조건 없이 무효로 하며, 양도인은 수령한 계약금 전액을 즉시 반환한다."</li>
-      <li><strong>행정처분 및 법적 하자 담보:</strong> "잔금일 이전 발생한 영업정지, 과징금 등 행정처분 및 건축물 위법사항은 양도인이 전적으로 책임진다."</li>
-      <li><strong>시설·집기 목록 및 공과금 완납:</strong> "양도인은 잔금일 기준 전기·수도·가스·관리비를 일할 정산하여 완납하고 주요 시설물 정상 작동을 확인 후 인도한다."</li>
-    </ul>
-  </div>
-</section>
-
-<section class="card">
-  <h2>🗺️ 3. ${html(location)} 반경 300m 정밀 상권분석 &amp; 중개수수료 50% 절약</h2>
-  <p>안심딜에서는 ${html(location)} 일대의 배후 아파트 단지 세대수, 유동인구, 주변 경쟁 업종 현황을 지도 위에서 무료로 제공하며, 상가 임대차·권리금 중개수수료를 50% 아낄 수 있는 안심 매칭을 지원합니다.</p>
-  <div class="cross-links">
-    <a class="cross-link" href="https://www.ansimdeal.com">🏪 안심딜 메인 바로가기</a>
-    <a class="cross-link" href="https://www.ansimdeal.com/map">🗺️ ${html(place)} 상권분석 지도</a>
-    <a class="cross-link" href="https://www.ansimdeal.com/tools-center">🧮 공과금·복비 계산기</a>
-    <a class="cross-link" href="${html(brokerListUrl)}">🤝 ${html(place)} 공인중개사 목록</a>
-    <a class="cross-link" href="${html(aptSaleUrl)}">🏠 ${html(place)} 배후 아파트 시세</a>
-    <a class="cross-link" href="${html(martListUrl)}">🛒 ${html(place)} 동네마트 정보</a>
-  </div>
-</section>
-<section class="card">
-  <h2>🏪 전국 249개 시·군·구 상가·점포 상권분석 전체 허브</h2>
-  <div style="padding:12px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;max-height:220px;overflow-y:auto;">
-    <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:11.5px;font-weight:700;">
-      ${NATIONAL_SIGUNGU_HUBS.map(function(h) {
-        const su = "/store-search/" + [h[0], h[1], h[2]].map(pathEncode).join("/");
-        const sShort = h[0].replace(/특별자치도|특별자치시|특별시|광역시/g, "");
-        return '<a href="' + su + '" style="padding:4px 8px;border-radius:6px;background:#ffffff;border:1px solid #cbd5e1;color:#0f766e;text-decoration:none;">' + html(sShort + " " + h[1] + " 상가(" + h[2] + ")") + '</a>';
-      }).join("")}
+  <span class="badge">${html(zoneType)}</span>
+  <h1>${html(h1Text)}</h1>
+  <p>${html(zoneStrategy)}</p>
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="k-label">배후 아파트 단지</div>
+      <div class="k-val">${aptCount > 0 ? aptCount.toLocaleString() + "개" : "상업지구"}</div>
+    </div>
+    <div class="kpi">
+      <div class="k-label">배후 주거 세대수</div>
+      <div class="k-val">${totalHouseholds > 0 ? totalHouseholds.toLocaleString() + "세대" : "유동중심"}</div>
+    </div>
+    <div class="kpi">
+      <div class="k-label">추정 배후 거주인구</div>
+      <div class="k-val">${estPopulation > 0 ? "약 " + estPopulation.toLocaleString() + "명" : "도심상권"}</div>
+    </div>
+    <div class="kpi">
+      <div class="k-label">${html(place)} 등록 중개사</div>
+      <div class="k-val">${brokerTotal > 0 ? brokerTotal.toLocaleString() + "곳" : "협의매칭"}</div>
     </div>
   </div>
+  <a class="cta" href="https://www.ansimdeal.com/request">
+    ${html(place)} 상가·점포 임차 조건 등록하고 복비 50% 절감 매칭 받기
+  </a>
+  <div class="btn-row">
+    <a class="btn-sub" href="https://www.ansimdeal.com/" style="background:#1e293b;">${html(place)} 300m 상권분석 지도 보기</a>
+    <a class="btn-sub" href="https://www.ansimdeal.com/tools-center?tab=utility" style="background:#1d4ed8;">전기·수도·가스 일할 계산기</a>
+  </div>
 </section>
+
+<section class="card">
+  <h2>1. ${html(shortLocation)} 상권 추천 업종 및 입지 포인트</h2>
+  <p>${html(shortLocation)} 상가 임대·양도양수 검토 시 배후 소비층 규모(${totalHouseholds > 0 ? totalHouseholds.toLocaleString() + "세대, 준공연도 " + yearRangeText : "도심 유동인구 중심"})를 고려한 적합 업종군입니다.</p>
+  <div class="chips">
+    ${recCategories.map(function(c) { return '<span class="cat-chip">' + html(c) + "</span>"; }).join("")}
+  </div>
+</section>
+
+${aptCount > 0 ? `<section class="card">
+  <h2>2. ${html(shortLocation)} 실제 배후 아파트 단지 현황 (상위 ${Math.min(aptCount, 15)}개)</h2>
+  <p>${html(place)} 상가 반경 배후 수요를 구성하는 실제 공동주택 단지 데이터입니다.${largestAptText ? " 가장 규모가 큰 배후단지는 <strong>" + html(largestAptText) + "</strong>입니다." : ""}</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>배후 아파트 단지명 / 주소</th>
+          <th style="text-align:right;">세대수</th>
+          <th style="text-align:right;">규모</th>
+          <th style="text-align:right;">준공</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${aptRowsHtml}
+      </tbody>
+    </table>
+  </div>
+</section>` : ""}
+
+${brokerTotal > 0 ? `<section class="card">
+  <h2>${aptCount > 0 ? "3" : "2"}. ${html(shortLocation)} 개업 공인중개사 현황 (${brokerTotal.toLocaleString()}곳)</h2>
+  <p>${html(place)} 일대에 등록된 개업 공인중개사사무소는 총 <strong>${brokerTotal.toLocaleString()}곳</strong>이며, 이 중 모바일 직통 매칭 가능 업소는 <strong>${mobileBrokerCount.toLocaleString()}곳</strong>입니다. 안심딜에 희망 점포 조건을 등록하면 협력 중개사가 조건에 맞는 상가 매물을 제안합니다.</p>
+  <div class="chips">
+    ${brokerChipsHtml}
+  </div>
+  <div style="margin-top:12px;">
+    <a class="cross-link" href="${html(brokerListUrl)}">${html(place)} 전체 공인중개사 매물등록방 보기</a>
+  </div>
+</section>` : ""}
+
+<section class="card">
+  <h2>${(aptCount > 0 ? 3 : 2) + (brokerTotal > 0 ? 1 : 0)}. ${html(place)} 상가 계약 체크리스트 (권리금 특약 · 공과금 정산)</h2>
+  <div class="box">
+    <ul>
+      <li><strong>권리금 보호 필수 특약:</strong> "임대인(건물주)과 신규 상가임대차계약이 체결되지 않을 경우 본 권리금 계약은 무효로 하며, 양도인은 계약금 전액을 즉시 반환한다."</li>
+      <li><strong>행정처분·위반건축물 확인:</strong> 영업신고 가능 업종 여부, 정화조 용량, 위반건축물 등재 여부를 건축물대장으로 반드시 확인하세요.</li>
+      <li><strong>잔금일 공과금 일할 정산:</strong> 당일 계량기 지침을 촬영해 한전(123), 관할 수도사업소, 도시가스 고객센터에 검침 수치를 전달하면 즉시 일할 완납이 가능합니다.</li>
+    </ul>
+  </div>
+  <div class="cross-links">
+    <a class="cross-link" href="https://www.ansimdeal.com/">300m 상권분석 지도</a>
+    <a class="cross-link" href="https://www.ansimdeal.com/home">안심딜 상가 거래 메인</a>
+    <a class="cross-link" href="https://www.ansimdeal.com/request">상가 임차 조건 등록</a>
+    <a class="cross-link" href="https://www.ansimdeal.com/tools-center?tab=utility">공과금·복비 계산기</a>
+  </div>
+</section>
+
+${localCtx.cityNeighborDongs.length > 0 ? `<section class="card">
+  <h2>${html(regionShort + " " + city)} 인근 동별 상가 상권분석</h2>
+  <div class="chips">
+    ${neighborLinksHtml}
+  </div>
+</section>` : ""}
+
+${sameRegionHubs.length > 0 ? `<section class="card">
+  <h2>${html(regionShort)} 주요 시·군·구 상가 상권분석</h2>
+  <div class="chips">
+    ${regionHubLinksHtml}
+  </div>
+</section>` : ""}
 </main>
 </body>
 </html>`);

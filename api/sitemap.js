@@ -57,7 +57,6 @@ const ANSIM_PAGES_LIST = [
   { path: "/broker-guide", priority: "0.90", changefreq: "weekly" },
   { path: "/broker-signup", priority: "0.90", changefreq: "weekly" },
   { path: "/broker-proposal", priority: "0.90", changefreq: "weekly" },
-  { path: "/sale-detail", priority: "0.90", changefreq: "weekly" },
   { path: "/app-install", priority: "0.80", changefreq: "weekly" }
 ];
 
