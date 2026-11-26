@@ -56,20 +56,7 @@ export default async function handler(req, res) {
     });
 
     const mobiles = shuffle(eligible.filter(item => isMobilePhone(item.phone)));
-    const landlines = shuffle(eligible.filter(item => !isMobilePhone(item.phone)));
-    const picked = [];
-
-    for (const m of mobiles) {
-      if (picked.length >= countNeeded) break;
-      picked.push(m);
-    }
-    if (picked.length < countNeeded) {
-      for (const l of landlines) {
-        if (picked.length >= countNeeded) break;
-        picked.push(l);
-      }
-    }
-    return picked;
+    return mobiles.slice(0, countNeeded);
   }
 
   async function supabaseGet(path) {
@@ -193,9 +180,10 @@ export default async function handler(req, res) {
         "",
         "■ 공동중개 핵심 안내",
         "1. [임대측 중개보수 100%] 임대인 측 중개보수는 전액 사장님께서 수령하십니다.",
-        "2. [등록 즉시 고객 전화번호 오픈] 매물 등록 즉시 사장님께 임차 고객 직통 전화번호가 공개되어 바로 전화·문자 브리핑이 가능합니다.\n3. [상세 호수 비공개] 매물 보호를 위해 동·호수는 입력하지 않으며 [상가건물명·층수·금액]만 안내됩니다.",
-        "3. [선착순 3건 마감] 매물 제안 3건 접수 시 자동 마감되며, 계약은 임차인 선택으로 진행됩니다.",
-        "4. [실매물 등록 원칙] 고객 신뢰를 위해 임대인 확인된 실매물만 제안 부탁드립니다. (기계약 매물이나 현장 타 매물 유도 시 서비스 이용이 영구 제한됩니다.)",
+        "2. [등록 즉시 고객 전화번호 오픈] 매물 등록 즉시 사장님께 임차 고객 직통 전화번호가 공개되어 바로 전화·문자 브리핑이 가능합니다.",
+        "3. [상세 호수 비공개] 매물 보호를 위해 동·호수는 입력하지 않으며 [상가건물명·층수·금액]만 안내됩니다.",
+        "4. [선착순 3건 마감] 매물 제안 3건 접수 시 자동 마감되며, 계약은 임차인 선택으로 진행됩니다.",
+        "5. [실매물 등록 안내] 고객 신뢰를 위해 임대인 확인된 실매물만 제안 부탁드립니다.",
         "",
         "■ 10초 간편 매물 제안 (회원가입 없음)",
         "아래 링크를 누르시면 5칸 입력으로 10초 만에 제안이 완료됩니다.",
@@ -223,9 +211,10 @@ export default async function handler(req, res) {
         "",
         "■ 공동중개 핵심 안내",
         `1. [${sideLabel} 중개보수 100%] ${ownerLabel} 측 중개보수는 전액 사장님께서 수령하십니다.`,
-        "2. [등록 즉시 고객 전화번호 오픈] 매물 등록 즉시 사장님께 매수·임차 고객 직통 전화번호가 공개되어 바로 전화·문자 브리핑이 가능합니다.\n3. [동·호수 비공개 보호] 매물 보호를 위해 동·호수는 입력하지 않으며 [아파트명·층수·금액]만 안내됩니다.",
-        `3. [선착순 3건 마감] 매물 제안 3건 접수 시 자동 마감되며, 계약은 ${isSale ? "매수자" : "임차인"} 선택으로 진행됩니다.`,
-        "4. [실매물 등록 원칙] 고객 신뢰를 위해 소유자 확인된 실매물만 제안 부탁드립니다. (기계약 매물이나 현장 타 매물 유도 시 서비스 이용이 영구 제한됩니다.)",
+        "2. [등록 즉시 고객 전화번호 오픈] 매물 등록 즉시 사장님께 매수·임차 고객 직통 전화번호가 공개되어 바로 전화·문자 브리핑이 가능합니다.",
+        "3. [동·호수 비공개 보호] 매물 보호를 위해 동·호수는 입력하지 않으며 [아파트명·층수·금액]만 안내됩니다.",
+        `4. [선착순 3건 마감] 매물 제안 3건 접수 시 자동 마감되며, 계약은 ${isSale ? "매수자" : "임차인"} 선택으로 진행됩니다.`,
+        "5. [실매물 등록 안내] 고객 신뢰를 위해 소유자 확인된 실매물만 제안 부탁드립니다.",
         "",
         "■ 10초 간편 매물 제안 (회원가입 없음)",
         "아래 링크를 누르시면 5칸 입력으로 10초 만에 제안이 완료됩니다.",
@@ -379,7 +368,7 @@ export default async function handler(req, res) {
       await supabaseInsert("ars_dispatch_logs", logRows).catch(() => null);
 
       const nextDispatchTime = new Date(Date.now() + intervalHours * 60 * 60 * 1000).toISOString();
-      await supabasePatch(`property_requests?request_number=eq.${encodeURIComponent(requestNumber)}`, {
+      await supabasePatch("property_requests", `request_number=eq.${encodeURIComponent(requestNumber)}`, {
         ars_round: (Number(request.ars_round) || 0) + 1,
         next_ars_at: nextDispatchTime
       }).catch(() => null);
