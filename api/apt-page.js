@@ -13,22 +13,89 @@ let SITE_ORIGIN =
 const SITEMAP_PAGE_SIZE = 2000;
 
 /* =========================================
-   NAVER INDEXNOW
+/* =========================================
+   NAVER INDEXNOW (ansimdeal.com 완전 독립 전용)
 ========================================= */
 
 const INDEXNOW_KEY =
   "fc1e3ad82010475381daf9846e627fdd";
 
 const INDEXNOW_HOST =
-  "www.wooriapt.app";
+  "www.ansimdeal.com";
 
 const INDEXNOW_KEY_LOCATION =
-  "https://www.wooriapt.app/fc1e3ad82010475381daf9846e627fdd.txt";
+  "https://www.ansimdeal.com/fc1e3ad82010475381daf9846e627fdd.txt";
 
 async function submitIndexNow(urls) {
   if (typeof urls === "string") {
     urls = [urls];
   }
+
+  if (!Array.isArray(urls) || urls.length === 0) {
+    return {
+      ok: false,
+      error: "전송할 URL이 없습니다."
+    };
+  }
+
+  const validUrls = [...new Set(urls)]
+    .filter(function(url) {
+      try {
+        const u = new URL(url);
+        return (
+          u.protocol === "https:" &&
+          (
+            u.hostname === "ansimdeal.com" ||
+            u.hostname === "www.ansimdeal.com"
+          )
+        );
+      } catch (error) {
+        return false;
+      }
+    })
+    .slice(0, 10000);
+
+  if (validUrls.length === 0) {
+    return {
+      ok: false,
+      error: "유효한 ansimdeal.com URL이 없습니다."
+    };
+  }
+
+  try {
+    const response = await fetch(
+      "https://api.indexnow.org/indexnow",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify({
+          host: INDEXNOW_HOST,
+          key: INDEXNOW_KEY,
+          keyLocation: INDEXNOW_KEY_LOCATION,
+          urlList: validUrls
+        })
+      }
+    );
+
+    const responseText = await response.text();
+
+    return {
+      ok: response.ok,
+      status: response.status,
+      submittedCount: validUrls.length,
+      sampleUrls: validUrls.slice(0, 3),
+      response: responseText
+    };
+  } catch (error) {
+    console.error("INDEXNOW SUBMIT ERROR:", error);
+    return {
+      ok: false,
+      error: error.message
+    };
+  }
+}
 
   if (!Array.isArray(urls) || urls.length === 0) {
     return {
