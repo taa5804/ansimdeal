@@ -127,11 +127,10 @@ module.exports = async function handler(req, res) {
         let sitemapUrls = [];
 
     if (isAnsim) {
-      // 안심딜 구글·네이버 검색 노출 극대화: 상가점포 + 공인중개사 매물등록방 결합
+      // 안심딜은 상가·점포 안심거래 전용 사이트맵만 인덱싱 (우리아파트 중복 배제 & 404 제거)
       sitemapUrls = [
         SITE_ORIGIN + "/pages-sitemap.xml",
-        SITE_ORIGIN + "/store-sitemap.xml",
-        SITE_ORIGIN + "/broker-sitemap.xml"
+        SITE_ORIGIN + "/store-sitemap.xml"
       ];
     } else if (isMartDomain) {
       sitemapUrls = [
