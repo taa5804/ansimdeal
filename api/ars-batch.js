@@ -37,7 +37,7 @@ export default async function handler(req, res) {
 
   const normalizePhone = (v) => String(v || "").replace(/\D/g, "");
   const cleanText = (v) => String(v ?? "").trim();
-  const isMobilePhone = (v) => /^01[016789][0-9]{7,8}$/.test(normalizePhone(v));
+  const isMobilePhone = (v) => /^010[0-9]{8}$/.test(normalizePhone(v));
 
   function shuffle(items) {
     const arr = [...items];
@@ -157,7 +157,7 @@ export default async function handler(req, res) {
   }
 
   /*
-    LMS 문자 문구 (휴대폰 010 및 일반전화 PC 통화매니저 모두 동일하게 LMS 문자 발송)
+    LMS 문자 문구 (100% 010 휴대폰 전용 발송)
   */
   function buildLmsContent(request, isStoreReq) {
     const d = requestDetails(request);
@@ -332,14 +332,13 @@ export default async function handler(req, res) {
     let selected = [];
     if (body.testMode) {
       selected = [
-        { id: "test-mobile", office_name: "테스트(대표님 휴대폰)", phone: "010-2286-4150", receive_blocked: false },
-        { id: "test-landline", office_name: "테스트(회사 전화)", phone: "062-952-4150", receive_blocked: false }
+        { id: "test-mobile", office_name: "테스트(대표님 휴대폰)", phone: "010-2286-4150", receive_blocked: false }
       ];
     } else {
       selected = pickNonMembers(nonMembers, alreadySentPhones, targetCount);
     }
 
-    // 휴대폰(010) 및 일반전화(PC 통화매니저 연동) 모두 LMS 문자 방식으로 발송 (ARS 음성 미사용)
+    // 100% 010 휴대폰 전용 LMS 발송 (유선전화 완전 차단)
     const lmsResults = await Promise.all(
       selected.map(async broker => {
         try {
@@ -375,15 +374,13 @@ export default async function handler(req, res) {
     }
 
     const mobileCnt = selected.filter(item => isMobilePhone(item.phone)).length;
-    const landlineCnt = selected.length - mobileCnt;
 
     return res.status(200).json({
       ok: true,
-      message: `총 ${selected.length}곳 중개사에 문자(LMS) 발송 완료 (휴대폰: ${mobileCnt}건, PC연동 일반전화: ${landlineCnt}건)`,
+      message: `총 ${selected.length}곳 중개사(010 휴대폰 전용)에 문자(LMS) 발송 완료`,
       counts: {
         total: selected.length,
-        mobile: mobileCnt,
-        landline: landlineCnt
+        mobile: mobileCnt
       }
     });
 

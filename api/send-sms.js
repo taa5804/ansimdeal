@@ -44,11 +44,11 @@ module.exports = async function handler(req, res) {
     const normalizedContent = String(content || "").trim();
     const normalizedType = String(type || "LMS").trim().toUpperCase();
 
-    // 휴대폰(010 등) 및 전국 일반전화(02, 031~064, 070 - KT통화매니저/PC연동 문자수신) 모두 허용
-    if (!/^0(1[016789]|2|[3-6][1-5]|70)[0-9]{7,8}$/.test(normalizedPhone)) {
+    // 100% 010 휴대폰 전용 (모든 유선전화 발송 전면 차단)
+    if (!/^010[0-9]{8}$/.test(normalizedPhone)) {
       return res.status(400).json({
         ok: false,
-        message: "수신 전화번호 형식을 확인해 주세요."
+        message: "010 휴대폰 번호로만 발송할 수 있습니다. (유선전화 발송 차단)"
       });
     }
 
