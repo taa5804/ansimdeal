@@ -1679,7 +1679,7 @@ p {
   color: #1d4ed8;
 }
 </style>
-</head>
+<!-- Vercel Web Analytics --><script defer src="/_vercel/insights/script.js"></script></head>
 
 <body>
 
@@ -2686,7 +2686,7 @@ p { line-height: 1.7; color: #334155; font-size: 14.5px; margin: 8px 0; }
 }
 .cross-link:hover { background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; }
 </style>
-</head>
+<!-- Vercel Web Analytics --><script defer src="/_vercel/insights/script.js"></script></head>
 <body>
 <main class="wrap">
 
@@ -3187,7 +3187,7 @@ td.num{text-align:right;white-space:nowrap;font-weight:700;color:#0f172a}
 .cross-link{display:block;padding:10px 12px;border-radius:10px;background:#f8fafc;border:1px solid #cbd5e1;color:#1e293b;font-size:13px;font-weight:800;text-decoration:none;text-align:center}
 .cross-link:hover{background:#f0fdfa;border-color:#5eead4;color:#0f766e}
 </style>
-</head>
+<!-- Vercel Web Analytics --><script defer src="/_vercel/insights/script.js"></script></head>
 <body>
 <main class="wrap">
 <nav class="breadcrumb" aria-label="현재 위치">

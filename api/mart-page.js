@@ -133,7 +133,7 @@ async function handleMartPage(req, res) {
     res.statusCode = 404;
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     return res.end(
-      `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>마트 정보를 찾을 수 없습니다</title></head><body><h1>마트 정보를 찾을 수 없습니다.</h1></body></html>`
+      `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>마트 정보를 찾을 수 없습니다</title><!-- Vercel Web Analytics --><script defer src="/_vercel/insights/script.js"></script></head><body><h1>마트 정보를 찾을 수 없습니다.</h1></body></html>`
     );
   }
 
@@ -379,7 +379,7 @@ h1{margin:0 0 12px;font-size:28px;line-height:1.35;color:#0f172a;letter-spacing:
   .spec-table th{width:105px;}
 }
 </style>
-</head>
+<!-- Vercel Web Analytics --><script defer src="/_vercel/insights/script.js"></script></head>
 <body>
 <div class="wrap">
   <nav class="breadcrumb" aria-label="위치 경로">
