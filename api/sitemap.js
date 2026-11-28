@@ -162,7 +162,7 @@ module.exports = async function handler(req, res) {
         "  </url>\n";
     }
     res.setHeader("Content-Type", "application/xml; charset=utf-8");
-    res.setHeader("Cache-Control", "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400");
+    res.setHeader("Cache-Control", "public, max-age=0, s-maxage=604800, stale-while-revalidate=2592000");
     return res.status(200).send(
       '<?xml version="1.0" encoding="UTF-8"?>\n' +
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
@@ -236,7 +236,7 @@ module.exports = async function handler(req, res) {
       .join("\n");
 
     res.setHeader("Content-Type", "application/xml; charset=utf-8");
-    res.setHeader("Cache-Control", "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400");
+    res.setHeader("Cache-Control", "public, max-age=0, s-maxage=604800, stale-while-revalidate=2592000");
 
     return res.status(200).send(
       '<?xml version="1.0" encoding="UTF-8"?>\n' +

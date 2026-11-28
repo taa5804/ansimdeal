@@ -354,7 +354,7 @@ function aptAddPlaceFilter(query, place) {
 
 async function aptHandleApartmentList(req, res) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
-  res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400");
+  res.setHeader("Cache-Control", "s-maxage=604800, stale-while-revalidate=2592000");
 
   const pageNo = Math.max(1, parseInt(req.query.pageNo || "1", 10));
   const requestedRows = parseInt(req.query.numOfRows || "1000", 10);
@@ -517,7 +517,7 @@ async function aptHandleSitemapIndex(req, res) {
     }
 
     res.setHeader("Content-Type", "application/xml; charset=utf-8");
-    res.setHeader("Cache-Control", "s-maxage=86400, stale-while-revalidate=604800");
+    res.setHeader("Cache-Control", "s-maxage=604800, stale-while-revalidate=2592000");
 
     return res.status(200).send(
       '<?xml version="1.0" encoding="UTF-8"?>' +
@@ -537,7 +537,7 @@ async function aptHandleSitemapIndex(req, res) {
 
 async function aptHandleSitemap(req, res) {
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
-  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400");
+  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=604800, stale-while-revalidate=2592000");
 
   try {
     const page = Math.max(1, parseInt(req.query.page || "1", 10));
@@ -1177,7 +1177,7 @@ async function aptHandleApartmentPage(req, res) {
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.setHeader(
       "Cache-Control",
-      "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800"
+      "public, max-age=0, s-maxage=604800, stale-while-revalidate=2592000"
     );
 
     return res.status(200).send(`<!doctype html>
@@ -2592,7 +2592,7 @@ async function handleBrokerPage(req, res) {
     ];
 
     res.setHeader("Content-Type", "text/html; charset=utf-8");
-    res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800");
+    res.setHeader("Cache-Control", "public, max-age=0, s-maxage=604800, stale-while-revalidate=2592000");
 
     return res.status(200).send(`<!doctype html>
 <html lang="ko">
@@ -2762,7 +2762,7 @@ p { line-height: 1.7; color: #334155; font-size: 14.5px; margin: 8px 0; }
 
 async function handleBrokerSitemap(req, res) {
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
-  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800");
+  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=604800, stale-while-revalidate=2592000");
 
   try {
     const locationSet = new Set();
@@ -2954,7 +2954,7 @@ async function fetchStoreLocalContext(region, city, place) {
 
 async function handleStorePage(req, res) {
   res.setHeader("Content-Type", "text/html; charset=utf-8");
-  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800");
+  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=604800, stale-while-revalidate=2592000");
 
   try {
     const region = clean(req.query.region || "");
@@ -3311,7 +3311,7 @@ ${sameRegionHubs.length > 0 ? `<section class="card">
 
 async function handleStoreSitemap(req, res) {
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
-  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800");
+  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=604800, stale-while-revalidate=2592000");
 
   try {
     const locationSet = new Set();

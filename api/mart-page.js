@@ -494,7 +494,7 @@ h1{margin:0 0 12px;font-size:28px;line-height:1.35;color:#0f172a;letter-spacing:
 
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html; charset=utf-8");
-    res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400");
+    res.setHeader("Cache-Control", "s-maxage=604800, stale-while-revalidate=2592000");
     return res.end(html);
 
   } catch (error) {
@@ -513,7 +513,7 @@ h1{margin:0 0 12px;font-size:28px;line-height:1.35;color:#0f172a;letter-spacing:
 
 async function handleMartSearch(req, res) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
-  res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400");
+  res.setHeader("Cache-Control", "s-maxage=604800, stale-while-revalidate=2592000");
 
   const q = String(req.query.q || "").trim();
   if (!q) {
@@ -632,7 +632,7 @@ function handleMartSitemapIndex(req, res) {
 
   res.statusCode = 200;
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
-  res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400");
+  res.setHeader("Cache-Control", "s-maxage=604800, stale-while-revalidate=2592000");
   return res.end(xml);
 }
 
@@ -643,7 +643,7 @@ function handleMartSitemapIndex(req, res) {
 
 async function handleMartSitemap(req, res) {
   res.setHeader("Content-Type", "application/xml; charset=utf-8");
-  res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400");
+  res.setHeader("Cache-Control", "s-maxage=604800, stale-while-revalidate=2592000");
 
   const page = Math.max(1, parseInt(req.query.page || "1", 10));
   const start = (page - 1) * PAGE_SIZE;
